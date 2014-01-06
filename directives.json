@@ -1,0 +1,18 @@
+# this is a project directives file
+{
+  "title"                     : "SASSIE",
+  "application"               : "sassie",
+  "version"                   : "2.0",
+  "languages"                 : [ "html5", "qt3" ],
+  "html5_executable_path"     : "/src/sassie2/bin",
+  "qt3_executable_path"       : "/src/sassie2/bin",
+  "text_color_rgb"            : "220,210,210",
+  "error_color_rgb"           : "255,0,0",
+  "background_color_rgb"      : "0,0,95",
+  "select_color_rgb"          : "200,128,0",
+  "button_color_rgb"          : "228,255,250",
+  "button_g_color_rgb"        : "128,170,150",
+  "button_hover_color_rgb"    : "255,255,255",
+  "button_hover_g_color_rgb"  : "228,255,250"
+}
+

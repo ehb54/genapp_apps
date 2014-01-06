@@ -1,0 +1,12 @@
+$VAR1 = {
+          'input4' => [
+                        '/tmp/php/52a7689917055/brookes121119v33.odp'
+                      ],
+          'input1' => '0',
+          'input5' => [
+                        '/tmp/php/52a7689917055/brookes121119v20.odp',
+                        '/tmp/php/52a7689917055/brookes121119v21.odp'
+                      ],
+          'input2' => '1',
+          'input3' => 'on'
+        };

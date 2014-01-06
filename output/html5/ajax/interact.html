@@ -1,0 +1,31 @@
+<style>
+#panel_interact {
+    position: relative;
+    display: block;  
+}
+</style>
+<p>
+<center>
+
+    <button id="interact_interact_1">Interact 1</button> 
+<script>
+    $( "#interact_interact_1" ).click(function() {
+        $( "#panel_interact" ).load( "ajax/interact/interact_1.html" );
+    });
+</script>
+    <button id="interact_interact_2">Interact 2</button> 
+<script>
+    $( "#interact_interact_2" ).click(function() {
+        $( "#panel_interact" ).load( "ajax/interact/interact_2.html" );
+    });
+</script>
+</center>
+</p>
+
+<div id="panel_interact">
+</div>
+
+
+<script>
+    $( "#panel_interact" ).text("");
+</script>

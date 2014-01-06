@@ -1,0 +1,37 @@
+<style>
+#panel_tools {
+    position: relative;
+    display: block;  
+}
+</style>
+<p>
+<center>
+
+    <button id="tools_center">Center</button> 
+<script>
+    $( "#tools_center" ).click(function() {
+        $( "#panel_tools" ).load( "ajax/tools/center.html" );
+    });
+</script>
+    <button id="tools_align">Align</button> 
+<script>
+    $( "#tools_align" ).click(function() {
+        $( "#panel_tools" ).load( "ajax/tools/align.html" );
+    });
+</script>
+    <button id="tools_data_interpolation">Data Interpolation</button> 
+<script>
+    $( "#tools_data_interpolation" ).click(function() {
+        $( "#panel_tools" ).load( "ajax/tools/data_interpolation.html" );
+    });
+</script>
+</center>
+</p>
+
+<div id="panel_tools">
+</div>
+
+
+<script>
+    $( "#panel_tools" ).text("");
+</script>

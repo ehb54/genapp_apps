@@ -1,0 +1,212 @@
+<form id="build_2">
+<table>
+<tr><td><label for="input1">Input value 1 </label></td><td><input type="number" name="input1" id="input1"  value="0" min="0" max="1e+50" required><span id="input1_msg" class="warning" > </span></td></tr>
+<script>
+setLastValue( "build_2", "#input1" );
+$( "#input1" ).blur( function() { checkFloat( "#input1" ); });
+$( "#input1" ).keypress( function() { $( "#input1_msg" ).html( "" ); });
+</script>
+<tr><td><label for="input2">Input value 2 </label></td><td><input type="number" name="input2" id="input2" value="1" min="-10" max="10"><span id="input2_msg" class="warning" > </span></td></tr>
+<script>
+setLastValue( "build_2", "#input2" );
+$( "#input2" ).blur( function() { checkInt( "#input2" ); });
+$( "#input2" ).keypress( function() { $( "#input2_msg" ).html( "" ); });
+</script>
+<tr><td><label for="input3" class="highlight">Input value 3 </label></td><td><input type="checkbox" name="input3" id="input3" checked></td></tr>
+<script>
+setLastValue( "build_2", "#input3" );
+</script>
+<tr><td><label for="input4a" class="highlight">Radiobutton a </label></td><td><input type="radio" name="input4" id="input4a" value="input4a"></td></tr>
+<script>
+setLastValue( "build_2", "#input4a" );
+</script>
+<tr><td><label for="input4b" class="highlight">Radiobutton b </label></td><td><input type="radio" name="input4" id="input4b" value="input4b"></td></tr>
+<script>
+setLastValue( "build_2", "#input4b" );
+</script>
+<tr><td><label for="input4c" class="highlight">Radiobutton c </label></td><td><input type="radio" name="input4" id="input4c" value="input4c" checked></td></tr>
+<script>
+setLastValue( "build_2", "#input4c" );
+</script>
+<tr><td><label>1st listbox </label></td><td><select id="input5" name="input5">
+<option value="c1">choice 1</option><option value="c2">choice 2</option><option value="c3">choice 3</option>
+</td></tr>
+<script>
+$( "#input5" ).attr( "value", $( "#input5" ).val() );
+// if ( $( "#global_data" ).data( "build_2:#input5:default_value" ) == undefined ) { 
+// $( "#global_data" ).data( "build_2:#input5:default_value", $( "#input5" ).val() );
+// }
+setLastValue( "build_2", "#input5" );
+// console.log( "oi:input5 current value:" + $( "#input5" ).val() );
+// console.log( "oi:input5 default value:" + $( "#global_data" ).data( "build_2:#input5:default_value" ) );
+// console.log( "oi:input5 last value:" + $( "#global_data" ).data( "build_2:#input5:last_value" ) );
+// console.log( "oi:input5 attr( 'value' ):" + $( "#input5" ).attr( "value" ) );
+</script>
+<tr><td><label for="input6">textarea </label></td><td><textarea name="input6" id="input6" rows="4" cols="40"></textarea><span id="input6_msg" class="warning" > </span></td></tr>
+<script>
+  if ( $( "#global_data" ).data( "build_2:input6:last_value" ) == undefined ) { $( "#input6" ).attr( "value", "this is a text area" ).val( "this is a text area" );  } 
+setLastValue( "build_2", "#input6" );
+$( "#input6" ).keypress( function() { $( "#input6_msg" ).html( "" ); });
+</script>
+</table>
+<p><button id="build_2_submit"><span class="buttontext">Submit</span></button>
+<button id="build_2_reset"><span class="buttontext">Reset to default values</span></button></p>
+<span id="build_2_progress"></span>
+<script>
+//function progressHandlingFunction(e){
+//    if(e.lengthComputable){
+//        $('#build_2_progress progress').attr({value:e.loaded,max:e.total});
+//    }
+//}
+$( "#build_2_submit" ).click( function() {
+    $( "#build_2_results" ).text( "" );
+    var output_msgs = $("#build_2_output #msgs");
+    output_msgs.text( "" );
+    console.log( $( "#build_2" ).serializeArray() );
+    saveLastValues( "build_2" );
+    resetDefaultValues( "build_2_output" );
+
+    var found_errors = 0;
+    $("#build_2").find("input").each(function(i){
+//      console.log("values:" + $(this).attr('id') + " required:" + $(this).attr( 'required' ) +  
+//      " val:" + $(this).val() + " val-len:" + $(this).val().length
+//      );
+//      if ( $(this).attr( 'multiple' ) )
+//      {
+//         var filelist = document.getElementById( $(this).attr( 'id' ) ).files || [];
+//         for ( var i = 0; i < filelist.length; ++i )
+//         {                               
+//              console.log(" file " + i + " " + filelist[i].name );
+//         }
+//      }
+      if ( $(this).attr( 'required' ) && $(this).val().length == 0 )
+      {
+          var tag =  "#build_2 " + "#" + $(this).attr('id') + "_msg";
+          console.log( "missing: " + tag );
+          $( tag ).html( "missing required field" );
+          found_errors = 1;
+      }
+    });
+    console.log( "hi2" );
+    if ( found_errors )
+    {
+        return false;
+    }
+
+    var formData = new FormData($('form')[0]);
+    console.log( "calling ajax" );
+    $('#build_2_progress').html( "Uploading:<progress></progress>" );
+    $.ajax( {
+             dataType: "json",
+             cache:false,
+//             timeout:3000,  // for testing
+             type:"POST",
+             url:"ajax/build/build_2.php",
+             data: formData,
+             xhr: function() {  // Custom XMLHttpRequest
+                 var myXhr = $.ajaxSettings.xhr();
+                 if(myXhr.upload){ // Check if upload property exists
+                     myXhr.upload.addEventListener('progress',
+                         function(e) {
+                         if(e.lengthComputable){
+                           $('#build_2_progress progress').attr({value:e.loaded,max:e.total});
+                         } }
+//                     progressHandlingFunction
+                    , false);
+                 }
+                 return myXhr;
+             },
+             cache: false,
+             contentType: false,
+             processData: false
+            } )
+    .done( function( data, status, xhr ) {
+           console.log( "data, status, xhr" );
+           console.log( data );
+           console.log( status );
+           console.log( xhr );
+// loop through data pairs
+           var appended = 0;
+           $.each(data, function(k, v) {
+           
+               console.log( k + " => " + v );                         
+               var match = $( "#build_2_output" ).find( "#" + k );
+               if ( match.length )
+               {
+                   switch ( match.attr( "type" ) )
+                   {
+                        case "plot2d" : $.plot( match, v, gd.data( "_plot_options" ) ); 
+                               var savekey = "build_2_output:#" + k + ":last_value";
+                               $( "#global_data" ).data( savekey , v ); 
+                               break;
+                       case "checkbox" : 
+                       case "radio" : 
+                               match.prop( "checked", true ); break;
+                       default : match.val( v ); break;
+                   }
+               } else {
+                     if ( !appended )
+                     {
+                        output_msgs.append( "<p>Unexpected results:</p>" );
+                        appended = 1;
+                     }
+                     output_msgs.append( "<p>" + k + " => " + v + "</p>" );
+               }
+           });
+           saveLastValues( "build_2_output" );
+           saveLastValue( "build_2_output", "#msgs" );
+           $('#build_2_progress').html( "" );
+          } )
+    .fail( function( xhr, status, errorThrown ) {
+           console.log( "xhr, status, errorThrown" );
+           console.log( xhr );
+           console.log( status );
+           console.log( errorThrown );
+           $( "#build_2_results" ).html( "<span class=\"warning\"> Failed: " + status + " : '" + xhr.status + ":" + errorThrown + "' on URL ajax/build/build_2.php </span>" );
+           $('#build_2_progress').html( "" );
+          } );
+    return false;
+});
+$( "#build_2_reset" ).click( function() {
+    resetDefaultValues( "build_2" );
+    resetDefaultValues( "build_2_output" );
+    resetDefaultValue( "build_2_output", "#msgs" );
+    return false;
+});
+</script>
+</form>
+<div id="build_2_results"></div>
+<hr>
+<form id="build_2_output">
+<div id="msgs" class="warning" type="msgs"></div>
+<script>
+setLastValue( "build_2_output", "#msgs" );
+$( "#global_data" ).data( "_extra_resets", [] );
+</script>
+<table>
+<tr><td><label for="output1">Output value 1 </label></td><td><input type="number" name="output1" id="output1" readonly></td></tr>
+<script>
+setLastValue( "build_2_output", "#output1" );
+</script>
+<tr><td><label for="output2a">Radio output 2a </label></td><td><input type="radio" name="output2" id="output2a" value="output2a" disabled></td></tr>
+<script>
+setLastValue( "build_2_output", "#output2a" );
+</script>
+<tr><td><label for="output2b">Radio output 2b </label></td><td><input type="radio" name="output2" id="output2b" value="output2b" disabled></td></tr>
+<script>
+setLastValue( "build_2_output", "#output2b" );
+</script>
+<tr><td><label for="output2c">Radio output 2c </label></td><td><input type="radio" name="output2" id="output2c" value="output2c" disabled></td></tr>
+<script>
+setLastValue( "build_2_output", "#output2c" );
+</script>
+<tr><td><label for="output3">checkbox out 3 </label></td><td><input type="checkbox" name="output3" id="output3" disabled></td></tr>
+<script>
+setLastValue( "build_2_output", "#output3" );
+</script>
+<tr><td><label for="output4">checkbox out 4 </label></td><td><input type="checkbox" name="output4" id="output4" disabled></td></tr>
+<script>
+setLastValue( "build_2_output", "#output4" );
+</script>
+</table>
+</form>
