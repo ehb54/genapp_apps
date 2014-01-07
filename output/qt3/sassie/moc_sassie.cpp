@@ -1,7 +1,7 @@
 /****************************************************************************
 ** mQLabel meta object code from reading C++ file 'sassie.h'
 **
-** Created: Tue Dec 10 13:28:33 2013
+** Created: Mon Jan 6 23:06:45 2014
 **      by: The Qt MOC ($Id: qt/moc_yacc.cpp   3.3.8   edited Feb 2 14:59 $)
 **
 ** WARNING! All changes made in this file will be lost!
