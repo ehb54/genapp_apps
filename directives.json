@@ -1,11 +1,11 @@
 # this is a project directives file
 {
-  "title"                     : "SASSIE",
-  "application"               : "sassie",
+  "title"                     : "genapptest",
+  "application"               : "genapptest",
   "version"                   : "2.0",
   "languages"                 : [ "html5", "qt3" ],
-  "html5_executable_path"     : "/src/sassie2/bin",
-  "qt3_executable_path"       : "/src/sassie2/bin",
+  "html5_executable_path"     : "/home/emre/genapptest/bin",
+  "qt3_executable_path"       : "/home/emre/genapptest/bin",
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",
   "background_color_rgb"      : "0,0,95",
