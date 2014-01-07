@@ -1,0 +1,31 @@
+<style>
+#panel_analyze {
+    position: relative;
+    display: block;  
+}
+</style>
+<p>
+<center>
+
+    <button id="analyze_analyze_1">Analyze 1</button> 
+<script>
+    $( "#analyze_analyze_1" ).click(function() {
+        $( "#panel_analyze" ).load( "ajax/analyze/analyze_1.html" );
+    });
+</script>
+    <button id="analyze_analyze_2">Analyze 2</button> 
+<script>
+    $( "#analyze_analyze_2" ).click(function() {
+        $( "#panel_analyze" ).load( "ajax/analyze/analyze_2.html" );
+    });
+</script>
+</center>
+</p>
+
+<div id="panel_analyze">
+</div>
+
+
+<script>
+    $( "#panel_analyze" ).text("");
+</script>

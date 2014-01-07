@@ -1,0 +1,31 @@
+<style>
+#panel_build {
+    position: relative;
+    display: block;  
+}
+</style>
+<p>
+<center>
+
+    <button id="build_build_1">Build 1</button> 
+<script>
+    $( "#build_build_1" ).click(function() {
+        $( "#panel_build" ).load( "ajax/build/build_1.html" );
+    });
+</script>
+    <button id="build_build_2">Build 2</button> 
+<script>
+    $( "#build_build_2" ).click(function() {
+        $( "#panel_build" ).load( "ajax/build/build_2.html" );
+    });
+</script>
+</center>
+</p>
+
+<div id="panel_build">
+</div>
+
+
+<script>
+    $( "#panel_build" ).text("");
+</script>

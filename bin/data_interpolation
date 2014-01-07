@@ -1,0 +1,82 @@
+#!/usr/bin/perl
+
+use JSON;
+use Data::Dumper;
+
+
+if ( !@ARGV )
+{
+    print "\{\"error\":\"center called with no arguments\"\}\n";
+    exit;
+}
+
+sub mkarraystr {
+    my $ref = $_[0];
+    my $out = '[';
+    foreach my $plot ( @$ref )
+    {
+#        print "ref(\$plot) = " . ref( $plot ) . "\n";
+#        print "ref(\$\$plot)) = " . ref( $$plot ) . "\n";
+        $out .= '[';
+        foreach my $pos ( @{$$plot} )
+        {
+            $out .= '[' . $$pos[ 0 ] . "," . $$pos[ 1 ] . '],';
+#            print $$pos[ 0 ] . "," . $$pos[ 1 ] . "\n";
+        }
+        $out =~ s/\,$/],/;
+    }
+    $out =~ s/\,$/]/;
+    $out;
+}
+
+$json = shift;
+$ref = decode_json( $json );
+$res = {};
+$$res{ "hi" } = "data_interpolation executable";
+
+$pos = 0;
+
+$startx = $$ref{ "startx" };
+$endx = $$ref{ "endx" };
+$deltax = $$ref{ "deltax" };
+
+if ( $startx <= $endx && $deltax > 0 ||
+     $endx >= $startx && $deltax < 0 )
+{
+
+    if ( $$ref{ "abs" } )
+    {
+        for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
+        {
+            $plotout4[ 0 ][ $pos ] = [ $x, abs( sin( $x ) ) ];
+            $plotout4[ 1 ][ $pos ] = [ $x, abs( cos( $x ) ) ];
+            $pos++;
+        }
+    } else {
+        for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
+        {
+            $plotout4[ 0 ][ $pos ] = [ $x, sin( $x ) ];
+            $plotout4[ 1 ][ $pos ] = [ $x, cos( $x ) ];
+            $pos++;
+        }
+    }
+    @array2d = ( \@plotout4[ 0 ], \@plotout4[ 1 ] );
+    $pout = mkarraystr( \@array2d );
+    $json = encode_json( $res );
+
+    $json =~ s/\}$/,"plotout4":$pout}/;
+} else {
+    $$res{ "errors" } .= "Plot range error";
+    $json = encode_json( $res );
+}
+
+# print mkarraystr( \@array2d ) . "\n";
+
+# $$res{ "plotout4" } = mkarraystr( \@array2d );
+
+# open OUT, ">/src/sassie2/log3";
+# print OUT Dumper($res);
+# close OUT;
+
+print $json . "\n";
+

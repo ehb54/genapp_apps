@@ -1,0 +1,31 @@
+<style>
+#panel_calculate {
+    position: relative;
+    display: block;  
+}
+</style>
+<p>
+<center>
+
+    <button id="calculate_calculate_1">Calculate 1</button> 
+<script>
+    $( "#calculate_calculate_1" ).click(function() {
+        $( "#panel_calculate" ).load( "ajax/calculate/calculate_1.html" );
+    });
+</script>
+    <button id="calculate_calculate_2">Calculate 2</button> 
+<script>
+    $( "#calculate_calculate_2" ).click(function() {
+        $( "#panel_calculate" ).load( "ajax/calculate/calculate_2.html" );
+    });
+</script>
+</center>
+</p>
+
+<div id="panel_calculate">
+</div>
+
+
+<script>
+    $( "#panel_calculate" ).text("");
+</script>
