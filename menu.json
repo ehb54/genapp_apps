@@ -9,6 +9,7 @@
             "modules" : [ 
                          { 
                           "id"    : "center",
+#                          "id"    : "center", <<--- id points to module specific json in modules
                           "label" : "Center",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },

@@ -5,37 +5,51 @@
     "fields"   : [
                   {
                    "role"     : "input",
-                   "id"       : "input1",
-                   "label"    : "Center value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
                    "role"    : "input", 
-                   "id"      : "input2",
-                   "label"   : "Center value 2",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "required" : "false"
+                   "id"      : "infile",
+                   "label"   : "input filename",
+                   "type"    : "file",
+                   "required" : "true"
                    },
                   {
                    "role"    : "input", 
-                   "id"      : "input3",
-                   "label"   : "Center value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
+                   "id"      : "refpdb",
+                   "label"   : "reference pdb",
+                   "type"    : "file",
+                   "required" : "true"
                    },
-                   {
-                   "role"    : "output",
-                   "id"      : "output1",
-                   "label"   : "Output value 1",
-                   "type"    : "text"
+                  {
+                   "role"    : "input", 
+                   "id"      : "ofile",
+                   "label"   : "output filename",
+                   "type"    : "text",
+                   "default" : "cen_c7.dcd",
+                   "required" : "true"
+                   },
+		  {
+                   "role"  : "output",
+                   "id"    : "sasoutput1",
+                   "label" : "sassie output",
+                   "type"  : "text"
                    }
+#                   },
+#		  {
+#                   "role"    : "output",
+#                   "id"      : "sasoutput2",
+#                   "name"    : "sasoutput2",
+#                   "label"   : "run output",
+#                   "type"    : "textarea",
+###                   "default" : "this is a text area",
+#                   "rows"    : 4,
+#                   "cols"    : 40
+#                   }
                   ],
 # the executable will take inputs in json and produce outputs in json
     "executable" : "center"

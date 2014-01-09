@@ -14,7 +14,7 @@ $ref = decode_json( $json );
 $res = {};
 $$res{ "hi" } = "there";
 
-open OUT, ">/src/sassie2/log";
+open OUT, ">/home/curtisj/sassie2/log";
 print OUT Dumper($ref);
 close OUT;
 print encode_json( $res ) . "\n";

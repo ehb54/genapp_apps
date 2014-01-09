@@ -1,29 +1,112 @@
-#!/usr/bin/perl
+#!/usr/local/bin/bin/python2.7
+import json,sys,os,shutil
+from StringIO import StringIO
+import multiprocessing
 
-use JSON;
-use Data::Dumper;
+import sassie.interface.input_filter as input_filter
+import sassie.interface.align2_filter as align2_filter
+import sassie.tools.align2 as align2
 
-if ( !@ARGV )
-{
-    print "\{\"error\":\"center called with no arguments\"\}\n";
-    exit;
-}
+class Align_Drv():
 
-$json = shift;
-$ref = decode_json( $json );
-$res = {};
-$$res{ "hi" } = "align executable";
-# print encode_json( $ref ) . "\n";
+   module = 'align'
 
-$$res{ "output1" } = $$ref{ "input1" } * $$ref{ "input2" };
-$$res{ "computation" } = "input1 * input2";
-if ( $$ref{ "input3" } )
-{
-    $$res{ "output1" } = sqrt( abs( $$res{ "output1" } ) );
-    $$res{ "computation" } = "sqrt( abs( input1 * input2 ) )";
-}
-open OUT, ">/src/sassie2/log3";
-print OUT Dumper($ref);
-close OUT;
-print encode_json( $res ) . "\n";
+   def run_me(self,json_flag,json_variables):
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	
+		path='./'
+
+		print 'runname = ', runname
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+        	pdbmol1 = json_variables['pdbmol1']
+        	pdbmol2 = json_variables['pdbmol2']
+        	infile = json_variables['infile']
+        	basis1 = json_variables['basis1']
+        	basis2 = json_variables['basis2']
+        	lowres1 = json_variables['lowres1']
+        	lowres2 = json_variables['lowres2']
+        	highres1 = json_variables['highres1']
+        	highres2 = json_variables['highres2']
+        	ebasis1 = json_variables['ebasis1']
+        	ebasis2 = json_variables['ebasis2']
+        	ofile = json_variables['ofile']
+		path = './'
+
+	output_dict = {}
+
+	svariables={} 
+	
+	svariables['runname']=(runname,'string') 
+	svariables['path']=(path,'string')
+	svariables['pdbmol1']=(pdbmol1,'string')
+	svariables['pdbmol2']=(pdbmol2,'string')
+	svariables['infile']=(infile,'string')
+	svariables['ofile']=(ofile,'string')
+	svariables['basis1']=(basis1,'string')
+	svariables['basis2']=(basis2,'string')
+	svariables['lowres1']=(lowres1,'int')
+	svariables['lowres2']=(lowres2,'int')
+	svariables['highres1']=(highres1,'int')
+	svariables['highres2']=(highres2,'int')
+	svariables['ebasis1']=(ebasis1,'string')
+	svariables['ebasis2']=(ebasis2,'string')
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+	if(len(error)>0):
+		print 'error = ',error
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+#	else:
+#		error=align2_filter.check_align(variables)
+
+#               	if(len(error) != 0):
+#       #        		showerror('Input Error',error)  
+#                       	print 'error = ',error
+#			return
+#	else:
+#		runname=self.variables['runname'][0]
+#
+		txtQueue=multiprocessing.JoinableQueue()
+#		if os.path.exists(runname+'/'+self.module):
+#			shutil.rmtree(runname+'/'+self.module)
+#
+#		align2.align(self.variables,txtQueue)
+
+		#output_dict['txtQueue'] = txtQueue
+		#output_dict['sasoutput2'] = 'successfully completed run'
+	output_dict['sasoutput1'] = 'successfully completed run'
+	
+	with open("/src/sassie2/log","w") as outfile:
+		json.dump(output_dict,outfile)
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+ 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Align_Drv()
+		a.run_me(json_flag,json_variables)
 

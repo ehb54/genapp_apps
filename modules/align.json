@@ -5,36 +5,113 @@
     "fields"   : [
                   {
                    "role"       : "input",
-                   "id"         : "input1",
-                   "label"      : "Align value 1",
-                   "type"       : "float",
-                   "default"    : 0.0,
-                   "min"        : 0.0,
-                   "max"        : 1e50,
+                   "id"         : "runname",
+                   "label"      : "project name",
+                   "type"       : "text",
+                   "default"    : "run_0",
                    "required"   : "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "input2",
-                   "label"   : "Align value 2",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "required" : "false"
+                   "id"      : "pdbmol1",
+                   "label"   : "input pdb file (mol 1)",
+                   "type"    : "text",
+                   "default" : "min3.pdb",
+                   "required" : "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "input3",
-                   "label"   : "Align value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
+                   "id"      : "basis1",
+                   "label"   : "alignment basis (mol 1)",
+                   "type"    : "text",
+                   "default" : "CA",
+                   "required" : "true"
                    },
-                   {
+                  {
+                   "role"    : "input",
+                   "id"      : "lowres1",
+                   "label"   : "low residue (mol 1)",
+                   "type"    : "integer",
+                   "default" : 145,
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "highres1",
+                   "label"   : "high residue (mol 1)",
+                   "type"    : "integer",
+                   "default" : 350,
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbmol2",
+                   "label"   : "input pdb file (mol 2)",
+                   "type"    : "text",
+                   "default" : "min3.pdb",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "infile",
+                   "label"   : "input (pdb or dcd) file (mol 2)",
+                   "type"    : "text",
+                   "default" : "c7.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ofile",
+                   "label"   : "output filename (aligned mol 2)",
+                   "type"    : "text",
+                   "default" : "ac7.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "basis2",
+                   "label"   : "alignment basis (mol 2)",
+                   "type"    : "text",
+                   "default" : "CA",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "lowres2",
+                   "label"   : "low residue (mol 2)",
+                   "type"    : "integer",
+                   "default" : 145,
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "highres2",
+                   "label"   : "high residue (mol 2)",
+                   "type"    : "integer",
+                   "default" : 350,
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ebasis1",
+                   "label"   : "extra basis description (mol 1)",
+                   "type"    : "text",
+                   "default" : "None",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ebasis2",
+                   "label"   : "extra basis description (mol 2)",
+                   "type"    : "text",
+                   "default" : "None",
+                   "required" : "true"
+                   },
+                  {
                    "role"  : "output",
-                   "id"    : "output1",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
+                   "type"  : "text"
                    }
                   ],
 # the executable will take inputs in json and produce output in json

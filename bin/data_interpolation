@@ -61,6 +61,7 @@ if ( $startx <= $endx && $deltax > 0 ||
         }
     }
     @array2d = ( \@plotout4[ 0 ], \@plotout4[ 1 ] );
+#  create json array to send it back 
     $pout = mkarraystr( \@array2d );
     $json = encode_json( $res );
 
