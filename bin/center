@@ -38,20 +38,20 @@ class Center_Drv():
         	ofile = json_variables['ofile']
 		
 		head, infile = os.path.split(temp_infile[0])
-		#path = head.replace('\\','')
-		#path = head.replace('\/','')
-		path = head.replace('\/','/')
-		path = path+"/"
+		path = head.replace('\/','/') + "/"
 		head, refpdb = os.path.split(temp_refpdb[0])
-		output_dict['path'] = path
-			
+		#output_dict['path'] = path
+		os.chdir( os.path.dirname( temp_infile[0] ) )
+		os.chdir(path) 
+
+		path = ''
 
 	svariables={}
 
-	svariables['runname'] = (runname,'string')
-	svariables['infile']  = (infile,'string')
-	svariables['refpdb']  = (refpdb,'string')
-	svariables['ofile']   = (ofile,'string')
+	svariables['runname'] = (str(runname),'string')
+	svariables['infile']  = (str(infile),'string')
+	svariables['refpdb']  = (str(refpdb),'string')
+	svariables['ofile']   = (str(ofile),'string')
 	svariables['path']    = (path,'string')
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)
@@ -68,8 +68,8 @@ class Center_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-		#center.center(self.variables,txtQueue)
-		result1,result2 = center.center(self.variables,txtQueue)
+		center.center(self.variables,txtQueue) 
+		#result1,result2,result3 = center.center(self.variables,txtQueue)
 		#result1,result2,error = dumb_center.center(self.variables,txtQueue)
 
 #		process=multiprocessing.Process(target=center.center,args=(variables,txtQueue))
@@ -84,11 +84,12 @@ class Center_Drv():
 	#	output_dict['output_ofile'] = ofile
 		output_dict['sasoutput1'] = runname
 		output_dict['sasoutput2'] = 'successfully completed run'
-		output_dict['result1'] = result1
-		output_dict['result2'] = result2
+		#output_dict['result1'] = result1
+		#output_dict['result2'] = result2
+		#output_dict['result3'] = result3
 		#output_dict['error'] = error
 	
-	with open("/src/sassie2/log","w") as outfile:
+	with open("/home/curtisj/sassie2/log","w") as outfile:
 		json.dump(output_dict,outfile)
 	print json.dumps( output_dict )
 		
@@ -99,7 +100,7 @@ if __name__=='__main__':
 
 	if (len(sys.argv) < 1):
 		print "\{\"error\":\"center called with no arguments\"\}\n";
- 		print 'exiting now'
+# 		print 'exiting now'
 
 	elif len(sys.argv) > 1:
 		json_variables = " "
