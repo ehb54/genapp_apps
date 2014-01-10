@@ -5,8 +5,6 @@ import multiprocessing
 
 import sassie.tools.center as center
 import sassie.interface.input_filter as input_filter
-sys.path.append('./')
-#import dumb_center
 
 class Center_Drv():
 
@@ -40,10 +38,8 @@ class Center_Drv():
 		head, infile = os.path.split(temp_infile[0])
 		path = head.replace('\/','/') + "/"
 		head, refpdb = os.path.split(temp_refpdb[0])
-		#output_dict['path'] = path
-		os.chdir( os.path.dirname( temp_infile[0] ) )
+		#os.chdir(os.path.dirname( temp_infile[0] ) )
 		os.chdir(path) 
-
 		path = ''
 
 	svariables={}
@@ -57,8 +53,6 @@ class Center_Drv():
 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
 	if(len(error)>0):
-#	dum=0
-#if(dum==1):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
 	else:
@@ -69,19 +63,13 @@ class Center_Drv():
 
 		txtQueue=multiprocessing.JoinableQueue()
 		center.center(self.variables,txtQueue) 
-		#result1,result2,result3 = center.center(self.variables,txtQueue)
-		#result1,result2,error = dumb_center.center(self.variables,txtQueue)
 
-#		process=multiprocessing.Process(target=center.center,args=(variables,txtQueue))
-#		process.start()
-#
-#		self.background_job(process,txtQueue)
-
-		#output_dict['txtQueue'] = txtQueue
+		txtOutput = txtQueue.get(True, timeout=0.01)
+		output_dict['txtQueue'] = txtOutput
 		output_dict['io_string'] = input_string
 		output_dict['output_infile'] = infile
 		output_dict['output_refpdb'] = refpdb
-	#	output_dict['output_ofile'] = ofile
+		output_dict['output_ofile'] = ofile
 		output_dict['sasoutput1'] = runname
 		output_dict['sasoutput2'] = 'successfully completed run'
 		#output_dict['result1'] = result1
