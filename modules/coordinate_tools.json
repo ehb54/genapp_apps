@@ -1,57 +1,60 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "simulate_1",
-    "label"    : "Simulate_1",
+    "moduleid" : "coordinate_tools",
+    "label"    : "Coordinate Tools",
     "fields"   : [
                   {
                    "role"     : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "input2",
-                   "label"    : "Input value 2",
-                   "type"     : "integer",
-                   "default"  : 1,
-                   "min"      : -10,
-                   "max"      : 10,
-                   "required" : "false"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "input4",
-                   "label"    : "Input file",
+                   "id"       : "pdb_filename",
+                   "label"    : "input pdb file",
                    "type"     : "file",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "input5",
-                   "label"    : "Input files",
+                   "id"       : "filename",
+                   "label"    : "input (pdb or dcd) file",
                    "type"     : "file",
-                   "multiple" : "true",
-                   "array"    : "true",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "option",
+                   "label"    : "option (single_frame,range,text_file,weight_file)",
+                   "type"     : "text",
+		   "default"  : "single_frame",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value",
+                   "label"    : "value (frame #, frame range, or filename)",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "output_filename",
+                   "label"    : "output filename (pdb or dcd)",
+                   "type"     : "text",
+                   "default"  : "output.dcd",
                    "required" : "true"
                    },
                    {
                    "role"  : "output",
-                   "id"    : "output1",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
+                   "type"  : "text"
                    }
                   ],
-    "executable" : "simulate_1"
+    "executable" : "coordinate_tools"
 }
