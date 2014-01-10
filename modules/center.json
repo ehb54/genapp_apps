@@ -38,18 +38,17 @@
                    "id"    : "sasoutput1",
                    "label" : "sassie output",
                    "type"  : "text"
+                   },
+		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+#                    "default" : "this is a text area",
+                    "rows"    : 4,
+                    "cols"    : 40
                    }
-#                   },
-#		  {
-#                   "role"    : "output",
-#                   "id"      : "sasoutput2",
-#                   "name"    : "sasoutput2",
-#                   "label"   : "run output",
-#                   "type"    : "textarea",
-###                   "default" : "this is a text area",
-#                   "rows"    : 4,
-#                   "cols"    : 40
-#                   }
                   ],
 # the executable will take inputs in json and produce outputs in json
     "executable" : "center"
