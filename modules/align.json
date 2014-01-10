@@ -15,8 +15,7 @@
                    "role"    : "input",
                    "id"      : "pdbmol1",
                    "label"   : "input pdb file (mol 1)",
-                   "type"    : "text",
-                   "default" : "min3.pdb",
+                   "type"    : "file",
                    "required" : "true"
                    },
                   {
@@ -47,16 +46,14 @@
                    "role"    : "input",
                    "id"      : "pdbmol2",
                    "label"   : "input pdb file (mol 2)",
-                   "type"    : "text",
-                   "default" : "min3.pdb",
+                   "type"    : "file",
                    "required" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "infile",
                    "label"   : "input (pdb or dcd) file (mol 2)",
-                   "type"    : "text",
-                   "default" : "c7.dcd",
+                   "type"    : "file",
                    "required" : "true"
                    },
                   {
@@ -112,6 +109,16 @@
                    "id"    : "sasoutput1",
                    "label" : "Output value 1",
                    "type"  : "text"
+                   },
+		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+#                    "default" : "this is a text area",
+		    "rows"    : 4,
+		    "cols"    : 40
                    }
                   ],
 # the executable will take inputs in json and produce output in json
