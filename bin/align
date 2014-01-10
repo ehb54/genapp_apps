@@ -55,6 +55,7 @@ class Align_Drv():
         	ofile = json_variables['ofile']
 
 		head, infile = os.path.split(temp_infile[0])
+		print 'head = ',head ; print 'infile = ',infile
 		path = head.replace('\/','/') + "/"
 		os.chdir(path) 
 		path = ''

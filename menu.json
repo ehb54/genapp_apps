@@ -8,6 +8,11 @@
             "icon"    : "pngs/tools.png",
             "modules" : [ 
                          { 
+                          "id"    : "contrast_calculator",
+                          "label" : "Contrast Calculator",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
                           "id"    : "center",
 #                          "id"    : "center", <<--- id points to module specific json in modules
                           "label" : "Center",
@@ -21,6 +26,16 @@
                          { 
                           "id"    : "data_interpolation",
                           "label" : "Data Interpolation",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "coordinate_tools",
+                          "label" : "Coordinate Tools",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "merge_utilities",
+                          "label" : "Merge Utilities",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
@@ -65,13 +80,28 @@
             "icon"    : "pngs/simulate.png",
             "modules" : [ 
                          { 
-                          "id"    : "simulate_1",
-                          "label" : "Simulate 1",
+                          "id"    : "monomer_monte_carlo",
+                          "label" : "Monomer Monte Carlo",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "simulate_2",
-                          "label" : "Simulate 2",
+                          "id"    : "complex_monte_carlo",
+                          "label" : "Complex Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "structure_minimization",
+                          "label" : "Structure Minimization ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "tamd",
+                          "label" : "Torsion Angle MD ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "two_body_grid",
+                          "label" : "Two-Body Grid",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
@@ -82,13 +112,28 @@
             "icon"    : "pngs/calculate.png",
             "modules" : [ 
                          { 
-                          "id"    : "calculate_1",
-                          "label" : "Calculate 1",
+                          "id"    : "xtal2sas",
+                          "label" : "Xtal2sas",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "calculate_2",
-                          "label" : "Calculate 2",
+                          "id"    : "cryson",
+                          "label" : "Cryson",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "crysol",
+                          "label" : "Crysol",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sldmol",
+                          "label" : "SLD MOL",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "emtosans",
+                          "label" : "EM to SANS",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
@@ -99,13 +144,18 @@
             "icon"    : "pngs/analyze.png",
             "modules" : [ 
                          { 
-                          "id"    : "analyze_1",
-                          "label" : "Analyze 1",
+                          "id"    : "chi_square_filter",
+                          "label" : "Chi-Square Filter",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "analyze_2",
-                          "label" : "Analyze 2",
+                          "id"    : "density",
+                          "label" : "Density Plot",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "apbs",
+                          "label" : "APBS",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
