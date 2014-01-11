@@ -42,8 +42,8 @@ class Generate_Drv():
 		zcutoff='0.0'
 		cflag='0'
 		confile = 'constraints.txt'
-		nbflag='0'		
-		nbscale='1.0'
+		nonbonflag='0'		
+		nonbonscale='1.0'
 		psffilepath='./'
 		psffilename='refgag.psf'
 		parmfilepath='/usr/local/bin/toppar'
@@ -84,19 +84,19 @@ class Generate_Drv():
 		dtheta = json_variables['dtheta']
 		reslow = json_variables['reslow']
 		numcont = json_variables['numcont']
-		lowres1 = json_variables['lowres1']
-		highres1 = json_variables['highres1']
-		basis = json_variables['basis']
-		cutoff = json_variables['cutoff']
-		lowrg = json_variables['lowrg']
-		highrg = json_variables['highrg']
-		zflag = json_variables['zflag']
-		zcutoff = json_variables['zcutoff']
-		cflag = json_variables['cflag']
-		nonbondflag = json_variables['nonbondflag']
-		nonbondscale = json_variables['nonbondscale']
-		plotflag = json_variables['plotflag']
-		directedmc = json_variables['directedmc']
+ 		lowres1 = json_variables['lowres1']
+ 		highres1 = json_variables['highres1']
+ 		basis = json_variables['basis']
+ 		cutoff = json_variables['cutoff']
+ 		lowrg = json_variables['lowrg']
+ 		highrg = json_variables['highrg']
+ 		zflag = json_variables['zflag']
+ 		zcutoff = json_variables['zcutoff']
+ 		cflag = json_variables['cflag']
+ 		nonbondflag = json_variables['nonbondflag']
+ 		nonbondscale = json_variables['nonbondscale']
+ 		plotflag = json_variables['plotflag']
+ 		directedmc = json_variables['directedmc']
 
 		path = ''
 
@@ -107,41 +107,43 @@ class Generate_Drv():
 
 	svariables['runname'] = (str(runname),'string')
 
-	svariables['dcdfile']		= (str(dcdfile),'string')
-	svariables['path']		= (str(path),'string')
-	svariables['pdbfile']		= (str(pdbfile),'string')
-	svariables['trials']		= (str(trials),'int')
-	svariables['goback']		= (str(goback),'int')
-	svariables['temp']		= (str(temp),'float')
-	svariables['moltype']		= (str(moltype),'string')
-	svariables['numranges']		= (str(numranges),'int')
-	svariables['dtheta']		= (str(dtheta),'float_array')
-	svariables['reslow']		= (str(reslow),'int_array')
-	svariables['numcont']		= (str(numcont),'int_array')
-	svariables['lowres1']		= (str(lowres1),'int')
-	svariables['highres1']		= (str(highres1),'int')
-	svariables['basis']		= (str(basis),'string')
-	svariables['cutoff']		= (str(cutoff),'float')
-	svariables['lowrg']		= (str(lowrg),'float')
-	svariables['highrg']		= (str(highrg),'float')
-	svariables['zflag']		= (str(zflag),'int')
-	svariables['zcutoff']		= (str(zcutoff),'float')
-	svariables['cflag']		= (str(cflag),'int')
-	svariables['confile']		= (str(confile),'string')
-	svariables['nonbondflag']	= (str(nbflag),'int')
-	svariables['nonbondscale']	= (str(nbscale),'float')
-	svariables['psffilepath']	= (str(psffilepath),'string')
-	svariables['psffilename']	= (str(psffilename),'string')
-	svariables['parmfilepath']	= (str(parmfilepath),'string')
-	svariables['parmfilename']	= (str(parmfilename),'string')
-	svariables['plotflag']		= (str(plotflag),'int')
-	svariables['directedmc']	= (str(directedmc),'float')
-	svariables['seed']		= ('0,123', 'int_array') # set this to '1,123' if you want to set the seed or '0,123' if not
+ 	svariables['dcdfile']		= (str(dcdfile),'string')
+ 	svariables['path']		= (str(path),'string')
+ 	svariables['pdbfile']		= (str(pdbfile),'string')
+ 	svariables['trials']		= (str(trials),'int')
+ 	svariables['goback']		= (str(goback),'int')
+ 	svariables['temp']		= (str(temp),'float')
+ 	svariables['moltype']		= (str(moltype),'string')
+ 	svariables['numranges']		= (str(numranges),'int')
+ 	svariables['dtheta']		= (str(dtheta),'float_array')
+ 	svariables['reslow']		= (str(reslow),'int_array')
+ 	svariables['numcont']		= (str(numcont),'int_array')
+ 	svariables['lowres1']		= (str(lowres1),'int')
+ 	svariables['highres1']		= (str(highres1),'int')
+ 	svariables['basis']		= (str(basis),'string')
+ 	svariables['cutoff']		= (str(cutoff),'float')
+ 	svariables['lowrg']		= (str(lowrg),'float')
+ 	svariables['highrg']		= (str(highrg),'float')
+ 	svariables['zflag']		= (str(zflag),'int')
+ 	svariables['zcutoff']		= (str(zcutoff),'float')
+ 	svariables['cflag']		= (str(cflag),'int')
+ 	svariables['confile']		= (str(confile),'string')
+ 	svariables['nonbondflag']	= (str(nonbondflag),'int')
+ 	svariables['nonbondscale']	= (str(nonbondscale),'float')
+ 	svariables['psffilepath']	= (str(psffilepath),'string')
+ 	svariables['psffilename']	= (str(psffilename),'string')
+ 	svariables['parmfilepath']	= (str(parmfilepath),'string')
+ 	svariables['parmfilename']	= (str(parmfilename),'string')
+ 	svariables['plotflag']		= (str(plotflag),'int')
+ 	svariables['directedmc']	= (str(directedmc),'float')
+ 	svariables['seed']		= ('0,123', 'int_array') # set this to '1,123' if you want to set the seed or '0,123' if not
 
 
-	svariables['path']    = (path,'string')
+ 	svariables['path']    = (path,'string')
 
-	error,self.variables=input_filter.type_check_and_convert(svariables)
+ 	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+	error = []
 
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
@@ -153,7 +155,7 @@ class Generate_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-#		dihedral_monte_carlo.dihedralgenerate(self.variables,txtQueue) 
+		dihedral_monte_carlo.dihedralgenerate(self.variables,txtQueue) 
 
 #		txtOutput = txtQueue.get(True, timeout=0.01)
 		#output_dict['txtQueue'] = txtOutput
