@@ -1,5 +1,5 @@
 #!/usr/local/bin/bin/python2.7
-import json,sys,os,shutil
+import json,sys,os,shutil,ast
 from StringIO import StringIO
 import multiprocessing
 
@@ -95,6 +95,7 @@ if __name__=='__main__':
 		if(json_flag):
 			argv_io_string = StringIO(sys.argv[1])
 			json_variables = json.load(argv_io_string)
+			#json_variables = ast.literal_eval(argv_io_string)
 		a=Center_Drv()
 		a.run_me(json_flag,json_variables,sys.argv[1])
 
