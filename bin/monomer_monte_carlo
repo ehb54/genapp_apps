@@ -3,7 +3,7 @@ import json,sys,os,shutil
 from StringIO import StringIO
 import multiprocessing
 
-#import sassie.tools.coor_tools as coor_tools
+import sassie.simulate.monte_carlo.monomer.dihedral_monte_carlo as dihedral_monte_carlo
 import sassie.interface.input_filter as input_filter
 
 class Generate_Drv():
@@ -21,7 +21,36 @@ class Generate_Drv():
         	#### BEGIN USER EDIT
 
         	runname='run_0'
-        
+		dcdfile='run_0.dcd'
+		path=''
+		pdbfile='c2.pdb'
+		trials='50'
+		goback='10'
+		temp='300.0'
+		moltype = 'protein'
+		numranges='5'
+		dtheta='30.0,30.0,30.0,30.0,30.0'
+		reslow='123,278,354,378,408'
+		numcont='21,5,24,11,4'
+		lowres1='284'
+		highres1='350'
+		basis='CA'
+		cutoff='3.0'
+		lowrg='0.0'
+		highrg='400.0'
+		zflag='0'
+		zcutoff='0.0'
+		cflag='0'
+		confile = 'constraints.txt'
+		nbflag='0'		
+		nbscale='1.0'
+		psffilepath='./'
+		psffilename='refgag.psf'
+		parmfilepath='/usr/local/bin/toppar'
+		parmfilename='par_all27_prot_na.inp'
+		plotflag = '0'
+		directedmc = '0'
+		seed = '0,123'        
 
 	
         	path='./'
@@ -32,26 +61,53 @@ class Generate_Drv():
        	else:
 		runname = json_variables['runname']
 		
-		temp_pdb_filename = json_variables['pdb_filename']
-		temp_filename = json_variables['filename']
-		option = json_variables['option']
-		local_value = json_variables['local_value']
-		output_filename = json_variables['output_filename']
-
-		head, pdb_filename = os.path.split(temp_pdb_filename[0])
+		temp_pdbfile= json_variables['pdbfile']
+		temp_confile = json_variables['confile']
+		temp_psffilename = json_variables['psffilename']
+		
+		head, pdbfile = os.path.split(temp_pdbfile[0])
 		path = head.replace('\/','/') + "/"
-		head, filename = os.path.split(temp_filename[0])
 		#os.chdir(os.path.dirname( temp_infile[0] ) )
+		
+		head, confile = os.path.split(temp_confile[0])
+
+		psffilepath, psffilename = os.path.split(temp_psffilename[0])
+
 		os.chdir(path) 
+		
+		dcdfile = json_variables['dcdfile']
+		trials = json_variables['trials']
+		goback = json_variables['goback']
+		temp = json_variables['temp']
+		moltype = json_variables['moltype']
+		numranges = json_variables['numranges']
+		dtheta = json_variables['dtheta']
+		reslow = json_variables['reslow']
+		numcont = json_variables['numcont']
+		lowres1 = json_variables['lowres1']
+		highres1 = json_variables['highres1']
+		basis = json_variables['basis']
+		cutoff = json_variables['cutoff']
+		lowrg = json_variables['lowrg']
+		highrg = json_variables['highrg']
+		zflag = json_variables['zflag']
+		zcutoff = json_variables['zcutoff']
+		cflag = json_variables['cflag']
+		nonbondflag = json_variables['nonbondflag']
+		nonbondscale = json_variables['nonbondscale']
+		plotflag = json_variables['plotflag']
+		directedmc = json_variables['directedmc']
+
 		path = ''
 
-	plotflag = '0'
+	parmfilepath = '/usr/local/bin/toppar/'
+	parmfilename = 'par_all27_prot_na.inp'
 
 	svariables={}
 
 	svariables['runname'] = (str(runname),'string')
 
-	svariables['dcdfile']		= (str(out),'string')
+	svariables['dcdfile']		= (str(dcdfile),'string')
 	svariables['path']		= (str(path),'string')
 	svariables['pdbfile']		= (str(pdbfile),'string')
 	svariables['trials']		= (str(trials),'int')
@@ -61,13 +117,13 @@ class Generate_Drv():
 	svariables['numranges']		= (str(numranges),'int')
 	svariables['dtheta']		= (str(dtheta),'float_array')
 	svariables['reslow']		= (str(reslow),'int_array')
-	svariables['numcont']		= (str(ncont),'int_array')
-	svariables['lowres1']		= (str(lowres),'int')
-	svariables['highres1']		= (str(highres),'int')
+	svariables['numcont']		= (str(numcont),'int_array')
+	svariables['lowres1']		= (str(lowres1),'int')
+	svariables['highres1']		= (str(highres1),'int')
 	svariables['basis']		= (str(basis),'string')
 	svariables['cutoff']		= (str(cutoff),'float')
-	svariables['lowrg']		= (str(low1),'float')
-	svariables['highrg']		= (str(high1),'float')
+	svariables['lowrg']		= (str(lowrg),'float')
+	svariables['highrg']		= (str(highrg),'float')
 	svariables['zflag']		= (str(zflag),'int')
 	svariables['zcutoff']		= (str(zcutoff),'float')
 	svariables['cflag']		= (str(cflag),'int')
@@ -97,7 +153,7 @@ class Generate_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-		#monomer(self.variables,txtQueue) 
+#		dihedral_monte_carlo.dihedralgenerate(self.variables,txtQueue) 
 
 #		txtOutput = txtQueue.get(True, timeout=0.01)
 		#output_dict['txtQueue'] = txtOutput
@@ -113,7 +169,7 @@ class Generate_Drv():
 if __name__=='__main__':
 
 	json_flag = True
-	#json_flag = False
+#	json_flag = False
 
 	if (len(sys.argv) < 1):
 		print "\{\"error\":\"center called with no arguments\"\}\n";

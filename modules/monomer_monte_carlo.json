@@ -30,26 +30,24 @@
                    "role"     : "input",
                    "id"       : "trials",
                    "label"    : "number of trial attempts",
-                   "type"     : "integer",
-                   "default"  : 100,
-                   "min"      : 1,
+                   "type"     : "text",
+                   "default"  : "100",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "goback",
                    "label"    : "return to previous structure",
-                   "type"     : "integer",
-                   "default"  : 20,
+                   "type"     : "text",
+                   "default"  : "20",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "temp",
                    "label"    : "temperature (K)",
-                   "type"     : "float",
-                   "default"  : 300.0,
-                   "min"      : 0,
+                   "type"     : "text",
+                   "default"  : "300.0",
                    "required" : "true"
                    },
                   {
@@ -64,8 +62,8 @@
                    "role"     : "input",
                    "id"       : "numranges",
                    "label"    : "number of flexible regions to vary",
-                   "type"     : "integer",
-                   "default"  : 5,
+                   "type"     : "text",
+                   "default"  : "5",
                    "required" : "true"
                    },
                   {
@@ -73,7 +71,7 @@
                    "id"       : "dtheta",
                    "label"    : "enter MAX [dtheta] for each region",
                    "type"     : "text",
-                   "default"  : "30.0,30.0,30.0,30.0,30.0"
+                   "default"  : "30.0,30.0,30.0,30.0,30.0",
                    "required" : "true"
                    },
                   {
