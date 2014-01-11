@@ -1,57 +1,78 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "simulate_1",
-    "label"    : "Simulate_1",
+    "moduleid" : "merge_utilities",
+    "label"    : "Merge Utilities",
     "fields"   : [
                   {
                    "role"     : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "input2",
-                   "label"    : "Input value 2",
-                   "type"     : "integer",
-                   "default"  : 1,
-                   "min"      : -10,
-                   "max"      : 10,
-                   "required" : "false"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "input4",
-                   "label"    : "Input file",
+                   "id"       : "pdb_file",
+                   "label"    : "reference pdb",
                    "type"     : "file",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "input5",
-                   "label"    : "Input files",
-                   "type"     : "file",
-                   "multiple" : "true",
-                   "array"    : "true",
+                   "id"       : "merge_option",
+                   "label"    : "merge option (0 == dcd & sas, 1 == sas only)",
+                   "type"     : "text",
+		   "default"  : "0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "run_paths",
+                   "label"    : "project name paths",
+                   "type"     : "text",
+		   "default"  : "run_m1,run_m2",
+                   "required" : "true"
+	           },
+                  {
+                   "role"     : "input",
+                   "id"       : "dcd_names",
+                   "label"    : "dcd filenames",
+                   "type"     : "text",
+		   "default"  : "generate/run_m1.dcd,generate/run_m2.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sas_type",
+                   "label"    : "enter SAS type (1=Xtal2sas: 2=Cryson: 3 = Crysol)",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sas_paths",
+                   "label"    : "sas path",
+                   "type"     : "text",
+                   "default"  : "xtal2sas",
                    "required" : "true"
                    },
                    {
                    "role"  : "output",
-                   "id"    : "output1",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
-                   }
+                   "type"  : "text"
+                   },
+		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 4,
+		    "cols"    : 40
+		   }
                   ],
-    "executable" : "simulate_1"
+    "executable" : "merge_utilities"
 }

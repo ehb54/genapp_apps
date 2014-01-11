@@ -1,1 +1,1 @@
-~/sassie2/bin/center '{"runname":"run_0","ofile":"cen_c7.dcd","infile":["/home/curtisj/tmp/c2.dcd"],"refpdb":["/home/curtisj/tmp/c2.pdb"]}'
+~/sassie2/bin/center '{"runname":"run_0","ofile":"cen_c7.dcd","infile":["/home/curtisj/sassie2/graveyard/debug_bin/c2.dcd"],"refpdb":["/home/curtisj/sassie2/graveyard/debug_bin/c2.pdb"]}'
