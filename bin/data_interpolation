@@ -1,83 +1,113 @@
-#!/usr/bin/perl
+#!/usr/local/bin/bin/python2.7
+import json,sys,os,shutil
+from StringIO import StringIO
+import multiprocessing
 
-use JSON;
-use Data::Dumper;
+import sassie.tools.interpolate as interpolate
+import sassie.interface.input_filter as input_filter
 
+class Interpolate_Drv():
 
-if ( !@ARGV )
-{
-    print "\{\"error\":\"center called with no arguments\"\}\n";
-    exit;
-}
+   module = 'interpolate'
 
-sub mkarraystr {
-    my $ref = $_[0];
-    my $out = '[';
-    foreach my $plot ( @$ref )
-    {
-#        print "ref(\$plot) = " . ref( $plot ) . "\n";
-#        print "ref(\$\$plot)) = " . ref( $$plot ) . "\n";
-        $out .= '[';
-        foreach my $pos ( @{$$plot} )
-        {
-            $out .= '[' . $$pos[ 0 ] . "," . $$pos[ 1 ] . '],';
-#            print $$pos[ 0 ] . "," . $$pos[ 1 ] . "\n";
-        }
-        $out =~ s/\,$/],/;
-    }
-    $out =~ s/\,$/]/;
-    $out;
-}
+   def run_me(self,json_flag,json_variables,input_string):
 
-$json = shift;
-$ref = decode_json( $json );
-$res = {};
-$$res{ "hi" } = "data_interpolation executable";
+	output_dict = {}
 
-$pos = 0;
+	if not json_flag:
 
-$startx = $$ref{ "startx" };
-$endx = $$ref{ "endx" };
-$deltax = $$ref{ "deltax" };
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
 
-if ( $startx <= $endx && $deltax > 0 ||
-     $endx >= $startx && $deltax < 0 )
-{
+        	runname='run_0'
+        	expdata = 'caw_0p6mgml.sub'
+        	ofile ='caw_op6mgml.dat'
+		io = '0.011'
+		ioe = '0.001'
+		dq = '0.01'
+		maxpoints = '30'
+		plotflag = '0'
+        	path='./'
 
-    if ( $$ref{ "abs" } )
-    {
-        for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
-        {
-            $plotout4[ 0 ][ $pos ] = [ $x, abs( sin( $x ) ) ];
-            $plotout4[ 1 ][ $pos ] = [ $x, abs( cos( $x ) ) ];
-            $pos++;
-        }
-    } else {
-        for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
-        {
-            $plotout4[ 0 ][ $pos ] = [ $x, sin( $x ) ];
-            $plotout4[ 1 ][ $pos ] = [ $x, cos( $x ) ];
-            $pos++;
-        }
-    }
-    @array2d = ( \@plotout4[ 0 ], \@plotout4[ 1 ] );
-#  create json array to send it back 
-    $pout = mkarraystr( \@array2d );
-    $json = encode_json( $res );
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		temp_expdata = json_variables['expdata']
+		ofile = json_variables['ofile']
+		io = json_variables['io']
+		ioe = json_variables['ioe']
+		dq = json_variables['dq']
+		maxpoints = json_variables['maxpoints']
 
-    $json =~ s/\}$/,"plotout4":$pout}/;
-} else {
-    $$res{ "errors" } .= "Plot range error";
-    $json = encode_json( $res );
-}
+		head, expdata = os.path.split(temp_expdata[0])
+		path = head.replace('\/','/') + "/"
+		#os.chdir(os.path.dirname( temp_infile[0] ) )
+		os.chdir(path) 
+		path = ''
 
-# print mkarraystr( \@array2d ) . "\n";
+	plotflag = '0'
 
-# $$res{ "plotout4" } = mkarraystr( \@array2d );
+	svariables={}
 
-# open OUT, ">/src/sassie2/log3";
-# print OUT Dumper($res);
-# close OUT;
+	svariables['runname'] = (str(runname),'string')
+        svariables['expdata']   = (str(expdata),'string')
+        svariables['ofile']     = (str(ofile),'string')
+        svariables['io']        = (str(io),'float')
+        svariables['ioe']       = (str(ioe),'float')
+        svariables['dq']        = (str(dq),'float')
+        svariables['maxpoints'] = (str(maxpoints),'int')
+        svariables['plotflag']  = (str(plotflag),'int')
+	svariables['path']    = (path,'string')
 
-print $json . "\n";
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+		interpolate.interpolate(self.variables,txtQueue) 
+
+#		txtOutput = txtQueue.get(True, timeout=0.01)
+		#output_dict['txtQueue'] = txtOutput
+		output_dict['io_string'] = input_string
+		output_dict['output_expdata'] = expdata
+		output_dict['output_ofile'] = ofile
+		output_dict['output_io'] = io
+		output_dict['output_ioe'] = ioe
+		output_dict['output_dq'] = dq
+		output_dict['output_maxpoints'] = maxpoints
+		output_dict['output_plotflag'] = plotflag
+		output_dict['sasoutput1'] = runname
+		output_dict['sasoutput2'] = 'successfully completed run'
+	
+	with open("/home/curtisj/sassie2/log","w") as outfile:
+		json.dump(output_dict,outfile)
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Interpolate_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
 

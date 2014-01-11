@@ -49,12 +49,21 @@
                    "default"  : "output.dcd",
                    "required" : "true"
                    },
-                   {
+                  {
                    "role"  : "output",
                    "id"    : "sasoutput1",
                    "label" : "Output value 1",
                    "type"  : "text"
-                   }
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 4,
+		    "cols"    : 40
+		   }
                   ],
     "executable" : "coordinate_tools"
 }

@@ -4,83 +4,79 @@
     "label"    : "Data_interpolation",
     "fields"   : [
                   {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "expdata",
+                   "label"    : "input data file",
+                   "type"     : "file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "ofile",
+                   "label"    : "output file name",
+                   "type"     : "text",
+                   "default"  : "caw_0p6mgml.dat",
+                   "required" : "true"
+                   },
+                  {
                    "role"       : "input",
-                   "id"       : "startx",
-                   "label"    : "Start x",
+                   "id"       : "io",
+                   "label"    : "I(0)",
                    "type"     : "float",
-                   "default"  : 0.0,
+                   "default"  : 0.011,
 #                   "min"      : 0.0,
 #                   "max"      : 1e50,
                    "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "endx",
-                   "label"   : "End x",
-                   "type"    : "float",
-                   "default" : 26,
-#                   "min"     : -10,
-#                   "max"     : 10,
+                   "role"       : "input",
+                   "id"       : "ioe",
+                   "label"    : "I(0) error",
+                   "type"     : "float",
+                   "default"  : 0.001,
                    "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "deltax",
-                   "label"   : "Delta x",
-                   "type"    : "float",
-                   "default" : 0.1,
-#                   "min"     : -10,
-#                   "max"     : 10,
+                   "role"       : "input",
+                   "id"       : "dq",
+                   "label"    : "new delta q",
+                   "type"     : "float",
+                   "default"  : 0.01,
                    "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "abs",
-                   "label"   : "abs",
-                   "type"    : "checkbox",
-                   "checked" : "false"
+                   "role"       : "input",
+                   "id"       : "maxpoints",
+                   "label"    : "number of new points",
+                   "type"     : "integer",
+                   "default"  : 30,
+                   "required" : "true"
                    },
                    {
                    "role"    : "output",
-                   "id"    : "output1",
-                   "label" : "output integer",
-                   "type"  : "integer"
-                   },
-                   {
-                   "role"    : "output",
-                   "id"    : "output2",
-                   "label" : "output float",
-                   "type"  : "float"
-                   },
-                   {
-                   "role"    : "output",
-                   "id"    : "output3",
+                   "id"    : "sasoutput1",
                    "label" : "output text",
                    "type"  : "text"
                    },
                    {
                    "role"    : "output",
-                   "id"    : "output3",
-                   "label" : "output checkbox",
-                   "type"  : "checkbox"
+                   "id"    : "sasoutput2",
+                   "label" : "output text",
+                   "type"  : "textarea"
                    },
                    {
                    "role"    : "output",
                    "id"    : "plotout4",
                    "label" : "plot 2d",
                    "type"  : "plot2d"
-                   },
-                   {
-                   "role"    : "output",
-                   "id"    : "output5",
-                   "label" : "output 5",
-                   "type"  : "checkbox"
-                   },
-                   {
-                   "role"    : "output",
-                   "id"    : "output6",
-                   "label" : "output again",
-                   "type"  : "checkbox"
                    }
                   ],
 # the executable will take inputs in order and produce output
