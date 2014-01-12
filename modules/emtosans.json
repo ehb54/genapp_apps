@@ -1,42 +1,94 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "calculate_2",
-    "label"    : "Calculate_2",
+    "moduleid" : "emtosans",
+    "label"    : "EM to SANS",
     "fields"   : [
                   {
-                   "role"       : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input2",
-                   "label"   : "Input value 2",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "required" : "false"
+                   "role"     : "input",
+                   "id"       : "emfiletype",
+                   "label"    : "EM file file (0=Gaussian cube,1=mrc)",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
+                   "role"     : "input",
+                   "id"       : "emdensityfile",
+                   "label"    : "input EM density file",
+                   "type"     : "file",
+                   "required" : "true"
                    },
-                   {
-                   "role"    : "output",
-                   "id"    : "output1",
+                  {
+                   "role"     : "input",
+                   "id"       : "angpix",
+                   "label"    : "mrc angstroms/pixel resolution (x,y,z)",
+                   "type"     : "text",
+		   "default"  : "20.0,20.0,20.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"    : "ouput file name (pdb)",
+                   "type"     : "text",
+                   "default"  : "p20a.pdb",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "threshold",
+                   "label"    : "cutoff threshold",
+                   "type"     : "text",
+                   "default"  : "0.1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sansfile",
+                   "label"    : "output SANS profile file name",
+                   "type"     : "text",
+                   "default"  : "p20a.sub",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "npoints",
+                   "label"    : "number of q points in SANS profile",
+                   "type"     : "text",
+                   "default"  : "100",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "qmax",
+                   "label"    : "maximum q in SANS profile",
+                   "type"     : "text",
+                   "default"  : "0.3",
+                   "required" : "true"
+                   },
+                  {
+                   "role"  : "output",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
-                   }
+                   "type"  : "text"
+                   },
+ 		  {
+                   "role"    : "output",
+                   "id"      : "sasoutput2",
+                   "name"    : "sasoutput2",
+                   "label"   : "run output",
+                   "type"    : "textarea",
+		   "rows"    : 4,
+		   "cols"    : 40
+		   }
                   ],
-# the executable will take inputs in order and produce output
-    "executable" : "calculate_2"
+    "executable" : "emtosans"
 }

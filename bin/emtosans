@@ -1,0 +1,121 @@
+#!/usr/local/bin/bin/python2.7
+import json,sys,os,shutil
+from StringIO import StringIO
+import multiprocessing
+
+import sassie.calculate.volumetobeads as volumetobeads
+import sassie.interface.input_filter as input_filter
+
+class Em_to_sans_Drv():
+
+   module = 'emtosans'
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+		emfiletype = '1'
+		emdensityfile = 'p20a.mrc'
+		angpix = '20.0, 20.0, 20.0'
+		pdbfile = 'p20a.pdb'
+		threshold = '0.1'
+		sansfile = 'p20a.sub'
+		npoints = '100'
+		qmax = '0.3'
+
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		temp_emdensityfile = json_variables['emdensityfile']
+
+		emfiletype = json_variables['emfiletype']
+		emdensityfile = json_variables['emdensityfile']
+		angpix = json_variables['angpix']
+		pdbfile = json_variables['pdbfile']
+		threshold = json_variables['threshold']
+		sansfile = json_variables['sansfile']
+		npoints = json_variables['npoints']
+		qmax = json_variables['qmax']
+
+		head, emdensityfile = os.path.split(temp_emdensityfile[0])
+		path = head.replace('\/','/') + "/"
+
+		#os.chdir(os.path.dirname( temp_infile[0] ) )
+		os.chdir(path) 
+		path = ''
+
+	inputpath = './'
+	plotflag = '0'
+	
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+
+	svariables['emfiletype']	= (str(emfiletype),'int')
+	svariables['inputpath'] 	= (str(inputpath),'string')
+	svariables['emdensityfile'] 	= (str(emdensityfile),'string')
+	svariables['angpix'] 		= (str(angpix),'float_array')
+	svariables['pdbfile'] 		= (str(pdbfile),'string')
+	svariables['threshold'] 	= (str(threshold),'float')
+	svariables['sansfile'] 		= (str(sansfile),'string')
+	svariables['npoints'] 		= (str(npoints),'int')
+	svariables['qmax'] 		= (str(qmax),'float')
+	svariables['plotflag'] 		= (str(plotflag),'int')
+
+	svariables['path']    = (path,'string')
+
+	error = []
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+		volumetobeads.em(self.variables,txtQueue) 
+
+#		txtOutput = txtQueue.get(True, timeout=0.01)
+		#output_dict['txtQueue'] = txtOutput
+		output_dict['io_string'] = input_string
+		
+		output_dict['sasoutput1'] = runname
+		output_dict['sasoutput2'] = 'successfully completed run'
+	
+	with open("/home/curtisj/sassie2/log","w") as outfile:
+		json.dump(output_dict,outfile)
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Em_to_sans_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+
