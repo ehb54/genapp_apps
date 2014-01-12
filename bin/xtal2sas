@@ -1,0 +1,141 @@
+#!/usr/local/bin/bin/python2.7
+import json,sys,os,shutil
+from StringIO import StringIO
+import multiprocessing
+
+import sassie.calculate.gxtal2sas as gxtal2sas
+import sassie.interface.input_filter as input_filter
+
+class Xtal2sas_Drv():
+
+   module = 'xtal2sas'
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+		dcdpath = './run_0/generate/'
+		dcdfile = 'run_0.dcd'
+		pdbpath = './run_0/generate/'
+		pdbfile = 'c2.pdb'
+		xtal2sasexe = '/usr/local/bin/xtal2sas.exe'
+		delcaipfiles = '1'
+		option = 'N'
+		numiq = '50'
+		qmax = '0.5'
+		iomax = '1.0'
+		numiter = '1'
+		pd2O = '100.0'
+		fhdexchange = '0.9'
+		numhits = '1000'
+		proteinhord = 'H'
+	
+		path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		temp_pdbfile = json_variables['pdbfile']
+		head, pdbfile = os.path.split(temp_pdbfile[0])
+		path = head.replace('\/','/') + "/"
+		
+		temp_dcdfile = json_variables['dcdfile']
+		head, dcdfile = os.path.split(temp_dcdfile[0])
+		#os.chdir(os.path.dirname( temp_infile[0] ) )
+	
+		pdbpath = './'
+		dcdpath = './'
+
+		delcaipfiles = json_variables['delcaipfiles']
+		numiq = json_variables['numiq']
+		qmax = json_variables['qmax']
+		iomax = json_variables['iomax']
+		numiter = json_variables['numiter']
+		pd2O = json_variables['pd2O']
+		fhdexchange = json_variables['fhdexchange']
+		numhits = json_variables['numhits']
+		proteinhord = json_variables['proteinhord']
+
+		os.chdir(path) 
+		path = ''
+
+	option = 'N'
+	xtal2sasexe = '/usr/local/bin/xtal2sas.exe'
+
+	svariables={}
+
+	svariables['runname']		= (str(runname),'string')
+	svariables['dcdpath']		= (str(dcdpath),'string')
+	svariables['dcdfile']		= (str(dcdfile),'string')
+ 	svariables['pdbpath']		= (str(pdbpath),'string')
+ 	svariables['pdbfile']		= (str(pdbfile),'string')
+ 	svariables['xtal2sasexe']	= (str(xtal2sasexe),'string')
+ 	svariables['delcaipfiles']	= (str(delcaipfiles),'int')
+ 	''' 
+                 NOTE: all external variables are left as strings
+                         and values are NOT filtered
+ 	'''
+ 	svariables['option']		= (str(option),'string')
+ 	svariables['numiq']		= (str(numiq),'string')
+ 	svariables['qmax']		= (str(qmax),'string')
+ 	svariables['iomax']		= (str(iomax),'string')
+ 	svariables['numiter']		= (str(numiter),'string')
+ 	svariables['pd2O']		= (str(pd2O),'string')
+ 	svariables['fhdexchange']	= (str(fhdexchange),'string')
+ 	svariables['numhits']		= (str(numhits),'string')
+ 	svariables['proteinhord']	= (str(proteinhord),'string')
+ 
+ 	svariables['path']    = (path,'string')
+
+ 	error,self.variables=input_filter.type_check_and_convert(svariables)
+	error = []
+
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+		gxtal2sas.gxtal2sas(self.variables,txtQueue) 
+
+#		txtOutput = txtQueue.get(True, timeout=0.01)
+		#output_dict['txtQueue'] = txtOutput
+		output_dict['io_string'] = input_string
+		output_dict['sasoutput1'] = runname
+		output_dict['sasoutput2'] = 'successfully completed run'
+	
+	with open("/home/curtisj/sassie2/log","w") as outfile:
+		json.dump(output_dict,outfile)
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+#	json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Xtal2sas_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

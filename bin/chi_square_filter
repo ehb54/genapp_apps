@@ -1,0 +1,133 @@
+#!/usr/local/bin/bin/python2.7
+import json,sys,os,shutil
+from StringIO import StringIO
+import multiprocessing
+
+import sassie.analyze.best as best
+import sassie.interface.input_filter as input_filter
+
+class Chi_square_filter_Drv():
+
+   module = 'filter'
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+		saspath = './run_0/xtal2sas/'
+		sasintfile = './nsfit.data'
+		io = '0.019'
+		x2highcut = '10.0'
+		x2highweightfile = 'x2highweights.txt'
+		x2lowcut = '1.0'
+		x2lowweightfile = 'x2lowweights.txt'
+		rghighcut = '60.0'
+		rghighweightfile = 'rghighweights.txt'
+		rglowcut = '40.0'
+		rglowweightfile = 'rglowweights.txt'
+		sastype = '1'
+		reduced_x2 = '1'
+		plotflag = '0'
+
+		path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		temp_sasintfile = json_variables['sasintfile']
+		head, sasintfile = os.path.split(temp_sasintfile[0])
+		path = head.replace('\/','/') + "/"
+
+                saspath = json_variables['saspath']
+		saspath = saspath.replace('\/','/') + "/"
+                io = json_variables['io']
+                x2highcut = json_variables['x2highcut']
+                x2highweightfile = json_variables['x2highweightfile']
+                x2lowcut = json_variables['x2lowcut']
+                x2lowweightfile = json_variables['x2lowweightfile']
+                rghighcut = json_variables['rghighcut']
+                rghighweightfile = json_variables['rghighweightfile']
+                rglowcut = json_variables['rglowcut']
+                rglowweightfile = json_variables['rglowweightfile']
+                sastype = json_variables['sastype']
+                reduced_x2 = json_variables['reduced_x2']
+	
+		#os.chdir(os.path.dirname( temp_infile[0] ) )
+		os.chdir(path) 
+		path = ''
+
+	svariables={}
+
+	plotflag = '0'
+
+	svariables['runname'] = (str(runname),'string')
+
+	svariables['saspath']   	= (str(saspath),'string')
+	svariables['sasintfile']	= (str(sasintfile),'string')
+	svariables['io']        	= (str(io),'float')
+	svariables['x2highcut'] 	= (str(x2highcut),'float')
+	svariables['x2highweightfile']	= (str(x2highweightfile),'string')
+	svariables['x2lowcut'] 		= (str(x2lowcut),'float')
+	svariables['x2lowweightfile']	= (str(x2lowweightfile),'string')
+	svariables['rghighcut']		= (str(rghighcut),'float')
+	svariables['rghighweightfile'] 	= (str(rghighweightfile),'string')
+	svariables['rglowcut'] 		= (str(rglowcut),'float')
+	svariables['rglowweightfile'] 	= (str(rglowweightfile),'string')
+	svariables['sastype']        	= (str(sastype),'int')
+	svariables['reduced_x2']	= (str(reduced_x2),'int')
+	svariables['plotflag']        	= (str(plotflag),'int')
+
+	svariables['path']    = (path,'string')
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+		best.best(self.variables,txtQueue) 
+
+#		txtOutput = txtQueue.get(True, timeout=0.01)
+		#output_dict['txtQueue'] = txtOutput
+		output_dict['io_string'] = input_string
+		
+		output_dict['sasoutput1'] = runname
+		output_dict['sasoutput2'] = 'successfully completed run'
+	
+	with open("/home/curtisj/sassie2/log","w") as outfile:
+		json.dump(output_dict,outfile)
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Chi_square_filter_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

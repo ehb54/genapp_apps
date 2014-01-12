@@ -1,42 +1,134 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "calculate_2",
-    "label"    : "Calculate_2",
+    "moduleid" : "chi_square_filter",
+    "label"    : "Chi-Square Filter",
     "fields"   : [
                   {
-                   "role"       : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input2",
-                   "label"   : "Input value 2",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "required" : "false"
+                   "role"     : "input",
+                   "id"       : "saspath",
+                   "label"    : "path to SAS files",
+                   "type"     : "text",
+                   "default"  : "run_0/xtal2sas/",
+                   "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
+                   "role"     : "input",
+                   "id"       : "sasintfile",
+                   "label"    : "SAS exp. data file (goal)",
+                   "type"     : "file",
+                   "required" : "true"
                    },
-                   {
-                   "role"    : "output",
-                   "id"    : "output1",
+                  {
+                   "role"     : "input",
+                   "id"       : "io",
+                   "label"    : "I(0)",
+                   "type"     : "text",
+                   "default"  : "0.019",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "x2highcut",
+                   "label"    : "X2 high cutoff",
+                   "type"     : "text",
+		   "default"  : "10.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "x2highweightfile",
+                   "label"    : "X2 high cutoff file (output)",
+                   "type"     : "text",
+                   "default"  : "x2highweights.txt",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "x2lowcut",
+                   "label"    : "X2 low cutoff",
+                   "type"     : "text",
+		   "default"  : "1.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "x2lowweightfile",
+                   "label"    : "X2 low cutoff file (output)",
+                   "type"     : "text",
+                   "default"  : "x2lowweights.txt",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rghighcut",
+                   "label"    : "Rg high cutoff",
+                   "type"     : "text",
+		   "default"  : "60.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rghighweightfile",
+                   "label"    : "Rg high cutoff file (output)",
+                   "type"     : "text",
+                   "default"  : "rghighweights.txt",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rglowcut",
+                   "label"    : "Rg low cutoff",
+                   "type"     : "text",
+		   "default"  : "40.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rglowweightfile",
+                   "label"    : "Rg low cutoff file (output)",
+                   "type"     : "text",
+                   "default"  : "rglowweights.txt",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sastype",
+                   "label"    : "enter SAS type (1=Xtal2sas: 2=Cryson 3=Crysol)",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "reduced_x2",
+                   "label"    : "use reduced X2 (0--no, 1==yes)",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"  : "output",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
-                   }
+                   "type"  : "text"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 4,
+		    "cols"    : 40
+		   }
                   ],
-# the executable will take inputs in order and produce output
-    "executable" : "calculate_2"
+    "executable" : "chi_square_filter"
 }
