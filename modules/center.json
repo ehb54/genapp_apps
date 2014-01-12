@@ -13,15 +13,15 @@
                    },
                   {
                    "role"    : "input", 
-                   "id"      : "infile",
-                   "label"   : "input filename",
+                   "id"      : "refpdb",
+                   "label"   : "reference pdb",
                    "type"    : "file",
                    "required" : "true"
                    },
                   {
                    "role"    : "input", 
-                   "id"      : "refpdb",
-                   "label"   : "reference pdb",
+                   "id"      : "infile",
+                   "label"   : "input filename (dcd or pdb)",
                    "type"    : "file",
                    "required" : "true"
                    },

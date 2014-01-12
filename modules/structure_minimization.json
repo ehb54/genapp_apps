@@ -1,57 +1,123 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "simulate_1",
-    "label"    : "Simulate_1",
+    "moduleid" : "structure_minimization",
+    "label"    : "Structure Minimization",
     "fields"   : [
                   {
-                   "role"     : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "input2",
-                   "label"    : "Input value 2",
-                   "type"     : "integer",
-                   "default"  : 1,
-                   "min"      : -10,
-                   "max"      : 10,
-                   "required" : "false"
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "project name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "input4",
-                   "label"    : "Input file",
-                   "type"     : "file",
+                   "id"      : "pdbfile",
+                   "label"   : "input file name (pdb)",
+                   "type"    : "file",
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "input5",
-                   "label"    : "Input files",
-                   "type"     : "file",
-                   "multiple" : "true",
-                   "array"    : "true",
+                   "role"    : "input",
+                   "id"      : "infile",
+                   "label"   : "input file name (dcd or pdb)",
+                   "type"    : "file",
                    "required" : "true"
                    },
-                   {
+                  {
+                   "role"    : "input",
+                   "id"      : "outfile",
+                   "label"   : "output file name (dcd)",
+                   "type"    : "text",
+                   "default" : "run_0/minimization/min_run_0.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "nsteps",
+                   "label"   : "number of minimization steps",
+                   "type"    : "text",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "psfile",
+                   "label"   : "charmm PSF filename",
+                   "type"    : "file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ncpu",
+                   "label"   : "number of processors",
+                   "type"    : "text",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "keepout",
+                   "label"   : "keep run output files (0==no, 1==yes)",
+                   "type"    : "text",
+                   "default" : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcdfreq",
+                   "label"   : "DCD write frequency",
+                   "type"    : "text",
+                   "default" : "20",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "md",
+                   "label"   : "md run (0==minimize, 1==min/md, 2==min/md/min)",
+                   "type"    : "text",
+                   "default" : "0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "mdsteps",
+                   "label"   : "number md timesteps (1 step = 2 fs)",
+                   "type"    : "text",
+                   "default" : "10000",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dielect",
+                   "label"   : "solvent dielectric",
+                   "type"    : "text",
+                   "default" : "1.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "temperature",
+                   "label"   : "temperature (K)",
+                   "type"    : "text",
+                   "default" : "300.0",
+                   "required" : "true"
+                   },
+                  {
                    "role"  : "output",
-                   "id"    : "output1",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
+                   "type"  : "text"
+                   },
+		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 4,
+		    "cols"    : 40
                    }
                   ],
-    "executable" : "simulate_1"
+# the executable will take inputs in json and produce output in json
+    "executable" : "structure minimization"
 }
