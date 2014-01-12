@@ -38,11 +38,12 @@
                    "id"      : "nsteps",
                    "label"   : "number of minimization steps",
                    "type"    : "text",
+                   "default" : "100",
                    "required" : "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "psfile",
+                   "id"      : "psffile",
                    "label"   : "charmm PSF filename",
                    "type"    : "file",
                    "required" : "true"
@@ -52,6 +53,7 @@
                    "id"      : "ncpu",
                    "label"   : "number of processors",
                    "type"    : "text",
+                   "default" : "1",
                    "required" : "true"
                    },
                   {

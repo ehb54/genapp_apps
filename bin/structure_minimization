@@ -43,12 +43,22 @@ class Structure_minimization_Drv():
 		
 		temp_pdbfile = json_variables['pdbfile']
 		temp_infile = json_variables['infile']
+		temp_psffile = json_variables['psffile']
 		
-		output_filename = json_variables['output_filename']
+		outfile = json_variables['outfile']
+		nsteps = json_variables['nsteps']
+		ncpu = json_variables['ncpu']
+		keepout = json_variables['keepout']
+		dcdfreq = json_variables['dcdfreq']
+		md = json_variables['md']
+		mdsteps = json_variables['mdsteps']
+		dielect = json_variables['dielect']
+		temperature = json_variables['temperature']
 
 		head, pdbfile= os.path.split(temp_pdbfile[0])
 		path = head.replace('\/','/') + "/"
 		head, infile = os.path.split(temp_infile[0])
+		head, psffile = os.path.split(temp_psffile[0])
 		#os.chdir(os.path.dirname( temp_infile[0] ) )
 		os.chdir(path) 
 		path = ''
@@ -78,7 +88,7 @@ class Structure_minimization_Drv():
 	svariables['path']    = (str(path),'string')
 	
 	error = []
-	#error,self.variables=input_filter.type_check_and_convert(svariables)
+	error,self.variables=input_filter.type_check_and_convert(svariables)
 	
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
@@ -90,7 +100,7 @@ class Structure_minimization_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-	#	namd_minimize.minimize(self.variables,txtQueue) 
+		namd_minimize.minimize(self.variables,txtQueue) 
 
 #		txtOutput = txtQueue.get(True, timeout=0.01)
 		#output_dict['txtQueue'] = txtOutput
