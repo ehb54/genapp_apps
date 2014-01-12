@@ -51,6 +51,18 @@
                    "id"    : "output1",
                    "label" : "Output value 1",
                    "type"  : "float"
+                   },
+                   {
+                   "role"  : "output",
+                   "id"    : "output2",
+                   "label" : "output file",
+                   "type"  : "file"
+                   },
+                   {
+                   "role"  : "output",
+                   "id"    : "output3",
+                   "label" : "output file 2",
+                   "type"  : "file"
                    }
                   ],
     "executable" : "simulate_1"

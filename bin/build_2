@@ -16,8 +16,11 @@ $$res{ "hi" } = "build_2 executable";
 $$res{ "output1" } = 1234;
 $$res{ "output2b" } = '';
 $$res{ "output3" } = '';
+$$res{ "output5" } = 'text area output
+multiline
+';
 
-open OUT, ">/src/sassie2/log";
+open OUT, ">/home/ehb/genapptest/log";
 print OUT Dumper($ref);
 close OUT;
 print encode_json( $res ) . "\n";

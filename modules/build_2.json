@@ -67,7 +67,7 @@
                    "name"    : "input6",
                    "label"   : "textarea",
                    "type"    : "textarea",
-                   "default" : "this is a text area",
+                   "default" : "this is a text areamultiline",
                    "rows"    : 4,
                    "cols"    : 40
                    },
@@ -109,6 +109,15 @@
                    "id"    : "output4",
                    "label" : "checkbox out 4",
                    "type"  : "checkbox"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "output5",
+                   "name"    : "output5",
+                   "label"   : "output textarea",
+                   "type"    : "textarea",
+                   "rows"    : 6,
+                   "cols"    : 60
                    }
                   ],
 # the executable will take inputs in order and produce output

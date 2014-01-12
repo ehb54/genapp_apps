@@ -3,38 +3,30 @@
     "moduleid" : "simulate_2",
     "label"    : "simulate_2",
     "fields"   : [
-                  {
+                   {
                    "role"     : "input",
                    "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "label"    : "Input file",
+                   "type"     : "file",
                    "required" : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"      : "input2",
-                   "label"   : "Input value 2",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "required" : "false"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
-                   },
                    {
-                   "role"     : "output",
+                   "role"  : "output",
                    "id"    : "output1",
                    "label" : "Output value 1",
                    "type"  : "float"
+                   },
+                   {
+                   "role"  : "output",
+                   "id"    : "output2",
+                   "label" : "output file",
+                   "type"  : "file"
+                   },
+                   {
+                   "role"  : "output",
+                   "id"    : "output3",
+                   "label" : "output file 2",
+                   "type"  : "file"
                    }
                   ],
 # the executable will take inputs in order and produce output
