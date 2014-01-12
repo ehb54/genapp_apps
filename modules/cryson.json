@@ -27,74 +27,74 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "delcaipfiles",
-                   "label"    : "delete crd/ans/inf/pr files (1=Y/0=N)",
+                   "id"       : "delafs",
+                   "label"    : "delete alm/flm/sav files (1=Y/0=N)",
                    "type"     : "text",
 		   "default"  : "1",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "numiq",
-                   "label"    : "number of I(Q) values",
+                   "id"       : "maxh",
+                   "label"    : "maximum harmonic order",
                    "type"     : "text",
-                   "default"  : "50",
+                   "default"  : "15",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "qmax",
-                   "label"    : "maximum Q value",
+                   "id"       : "fib",
+                   "label"    : "Fibonacci grid order",
+                   "type"     : "text",
+                   "default"  : "17",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "maxs",
+                   "label"    : "maximum q value",
                    "type"     : "text",
                    "default"  : "0.5",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "iomax",
-                   "label"    : "intensity at I(0)",
+                   "id"       : "numpoints",
+                   "label"    : "number of q points",
+                   "type"     : "text",
+                   "default"  : "51",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fd2O",
+                   "label"    : "fraction solvent D2O",
                    "type"     : "text",
                    "default"  : "1.0",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "numiter",
-                   "label"    : "number of iterations",
+                   "id"       : "sden",
+                   "label"    : "solvent density",
                    "type"     : "text",
-                   "default"  : "1",
+                   "default"  : "6.404",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "numhits",
-                   "label"    : "number of hits",
+                   "id"       : "fpep",
+                   "label"    : "fraction non-X protein",
                    "type"     : "text",
-                   "default"  : "1000",
+                   "default"  : "0.1",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "pd2O",
-                   "label"    : "percent solvent D2O",
+                   "id"       : "contrast",
+                   "label"    : "contrast of solvation shell",
                    "type"     : "text",
-                   "default"  : "100.0",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "fhdexchange",
-                   "label"    : "fraction H-D exchange",
-                   "type"     : "text",
-                   "default"  : "0.9",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "proteinhord",
-                   "label"    : "protein protonated or deuterated (H or D)",
-                   "type"     : "text",
-                   "default"  : "H",
+                   "default"  : "0.6404",
                    "required" : "true"
                    },
                   {

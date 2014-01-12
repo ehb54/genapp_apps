@@ -1,0 +1,2 @@
+/home/curtisj/sassie2/bin/crysol '{"runname":"run_0","delafs":"1","maxh":"15","fib":"17","maxs":"0.5","numpoints":"51","contrast":"0.03","edensolv":"0.334","hydrogens":"N","pdbfile":["/home/curtisj/sassie2/graveyard/debug_bin/c2.pdb"],"dcdfile":["/home/curtisj/sassie2/graveyard/debug_bin/c2.dcd"]}'
+

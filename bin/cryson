@@ -53,15 +53,31 @@ class Cryson_Drv():
 		temp_dcdfile = json_variables['dcdfile']
 		head, dcdfile = os.path.split(temp_dcdfile[0])
 		#os.chdir(os.path.dirname( temp_infile[0] ) )
+		
+		print 'os.getcwd() = ',os.getcwd()
+		os.chdir(path) 
+		print 'path = ',path
+		print 'os.getcwd() = ',os.getcwd()
 	
+		delafs = json_variables['delafs']
+		maxh = json_variables['maxh']
+		fib = json_variables['fib']
+		maxs = json_variables['maxs']
+		numpoints = json_variables['numpoints']
+		fd2O = json_variables['fd2O']
+		sden = json_variables['sden']
+		fpep = json_variables['fpep']
+		contrast = json_variables['contrast']
+	
+		path='./'
+
+        	#### END USER EDIT
 		pdbpath = './'
 		dcdpath = './'
 
-
-		os.chdir(path) 
 		path = ''
 
-	option = 'N'
+	option = '0'
 	cryexe = '/usr/local/bin/cryson.exe'
 
 	svariables={}
@@ -92,8 +108,8 @@ class Cryson_Drv():
  
  	svariables['path']    = (path,'string')
 
- 	error,self.variables=input_filter.type_check_and_convert(svariables)
 	error = []
+ 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
@@ -110,6 +126,7 @@ class Cryson_Drv():
 #		txtOutput = txtQueue.get(True, timeout=0.01)
 		#output_dict['txtQueue'] = txtOutput
 		output_dict['io_string'] = input_string
+		
 		output_dict['sasoutput1'] = runname
 		output_dict['sasoutput2'] = 'successfully completed run'
 	
@@ -120,7 +137,7 @@ class Cryson_Drv():
 if __name__=='__main__':
 
 	json_flag = True
-	json_flag = False
+	#json_flag = False
 
 	if (len(sys.argv) < 1):
 		print "\{\"error\":\"center called with no arguments\"\}\n";

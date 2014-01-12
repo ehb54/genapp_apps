@@ -1,42 +1,109 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "analyze_2",
-    "label"    : "Analyze_2",
+    "moduleid" : "crysol",
+    "label"    : "Crysol",
     "fields"   : [
                   {
-                   "role"       : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input2",
-                   "label"   : "Input value 2",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "required" : "false"
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"    : "pdb reference file name",
+                   "type"     : "file",
+                   "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
+                   "role"     : "input",
+                   "id"       : "dcdfile",
+                   "label"    : "trajectory file name (pdb or dcd)",
+                   "type"     : "file",
+                   "required" : "true"
                    },
-                   {
-                   "role"    : "output",
-                   "id"    : "output1",
+                  {
+                   "role"     : "input",
+                   "id"       : "delafs",
+                   "label"    : "delete alm/flm/sav files (1=Y/0=N)",
+                   "type"     : "text",
+		   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "maxh",
+                   "label"    : "maximum harmonic order",
+                   "type"     : "text",
+                   "default"  : "15",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fib",
+                   "label"    : "Fibonacci grid order",
+                   "type"     : "text",
+                   "default"  : "17",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "maxs",
+                   "label"    : "maximum q value",
+                   "type"     : "text",
+                   "default"  : "0.5",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numpoints",
+                   "label"    : "number of q points",
+                   "type"     : "text",
+                   "default"  : "51",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "contrast",
+                   "label"    : "contrast of solvation shell",
+                   "type"     : "text",
+                   "default"  : "0.03",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "edensolv",
+                   "label"    : "electron density of solvent",
+                   "type"     : "text",
+                   "default"  : "0.334",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "hydrogens",
+                   "label"    : "explicit hydrogens (Y/N)",
+                   "type"     : "text",
+                   "default"  : "N",
+                   "required" : "true"
+                   },
+                  {
+                   "role"  : "output",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
-                   }
+                   "type"  : "text"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 4,
+		    "cols"    : 40
+		   }
                   ],
-# the executable will take inputs in order and produce output
-    "executable" : "analyze_2"
+    "executable" : "crysol"
 }
