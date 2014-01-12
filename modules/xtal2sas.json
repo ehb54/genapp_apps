@@ -67,7 +67,15 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "pd20",
+                   "id"       : "numhits",
+                   "label"    : "number of hits",
+                   "type"     : "text",
+                   "default"  : "1000",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pd2O",
                    "label"    : "percent solvent D2O",
                    "type"     : "text",
                    "default"  : "100.0",
@@ -75,7 +83,7 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "pfhdexchange",
+                   "id"       : "fhdexchange",
                    "label"    : "fraction H-D exchange",
                    "type"     : "text",
                    "default"  : "0.9",

@@ -1,12 +1,13 @@
 # this is a project directives file
 {
   "title"                     : "SASSIE-web",
-  "application"               : "web_sassie",
+  "application"               : "sassie2",
   "version"                   : "0.1",
 #  "languages"                 : [ "html5", "qt3" ],
   "languages"                 : [ "html5"],
   "html5_executable_path"     : "/home/curtisj/sassie2/bin",
   "qt3_executable_path"       : "/home/curtisj/sassie2/bin",
+  "html5_docroot"             : "/var/www/html",
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",
   "background_color_rgb"      : "0,0,95",

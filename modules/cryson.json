@@ -1,42 +1,117 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "analyze_1",
-    "label"    : "Analyze_1",
+    "moduleid" : "cryson",
+    "label"    : "Cryson",
     "fields"   : [
                   {
-                   "role"       : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input2",
-                   "label"   : "Input value 2",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "required" : "false"
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"    : "pdb reference file name",
+                   "type"     : "file",
+                   "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
+                   "role"     : "input",
+                   "id"       : "dcdfile",
+                   "label"    : "trajectory file name (pdb or dcd)",
+                   "type"     : "file",
+                   "required" : "true"
                    },
-                   {
-                   "role"    : "output",
-                   "id"    : "output1",
+                  {
+                   "role"     : "input",
+                   "id"       : "delcaipfiles",
+                   "label"    : "delete crd/ans/inf/pr files (1=Y/0=N)",
+                   "type"     : "text",
+		   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numiq",
+                   "label"    : "number of I(Q) values",
+                   "type"     : "text",
+                   "default"  : "50",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "qmax",
+                   "label"    : "maximum Q value",
+                   "type"     : "text",
+                   "default"  : "0.5",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "iomax",
+                   "label"    : "intensity at I(0)",
+                   "type"     : "text",
+                   "default"  : "1.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numiter",
+                   "label"    : "number of iterations",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numhits",
+                   "label"    : "number of hits",
+                   "type"     : "text",
+                   "default"  : "1000",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pd2O",
+                   "label"    : "percent solvent D2O",
+                   "type"     : "text",
+                   "default"  : "100.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fhdexchange",
+                   "label"    : "fraction H-D exchange",
+                   "type"     : "text",
+                   "default"  : "0.9",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "proteinhord",
+                   "label"    : "protein protonated or deuterated (H or D)",
+                   "type"     : "text",
+                   "default"  : "H",
+                   "required" : "true"
+                   },
+                  {
+                   "role"  : "output",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
-                   }
+                   "type"  : "text"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 4,
+		    "cols"    : 40
+		   }
                   ],
-# the executable will take inputs in order and produce output
-    "executable" : "analyze_1"
+    "executable" : "cryson"
 }
