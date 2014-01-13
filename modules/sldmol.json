@@ -1,42 +1,237 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "calculate_2",
-    "label"    : "Calculate_2",
+    "moduleid" : "sldmol",
+    "label"    : "Scattering Length Density",
     "fields"   : [
                   {
-                   "role"       : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input2",
-                   "label"   : "Input value 2",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "required" : "false"
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"    : "input file name (pdb)",
+                   "type"     : "file",
+                   "required" : "true"
                    },
                   {
-                   "role"      : "input",
-                   "id"      : "input3",
-                   "label"   : "Input value 3",
-                   "type"    : "checkbox",
-                   "checked" : "true"
+                   "role"     : "input",
+                   "id"       : "dcdfile",
+                   "label"    : "output file name (dcd)",
+                   "type"     : "text",
+                   "default"  : "run_0.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "trials",
+                   "label"    : "number of trial attempts",
+                   "type"     : "text",
+                   "default"  : "100",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "goback",
+                   "label"    : "return to previous structure",
+                   "type"     : "text",
+                   "default"  : "20",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "temp",
+                   "label"    : "temperature (K)",
+                   "type"     : "text",
+                   "default"  : "300.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "moltype",
+                   "label"    : "molecule type (protein or rna)",
+                   "type"     : "text",
+                   "default"  : "protein",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numranges",
+                   "label"    : "number of flexible regions to vary",
+                   "type"     : "text",
+                   "default"  : "5",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dtheta",
+                   "label"    : "enter MAX [dtheta] for each region",
+                   "type"     : "text",
+                   "default"  : "30.0,30.0,30.0,30.0,30.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "reslow",
+                   "label"    : "first residue per region",
+                   "type"     : "text",
+                   "default"  : "123,277,354,378,408",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numcont",
+                   "label"    : "number contiguous residues per region",
+                   "type"     : "text",
+                   "default"  : "21,5,20,11,4",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowres1",
+                   "label"    : "structure alignment: low residue",
+                   "type"     : "integer",
+                   "default"  : 284,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highres1",
+                   "label"    : "structure alignment: high residue",
+                   "type"     : "integer",
+                   "default"  : 350,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "basis",
+                   "label"    : "overlap basis",
+                   "type"     : "text",
+                   "default"  : "CA",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "cutoff",
+                   "label"    : "overlap cutoff",
+                   "type"     : "float",
+                   "default"  : 3.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowrg",
+                   "label"    : "low Rg cutoff",
+                   "type"     : "float",
+                   "default"  : 0.0,
+                   "min"      : 0.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highrg",
+                   "label"    : "high Rg cutoff",
+                   "type"     : "float",
+                   "default"  : 300.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zflag",
+                   "label"    : "Z coordinate filter (0==no, 1==yes)",
+                   "type"     : "integer",
+                   "default"  : 0,
+	           "min"      : 0,
+		   "max"      : 1,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zcutoff",
+                   "label"    : "Z cutoff (angstroms)",
+                   "type"     : "float",
+                   "default"  : 0.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "cflag",
+                   "label"    : "atomic constraints (0==no, 1==yes)",
+                   "type"     : "integer",
+                   "default"  : 0,
+	           "min"      : 0,
+		   "max"      : 1,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "confile",
+                   "label"    : "constraint file name",
+                   "type"     : "file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nonbondflag",
+                   "label"    : "non-bonding energies (0==no, 1==yes)",
+                   "type"     : "integer",
+                   "default"  : 0,
+	           "min"      : 0,
+		   "max"      : 1,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nonbondscale",
+                   "label"    : "non-bonding scale factor",
+                   "type"     : "float",
+                   "default"  : 1.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "psffilename",
+                   "label"    : "psf file name",
+                   "type"     : "file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "plotflag",
+                   "label"    : "plot Rg during run (0==no, 1==yes)",
+                   "type"     : "integer",
+                   "default"  : 0,
+	           "min"      : 0,
+		   "max"      : 1,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "directedmc",
+                   "label"    : "directed Monte Carlo (0==no or Rg value)",
+                   "type"     : "text",
+                   "default"  : "0",
+                   "required" : "true"
                    },
                    {
-                   "role"    : "output",
-                   "id"    : "output1",
+                   "role"  : "output",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
-                   }
+                   "type"  : "text"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 4,
+		    "cols"    : 40
+		   }
                   ],
-# the executable will take inputs in order and produce output
-    "executable" : "calculate_2"
+    "executable" : "sldmol"
 }
