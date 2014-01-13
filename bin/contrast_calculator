@@ -1,0 +1,137 @@
+#!/usr/local/bin/bin/python2.7
+import json,sys,os,shutil
+from StringIO import StringIO
+import multiprocessing
+
+import sassie.interface.input_filter as input_filter
+import sassie.tools.contrast as contrast
+import sassie.interface.contrast_calculator_filter as contrast_calculator_filter
+
+class Contrast_Drv():
+
+   module = 'constrast_calc'
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+		inpath = './'
+		pdbmol1 = 'c2.pdb'
+		pdbmol2 = 'c2.pdb'
+		infile = 'c2.dcd'
+		ofile = 'ac2.dcd'
+		basis1 = 'CA'
+		basis2 = 'CA'
+		lowres1 = '145'
+		lowres2 = '145'
+		highres1 = '350'
+		highres2 = '350'
+		ebasis1 = 'None'
+		ebasis2 = 'None'
+		
+		path = ''
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+        	temp_pdbmol1 = json_variables['pdbmol1']
+        	temp_pdbmol2 = json_variables['pdbmol2']
+        	temp_infile = json_variables['infile']
+        	basis1 = json_variables['basis1']
+        	basis2 = json_variables['basis2']
+        	lowres1 = json_variables['lowres1']
+        	lowres2 = json_variables['lowres2']
+        	highres1 = json_variables['highres1']
+        	highres2 = json_variables['highres2']
+        	ebasis1 = json_variables['ebasis1']
+        	ebasis2 = json_variables['ebasis2']
+        	ofile = json_variables['ofile']
+
+		head, infile = os.path.split(temp_infile[0])
+		print 'head = ',head ; print 'infile = ',infile
+		path = head.replace('\/','/') + "/"
+		os.chdir(path) 
+		path = ''
+		head, pdbmol1 = os.path.split(temp_pdbmol1[0])
+		head, pdbmol2 = os.path.split(temp_pdbmol2[0])
+
+
+	output_dict = {}
+
+	svariables={} 
+	
+	svariables['runname']=(str(runname),'string') 
+	svariables['path']=(str(path),'string')
+	svariables['pdbmol1']=(str(pdbmol1),'string')
+	svariables['pdbmol2']=(str(pdbmol2),'string')
+	svariables['infile']=(str(infile),'string')
+	svariables['ofile']=(str(ofile),'string')
+	svariables['basis1']=(str(basis1),'string')
+	svariables['basis2']=(str(basis2),'string')
+	svariables['lowres1']=(str(lowres1),'int')
+	svariables['lowres2']=(str(lowres2),'int')
+	svariables['highres1']=(str(highres1),'int')
+	svariables['highres2']=(str(highres2),'int')
+	svariables['ebasis1']=(str(ebasis1),'string')
+	svariables['ebasis2']=(str(ebasis2),'string')
+
+	error =  []
+
+#	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+	if(len(error)>0):
+		print 'error = ',error
+		output_dict['error'] = 'Error in input_filter'	
+		output_dict['error2'] = error[0]
+		output_dict['sasoutput1'] = 'run failed'
+
+	else:
+#		error=contrast_filter.check_align(self.variables)
+
+               	if(len(error) > 0):
+			print 'error = ',error
+			output_dict['error'] = 'Error in align_filter'	
+			output_dict['error2'] = error[0]
+			output_dict['sasoutput1'] = 'run failed'
+			return
+		else:
+#			runname=self.variables['runname'][0]
+
+			txtQueue=multiprocessing.JoinableQueue()
+			if os.path.exists(runname+'/'+self.module):
+				shutil.rmtree(runname+'/'+self.module)
+
+#			contrast.contrast(self.variables,txtQueue)
+
+			output_dict['io_string'] = input_string
+			output_dict['sasoutput1'] = runname
+			output_dict['sasoutput2'] = 'successfully completed run'
+	
+	with open("/home/curtisj/sassie2/log","w") as outfile:
+		json.dump(output_dict,outfile)
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+ 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Contrast_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+
