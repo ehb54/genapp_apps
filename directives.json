@@ -12,9 +12,9 @@
   "error_color_rgb"           : "255,0,0",
   "background_color_rgb"      : "0,0,95",
   "select_color_rgb"          : "200,128,0",
-  "button_color_rgb"          : "228,255,250",
-  "button_g_color_rgb"        : "128,170,150",
-  "button_hover_color_rgb"    : "255,255,255",
+  "button_color_rgb"          : "255,255,255",
+  "button_g_color_rgb"        : "102,102,255",
+  "button_hover_color_rgb"    : "250,250,250",
   "button_hover_g_color_rgb"  : "228,255,250"
 }
 

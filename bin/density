@@ -1,0 +1,133 @@
+#!/usr/local/bin/bin/python2.7
+import json,sys,os,shutil
+from StringIO import StringIO
+import multiprocessing
+
+import sassie.analyze.density as density
+import sassie.interface.input_filter as input_filter
+
+class Density_Drv():
+
+   module = 'density'
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+
+		dcdfile = 'c2.dcd'
+		pdbfile = 'c2.pdb'
+		ofile = 'test'
+		xlength = '350.0'
+		ylength = '350.0'
+		zlength = '350.0'
+		gridsp = '5.0'
+		equalweights = '1'
+      		weightfile = './data/filter/x2lowweights.txt'
+		save_occupancy = 'N'
+
+		nsegments = '1'
+		nregions = '5'
+		lowregions = '1, 124, 143, 355, 380'
+		highregions = '123, 142, 353, 379, 420'
+		sbasis = 'calpha'
+		sname = 'GAG'
+        	
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		temp_pdbfile = json_variables['pdbfile']
+		temp_dcdfile = json_variables['dcdfile']
+	
+		head, pdbfile = os.path.split(temp_pdbfile[0])
+		head, dcdfile = os.path.split(temp_dcdfile[0])
+		path = head.replace('\/','/') + "/"
+		head, dcdfile = os.path.split(temp_dcdfile[0])
+
+		os.chdir(path) 
+		path = ''
+		
+		ofile = json_variables['ofile']
+		xlength = json_variables['xlength']
+		ylength = json_variables['ylength']
+		zlength = json_variables['zlength']
+		gridsp = json_variables['gridsp']
+		equalweights = json_variables['equalweights']
+		weightsfile = json_variables['weightsfile']
+		nsegments = json_variables['nsegments']
+		save_occupancy = json_variables['save_occupancy']
+
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+
+	svariables['pdbfile']  	   = (str(pdbfile),'string')
+	svariables['dcdfile']  	   = (str(dcdfile),'string')
+	svariables['ofile']        = (str(ofile),'string')
+	svariables['xlength']      = (str(xlength),'float')
+	svariables['ylength']      = (str(ylength),'float')
+	svariables['zlength']      = (str(zlength),'float')
+	svariables['gridsp']       = (str(gridsp),'float')
+	svariables['equalweights'] = (str(equalweights),'int')
+	svariables['weightsfile']  = (str(weightfile),'string')
+	svariables['nsegments']	   = (str(nsegments),'int')
+	svariables['save_occupancy']	= (str(save_occupancy),'string')
+
+	
+	svariables['path']    = (path,'string')
+
+	error = []
+#	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+#		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+#		density.density(self.variables,txtQueue) 
+
+#		txtOutput = txtQueue.get(True, timeout=0.01)
+		#output_dict['txtQueue'] = txtOutput
+		output_dict['io_string'] = input_string
+
+		output_dict['sasoutput1'] = runname
+		output_dict['sasoutput2'] = 'successfully completed run'
+	
+	with open("/home/curtisj/sassie2/log","w") as outfile:
+		json.dump(output_dict,outfile)
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Density_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

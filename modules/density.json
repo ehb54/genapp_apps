@@ -1,42 +1,157 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "calculate_1",
-    "label"    : "Calculate_1",
+    "moduleid" : "density",
+    "label"    : "Density Plot",
     "fields"   : [
                   {
                    "role"     : "input",
-                   "id"       : "input1",
-                   "label"    : "Input value 1",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "max"      : 1e50,
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "input2",
-                   "label"    : "Input value 2",
-                   "type"     : "integer",
-                   "default"  : 1,
-                   "min"      : -10,
-                   "max"      : 10,
-                   "required" : "false"
+                   "id"       : "pdbfile",
+                   "label"    : "pdb reference file name",
+                   "type"     : "file",
+                   "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "input3",
-                   "label"    : "Input value 3",
-                   "type"     : "checkbox",
-                   "checked"  : "true"
+                   "id"       : "dcdfile",
+                   "label"    : "trajectory file name (pdb or dcd)",
+                   "type"     : "file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "ofile",
+                   "label"    : "output file name prefix",
+                   "type"     : "text",
+		   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "xlength",
+                   "label"    : "xlength (angstroms)",
+                   "type"     : "text",
+                   "default"  : "350",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "ylength",
+                   "label"    : "ylength (angstroms)",
+                   "type"     : "text",
+                   "default"  : "350",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zlength",
+                   "label"    : "zlength (angstroms)",
+                   "type"     : "text",
+                   "default"  : "350",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "gridsp",
+                   "label"    : "grid spacing (angstroms)",
+                   "type"     : "text",
+                   "default"  : "5.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "save_occupancy",
+                   "label"    : "save_occupancy (Y/N)",
+                   "type"     : "text",
+                   "default"  : "N",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "equalweights",
+                   "label"    : "equal weights (1==yes, 0==no)",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "weightfile",
+                   "label"    : "weights file name",
+                   "type"     : "text",
+                   "default"  : "./run_0/filter/x2lowweights.txt",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nsegments",
+                   "label"    : "number of segments",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nregions",
+                   "label"    : "number of ranges",
+                   "type"     : "text",
+                   "default"  : "5",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowregions",
+                   "label"    : "enter low regions",
+                   "type"     : "text",
+                   "default"  : "1,124,143,355,380",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highregions",
+                   "label"    : "enter high regions",
+                   "type"     : "text",
+                   "default"  : "123,142,353,379,420",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sbasis",
+                   "label"    : "segment basis",
+                   "type"     : "text",
+                   "default"  : "CA",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sname",
+                   "label"    : "segment name",
+                   "type"     : "text",
+                   "default"  : "GAG",
+                   "required" : "true"
                    },
                   {
                    "role"  : "output",
-                   "id"    : "output1",
+                   "id"    : "sasoutput1",
                    "label" : "Output value 1",
-                   "type"  : "float"
-                   }
+                   "type"  : "text"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 4,
+		    "cols"    : 40
+		   }
                   ],
-# the executable will take inputs in order and produce output
-    "executable" : "calculate_1"
+    "executable" : "density"
 }
