@@ -1,0 +1,132 @@
+#!/usr/local/bin/bin/python2.7
+import json,sys,os,shutil
+from StringIO import StringIO
+import multiprocessing
+
+import sassie.simulate.tamd.tamd as tamd
+import sassie.interface.input_filter as input_filter
+
+class Tamd_Drv():
+
+   module = 'tamd'
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	infile = 'c2.dcd'
+		pdbfile = 'c2.pdb'
+		nsteps = '100'
+		ncpu = '1'
+		psffile = 'refgag.psf'
+		keepout = '1'
+		dcdfreq = '20'
+		md = '0'
+		mdsteps = '10000'
+		dielect = '1.0'
+		temperature = '300.0'
+		outfile = 'run_0/tamd/min_run_0.dcd'	
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		temp_pdbfile = json_variables['pdbfile']
+		temp_infile = json_variables['infile']
+		temp_psffile = json_variables['psffile']
+		
+		outfile = json_variables['outfile']
+		nsteps = json_variables['nsteps']
+		ncpu = json_variables['ncpu']
+		keepout = json_variables['keepout']
+		dcdfreq = json_variables['dcdfreq']
+		md = json_variables['md']
+		mdsteps = json_variables['mdsteps']
+		dielect = json_variables['dielect']
+		temperature = json_variables['temperature']
+
+		head, pdbfile= os.path.split(temp_pdbfile[0])
+		path = head.replace('\/','/') + "/"
+		head, infile = os.path.split(temp_infile[0])
+		head, psffile = os.path.split(temp_psffile[0])
+		#os.chdir(os.path.dirname( temp_infile[0] ) )
+		os.chdir(path) 
+		path = ''
+
+	parmfile = '/usr/local/bin/toppar/par_all27_prot_na.inp'
+	
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+	
+	svariables['infile']		= (str(infile),'string')
+	svariables['pdbfile']		= (str(pdbfile),'string')
+	svariables['outfile']		= (str(outfile),'string')
+	svariables['nsteps']		= (str(nsteps),'int')
+	svariables['parmfile']		= (str(parmfile),'string')
+	svariables['psffile']		= (str(psffile),'string')
+	svariables['ncpu']		= (str(ncpu),'int')
+
+	svariables['keepout']		= (str(keepout),'int')
+	svariables['dcdfreq']		= (str(dcdfreq),'int')
+	svariables['infiletype']	= ('dcd','string')
+	svariables['md']		= (str(md),'int')
+	svariables['mdsteps']		= (str(mdsteps),'int')
+	svariables['dielect']		= (str(dielect),'float')
+	svariables['temperature']	= (str(temperature),'float')
+			
+	svariables['path']    = (str(path),'string')
+	
+	error = []
+#	error,self.variables=input_filter.type_check_and_convert(svariables)
+	
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+#		tamd.tamd(self.variables,txtQueue) 
+
+#		txtOutput = txtQueue.get(True, timeout=0.01)
+		#output_dict['txtQueue'] = txtOutput
+		output_dict['io_string'] = input_string
+		
+		output_dict['sasoutput1'] = runname
+		output_dict['sasoutput2'] = 'successfully completed run'
+	
+	with open("/home/curtisj/sassie2/log","w") as outfile:
+		json.dump(output_dict,outfile)
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Tamd_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+
