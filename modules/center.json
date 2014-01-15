@@ -46,8 +46,8 @@
                     "label"   : "run output",
                     "type"    : "textarea",
 #                    "default" : "this is a text area",
-                    "rows"    : 4,
-                    "cols"    : 40
+                    "rows"    : 20,
+                    "cols"    : 80
                    }
                   ],
 # the executable will take inputs in json and produce outputs in json

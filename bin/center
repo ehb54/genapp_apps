@@ -1,7 +1,7 @@
 #!/usr/local/bin/bin/python2.7
 import json,sys,os,shutil,ast
 from StringIO import StringIO
-import multiprocessing
+import multiprocessing,time,string
 
 import sassie.tools.center as center
 import sassie.interface.input_filter as input_filter
@@ -9,6 +9,26 @@ import sassie.interface.input_filter as input_filter
 class Center_Drv():
 
    module = 'center'
+
+
+   def background_job(self,process,txtQueue):
+	total_string = ''
+	while process.is_alive():
+		try:
+			this_text = txtQueue.get(True, timeout=0.1)
+			text_split=string.split(this_text)
+			if(text_split[0]=='STATUS'):
+				pass ; #progressBar.set(locale.atof(text_split[1]))
+			else:
+				total_string += this_text
+		except:
+			if not process.is_alive():
+				return total_string
+		time.sleep(0.01)
+	else:
+		return total_string
+
+	return total_string
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -62,16 +82,21 @@ class Center_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-		center.center(self.variables,txtQueue) 
+		#center.center(self.variables,txtQueue) 
+		process=multiprocessing.Process(target=center.center,args=(self.variables,txtQueue))
+		process.start()
 
-		txtOutput = txtQueue.get(True, timeout=0.01)
-		output_dict['txtQueue'] = txtOutput
+		total_string = self.background_job(process,txtQueue)
+
+#		txtOutput = txtQueue.get(True, timeout=0.01)
+		#output_dict['txtQueue'] = txtOutput
 		output_dict['io_string'] = input_string
 		output_dict['output_infile'] = infile
 		output_dict['output_refpdb'] = refpdb
 		output_dict['output_ofile'] = ofile
 		output_dict['sasoutput1'] = runname
-		output_dict['sasoutput2'] = 'successfully completed run'
+		#output_dict['sasoutput2'] = 'successfully completed run'
+		output_dict['sasoutput2'] = total_string
 		#output_dict['result1'] = result1
 		#output_dict['result2'] = result2
 		#output_dict['result3'] = result3

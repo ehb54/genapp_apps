@@ -72,8 +72,8 @@
                     "name"    : "sasoutput2",
                     "label"   : "run output",
                     "type"    : "textarea",
-		    "rows"    : 4,
-		    "cols"    : 40
+		    "rows"    : 20,
+		    "cols"    : 80
 		   }
                   ],
     "executable" : "merge_utilities"

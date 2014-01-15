@@ -66,12 +66,15 @@
                    "label" : "output text",
                    "type"  : "text"
                    },
-                   {
-                   "role"    : "output",
-                   "id"    : "sasoutput2",
-                   "label" : "output text",
-                   "type"  : "textarea"
-                   },
+		   {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "run output",
+                    "type"    : "textarea",
+		    "rows"    : 20,
+		    "cols"    : 80
+		    },
                    {
                    "role"    : "output",
                    "id"    : "plotout4",
