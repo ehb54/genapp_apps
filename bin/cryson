@@ -59,7 +59,6 @@ class Cryson_Drv():
 		print 'path = ',path
 		print 'os.getcwd() = ',os.getcwd()
 	
-		delafs = json_variables['delafs']
 		maxh = json_variables['maxh']
 		fib = json_variables['fib']
 		maxs = json_variables['maxs']
@@ -71,7 +70,12 @@ class Cryson_Drv():
 	
 		path='./'
 
-        	#### END USER EDIT
+		delafs_list_box = json_variables['delafs_list_box']
+                if(delafs_list_box == 'c1'):
+                        delafs = '1' # YES
+                elif(delafs_list_box == 'c2'):
+                        delafs = '0' # NO
+
 		pdbpath = './'
 		dcdpath = './'
 

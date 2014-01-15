@@ -58,6 +58,15 @@
                    "default"  : "protein",
                    "required" : "true"
                    },
+		  {
+                   "role"    : "input",
+                   "id"      : "moltype_list_box",
+                   "name"    : "moltype_list_box",
+                   "label"    : "molecule type",
+                   "type"    : "listbox",
+                   "values"  : "protein~c1~rna~c2",
+                   "default" : "protein"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "numranges",
@@ -139,15 +148,14 @@
                    "default"  : 300.0,
                    "required" : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "zflag",
-                   "label"    : "Z coordinate filter (0==no, 1==yes)",
-                   "type"     : "integer",
-                   "default"  : 0,
-	           "min"      : 0,
-		   "max"      : 1,
-                   "required" : "true"
+		  {
+                   "role"    : "input",
+                   "id"      : "zflag_list_box",
+                   "name"    : "zflag_list_box",
+                   "label"    : "Z coordinate filter", 
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "no"
                    },
                   {
                    "role"     : "input",
@@ -157,15 +165,14 @@
                    "default"  : 0.0,
                    "required" : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "cflag",
-                   "label"    : "atomic constraints (0==no, 1==yes)",
-                   "type"     : "integer",
-                   "default"  : 0,
-	           "min"      : 0,
-		   "max"      : 1,
-                   "required" : "true"
+		  {
+                   "role"    : "input",
+                   "id"      : "cflag_list_box",
+                   "name"    : "cflag_list_box",
+                   "label"    : "atomic constraints",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "no"
                    },
                   {
                    "role"     : "input",
@@ -174,15 +181,14 @@
                    "type"     : "file",
                    "required" : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "nonbondflag",
-                   "label"    : "non-bonding energies (0==no, 1==yes)",
-                   "type"     : "integer",
-                   "default"  : 0,
-	           "min"      : 0,
-		   "max"      : 1,
-                   "required" : "true"
+		  {
+                   "role"    : "input",
+                   "id"      : "nonbondflag_list_box",
+                   "name"    : "nonbondflag_list_box",
+                   "label"    : "non-bonding energies",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "no"
                    },
                   {
                    "role"     : "input",
@@ -199,15 +205,14 @@
                    "type"     : "file",
                    "required" : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "plotflag",
-                   "label"    : "plot Rg during run (0==no, 1==yes)",
-                   "type"     : "integer",
-                   "default"  : 0,
-	           "min"      : 0,
-		   "max"      : 1,
-                   "required" : "true"
+		  {
+                   "role"    : "input",
+                   "id"      : "plotflag_list_box",
+                   "name"    : "plotflag_list_box",
+                   "label"    : "plot Rg during run",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "no"
                    },
                   {
                    "role"     : "input",

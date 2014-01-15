@@ -27,14 +27,6 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "delcaipfiles",
-                   "label"    : "delete crd/ans/inf/pr files (1=Y/0=N)",
-                   "type"     : "text",
-		   "default"  : "1",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
                    "id"       : "numiq",
                    "label"    : "number of I(Q) values",
                    "type"     : "text",
@@ -90,12 +82,22 @@
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "proteinhord",
-                   "label"    : "protein protonated or deuterated (H or D)",
-                   "type"     : "text",
-                   "default"  : "H",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "proteinhord_list_box",
+                   "name"    : "proteinhord_list_box",
+                   "label"   : "protein protonated or deuterated",
+                   "type"    : "listbox",
+                   "values"  : "H~c1~D~c2",
+                   "default" : "H"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "delcaipfiles_list_box",
+                   "name"    : "delcaipfiles_list_box",
+                   "label"   : "delete crd/ans/inf/pr files",
+                   "type"    : "listbox",
+                   "values"  : "yes~c1~no~c2",
+                   "default" : "yes"
                    },
                   {
                    "role"  : "output",

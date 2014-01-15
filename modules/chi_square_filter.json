@@ -99,20 +99,22 @@
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "sastype",
-                   "label"    : "enter SAS type (1=Xtal2sas: 2=Cryson 3=Crysol)",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "sastype_list_box",
+                   "name"    : "sastype_list_box",
+                   "label"   : "SAS type",
+                   "type"    : "listbox",
+                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
+                   "default" : "xtal2sas"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "reduced_x2",
-                   "label"    : "use reduced X2 (0--no, 1==yes)",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "reduced_x2_list_box",
+                   "name"    : "reduced_x2_list_box",
+                   "label"   : "chi-square type",
+                   "type"    : "listbox",
+                   "values"  : "reduced chi-square~c1~chi-square~c2~Pearson chi-square~c3",
+                   "default" : "reduced chi-square"
                    },
                   {
                    "role"  : "output",

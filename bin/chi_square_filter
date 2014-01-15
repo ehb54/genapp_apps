@@ -59,11 +59,26 @@ class Chi_square_filter_Drv():
                 rghighweightfile = json_variables['rghighweightfile']
                 rglowcut = json_variables['rglowcut']
                 rglowweightfile = json_variables['rglowweightfile']
-                sastype = json_variables['sastype']
-                reduced_x2 = json_variables['reduced_x2']
 	
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
 		os.chdir(path) 
+
+                sastype_list_box = json_variables['sastype_list_box']
+                if(sastype_list_box == 'c1'):
+                        sastype = '1' # xtal2sas
+                elif(sastype_list_box == 'c2'):
+                        sastype = '2' # cryson
+                elif(sastype_list_box == 'c3'): 
+                        sastype = '3' # crysol
+
+                reduced_x2_list_box = json_variables['reduced_x2_list_box']
+                if(reduced_x2_list_box == 'c1'):
+                        reduced_x2 = '1' # reduced chi-square
+                elif(reduced_x2_list_box == 'c2'):
+                        reduced_x2 = '0' # chi-square
+                elif(reduced_x2_list_box == 'c3'):
+                        reduced_x2 = '2' # Pearson's chi-square
+
+
 		path = ''
 
 	svariables={}

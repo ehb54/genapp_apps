@@ -66,20 +66,22 @@
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "save_occupancy",
-                   "label"    : "save_occupancy (Y/N)",
-                   "type"     : "text",
-                   "default"  : "N",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "save_occupancy_list_box",
+                   "name"    : "save_occupancy_list_box",
+                   "label"   : "save occupancy information",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "no"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "equalweights",
-                   "label"    : "equal weights (1==yes, 0==no)",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "equalweights_list_box",
+                   "name"    : "equalweights_list_box",
+                   "label"   : "equal weights",
+                   "type"    : "listbox",
+                   "values"  : "yes~c1~no~c2",
+                   "default" : "yes"
                    },
                   {
                    "role"     : "input",

@@ -40,7 +40,6 @@ class Em_to_sans_Drv():
 		
 		temp_emdensityfile = json_variables['emdensityfile']
 
-		emfiletype = json_variables['emfiletype']
 		emdensityfile = json_variables['emdensityfile']
 		angpix = json_variables['angpix']
 		pdbfile = json_variables['pdbfile']
@@ -52,8 +51,14 @@ class Em_to_sans_Drv():
 		head, emdensityfile = os.path.split(temp_emdensityfile[0])
 		path = head.replace('\/','/') + "/"
 
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
 		os.chdir(path) 
+
+		emfiletype_list_box = json_variables['emfiletype_list_box']
+                if(emfiletype_list_box == 'c1'):
+                        emfiletype = '1' # mrc
+                elif(emfiletype_list_box == 'c2'):
+                        emfiletype = '0' # gaussian cube 
+
 		path = ''
 
 	inputpath = './'

@@ -64,10 +64,23 @@ class Density_Drv():
 		ylength = json_variables['ylength']
 		zlength = json_variables['zlength']
 		gridsp = json_variables['gridsp']
-		equalweights = json_variables['equalweights']
 		weightsfile = json_variables['weightsfile']
 		nsegments = json_variables['nsegments']
-		save_occupancy = json_variables['save_occupancy']
+
+
+                save_occupancy_list_box = json_variables['save_occupancy_list_box']
+                if(save_occupancy_list_box == 'c1'):
+                        save_occupancy = 'N' # NO
+                elif(save_occupancy_list_box == 'c2'):
+                        save_occupancy = 'Y' # YES
+
+		equalweights_list_box = json_variables['equalweights_list_box']
+                if(equalweights_list_box == 'c1'):
+                        equalweights = '1' # YES
+                elif(equalweights_list_box == 'c2'):
+                        equalweights = '0' # NO
+
+
 
 	svariables={}
 

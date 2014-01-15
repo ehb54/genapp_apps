@@ -27,14 +27,6 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "delafs",
-                   "label"    : "delete alm/flm/sav files (1=Y/0=N)",
-                   "type"     : "text",
-		   "default"  : "1",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
                    "id"       : "maxh",
                    "label"    : "maximum harmonic order",
                    "type"     : "text",
@@ -82,12 +74,22 @@
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "hydrogens",
-                   "label"    : "explicit hydrogens (Y/N)",
-                   "type"     : "text",
-                   "default"  : "N",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "hydrogens_list_box",
+                   "name"    : "hydrogens_list_box",
+                   "label"   : "explicit hydrogens",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "no"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "delafs_list_box",
+                   "name"    : "delafs_list_box",
+                   "label"   : "delete alm/flm/sav files",
+                   "type"    : "listbox",
+                   "values"  : "yes~c1~no~c2",
+                   "default" : "yes"
                    },
                   {
                    "role"  : "output",

@@ -48,9 +48,7 @@ class Structure_minimization_Drv():
 		outfile = json_variables['outfile']
 		nsteps = json_variables['nsteps']
 		ncpu = json_variables['ncpu']
-		keepout = json_variables['keepout']
 		dcdfreq = json_variables['dcdfreq']
-		md = json_variables['md']
 		mdsteps = json_variables['mdsteps']
 		dielect = json_variables['dielect']
 		temperature = json_variables['temperature']
@@ -61,6 +59,22 @@ class Structure_minimization_Drv():
 		head, psffile = os.path.split(temp_psffile[0])
 		#os.chdir(os.path.dirname( temp_infile[0] ) )
 		os.chdir(path) 
+
+
+		keepout_list_box = json_variables['keepout_list_box']
+                if(keepout_list_box == 'c1'):
+                        keepout = '0' # NO
+                elif(keepout_list_box == 'c2'):
+                        keepout = '1' # YES
+
+		md_list_box = json_variables['md_list_box']
+                if(md_list_box == 'c1'):
+                        md = '0' #  minimization only
+                elif(md_list_box == 'c2'):
+                        md = '1' #  min / md
+                elif(md_list_box == 'c3'):
+                        md = '2' #  min / md /min
+
 		path = ''
 
 	parmfile = '/usr/local/bin/toppar/par_all27_prot_na.inp'

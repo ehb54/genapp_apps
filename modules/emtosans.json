@@ -12,12 +12,13 @@
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "emfiletype",
-                   "label"    : "EM file file (0=Gaussian cube,1=mrc)",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "emfiletype_list_box",
+                   "name"    : "emfiletype_list_box",
+                   "label"   : "select EM file type",
+                   "type"    : "listbox",
+                   "values"  : "mrc~c1~Gaussian cube~c2",
+                   "default" : "mrc"
                    },
                   {
                    "role"     : "input",

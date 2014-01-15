@@ -58,11 +58,12 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "keepout",
-                   "label"   : "keep run output files (0==no, 1==yes)",
-                   "type"    : "text",
-                   "default" : "1",
-                   "required" : "true"
+                   "id"      : "keepout_list_box",
+                   "name"    : "keepout_list_box",
+                   "label"    : "keep run output files",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "no"
                    },
                   {
                    "role"    : "input",
@@ -74,11 +75,12 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "md",
-                   "label"   : "md run (0==minimize, 1==min/md, 2==min/md/min)",
-                   "type"    : "text",
-                   "default" : "0",
-                   "required" : "true"
+                   "id"      : "md_list_box",
+                   "name"    : "md_list_box",
+                   "label"   : "run type",
+                   "type"    : "listbox",
+                   "values"  : "minimization~c1~minimization / md~c2~minimization / md / minimization~c3",
+                   "default" : "minimization"
                    },
                   {
                    "role"    : "input",

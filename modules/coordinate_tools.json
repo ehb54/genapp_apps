@@ -25,18 +25,19 @@
                    "type"     : "file",
                    "required" : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "option",
-                   "label"    : "option (single_frame,range,text_file,weight_file)",
-                   "type"     : "text",
-		   "default"  : "single_frame",
-                   "required" : "true"
-                   },
+	          {
+                   "role"    : "input",
+                   "id"      : "option_list_box",
+                   "name"    : "option_list_box",
+                   "label"   : "select option",
+                   "type"    : "listbox",
+                   "values"  : "single frame~c1~range~c2~text file~c3~weight file~c4",
+                   "default" : "single frame"
+                   },	
                   {
                    "role"     : "input",
                    "id"       : "local_value",
-                   "label"    : "value (frame #, frame range, or filename)",
+                   "label"    : "option value (frame #, frame range i.e. 3-22, or filename)",
                    "type"     : "text",
                    "default"  : "1",
                    "required" : "true"

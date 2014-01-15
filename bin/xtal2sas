@@ -56,7 +56,6 @@ class Xtal2sas_Drv():
 		pdbpath = './'
 		dcdpath = './'
 
-		delcaipfiles = json_variables['delcaipfiles']
 		numiq = json_variables['numiq']
 		qmax = json_variables['qmax']
 		iomax = json_variables['iomax']
@@ -64,9 +63,25 @@ class Xtal2sas_Drv():
 		pd2O = json_variables['pd2O']
 		fhdexchange = json_variables['fhdexchange']
 		numhits = json_variables['numhits']
-		proteinhord = json_variables['proteinhord']
 
 		os.chdir(path) 
+
+		delcaipfiles_list_box = json_variables['delcaipfiles_list_box']
+                if(delcaipfiles_list_box == 'c1'):
+                        delcaipfiles = '1' # YES
+                elif(delcaipfiles_list_box == 'c2'):
+                        delcaipfiles = '0' # NO
+
+		proteinhord_list_box = json_variables['proteinhord_list_box']
+                if(proteinhord_list_box == 'c1'):
+                        proteinhord = 'H' # H
+                elif(proteinhord_list_box == 'c2'):
+                        proteinhord = 'D' # D
+
+
+
+
+
 		path = ''
 
 	option = 'N'

@@ -19,12 +19,13 @@
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "merge_option",
-                   "label"    : "merge option (0 == dcd & sas, 1 == sas only)",
-                   "type"     : "text",
-		   "default"  : "0",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "merge_option_list_box",
+                   "name"    : "merge_option_list_box",
+                   "label"   : "select option",
+                   "type"    : "listbox",
+                   "values"  : "merge dcd & sas~c1~merge sas only~c2",
+                   "default" : "merge dcd & sas"
                    },
                   {
                    "role"     : "input",
@@ -43,12 +44,13 @@
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "sas_type",
-                   "label"    : "enter SAS type (1=Xtal2sas: 2=Cryson: 3 = Crysol)",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "sas_type_list_box",
+                   "name"    : "sas_type_list_box",
+                   "label"   : "select SAS type",
+                   "type"    : "listbox",
+                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
+                   "default" : "xtal2sas"
                    },
                   {
                    "role"     : "input",

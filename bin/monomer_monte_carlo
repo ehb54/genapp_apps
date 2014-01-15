@@ -79,7 +79,6 @@ class Generate_Drv():
 		trials = json_variables['trials']
 		goback = json_variables['goback']
 		temp = json_variables['temp']
-		moltype = json_variables['moltype']
 		numranges = json_variables['numranges']
 		dtheta = json_variables['dtheta']
 		reslow = json_variables['reslow']
@@ -90,13 +89,41 @@ class Generate_Drv():
  		cutoff = json_variables['cutoff']
  		lowrg = json_variables['lowrg']
  		highrg = json_variables['highrg']
- 		zflag = json_variables['zflag']
  		zcutoff = json_variables['zcutoff']
- 		cflag = json_variables['cflag']
- 		nonbondflag = json_variables['nonbondflag']
  		nonbondscale = json_variables['nonbondscale']
- 		plotflag = json_variables['plotflag']
  		directedmc = json_variables['directedmc']
+
+
+		moltype_list_box = json_variables['moltype_list_box']
+                if(moltype_list_box == 'c1'):
+                        moletype = 'protein' 
+                elif(moltype_list_box == 'c2'):
+                        moletype = 'rna' 
+ 		
+		zflag_list_box = json_variables['zflag_list_box']
+                if(zflag_list_box == 'c1'):
+                        zflag = '0' # NO
+                elif(zflag_list_box == 'c2'):
+                        zflag = '1' # YES
+
+ 		cflag_list_box = json_variables['cflag_list_box']
+                if(cflag_list_box == 'c1'):
+                        cflag = '0' # NO
+                elif(cflag_list_box == 'c2'):
+                        cflag = '1' # YES
+
+ 		nonbondflag_list_box = json_variables['nonbondflag_list_box']
+                if(nonbondflag_list_box == 'c1'):
+                        nonbondflag = '0' # NO
+                elif(nonbondflag_list_box == 'c2'):
+                        nonbondflag = '1' # YES
+
+ 		plotflag_list_box = json_variables['plotflag_list_box']
+                if(plotflag_list_box == 'c1'):
+                        plotflag = '0' # NO
+                elif(plotflag_list_box == 'c2'):
+                        plotflag = '1' # YES
+
 
 		path = ''
 
