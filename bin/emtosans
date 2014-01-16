@@ -29,6 +29,42 @@ class Em_to_sans_Drv():
 
         return total_string
 
+   def read_file(self,flot_data,filename):
+
+        try:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+			if(lin[0] != '#'):
+                        	this_x = lin[0]
+                        	this_y = lin[1]
+                	#       this_z = lin[2]
+                        	data.append([this_x,this_y])
+       			#       error.append([this_x,this_z])   
+
+                flot_data.append(data)
+                #flot_data.append(error)
+                data_file.close()
+
+        except:
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                flot_data = "error reading file and making plot"
+
+        return
+
+   def get_data_from_disk(self,filename):
+
+        flot_data = []
+
+        self.read_file(flot_data,filename)
+
+        return flot_data
+
    def run_me(self,json_flag,json_variables,input_string):
 
 	output_dict = {}
@@ -72,11 +108,13 @@ class Em_to_sans_Drv():
 
 		os.chdir(path) 
 
+		data_path = path 
+
 		emfiletype_list_box = json_variables['emfiletype_list_box']
-                if(emfiletype_list_box == 'c1'):
-                        emfiletype = '1' # mrc
-                elif(emfiletype_list_box == 'c2'):
-                        emfiletype = '0' # gaussian cube 
+		if(emfiletype_list_box == 'c1'):
+			emfiletype = '1' # mrc
+		elif(emfiletype_list_box == 'c2'):
+			emfiletype = '0' # gaussian cube 
 
 		path = ''
 
@@ -120,8 +158,32 @@ class Em_to_sans_Drv():
 
                 total_string = self.background_job(process,txtQueue)
 
-		output_dict['io_string'] = input_string
+		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
+
+#here
+		prefix = string.split(sansfile,'.')	
+		pr_file = data_path+runname+'/emtosans/'+prefix[0]+'.pr'
+		iq_file = data_path+runname+'/emtosans/'+sansfile
+
+                flot_data1 = self.get_data_from_disk(pr_file)
+                flot_data2 = self.get_data_from_disk(iq_file)
+
+        #       output_dict['test_ofile'] = data_path+ofile
+
+                #flot_data = [[[0.0,0.0],[1.0,2.0],[2.0,4.0],[3.0,9.0]]]
+                if(isinstance(flot_data1, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_pr_error'] = flot_data1
+                else:
+                        output_dict['pr_plot'] = flot_data1
+
+                if(isinstance(flot_data2, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_iq_error'] = flot_data2
+                else:
+                        output_dict['iq_plot'] = flot_data2
+
 	
 	with open("/home/curtisj/sassie2/log","w") as outfile:
 		json.dump(output_dict,outfile)

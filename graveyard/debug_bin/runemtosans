@@ -1,1 +1,1 @@
-/home/curtisj/sassie2/bin/emtosans '{"runname":"run_0","emfiletype":"1","angpix":"20.0,20.0,20.0","pdbfile":"p20a.pdb","threshold":"0.1","sansfile":"p20a.sub","npoints":"100","qmax":"0.3","emdensityfile":["/home/curtisj/sassie2/graveyard/debug_bin/p20a.mrc"]}'
+/home/curtisj/sassie2/bin/emtosans '{"runname":"run_0","emfiletype_list_box":"c1","angpix":"20.0,20.0,20.0","pdbfile":"p20a.pdb","threshold":"0.1","sansfile":"p20a.sub","npoints":"100","qmax":"0.3","emdensityfile":["/home/curtisj/sassie2/graveyard/debug_bin/p20a.mrc"]}'

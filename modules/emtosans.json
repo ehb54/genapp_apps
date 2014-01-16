@@ -75,6 +75,18 @@
                    "default"  : "0.3",
                    "required" : "true"
                    },
+                   {
+                   "role"    : "output",
+                   "id"      : "pr_plot",
+                   "label"   : "pr",
+                   "type"    : "plot2d"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "iq_plot",
+                   "label"   : "iq",
+                   "type"    : "plot2d"
+                   },
  		  {
                    "role"    : "output",
                    "id"      : "sasoutput2",
