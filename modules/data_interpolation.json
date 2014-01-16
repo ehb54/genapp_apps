@@ -62,25 +62,19 @@
                    },
                    {
                    "role"    : "output",
-                   "id"    : "sasoutput1",
-                   "label" : "output text",
-                   "type"  : "text"
+                   "id"      : "plotout4",
+                   "label"   : "original and interpolated data",
+                   "type"    : "plot2d"
                    },
 		   {
                     "role"    : "output",
                     "id"      : "sasoutput2",
                     "name"    : "sasoutput2",
-                    "label"   : "run output",
+                    "label"   : "",
                     "type"    : "textarea",
 		    "rows"    : 20,
 		    "cols"    : 80
-		    },
-                   {
-                   "role"    : "output",
-                   "id"    : "plotout4",
-                   "label" : "plot 2d",
-                   "type"  : "plot2d"
-                   }
+		    }
                   ],
 # the executable will take inputs in order and produce output
     "executable" : "data_interpolation"

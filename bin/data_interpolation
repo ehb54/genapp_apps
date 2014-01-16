@@ -6,10 +6,10 @@ import multiprocessing,time,string
 import sassie.tools.interpolate as interpolate
 import sassie.interface.input_filter as input_filter
 
+
 class Interpolate_Drv():
 
    module = 'interpolate'
-
 
    def background_job(self,process,txtQueue):
         total_string = ''
@@ -30,8 +30,41 @@ class Interpolate_Drv():
 
         return total_string
 
+   def read_file(self,flot_data,filename):
 
+	try:
+		data = [] ; error = []
+		data_file = open(filename,'r').readlines()
+		nl = len(data_file)
 
+		for i in xrange(nl):
+			lin = string.split(data_file[i])
+			this_x = lin[0]
+			this_y = lin[1]	
+		#	this_z = lin[2]
+			data.append([this_x,this_y])	
+		#	error.append([this_x,this_z])	
+
+		flot_data.append(data)
+		#flot_data.append(error)
+		data_file.close()
+
+	except:
+		print 'ERROR READING INTERPOLATED DATA FILE'
+		print 'ERROR READING INTERPOLATED DATA FILE'
+		print 'ERROR READING INTERPOLATED DATA FILE'
+		flot_data = "error reading file and making plot"
+
+	return
+
+   def get_interpolated_data_from_disk(self,ofile,ifile):
+
+	flot_data = []	
+
+	self.read_file(flot_data,ofile)
+	self.read_file(flot_data,ifile)
+
+ 	return flot_data
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -68,8 +101,10 @@ class Interpolate_Drv():
 
 		head, expdata = os.path.split(temp_expdata[0])
 		path = head.replace('\/','/') + "/"
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
 		os.chdir(path) 
+
+		data_path = path
+
 		path = ''
 
 	plotflag = '0'
@@ -105,10 +140,22 @@ class Interpolate_Drv():
 
                 total_string = self.background_job(process,txtQueue)
 
-		output_dict['io_string'] = input_string
-		output_dict['output_plotflag'] = plotflag
+	#	output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
-	
+		
+		#sassie_root = '/var/www/html/sassie2/'
+
+		flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/interpolate/'+ofile,data_path+expdata)
+
+	#	output_dict['test_ofile'] = data_path+ofile
+
+		#flot_data = [[[0.0,0.0],[1.0,2.0],[2.0,4.0],[3.0,9.0]]]
+		if(isinstance(flot_data, basestring)):
+			print 'error reading data'
+			output_dict['plot_error'] = flot_data
+		else:	
+			output_dict['plotout4'] = flot_data	
+
 	with open("/home/curtisj/sassie2/log","w") as outfile:
 		json.dump(output_dict,outfile)
 	print json.dumps( output_dict )
