@@ -6,7 +6,6 @@ import multiprocessing,time,string
 import sassie.tools.interpolate as interpolate
 import sassie.interface.input_filter as input_filter
 
-
 class Interpolate_Drv():
 
    module = 'interpolate'

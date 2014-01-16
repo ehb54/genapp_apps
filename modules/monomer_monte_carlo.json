@@ -214,11 +214,17 @@
                    "default"  : "0",
                    "required" : "true"
                    },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout4",
+                   "label"   : "all rg and accepted rg data",
+                   "type"    : "plot2d"
+                   },
  		  {
                     "role"    : "output",
                     "id"      : "sasoutput2",
                     "name"    : "sasoutput2",
-                    "label"   : "run output",
+                    "label"   : "",
                     "type"    : "textarea",
 		    "rows"    : 20,
 		    "cols"    : 80
