@@ -81,6 +81,18 @@
                    "id"    : "output6",
                    "label" : "output again",
                    "type"  : "checkbox"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputref",
+                   "label" : "input json reference",
+                   "type"  : "file"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputres",
+                   "label" : "results json reference",
+                   "type"  : "file"
                    }
                   ],
 # the executable will take inputs in order and produce output

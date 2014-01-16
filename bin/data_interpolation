@@ -34,6 +34,8 @@ $ref = decode_json( $json );
 $res = {};
 $$res{ "hi" } = "data_interpolation executable";
 
+$p = $$ref{ "_base_directory" };
+
 $pos = 0;
 
 $startx = $$ref{ "startx" };
@@ -74,9 +76,18 @@ if ( $startx <= $endx && $deltax > 0 ||
 
 # $$res{ "plotout4" } = mkarraystr( \@array2d );
 
-# open OUT, ">/src/sassie2/log3";
-# print OUT Dumper($res);
-# close OUT;
+$res2 = decode_json( $json );
+$$res2{ "outputref" } = "$p/logref.txt";
+$$res2{ "outputres" } = "$p/logres.txt";
 
-print $json . "\n";
+open OUT, ">$p/logref.txt";
+print OUT Dumper($ref);
+close OUT;
+open OUT, ">$p/logres.txt";
+print OUT Dumper($res2);
+print OUT "--- as json output string ---\n";
+print OUT $json;
+close OUT;
+
+print encode_json( $res2 ) . "\n";
 
