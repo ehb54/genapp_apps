@@ -107,8 +107,6 @@ class Interpolate_Drv():
 
 		output_dict['io_string'] = input_string
 		output_dict['output_plotflag'] = plotflag
-		output_dict['sasoutput1'] = runname
-		#output_dict['sasoutput2'] = 'successfully completed run'
 		output_dict['sasoutput2'] = total_string
 	
 	with open("/home/curtisj/sassie2/log","w") as outfile:

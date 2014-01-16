@@ -1,7 +1,7 @@
 #!/usr/local/bin/bin/python2.7
 import json,sys,os,shutil
 from StringIO import StringIO
-import multiprocessing
+import multiprocessing,time,string
 
 import sassie.analyze.best as best
 import sassie.interface.input_filter as input_filter
@@ -9,6 +9,25 @@ import sassie.interface.input_filter as input_filter
 class Chi_square_filter_Drv():
 
    module = 'filter'
+
+   def background_job(self,process,txtQueue):
+        total_string = ''
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+                                return total_string
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -116,14 +135,15 @@ class Chi_square_filter_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-		best.best(self.variables,txtQueue) 
+		#best.best(self.variables,txtQueue) 
 
-#		txtOutput = txtQueue.get(True, timeout=0.01)
-		#output_dict['txtQueue'] = txtOutput
+                process=multiprocessing.Process(target=best.best,args=(self.variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue)
+
 		output_dict['io_string'] = input_string
-		
-		output_dict['sasoutput1'] = runname
-		output_dict['sasoutput2'] = 'successfully completed run'
+		output_dict['sasoutput2'] = total_string
 	
 	with open("/home/curtisj/sassie2/log","w") as outfile:
 		json.dump(output_dict,outfile)
@@ -135,7 +155,7 @@ if __name__=='__main__':
 	#json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"center called with no arguments\"\}\n";
+		print "\{\"error\":\"chi-square filter called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:

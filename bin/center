@@ -88,19 +88,8 @@ class Center_Drv():
 
 		total_string = self.background_job(process,txtQueue)
 
-#		txtOutput = txtQueue.get(True, timeout=0.01)
-		#output_dict['txtQueue'] = txtOutput
 		output_dict['io_string'] = input_string
-		output_dict['output_infile'] = infile
-		output_dict['output_refpdb'] = refpdb
-		output_dict['output_ofile'] = ofile
-		output_dict['sasoutput1'] = runname
-		#output_dict['sasoutput2'] = 'successfully completed run'
 		output_dict['sasoutput2'] = total_string
-		#output_dict['result1'] = result1
-		#output_dict['result2'] = result2
-		#output_dict['result3'] = result3
-		#output_dict['error'] = error
 	
 	with open("/home/curtisj/sassie2/log","w") as outfile:
 		json.dump(output_dict,outfile)

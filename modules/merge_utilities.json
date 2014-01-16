@@ -60,12 +60,6 @@
                    "default"  : "xtal2sas",
                    "required" : "true"
                    },
-                   {
-                   "role"  : "output",
-                   "id"    : "sasoutput1",
-                   "label" : "Output value 1",
-                   "type"  : "text"
-                   },
 		  {
                     "role"    : "output",
                     "id"      : "sasoutput2",

@@ -159,11 +159,7 @@ class Two_body_grid_Drv():
 		txtQueue=multiprocessing.JoinableQueue()
 #		two_body_grid.two_body_grid(self.variables,txtQueue) 
 
-#		txtOutput = txtQueue.get(True, timeout=0.01)
-		#output_dict['txtQueue'] = txtOutput
 		output_dict['io_string'] = input_string
-		
-		output_dict['sasoutput1'] = runname
 		output_dict['sasoutput2'] = 'successfully completed run'
 	
 	with open("/home/curtisj/sassie2/log","w") as outfile:

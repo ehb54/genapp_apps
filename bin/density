@@ -1,7 +1,7 @@
 #!/usr/local/bin/bin/python2.7
 import json,sys,os,shutil
 from StringIO import StringIO
-import multiprocessing
+import multiprocessing,time,string
 
 import sassie.analyze.density as density
 import sassie.interface.input_filter as input_filter
@@ -9,6 +9,25 @@ import sassie.interface.input_filter as input_filter
 class Density_Drv():
 
    module = 'density'
+
+   def background_job(self,process,txtQueue):
+        total_string = ''
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+                                return total_string
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -116,12 +135,13 @@ class Density_Drv():
 		txtQueue=multiprocessing.JoinableQueue()
 #		density.density(self.variables,txtQueue) 
 
-#		txtOutput = txtQueue.get(True, timeout=0.01)
-		#output_dict['txtQueue'] = txtOutput
-		output_dict['io_string'] = input_string
+                process=multiprocessing.Process(target=density.density,args=(self.variables,txtQueue))
+                process.start()
 
-		output_dict['sasoutput1'] = runname
-		output_dict['sasoutput2'] = 'successfully completed run'
+                total_string = self.background_job(process,txtQueue)
+
+		output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
 	
 	with open("/home/curtisj/sassie2/log","w") as outfile:
 		json.dump(output_dict,outfile)
@@ -133,7 +153,7 @@ if __name__=='__main__':
 	json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"center called with no arguments\"\}\n";
+		print "\{\"error\":\"density called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:

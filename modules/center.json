@@ -34,12 +34,6 @@
                    "required" : "true"
                    },
 		  {
-                   "role"  : "output",
-                   "id"    : "sasoutput1",
-                   "label" : "sassie output",
-                   "type"  : "text"
-                   },
-		  {
                     "role"    : "output",
                     "id"      : "sasoutput2",
                     "name"    : "sasoutput2",

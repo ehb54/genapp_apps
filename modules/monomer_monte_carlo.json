@@ -50,14 +50,6 @@
                    "default"  : "300.0",
                    "required" : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "moltype",
-                   "label"    : "molecule type (protein or rna)",
-                   "type"     : "text",
-                   "default"  : "protein",
-                   "required" : "true"
-                   },
 		  {
                    "role"    : "input",
                    "id"      : "moltype_list_box",
@@ -222,20 +214,14 @@
                    "default"  : "0",
                    "required" : "true"
                    },
-                   {
-                   "role"  : "output",
-                   "id"    : "sasoutput1",
-                   "label" : "Output value 1",
-                   "type"  : "text"
-                   },
  		  {
                     "role"    : "output",
                     "id"      : "sasoutput2",
                     "name"    : "sasoutput2",
                     "label"   : "run output",
                     "type"    : "textarea",
-		    "rows"    : 4,
-		    "cols"    : 40
+		    "rows"    : 20,
+		    "cols"    : 80
 		   }
                   ],
     "executable" : "monomer_monte_carlo"
