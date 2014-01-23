@@ -93,6 +93,12 @@
                    "id"    : "outputres",
                    "label" : "results json reference",
                    "type"  : "file"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputpdb",
+                   "label" : "test pdb output",
+                   "type"  : "file"
                    }
                   ],
 # the executable will take inputs in order and produce output
