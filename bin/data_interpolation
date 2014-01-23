@@ -3,7 +3,6 @@
 use JSON;
 use Data::Dumper;
 
-
 if ( !@ARGV )
 {
     print "\{\"error\":\"center called with no arguments\"\}\n";
@@ -80,6 +79,8 @@ $res2 = decode_json( $json );
 $$res2{ "outputref" } = "$p/logref.txt";
 $$res2{ "outputres" } = "$p/logres.txt";
 
+$$res2{ "p" } = $p;
+
 open OUT, ">$p/logref.txt";
 print OUT Dumper($ref);
 close OUT;
@@ -90,4 +91,3 @@ print OUT $json;
 close OUT;
 
 print encode_json( $res2 ) . "\n";
-

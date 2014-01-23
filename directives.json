@@ -7,6 +7,11 @@
   "html5_executable_path"     : "/home/ehb/genapptest/bin",
   "qt3_executable_path"       : "/home/ehb/genapptest/bin",
   "html5_docroot"             : "/var/www/htdocs",
+  "qt3_docroot"               : "/tmp",
+  "qt3_helper"                : {
+                                 "txt" :"emacs",
+                                 "pdb" :"rasmol"
+                                },
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",
   "background_color_rgb"      : "0,0,95",
