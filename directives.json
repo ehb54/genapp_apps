@@ -19,6 +19,10 @@
   "button_color_rgb"          : "228,255,250",
   "button_g_color_rgb"        : "128,170,150",
   "button_hover_color_rgb"    : "255,255,255",
-  "button_hover_g_color_rgb"  : "228,255,250"
+  "button_hover_g_color_rgb"  : "228,255,250",
+  "header1_color"             : "228,255,250",
+  "header2_color"             : "228,255,250",
+  "header3_color"             : "228,255,250",
+  "header4_color"             : "228,255,250"
 }
 

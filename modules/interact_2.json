@@ -5,6 +5,13 @@
     "fields"   : [
                   {
                    "role"       : "input",
+                   "id"       : "input0",
+                   "label"    : "Header 1 no hline",
+                   "type"     : "label",
+                   "default"  : "header1"
+                   },
+                  {
+                   "role"       : "input",
                    "id"       : "input1",
                    "label"    : "Input value 1",
                    "type"     : "float",
@@ -12,6 +19,14 @@
                    "min"      : 0.0,
                    "max"      : 1e50,
                    "required" : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "input1x",
+                   "label"    : "Header 2 prehline",
+                   "type"     : "label",
+                   "default"  : "header2",
+                   "prehline"   : "true"
                    },
                   {
                    "role"      : "input",
@@ -24,11 +39,44 @@
                    "required" : "false"
                    },
                   {
+                   "role"       : "input",
+                   "id"       : "input2x",
+                   "label"    : "Header 3 posthline",
+                   "type"     : "label",
+                   "default"  : "header3",
+                   "posthline"   : "true"
+                   },
+                  {
                    "role"      : "input",
                    "id"      : "input3",
                    "label"   : "Input value 3",
                    "type"    : "checkbox",
                    "checked" : "true"
+                   },
+                  {
+                   "role"       : "output",
+                   "id"       : "output1x",
+                   "label"    : "Header 4 pre & post hline",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"   : "true",
+                   "posthline"   : "true"
+                   },
+                  {
+                   "role"       : "output",
+                   "id"       : "output1y",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "posthline"   : "true"
+                   },
+                  {
+                   "role"       : "output",
+                   "id"       : "output2x",
+                   "label"    : "Header no default pre and post hline",
+                   "type"     : "label",
+                   "prehline"   : "true",
+                   "posthline"   : "true"
                    },
                    {
                    "role"    : "output",
