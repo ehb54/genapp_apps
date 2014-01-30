@@ -3,6 +3,15 @@
     "moduleid" : "align",
     "label"    : "Align",
     "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Align",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"       : "input",
                    "id"         : "runname",

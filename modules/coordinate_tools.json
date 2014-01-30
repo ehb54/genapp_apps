@@ -3,6 +3,15 @@
     "moduleid" : "coordinate_tools",
     "label"    : "Coordinate Tools",
     "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Coordinate Tools",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",

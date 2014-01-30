@@ -3,6 +3,15 @@
     "moduleid" : "center",
     "label"    : "Center",
     "fields"   : [
+ 	           {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Center",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",

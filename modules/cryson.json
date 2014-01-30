@@ -3,6 +3,15 @@
     "moduleid" : "cryson",
     "label"    : "Cryson",
     "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Crysol",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",

@@ -3,6 +3,15 @@
     "moduleid" : "two_body_grid",
     "label"    : "Two-Body Grid",
     "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Two-Body Grid",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",

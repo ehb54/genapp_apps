@@ -3,6 +3,15 @@
     "moduleid" : "contrast_calculator",
     "label"    : "Contrast Calculator",
     "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Contrast Calculator",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"       : "input",
                    "id"         : "runname",

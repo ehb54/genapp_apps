@@ -1,8 +1,17 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "structure_minimization",
-    "label"    : "Structure Minimization",
+    "moduleid" : "tamd",
+    "label"    : "Torsion Angle MD",
     "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Torsion Angle MD",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"       : "input",
                    "id"         : "runname",
@@ -115,5 +124,5 @@
                    }
                   ],
 # the executable will take inputs in json and produce output in json
-    "executable" : "structure minimization"
+    "executable" : "tamd"
 }
