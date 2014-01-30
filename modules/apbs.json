@@ -108,7 +108,7 @@
                     "role"    : "output",
                     "id"      : "sasoutput2",
                     "name"    : "sasoutput2",
-                    "label"   : "run output",
+                    "label"   : " ",
                     "type"    : "textarea",
 		    "rows"    : 20,
 		    "cols"    : 80

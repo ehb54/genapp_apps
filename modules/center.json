@@ -37,7 +37,7 @@
                     "role"    : "output",
                     "id"      : "sasoutput2",
                     "name"    : "sasoutput2",
-                    "label"   : "run output",
+                    "label"   : " ",
                     "type"    : "textarea",
 #                    "default" : "this is a text area",
                     "rows"    : 20,

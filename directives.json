@@ -3,11 +3,24 @@
   "title"                     : "SASSIE-web",
   "application"               : "sassie2",
   "version"                   : "0.1",
-#  "languages"                 : [ "html5", "qt3" ],
+#  "languages"                 : [ "html5", "qt3", "qt4" ],
   "languages"                 : [ "html5"],
-  "html5_executable_path"     : "/home/curtisj/sassie2/bin",
-  "qt3_executable_path"       : "/home/curtisj/sassie2/bin",
-  "html5_docroot"             : "/var/www/html",
+  "executable_path"           :
+                                {
+                                 "html5" : "/home/curtisj/sassie2/bin",
+                                 "qt3"   : "/home/curtisj/sassie2/bin",
+                                 "qt4"   : "/home/curtisj/sassie2/bin"
+                                }, 
+  "docroot"                   :
+                                {
+                                 "html5" : "/var/www/html",
+                                 "qt3"   : "/tmp",
+                                 "qt4"   : "/tmp"
+                                }, 
+  "helper"                    : {
+                                 "txt" :"vi",
+                                 "pdb" :"rasmol"
+                                },
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",
   "background_color_rgb"      : "0,0,95",
@@ -15,6 +28,10 @@
   "button_color_rgb"          : "255,255,255",
   "button_g_color_rgb"        : "102,102,255",
   "button_hover_color_rgb"    : "250,250,250",
-  "button_hover_g_color_rgb"  : "228,255,250"
+  "button_hover_g_color_rgb"  : "228,255,250",
+  "header1_color"             : "228,255,250",
+  "header2_color"             : "228,255,250",
+  "header3_color"             : "228,255,250",
+  "header4_color"             : "228,255,250"
 }
 
