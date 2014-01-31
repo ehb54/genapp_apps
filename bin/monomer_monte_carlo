@@ -51,9 +51,9 @@ class Generate_Drv():
                 data_file.close()
 
         except:
-                print 'ERROR READING INTERPOLATED DATA FILE'
-                print 'ERROR READING INTERPOLATED DATA FILE'
-                print 'ERROR READING INTERPOLATED DATA FILE'
+                print 'ERROR READING PLOT DATA FILE'
+                print 'ERROR READING PLOT DATA FILE'
+                print 'ERROR READING PLOT DATA FILE'
                 flot_data = "error reading file and making plot"
 
         return
@@ -117,20 +117,17 @@ class Generate_Drv():
         	#### END USER EDIT
         	#### END USER EDIT
        	else:
+
+		#outputref = "/home/curtisj/sassie2/json_input_reference.txt"
+		#with open(outputref,"w") as outfile:
+		#	json.dump(json_variables,outfile)
+
 		runname = json_variables['runname']
 		
 		temp_pdbfile= json_variables['pdbfile']
-		temp_confile = json_variables['confile']
-		temp_psffilename = json_variables['psffilename']
 		
 		head, pdbfile = os.path.split(temp_pdbfile[0])
 		path = head.replace('\/','/') + "/"
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-		
-		head, confile = os.path.split(temp_confile[0])
-
-		psffilepath, psffilename = os.path.split(temp_psffilename[0])
-
 		os.chdir(path) 
 
 		data_path = path
@@ -147,11 +144,35 @@ class Generate_Drv():
  		highres1 = json_variables['highres1']
  		basis = json_variables['basis']
  		cutoff = json_variables['cutoff']
- 		lowrg = json_variables['lowrg']
- 		highrg = json_variables['highrg']
- 		zcutoff = json_variables['zcutoff']
- 		nonbondscale = json_variables['nonbondscale']
- 		directedmc = json_variables['directedmc']
+ 
+		try:
+			advanced_input = json_variables['advanced_input']
+		except:
+			advanced_input = 'off'
+
+		if(advanced_input == "on"):
+		
+			lowrg = json_variables['lowrg']
+ 			highrg = json_variables['highrg']
+ 			zcutoff = json_variables['zcutoff']
+ 			nonbondscale = json_variables['nonbondscale']
+ 			directedmc = json_variables['directedmc']
+			
+			zflag_list_box = json_variables['zflag_list_box']
+ 			cflag_list_box = json_variables['cflag_list_box']
+ 			nonbondflag_list_box = json_variables['nonbondflag_list_box']
+ 			plotflag_list_box = json_variables['plotflag_list_box']
+
+		else:
+			lowrg = "0.0"
+			highrg = "300.0"
+			zcutoff = "0.0"
+			nonbondscale = "1.0"
+			directedmc = "0"
+			zflag_list_box = "c1"
+			cflag_list_box = "c1"
+ 			nonbondflag_list_box = "c1"
+ 			plotflag_list_box = "c1"
 
 		moltype_list_box = json_variables['moltype_list_box']
                 if(moltype_list_box == 'c1'):
@@ -159,25 +180,28 @@ class Generate_Drv():
                 elif(moltype_list_box == 'c2'):
                         moltype = 'rna' 
  		
-		zflag_list_box = json_variables['zflag_list_box']
                 if(zflag_list_box == 'c1'):
                         zflag = '0' # NO
                 elif(zflag_list_box == 'c2'):
                         zflag = '1' # YES
 
- 		cflag_list_box = json_variables['cflag_list_box']
                 if(cflag_list_box == 'c1'):
                         cflag = '0' # NO
+			confile = 'constraints.txt'
                 elif(cflag_list_box == 'c2'):
                         cflag = '1' # YES
+			temp_confile = json_variables['confile']
+			head, confile = os.path.split(temp_confile[0])
 
- 		nonbondflag_list_box = json_variables['nonbondflag_list_box']
                 if(nonbondflag_list_box == 'c1'):
                         nonbondflag = '0' # NO
+			psffilepath='./'
+			psffilename='refgag.psf'
                 elif(nonbondflag_list_box == 'c2'):
                         nonbondflag = '1' # YES
+			temp_psffilename = json_variables['psffilename']
+			psffilepath, psffilename = os.path.split(temp_psffilename[0])
 
- 		plotflag_list_box = json_variables['plotflag_list_box']
                 if(plotflag_list_box == 'c1'):
                         plotflag = '0' # NO
                 elif(plotflag_list_box == 'c2'):
@@ -268,6 +292,11 @@ class Generate_Drv():
 	with open("/home/curtisj/sassie2/log","w") as outfile:
 		json.dump(output_dict,outfile)
 	print json.dumps( output_dict )
+
+	
+#	with open("/home/curtisj/sassie2/json_output.txt","w") as outfile:
+#		json.dump(output_dict,outfile)
+
 		
 if __name__=='__main__':
 

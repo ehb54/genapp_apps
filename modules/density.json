@@ -6,7 +6,7 @@
                    {
                    "role"       : "input",
                    "id"       : "module_header",
-                   "label"    : "Density",
+                   "label"    : "Density Plot",
                    "type"     : "label",
                    "default"  : "header4",
                    "prehline"  : "true",

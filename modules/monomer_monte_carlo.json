@@ -127,10 +127,27 @@
                   {
                    "role"     : "input",
                    "id"       : "cutoff",
-                   "label"    : "overlap cutoff",
+                   "label"    : "overlap cutoff (angstroms)",
                    "type"     : "float",
                    "default"  : 3.0,
                    "required" : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "repeater" : "true"
                    },
                   {
                    "role"     : "input",
@@ -139,7 +156,8 @@
                    "type"     : "float",
                    "default"  : 0.0,
                    "min"      : 0.0,
-                   "required" : "true"
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
@@ -147,7 +165,8 @@
                    "label"    : "high Rg cutoff",
                    "type"     : "float",
                    "default"  : 300.0,
-                   "required" : "true"
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
 		  {
                    "role"    : "input",
@@ -156,7 +175,8 @@
                    "label"    : "Z coordinate filter", 
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no"
+                   "default" : "no",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
@@ -164,7 +184,8 @@
                    "label"    : "Z cutoff (angstroms)",
                    "type"     : "float",
                    "default"  : 0.0,
-                   "required" : "true"
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
 		  {
                    "role"    : "input",
@@ -173,14 +194,17 @@
                    "label"    : "atomic constraints",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no"
+                   "default" : "no",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
                    "id"       : "confile",
                    "label"    : "constraint file name",
                    "type"     : "file",
-                   "required" : "true"
+                   "required" : "false",
+                   "default" : "constraints.txt",
+                   "repeat"  : "advanced_input"
                    },
 		  {
                    "role"    : "input",
@@ -189,7 +213,8 @@
                    "label"    : "non-bonding energies",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no"
+                   "default" : "no",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
@@ -197,14 +222,17 @@
                    "label"    : "non-bonding scale factor",
                    "type"     : "float",
                    "default"  : 1.0,
-                   "required" : "true"
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
                    "id"       : "psffilename",
                    "label"    : "psf file name",
                    "type"     : "file",
-                   "required" : "true"
+                   "required" : "false",
+                   "default"  : "refgag.psf",
+                   "repeat"   : "advanced_input"
                    },
 		  {
                    "role"    : "input",
@@ -213,7 +241,8 @@
                    "label"    : "plot Rg during run",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no"
+                   "default" : "no",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
@@ -221,7 +250,8 @@
                    "label"    : "directed Monte Carlo (0==no or Rg value)",
                    "type"     : "text",
                    "default"  : "0",
-                   "required" : "true"
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
                    {
                    "role"    : "output",
