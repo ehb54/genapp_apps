@@ -130,6 +130,7 @@
                    "label"    : "overlap cutoff (angstroms)",
                    "type"     : "float",
                    "default"  : 3.0,
+		   "step"     : 0.01,
                    "required" : "true"
                    },
                    {
@@ -156,6 +157,7 @@
                    "type"     : "float",
                    "default"  : 0.0,
                    "min"      : 0.0,
+	           "step"     : 0.01,
                    "required" : "true",
                    "repeat"  : "advanced_input"
                    },
@@ -165,6 +167,7 @@
                    "label"    : "high Rg cutoff",
                    "type"     : "float",
                    "default"  : 300.0,
+	           "step"     : 0.01,
                    "required" : "true",
                    "repeat"  : "advanced_input"
                    },
@@ -184,6 +187,7 @@
                    "label"    : "Z cutoff (angstroms)",
                    "type"     : "float",
                    "default"  : 0.0,
+	           "step"     : 0.01,
                    "required" : "true",
                    "repeat"  : "advanced_input"
                    },
@@ -222,6 +226,7 @@
                    "label"    : "non-bonding scale factor",
                    "type"     : "float",
                    "default"  : 1.0,
+	           "step"     : 0.01,
                    "required" : "true",
                    "repeat"  : "advanced_input"
                    },

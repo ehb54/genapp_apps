@@ -29,6 +29,52 @@ class Chi_square_filter_Drv():
 
         return total_string
 
+   def read_file(self,flot_data,filename,number_columns):
+
+	# x2file: rg,x2
+	# sasfile: q-value, goal, best, worst, average
+
+        try:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+	                this_x = lin[0]
+                        this_y = lin[1]
+			if(number_columns == 5):
+				this_b = lin[2]
+				this_w = lin[3]
+				this_a = lin[4]
+                       		data.append([this_x,this_y,this_b,this_w,this_a])
+			else:
+                        	data.append([this_x,this_y])
+
+                flot_data.append(data)
+                #flot_data.append(error)
+                data_file.close()
+
+        except:
+                print 'ERROR READING CHI-SQUARE DATA FILE'
+                print 'ERROR READING CHI-SQUARE DATA FILE'
+                print 'ERROR READING CHI-SQUARE DATA FILE'
+                flot_data = "error reading file and making plot"
+
+        return
+
+   def get_interpolated_data_from_disk(self,filename,number_columns):
+
+	# x2file: rg,x2
+	# sasfile: q-value, goal, best, worst, average
+
+        flot_data = []
+
+        self.read_file(flot_data,filename,number_columns)
+
+        return flot_data
+
+
    def run_me(self,json_flag,json_variables,input_string):
 
 	output_dict = {}
@@ -57,6 +103,7 @@ class Chi_square_filter_Drv():
 
 		path='./'
 
+                data_path = path
         	#### END USER EDIT
         	#### END USER EDIT
         	#### END USER EDIT
@@ -97,6 +144,7 @@ class Chi_square_filter_Drv():
                 elif(reduced_x2_list_box == 'c3'):
                         reduced_x2 = '2' # Pearson's chi-square
 
+                data_path = path
 
 		path = ''
 
@@ -144,7 +192,23 @@ class Chi_square_filter_Drv():
 
 		output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
-	
+
+                flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/filter/sas_spectra_plot.txt',5)
+
+                if(isinstance(flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = flot_data
+                else:
+                        output_dict['iq_plot'] = flot_data
+
+                flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/filter/x2_vs_rg_plot.txt',2)
+
+                if(isinstance(flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = flot_data
+                else:
+                        output_dict['chi_square_plot'] = flot_data
+
 	with open("/home/curtisj/sassie2/log","w") as outfile:
 		json.dump(output_dict,outfile)
 	print json.dumps( output_dict )
