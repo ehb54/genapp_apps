@@ -2,6 +2,8 @@
 {
     "moduleid" : "data_interpolation",
     "label"    : "Data_interpolation",
+    "session"  : "true",
+    "newsession"  : "true",
     "fields"   : [
                   {
                    "role"       : "input",
