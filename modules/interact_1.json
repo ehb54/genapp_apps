@@ -40,7 +40,7 @@
                    "label"   : "listbox",
                    "type"    : "listbox",
                    "values"  : "choice 1~c1~choice 2~c2~choice 3~c3",
-                   "default" : "choice 2",
+                   "default" : "c2",
                    "repeat"  : "input2",
                    "norow"    : "true"
                    },
