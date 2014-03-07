@@ -33,6 +33,13 @@
                    },
                   {
                    "role"      : "input",
+                   "id"      : "input6",
+                   "label"   : "Input 6",
+                   "type"    : "checkbox",
+                   "repeat"  : "input3"
+                   },
+                  {
+                   "role"      : "input",
                    "id"      : "input4",
                    "label"   : "Input value 4",
                    "type"    : "integer",

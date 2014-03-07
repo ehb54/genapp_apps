@@ -30,12 +30,74 @@
                    "type"    : "checkbox",
                    "checked" : "true"
                    },
+                  {
+                   "role"    : "input",
+                   "id"      : "input4",
+                   "name"    : "input4",
+                   "label"   : "1st listbox",
+                   "type"    : "listbox",
+                   "values"  : "choice 1~c1~choice 2~c2~choice 3~c3~choice 4~c4",
+                   "default" : "choice 2",
+                   "repeater" : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"      : "input3c1",
+                   "label"   : "Input value 4 c1",
+                   "type"    : "checkbox",
+                   "checked" : "true",
+                   "repeat"  : "input4:c1"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"      : "input3c2",
+                   "label"   : "Input value 4 c2",
+                   "type"    : "checkbox",
+                   "checked" : "true",
+                   "repeat"  : "input4:c2"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"      : "input3c2b",
+                   "label"   : "Input value 4 c2b",
+                   "type"    : "integer",
+                   "repeat"  : "input4:c2"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"      : "input3c3b",
+                   "label"   : "Input value 4 c3b",
+                   "type"    : "listbox",
+                   "values"  : "choice 1~c1~choice 2~c2~choice 3~c3~choice 4~c4",
+                   "repeat"  : "input4:c3"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"      : "input3c3",
+                   "label"   : "Input value 4 c3",
+                   "type"    : "checkbox",
+                   "checked" : "true",
+                   "repeat"  : "input4:c3"
+                   },
                    {
                    "role"    : "output",
                    "id"    : "output1",
                    "label" : "Output value 1",
                    "type"  : "float"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputref",
+                   "label" : "input json reference",
+                   "type"  : "file"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputres",
+                   "label" : "results json reference",
+                   "type"  : "file"
                    }
+
                   ],
 # the executable will take inputs in order and produce output
     "executable" : "calculate_2"
