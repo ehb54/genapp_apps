@@ -27,12 +27,21 @@
   "background_color_rgb"      : "0,0,95",
   "select_color_rgb"          : "200,128,0",
   "button_color_rgb"          : "228,255,250",
+  "button_color_hex"          : "E4FFFA",
   "button_g_color_rgb"        : "128,170,150",
+  "button_g_color_hex"        : "80AA06",
   "button_hover_color_rgb"    : "255,255,255",
+  "button_hover_color_hex"    : "FFFFFF",
   "button_hover_g_color_rgb"  : "228,255,250",
+  "button_hover_g_color_hex"  : "E4FFFA",
   "header1_color"             : "228,255,250",
   "header2_color"             : "228,255,250",
   "header3_color"             : "228,255,250",
-  "header4_color"             : "228,255,250"
+  "header4_color"             : "228,255,250",
+  "help_background_color_rgb" : "0,0,75",
+  "help_text_color_rgb"       : "240,240,210"
+#  "debugvalues"               : "true",
+#  "debugrepeat"               : "true",
+#  "debugrepeatlb"             : "true"
 }
 

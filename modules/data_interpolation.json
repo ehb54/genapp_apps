@@ -70,7 +70,8 @@
                    "role"    : "output",
                    "id"    : "plotout4",
                    "label" : "plot 2d",
-                   "type"  : "plot2d"
+                   "type"  : "plot2d",
+                   "help"  : "this is a plot"
                    },
                    {
                    "role"    : "output",
