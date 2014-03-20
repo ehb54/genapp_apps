@@ -1,20 +1,20 @@
 # this is a project directives file
 {
-  "title"                     : "genapptest",
-  "application"               : "genapptest",
+  "title"                     : "nadeemtest",
+  "application"               : "nadeemtest",
   "version"                   : "2.0",
   "languages"                 : [ "html5", "qt3", "qt4" ],
 
   "executable_path"           :
                                 {
-                                 "html5" : "/home/ehb/genapptest/bin",
-                                 "qt3"   : "/home/ehb/genapptest/bin",
-                                 "qt4"   : "/home/ehb/genapptest/bin"
+                                 "html5" : "/home/nadeem/nadeemtest/bin",
+                                 "qt3"   : "/home/nadeem/nadeemtest/bin",
+                                 "qt4"   : "/home/nadeem/nadeemtest/bin"
                                 },
 
   "docroot"                   :
                                 {
-                                 "html5" : "/var/www/htdocs",
+                                 "html5" : "/var/www/html",
                                  "qt3"   : "/tmp",
                                  "qt4"   : "/tmp"
                                 },
