@@ -1,0 +1,44 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "center",
+    "label"    : "Center",
+    "fields"   : [
+                  {
+                   "role"     : "input",
+                   "id"       : "input1",
+                   "label"    : "Center value 1",
+                   "type"     : "float",
+                   "default"  : 0.0,
+                   "min"      : 0.0,
+                   "max"      : 1e50,
+                   "step"     : 0.01,
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "input2",
+                   "label"   : "Center value 2",
+                   "type"    : "integer",
+                   "default" : 1,
+                   "min"     : -10,
+                   "max"     : 10,
+                   "step"     : 2,
+                   "required" : "false"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "input3",
+                   "label"   : "Center value 3",
+                   "type"    : "checkbox",
+                   "checked" : "true"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "output1",
+                   "label"   : "Output value 1",
+                   "type"    : "text"
+                   }
+                  ],
+# the executable will take inputs in json and produce outputs in json
+    "executable" : "center"
+}

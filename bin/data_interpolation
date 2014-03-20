@@ -1,0 +1,157 @@
+#!/usr/bin/perl
+
+use JSON;
+use Data::Dumper;
+
+if ( !@ARGV )
+{
+    print "\{\"error\":\"center called with no arguments\"\}\n";
+    exit;
+}
+
+sub mkarraystr {
+    my $ref = $_[0];
+    my $out = '[';
+    foreach my $plot ( @$ref )
+    {
+#        print "ref(\$plot) = " . ref( $plot ) . "\n";
+#        print "ref(\$\$plot)) = " . ref( $$plot ) . "\n";
+        $out .= '[';
+        foreach my $pos ( @{$$plot} )
+        {
+            $out .= '[' . $$pos[ 0 ] . "," . $$pos[ 1 ] . '],';
+#            print $$pos[ 0 ] . "," . $$pos[ 1 ] . "\n";
+        }
+        $out =~ s/\,$/],/;
+    }
+    $out =~ s/\,$/]/;
+    $out;
+}
+
+$json = shift;
+$ref = decode_json( $json );
+$res = {};
+$$res{ "hi" } = "data_interpolation executable";
+
+$p = $$ref{ "_base_directory" };
+
+$pos = 0;
+
+$startx = $$ref{ "startx" };
+$endx = $$ref{ "endx" };
+$deltax = $$ref{ "deltax" };
+
+if ( $startx <= $endx && $deltax > 0 ||
+     $endx >= $startx && $deltax < 0 )
+{
+
+    if ( $$ref{ "abs" } )
+    {
+        for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
+        {
+            $plotout4[ 0 ][ $pos ] = [ $x, abs( sin( $x ) ) ];
+            $plotout4[ 1 ][ $pos ] = [ $x, abs( cos( $x ) ) ];
+            $pos++;
+        }
+    } else {
+        for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
+        {
+            $plotout4[ 0 ][ $pos ] = [ $x, sin( $x ) ];
+            $plotout4[ 1 ][ $pos ] = [ $x, cos( $x ) ];
+            $pos++;
+        }
+    }
+    @array2d = ( \@plotout4[ 0 ], \@plotout4[ 1 ] );
+    $pout = mkarraystr( \@array2d );
+    $json = encode_json( $res );
+
+    $json =~ s/\}$/,"plotout4":$pout}/;
+} else {
+    $$res{ "errors" } .= "Plot range error";
+    $json = encode_json( $res );
+}
+
+# print mkarraystr( \@array2d ) . "\n";
+
+# $$res{ "plotout4" } = mkarraystr( \@array2d );
+
+$res2 = decode_json( $json );
+$$res2{ "outputref" } = "$p/logref.txt";
+$$res2{ "outputres" } = "$p/logres.txt";
+$$res2{ "outputpdb" } = "$p/testpdb.pdb";
+
+$$res2{ "p" } = $p;
+
+open OUT, ">$p/logref.txt";
+print OUT Dumper($ref);
+close OUT;
+open OUT, ">$p/logres.txt";
+print OUT Dumper($res2);
+print OUT "--- as json output string ---\n";
+print OUT $json;
+close OUT;
+
+open OUT, ">$p/testpdb.pdb";
+print OUT
+"HETATM    1 AG   AGC A   1      11.328  22.794  -2.146  1.00  0.00      A   AG
+HETATM    1 AG   AGC A   1      10.957  20.510  -0.513  1.00  0.00      A   AG
+HETATM    1 AG   AGC A   1      12.218  18.148  -1.505  1.00  0.00      A   AG
+HETATM    1 AG   AGC A   1      12.881  22.310  -4.499  1.00  0.00      A   AG
+HETATM    1 AG   AGC A   1      10.730  20.315  -3.364  1.00  0.00      A   AG
+HETATM    1 AG   AGC A   1       8.723  21.954  -1.498  1.00  0.00      A   AG
+HETATM    1 AG   AGC A   1       8.229  21.706  -4.595  1.00  0.00      A   AG
+HETATM    1 AG   AGC A   1       7.847  19.302  -2.850  1.00  0.00      A   AG
+HETATM    1  S   LIG A   2       6.280  20.195  -4.568  1.00  0.00      A    S
+HETATM    1  C   LIG A   2       6.331  19.064  -5.845  1.00  0.00      A    C
+HETATM    1  C   LIG A   2       5.541  17.870  -5.674  1.00  0.00      A    C
+HETATM    1  C   LIG A   2       7.142  19.327  -7.055  1.00  0.00      A    C
+HETATM    1  C   LIG A   2       5.514  16.895  -6.757  1.00  0.00      A    C
+HETATM    1  C   LIG A   2       7.200  18.316  -8.101  1.00  0.00      A    C
+HETATM    1  C   LIG A   2       6.326  17.181  -7.954  1.00  0.00      A    C
+HETATM    1  C   LIG A   2       6.287  16.137  -9.021  1.00  0.00      A    C
+HETATM    1  O   LIG A   2       7.177  16.474 -10.004  1.00  0.00      A    O
+HETATM    1  O   LIG A   2       5.715  14.972  -8.735  1.00  0.00      A    O
+HETATM    1  S   LIG A   3       7.443  20.012  -0.464  1.00  0.00      A    S
+HETATM    1  C   LIG A   3       5.743  20.077  -0.133  1.00  0.00      A    C
+HETATM    1  C   LIG A   3       5.326  20.210   1.186  1.00  0.00      A    C
+HETATM    1  C   LIG A   3       4.811  20.085  -1.162  1.00  0.00      A    C
+HETATM    1  C   LIG A   3       3.975  20.355   1.476  1.00  0.00      A    C
+HETATM    1  C   LIG A   3       3.458  20.233  -0.872  1.00  0.00      A    C
+HETATM    1  C   LIG A   3       3.041  20.367   0.447  1.00  0.00      A    C
+HETATM    1  C   LIG A   3       1.552  20.661   0.734  1.00  0.00      A    C
+HETATM    1  O   LIG A   3       0.757  20.788  -0.296  1.00  0.00      A    O
+HETATM    1  O   LIG A   3       1.261  20.509   1.954  1.00  0.00      A    O
+HETATM    1  S   LIG A   4       7.914  23.729  -3.113  1.00  0.00      A    S
+HETATM    1  C   LIG A   4       6.207  23.829  -2.669  1.00  0.00      A    C
+HETATM    1  C   LIG A   4       5.796  24.362  -1.506  1.00  0.00      A    C
+HETATM    1  C   LIG A   4       5.177  23.280  -3.534  1.00  0.00      A    C
+HETATM    1  C   LIG A   4       3.895  23.465  -3.248  1.00  0.00      A    C
+HETATM    1  C   LIG A   4       4.455  24.030  -1.045  1.00  0.00      A    C
+HETATM    1  C   LIG A   4       3.505  23.530  -1.904  1.00  0.00      A    C
+HETATM    1  C   LIG A   4       2.125  23.898  -1.579  1.00  0.00      A    C
+HETATM    1  O   LIG A   4       1.279  23.441  -2.455  1.00  0.00      A    O
+HETATM    1  O   LIG A   4       1.802  24.155  -0.498  1.00  0.00      A    O
+HETATM    1  S   LIG A   5       9.959  17.946  -2.848  1.00  0.00      A    S
+HETATM    1  C   LIG A   5      10.085  16.924  -4.278  1.00  0.00      A    C
+HETATM    1  C   LIG A   5       8.899  16.619  -4.990  1.00  0.00      A    C
+HETATM    1  C   LIG A   5      11.165  16.166  -4.542  1.00  0.00      A    C
+HETATM    1  C   LIG A   5      11.229  15.313  -5.687  1.00  0.00      A    C
+HETATM    1  C   LIG A   5       8.958  15.722  -6.135  1.00  0.00      A    C
+HETATM    1  C   LIG A   5      10.252  15.191  -6.437  1.00  0.00      A    C
+HETATM    1  C   LIG A   5      10.391  14.258  -7.627  1.00  0.00      A    C
+HETATM    1  O   LIG A   5      11.354  13.674  -7.930  1.00  0.00      A    O
+HETATM    1  O   LIG A   5       9.163  14.073  -8.275  1.00  0.00      A    O
+HETATM    1  S   LIG A   6      10.533  21.690  -5.524  1.00  0.00      A    S
+HETATM    1  C   LIG A   6      10.587  20.576  -6.910  1.00  0.00      A    C
+HETATM    1  C   LIG A   6      10.040  20.889  -8.076  1.00  0.00      A    C
+HETATM    1  C   LIG A   6      11.282  19.256  -6.744  1.00  0.00      A    C
+HETATM    1  C   LIG A   6      10.089  19.867  -9.158  1.00  0.00      A    C
+HETATM    1  C   LIG A   6      11.392  18.352  -7.802  1.00  0.00      A    C
+HETATM    1  C   LIG A   6      10.572  18.812  -9.048  1.00  0.00      A    C
+HETATM    1  C   LIG A   6      10.517  17.863 -10.148  1.00  0.00      A    C
+HETATM    1  O   LIG A   6      11.200  16.668  -9.992  1.00  0.00      A    O
+HETATM    1  O   LIG A   6       9.899  18.225 -11.212  1.00  0.00      A    O
+";
+close OUT;
+
+print encode_json( $res2 ) . "\n";

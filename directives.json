@@ -1,0 +1,47 @@
+# this is a project directives file
+{
+  "title"                     : "genapptest",
+  "application"               : "genapptest",
+  "version"                   : "2.0",
+  "languages"                 : [ "html5", "qt3", "qt4" ],
+
+  "executable_path"           :
+                                {
+                                 "html5" : "/home/ehb/genapptest/bin",
+                                 "qt3"   : "/home/ehb/genapptest/bin",
+                                 "qt4"   : "/home/ehb/genapptest/bin"
+                                },
+
+  "docroot"                   :
+                                {
+                                 "html5" : "/var/www/htdocs",
+                                 "qt3"   : "/tmp",
+                                 "qt4"   : "/tmp"
+                                },
+  "helper"                    : {
+                                 "txt" :"emacs",
+                                 "pdb" :"rasmol"
+                                },
+  "text_color_rgb"            : "220,210,210",
+  "error_color_rgb"           : "255,0,0",
+  "background_color_rgb"      : "0,0,95",
+  "select_color_rgb"          : "200,128,0",
+  "button_color_rgb"          : "228,255,250",
+  "button_color_hex"          : "E4FFFA",
+  "button_g_color_rgb"        : "128,170,150",
+  "button_g_color_hex"        : "80AA06",
+  "button_hover_color_rgb"    : "255,255,255",
+  "button_hover_color_hex"    : "FFFFFF",
+  "button_hover_g_color_rgb"  : "228,255,250",
+  "button_hover_g_color_hex"  : "E4FFFA",
+  "header1_color"             : "228,255,250",
+  "header2_color"             : "228,255,250",
+  "header3_color"             : "228,255,250",
+  "header4_color"             : "228,255,250",
+  "help_background_color_rgb" : "0,0,75",
+  "help_text_color_rgb"       : "240,240,210"
+#  "debugvalues"               : "true",
+#  "debugrepeat"               : "true",
+#  "debugrepeatlb"             : "true"
+}
+
