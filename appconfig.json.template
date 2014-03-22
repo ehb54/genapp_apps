@@ -1,0 +1,18 @@
+# this is for basic smtpmail setup, likely to be updated later
+# this file should be placed somewhere outside of the html root and must be in the "appconfig" in directives.json
+{
+  "smtpmail" : {
+                "admin"    : "",
+                "from"     : "",
+                "host"     : "",
+                "user"     : "",
+                "password" : ""
+               }
+# the zmqport and udp ports are primarily internal, the wsport should be public for html clients that require messaging updates
+  ,"hostip" : "my.host.ip"
+  ,"messaging" : {
+                  "wsport"   : 8080
+                  ,"zmqport" : 37778
+                  ,"udpport" : 37779
+                 }
+}

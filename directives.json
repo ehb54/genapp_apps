@@ -3,7 +3,8 @@
   "title"                     : "genapptest",
   "application"               : "genapptest",
   "version"                   : "2.0",
-  "languages"                 : [ "html5", "qt3", "qt4" ],
+#  "languages"                 : [ "html5", "qt3", "qt4" ],
+  "languages"                 : [ "html5" ],
 
   "executable_path"           :
                                 {
@@ -41,7 +42,10 @@
   "help_background_color_rgb" : "0,0,75",
   "help_text_color_rgb"       : "240,240,210"
 #  "debugvalues"               : "true",
-#  "debugrepeat"               : "true",
+#  ,"debugrepeat"               : "true"
 #  "debugrepeatlb"             : "true"
-}
+#  ,"debugpull"                : "true"
+#  ,"debugws"                   : "true"
 
+  ,"appconfig"                 : "/home/ehb/genapptest/appconfig.json"
+}

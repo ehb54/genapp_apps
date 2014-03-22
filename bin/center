@@ -2,6 +2,7 @@
 
 use JSON;
 use Data::Dumper;
+use IO::Socket;
 
 if ( !@ARGV )
 {
@@ -11,6 +12,22 @@ if ( !@ARGV )
 
 $json = shift;
 $ref = decode_json( $json );
+
+my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => 37779, PeerAddr => '127.0.0.1' );
+
+
+$msg = {};
+$$msg{ "_uuid" } = $$ref{ "_uuid" };
+$$msg{ "hi" } = "center messaging";
+for ( $i = 0; $i < 15; ++$i )
+
+{
+    $$msg{ "completion" } = sprintf( "%.1f%%", 100.0 * $i / 15.0 );
+    $$msg{ "output1" } = "$i of 15";
+    $sock->send( encode_json( $msg ) );
+    sleep( 1 );
+}
+
 $res = {};
 $$res{ "hi" } = "center executable";
 $$res{ "output1" } = "my out1 value";
