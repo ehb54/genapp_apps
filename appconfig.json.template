@@ -1,3 +1,7 @@
+#
+# WARNING ---   after copying to appconfig.json REMOVE ALL COMMENT LINES
+# i.e. any lines starting with #
+
 # this is for basic smtpmail setup, likely to be updated later
 # this file should be placed somewhere outside of the html root and must be in the "appconfig" in directives.json
 {
