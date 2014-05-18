@@ -3,19 +3,19 @@
   "title"                     : "genapptest",
   "application"               : "genapptest",
   "version"                   : "2.0",
-#  "languages"                 : [ "html5", "qt3", "qt4" ],
+#  "languages"                 : [ "html5", "qt3", "qt4", "qt5" ],
   "languages"                 : [ "html5" ],
 
   "executable_path"           :
                                 {
-                                 "html5" : "/home/ehb/genapptest/bin",
+                                 "html5" : "/share/apps/genapp/genapptest/bin",
                                  "qt3"   : "/home/ehb/genapptest/bin",
                                  "qt4"   : "/home/ehb/genapptest/bin"
                                 },
 
   "docroot"                   :
                                 {
-                                 "html5" : "/var/www/htdocs",
+                                 "html5" : "/share/apps/genapp",
                                  "qt3"   : "/tmp",
                                  "qt4"   : "/tmp"
                                 },
@@ -23,6 +23,7 @@
                                  "txt" :"emacs",
                                  "pdb" :"rasmol"
                                 },
+
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",
   "background_color_rgb"      : "0,0,95",
@@ -41,7 +42,28 @@
   "header4_color"             : "228,255,250",
   "help_background_color_rgb" : "0,0,75",
   "help_text_color_rgb"       : "240,240,210"
-#  "debugvalues"               : "true",
+
+# paper colors
+#  "text_color_rgb"            : "0,0,0",
+#  "error_color_rgb"           : "255,0,0",
+#  "background_color_rgb"      : "255,255,255",
+#  "select_color_rgb"          : "200,128,0",
+#  "button_color_rgb"          : "192,192,255",
+#  "button_color_hex"          : "C0C0FF",
+#  "button_g_color_rgb"        : "255,255,255",
+#  "button_g_color_hex"        : "FFFFFF",
+#  "button_hover_color_rgb"    : "192,192,192",
+#  "button_hover_color_hex"    : "C0C0C0",
+#  "button_hover_g_color_rgb"  : "255,255,255",
+#  "button_hover_g_color_hex"  : "FFFFFF",
+#  "header1_color"             : "0,0,128",
+#  "header2_color"             : "0,0,128",
+#  "header3_color"             : "0,0,128",
+#  "header4_color"             : "0,0,128",
+#  "help_background_color_rgb" : "230,230,230",
+#  "help_text_color_rgb"       : "0,0,0"
+
+#  ,"debugvalues"               : "true"
 #  ,"debugrepeat"               : "true"
 #  "debugrepeatlb"             : "true"
 #  ,"debugpull"                : "true"

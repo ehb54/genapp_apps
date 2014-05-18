@@ -2,8 +2,8 @@
 {
     "moduleid" : "data_interpolation",
     "label"    : "Data_interpolation",
-    "session"  : "true",
-    "newsession"  : "true",
+#    "session"  : "true",
+#    "newsession"  : "true",
     "fields"   : [
                   {
                    "role"       : "input",
@@ -75,18 +75,6 @@
                    },
                    {
                    "role"    : "output",
-                   "id"    : "output5",
-                   "label" : "output 5",
-                   "type"  : "checkbox"
-                   },
-                   {
-                   "role"    : "output",
-                   "id"    : "output6",
-                   "label" : "output again",
-                   "type"  : "checkbox"
-                   },
-                   {
-                   "role"    : "output",
                    "id"    : "outputref",
                    "label" : "input json reference",
                    "type"  : "file"
@@ -106,4 +94,5 @@
                   ],
 # the executable will take inputs in order and produce output
     "executable" : "data_interpolation"
+    ,"resource"  : "compute0"
 }

@@ -1,6 +1,6 @@
 # this is a project menu file
 {
- "header" : "Sassie 2",
+# "header" : "Genapptest",
  "menu" : [
            { 
             "id"      : "tools",
@@ -97,6 +97,11 @@
             "label"   : "Analyze",
             "icon"    : "pngs/analyze.png",
             "modules" : [ 
+                         { 
+                          "id"    : "pm",
+                          "label" : "Parsimonious Modeling",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
                          { 
                           "id"    : "analyze_1",
                           "label" : "Analyze 1",

@@ -27,6 +27,13 @@
                    "id"    : "output3",
                    "label" : "output file 2",
                    "type"  : "file"
+                   },
+                   {
+                   "role"     : "output",
+                   "id"       : "output4",
+                   "label"    : "output files",
+                   "type"     : "file",
+                   "multiple" : "true"
                    }
                   ],
 # the executable will take inputs in order and produce output

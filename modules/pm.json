@@ -1,0 +1,490 @@
+#  module file for GenApp framework
+{
+    "moduleid" : "pm",
+    "label"    : "US-SOMO: Parsimonious Modeling",
+    "fields"   : [
+        {
+        "role"       : "input"
+        ,"id"        : "pmrun"
+        ,"type"      : "hidden"
+        ,"default"   : "on"
+        }
+        ,{
+        "role"       : "input"
+        ,"id"        : "pmbestga"
+        ,"type"      : "hidden"
+        ,"default"   : "on"
+        }
+        ,{
+        "role"       : "input"
+        ,"id"        : "label_0"
+        ,"type"      : "label"
+        ,"colspan"   : 3
+        ,"default"   : "header3"
+        ,"label"     : "Parsimonious Spatial Modeling"
+        ,"prehline"  : "true"
+        ,"posthline" : "true"
+        ,"help"      : "Brookes, E. Parsimonious Spatial Modeling from Small Angle Scattering Intensity Data of Biological Macromolecules, 2014"
+        }
+#        {
+#        "role"       : "input"
+#        ,"id"        : "credit_0"
+#        ,"type"      : "label"
+#        ,"colspan"   : 3
+##        ,"default"  : "header4"
+#        ,"label"     : "Brookes, E. Parsimonious Spatial Modeling from Small Angle Scattering Intensity Data of Biological Macromolecules, 2014"
+#        ,"posthline" : "true"
+#        }
+        ,{
+        "role"       : "input"
+        ,"id"        : "pmfiles"
+        ,"type"      : "file"
+        ,"multiple"  : "true"
+        ,"fontclass" : "header4"
+        ,"label"     : "Data files to process"
+        ,"help"      : "Select the data files you wish to process"
+        }
+        ,{
+        "role"      : "input"
+        ,"id"       : "main_label"
+        ,"type"     : "label"
+        ,"fontclass": "header4"
+        ,"colspan"  : 3
+        ,"prehline" : "true"
+        ,"label"    : "Main model type controls"
+        ,"help"     : "This group and the data file selection above are required, everything else is optional"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmtypes"
+        ,"type"    : "text"
+        ,"pattern" : "[0-4](,[0-4])*"
+        ,"label"   : "Model type list (0=sphere,1=cylinder,2=spheroid,3=ellipsoid,4=torus)"
+        ,"help"    : "This comma separated list of model types will define the model elements.  e.g. 0,1,3 will define a sphere, cylinder and an ellipsoid"
+        ,"required": "true"
+        }
+        ,{
+        "role"    : "input"
+        ,"id"     : "pmincrementally"
+        ,"type"   : "checkbox"
+        ,"label"  : "Compute models for all lengths upto above"
+        ,"help"   : "Checking this will create a sequence of models beginning with the first element of the model type list, then the first two elements of the model type list, etc."
+        }
+        ,{
+        "role"    : "input"
+        ,"id"     : "pmallcombinations"
+        ,"type"   : "checkbox"
+        ,"label"  : "Compute models for all unique combinations"
+        ,"help"   : "Checking this will create a sequence of models combining every element selected in the model type list."
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmrayleighdrho"
+        ,"type"    : "float"
+        ,"label"   : "Sample electron density [e/Angstrom^3]"
+        ,"min"     : 0.001
+        ,"max"     : 5
+        ,"default" : 0.425
+        ,"help"    : "Typical values: Proteins: .41-.44, DNA:.59, RNA:.6, Carbs:.49"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmbufferedensity"
+        ,"type"    : "float"
+        ,"min"     : 0.001
+        ,"max"     : 5
+        ,"default" : 0.334
+        ,"label"   : "Buffer electron density [e/Angstrom^3]"
+        ,"help"    : "H2O .334"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgridsize"
+        ,"type"    : "float"
+        ,"label"   : "Grid size [Angstrom]"
+        ,"min"     : 0.5
+        ,"max"     : 50
+        ,"default" : 4
+        ,"help"    : "This is cube edge length in Angstroms of the grid.  The generated model beads will have the same volume as this cube"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmapproxmaxdimension"
+        ,"type"    : "checkbox"
+        ,"label"   : "Automatically compute maximum dimension"
+        ,"checked" : "true"
+        ,"help"    : "It is recommended to leave this checked"
+        }
+        ,{
+        "role"      : "input"
+        ,"id"       : "q_label"
+        ,"type"     : "checkbox"
+        ,"colspan"  : 3
+        ,"fontclass": "header4"
+        ,"prehline" : "true"
+        ,"label"    : "q range editing controls"
+        ,"repeater" : "true"
+        ,"help"     : "These controls allow cropping, rebinning and subselection of the q domain of the input"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmminq"
+        ,"type"    : "float"
+        ,"label"   : "Minimum q value [1/Angstrom]"
+        ,"min"     : 0
+        ,"max"     : 0.5
+        ,"default" : 0
+        ,"repeat"  : "q_label"
+        ,"help"    : "If this value is greater than the minimum q value of the input, the input domain will be clipped to this minimum value"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmmaxq"
+        ,"type"    : "text"
+        ,"label"   : "Maximum q value"
+        ,"min"     : 0.05
+        ,"max"     : 1
+        ,"default" : 0.25
+        ,"repeat"  : "q_label"
+        ,"help"    : "If this value is less than the maximum q value of the input, the input domain will be clipped to this maximum value."
+        }
+        ,{
+        "role"    : "input"
+        ,"id"     : "pmlogqbin"
+        ,"type"   : "checkbox"
+        ,"label"  : "Create log q bins"
+        ,"repeat" : "q_label"
+        ,"help"   : "If selected, the input will be re-interpolated to a log scaled q domain"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmqpoints"
+        ,"type"    : "integer"
+        ,"label"   : "q points"
+        ,"min"     : 0
+        ,"max"     : 5000
+        ,"default" : 0
+        ,"repeat"  : "q_label"
+        ,"help"    : "If this value is less than the number of points in the input after possible clipping, the data will be subselected to approximately this number of points"
+        }
+        ,{
+        "role"      : "input"
+        ,"id"       : "supp_label"
+        ,"type"     : "checkbox"
+        ,"label"    : "Supplementary controls"
+        ,"colspan"  : 3
+        ,"fontclass": "header4"
+        ,"prehline" : "true"
+        ,"repeater" : "true"
+        ,"help"     : "These optional controls include setting maximum harmonics, random seed initialization, memory controls, initial search controls and maximum expected extent"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmharmonics"
+        ,"type"    : "integer"
+        ,"label"   : "Maximum harmonics"
+        ,"min"     : 10
+        ,"max"     : 30
+        ,"default" : 15
+        ,"repeat"  : "supp_label"
+        ,"help"    : "This is the number of harmonics used in the spherical harmonics approximation of the Debye calculation used during fitting"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmseed"
+        ,"type"    : "text"
+        ,"label"   : "Random seed (if blank, use time)"
+        ,"repeat"  : "supp_label"
+        ,"help"    : "To duplicate a run, enter a fixed random seed."
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmmemory"
+        ,"type"    : "integer"
+        ,"label"   : "Maximum memory per core in MB"
+        ,"min"     : 512
+        ,"max"     : 65535
+        ,"default" : 1024
+        ,"repeat"  : "supp_label"
+        ,"help"    : "This changes the maximum memory utilized during the fit, if you specify a number larger than available, your run will likely not complete"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmbestfinestconversion"
+        ,"type"    : "float"
+        ,"label"   : "Finest grid size [Angstrom]"
+        ,"min"     : 0.5
+        ,"max"     : 50
+        ,"default" : 4
+        ,"repeat"  : "supp_label"
+        ,"help"    : "This will be the smallest grid cube edge length.  It should be the same as the grid size"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmbestcoarseconversion"
+        ,"type"    : "integer"
+        ,"label"   : "Coarse grid size [Angstrom]"
+        ,"min"     : 0.5
+        ,"max"     : 50
+        ,"default" : 10
+        ,"repeat"  : "supp_label"
+        ,"help"    : "This is the starting grid cube edge length during the fit."
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmbestconversiondivisor"
+        ,"type"    : "float"
+        ,"label"   : "Conversion divisor"
+        ,"min"     : 1.5
+        ,"max"     : 10
+        ,"default" : 2.5
+        ,"repeat"  : "supp_label"
+        ,"help"    : "This is the divisor used for refinement stages.  The procedure starts with the maximum size and refines to smaller sizes using this divisor."
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmbestrefinementrangepct"
+        ,"type"    : "float"
+        ,"label"   : "Refinement percent"
+        ,"min"     : 1.5
+        ,"max"     : 10
+        ,"default" : 2.5
+        ,"repeat"  : "supp_label"
+        ,"help"    : "This decreases the refinement range by the specified percent"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmmaxdimension"
+        ,"type"    : "integer"
+        ,"label"   : "Maximum linear extent [Angstrom]"
+        ,"min"     : 10
+        ,"max"     : 32767
+        ,"default" : 32767
+        ,"repeat"  : "supp_label"
+        ,"help"    : "If you know the maximum linear extent of the molecule, you can optionally enter it here, which might speed up the search, but otherwise, you can leave it as the default of 32767"
+        }
+        ,{
+        "role"      : "input"
+        ,"id"       : "ga_label"
+        ,"type"     : "checkbox"
+        ,"label"    : "Genetic algorithm controls"
+        ,"colspan"  : 3
+        ,"fontclass": "header4"
+        ,"prehline" : "true"
+        ,"repeater" : "true"
+        ,"help"     : "These optional controls allow tuning of the genetic algorithm"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgapopulation"
+        ,"type"    : "integer"
+        ,"label"   : "GA population size"
+        ,"min"     : 10
+        ,"max"     : 10000
+        ,"default" : 100
+        ,"repeat"  : "ga_label"
+        ,"help"    : "The size of the genetic algrithm population"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgagenerations"
+        ,"type"    : "integer"
+        ,"label"   : "GA generations"
+        ,"min"     : 10
+        ,"max"     : 1000
+        ,"default" : 100
+        ,"repeat"  : "ga_label"
+        ,"help"    : "The number of genetic algrithm generations"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgamutate"
+        ,"type"    : "float"
+        ,"label"   : "GA mutate probability"
+        ,"min"     : 0
+        ,"max"     : 0.9
+        ,"default" : 0.1
+        ,"repeat"  : "ga_label"
+        ,"help"    : "The genetic algorithm mutate probablity"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgasamutate"
+        ,"type"    : "float"
+        ,"label"   : "GA simulated annealing probability"
+        ,"min"     : 0
+        ,"max"     : 0.9
+        ,"default" : 0.5
+        ,"repeat"  : "ga_label"
+        ,"help"    : "The genetic algorithm simulated annealing probablity"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgacrossover"
+        ,"type"    : "text"
+        ,"label"   : "GA crossover"
+        ,"min"     : 0
+        ,"max"     : 0.9
+        ,"default" : 0.4
+        ,"repeat"  : "ga_label"
+        ,"help"    : "The genetic algorithm crossover probablity"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgaelitism"
+        ,"type"    : "integer"
+        ,"label"   : "GA elitism"
+        ,"min"     : 0
+        ,"max"     : 10
+        ,"default" : 1
+        ,"repeat"  : "ga_label"
+        ,"help"    : "This will select the specificed best fit population members to guarantee survival to the next generation"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgaearlytermination"
+        ,"type"    : "integer"
+        ,"label"   : "GA early termination"
+        ,"repeat"  : "ga_label"
+        ,"min"     : 0
+        ,"max"     : 100
+        ,"default" : 5
+        ,"help"    : "This will stop the genetic algorithm after the specified number of generations have been passed with no improvement in fit"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmgapointsmax"
+        ,"type"    : "integer"
+        ,"label"   : "GA maximum points per parameter"
+        ,"repeat"  : "ga_label"
+        ,"min"     : 10
+        ,"max"     : 1000
+        ,"default" : 100
+        ,"help"    : "This value controls the fineness of search in each parameter"
+        }
+        ,{
+        "role"      : "input"
+        ,"id"       : "misc_label"
+        ,"type"     : "checkbox"
+        ,"label"    : "Miscellenaous controls"
+        ,"colspan"  : 3
+        ,"fontclass": "header4"
+        ,"prehline" : "true"
+        ,"repeater" : "true"
+        ,"help"     : "These optional controls include initial search settings, turning off csv output and debugging"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmbestdeltastart"
+        ,"type"    : "float"
+        ,"label"   : "Initial param delta start"
+        ,"min"     : 1
+        ,"max"     : 10
+        ,"default" : 1
+        ,"repeat"  : "misc_label"
+        ,"help"    : "This controls the parameter range for the initial search and should probably be left at the default"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmbestdeltadivisor"
+        ,"type"    : "float"
+        ,"label"   : "Initial param delta divisor"
+        ,"min"     : 1.1
+        ,"max"     : 100
+        ,"default" : 10
+        ,"repeat"  : "misc_label"
+        ,"help"    : "This controls the parameter refinement for the initial search and should probably be left at the default"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmbestdeltamin"
+        ,"type"    : "float"
+        ,"label"   : "Delta minimum"
+        ,"min"     : 0.001
+        ,"max"     : 1
+        ,"default" : 0.01
+        ,"repeat"  : "misc_label"
+        ,"help"    : "This controls the parameter refinement for the initial search and should probably be left at the default"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmcsv"
+        ,"type"    : "checkbox"
+        ,"label"   : "Produce csv containing result curves"
+        ,"repeat"  : "misc_label"
+        ,"checked" : "true"
+        ,"help"    : "If you uncheck this, you will not get model intensity curves"
+        }
+        ,{
+        "role"     : "input"
+        ,"id"      : "pmdebug"
+        ,"type"    : "integer"
+        ,"label"   : "Debug level 1,2 or 3"
+        ,"min"     : 0
+        ,"max"     : 3
+        ,"default" : 0
+        ,"repeat"  : "misc_label"
+        ,"help"    : "This is used to provide development debugging information, 0 provides no additional debugging"
+        }
+        ,{
+        "role"       : "input"
+        ,"id"        : "label_end"
+        ,"type"      : "label"
+        ,"label"     : ""
+        ,"colspan"   : 3
+        ,"fontclass" : "header4"
+        ,"posthline" : "true"
+        }
+       ,{
+       "role"    : "output"
+       ,"id"     : "status"
+       ,"label"  : "status"
+       ,"type"   : "textarea"
+       ,"append" : "true"
+       ,"cols"   : 80
+       }
+       ,{
+       "role"      : "output"
+       ,"id"       : "models"
+       ,"label"    : "Models"
+       ,"type"     : "file"
+       ,"multiple" : "true"
+       }
+       ,{
+       "role"      : "output"
+       ,"id"       : "dats"
+       ,"label"    : "I(q) data"
+       ,"type"     : "text"
+       ,"type"     : "file"
+       ,"multiple" : "true"
+       }
+       ,{
+       "role"  : "output"
+       ,"id"    : "outputinput"
+       ,"label" : "Input JSON"
+       ,"type"  : "file"
+       }
+       ,{
+       "role"  : "output"
+       ,"id"    : "outputref"
+       ,"label" : "Input JSON as perl Data::Dumper"
+       ,"type"  : "file"
+       }
+       ,{
+       "role"  : "output"
+       ,"id"    : "outputres"
+       ,"label" : "Results JSON"
+       ,"type"  : "file"
+       }
+       ,{
+       "role"  : "output"
+       ,"id"    : "outputdir"
+       ,"label" : "Results directory"
+       ,"type"  : "file"
+       }
+                  ]
+# the executable will take inputs in json and produce json output
+    ,"executable" : "pm"
+    ,"resource"   : "compute0"
+}
+
