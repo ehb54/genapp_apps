@@ -18,21 +18,24 @@
                    "label"    : "project name",
                    "type"     : "text",
                    "default"  : "run_0",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"     : "this will name the folder that will hold results"
                    },
                   {
                    "role"    : "input", 
                    "id"      : "refpdb",
                    "label"   : "reference pdb",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"     : "name of PDB file associated with input filename"
                    },
                   {
                    "role"    : "input", 
                    "id"      : "infile",
                    "label"   : "input filename (dcd or pdb)",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"     : "name of PDB or DCD file with coordinates you wish to center"
                    },
                   {
                    "role"    : "input", 
@@ -40,7 +43,8 @@
                    "label"   : "output filename",
                    "type"    : "text",
                    "default" : "cen_c7.dcd",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"     : "name of final PDB or DCD file centered coordinates"
                    },
 		  {
                     "role"    : "output",

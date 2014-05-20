@@ -1,4 +1,4 @@
-#!/usr/local/bin/bin/python2.7
+#!/share/apps/local/bin/python/bin/python
 import json,sys,os,shutil
 from StringIO import StringIO
 import multiprocessing,time,string

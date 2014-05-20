@@ -1,4 +1,4 @@
-#!/usr/local/bin/bin/python2.7
+#!/share/apps/local/bin/python/bin/python
 import json,sys,os,shutil,ast
 from StringIO import StringIO
 import multiprocessing,time,string
@@ -9,7 +9,6 @@ import sassie.interface.input_filter as input_filter
 class Center_Drv():
 
    module = 'center'
-
 
    def background_job(self,process,txtQueue):
 	total_string = ''
@@ -72,6 +71,10 @@ class Center_Drv():
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
@@ -91,8 +94,12 @@ class Center_Drv():
 		output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 	
-	with open("/home/curtisj/sassie2/log","w") as outfile:
+	with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
 		json.dump(output_dict,outfile)
+         
+#emre
+        sys.stdout = save_stdout;
+#end emre
 	print json.dumps( output_dict )
 		
 if __name__=='__main__':
