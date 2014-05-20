@@ -94,5 +94,5 @@
                   ],
 # the executable will take inputs in order and produce output
     "executable" : "data_interpolation"
-    ,"resource"  : "compute0"
+    ,"uniqueid"  : "on"
 }
