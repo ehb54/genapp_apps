@@ -38,5 +38,6 @@
                    }
                   ],
 # the executable will take inputs in json and produce output in json
-    "executable" : "align"
+    "executable"   : "align",
+    "submitpolicy" : "all"
 }

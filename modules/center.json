@@ -40,5 +40,5 @@
                    }
                   ],
 # the executable will take inputs in json and produce outputs in json
-    "executable" : "center"
+    "executable"   : "center"
 }
