@@ -15,11 +15,11 @@
                   {
                    "role"     : "input",
                    "id"       : "runname",
-                   "label"    : "project name",
+                   "label"    : "run name",
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true",
-		   "help"     : "this will name the folder that will hold results"
+		   "help"     : "results will be placed in a folder called center/ in the directory name you enter here"
                    },
                   {
                    "role"    : "input", 
@@ -27,7 +27,7 @@
                    "label"   : "reference pdb",
                    "type"    : "file",
                    "required" : "true",
-		   "help"     : "name of PDB file associated with input filename"
+		   "help"     : "name of PDB file for atom naming purposes"
                    },
                   {
                    "role"    : "input", 
