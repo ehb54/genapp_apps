@@ -15,17 +15,19 @@
                   {
                    "role"       : "input",
                    "id"         : "runname",
-                   "label"      : "project name",
+                   "label"      : "run name",
                    "type"       : "text",
                    "default"    : "run_0",
-                   "required"   : "true"
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called align/ in the directory name you enter here"
                    },
                   {
                    "role"    : "input",
                    "id"      : "pdbmol1",
                    "label"   : "input pdb file (mol 1)",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of reference PDB file"
                    },
                   {
                    "role"    : "input",
@@ -33,7 +35,8 @@
                    "label"   : "alignment basis (mol 1)",
                    "type"    : "text",
                    "default" : "CA",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "enter atom name to use as an alignment basis for molecule 1"
                    },
                   {
                    "role"    : "input",
@@ -41,7 +44,8 @@
                    "label"   : "low residue (mol 1)",
                    "type"    : "integer",
                    "default" : 145,
-                   "required" : "true"
+                   "required" : "true",
+		   "help"    : "enter low residue number for alignment basis for molecule 1"
                    },
                   {
                    "role"    : "input",
@@ -49,21 +53,24 @@
                    "label"   : "high residue (mol 1)",
                    "type"    : "integer",
                    "default" : 350,
-                   "required" : "true"
+                   "required" : "true",
+		   "help"    : "enter high residue number for alignment basis for molecule 1"
                    },
                   {
                    "role"    : "input",
                    "id"      : "pdbmol2",
                    "label"   : "input pdb file (mol 2)",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes"
                    },
                   {
                    "role"    : "input",
                    "id"      : "infile",
                    "label"   : "input (pdb or dcd) file (mol 2)",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"     : "name of PDB or DCD file with coordinates you wish to align"
                    },
                   {
                    "role"    : "input",
@@ -71,7 +78,8 @@
                    "label"   : "output filename (aligned mol 2)",
                    "type"    : "text",
                    "default" : "ac7.dcd",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"    : "enter name of aligned coordinate file"
                    },
                   {
                    "role"    : "input",
@@ -79,7 +87,8 @@
                    "label"   : "alignment basis (mol 2)",
                    "type"    : "text",
                    "default" : "CA",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "enter atom name to use as an alignment basis for molecule 2"
                    },
                   {
                    "role"    : "input",
@@ -87,7 +96,8 @@
                    "label"   : "low residue (mol 2)",
                    "type"    : "integer",
                    "default" : 145,
-                   "required" : "true"
+                   "required" : "true",
+		   "help"    : "enter low residue number for alignment basis for molecule 2"
                    },
                   {
                    "role"    : "input",
@@ -95,7 +105,8 @@
                    "label"   : "high residue (mol 2)",
                    "type"    : "integer",
                    "default" : 350,
-                   "required" : "true"
+                   "required" : "true",
+		   "help"    : "enter high residue number for alignment basis for molecule 2"
                    },
                   {
                    "role"    : "input",
@@ -103,7 +114,8 @@
                    "label"   : "extra basis description (mol 1)",
                    "type"    : "text",
                    "default" : "None",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"    : "advanced overlap selection for molecule 1"
                    },
                   {
                    "role"    : "input",
@@ -111,7 +123,8 @@
                    "label"   : "extra basis description (mol 2)",
                    "type"    : "text",
                    "default" : "None",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"    : "advanced overlap selection for molecule 2"
                    },
 		  {
                     "role"    : "output",

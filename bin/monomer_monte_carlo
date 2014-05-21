@@ -51,9 +51,9 @@ class Generate_Drv():
                 data_file.close()
 
         except:
-                print 'ERROR READING PLOT DATA FILE'
-                print 'ERROR READING PLOT DATA FILE'
-                print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
                 flot_data = "error reading file and making plot"
 
         return
@@ -252,6 +252,12 @@ class Generate_Drv():
 
  	error,self.variables=input_filter.type_check_and_convert(svariables)
 
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+
+
 	error = []
 
 	if(len(error)>0):
@@ -271,11 +277,14 @@ class Generate_Drv():
 
                 total_string = self.background_job(process,txtQueue)
 
-#		output_dict['io_string'] = input_string
+		output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 
 		accepted_rg_file = data_path+runname+'/generate/'+dcdfile+'.accepted_rg_results_data.txt'
 		all_rg_file = data_path+runname+'/generate/'+dcdfile+'.all_rg_results_data.txt'
+
+		print 'acc rg file = ', accepted_rg_file	
+		print 'all_rg_file = ', all_rg_file
 
                 flot_data = self.get_data_from_disk(all_rg_file,accepted_rg_file)
 
@@ -287,15 +296,15 @@ class Generate_Drv():
                         output_dict['plot_error'] = flot_data
                 else:
                         output_dict['plotout4'] = flot_data
+#emre
+        sys.stdout = save_stdout;
+#end emre
 
-	
-	with open("/home/curtisj/sassie2/log","w") as outfile:
-		json.dump(output_dict,outfile)
-	print json.dumps( output_dict )
-
-	
-#	with open("/home/curtisj/sassie2/json_output.txt","w") as outfile:
-#		json.dump(output_dict,outfile)
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
 
 		
 if __name__=='__main__':

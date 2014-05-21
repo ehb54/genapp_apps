@@ -4,124 +4,146 @@
     "label"    : "Contrast Calculator",
     "fields"   : [
                    {
-                   "role"       : "input",
+                   "role"     : "input",
                    "id"       : "module_header",
                    "label"    : "Contrast Calculator",
                    "type"     : "label",
                    "default"  : "header4",
-                   "prehline"  : "true",
-                   "posthline"  : "true"
+                   "prehline" : "true",
+                   "posthline": "true"
                    },
                   {
-                   "role"       : "input",
-                   "id"         : "runname",
-                   "label"      : "project name",
-                   "type"       : "text",
-                   "default"    : "run_0",
-                   "required"   : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "pdbmol1",
-                   "label"   : "input pdb file (mol 1)",
-                   "type"    : "file",
+                   "role"     : "input",
+                   "id"       : "ofile",
+                   "label"    : "output filename (no extension)",
+                   "type"     : "text",
+                   "default"  : "contrast_output",
                    "required" : "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "basis1",
-                   "label"   : "alignment basis (mol 1)",
-                   "type"    : "text",
-                   "default" : "CA",
+                   "role"     : "input",
+                   "id"       : "n_inputfiles",
+                   "label"    : "number of input files:",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "required" : "true",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fasta",
+                   "label"    : "FASTA?",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "repeat"   : "n_inputfiles",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "infile",
+                   "label"    : "input file name:",
+                   "type"     : "file",
+                   "required" : "true",
+                   "repeat"   : "n_inputfiles",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "n_units",
+                   "label"    : "number of units:",
+                   "type"     : "integer",
+                   "required" : "true",
+                   "repeat"   : "n_inputfiles",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fraction_deuterated",
+                   "label"    : "fraction deuterated:",
+                   "type"     : "float",
+                   "required" : "true",
+                   "repeat"   : "n_inputfiles",
+                   "norow"    : "true"
+                   },
+		          {
+                   "role"     : "input",
+                   "id"       : "moltype",
+                   "label"    : "molecular type:", 
+                   "type"     : "listbox",
+                   "values"   : "dna~c1~rna~c2~protein~c3",
+                   "default"  : "protein",
+                   "repeat"   : "n_inputfiles",
+                   "norow"    : "true"
+                   },
+
+                  {
+                   "role"     : "input",
+                   "id"       : "optional_input_header",
+                   "label"    : "Optional Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "solvent_D2O_step",
+                   "label"    : "solvent %D2O step:",
+                   "type"     : "integer",
+                   "default"  : 5,
                    "required" : "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "lowres1",
-                   "label"   : "low residue (mol 1)",
-                   "type"    : "integer",
-                   "default" : 145,
+                   "role"     : "input",
+                   "id"       : "tot_solute_concentration",
+                   "label"    : "total solute concentration (mg/ml):",
+                   "type"     : "float",
+                   "default"  : 1.00,
                    "required" : "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "highres1",
-                   "label"   : "high residue (mol 1)",
-                   "type"    : "integer",
-                   "default" : 350,
+                   "role"     : "input",
+                   "id"       : "frac_exch_H_protein",
+                   "label"    : "frac. exch. H (protein):",
+                   "type"     : "float",
+                   "default"  : 0.95,
                    "required" : "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "pdbmol2",
-                   "label"   : "input pdb file (mol 2)",
-                   "type"    : "file",
+                   "role"     : "input",
+                   "id"       : "frac_exch_H_na",
+                   "label"    : "frac. exch. H (nucleic acid):",
+                   "type"     : "float",
+                   "default"  : 1.0,
                    "required" : "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "infile",
-                   "label"   : "input (pdb or dcd) file (mol 2)",
-                   "type"    : "file",
-                   "required" : "true"
+                   "role"     : "input",
+                   "id"       : "n_non_water_components",
+                   "label"    : "number of non-water solvent components:",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "required" : "true",
+                   "repeater" : "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "ofile",
-                   "label"   : "output filename (aligned mol 2)",
-                   "type"    : "text",
-                   "default" : "ac7.dcd",
-                   "required" : "true"
+                   "role"     : "input",
+                   "id"       : "component",
+                   "label"    : "component (atomic formula):",
+                   "type"     : "text",
+                   "repeat"   : "n_non_water_components",
+                   "norow"    : "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "basis2",
-                   "label"   : "alignment basis (mol 2)",
-                   "type"    : "text",
-                   "default" : "CA",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "lowres2",
-                   "label"   : "low residue (mol 2)",
-                   "type"    : "integer",
-                   "default" : 145,
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "highres2",
-                   "label"   : "high residue (mol 2)",
-                   "type"    : "integer",
-                   "default" : 350,
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "ebasis1",
-                   "label"   : "extra basis description (mol 1)",
-                   "type"    : "text",
-                   "default" : "None",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "ebasis2",
-                   "label"   : "extra basis description (mol 2)",
-                   "type"    : "text",
-                   "default" : "None",
-                   "required" : "true"
-                   },
-		  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : " ",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
+                   "role"     : "input",
+                   "id"       : "concentration",
+                   "label"    : "concentration (M):",
+                   "type"     : "float",
+                   "required" : "true",
+                   "repeat"   : "n_non_water_components",
+                   "norow"    : "true"
                    }
+
                   ],
 # the executable will take inputs in json and produce output in json
     "executable" : "contrast_calculator"
