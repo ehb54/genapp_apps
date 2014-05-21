@@ -193,54 +193,6 @@
                    },
 		  {
                    "role"    : "input",
-                   "id"      : "cflag_list_box",
-                   "name"    : "cflag_list_box",
-                   "label"    : "atomic constraints",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "confile",
-                   "label"    : "constraint file name",
-                   "type"     : "file",
-                   "required" : "false",
-                   "default" : "constraints.txt",
-                   "repeat"  : "advanced_input"
-                   },
-		  {
-                   "role"    : "input",
-                   "id"      : "nonbondflag_list_box",
-                   "name"    : "nonbondflag_list_box",
-                   "label"    : "non-bonding energies",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "nonbondscale",
-                   "label"    : "non-bonding scale factor",
-                   "type"     : "float",
-                   "default"  : 1.0,
-	           "step"     : 0.01,
-                   "required" : "true",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "psffilename",
-                   "label"    : "psf file name",
-                   "type"     : "file",
-                   "required" : "false",
-                   "default"  : "refgag.psf",
-                   "repeat"   : "advanced_input"
-                   },
-		  {
-                   "role"    : "input",
                    "id"      : "plotflag_list_box",
                    "name"    : "plotflag_list_box",
                    "label"    : "plot Rg during run",
@@ -257,6 +209,54 @@
                    "default"  : "0",
                    "required" : "true",
                    "repeat"  : "advanced_input"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "cflag_list_box",
+                   "name"    : "cflag_list_box",
+                   "label"    : "check box to use atomic constraints",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeat"  : "advanced_input",
+		   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "confile",
+                   "label"    : "constraint file name",
+                   "type"     : "file",
+                   "required" : "false",
+		   "default"  : "contraints.txt",
+                   "repeat"  : "cflag_list_box"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "nonbondflag_list_box",
+                   "name"    : "nonbondflag_list_box",
+                   "label"    : "check box to use non-bonding energies",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeat"  : "advanced_input",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nonbondscale",
+                   "label"    : "non-bonding scale factor",
+                   "type"     : "float",
+                   "default"  : 1.0,
+	           "step"     : 0.01,
+                   "required" : "true",
+                   "repeat"  : "nonbondflag_list_box"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "psffilename",
+                   "label"    : "psf file name",
+                   "type"     : "file",
+                   "required" : "false",
+                   "default"  : "refgag.psf",
+                   "repeat"  : "nonbondflag_list_box"
                    },
                    {
                    "role"    : "output",
