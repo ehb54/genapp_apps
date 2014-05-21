@@ -15,7 +15,7 @@
                   {
                    "role"     : "input",
                    "id"       : "runname",
-                   "label"    : "project name",
+                   "label"    : "run name",
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true"
@@ -41,7 +41,7 @@
                    "label"   : "select option",
                    "type"    : "listbox",
                    "values"  : "single frame~c1~range~c2~text file~c3~weight file~c4",
-                   "default" : "single frame"
+                   "default" : "c1"
                    },	
                   {
                    "role"     : "input",

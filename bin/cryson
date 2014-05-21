@@ -44,7 +44,7 @@ class Cryson_Drv():
 		dcdfile = 'run_0.dcd'
 		pdbpath = './run_0/generate/'
 		pdbfile = 'c2.pdb'
-		cryexe = '/usr/local/bin/cryson.exe'
+		cryexe = '/share/apps/local/bin/cryson.exe'
 
 		delafs = '1'
 		option = '0'
@@ -101,7 +101,7 @@ class Cryson_Drv():
 		path = ''
 
 	option = '0'
-	cryexe = '/usr/local/bin/cryson.exe'
+	cryexe = '/share/apps/local/bin/cryson.exe'
 
 	svariables={}
 

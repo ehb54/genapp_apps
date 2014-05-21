@@ -47,7 +47,7 @@ class Xtal2sas_Drv():
 		dcdfile = 'run_0.dcd'
 		pdbpath = './run_0/generate/'
 		pdbfile = 'c2.pdb'
-		xtal2sasexe = '/usr/local/bin/xtal2sas.exe'
+		xtal2sasexe = '/share/apps/local/bin/xtal2sas.exe'
 		delcaipfiles = '1'
 		option = 'N'
 		numiq = '50'
@@ -103,7 +103,7 @@ class Xtal2sas_Drv():
 		path = ''
 
 	option = 'N'
-	xtal2sasexe = '/usr/local/bin/xtal2sas.exe'
+	xtal2sasexe = '/share/apps/local/bin/xtal2sas.exe'
 
 	svariables={}
 

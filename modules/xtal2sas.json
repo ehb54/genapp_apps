@@ -15,7 +15,7 @@
                   {
                    "role"     : "input",
                    "id"       : "runname",
-                   "label"    : "project name",
+                   "label"    : "run name",
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true"
@@ -97,7 +97,7 @@
                    "label"   : "protein protonated or deuterated",
                    "type"    : "listbox",
                    "values"  : "H~c1~D~c2",
-                   "default" : "H"
+                   "default" : "c1"
                    },
                   {
                    "role"    : "input",
@@ -106,7 +106,7 @@
                    "label"   : "delete crd/ans/inf/pr files",
                    "type"    : "listbox",
                    "values"  : "yes~c1~no~c2",
-                   "default" : "yes"
+                   "default" : "c1"
                    },
  		  {
                     "role"    : "output",

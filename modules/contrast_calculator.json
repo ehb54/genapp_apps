@@ -71,7 +71,7 @@
                    "label"    : "molecular type:", 
                    "type"     : "listbox",
                    "values"   : "dna~c1~rna~c2~protein~c3",
-                   "default"  : "protein",
+                   "default"  : "c3",
                    "repeat"   : "n_inputfiles",
                    "norow"    : "true"
                    },

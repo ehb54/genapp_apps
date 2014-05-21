@@ -44,7 +44,7 @@ class Crysol_Drv():
 		dcdfile = 'run_0.dcd'
 		pdbpath = './run_0/generate/'
 		pdbfile = 'c2.pdb'
-		cryexe = '/usr/local/bin/crysol.exe'
+		cryexe = '/share/apps/local/bin/crysol.exe'
 
 		delafs = '1'
 		option = '0'
@@ -105,7 +105,7 @@ class Crysol_Drv():
 		path = ''
 
 	option = '0'
-	cryexe = '/usr/local/bin/crysol.exe'
+	cryexe = '/share/apps/local/bin/crysol.exe'
 
 	svariables={}
 

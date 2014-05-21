@@ -15,7 +15,7 @@
                   {
                    "role"     : "input",
                    "id"       : "runname",
-                   "label"    : "project name",
+                   "label"    : "run name",
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true"
@@ -66,7 +66,7 @@
                    "label"    : "molecule type",
                    "type"    : "listbox",
                    "values"  : "protein~c1~rna~c2",
-                   "default" : "protein"
+                   "default" : "c1"
                    },
                   {
                    "role"     : "input",
@@ -178,7 +178,7 @@
                    "label"    : "Z coordinate filter", 
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no",
+                   "default" : "c1",
                    "repeat"  : "advanced_input"
                    },
                   {
@@ -198,7 +198,7 @@
                    "label"    : "atomic constraints",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no",
+                   "default" : "c1",
                    "repeat"  : "advanced_input"
                    },
                   {
@@ -217,7 +217,7 @@
                    "label"    : "non-bonding energies",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no",
+                   "default" : "c1",
                    "repeat"  : "advanced_input"
                    },
                   {
@@ -246,7 +246,7 @@
                    "label"    : "plot Rg during run",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no",
+                   "default" : "c1",
                    "repeat"  : "advanced_input"
                    },
                   {

@@ -15,7 +15,7 @@
                   {
                    "role"     : "input",
                    "id"       : "runname",
-                   "label"    : "project name",
+                   "label"    : "run name",
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true"
@@ -89,7 +89,7 @@
                    "label"   : "explicit hydrogens",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no"
+                   "default" : "c1"
                    },
                   {
                    "role"    : "input",
@@ -98,7 +98,7 @@
                    "label"   : "delete alm/flm/sav files",
                    "type"    : "listbox",
                    "values"  : "yes~c1~no~c2",
-                   "default" : "yes"
+                   "default" : "c1"
                    },
  		  {
                     "role"    : "output",

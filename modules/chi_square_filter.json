@@ -15,7 +15,7 @@
                   {
                    "role"     : "input",
                    "id"       : "runname",
-                   "label"    : "project name",
+                   "label"    : "run name",
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true"
@@ -114,7 +114,7 @@
                    "label"   : "SAS type",
                    "type"    : "listbox",
                    "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
-                   "default" : "xtal2sas"
+                   "default" : "c1"
                    },
                   {
                    "role"    : "input",
@@ -123,7 +123,7 @@
                    "label"   : "chi-square type",
                    "type"    : "listbox",
                    "values"  : "reduced chi-square~c1~chi-square~c2~Pearson chi-square~c3",
-                   "default" : "reduced chi-square"
+                   "default" : "c1"
                    },
                    {
                    "role"    : "output",

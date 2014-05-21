@@ -15,7 +15,7 @@
                   {
                    "role"       : "input",
                    "id"         : "runname",
-                   "label"      : "project name",
+                   "label"      : "run name",
                    "type"       : "text",
                    "default"    : "run_0",
                    "required"   : "true"
@@ -72,7 +72,7 @@
                    "label"    : "keep run output files",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "no"
+                   "default" : "c1"
                    },
                   {
                    "role"    : "input",
@@ -89,7 +89,7 @@
                    "label"   : "run type",
                    "type"    : "listbox",
                    "values"  : "minimization~c1~minimization / md~c2~minimization / md / minimization~c3",
-                   "default" : "minimization"
+                   "default" : "c1"
                    },
                   {
                    "role"    : "input",
@@ -126,5 +126,5 @@
                    }
                   ],
 # the executable will take inputs in json and produce output in json
-    "executable" : "structure minimization"
+    "executable" : "structure_minimization"
 }
