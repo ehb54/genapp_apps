@@ -26,6 +26,7 @@
                    "id"       : "pdb_filename",
                    "label"    : "input pdb file",
                    "type"     : "file",
+                   "help"     : "name of PDB file for atom naming purposes",
                    "required" : "true"
                    },
                   {
@@ -33,6 +34,7 @@
                    "id"       : "filename",
                    "label"    : "input (pdb or dcd) file",
                    "type"     : "file",
+                   "help"     : "name of PDB or DCD file with coordinates you wish to extract structures from",
                    "required" : "true"
                    },
 	          {
@@ -42,7 +44,9 @@
                    "label"   : "select option",
                    "type"    : "listbox",
                    "values"  : "single frame~c1~range~c2~text file~c3~weight file~c4",
-                   "default" : "c1"
+                   "default" : "c1",
+		   "help"    : "select either a frame to extract, a range of frames to extract, name of a text file with frame numbers, or a weight file (either 1 or 0 for all frames indicating to extract (1) or ignore (0))",
+                   "repeater" : "true"
                    },	
                   {
                    "role"     : "input",
@@ -50,7 +54,8 @@
                    "label"    : "option value (frame #, frame range i.e. 3-22, or filename)",
                    "type"     : "text",
                    "default"  : "1",
-                   "required" : "true"
+		   "help"     : "supply appropriate value"
+#		   "repeat"   : "option_list_box"
                    },
                   {
                    "role"     : "input",
@@ -58,7 +63,8 @@
                    "label"    : "output filename (pdb or dcd)",
                    "type"     : "text",
                    "default"  : "output.dcd",
-                   "required" : "true"
+                   "required" : "true",
+		   "help"     : "name of file with extracted coordinates"
                    },
  		  {
                     "role"    : "output",
