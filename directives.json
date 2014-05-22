@@ -40,6 +40,6 @@
   "help_background_color_rgb" : "0,0,75",
   "help_text_color_rgb"       : "240,240,210"
 
-  ,"appconfig"                 : "/home/curtisj/sassie2/appconfig.json"
+  ,"appconfig"                 : "/share/apps/genapp/sassie2/appconfig.json"
 }
 

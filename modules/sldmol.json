@@ -18,7 +18,8 @@
                    "label"    : "run name",
                    "type"     : "text",
                    "default"  : "run_0",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called sldmol/ in the directory name you enter here"
                    },
                   {
                    "role"     : "input",

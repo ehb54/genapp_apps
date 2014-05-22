@@ -18,7 +18,8 @@
                    "label"    : "output filename (no extension)",
                    "type"     : "text",
                    "default"  : "contrast_output",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called contrast_calc/ in the directory name you enter here"
                    },
                   {
                    "role"     : "input",
