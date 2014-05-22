@@ -32,7 +32,7 @@
                   {
                    "role"     : "input",
                    "id"       : "fasta",
-                   "label"    : "FASTA?",
+                   "label"    : "FASTA ?",
                    "type"     : "checkbox",
                    "checked"  : "false",
                    "repeat"   : "n_inputfiles",

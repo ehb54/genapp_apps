@@ -104,9 +104,10 @@
                    "role"     : "input",
                    "id"       : "nsegments",
                    "label"    : "number of segments",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "required" : "true"
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "required" : "true",
+		   "repeater" : "true"
                    },
                   {
                    "role"     : "input",
@@ -114,7 +115,9 @@
                    "label"    : "number of ranges",
                    "type"     : "text",
                    "default"  : "5",
-                   "required" : "true"
+                   "required" : "true",
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
                    },
                   {
                    "role"     : "input",
@@ -122,7 +125,9 @@
                    "label"    : "enter low regions",
                    "type"     : "text",
                    "default"  : "1,124,143,355,380",
-                   "required" : "true"
+                   "required" : "true",
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
                    },
                   {
                    "role"     : "input",
@@ -130,7 +135,9 @@
                    "label"    : "enter high regions",
                    "type"     : "text",
                    "default"  : "123,142,353,379,420",
-                   "required" : "true"
+                   "required" : "true",
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
                    },
                   {
                    "role"     : "input",
@@ -138,7 +145,9 @@
                    "label"    : "segment basis",
                    "type"     : "text",
                    "default"  : "CA",
-                   "required" : "true"
+                   "required" : "true",
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
                    },
                   {
                    "role"     : "input",
@@ -146,7 +155,9 @@
                    "label"    : "segment name",
                    "type"     : "text",
                    "default"  : "GAG",
-                   "required" : "true"
+                   "required" : "true",
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
                    },
  		  {
                     "role"    : "output",

@@ -134,6 +134,11 @@ class Cryson_Drv():
 	error = []
  	error,self.variables=input_filter.type_check_and_convert(svariables)
 
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
@@ -151,12 +156,20 @@ class Cryson_Drv():
 
                 total_string = self.background_job(process,txtQueue)
 
-		output_dict['io_string'] = input_string
+		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 	
-	with open("/home/curtisj/sassie2/log","w") as outfile:
-		json.dump(output_dict,outfile)
-	print json.dumps( output_dict )
+#emre
+        sys.stdout = save_stdout;
+#end emre
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+        print json.dumps( output_dict )
 		
 if __name__=='__main__':
 

@@ -27,7 +27,7 @@
                    "label"   : "select EM file type",
                    "type"    : "listbox",
                    "values"  : "mrc~c1~Gaussian cube~c2",
-                   "default" : "mrc"
+                   "default" : "c1"
                    },
                   {
                    "role"     : "input",

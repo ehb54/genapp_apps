@@ -209,9 +209,14 @@ class Chi_square_filter_Drv():
                 else:
                         output_dict['chi_square_plot'] = flot_data
 
-	with open("/home/curtisj/sassie2/log","w") as outfile:
-		json.dump(output_dict,outfile)
-	print json.dumps( output_dict )
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+        print json.dumps( output_dict )
+
 		
 if __name__=='__main__':
 
