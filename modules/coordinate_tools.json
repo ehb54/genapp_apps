@@ -47,15 +47,42 @@
                    "default" : "c1",
 		   "help"    : "select either a frame to extract, a range of frames to extract, name of a text file with frame numbers, or a weight file (either 1 or 0 for all frames indicating to extract (1) or ignore (0))",
                    "repeater" : "true"
-                   },	
+                   },
                   {
                    "role"     : "input",
-                   "id"       : "local_value",
-                   "label"    : "option value (frame #, frame range i.e. 3-22, or filename)",
+                   "id"       : "local_value_c1",
+                   "label"    : "input a single frame number",
                    "type"     : "text",
                    "default"  : "1",
-		   "help"     : "supply appropriate value"
-#		   "repeat"   : "option_list_box"
+		   "help"     : "supply appropriate value",
+		   "repeat"   : "option_list_box:c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c2",
+                   "label"    : "input a range of frames",
+                   "type"     : "text",
+                   "default"  : "3-22",
+		   "help"     : "supply appropriate value",
+		   "repeat"   : "option_list_box:c2"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c3",
+                   "label"    : "input name of text file",
+                   "type"     : "file",
+                   "default"  : "1",
+		   "help"     : "supply appropriate value: file lists desired frames",
+		   "repeat"   : "option_list_box:c3"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c4",
+                   "label"    : "input name of text file",
+                   "type"     : "file",
+                   "default"  : "1",
+		   "help"     : "supply appropriate value: file is list of weights",
+		   "repeat"   : "option_list_box:c4"
                    },
                   {
                    "role"     : "input",
