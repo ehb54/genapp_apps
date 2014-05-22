@@ -40,64 +40,68 @@
                    "role"     : "input",
                    "id"       : "trials",
                    "label"    : "number of trial attempts",
-                   "type"     : "text",
-                   "default"  : "100",
+                   "type"     : "integer",
+                   "default"  : 100,
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "goback",
                    "label"    : "return to previous structure",
-                   "type"     : "text",
-                   "default"  : "20",
+                   "type"     : "integer",
+                   "default"  : 20,
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "temp",
                    "label"    : "temperature (K)",
-                   "type"     : "text",
-                   "default"  : "300.0",
+                   "type"     : "float",
+                   "default"  : 300.0,
+                   "required" : "true"
+                   },
+
+
+                  {
+                   "role"     : "input",
+                   "id"       : "complex_specific_input_header",
+                   "label"    : "Complex Specific Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "n_seg",
+                   "label"    : "Enter TOTAL number of segements:",
+                   "type"     : "integer",
+                   "default"  : 2,
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "moltype",
-                   "label"    : "molecule type (protein or rna)",
+                   "id"       : "seg_overlap_basis",
+                   "label"    : "segment overlap basis",
                    "type"     : "text",
-                   "default"  : "protein",
+                   "default"  : "CA",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "numranges",
-                   "label"    : "number of flexible regions to vary",
-                   "type"     : "text",
-                   "default"  : "5",
-                   "required" : "true"
+                   "id"       : "n_flexible_seg",
+                   "label"    : "number of flexible segments:",
+                   "type"     : "integer",
+                   "default"  : 2,
+                   "required" : "true",
+                   "repeater" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "dtheta",
-                   "label"    : "enter MAX [dtheta] for each region",
+                   "id"       : "flexible_seg_names",
+                   "label"    : "segment name(s) of flexible segments",
                    "type"     : "text",
-                   "default"  : "30.0,30.0,30.0,30.0,30.0",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "reslow",
-                   "label"    : "first residue per region",
-                   "type"     : "text",
-                   "default"  : "123,277,354,378,408",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "numcont",
-                   "label"    : "number contiguous residues per region",
-                   "type"     : "text",
-                   "default"  : "21,5,20,11,4",
+                   "default"  : "ENDA, ENDB",
                    "required" : "true"
                    },
                   {
@@ -115,6 +119,66 @@
                    "type"     : "integer",
                    "default"  : 350,
                    "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numranges",
+                   "label"    : "number of flexible regions to vary",
+                   "type"     : "integer",
+                   "default"  : 5,
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dtheta",
+                   "label"    : "enter MAX [dtheta] for each region",
+                   "type"     : "text",
+                   "default"  : "30.0, 30.0, 30.0, 30.0, 30.0",
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "reslow",
+                   "label"    : "first residue per region",
+                   "type"     : "text",
+                   "default"  : "123,277,354,378,408",
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numcont",
+                   "label"    : "number contiguous residues per region",
+                   "type"     : "text",
+                   "default"  : "21,5,20,11,4",
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "moltype",
+                   "label"    : "molecule type (protein or rna)",
+                   "type"     : "listbox",
+                   "values"   : "dna~c1~rna~c2~protein~c3",
+                   "default"  : "c3",
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "optional_input_header",
+                   "label"    : "Non-Standard / Specialized Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
                    },
                   {
                    "role"     : "input",
@@ -182,60 +246,9 @@
                    "id"       : "confile",
                    "label"    : "constraint file name",
                    "type"     : "file",
+                   "default"  : "constraints.txt",
                    "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "nonbondflag",
-                   "label"    : "non-bonding energies (0==no, 1==yes)",
-                   "type"     : "integer",
-                   "default"  : 0,
-	           "min"      : 0,
-		   "max"      : 1,
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "nonbondscale",
-                   "label"    : "non-bonding scale factor",
-                   "type"     : "float",
-                   "default"  : 1.0,
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "psffilename",
-                   "label"    : "psf file name",
-                   "type"     : "file",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "plotflag",
-                   "label"    : "plot Rg during run (0==no, 1==yes)",
-                   "type"     : "integer",
-                   "default"  : 0,
-	           "min"      : 0,
-		   "max"      : 1,
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "directedmc",
-                   "label"    : "directed Monte Carlo (0==no or Rg value)",
-                   "type"     : "text",
-                   "default"  : "0",
-                   "required" : "true"
-                   },
- 		  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : " ",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
-		   }
+                   }
                   ],
     "executable" : "complex_monte_carlo"
 }

@@ -140,7 +140,7 @@
                    "id"       : "concentration",
                    "label"    : "concentration (M):",
                    "type"     : "float",
-                   "required" : "true",
+                       "required" : "true",
                    "repeat"   : "n_non_water_components",
                    "norow"    : "true"
                    }
