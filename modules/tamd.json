@@ -78,8 +78,8 @@
                    "role"    : "input",
                    "id"      : "dcdfreq",
                    "label"   : "DCD write frequency",
-                   "type"    : "text",
-                   "default" : "20",
+                   "type"    : "integer",
+                   "default" : 20,
                    "required" : "true"
                    },
                   {

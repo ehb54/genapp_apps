@@ -112,6 +112,11 @@
             "icon"    : "pngs/calculate.png",
             "modules" : [ 
                          { 
+                          "id"    : "sascalc",
+                          "label" : "SasCalc",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
                           "id"    : "xtal2sas",
                           "label" : "Xtal2sas",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
