@@ -22,20 +22,69 @@
 		   "help"     : "results will be placed in a folder called center/ in the directory name you enter here"
                    },
                   {
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "one can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
                    "role"    : "input", 
                    "id"      : "refpdb",
-                   "label"   : "reference pdb",
+                   "label"   : " ",
                    "type"    : "file",
                    "required" : "true",
-		   "help"     : "name of PDB file for atom naming purposes"
+		   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "refpdb_list_box:c1",
+		   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "refpdb_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+		   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "refpdb_list_box:c2",
+		   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcd_list_box",
+                   "name"    : "dcd_list_box",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "one can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+		   "norow" : "true"
                    },
                   {
                    "role"    : "input", 
                    "id"      : "infile",
-                   "label"   : "input filename (dcd or pdb)",
+                   "label"   : " ",
                    "type"    : "file",
                    "required" : "true",
-		   "help"     : "name of PDB or DCD file with coordinates you wish to center"
+		   "help"     : "name of DCD or PDB file with coordinates you wish to center",
+		   "repeat"   : "dcd_list_box:c1",
+		   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "infile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+		   "default" : "min0.dcd",
+                   "required" : "true",
+		   "help"     : "name of DCD or PDB file with coordinates you wish to center",
+		   "repeat"   : "dcd_list_box:c2",
+		   "norow" : "true"
                    },
                   {
                    "role"    : "input", 

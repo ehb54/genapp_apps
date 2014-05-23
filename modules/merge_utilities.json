@@ -40,7 +40,7 @@
                   {
                    "role"     : "input",
                    "id"       : "run_paths",
-                   "label"    : "project name paths",
+                   "label"    : "run name paths",
                    "type"     : "text",
 		   "default"  : "run_m1,run_m2",
                    "required" : "true"
