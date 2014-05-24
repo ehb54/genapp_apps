@@ -5,27 +5,8 @@ use Data::Dumper;
 
 if ( !@ARGV )
 {
-    print "\{\"error\":\"center called with no arguments\"\}\n";
+    print "\{\"error\":\"data_interpolation called with no arguments\"\}\n";
     exit;
-}
-
-sub mkarraystr {
-    my $ref = $_[0];
-    my $out = '[';
-    foreach my $plot ( @$ref )
-    {
-#        print "ref(\$plot) = " . ref( $plot ) . "\n";
-#        print "ref(\$\$plot)) = " . ref( $$plot ) . "\n";
-        $out .= '[';
-        foreach my $pos ( @{$$plot} )
-        {
-            $out .= '[' . $$pos[ 0 ] . "," . $$pos[ 1 ] . '],';
-#            print $$pos[ 0 ] . "," . $$pos[ 1 ] . "\n";
-        }
-        $out =~ s/\,$/],/;
-    }
-    $out =~ s/\,$/]/;
-    $out;
 }
 
 $json = shift;
@@ -41,6 +22,23 @@ $startx = $$ref{ "startx" };
 $endx = $$ref{ "endx" };
 $deltax = $$ref{ "deltax" };
 
+sub mk_series {
+    my $options = $_[0];
+
+    my $out = "{$options,\"data\":[";
+
+    foreach my $pos ( @plot )
+    {
+        $out .= '[' . $$pos[ 0 ] . "," . $$pos[ 1 ] . '],';
+    }
+    $out =~ s/\,$//;
+    $out .= "]}";
+    $out;
+}
+
+undef @plot1;
+undef @plot2;
+
 if ( $startx <= $endx && $deltax > 0 ||
      $endx >= $startx && $deltax < 0 )
 {
@@ -49,20 +47,32 @@ if ( $startx <= $endx && $deltax > 0 ||
     {
         for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
         {
-            $plotout4[ 0 ][ $pos ] = [ $x, abs( sin( $x ) ) ];
-            $plotout4[ 1 ][ $pos ] = [ $x, abs( cos( $x ) ) ];
+            $plot1[ $pos ] = [ $x, abs( sin( $x ) ) ];
+            $plot2[ $pos ] = [ $x, abs( cos( $x ) ) ];
             $pos++;
         }
     } else {
         for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
         {
-            $plotout4[ 0 ][ $pos ] = [ $x, sin( $x ) ];
-            $plotout4[ 1 ][ $pos ] = [ $x, cos( $x ) ];
+            $plot1[ $pos ] = [ $x, sin( $x ) ];
+            $plot2[ $pos ] = [ $x, cos( $x ) ];
             $pos++;
         }
     }
-    @array2d = ( \@plotout4[ 0 ], \@plotout4[ 1 ] );
-    $pout = mkarraystr( \@array2d );
+
+    @plot = @plot1;
+    $pout = "[";
+    $pout .= mk_series('"lines":{"show":"true"},"label":"plot0"' );
+    $pout .= ",";
+    @plot = @plot2;
+    $pout .= mk_series('"points":{"show":"true"},"label":"plot1"' );
+    $pout .= "]";
+    $$res{ "outputref" } = "$p/logref.txt";
+    $$res{ "outputres" } = "$p/logres.txt";
+    $$res2{ "outputpdb" } = "$p/testpdb.pdb";
+    
+    $$res{ "p" } = $p;
+
     $json = encode_json( $res );
 
     $json =~ s/\}$/,"plotout4":$pout}/;
@@ -70,17 +80,6 @@ if ( $startx <= $endx && $deltax > 0 ||
     $$res{ "errors" } .= "Plot range error";
     $json = encode_json( $res );
 }
-
-# print mkarraystr( \@array2d ) . "\n";
-
-# $$res{ "plotout4" } = mkarraystr( \@array2d );
-
-$res2 = decode_json( $json );
-$$res2{ "outputref" } = "$p/logref.txt";
-$$res2{ "outputres" } = "$p/logres.txt";
-$$res2{ "outputpdb" } = "$p/testpdb.pdb";
-
-$$res2{ "p" } = $p;
 
 open OUT, ">$p/logref.txt";
 print OUT Dumper($ref);
@@ -90,6 +89,7 @@ print OUT Dumper($res2);
 print OUT "--- as json output string ---\n";
 print OUT $json;
 close OUT;
+
 
 open OUT, ">$p/testpdb.pdb";
 print OUT
@@ -154,4 +154,4 @@ HETATM    1  O   LIG A   6       9.899  18.225 -11.212  1.00  0.00      A    O
 ";
 close OUT;
 
-print encode_json( $res2 ) . "\n";
+print "$json\n";
