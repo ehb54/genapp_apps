@@ -1,7 +1,7 @@
 #!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil
+import json,sys,os,shutil,locale
 from StringIO import StringIO
-import multiprocessing
+import multiprocessing,time,string
 
 import sassie.interface.input_filter as input_filter
 import sassie.tools.contrast as contrast
@@ -10,6 +10,25 @@ import sassie.interface.contrast_calculator_filter as contrast_calculator_filter
 class Contrast_Drv():
 
    module = 'constrast_calc'
+
+   def background_job(self,process,txtQueue):
+        total_string = ''
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+                                return total_string
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -22,12 +41,29 @@ class Contrast_Drv():
         	runname='run_0'
 		inpath = './'
 		outfile = 'dum.txt'
-		numfile = '1'
+		numfile = '2'
 		solute_conc = "1.0"
 		d2ostep = "5"
-		numsolv = "0"
+		numsolv = "1"
 		frExchHpro = "0.95"
 		frExchHnuc = "1.0"
+
+		seqfiles = ["protein_sequence.txt","dna_sequence.txt"]
+		numunits = ["1","1"]
+		fracdeut = ["0","0"]
+		moltype = ["protein","dna"]
+		isFasta = ["1","1"]
+
+		ivariables = []
+		for i in xrange(locale.atoi(numfile)):
+			ivariables.append([seqfiles[i],numunits[i],fracdeut[i],moltype[i],isFasta[i]])	
+
+		solv_comp = ["NaCl"]
+		solv_conc = ["0.15"]
+
+		solv_variables = []
+		for i in xrange(locale.atoi(numsolv)):
+			solv_variables.append([solv_comp[i],solv_conc[i]])
 	
 		path = ''
 
@@ -69,11 +105,9 @@ class Contrast_Drv():
 	svariables['fexchn']		= (str(frExchHnuc),'float')
 	svariables['plotflag']		= (str('0'),'int')	
 
-	svariables={} 
-	
 	error =  []
 
-	error,self.variables=input_filter.type_check_and_convert(svariables)
+	error,variables=input_filter.type_check_and_convert(svariables)
 
 #emre
         save_stdout = sys.stdout
@@ -96,13 +130,16 @@ class Contrast_Drv():
 			output_dict['sasoutput1'] = 'run failed'
 			return
 		else:
-#			runname=self.variables['runname'][0]
+			runname=variables['runname'][0]
 
 			txtQueue=multiprocessing.JoinableQueue()
 			if os.path.exists(runname+'/'+self.module):
 				shutil.rmtree(runname+'/'+self.module)
 
-#			contrast.contrast(self.variables,txtQueue)
+			process=multiprocessing.Process(target=contrast.contrast,args=(variables,ivariables,solv_variables,txtQueue))
+			process.start()
+
+                        total_string = self.background_job(process,txtQueue)
 
 			output_dict['io_string'] = input_string
 			output_dict['sasoutput2'] = 'successfully completed run'
@@ -112,7 +149,8 @@ class Contrast_Drv():
 #end emre
 
         try:
-                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                #with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                with open("log","w") as outfile:
                         json.dump(output_dict,outfile)
         except:
                 output_dict['error_string'] = "error writing log file"
