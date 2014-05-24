@@ -21,70 +21,64 @@ class Contrast_Drv():
 
         	runname='run_0'
 		inpath = './'
-		pdbmol1 = 'c2.pdb'
-		pdbmol2 = 'c2.pdb'
-		infile = 'c2.dcd'
-		ofile = 'ac2.dcd'
-		basis1 = 'CA'
-		basis2 = 'CA'
-		lowres1 = '145'
-		lowres2 = '145'
-		highres1 = '350'
-		highres2 = '350'
-		ebasis1 = 'None'
-		ebasis2 = 'None'
-		
+		outfile = 'dum.txt'
+		numfile = '1'
+		solute_conc = "1.0"
+		d2ostep = "5"
+		numsolv = "0"
+		frExchHpro = "0.95"
+		frExchHnuc = "1.0"
+	
 		path = ''
 
         	#### END USER EDIT
         	#### END USER EDIT
         	#### END USER EDIT
        	else:
-		runname = json_variables['runname']
-        	temp_pdbmol1 = json_variables['pdbmol1']
-        	temp_pdbmol2 = json_variables['pdbmol2']
-        	temp_infile = json_variables['infile']
-        	basis1 = json_variables['basis1']
-        	basis2 = json_variables['basis2']
-        	lowres1 = json_variables['lowres1']
-        	lowres2 = json_variables['lowres2']
-        	highres1 = json_variables['highres1']
-        	highres2 = json_variables['highres2']
-        	ebasis1 = json_variables['ebasis1']
-        	ebasis2 = json_variables['ebasis2']
-        	ofile = json_variables['ofile']
 
-		head, infile = os.path.split(temp_infile[0])
-		print 'head = ',head ; print 'infile = ',infile
-		path = head.replace('\/','/') + "/"
-		os.chdir(path) 
+        	runname = 	json_variables['runname']
+        	inpath = 	json_variables['inpath']
+        	outfile = 	json_variables['outfile']
+        	numfile = 	json_svariables['numfile']          
+        	solute_cond = 	json_variables['solute_conc']      
+        	d2ostep = 	json_variables['d2ostep']         
+        	numsolv = 	json_variables['numsolv']        
+        	frExchHpro =	json_variables['fexchp']        
+        	frExchHnuc = 	json_variables['fexchn']       
+
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
 		path = ''
-		head, pdbmol1 = os.path.split(temp_pdbmol1[0])
-		head, pdbmol2 = os.path.split(temp_pdbmol2[0])
-
 
 	output_dict = {}
 
+	svariables={}
+
+	svariables['runname']		= (str(runname),'string')
+	svariables['inpath']		= (str(inpath),'string')
+	svariables['outfile']		= (str(outfile),'string')		
+	svariables['numfiles']		= (str(numfile),'int')
+	svariables['solute_conc']	= (str(solute_conc),'float')
+	svariables['d2ostep']		= (str(d2ostep),'int')
+	svariables['numsolv']		= (str(numsolv),'int')
+	svariables['fexchp']		= (str(frExchHpro),'float')
+	svariables['fexchn']		= (str(frExchHnuc),'float')
+	svariables['plotflag']		= (str('0'),'int')	
+
 	svariables={} 
 	
-	svariables['runname']=(str(runname),'string') 
-	svariables['path']=(str(path),'string')
-	svariables['pdbmol1']=(str(pdbmol1),'string')
-	svariables['pdbmol2']=(str(pdbmol2),'string')
-	svariables['infile']=(str(infile),'string')
-	svariables['ofile']=(str(ofile),'string')
-	svariables['basis1']=(str(basis1),'string')
-	svariables['basis2']=(str(basis2),'string')
-	svariables['lowres1']=(str(lowres1),'int')
-	svariables['lowres2']=(str(lowres2),'int')
-	svariables['highres1']=(str(highres1),'int')
-	svariables['highres2']=(str(highres2),'int')
-	svariables['ebasis1']=(str(ebasis1),'string')
-	svariables['ebasis2']=(str(ebasis2),'string')
-
 	error =  []
 
-#	error,self.variables=input_filter.type_check_and_convert(svariables)
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
 
 	if(len(error)>0):
 		print 'error = ',error
@@ -112,10 +106,19 @@ class Contrast_Drv():
 
 			output_dict['io_string'] = input_string
 			output_dict['sasoutput2'] = 'successfully completed run'
+
+#emre
+        sys.stdout = save_stdout;
+#end emre
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+        print json.dumps( output_dict )
 	
-	with open("/home/curtisj/sassie2/log","w") as outfile:
-		json.dump(output_dict,outfile)
-	print json.dumps( output_dict )
 		
 if __name__=='__main__':
 

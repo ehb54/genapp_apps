@@ -3,6 +3,7 @@
     "moduleid" : "contrast_calculator",
     "label"    : "Contrast Calculator",
     "fields"   : [
+
                    {
                    "role"     : "input",
                    "id"       : "module_header",
@@ -13,18 +14,27 @@
                    "posthline": "true"
                    },
                   {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called contrast_calc/ in the directory name you enter here"
+                   },
+                  {
                    "role"     : "input",
                    "id"       : "ofile",
                    "label"    : "output filename (no extension)",
                    "type"     : "text",
                    "default"  : "contrast_output",
                    "required" : "true",
-                   "help"     : "results will be placed in a folder called contrast_calc/ in the directory name you enter here"
+                   "help"     : "results will be placed in a folder called contrast_calc/ with the file name that you enter here"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "n_inputfiles",
-                   "label"    : "number of input files:",
+                   "id"       : "numfile",
+                   "label"    : "number of input files",
                    "type"     : "integer",
                    "default"  : 1,
                    "required" : "true",
@@ -36,44 +46,45 @@
                    "label"    : "FASTA ?",
                    "type"     : "checkbox",
                    "checked"  : "false",
-                   "repeat"   : "n_inputfiles",
-                   "norow"    : "true"
+                   "repeat"   : "numfile",
+                   "norow"    : "true",
+		   "help"     : "check the box if the file contains sequence information in FASTA format"
                    },
                   {
                    "role"     : "input",
                    "id"       : "infile",
-                   "label"    : "input file name:",
+                   "label"    : "input file name",
                    "type"     : "file",
                    "required" : "true",
-                   "repeat"   : "n_inputfiles",
+                   "repeat"   : "numfile",
                    "norow"    : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "n_units",
-                   "label"    : "number of units:",
+                   "label"    : "number of units",
                    "type"     : "integer",
                    "required" : "true",
-                   "repeat"   : "n_inputfiles",
+                   "repeat"   : "numfile",
                    "norow"    : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "fraction_deuterated",
-                   "label"    : "fraction deuterated:",
+                   "label"    : "fraction deuterated",
                    "type"     : "float",
                    "required" : "true",
-                   "repeat"   : "n_inputfiles",
+                   "repeat"   : "numfile",
                    "norow"    : "true"
                    },
 		          {
                    "role"     : "input",
                    "id"       : "moltype",
-                   "label"    : "molecular type:", 
+                   "label"    : "molecular type", 
                    "type"     : "listbox",
                    "values"   : "dna~c1~rna~c2~protein~c3",
                    "default"  : "c3",
-                   "repeat"   : "n_inputfiles",
+                   "repeat"   : "numfile",
                    "norow"    : "true"
                    },
 
@@ -88,40 +99,40 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "solvent_D2O_step",
-                   "label"    : "solvent %D2O step:",
-                   "type"     : "integer",
-                   "default"  : 5,
+                   "id"       : "solute_conc",
+                   "label"    : "total solute concentration (mg/ml)",
+                   "type"     : "text",
+                   "default"  : "1.00",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "tot_solute_concentration",
-                   "label"    : "total solute concentration (mg/ml):",
-                   "type"     : "float",
-                   "default"  : 1.00,
+                   "id"       : "d2ostep",
+                   "label"    : "solvent % D2O step",
+                   "type"     : "text",
+                   "default"  : "5",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "frac_exch_H_protein",
-                   "label"    : "frac. exch. H (protein):",
-                   "type"     : "float",
-                   "default"  : 0.95,
+                   "id"       : "fexchp",
+                   "label"    : "fraction exchangeable H (protein)",
+                   "type"     : "text",
+                   "default"  : "0.95",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "frac_exch_H_na",
-                   "label"    : "frac. exch. H (nucleic acid):",
-                   "type"     : "float",
-                   "default"  : 1.0,
+                   "id"       : "fexchn",
+                   "label"    : "fraction exchangeable H (nucleic acid)",
+                   "type"     : "text",
+                   "default"  : "1.0",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "n_non_water_components",
-                   "label"    : "number of non-water solvent components:",
+                   "label"    : "number of non-water solvent components",
                    "type"     : "integer",
                    "default"  : 1,
                    "required" : "true",
@@ -130,7 +141,7 @@
                   {
                    "role"     : "input",
                    "id"       : "component",
-                   "label"    : "component (atomic formula):",
+                   "label"    : "component (atomic formula)",
                    "type"     : "text",
                    "repeat"   : "n_non_water_components",
                    "norow"    : "true"
@@ -138,9 +149,9 @@
                   {
                    "role"     : "input",
                    "id"       : "concentration",
-                   "label"    : "concentration (M):",
+                   "label"    : "concentration (M)",
                    "type"     : "float",
-                       "required" : "true",
+                   "required" : "true",
                    "repeat"   : "n_non_water_components",
                    "norow"    : "true"
                    }
