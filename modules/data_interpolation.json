@@ -22,11 +22,34 @@
                    "help"     : "results will be placed in a folder called interpolate/ in the directory name you enter here"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "expdata",
+                   "role"    : "input",
+                   "id"      : "data_file_list_box",
+                   "name"    : "data_file_list_box",
+                   "label"   : "experimental data file",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "expdata",
                    "label"    : "input data file",
-                   "type"     : "file",
-                   "required" : "true"
+                   "type"    : "file",
+                   "required" : "true",
+                   "repeat"   : "data_file_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "expdata_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "repeat"   : "data_file_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"     : "input",

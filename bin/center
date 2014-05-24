@@ -58,6 +58,7 @@ class Center_Drv():
 		base_directory = json_variables['_base_directory']
 
         	path = base_directory.replace('\/','/') + "/"
+
 		os.chdir(path)
 
         	ofile = json_variables['ofile']
@@ -65,16 +66,12 @@ class Center_Drv():
 		if(json_variables['refpdb_list_box'] == "c1"):
         		temp_refpdb = json_variables['refpdb']
 			head, refpdb = os.path.split(temp_refpdb[0])
-               # 	path = head.replace('\/','/') + "/"
-               # 	os.chdir(path)
 		elif(json_variables['refpdb_list_box'] == "c2"):
         		refpdb = json_variables['refpdb_text']
 
 		if(json_variables['dcd_list_box'] == "c1"):
         		temp_infile = json_variables['infile']
 			head, infile = os.path.split(temp_infile[0])
-               # 	path = head.replace('\/','/') + "/"
-               # 	os.chdir(path)
 		elif(json_variables['dcd_list_box'] == "c2"):
         		infile = json_variables['infile_text']
  

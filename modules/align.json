@@ -22,12 +22,45 @@
                    "help"     : "results will be placed in a folder called align/ in the directory name you enter here"
                    },
                   {
+                   "role"     : "input",
+                   "id"       : "reference_section_header",
+                   "label"    : "Molecule 1 [reference structure]",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbmol1_list_box",
+                   "name"    : "pdbmol1_list_box",
+                   "label"   : "reference structure (mol 1)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
                    "role"    : "input",
                    "id"      : "pdbmol1",
                    "label"   : "input pdb file (mol 1)",
                    "type"    : "file",
                    "required" : "true",
-                   "help"     : "name of reference PDB file"
+                   "help"     : "name of reference PDB file",
+		   "repeat"  : "pdbmol1_list_box:c1",
+		   "norow"   : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbmol1_text",
+                   "label"   : "input pdb file (mol 1)",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of reference PDB file",
+		   "repeat"  : "pdbmol1_list_box:c2",
+		   "norow"   : "true"
                    },
                   {
                    "role"    : "input",
@@ -57,12 +90,57 @@
 		   "help"    : "enter high residue number for alignment basis for molecule 1"
                    },
                   {
+                   "role"     : "input",
+                   "id"       : "align_section_header",
+                   "label"    : "Molecule 2 [structure(s) to align]",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbmol2_list_box",
+                   "name"    : "pdbmol2_list_box",
+                   "label"   : "reference structure (mol 2)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
                    "role"    : "input",
                    "id"      : "pdbmol2",
                    "label"   : "input pdb file (mol 2)",
                    "type"    : "file",
                    "required" : "true",
-                   "help"     : "name of PDB file for atom naming purposes"
+                   "help"     : "name of reference PDB file",
+		   "repeat"  : "pdbmol2_list_box:c1",
+		   "norow"   : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbmol2_text",
+                   "label"   : "input pdb file (mol 2)",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of reference PDB file",
+		   "repeat"  : "pdbmol2_list_box:c2",
+		   "norow"   : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcd_list_box",
+                   "name"    : "dcd_list_box",
+                   "label"   : "coordinates to be aligned: pdb or dcd",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
                    },
                   {
                    "role"    : "input",
@@ -70,7 +148,19 @@
                    "label"   : "input (pdb or dcd) file (mol 2)",
                    "type"    : "file",
                    "required" : "true",
-		   "help"     : "name of PDB or DCD file with coordinates you wish to align"
+		   "help"     : "name of PDB or DCD file with coordinates you wish to align",
+		   "repeat"  : "dcd_list_box:c1",
+		   "norow"   : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "infile_text",
+                   "label"   : "input (pdb or dcd) file (mol 2)",
+                   "type"    : "text",
+                   "required" : "true",
+		   "help"     : "name of PDB or DCD file with coordinates you wish to align",
+		   "repeat"  : "dcd_list_box:c2",
+		   "norow"   : "true"
                    },
                   {
                    "role"    : "input",
@@ -107,6 +197,15 @@
                    "default" : 350,
                    "required" : "true",
 		   "help"    : "enter high residue number for alignment basis for molecule 2"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "optional_section_header",
+                   "label"    : "Optional Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
                    },
                   {
                    "role"    : "input",

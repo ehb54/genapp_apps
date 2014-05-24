@@ -91,16 +91,25 @@ class Interpolate_Drv():
        	else:
 		runname = json_variables['runname']
 		
-		temp_expdata = json_variables['expdata']
 		ofile = json_variables['ofile']
 		io = json_variables['io']
 		ioe = json_variables['ioe']
 		dq = json_variables['dq']
 		maxpoints = json_variables['maxpoints']
 
-		head, expdata = os.path.split(temp_expdata[0])
-		path = head.replace('\/','/') + "/"
-		os.chdir(path) 
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                ofile = json_variables['ofile']
+        
+                if(json_variables['data_file_list_box'] == "c1"):
+			temp_expdata = json_variables['expdata']
+                        head, expdata = os.path.split(temp_expdata[0])
+                elif(json_variables['data_file_list_box'] == "c2"):
+			expdata = json_variables['expdata_text']
 
 		data_path = path
 

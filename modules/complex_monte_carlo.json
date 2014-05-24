@@ -40,24 +40,24 @@
                    "role"     : "input",
                    "id"       : "trials",
                    "label"    : "number of trial attempts",
-                   "type"     : "integer",
-                   "default"  : 100,
+                   "type"     : "text",
+                   "default"  : "100",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "goback",
                    "label"    : "return to previous structure",
-                   "type"     : "integer",
-                   "default"  : 20,
+                   "type"     : "text",
+                   "default"  : "20",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "temp",
                    "label"    : "temperature (K)",
-                   "type"     : "float",
-                   "default"  : 300.0,
+                   "type"     : "text",
+                   "default"  : "300.0",
                    "required" : "true"
                    },
 

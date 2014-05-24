@@ -60,9 +60,6 @@ class Align_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-        	temp_pdbmol1 = json_variables['pdbmol1']
-        	temp_pdbmol2 = json_variables['pdbmol2']
-        	temp_infile = json_variables['infile']
         	basis1 = json_variables['basis1']
         	basis2 = json_variables['basis2']
         	lowres1 = json_variables['lowres1']
@@ -73,14 +70,34 @@ class Align_Drv():
         	ebasis2 = json_variables['ebasis2']
         	ofile = json_variables['ofile']
 
-		head, infile = os.path.split(temp_infile[0])
-	#	print 'head = ',head ; print 'infile = ',infile
-		path = head.replace('\/','/') + "/"
-		os.chdir(path) 
-		path = ''
-		head, pdbmol1 = os.path.split(temp_pdbmol1[0])
-		head, pdbmol2 = os.path.split(temp_pdbmol2[0])
 
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                ofile = json_variables['ofile']
+
+		if(json_variables['pdbmol1_list_box'] == "c1"):
+        		temp_pdbmol1 = json_variables['pdbmol1']
+			head, pdbmol1 = os.path.split(temp_pdbmol1[0])
+		elif(json_variables['pdbmol1_list_box'] == "c2"):
+        		pdbmol1 = json_variables['pdbmol1_text']
+
+		if(json_variables['pdbmol2_list_box'] == "c1"):
+        		temp_pdbmol2 = json_variables['pdbmol2']
+			head, pdbmol2 = os.path.split(temp_pdbmol2[0])
+		elif(json_variables['pdbmol2_list_box'] == "c2"):
+        		pdbmol2 = json_variables['pdbmol2_text']
+
+                if(json_variables['dcd_list_box'] == "c1"):
+                        temp_infile = json_variables['infile']
+                        head, infile = os.path.split(temp_infile[0])
+                elif(json_variables['dcd_list_box'] == "c2"):
+                        infile = json_variables['infile_text']
+
+		path = ''
 
 	output_dict = {}
 
@@ -137,7 +154,7 @@ class Align_Drv():
 			process.start()
 			total_string = self.background_job(process,txtQueue)
 
-			output_dict['io_string'] = input_string
+			#output_dict['io_string'] = input_string
 			output_dict['sasoutput2'] = total_string
 
 
