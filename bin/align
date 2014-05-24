@@ -137,7 +137,7 @@ class Align_Drv():
 			process.start()
 			total_string = self.background_job(process,txtQueue)
 
-	#		output_dict['io_string'] = input_string
+			output_dict['io_string'] = input_string
 			output_dict['sasoutput2'] = total_string
 
 

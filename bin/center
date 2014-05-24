@@ -50,15 +50,34 @@ class Center_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-        	temp_infile = json_variables['infile']
-        	temp_refpdb = json_variables['refpdb']
+
+	#	output_dict['base_directory'] = json_variables['_base_directory']
+		#output_dict['logon'] = json_variables['_logon']
+	#	output_dict['project'] = json_variables['_project']
+
+		base_directory = json_variables['_base_directory']
+
+        	path = base_directory.replace('\/','/') + "/"
+		os.chdir(path)
+
         	ofile = json_variables['ofile']
-		
-		head, infile = os.path.split(temp_infile[0])
-		path = head.replace('\/','/') + "/"
-		head, refpdb = os.path.split(temp_refpdb[0])
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-		os.chdir(path) 
+	
+		if(json_variables['refpdb_list_box'] == "c1"):
+        		temp_refpdb = json_variables['refpdb']
+			head, refpdb = os.path.split(temp_refpdb[0])
+               # 	path = head.replace('\/','/') + "/"
+               # 	os.chdir(path)
+		elif(json_variables['refpdb_list_box'] == "c2"):
+        		refpdb = json_variables['refpdb_text']
+
+		if(json_variables['dcd_list_box'] == "c1"):
+        		temp_infile = json_variables['infile']
+			head, infile = os.path.split(temp_infile[0])
+               # 	path = head.replace('\/','/') + "/"
+               # 	os.chdir(path)
+		elif(json_variables['dcd_list_box'] == "c2"):
+        		infile = json_variables['infile_text']
+ 
 		path = ''
 
 	svariables={}

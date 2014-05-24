@@ -29,7 +29,7 @@
                    "type"    : "listbox",
                    "values"  : "upload file~c1~use local file~c2",
                    "default" : "c1",
-                   "help"    : "one can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
                    "repeater" : "true",
                    "norow"    : "true"
                    },
@@ -61,7 +61,7 @@
                    "type"    : "listbox",
                    "values"  : "upload file~c1~use local file~c2",
                    "default" : "c1",
-                   "help"    : "one can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
                    "repeater" : "true",
 		   "norow" : "true"
                    },
@@ -80,7 +80,6 @@
                    "id"      : "infile_text",
                    "label"   : "enter full path and file name ",
                    "type"    : "text",
-		   "default" : "min0.dcd",
                    "required" : "true",
 		   "help"     : "name of DCD or PDB file with coordinates you wish to center",
 		   "repeat"   : "dcd_list_box:c2",
@@ -91,7 +90,7 @@
                    "id"      : "ofile",
                    "label"   : "output filename",
                    "type"    : "text",
-                   "default" : "cen_c7.dcd",
+                   "default" : "centered_c2.dcd",
                    "required" : "true",
 		   "help"     : "name of final PDB or DCD file centered coordinates"
                    },
