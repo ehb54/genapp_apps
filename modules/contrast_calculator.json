@@ -24,8 +24,8 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "ofile",
-                   "label"    : "output filename (no extension)",
+                   "id"       : "outfile",
+                   "label"    : "output filename prefix (no extension)",
                    "type"     : "text",
                    "default"  : "contrast_output",
                    "required" : "true",
@@ -36,13 +36,13 @@
                    "id"       : "numfile",
                    "label"    : "number of input files",
                    "type"     : "integer",
-                   "default"  : 1,
+                   "default"  : 2,
                    "required" : "true",
                    "repeater" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "fasta",
+                   "id"       : "isFasta",
                    "label"    : "FASTA ?",
                    "type"     : "checkbox",
                    "checked"  : "false",
@@ -52,7 +52,7 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "infile",
+                   "id"       : "seqfiles",
                    "label"    : "input file name",
                    "type"     : "file",
                    "required" : "true",
@@ -61,16 +61,17 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "n_units",
+                   "id"       : "numunits",
                    "label"    : "number of units",
                    "type"     : "integer",
                    "required" : "true",
+		   "default"  : "1",
                    "repeat"   : "numfile",
                    "norow"    : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "fraction_deuterated",
+                   "id"       : "fracdeut",
                    "label"    : "fraction deuterated",
                    "type"     : "float",
                    "required" : "true",
@@ -131,7 +132,7 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "n_non_water_components",
+                   "id"       : "numsolv",
                    "label"    : "number of non-water solvent components",
                    "type"     : "integer",
                    "default"  : 1,
@@ -140,19 +141,21 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "component",
+                   "id"       : "solv_comp",
                    "label"    : "component (atomic formula)",
                    "type"     : "text",
-                   "repeat"   : "n_non_water_components",
+	           "default"  : "NaCl",
+                   "repeat"   : "numsolv",
                    "norow"    : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "concentration",
+                   "id"       : "solv_conc",
                    "label"    : "concentration (M)",
                    "type"     : "float",
                    "required" : "true",
-                   "repeat"   : "n_non_water_components",
+		   "default"  : "0.15",
+                   "repeat"   : "numsolv",
                    "norow"    : "true"
                    }
 

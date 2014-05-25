@@ -73,10 +73,10 @@ class Contrast_Drv():
        	else:
 
         	runname = 	json_variables['runname']
-        	inpath = 	json_variables['inpath']
+        	inpath = 	""
         	outfile = 	json_variables['outfile']
-        	numfile = 	json_svariables['numfile']          
-        	solute_cond = 	json_variables['solute_conc']      
+        	numfile = 	json_variables['numfile']          
+        	solute_conc = 	json_variables['solute_conc']      
         	d2ostep = 	json_variables['d2ostep']         
         	numsolv = 	json_variables['numsolv']        
         	frExchHpro =	json_variables['fexchp']        
@@ -89,6 +89,38 @@ class Contrast_Drv():
                 os.chdir(path)
 
 		path = ''
+
+		seqfiles = 	json_variables['seqfiles']
+		numunits = 	json_variables['numunits']
+		fracdeut = 	json_variables['fracdeut']
+		moltype =	json_variables['moltype']
+		isFasta = 	json_variables['isFasta']
+	
+		ivariables = []
+		for i in xrange(locale.atoi(numfile)):
+			if(isFasta[i] == "on"): 
+				fasta = "1"
+			else:
+				fasta = "0"
+			if(moltype[i] == "c1"):
+				mtype = "dna"
+			elif(moltype[i] == "c2"):
+				mtype = "rna"
+			elif(moltype[i] == "c3"):
+				mtype = "protein"
+
+			seqfile = seqfiles[i][0]
+
+                	this_seqfile = seqfile.replace('\/','/')
+
+			ivariables.append([this_seqfile,numunits[i],fracdeut[i],mtype,fasta])
+
+		solv_comp = 	json_variables['solv_comp']
+		solv_conc = 	json_variables['solv_conc']
+
+		solv_variables = []
+		for i in xrange(locale.atoi(numsolv)):
+			solv_variables.append([solv_comp[i],solv_conc[i]])
 
 	output_dict = {}
 
@@ -149,8 +181,8 @@ class Contrast_Drv():
 #end emre
 
         try:
-                #with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-                with open("log","w") as outfile:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                #with open("log","w") as outfile:
                         json.dump(output_dict,outfile)
         except:
                 output_dict['error_string'] = "error writing log file"
@@ -161,7 +193,7 @@ class Contrast_Drv():
 if __name__=='__main__':
 
 	json_flag = True
-	json_flag = False
+	#json_flag = False
 
 	if (len(sys.argv) < 1):
 		print "\{\"error\":\"center called with no arguments\"\}\n";
