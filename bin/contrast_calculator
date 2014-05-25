@@ -3,6 +3,9 @@ import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string
 
+import pyflot
+
+
 import sassie.interface.input_filter as input_filter
 import sassie.tools.contrast as contrast
 import sassie.interface.contrast_calculator_filter as contrast_calculator_filter
@@ -29,6 +32,117 @@ class Contrast_Drv():
                 return total_string
 
         return total_string
+
+   def read_file(self,flot_data,filename,number_columns,this_pass):
+
+        # sasfile: q-value, goal, best, worst, average
+
+	value = 1
+
+        try:
+#	if True:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+			#print 'lin = ',lin
+			#sys.stdout.flush()
+	
+			if(len(lin)>0):
+				#print 'lin[0] = ',lin[0] ; sys.stdout.flush()
+				#print 'lin[0][0] = ',lin[0][0] ; sys.stdout.flush()
+# frac D2O, Protein SLD, DNA SLD, Complex SLD, Solvent SLD (10^10 cm^-2)
+# 0.00    1.867   3.463   3.085  -0.548
+				if(lin[0][0] != "#" and this_pass < 5):
+                        		this_x = lin[0]
+					if(this_pass == 1):
+                        			this_y1 = lin[1]
+						data.append([this_x,this_y1])
+						legend = "protein"
+					elif(this_pass == 2):
+                        			this_y1 = lin[2]
+						data.append([this_x,this_y1])
+						legend = "dna"
+					elif(this_pass == 3):
+                        			this_y1 = lin[3]
+						data.append([this_x,this_y1])
+						legend = "complex"
+					elif(this_pass == 4):
+                        			this_y1 = lin[4]
+						data.append([this_x,this_y1])
+						legend = "solvent"
+
+				elif(lin[0][0] != "#" and this_pass >= 5):
+                        		#this_x = locale.atof(lin[0])
+                        		this_x = lin[0]
+					if(this_pass == 5):
+                        			#this_y1 = locale.atof(lin[4])
+                        			this_y1 = lin[4]
+						data.append([this_x,this_y1])
+					if(this_pass == 6):
+                        			#this_y1 = locale.atof(lin[5])
+                        			this_y1 = lin[5]
+						data.append([this_x,this_y1])
+#print str(slist).replace("'","\"")
+		if(this_pass == 5):
+
+        		tmp_d = {
+					'color': 'yellow',
+            				'data': data
+            			}
+        		flot_data.append(tmp_d)
+
+		elif(this_pass < 5):
+
+        		tmp_d = {
+		#			'lines' : {lineWidth: 3},
+            				'label': legend,
+            				'data': data
+            			}
+        		flot_data.append(tmp_d)
+		else:
+                	flot_data.append(data)
+
+        except:
+                print 'ERROR READING DATA FILE'
+                print 'ERROR READING DATA FILE'
+                print 'ERROR READING DATA FILE'
+                flot_data = "error reading file and making plot"
+
+        return value
+
+   def get_data_from_disk(self,filename,number_columns,izero):
+
+	# dum_sld.txt --> plot1
+# frac D2O, Protein SLD, DNA SLD, Complex SLD, Solvent SLD (10^10 cm^-2)
+# 0.00	  1.867	  3.463	  3.085	 -0.548
+
+	# dum_contrast.txt --> plot2 
+# frac D2O, Protein Contrast, DNA Contrast, Complex CONTRAST (10^10 cm^-2)
+# 0.00	  2.415	  4.011	  3.633
+
+	# dum_izero.txt --> plot3 and plot4
+# frac D2O, Protein Mw, DNA Mw, Complex Mw (kDa), I(0) (cm^-1), sqrtI(0)
+# 0.00	  69.307	 223.165	 292.472	  0.221	  0.470
+
+        flot_data = []
+
+	if(number_columns < 6):	
+		value = self.read_file(flot_data,filename,number_columns,1)
+        	value = self.read_file(flot_data,filename,number_columns,2)
+        	value = self.read_file(flot_data,filename,number_columns,3)
+	if(number_columns == 5):
+        	value = self.read_file(flot_data,filename,number_columns,4)
+
+	if(number_columns == 6 and izero == 0):
+		#my_flot_data = []
+        	value = self.read_file(flot_data,filename,number_columns,5)
+	elif(number_columns == 6 and izero == 1):
+        	value = self.read_file(flot_data,filename,number_columns,6)
+
+        return flot_data
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -173,9 +287,52 @@ class Contrast_Drv():
 
                         total_string = self.background_job(process,txtQueue)
 
-			output_dict['io_string'] = input_string
-			output_dict['sasoutput2'] = 'successfully completed run'
+			#output_dict['io_string'] = input_string
+			output_dict['sasoutput2'] = total_string
 
+			izero = 0
+
+			flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_sld.txt",5,izero)
+
+			if(isinstance(flot_data, basestring)):
+				print 'error reading data'
+				output_dict['plot_error'] = flot_data
+			else:
+				output_dict['plotout1'] = flot_data
+
+			flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_contrast.txt",4,izero)
+
+			if(isinstance(flot_data, basestring)):
+				print 'error reading data'
+				output_dict['plot_error'] = flot_data
+			else:
+				output_dict['plotout2'] = flot_data
+
+			flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero)
+
+			if(isinstance(flot_data, basestring)):
+				print 'error reading data'
+				output_dict['plot_error'] = flot_data
+			else:
+				output_dict['plotout3'] = flot_data
+			
+			#graph = pyflot.Flot()
+			#graph.add_line(data)
+			#flot_data = graph.series_json 
+			
+			#output_dict['plot3_json'] = flot_data
+			#output_dict['plotout3'] = graph.series_json
+	
+			izero = 1
+
+			flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero)
+
+			if(isinstance(flot_data, basestring)):
+				print 'error reading data'
+				output_dict['plot_error'] = flot_data
+			else:
+				output_dict['plotout4'] = flot_data
+		
 #emre
         sys.stdout = save_stdout;
 #end emre

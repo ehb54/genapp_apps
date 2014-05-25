@@ -1,7 +1,7 @@
-#!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil
+#!/share/apps/local/bin/python/bin/python -i
+import json,sys,os,shutil,locale
 from StringIO import StringIO
-import multiprocessing
+import multiprocessing,time,string
 
 import sassie.simulate.monte_carlo.complex.nmer_dihedral as nmer_dihedral
 import sassie.interface.input_filter as input_filter
@@ -9,6 +9,25 @@ import sassie.interface.input_filter as input_filter
 class CGenerate_Drv():
 
    module = 'generate'
+
+   def background_job(self,process,txtQueue):
+        total_string = ''
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+                                return total_string
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -23,36 +42,37 @@ class CGenerate_Drv():
         	runname='run_0'
 		dcdfile='run_0.dcd'
 		path=''
-		pdbfile='c2.pdb'
-		trials='50'
+		pdbfile='fram601.pdb'
+		trials='10'
 		goback='10'
 		temp='300.0'
-		moltype = 'protein'
-		numranges='5'
-		dtheta='30.0,30.0,30.0,30.0,30.0'
-		reslow='123,278,354,378,408'
-		numcont='21,5,24,11,4'
-		lowres1='284'
-		highres1='350'
+		nsegments='2'
+		segbasis='CA, CA'
+		npsegments='2'
+		flpsegname='ENDA, ENDB'
+		seglow='95, 95'
+		seghigh='110, 110'
 		basis='CA'
 		cutoff='3.0'
-		lowrg='0.0'
-		highrg='400.0'
+		lowrg='20.0'
+		highrg='185.0'
 		zflag='0'
 		zcutoff='0.0'
 		cflag='0'
 		confile = 'constraints.txt'
-		nonbondflag='0'		
-		nonbondscale='1.0'
-		psffilepath='./'
-		psffilename='refgag.psf'
-		parmfilepath='/usr/local/bin/toppar'
-		parmfilename='par_all27_prot_na.inp'
 		plotflag = '0'
-		directedmc = '0'
 		seed = '0,123'        
 
-	
+		allsnumranges = ["2","2"]
+		allsith = ["30.0, 30.0"]
+		allsrlow = ["123,277","123,277"]
+		allsrnum = ["21,5","21,5"]
+		allmoltype = ["protein","protein"]
+
+		psegvariables = []
+		for i in xrange(len(allsnumranges)):
+			psegvariables.append([allsnumranges[i],allsith[i],allsrlow[i],allsrnum[i],allmoltype[i]])	
+
         	path='./'
 
         	#### END USER EDIT
@@ -62,46 +82,81 @@ class CGenerate_Drv():
 		runname = json_variables['runname']
 		
 		temp_pdbfile= json_variables['pdbfile']
-		temp_confile = json_variables['confile']
-		temp_psffilename = json_variables['psffilename']
 		
 		head, pdbfile = os.path.split(temp_pdbfile[0])
 		path = head.replace('\/','/') + "/"
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-		
-		head, confile = os.path.split(temp_confile[0])
-
-		psffilepath, psffilename = os.path.split(temp_psffilename[0])
-
 		os.chdir(path) 
-		
+
+		data_path = path
+
 		dcdfile = json_variables['dcdfile']
 		trials = json_variables['trials']
 		goback = json_variables['goback']
 		temp = json_variables['temp']
-		moltype = json_variables['moltype']
-		numranges = json_variables['numranges']
-		dtheta = json_variables['dtheta']
-		reslow = json_variables['reslow']
-		numcont = json_variables['numcont']
- 		lowres1 = json_variables['lowres1']
- 		highres1 = json_variables['highres1']
- 		basis = json_variables['basis']
- 		cutoff = json_variables['cutoff']
- 		lowrg = json_variables['lowrg']
- 		highrg = json_variables['highrg']
- 		zflag = json_variables['zflag']
- 		zcutoff = json_variables['zcutoff']
- 		cflag = json_variables['cflag']
- 		nonbondflag = json_variables['nonbondflag']
- 		nonbondscale = json_variables['nonbondscale']
- 		plotflag = json_variables['plotflag']
- 		directedmc = json_variables['directedmc']
+		nsegments = json_variables['nsegments']
+		segbasis = json_variables['segbasis']
+		npsegments = json_variables['npsegments']
+		flpsegname = json_variables['flpsegname']
+		seglow = json_variables['seglow']
+		seghigh = json_variables['seghigh']
+ 
+		try:
+			advanced_input = json_variables['advanced_input']
+		except:
+			advanced_input = 'off'
 
-		path = ''
+		if(advanced_input == "on"):
+		
+ 			basis = json_variables['basis']
+ 			cutoff = json_variables['cutoff']
+			lowrg = json_variables['lowrg']
+ 			highrg = json_variables['highrg']
+ 			zcutoff = json_variables['zcutoff']
+			
+			zflag_list_box = json_variables['zflag_list_box']
+ 			cflag_list_box = json_variables['cflag_list_box']
+ 			plotflag_list_box = json_variables['plotflag_list_box']
 
-	parmfilepath = '/share/apps/local/bin/toppar/'
-	parmfilename = 'par_all27_prot_na.inp'
+		else:
+ 			basis = 'CA'
+ 			cutoff = '3.0'
+			lowrg = "20.0"
+			highrg = "185.0"
+			zcutoff = "0.0"
+			zflag_list_box = "c1"
+			cflag_list_box = "c1"
+ 			plotflag_list_box = "c1"
+
+                if(zflag_list_box == 'c1'):
+                        zflag = '0' # NO
+                elif(zflag_list_box == 'c2'):
+                        zflag = '1' # YES
+
+                if(cflag_list_box == 'c1'):
+                        cflag = '0' # NO
+			confile = 'constraints.txt'
+                elif(cflag_list_box == 'c2'):
+                        cflag = '1' # YES
+			temp_confile = json_variables['confile']
+			head, confile = os.path.split(temp_confile[0])
+                if(plotflag_list_box == 'c1'):
+                        plotflag = '0' # NO
+                elif(plotflag_list_box == 'c2'):
+                        plotflag = '1' # YES
+
+		psegvariables = []
+		for i in xrange(locale.atoi(npsegments)):
+			mtype = "protein"
+			if(json_variables['moltype'][i] == "c1"):
+				mtype = "dna"
+			elif(json_variables['moltype'][i] == "c2"):
+				mtype = "rna"
+			elif(json_variables['moltype'][i] == "c3"):
+				mtype = "protein"
+			#psegvariables.append([json_variables['numranges'][i].encode('utf8'), json_variables['sith'][i].encode('utf8'), json_variables['srlow'][i].encode('utf8'), json_variables['srnum'][i].encode('utf8'), mtype]);
+			psegvariables.append([json_variables['numranges'][i], json_variables['sith'][i], json_variables['srlow'][i], json_variables['srnum'][i], mtype]);
+
+	output_dict = {}
 
 	svariables={}
 
@@ -113,56 +168,76 @@ class CGenerate_Drv():
  	svariables['trials']		= (str(trials),'int')
  	svariables['goback']		= (str(goback),'int')
  	svariables['temp']		= (str(temp),'float')
- 	svariables['moltype']		= (str(moltype),'string')
- 	svariables['numranges']		= (str(numranges),'int')
- 	svariables['dtheta']		= (str(dtheta),'float_array')
- 	svariables['reslow']		= (str(reslow),'int_array')
- 	svariables['numcont']		= (str(numcont),'int_array')
- 	svariables['lowres1']		= (str(lowres1),'int')
- 	svariables['highres1']		= (str(highres1),'int')
+
+ 	svariables['nsegments']		= (str(nsegments),'int')
+ 	svariables['segbasis']		= (str(segbasis),'string')
+ 	svariables['npsegments']	= (str(npsegments),'int')
+ 	svariables['flpsegname']	= (str(flpsegname),'string')
+ 	svariables['seglow']		= (str(seglow),'int_array')
+ 	svariables['seghigh']		= (str(seghigh),'int_array')
+
  	svariables['basis']		= (str(basis),'string')
  	svariables['cutoff']		= (str(cutoff),'float')
  	svariables['lowrg']		= (str(lowrg),'float')
  	svariables['highrg']		= (str(highrg),'float')
+
  	svariables['zflag']		= (str(zflag),'int')
  	svariables['zcutoff']		= (str(zcutoff),'float')
  	svariables['cflag']		= (str(cflag),'int')
  	svariables['confile']		= (str(confile),'string')
- 	svariables['nonbondflag']	= (str(nonbondflag),'int')
- 	svariables['nonbondscale']	= (str(nonbondscale),'float')
- 	svariables['psffilepath']	= (str(psffilepath),'string')
- 	svariables['psffilename']	= (str(psffilename),'string')
- 	svariables['parmfilepath']	= (str(parmfilepath),'string')
- 	svariables['parmfilename']	= (str(parmfilename),'string')
  	svariables['plotflag']		= (str(plotflag),'int')
- 	svariables['directedmc']	= (str(directedmc),'float')
  	svariables['seed']		= ('0,123', 'int_array') # set this to '1,123' if you want to set the seed or '0,123' if not
 
-
- 	svariables['path']    = (path,'string')
-
 	error = []
- 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
+ 	error,variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
 
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
+		output_dict['error2'] = error[0]
 		output_dict['sasoutput1'] = 'run failed'
 	else:
-#		runname=self.variables['runname'][0]
+#		error=contrast_filter.check_align(self.variables)
+               	if(len(error) > 0):
+			print 'error = ',error
+			output_dict['error'] = 'Error in align_filter'	
+			output_dict['error2'] = error[0]
+			output_dict['sasoutput1'] = 'run failed'
+			return
+		else:
+	#		runname=self.variables['runname'][0]
 
-		if os.path.exists(runname+'/'+self.module):
-			shutil.rmtree(runname+'/'+self.module)
+			if os.path.exists(runname+'/'+self.module):
+				shutil.rmtree(runname+'/'+self.module)
 
-		txtQueue=multiprocessing.JoinableQueue()
-#		nmer_dihedral.dihedralgenerate(self.variables,txtQueue) 
+			import pprint
+			print("ZHL JSON: ")
+			pprint.pprint(variables)
+			print("ZHL JSON: ")
+			pprint.pprint(psegvariables)
+			txtQueue=multiprocessing.JoinableQueue()
+			process=multiprocessing.Process(target=nmer_dihedral.dihedralgenerate,args=(variables,psegvariables,txtQueue))
+			process.start()
 
-#		txtOutput = txtQueue.get(True, timeout=0.01)
-		#output_dict['txtQueue'] = txtOutput
-		output_dict['io_string'] = input_string
-		
-		output_dict['sasoutput1'] = runname
-		output_dict['sasoutput2'] = 'successfully completed run'
+                        total_string = self.background_job(process,txtQueue)
+
+			output_dict['io_string'] = input_string
+			output_dict['sasoutput2'] = total_string
+
+			'''
+			flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_sld.txt",5)
+
+			if(isinstance(flot_data, basestring)):
+				print 'error reading data'
+				output_dict['plot_error'] = flot_data
+			else:
+				output_dict['plot1'] = flot_data
+			'''
 
 #emre
         sys.stdout = save_stdout;
@@ -170,26 +245,29 @@ class CGenerate_Drv():
 
         try:
                 with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                #with open("log","w") as outfile:
                         json.dump(output_dict,outfile)
         except:
                 output_dict['error_string'] = "error writing log file"
 
-        print json.dumps( output_dict )	
+        print json.dumps( output_dict )
+	
 		
 if __name__=='__main__':
 
 	json_flag = True
-	json_flag = False
+	#json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"center called with no arguments\"\}\n";
+		print "\{\"error\":\"complex monte carlo called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:
-		json_variables = " "
-		if(json_flag):
-			argv_io_string = StringIO(sys.argv[1])
-			json_variables = json.load(argv_io_string)
+                json_variables = " "
+                if(json_flag):
+                        argv_io_string = StringIO(sys.argv[1])
+                        json_variables = json.load(argv_io_string)
 		a=CGenerate_Drv()
-		a.run_me(json_flag,json_variables,sys.argv[1])
+                a.run_me(json_flag,json_variables,sys.argv[1])
+
 

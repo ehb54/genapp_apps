@@ -6,7 +6,7 @@
                    {
                    "role"       : "input",
                    "id"       : "module_header",
-                   "label"    : "Complex Monte carlo",
+                   "label"    : "Complex Monte Carlo",
                    "type"     : "label",
                    "default"  : "header4",
                    "prehline"  : "true",
@@ -15,11 +15,10 @@
                   {
                    "role"     : "input",
                    "id"       : "runname",
-                   "label"    : "run name",
+                   "label"    : "project name",
                    "type"     : "text",
                    "default"  : "run_0",
-                   "required" : "true",
-                   "help"     : "results will be placed in a folder called generate/ in the directory name you enter here"
+                   "required" : "true"
                    },
                   {
                    "role"     : "input",
@@ -60,8 +59,6 @@
                    "default"  : "300.0",
                    "required" : "true"
                    },
-
-
                   {
                    "role"     : "input",
                    "id"       : "complex_specific_input_header",
@@ -73,23 +70,23 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "n_seg",
+                   "id"       : "nsegments",
                    "label"    : "Enter TOTAL number of segements:",
-                   "type"     : "integer",
-                   "default"  : 2,
+                   "type"     : "text",
+                   "default"  : "2",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "seg_overlap_basis",
+                   "id"       : "segbasis",
                    "label"    : "segment overlap basis",
                    "type"     : "text",
-                   "default"  : "CA",
+                   "default"  : "CA,CA",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "n_flexible_seg",
+                   "id"       : "npsegments",
                    "label"    : "number of flexible segments:",
                    "type"     : "integer",
                    "default"  : 2,
@@ -98,66 +95,66 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "flexible_seg_names",
+                   "id"       : "flpsegname",
                    "label"    : "segment name(s) of flexible segments",
                    "type"     : "text",
-                   "default"  : "ENDA, ENDB",
+                   "default"  : "ENDA,ENDB",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "lowres1",
+                   "id"       : "seglow",
                    "label"    : "structure alignment: low residue",
-                   "type"     : "integer",
-                   "default"  : 284,
+                   "type"     : "text",
+                   "default"  : "95,95",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "highres1",
+                   "id"       : "seghigh",
                    "label"    : "structure alignment: high residue",
-                   "type"     : "integer",
-                   "default"  : 350,
+                   "type"     : "text",
+                   "default"  : "110,110",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "numranges",
                    "label"    : "number of flexible regions to vary",
-                   "type"     : "integer",
-                   "default"  : 5,
+                   "type"     : "text",
+                   "default"  : "2",
                    "required" : "false",
-                   "repeat"   : "n_flexible_seg",
+                   "repeat"   : "npsegments",
                    "norow"    : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "dtheta",
+                   "id"       : "sith",
                    "label"    : "enter MAX [dtheta] for each region",
                    "type"     : "text",
-                   "default"  : "30.0, 30.0, 30.0, 30.0, 30.0",
+                   "default"  : "30.0,30.0",
                    "required" : "false",
-                   "repeat"   : "n_flexible_seg",
+                   "repeat"   : "npsegments",
                    "norow"    : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "reslow",
+                   "id"       : "srlow",
                    "label"    : "first residue per region",
                    "type"     : "text",
-                   "default"  : "123,277,354,378,408",
+                   "default"  : "123,277",
                    "required" : "false",
-                   "repeat"   : "n_flexible_seg",
+                   "repeat"   : "npsegments",
                    "norow"    : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "numcont",
+                   "id"       : "srnum",
                    "label"    : "number contiguous residues per region",
                    "type"     : "text",
-                   "default"  : "21,5,20,11,4",
+                   "default"  : "21,5",
                    "required" : "false",
-                   "repeat"   : "n_flexible_seg",
+                   "repeat"   : "npsegments",
                    "norow"    : "true"
                    },
                   {
@@ -168,87 +165,125 @@
                    "values"   : "dna~c1~rna~c2~protein~c3",
                    "default"  : "c3",
                    "required" : "false",
-                   "repeat"   : "n_flexible_seg",
+                   "repeat"   : "npsegments",
                    "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "optional_input_header",
-                   "label"    : "Non-Standard / Specialized Input",
-                   "type"     : "label",
-                   "default"  : " ",
-                   "prehline" : "true",
-                   "posthline": "true"
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "repeater" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "basis",
-                   "label"    : "overlap basis",
+                   "label"    : "flexible segment overlap basis",
                    "type"     : "text",
                    "default"  : "CA",
-                   "required" : "true"
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
                    "id"       : "cutoff",
                    "label"    : "overlap cutoff",
-                   "type"     : "float",
-                   "default"  : 3.0,
-                   "required" : "true"
+                   "type"     : "text",
+                   "default"  : "3.0",
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
                    "id"       : "lowrg",
                    "label"    : "low Rg cutoff",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "min"      : 0.0,
-                   "required" : "true"
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
                    "id"       : "highrg",
                    "label"    : "high Rg cutoff",
-                   "type"     : "float",
-                   "default"  : 300.0,
-                   "required" : "true"
+                   "type"     : "text",
+                   "default"  : "300.0",
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "zflag",
-                   "label"    : "Z coordinate filter (0==no, 1==yes)",
-                   "type"     : "integer",
-                   "default"  : 0,
-	           "min"      : 0,
-		   "max"      : 1,
-                   "required" : "true"
+		  {
+                   "role"    : "input",
+                   "id"      : "zflag",
+                   "name"    : "zflag",
+                   "label"    : "Z coordinate filter", 
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"     : "input",
                    "id"       : "zcutoff",
                    "label"    : "Z cutoff (angstroms)",
-                   "type"     : "float",
-                   "default"  : 0.0,
-                   "required" : "true"
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "cflag",
-                   "label"    : "atomic constraints (0==no, 1==yes)",
-                   "type"     : "integer",
-                   "default"  : 0,
-	           "min"      : 0,
-		   "max"      : 1,
-                   "required" : "true"
+		  {
+                   "role"    : "input",
+                   "id"      : "cflag_list_box",
+                   "name"    : "cflag_list_box",
+                   "label"    : "check box to use atomic constraints",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeat"  : "advanced_input",
+		   "repeater" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "confile",
                    "label"    : "constraint file name",
                    "type"     : "file",
-                   "default"  : "constraints.txt",
-                   "required" : "true"
-                   }
+                   "required" : "false",
+		   "default"  : "contraints.txt",
+                   "repeat"  : "cflag_list_box"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "plotflag_list_box",
+                   "name"    : "plotflag_list_box",
+                   "label"    : "plot Rg during run",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "repeat"  : "advanced_input"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout4",
+                   "label"   : "all rg and accepted rg data",
+                   "type"    : "plot2d"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : " ",
+                    "type"    : "textarea",
+		    "rows"    : 20,
+		    "cols"    : 80
+		   }
                   ],
     "executable" : "complex_monte_carlo"
 }

@@ -73,8 +73,9 @@
                    "role"     : "input",
                    "id"       : "fracdeut",
                    "label"    : "fraction deuterated",
-                   "type"     : "float",
+                   "type"     : "text",
                    "required" : "true",
+		   "default"  : "0.0",
                    "repeat"   : "numfile",
                    "norow"    : "true"
                    },
@@ -157,8 +158,40 @@
 		   "default"  : "0.15",
                    "repeat"   : "numsolv",
                    "norow"    : "true"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "",
+                    "type"    : "textarea",
+		    "rows"    : 20,
+		    "cols"    : 80
+		   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout1",
+                   "label"   : "Scattering Length Density versus D2O Fraction",
+                   "type"    : "plot2d"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout2",
+                   "label"   : "Contrast versus D2O Fraction",
+                   "type"    : "plot2d"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout3",
+                   "label"   : "I(0) versus D2O Fraction",
+                   "type"    : "plot2d"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout4",
+                   "label"   : "Sqrt[I(0)] versus D2O Fraction",
+                   "type"    : "plot2d"
                    }
-
                   ],
 # the executable will take inputs in json and produce output in json
     "executable" : "contrast_calculator"
