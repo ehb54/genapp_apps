@@ -1,5 +1,5 @@
 #!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil
+import json,sys,os,shutil,time,math,locale
 from StringIO import StringIO
 import multiprocessing,time,string
 
@@ -9,6 +9,7 @@ import sassie.interface.input_filter as input_filter
 class Chi_square_filter_Drv():
 
    module = 'filter'
+
 
    def background_job(self,process,txtQueue):
         total_string = ''
@@ -21,6 +22,7 @@ class Chi_square_filter_Drv():
                         else:
                                 total_string += this_text
                 except:
+                	time.sleep(0.1)
                         if not process.is_alive():
                                 return total_string
                 time.sleep(0.01)
@@ -29,48 +31,117 @@ class Chi_square_filter_Drv():
 
         return total_string
 
-   def read_file(self,flot_data,filename,number_columns):
+   def read_file(self,flot_data,filename,number_columns,this_pass):
 
-	# x2file: rg,x2
-	# sasfile: q-value, goal, best, worst, average
+        # sasfile: q-value, goal, best, worst, average
 
-        try:
+        value = 1
+
+	log = False
+
+	log_q = False
+
+        #try:
+        if True:
                 data = [] ; error = []
                 data_file = open(filename,'r').readlines()
                 nl = len(data_file)
 
                 for i in xrange(nl):
                         lin = string.split(data_file[i])
-	                this_x = lin[0]
-                        this_y = lin[1]
-			if(number_columns == 5):
-				this_b = lin[2]
-				this_w = lin[3]
-				this_a = lin[4]
-                       		data.append([this_x,this_y,this_b,this_w,this_a])
-			else:
-                        	data.append([this_x,this_y])
+                        if(len(lin)>0):
+                                if(lin[0][0] != "#" and this_pass < 5):
+					if(locale.atof(lin[0]) > 0.0):
+						if log_q:
+                                        		this_x = str(math.log(locale.atof(lin[0]),10))
+	                                        else:
+							this_x = lin[0]
+	                                        if(this_pass == 1):
+							if log:
+								this_y1 = str(math.log(locale.atof(lin[1]),10))
+							else:
+	                                                	this_y1 = lin[1]
+	                                                data.append([this_x,this_y1])
+	                                                legend = "goal"
+	                                        elif(this_pass == 2):
+							if log:
+								this_y1 = str(math.log(locale.atof(lin[2]),10))
+							else:
+	                                                	this_y1 = lin[2]
+	                                                data.append([this_x,this_y1])
+	                                                legend = "best"
+	                                        elif(this_pass == 3):
+							if log:
+								this_y1 = str(math.log(locale.atof(lin[3]),10))
+							else:
+	                                                	this_y1 = lin[3]
+	                                                data.append([this_x,this_y1])
+	                                                legend = "worst"
+	                                        elif(this_pass == 4):
+							if log:
+								this_y1 = str(math.log(locale.atof(lin[4]),10))
+							else:
+	                                                	this_y1 = lin[4]
+	                                                data.append([this_x,this_y1])
+	                                                legend = "average"
 
-                flot_data.append(data)
-                #flot_data.append(error)
-                data_file.close()
+                                elif(lin[0][0] != "#" and this_pass == 5):
+                                        #this_x = locale.atof(lin[0])
+                                        this_x = lin[0]
+                                        #this_y1 = locale.atof(lin[4])
+                                        this_y1 = lin[1]
+                                        data.append([this_x,this_y1])
 
-        except:
-                print 'ERROR READING CHI-SQUARE DATA FILE'
-                print 'ERROR READING CHI-SQUARE DATA FILE'
-                print 'ERROR READING CHI-SQUARE DATA FILE'
-                flot_data = "error reading file and making plot"
+                if(this_pass == 5):
 
-        return
+                        flot_dict = {
+					#'lines' : { "show": "false" },
+					'points' : { "show" : "true" },
+                                        'color': 'yellow',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
 
-   def get_interpolated_data_from_disk(self,filename,number_columns):
+                elif(this_pass < 5):
 
-	# x2file: rg,x2
-	# sasfile: q-value, goal, best, worst, average
+                        flot_dict = {
+                #                       'lines' : {lineWidth: 3},
+                                        'label': legend,
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+                else:
+                        flot_data.append(data)
+
+        #except:
+        #        print 'ERROR READING DATA FILE'
+        #        print 'ERROR READING DATA FILE'
+        #        print 'ERROR READING DATA FILE'
+        #        flot_data = "error reading file and making plot"
+
+        return value
+
+
+   def get_data_from_disk(self,filename,number_columns):
+
+	# sas_spectra_plot.txt 
+# q-value, goal, best, worst, average
+#0.000000	0.019000	0.019000	0.019000	0.019000
+
+	# x2_versus_rg_plot.txt 
+# Rg	X2
+#63.749069	10.383249
+
 
         flot_data = []
 
-        self.read_file(flot_data,filename,number_columns)
+        if(number_columns > 2):
+                value = self.read_file(flot_data,filename,number_columns,1)
+                value = self.read_file(flot_data,filename,number_columns,2)
+                value = self.read_file(flot_data,filename,number_columns,3)
+                value = self.read_file(flot_data,filename,number_columns,4)
+        else:
+                value = self.read_file(flot_data,filename,number_columns,5)
 
         return flot_data
 
@@ -109,24 +180,50 @@ class Chi_square_filter_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_sasintfile = json_variables['sasintfile']
-		head, sasintfile = os.path.split(temp_sasintfile[0])
-		path = head.replace('\/','/') + "/"
+	
+                base_directory = json_variables['_base_directory']
 
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                if(json_variables['data_list_box'] == "c1"):
+                        temp_sasintfile = json_variables['sasintfile']
+                        head, sasintfile = os.path.split(temp_sasintfile[0])
+                elif(json_variables['data_list_box'] == "c2"):
+                        sasintfile = json_variables['sasintfile_text']
+
+                path = ''
+	
                 saspath = json_variables['saspath']
 		saspath = saspath.replace('\/','/') + "/"
                 io = json_variables['io']
-                x2highcut = json_variables['x2highcut']
-                x2highweightfile = json_variables['x2highweightfile']
-                x2lowcut = json_variables['x2lowcut']
-                x2lowweightfile = json_variables['x2lowweightfile']
-                rghighcut = json_variables['rghighcut']
-                rghighweightfile = json_variables['rghighweightfile']
-                rglowcut = json_variables['rglowcut']
-                rglowweightfile = json_variables['rglowweightfile']
-	
-		os.chdir(path) 
+
+                try:
+                        advanced_input = json_variables['advanced_input']
+                except:
+                        advanced_input = 'off'
+
+                if(advanced_input == "on"):
+
+                	x2highcut = json_variables['x2highcut']
+                	x2highweightfile = json_variables['x2highweightfile']
+                	x2lowcut = json_variables['x2lowcut']
+                	x2lowweightfile = json_variables['x2lowweightfile']
+                	rghighcut = json_variables['rghighcut']
+                	rghighweightfile = json_variables['rghighweightfile']
+                	rglowcut = json_variables['rglowcut']
+                	rglowweightfile = json_variables['rglowweightfile']
+                else:
+			x2highcut = '10.0'
+			x2highweightfile = 'x2highweights.txt'
+			x2lowcut = '1.0'
+			x2lowweightfile = 'x2lowweights.txt'
+			rghighcut = '60.0'
+			rghighweightfile = 'rghighweights.txt'
+			rglowcut = '40.0'
+			rglowweightfile = 'rglowweights.txt'
+
 
                 sastype_list_box = json_variables['sastype_list_box']
                 if(sastype_list_box == 'c1'):
@@ -183,17 +280,16 @@ class Chi_square_filter_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-		#best.best(self.variables,txtQueue) 
 
                 process=multiprocessing.Process(target=best.best,args=(self.variables,txtQueue))
                 process.start()
 
                 total_string = self.background_job(process,txtQueue)
 
-		output_dict['io_string'] = input_string
+#		output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 
-                flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/filter/sas_spectra_plot.txt',5)
+                flot_data = self.get_data_from_disk(data_path+runname+'/filter/sas_spectra_plot.txt',5)
 
                 if(isinstance(flot_data, basestring)):
                         print 'error reading data'
@@ -201,7 +297,7 @@ class Chi_square_filter_Drv():
                 else:
                         output_dict['iq_plot'] = flot_data
 
-                flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/filter/x2_vs_rg_plot.txt',2)
+                flot_data = self.get_data_from_disk(data_path+runname+'/filter/x2_vs_rg_plot.txt',2)
 
                 if(isinstance(flot_data, basestring)):
                         print 'error reading data'

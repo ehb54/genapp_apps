@@ -63,19 +63,28 @@ class Crysol_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_pdbfile = json_variables['pdbfile']
-		head, pdbfile = os.path.split(temp_pdbfile[0])
-		path = head.replace('\/','/') + "/"
-		
-		temp_dcdfile = json_variables['dcdfile']
-		head, dcdfile = os.path.split(temp_dcdfile[0])
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-		
-		print 'os.getcwd() = ',os.getcwd()
-		os.chdir(path) 
-		print 'path = ',path
-		print 'os.getcwd() = ',os.getcwd()
+
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                pdbpath = path
+                dcdpath = path
+
+                os.chdir(path)
+                path = ''
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['pdbfile']
+                        head, pdbfile = os.path.split(temp_pdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbfile = json_variables['pdbfile_text']
+
+                if(json_variables['dcd_list_box'] == "c1"):
+                        temp_dcdfile = json_variables['dcdfile']
+                        head, dcdfile = os.path.split(temp_dcdfile[0])
+                elif(json_variables['dcd_list_box'] == "c2"):
+                        dcdfile = json_variables['dcdfile_text']
 	
 		maxh = json_variables['maxh']
 		fib = json_variables['fib']
@@ -96,13 +105,6 @@ class Crysol_Drv():
                         hydrogens = 'N' # NO
                 elif(hydrogens_list_box == 'c2'):
                         hydrogens = 'Y' # YES
-
-	
-		path='./'
-		pdbpath = './'
-		dcdpath = './'
-
-		path = ''
 
 	option = '0'
 	cryexe = '/share/apps/local/bin/crysol.exe'

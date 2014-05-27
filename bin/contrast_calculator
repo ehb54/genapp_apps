@@ -316,13 +316,6 @@ class Contrast_Drv():
 			else:
 				output_dict['plotout3'] = flot_data
 			
-			#graph = pyflot.Flot()
-			#graph.add_line(data)
-			#flot_data = graph.series_json 
-			
-			#output_dict['plot3_json'] = flot_data
-			#output_dict['plotout3'] = graph.series_json
-	
 			izero = 1
 
 			flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero)

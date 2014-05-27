@@ -48,7 +48,7 @@
                    "id"      : "n_q",
                    "label"   : "number of q values:",
                    "type"    : "text",
-                   "default" : "20",
+                   "default" : "10",
                    "required" : "true"
                    },
                   {
@@ -100,7 +100,7 @@
                   },
                   {
                    "role"     : "input",
-                   "id"       : "eta",
+                   "id"       : "rou",
                    "label"    : "surface molecule interior parameter:",
                    "type"     : "text",
                    "default:" : "-15.0",
@@ -110,7 +110,7 @@
                   },
                   {
                    "role"     : "input",
-                   "id"       : "grid_size",
+                   "id"       : "eta",
                    "label"    : "surface grid step size:",
                    "type"     : "text",
                    "default:" : "1.0",

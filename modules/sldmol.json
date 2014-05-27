@@ -21,38 +21,110 @@
                    "required" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "in_pdbfile",
-                   "label"    : "input file name (pdb)",
-                   "type"     : "file",
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbfile",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
                    "default"  : "nef_nohis.pdb",
-                   "required" : "true"
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "in_dcdfile",
-                   "label"    : "input (pdb or dcd) file name:",
-                   "type"     : "file",
+                   "role"    : "input",
+                   "id"      : "dcd_list_box",
+                   "name"    : "dcd_list_box",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcdfile",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to center",
+                   "repeat"   : "dcd_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcdfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
                    "default"  : "a5.dcd",
-                   "required" : "true"
+                   "help"     : "name of DCD or PDB file with coordinates you wish to center",
+                   "repeat"   : "dcd_list_box:c2",
+                   "norow" : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "expfile",
+                   "role"    : "input",
+                   "id"      : "data_list_box",
+                   "name"    : "data_list_box",
                    "label"    : "experimental SLD data file name:",
-                   "type"     : "file",
-                   "default"  : "sld.txt",
-                   "required" : "true"
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "expdatafile",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "repeat"   : "data_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "expdatafile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "default"  : "SNS_dDPPG_myrdNef_nSLD.txt",
+                   "repeat"   : "data_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "outfile",
+                   "id"       : "outputfile",
                    "label"    : "output file name:",
-                   "type"     : "file",
+                   "type"     : "text",
                    "default"  : "tmp_smoothdist.txt",
                    "required" : "true"
                    },
-
                   {
                    "role"     : "input",
                    "id"       : "general_section_header",
@@ -63,9 +135,9 @@
                    "posthline": "true",
                    "required" : "true"
                    },
-		          {
+		  {
                    "role"     : "input",
-                   "id"       : "runtype",
+                   "id"       : "runtype_list_box",
                    "label"    : "run type",
                    "type"     : "listbox",
                    "values"   : "average_structural_sld~c1~individual_sld~c2",
@@ -74,15 +146,15 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "sld_bulk",
+                   "id"       : "bulksld",
                    "label"    : "scattering length density of bulk:",
-                   "type"     : "float",
-                   "default"  : -0.00000051,
+                   "type"     : "text",
+                   "default"  : "-0.51E-6",
                    "required" : "true"
                    },
 		          {
                    "role"     : "input",
-                   "id"       : "source",
+                   "id"       : "source_list_box",
                    "label"    : "neutrons or X-ray?",
                    "type"     : "listbox",
                    "values"   : "neutrons~c1~X_ray~c2",
@@ -91,15 +163,15 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "ndregions",
+                   "id"       : "numdregions",
                    "label"    : "number of deuterated regions:",
-                   "type"     : "integer",
-                   "default"  : 1,
+                   "type"     : "text",
+                   "default"  : "1",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "r0",
+                   "id"       : "lowres",
                    "label"    : "first amino acid per region:",
                    "type"     : "text",
                    "default"  : "1",
@@ -107,7 +179,7 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "r1",
+                   "id"       : "highres",
                    "label"    : "last amino acid per region:",
                    "type"     : "text",
                    "default"  : "200",
@@ -115,23 +187,23 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "bin_width",
+                   "id"       : "dbin",
                    "label"    : "bin width to decompose protein (angstroms):",
-                   "type"     : "float",
-                   "default"  : 0.2,
+                   "type"     : "text",
+                   "default"  : "0.2",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "smoothing_width",
+                   "id"       : "width",
                    "label"    : "scattering length smoothing width (angstroms):",
-                   "type"     : "float",
-                   "default"  : 2.5,
+                   "type"     : "text",
+                   "default"  : "2.5",
                    "required" : "true"
                    },
-		          {
+		  {
                    "role"     : "input",
-                   "id"       : "fit_flag",
+                   "id"       : "fit_list_box",
                    "label"    : "fit SLD?",
                    "type"     : "listbox",
                    "values"   : "no~c1~yes~c2",
@@ -140,14 +212,12 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "sld_correction",
+                   "id"       : "sldoffset",
                    "label"    : "experiment SLD offset correction (angstroms):",
-                   "type"     : "float",
-                   "default"  : 0.0,
+                   "type"     : "text",
+                   "default"  : "0.0",
                    "required" : "true"
                    },
-
-
                    {
                    "role"       : "input",
                    "id"       : "fitting_header5",
@@ -159,7 +229,7 @@
                    "role"       : "input",
                    "id"       : "z0",
                    "label"    : "Initial Estimate",
-                   "type"     : "float",
+                   "type"     : "text",
                    "default"  : "25.0",
                    "norow"    : "true"
                    },
@@ -167,7 +237,7 @@
                    "role"       : "input",
                    "id"       : "zmin",
                    "label"    : "Fit minimum",
-                   "type"     : "float",
+                   "type"     : "text",
                    "default"  : "20.0",
                    "norow"    : "true"
                    },
@@ -175,7 +245,7 @@
                    "role"       : "input",
                    "id"       : "zmax",
                    "label"    : "Fit maximum",
-                   "type"     : "float",
+                   "type"     : "text",
                    "default"  : "30.0",
                    "norow"    : "true"
                    },
@@ -202,17 +272,17 @@
                    },
                    {
                    "role"       : "input",
-                   "id"       : "emin",
+                   "id"       : "zevalmin",
                    "label"    : "Fit minimum",
-                   "type"     : "float",
+                   "type"     : "text",
                    "default"  : "28.0",
                    "norow"    : "true"
                    },
                    {
                    "role"       : "input",
-                   "id"       : "emax",
+                   "id"       : "zevalmax",
                    "label"    : "Fit maximum",
-                   "type"     : "float",
+                   "type"     : "text",
                    "default"  : "145.0"
                    },
                    {
@@ -224,27 +294,33 @@
                    },
                    {
                    "role"       : "input",
-                   "id"       : "c0",
+                   "id"       : "A0",
                    "label"    : "Initial Estimate",
-                   "type"     : "float",
+                   "type"     : "text",
                    "default"  : "0.3",
                    "norow"    : "true"
                    },
                    {
                    "role"       : "input",
-                   "id"       : "cmin",
+                   "id"       : "Amin",
                    "label"    : "Fit minimum",
-                   "type"     : "float",
+                   "type"     : "text",
                    "default"  : "0.2",
                    "norow"    : "true"
                    },
                    {
                    "role"       : "input",
-                   "id"       : "cmax",
+                   "id"       : "Amax",
                    "label"    : "Fit maximum",
-                   "type"     : "float",
+                   "type"     : "text",
                    "default"  : "0.4",
                    "norow"    : "true"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout1",
+                   "label"   : "experimental data and average structural sld",
+                   "type"    : "plot2d"
                    },
  		  {
                     "role"    : "output",

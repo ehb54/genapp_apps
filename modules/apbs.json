@@ -22,83 +22,153 @@
                    },
                   {
                    "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
                    "id"      : "pdbfile",
-                   "label"   : "input file name (pdb)",
+                   "label"   : " ",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcd_list_box",
+                   "name"    : "dcd_list_box",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "infile",
-                   "label"   : "input file name (dcd or pdb)",
+                   "label"   : " ",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate solvation energies",
+                   "repeat"   : "dcd_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "infile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate solvation energies",
+                   "repeat"   : "dcd_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "outfile",
-                   "label"   : "output file name (dcd)",
+                   "label"   : "output file name",
                    "type"    : "text",
-                   "default" : "run_0/minimization/min_run_0.dcd",
+                   "default" : "apbs.dat",
                    "required" : "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "pH",
+                   "id"      : "ph",
                    "label"   : "pH",
-                   "type"    : "float",
-                   "default" : 5.2,
+                   "type"    : "text",
+                   "default" : "5.2",
                    "required" : "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "temperature",
+                   "id"      : "temp",
                    "label"   : "temperature (K)",
-                   "type"    : "float",
-                   "default" : 300.0,
+                   "type"    : "text",
+                   "default" : "300.0",
                    "required" : "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "ion_concentration",
+                   "id"      : "ion_conc",
                    "label"   : "ion concentration (M):",
-                   "type"    : "float",
-                   "default" : 5.2,
+                   "type"    : "text",
+                   "default" : "5.2",
                    "required" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "ion_charge",
                    "label"   : "ion charge:",
-                   "type"    : "float",
-                   "default" : 1.0,
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "largest_ion_radius",
-                   "label"   : "largest ion radius:",
-                   "type"    : "float",
-                   "default" : 1.62,
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "user_input_file",
-                   "label"   : "user input file (0==no, 1==yes)",
-                   "type"    : "integer",
-                   "default" : 1,
-                   "min"     : 0,
-                   "max"     : 1,
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "user_input_file_name",
-                   "label"   : "user input file name:",
                    "type"    : "text",
-                   "default" : "apbs_input.in",
+                   "default" : "1.0",
                    "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ion_radius",
+                   "label"   : "largest ion radius:",
+                   "type"    : "text",
+                   "default" : "1.62",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "user_list_box",
+                   "label"    : "user input file",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "file_list_box",
+                   "name"    : "file_list_box",
+                   "label"   : " ",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+	           "repeat"  : "user_list_box",
+                   "repeater" : "true",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "manualfile",
+                   "label"    : "user apbs input file name",
+                   "type"     : "file",
+                   "required" : "false",
+                   "repeat"  : "file_list_box:c1" 
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "manualfile_text",
+                   "label"    : "user apbs input file name",
+                   "type"    : "text",
+                   "default"  : "apbs_input.in",
+                   "required" : "false",
+                   "repeat"  : "file_list_box:c2" 
                    },
 		  {
                     "role"    : "output",

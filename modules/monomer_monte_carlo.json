@@ -22,11 +22,36 @@
                    "help"     : "results will be placed in a folder called generate/ in the directory name you enter here"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "pdbfile",
-                   "label"    : "input file name (pdb)",
-                   "type"     : "file",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbfile",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"     : "input",

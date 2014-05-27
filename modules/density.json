@@ -22,18 +22,68 @@
                    "help"     : "results will be placed in a folder called density/ in the directory name you enter here"
                    },
                   {
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
                    "role"     : "input",
                    "id"       : "pdbfile",
                    "label"    : "pdb reference file name",
                    "type"     : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "refpdb_list_box:c1",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile_text",
+                   "label"    : "pdb reference file name",
+                   "type"     : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "refpdb_list_box:c2",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcd_list_box",
+                   "name"    : "dcd_list_box",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "dcdfile",
-                   "label"    : "trajectory file name (pdb or dcd)",
+                   "label"    : "trajectory file name (dcd or pdb)",
                    "type"     : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to create density plots",
+                   "repeat"   : "dcd_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dcdfile_text",
+                   "label"    : "trajectory file name (pdb or dcd)",
+                   "type"     : "text",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to create density plots",
+                   "repeat"   : "dcd_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"     : "input",
@@ -86,20 +136,44 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "equalweights_list_box",
-                   "name"    : "equalweights_list_box",
-                   "label"   : "equal weights",
+                   "id"      : "weight_flag_check_box",
+                   "label"    : "check box to use a weight file",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeater" : "true",
+		   "norow"   : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "weight_flag_list_box",
+                   "name"    : "weight_flag_list_box",
+                   "label"   : "choose an input option",
                    "type"    : "listbox",
-                   "values"  : "yes~c1~no~c2",
-                   "default" : "c1"
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c2",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+		   "repeat"  : "weight_flag_check_box",
+                   "repeater" : "true",
+		   "norow"   : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "weightfile",
+                   "id"       : "weightsfile",
+                   "label"    : "weights file name",
+                   "type"     : "file",
+                   "help"     : "name of file containing weighting information for each structure in trajectory",
+		   "norow"   : "true",
+                   "repeat"   : "weight_flag_list_box:c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "weightsfile_text",
                    "label"    : "weights file name",
                    "type"     : "text",
-                   "default"  : "./run_0/filter/x2lowweights.txt",
-                   "required" : "true"
+		   "default"  : "run_0/filter/rghighweights.txt",
+                   "help"     : "name of file containing weighting information for each structure in trajectory",
+		   "norow"   : "true",
+                   "repeat"   : "weight_flag_list_box:c2"
                    },
                   {
                    "role"     : "input",

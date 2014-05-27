@@ -21,21 +21,70 @@
                    "required" : "true",
                    "help"     : "results will be placed in a folder called coor_tools/ in the directory name you enter here"
                    },
+
                   {
-                   "role"     : "input",
-                   "id"       : "pdb_filename",
-                   "label"    : "input pdb file",
-                   "type"     : "file",
-                   "help"     : "name of PDB file for atom naming purposes",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "filename",
-                   "label"    : "input (pdb or dcd) file",
-                   "type"     : "file",
+                   "role"    : "input",
+                   "id"      : "pdb_filename",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdb_filename_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcd_list_box",
+                   "name"    : "dcd_list_box",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "filename",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
                    "help"     : "name of PDB or DCD file with coordinates you wish to extract structures from",
-                   "required" : "true"
+                   "repeat"   : "dcd_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "filename_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB or DCD file with coordinates you wish to extract structures from",
+                   "repeat"   : "dcd_list_box:c2",
+                   "norow" : "true"
                    },
 	          {
                    "role"    : "input",
@@ -67,22 +116,68 @@
 		   "repeat"   : "option_list_box:c2"
                    },
                   {
+                   "role"    : "input",
+                   "id"      : "text_file_list_box",
+                   "name"      : "text_file_list_box",
+		   "label"   : " ",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+		   "repeat" : "option_list_box:c3",
+                   "norow" : "true"
+                   },
+                  {
                    "role"     : "input",
                    "id"       : "local_value_c3",
                    "label"    : "input name of text file",
                    "type"     : "file",
-                   "default"  : "1",
 		   "help"     : "supply appropriate value: file lists desired frames",
-		   "repeat"   : "option_list_box:c3"
+		   "repeat"   : "text_file_list_box:c1",
+		   "norow"    : "true"
+#		   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c3_text",
+                   "label"    : "input name of text file",
+                   "type"     : "text",
+                   "default"  : "test.txt",
+		   "help"     : "supply appropriate value: file lists desired frames",
+		   "repeat"   : "text_file_list_box:c2",
+		   "norow"    : "true"
+#		   "repeater" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "weight_file_list_box",
+                   "name"      : "weight_file_list_box",
+		   "label"   : " ",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+		   "repeat" : "option_list_box:c4",
+                   "norow" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "local_value_c4",
-                   "label"    : "input name of text file",
+                   "label"    : "input name of weight file",
                    "type"     : "file",
-                   "default"  : "1",
 		   "help"     : "supply appropriate value: file is list of weights",
-		   "repeat"   : "option_list_box:c4"
+		   "repeat"   : "weight_file_list_box:c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c4_text",
+                   "label"    : "input name of weight file",
+                   "type"     : "text",
+		   "default"  : "run0/generate/x2lowweights.txt",
+		   "help"     : "supply appropriate value: file is list of weights",
+		   "repeat"   : "weight_file_list_box:c2"
                    },
                   {
                    "role"     : "input",

@@ -1,14 +1,88 @@
 #!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil
+import json,sys,os,shutil,ast
 from StringIO import StringIO
-import multiprocessing
+import multiprocessing,time,string
 
 import sassie.calculate.sld as sld
 import sassie.interface.input_filter as input_filter
 
 class Sld_Drv():
 
-   module = 'sld'
+   module = 'sldmol'
+
+   def background_job(self,process,txtQueue):
+	total_string = ''
+	while process.is_alive():
+		try:
+			this_text = txtQueue.get(True, timeout=0.1)
+			text_split=string.split(this_text)
+			if(text_split[0]=='STATUS'):
+				pass ; #progressBar.set(locale.atof(text_split[1]))
+			else:
+				total_string += this_text
+		except:
+			if not process.is_alive():
+				return total_string
+		time.sleep(0.01)
+	else:
+		return total_string
+
+	return total_string
+
+   def read_file(self,flot_data,filename,this_pass):
+
+        try:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+
+                        if(lin[0] != '#'):
+                                this_x = lin[0]
+                                this_y = lin[1]
+                                data.append([this_x,this_y])
+
+                if(this_pass==1):
+
+                        flot_dict = {
+                                        'lines' : { "show": "false" },
+                                        'points' : { "show" : "true", "radius" : "2" },
+                                        'color' : 'red',
+                                        'label' : 'experimental data',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+                else:
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "3.0" },
+                                        'points' : { "show" : "true", "radius" : "2" },
+                                        'color' : 'green',
+                                        'label' : 'fitted data',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+#                data_file.close()
+
+        except:
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+                flot_data = "error reading file and making plot"
+
+        return
+
+   def get_data_from_disk(self,file1,file2):
+
+        flot_data = []
+        self.read_file(flot_data,file1,1)
+        self.read_file(flot_data,file2,2)
+
+        return flot_data
+
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -20,39 +94,36 @@ class Sld_Drv():
         	#### BEGIN USER EDIT
         	#### BEGIN USER EDIT
 
-        	runname='run_0'
-		dcdfile='run_0.dcd'
-		path=''
-		pdbfile='c2.pdb'
-		trials='50'
-		goback='10'
-		temp='300.0'
-		moltype = 'protein'
-		numranges='5'
-		dtheta='30.0,30.0,30.0,30.0,30.0'
-		reslow='123,278,354,378,408'
-		numcont='21,5,24,11,4'
-		lowres1='284'
-		highres1='350'
-		basis='CA'
-		cutoff='3.0'
-		lowrg='0.0'
-		highrg='400.0'
-		zflag='0'
-		zcutoff='0.0'
-		cflag='0'
-		confile = 'constraints.txt'
-		nonbonflag='0'		
-		nonbonscale='1.0'
-		psffilepath='./'
-		psffilename='refgag.psf'
-		parmfilepath='/usr/local/bin/toppar'
-		parmfilename='par_all27_prot_na.inp'
-		plotflag = '0'
-		directedmc = '0'
-		seed = '0,123'        
+        	runname = 'run_0'
 
-	
+        	pdbfile = 'nef_nohis.pdb'
+        	dcdfile = 'a5.dcd'
+        	expdatafile = 'SNS_dDPPG_myrdNef_nSLD.txt'
+        	outputfile = 'tmp_smoothdist.txt'
+        	runtype = '0' 
+
+        	bulksld = '-0.51E-6'
+        	xon = '0'
+
+        	numdregions = '1'
+        	lowres = '1'
+        	highres = '200'
+
+        	dbin = '0.2'
+        	width = '2.5'
+
+        	fit = '0'
+        	sldoffset = '0.0'
+
+        	z0 = '25.0'
+        	zmin = '20.0'
+        	zmax = '30.0'
+        	zevalmin = '28.0'
+        	zevalmax = '145.0'
+        	A0 = '0.2'
+        	Amin = '0.3'
+        	Amax = '0.4'
+
         	path='./'
 
         	#### END USER EDIT
@@ -60,118 +131,159 @@ class Sld_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_pdbfile= json_variables['pdbfile']
-		temp_confile = json_variables['confile']
-		temp_psffilename = json_variables['psffilename']
-		
-		head, pdbfile = os.path.split(temp_pdbfile[0])
-		path = head.replace('\/','/') + "/"
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-		
-		head, confile = os.path.split(temp_confile[0])
 
-		psffilepath, psffilename = os.path.split(temp_psffilename[0])
+		base_directory = json_variables['_base_directory']
 
-		os.chdir(path) 
+        	path = base_directory.replace('\/','/') + "/"
+
+		os.chdir(path)
+
+		if(json_variables['refpdb_list_box'] == "c1"):
+        		temp_pdbfile = json_variables['pdbfile']
+			head, pdbfile = os.path.split(temp_pdbfile[0])
+		elif(json_variables['refpdb_list_box'] == "c2"):
+        		pdbfile = json_variables['pdbfile_text']
+
+		if(json_variables['dcd_list_box'] == "c1"):
+        		temp_dcdfile = json_variables['dcdfile']
+			head, dcdfile = os.path.split(temp_dcdfile[0])
+		elif(json_variables['dcd_list_box'] == "c2"):
+        		dcdfile = json_variables['dcdfile_text']
 		
-		dcdfile = json_variables['dcdfile']
-		trials = json_variables['trials']
-		goback = json_variables['goback']
-		temp = json_variables['temp']
-		moltype = json_variables['moltype']
-		numranges = json_variables['numranges']
-		dtheta = json_variables['dtheta']
-		reslow = json_variables['reslow']
-		numcont = json_variables['numcont']
- 		lowres1 = json_variables['lowres1']
- 		highres1 = json_variables['highres1']
- 		basis = json_variables['basis']
- 		cutoff = json_variables['cutoff']
- 		lowrg = json_variables['lowrg']
- 		highrg = json_variables['highrg']
- 		zflag = json_variables['zflag']
- 		zcutoff = json_variables['zcutoff']
- 		cflag = json_variables['cflag']
- 		nonbondflag = json_variables['nonbondflag']
- 		nonbondscale = json_variables['nonbondscale']
- 		plotflag = json_variables['plotflag']
- 		directedmc = json_variables['directedmc']
-
+		if(json_variables['data_list_box'] == "c1"):
+        		temp_expdatafile = json_variables['expdatafile']
+			head, expdatafile = os.path.split(temp_expdatafile[0])
+		elif(json_variables['data_list_box'] == "c2"):
+        		expdatafile = json_variables['expdatafile_text']
+ 
 		path = ''
 
-	parmfilepath = '/usr/local/bin/toppar/'
-	parmfilename = 'par_all27_prot_na.inp'
+                runtype_list_box = json_variables['runtype_list_box']
+                if(runtype_list_box == 'c1'):
+                        runtype = '0' # average structural sld
+                elif(runtype_list_box == 'c2'):
+                        runtype = '1' # individual sld
 
-	svariables={}
+                source_list_box = json_variables['source_list_box']
+                if(source_list_box == 'c1'):
+                        xon = '0' # neutron
+                elif(source_list_box == 'c2'):
+                        xon = '1' # xray
 
-	svariables['runname'] = (str(runname),'string')
+                fit_list_box = json_variables['fit_list_box']
+                if(fit_list_box == 'c1'):
+                        fit = '0' # NO
+                elif(fit_list_box == 'c2'):
+                        fit = '1' # YES
 
- 	svariables['dcdfile']		= (str(dcdfile),'string')
- 	svariables['path']		= (str(path),'string')
- 	svariables['pdbfile']		= (str(pdbfile),'string')
- 	svariables['trials']		= (str(trials),'int')
- 	svariables['goback']		= (str(goback),'int')
- 	svariables['temp']		= (str(temp),'float')
- 	svariables['moltype']		= (str(moltype),'string')
- 	svariables['numranges']		= (str(numranges),'int')
- 	svariables['dtheta']		= (str(dtheta),'float_array')
- 	svariables['reslow']		= (str(reslow),'int_array')
- 	svariables['numcont']		= (str(numcont),'int_array')
- 	svariables['lowres1']		= (str(lowres1),'int')
- 	svariables['highres1']		= (str(highres1),'int')
- 	svariables['basis']		= (str(basis),'string')
- 	svariables['cutoff']		= (str(cutoff),'float')
- 	svariables['lowrg']		= (str(lowrg),'float')
- 	svariables['highrg']		= (str(highrg),'float')
- 	svariables['zflag']		= (str(zflag),'int')
- 	svariables['zcutoff']		= (str(zcutoff),'float')
- 	svariables['cflag']		= (str(cflag),'int')
- 	svariables['confile']		= (str(confile),'string')
- 	svariables['nonbondflag']	= (str(nonbondflag),'int')
- 	svariables['nonbondscale']	= (str(nonbondscale),'float')
- 	svariables['psffilepath']	= (str(psffilepath),'string')
- 	svariables['psffilename']	= (str(psffilename),'string')
- 	svariables['parmfilepath']	= (str(parmfilepath),'string')
- 	svariables['parmfilename']	= (str(parmfilename),'string')
- 	svariables['plotflag']		= (str(plotflag),'int')
- 	svariables['directedmc']	= (str(directedmc),'float')
- 	svariables['seed']		= ('0,123', 'int_array') # set this to '1,123' if you want to set the seed or '0,123' if not
+		outputfile = json_variables['outputfile']
+		bulksld = json_variables['bulksld']
+		numdregions = json_variables['numdregions']
+		lowres = json_variables['lowres']
+		highres = json_variables['highres']
+		dbin = json_variables['dbin']
+		width = json_variables['width']
+		sldoffset = json_variables['sldoffset']
+		z0 = json_variables['z0']
+		zmin = json_variables['zmin']
+		zmax = json_variables['zmax']
+		zevalmin = json_variables['zevalmin']
+		zevalmax = json_variables['zevalmax']
+		A0 = json_variables['A0']
+		Amin = json_variables['Amin']
+		Amax = json_variables['Amax']
 
+	svariables={} 
+      
+	svariables['runname']		= (str(runname),'string')
+	svariables['path']		= (str(path),'string')
+	svariables['pdbfile']		= (str(pdbfile),'string')
+	svariables['dcdfile']		= (str(dcdfile),'string')
+	svariables['expdatafile']	= (str(expdatafile),'string')
+	svariables['outputfile']	= (str(outputfile),'string')
+	svariables['runtype']		= (str(runtype),'int')
+	
+	svariables['bulk_sld']		= (str(bulksld),'float')
+	svariables['xon']		= (str(xon),'int')
+	
+	svariables['num_deut_regions']	= (str(numdregions),'int')
+	svariables['deut_low_res']	= (str(lowres),'int_array')
+	svariables['deut_high_res']	= (str(highres),'int_array')
+	
+	svariables['dbin']		= (str(dbin),'float')
+	svariables['width']		= (str(width),'float')
+	
+	svariables['sldfit']		= (str(fit),'int')
+	svariables['sldoffset']		= (str(sldoffset),'float')
+	
+	svariables['zfit0']		= (str(z0),'float')
+	svariables['zfitmin']		= (str(zmin),'float')
+	svariables['zfitmax']		= (str(zmax),'float')
+	svariables['zevalmin']		= (str(zevalmin),'float')
+	svariables['zevalmax']		= (str(zevalmax),'float')
+	svariables['A0']		= (str(A0),'float')
+	svariables['Amin']		= (str(Amin),'float')
+	svariables['Amax']		= (str(Amax),'float')
+		
+	svariables['plotflag']		= ('0','int') # 0 == NO PLOT, 1 == matplotlib, 2 == Gnuplot
 
- 	svariables['path']    = (path,'string')
+	error,variables=input_filter.type_check_and_convert(svariables)
 
-	error = []
-
-# 	error,self.variables=input_filter.type_check_and_convert(svariables)
-
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
 
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
 	else:
-#		runname=self.variables['runname'][0]
+		runname=variables['runname'][0]
 
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-#		sld.sld_main(self.variables,txtQueue) 
+		process=multiprocessing.Process(target=sld.sld_main,args=(variables,txtQueue))
+		process.start()
 
-		output_dict['io_string'] = input_string
-		output_dict['sasoutput2'] = 'successfully completed run'
-	
-	with open("/home/curtisj/sassie2/log","w") as outfile:
-		json.dump(output_dict,outfile)
+		total_string = self.background_job(process,txtQueue)
+
+		#output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+
+                average_sld_file = runname+'/sld/sldfile_00001.txt'
+
+                flot_data = self.get_data_from_disk(expdatafile,average_sld_file)
+
+        #       output_dict['test_ofile'] = data_path+ofile
+
+                if(isinstance(flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = flot_data
+                else:
+                        output_dict['plotout1'] = flot_data
+#plot [:] [-1E-6:4.5E-6] 'asns.txt' w lp, 'run_0/sld/sldfile_00001.txt' w lp
+
+
+	try:
+		with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+			json.dump(output_dict,outfile)
+	except:
+		output_dict['error_string'] = save_stdout
+
+#emre
+        sys.stdout = save_stdout;
+#end emre
 	print json.dumps( output_dict )
 		
 if __name__=='__main__':
 
 	json_flag = True
-	json_flag = False
+	#json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"center called with no arguments\"\}\n";
+		print "\{\"error\":\"sldmol called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:
@@ -179,6 +291,7 @@ if __name__=='__main__':
 		if(json_flag):
 			argv_io_string = StringIO(sys.argv[1])
 			json_variables = json.load(argv_io_string)
+			#json_variables = ast.literal_eval(argv_io_string)
 		a=Sld_Drv()
 		a.run_me(json_flag,json_variables,sys.argv[1])
 

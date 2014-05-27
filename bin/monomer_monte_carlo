@@ -45,10 +45,30 @@ class Generate_Drv():
                 	#       this_z = lin[2]
                         	data.append([this_x,this_y])
                 	#       error.append([this_x,this_z])   
+
+                if(dvar[0] == 0):
+
+                        flot_dict = {
+                                        'lines' : { "show": "false" },
+                                        'points' : { "show" : "true", "radius" : "4" },
+                                        'color' : 'red',
+                                        'label' : 'all structures',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+                else:
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "3.0" },
+                                        'points' : { "show" : "true", "radius" : "2" },
+                                        'color' : 'green',
+                                        'label' : 'accepted structures',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
 	
-		flot_data.append(data)
-                #flot_data.append(error)
-                data_file.close()
+#                data_file.close()
 
         except:
         #        print 'ERROR READING PLOT DATA FILE'
@@ -123,15 +143,21 @@ class Generate_Drv():
 		#	json.dump(json_variables,outfile)
 
 		runname = json_variables['runname']
-		
-		temp_pdbfile= json_variables['pdbfile']
-		
-		head, pdbfile = os.path.split(temp_pdbfile[0])
-		path = head.replace('\/','/') + "/"
-		os.chdir(path) 
+	
+                base_directory = json_variables['_base_directory']
 
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
 		data_path = path
-		
+                path = ''
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['pdbfile']
+                        head, pdbfile = os.path.split(temp_pdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbfile = json_variables['pdbfile_text']
+
 		dcdfile = json_variables['dcdfile']
 		trials = json_variables['trials']
 		goback = json_variables['goback']

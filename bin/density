@@ -1,5 +1,5 @@
 #!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil
+import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string
 
@@ -41,24 +41,29 @@ class Density_Drv():
 
         	runname='run_0'
 
-		dcdfile = 'c2.dcd'
-		pdbfile = 'c2.pdb'
+		pdbfile = 'min3.pdb'
+		dcdfile = 'run_0.dcd'
 		ofile = 'test'
 		xlength = '350.0'
 		ylength = '350.0'
 		zlength = '350.0'
 		gridsp = '5.0'
 		equalweights = '1'
-      		weightfile = './data/filter/x2lowweights.txt'
+      		weightsfile = './data/filter/x2lowweights.txt'
 		save_occupancy = 'N'
 
 		nsegments = '1'
-		nregions = '5'
-		lowregions = '1, 124, 143, 355, 380'
-		highregions = '123, 142, 353, 379, 420'
-		sbasis = 'calpha'
-		sname = 'GAG'
-        	
+
+		allsnumregions = ['5']
+		allslow = ['1, 124, 143, 355, 380']
+		allshigh = ['123, 142, 353, 379, 420']
+		allsbasis = ['CA']
+		allsname = ['GAG']
+ 
+                segvariables = []
+                for i in xrange(locale.atoi(nsegments)):
+                        segvariables.append([allsnumregions[i],allslow[i],allshigh[i],allsbasis[i],allsname[i]])
+
         	path='./'
 
         	#### END USER EDIT
@@ -66,26 +71,35 @@ class Density_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_pdbfile = json_variables['pdbfile']
-		temp_dcdfile = json_variables['dcdfile']
 	
-		head, pdbfile = os.path.split(temp_pdbfile[0])
-		head, dcdfile = os.path.split(temp_dcdfile[0])
-		path = head.replace('\/','/') + "/"
-		head, dcdfile = os.path.split(temp_dcdfile[0])
+                base_directory = json_variables['_base_directory']
 
-		os.chdir(path) 
-		path = ''
-		
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                ofile = json_variables['ofile']
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['pdbfile']
+                        head, pdbfile = os.path.split(temp_pdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbfile = json_variables['pdbfile_text']
+
+                if(json_variables['dcd_list_box'] == "c1"):
+                        temp_dcdfile = json_variables['dcdfile']
+                        head, dcdfile = os.path.split(temp_dcdfile[0])
+                elif(json_variables['dcd_list_box'] == "c2"):
+                        dcdfile = json_variables['dcdfile_text']
+
+                path = ''
+	
 		ofile = json_variables['ofile']
 		xlength = json_variables['xlength']
 		ylength = json_variables['ylength']
 		zlength = json_variables['zlength']
 		gridsp = json_variables['gridsp']
-		weightsfile = json_variables['weightsfile']
 		nsegments = json_variables['nsegments']
-
 
                 save_occupancy_list_box = json_variables['save_occupancy_list_box']
                 if(save_occupancy_list_box == 'c1'):
@@ -93,13 +107,32 @@ class Density_Drv():
                 elif(save_occupancy_list_box == 'c2'):
                         save_occupancy = 'Y' # YES
 
-		equalweights_list_box = json_variables['equalweights_list_box']
-                if(equalweights_list_box == 'c1'):
-                        equalweights = '1' # YES
-                elif(equalweights_list_box == 'c2'):
-                        equalweights = '0' # NO
+		try:
+			weight_flag_check_box = json_variables['weight_flag_check_box']
+		
+                	if(weight_flag_check_box == 'off'):
+                	        equalweights = '1' # YES
+				weightsfile = " "
+                	elif(weight_flag_check_box == 'on'):
+                	        equalweights = '0' # NO
+                		if(json_variables['weight_flag_list_box'] == "c1"):
+                		        temp_weightsfile = json_variables['weightsfile']
+                		        head, weightsfile = os.path.split(temp_weightsfile[0])
+                		elif(json_variables['weight_flag_list_box'] == "c2"):
+                		        weightsfile = json_variables['weightsfile_text']
+		except:
+              		equalweights = '1' # YES
+			weightsfile = " "
+	
+		allsnumregions = json_variables['nregions']
+		allslow = json_variables['lowregions']
+		allshigh = json_variables['highregions']
+		allsbasis = json_variables['sbasis']
+		allsname = json_variables['sname']
 
-
+                segvariables = []
+                for i in xrange(locale.atoi(nsegments)):
+                        segvariables.append([allsnumregions[i],allslow[i],allshigh[i],allsbasis[i],allsname[i]])
 
 	svariables={}
 
@@ -113,44 +146,48 @@ class Density_Drv():
 	svariables['zlength']      = (str(zlength),'float')
 	svariables['gridsp']       = (str(gridsp),'float')
 	svariables['equalweights'] = (str(equalweights),'int')
-	svariables['weightsfile']  = (str(weightfile),'string')
+	svariables['weightsfile']  = (str(weightsfile),'string')
 	svariables['nsegments']	   = (str(nsegments),'int')
 	svariables['save_occupancy']	= (str(save_occupancy),'string')
-
 	
 	svariables['path']    = (path,'string')
 
 	error = []
-#	error,self.variables=input_filter.type_check_and_convert(svariables)
+	error,variables=input_filter.type_check_and_convert(svariables)
 
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
 	else:
-#		runname=self.variables['runname'][0]
+		runname=variables['runname'][0]
 
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-#		density.density(self.variables,txtQueue) 
 
-                process=multiprocessing.Process(target=density.density,args=(self.variables,txtQueue))
+		process=multiprocessing.Process(target=density.density,args=(variables,segvariables,txtQueue))
                 process.start()
 
                 total_string = self.background_job(process,txtQueue)
 
-		output_dict['io_string'] = input_string
+		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 	
-	with open("/home/curtisj/sassie2/log","w") as outfile:
-		json.dump(output_dict,outfile)
-	print json.dumps( output_dict )
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                #with open("log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+        print json.dumps( output_dict )
+
 		
 if __name__=='__main__':
 
 	json_flag = True
-	json_flag = False
+#	json_flag = False
 
 	if (len(sys.argv) < 1):
 		print "\{\"error\":\"density called with no arguments\"\}\n";

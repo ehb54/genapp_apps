@@ -29,9 +29,6 @@ class Xtal2sas_Drv():
 
         return total_string
 
-
-
-
    def run_me(self,json_flag,json_variables,input_string):
 
 	output_dict = {}
@@ -67,16 +64,33 @@ class Xtal2sas_Drv():
        	else:
 		runname = json_variables['runname']
 		
-		temp_pdbfile = json_variables['pdbfile']
-		head, pdbfile = os.path.split(temp_pdbfile[0])
-		path = head.replace('\/','/') + "/"
-		
-		temp_dcdfile = json_variables['dcdfile']
-		head, dcdfile = os.path.split(temp_dcdfile[0])
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-	
 		pdbpath = './'
 		dcdpath = './'
+
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+		pdbpath = path
+		dcdpath = path
+
+                os.chdir(path)
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['pdbfile']
+                        head, pdbfile = os.path.split(temp_pdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbfile = json_variables['pdbfile_text']
+
+                if(json_variables['dcd_list_box'] == "c1"):
+                        temp_dcdfile = json_variables['dcdfile']
+                        head, dcdfile = os.path.split(temp_dcdfile[0])
+                elif(json_variables['dcd_list_box'] == "c2"):
+                        dcdfile = json_variables['dcdfile_text']
+
+                path = ''
+
+
 
 		numiq = json_variables['numiq']
 		qmax = json_variables['qmax']
@@ -85,8 +99,6 @@ class Xtal2sas_Drv():
 		pd2O = json_variables['pd2O']
 		fhdexchange = json_variables['fhdexchange']
 		numhits = json_variables['numhits']
-
-		os.chdir(path) 
 
 		delcaipfiles_list_box = json_variables['delcaipfiles_list_box']
                 if(delcaipfiles_list_box == 'c1'):

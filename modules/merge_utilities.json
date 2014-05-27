@@ -22,20 +22,42 @@
                    "help"     : "results will be placed in a folder called merge/ in the directory name you enter here"
                    },
                   {
-                   "role"     : "input",
-                   "id"       : "pdb_file",
-                   "label"    : "reference pdb",
-                   "type"     : "file",
-                   "required" : "true"
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdb_file",
+                   "label"   : "enter full path and file name",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdb_file_text",
+                   "label"   : "enter full path and file name",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "merge_option_list_box",
-                   "name"    : "merge_option_list_box",
                    "label"   : "select option",
                    "type"    : "listbox",
-                   "values"  : "merge dcd & sas~c1~merge sas only~c2",
-                   "default" : "merge dcd & sas"
+                   "values"  : "merge dcd and sas~c1~merge sas only~c2",
+                   "default" : "c1"
                    },
                   {
                    "role"     : "input",
@@ -60,7 +82,7 @@
                    "label"   : "select SAS type",
                    "type"    : "listbox",
                    "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
-                   "default" : "xtal2sas"
+                   "default" : "c1"
                    },
                   {
                    "role"     : "input",

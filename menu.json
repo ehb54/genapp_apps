@@ -46,13 +46,13 @@
             "icon"    : "pngs/build.png",
             "modules" : [ 
                          { 
-                          "id"    : "build_1",
-                          "label" : "Build 1",
+                          "id"    : "pdbrx",
+                          "label" : "PDBRx",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "build_2",
-                          "label" : "Build 2",
+                          "id"    : "topology",
+                          "label" : "Topology",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
@@ -63,13 +63,13 @@
             "icon"    : "pngs/interact.png",
             "modules" : [ 
                          { 
-                          "id"    : "interact_1",
-                          "label" : "Interact 1",
+                          "id"    : "molecular_viewer",
+                          "label" : "Molecular Viewer",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "interact_2",
-                          "label" : "Interact 2",
+                          "id"    : "interactive_sas",
+                          "label" : "Interactive SAS",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]

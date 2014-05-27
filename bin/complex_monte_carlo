@@ -1,4 +1,4 @@
-#!/share/apps/local/bin/python/bin/python -i
+#!/share/apps/local/bin/python/bin/python
 import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string
@@ -28,6 +28,72 @@ class CGenerate_Drv():
                 return total_string
 
         return total_string
+
+   def read_file(self,flot_data,filename,dvar,this_pass):
+
+        try:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+		this_line = 0
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+
+                        if(lin[0] != '#'):
+				if this_line > 0 and this_pass == 2:
+                                	this_x = lin[dvar[0]]
+	                                this_y = lin[dvar[1]]
+	                                data.append([this_x,this_y])
+				elif this_pass == 1:
+                                	this_x = lin[dvar[0]]
+	                                this_y = lin[dvar[1]]
+	                                data.append([this_x,this_y])
+      				this_line += 1	
+
+                if(this_pass == 1):
+
+                        flot_dict = {
+                                        'lines' : { "show": "false" },
+                                        'points' : { "show" : "true", "radius" : "4" },
+                                        'color' : 'red',
+                                        'label' : 'all structures',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+                else:
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "3.0" },
+                                        'points' : { "show" : "true", "radius" : "2" },
+                                        'color' : 'green',
+                                        'label' : 'accepted structures',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+
+#                data_file.close()
+
+        except:
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+                flot_data = "error reading file and making plot"
+
+        return
+
+   def get_data_from_disk(self,file1,file2):
+	
+	
+        flot_data = []
+
+        dvar=[0,1]
+        self.read_file(flot_data,file1,dvar,1)
+        dvar=[2,1]
+        self.read_file(flot_data,file2,dvar,2)
+
+        return flot_data
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -80,14 +146,21 @@ class CGenerate_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_pdbfile= json_variables['pdbfile']
-		
-		head, pdbfile = os.path.split(temp_pdbfile[0])
-		path = head.replace('\/','/') + "/"
-		os.chdir(path) 
 
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
 		data_path = path
+                path = ''
+
+		
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['pdbfile']
+                        head, pdbfile = os.path.split(temp_pdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbfile = json_variables['pdbfile_text']
 
 		dcdfile = json_variables['dcdfile']
 		trials = json_variables['trials']
@@ -114,7 +187,10 @@ class CGenerate_Drv():
  			zcutoff = json_variables['zcutoff']
 			
 			zflag_list_box = json_variables['zflag_list_box']
- 			cflag_list_box = json_variables['cflag_list_box']
+			try:
+				cflag_list_box = json_variables['cflag_list_box']
+			except:
+				cflag_list_box = 'off'
  			plotflag_list_box = json_variables['plotflag_list_box']
 
 		else:
@@ -124,7 +200,7 @@ class CGenerate_Drv():
 			highrg = "185.0"
 			zcutoff = "0.0"
 			zflag_list_box = "c1"
-			cflag_list_box = "c1"
+			cflag_list_box = "off"
  			plotflag_list_box = "c1"
 
                 if(zflag_list_box == 'c1'):
@@ -132,10 +208,10 @@ class CGenerate_Drv():
                 elif(zflag_list_box == 'c2'):
                         zflag = '1' # YES
 
-                if(cflag_list_box == 'c1'):
+                if(cflag_list_box == 'off'):
                         cflag = '0' # NO
 			confile = 'constraints.txt'
-                elif(cflag_list_box == 'c2'):
+                elif(cflag_list_box == 'on'):
                         cflag = '1' # YES
 			temp_confile = json_variables['confile']
 			head, confile = os.path.split(temp_confile[0])
@@ -153,10 +229,10 @@ class CGenerate_Drv():
 				mtype = "rna"
 			elif(json_variables['moltype'][i] == "c3"):
 				mtype = "protein"
-			#psegvariables.append([json_variables['numranges'][i].encode('utf8'), json_variables['sith'][i].encode('utf8'), json_variables['srlow'][i].encode('utf8'), json_variables['srnum'][i].encode('utf8'), mtype]);
-			psegvariables.append([json_variables['numranges'][i], json_variables['sith'][i], json_variables['srlow'][i], json_variables['srnum'][i], mtype]);
+			psegvariables.append([json_variables['numranges'][i].encode('utf8'), json_variables['sith'][i].encode('utf8'), json_variables['srlow'][i].encode('utf8'), json_variables['srnum'][i].encode('utf8'), mtype]);
+			#psegvariables.append([json_variables['numranges'][i], json_variables['sith'][i], json_variables['srlow'][i], json_variables['srnum'][i], mtype]);
 
-	output_dict = {}
+	plotflag = '0'
 
 	svariables={}
 
@@ -199,45 +275,48 @@ class CGenerate_Drv():
 
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
-		output_dict['error2'] = error[0]
 		output_dict['sasoutput1'] = 'run failed'
+		return
 	else:
 #		error=contrast_filter.check_align(self.variables)
                	if(len(error) > 0):
-			print 'error = ',error
-			output_dict['error'] = 'Error in align_filter'	
-			output_dict['error2'] = error[0]
+			output_dict['error'] = 'Error in complex_monte_carlo_filter'	
 			output_dict['sasoutput1'] = 'run failed'
 			return
 		else:
-	#		runname=self.variables['runname'][0]
+			runname=variables['runname'][0]
 
 			if os.path.exists(runname+'/'+self.module):
 				shutil.rmtree(runname+'/'+self.module)
 
-			import pprint
-			print("ZHL JSON: ")
-			pprint.pprint(variables)
-			print("ZHL JSON: ")
-			pprint.pprint(psegvariables)
+			with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+				json.dump("\nsvariables\n",outfile)
+				json.dump(svariables,outfile)
+				json.dump("\npsegvariables\n",outfile)
+				json.dump(psegvariables,outfile)
+
 			txtQueue=multiprocessing.JoinableQueue()
 			process=multiprocessing.Process(target=nmer_dihedral.dihedralgenerate,args=(variables,psegvariables,txtQueue))
 			process.start()
 
                         total_string = self.background_job(process,txtQueue)
 
-			output_dict['io_string'] = input_string
 			output_dict['sasoutput2'] = total_string
 
-			'''
-			flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_sld.txt",5)
+
+			accepted_rg_file = data_path+runname+'/generate/'+dcdfile+'.accepted_rg_results_data.txt'
+			all_rg_file = data_path+runname+'/generate/'+dcdfile+'.all_rg_results_data.txt'
+
+			print 'acc rg file = ', accepted_rg_file
+			print 'all_rg_file = ', all_rg_file
+
+			flot_data = self.get_data_from_disk(all_rg_file,accepted_rg_file)
 
 			if(isinstance(flot_data, basestring)):
 				print 'error reading data'
 				output_dict['plot_error'] = flot_data
 			else:
-				output_dict['plot1'] = flot_data
-			'''
+				output_dict['plotout4'] = flot_data
 
 #emre
         sys.stdout = save_stdout;
@@ -245,7 +324,6 @@ class CGenerate_Drv():
 
         try:
                 with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-                #with open("log","w") as outfile:
                         json.dump(output_dict,outfile)
         except:
                 output_dict['error_string'] = "error writing log file"

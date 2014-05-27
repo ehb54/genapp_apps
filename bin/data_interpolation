@@ -29,7 +29,7 @@ class Interpolate_Drv():
 
         return total_string
 
-   def read_file(self,flot_data,filename):
+   def read_file(self,flot_data,filename,this_pass):
 
 	try:
 		data = [] ; error = []
@@ -44,9 +44,28 @@ class Interpolate_Drv():
 			data.append([this_x,this_y])	
 		#	error.append([this_x,this_z])	
 
-		flot_data.append(data)
-		#flot_data.append(error)
-		data_file.close()
+		if(this_pass == 2):
+
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "1.0" },
+                                        'points' : { "show" : "true", "radius" : "1" },
+                                        'color' : 'red',
+					'label' : 'original data',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+		else:                
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "6.0" },
+                                        #'points' : { "show" : "true" },
+                                        'color' : 'green',
+					'label' : 'interpolated data',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+#		data_file.close()
 
 	except:
 		print 'ERROR READING INTERPOLATED DATA FILE'
@@ -60,8 +79,8 @@ class Interpolate_Drv():
 
 	flot_data = []	
 
-	self.read_file(flot_data,ofile)
-	self.read_file(flot_data,ifile)
+	self.read_file(flot_data,ofile,1) # new interpolated data
+	self.read_file(flot_data,ifile,2) # experimental data
 
  	return flot_data
 
