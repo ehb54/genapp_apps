@@ -113,7 +113,7 @@
                    "id"      : "ion_conc",
                    "label"   : "ion concentration (M):",
                    "type"    : "text",
-                   "default" : "5.2",
+                   "default" : "0.15",
                    "required" : "true"
                    },
                   {
