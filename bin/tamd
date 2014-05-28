@@ -1,5 +1,5 @@
 #!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil
+import json,sys,os,shutil,time,locale
 from StringIO import StringIO
 import multiprocessing
 
@@ -20,102 +20,166 @@ class Tamd_Drv():
         	#### BEGIN USER EDIT
         	#### BEGIN USER EDIT
 
-        	runname='run_0'
-        	infile = 'c2.dcd'
-		pdbfile = 'c2.pdb'
-		nsteps = '100'
-		ncpu = '1'
-		psffile = 'refgag.psf'
-		keepout = '1'
-		dcdfreq = '20'
-		md = '0'
-		mdsteps = '10000'
-		dielect = '1.0'
-		temperature = '300.0'
-		outfile = 'run_0/tamd/min_run_0.dcd'	
-        	path='./'
+		runname		= 'run_2'
+		infile		= 'mc2.pdb'
+		pdbfile		= 'min3.pdb'
+		outfile		= 'test.dcd'
+		nsteps		= '200' 
+		
+		topfile		= '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
+		parmfile	= '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
+		keepout		= '1'
+		dcdfreq		= '20'
+		charmmexe	= '/share/apps/local/bin/charmm.exe'
+		temperature	= '300.0'
+	
+		dna_segnames	= "None"
 
+		number_flexible_segments = '1'
+
+		pretamd_min_steps = '100'
+		poll_frequency = '10'
+
+		all_flexible_segnames=['GAG']
+		all_snumranges=['1']
+		all_srlow=['121']
+		all_srnum=['23']
+		all_moltype=['protein']
+
+                psegvariables = []
+                for i in xrange(locale.atoi(number_flexible_segments)):
+                        psegvariables.append([all_flexible_segnames[i],all_snumranges[i],all_srlow[i],all_srnum[i],all_moltype[i]])
+
+	
         	#### END USER EDIT
         	#### END USER EDIT
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_pdbfile = json_variables['pdbfile']
-		temp_infile = json_variables['infile']
-		temp_psffile = json_variables['psffile']
-		
+	
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['pdbfile']
+                        head, pdbfile = os.path.split(temp_pdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbfile = json_variables['pdbfile_text']
+
+                if(json_variables['dcd_list_box'] == "c1"):
+                        temp_infile = json_variables['infile']
+                        head, infile = os.path.split(temp_infile[0])
+                elif(json_variables['dcd_list_box'] == "c2"):
+                        infile = json_variables['infile_text']
+
 		outfile = json_variables['outfile']
 		nsteps = json_variables['nsteps']
-		ncpu = json_variables['ncpu']
-		keepout = json_variables['keepout']
 		dcdfreq = json_variables['dcdfreq']
-		md = json_variables['md']
-		mdsteps = json_variables['mdsteps']
-		dielect = json_variables['dielect']
 		temperature = json_variables['temperature']
+		dna_segnames = json_variables['dna_segnames']
+		number_flexible_segments = json_variables['number_flexible_segments']
+		pretamd_min_steps = json_variables['pretamd_min_steps']
+		poll_frequency = json_variables['poll_frequency']
 
-		head, pdbfile= os.path.split(temp_pdbfile[0])
-		path = head.replace('\/','/') + "/"
-		head, infile = os.path.split(temp_infile[0])
-		head, psffile = os.path.split(temp_psffile[0])
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-		os.chdir(path) 
-		path = ''
+		topfile         = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
+                parmfile        = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
+		charmmexe	= '/share/apps/local/bin/charmm.exe'
 
-	parmfile = '/usr/local/bin/toppar/par_all27_prot_na.inp'
-	
+		if(json_variables['keepout_checkbox'] == "on"):
+			keepout = "1"
+		else:
+			keepout = "0"
+
+                all_flexible_segnames=	json_variables['all_flexible_segnames']
+                all_snumranges=	json_variables['all_snumranges']
+                all_srlow=	json_variables['all_srlow']
+                all_srnum=	json_variables['all_srnum']
+                all_moltype=	json_variables['all_moltype']
+
+                psegvariables = []
+                for i in xrange(locale.atoi(json_variables['number_flexible_segments'])):
+                        if(all_moltype[i] == "c1"):
+                                mtype = "protein"
+                        elif(all_moltype[i] == "c2"):
+                                mtype = "dna"
+                        elif(all_moltype[i] == "c3"):
+                                mtype = "rna"
+                       	psegvariables.append([all_flexible_segnames[i],all_snumranges[i],all_srlow[i],all_srnum[i],mtype])
+
+	path = ''
 	svariables={}
 
-	svariables['runname'] = (str(runname),'string')
-	
+	svariables['runname'] 		= (str(runname),'string')
 	svariables['infile']		= (str(infile),'string')
 	svariables['pdbfile']		= (str(pdbfile),'string')
 	svariables['outfile']		= (str(outfile),'string')
 	svariables['nsteps']		= (str(nsteps),'int')
+	svariables['topfile']		= (str(topfile),'string')
 	svariables['parmfile']		= (str(parmfile),'string')
-	svariables['psffile']		= (str(psffile),'string')
-	svariables['ncpu']		= (str(ncpu),'int')
-
 	svariables['keepout']		= (str(keepout),'int')
 	svariables['dcdfreq']		= (str(dcdfreq),'int')
-	svariables['infiletype']	= ('dcd','string')
-	svariables['md']		= (str(md),'int')
-	svariables['mdsteps']		= (str(mdsteps),'int')
-	svariables['dielect']		= (str(dielect),'float')
+	svariables['charmmexe']		= (str(charmmexe),'string')
 	svariables['temperature']	= (str(temperature),'float')
+
+	svariables['dna_segnames']	= (str(dna_segnames),'string')
 			
+	svariables['number_flexible_segments']	= (str(number_flexible_segments),'int')
+	svariables['pretamd_min_steps']	= (str(pretamd_min_steps),'string')
+	svariables['poll_frequency']	= (str(poll_frequency),'float')
+	
 	svariables['path']    = (str(path),'string')
 	
 	error = []
-#	error,self.variables=input_filter.type_check_and_convert(svariables)
+	error,variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
 	
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
 	else:
-		runname=self.variables['runname'][0]
+		runname=variables['runname'][0]
 
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-#		tamd.tamd(self.variables,txtQueue) 
+		process=multiprocessing.Process(target=tamd.tamd,args=(variables,psegvariables,txtQueue))
+
+		process.start()
+
+		total_string = background_job(process,txtQueue)
 
 		output_dict['io_string'] = input_string
-		output_dict['sasoutput2'] = 'successfully completed run'
+		output_dict['sasoutput2'] = total_string
 	
-	with open("/home/curtisj/sassie2/log","w") as outfile:
-		json.dump(output_dict,outfile)
-	print json.dumps( output_dict )
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                #with open("log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+#emre
+        sys.stdout = save_stdout;
+#end emre
+
+        print json.dumps( output_dict )
+
 		
 if __name__=='__main__':
 
 	json_flag = True
-	json_flag = False
+	#json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"center called with no arguments\"\}\n";
+		print "\{\"error\":\"tamd called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:

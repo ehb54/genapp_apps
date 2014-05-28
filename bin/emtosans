@@ -41,13 +41,10 @@ class Em_to_sans_Drv():
 			if(lin[0] != '#'):
                         	this_x = lin[0]
                         	this_y = lin[1]
-                	#       this_z = lin[2]
                         	data.append([this_x,this_y])
-       			#       error.append([this_x,this_z])   
 
                 flot_data.append(data)
-                #flot_data.append(error)
-                data_file.close()
+#                data_file.close()
 
         except:
                 print 'ERROR READING INTERPOLATED DATA FILE'
@@ -95,7 +92,18 @@ class Em_to_sans_Drv():
 		
 		temp_emdensityfile = json_variables['emdensityfile']
 
-		emdensityfile = json_variables['emdensityfile']
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                if(json_variables['emfile_list_box'] == "c1"):
+                        temp_emdensityfile = json_variables['emdensityfile']
+                        head, emdensityfile = os.path.split(temp_emdensityfile[0])
+                elif(json_variables['emfile_list_box'] == "c2"):
+                        emdensityfile = json_variables['emdensityfile_text']
+
 		angpix = json_variables['angpix']
 		pdbfile = json_variables['pdbfile']
 		threshold = json_variables['threshold']
@@ -103,12 +111,9 @@ class Em_to_sans_Drv():
 		npoints = json_variables['npoints']
 		qmax = json_variables['qmax']
 
-		head, emdensityfile = os.path.split(temp_emdensityfile[0])
-		path = head.replace('\/','/') + "/"
-
-		os.chdir(path) 
-
 		data_path = path 
+
+		print 'data_path = ',data_path
 
 		emfiletype_list_box = json_variables['emfiletype_list_box']
 		if(emfiletype_list_box == 'c1'):
@@ -118,7 +123,7 @@ class Em_to_sans_Drv():
 
 		path = ''
 
-	inputpath = './'
+	inputpath = './' 
 	plotflag = '0'
 	
 	svariables={}
@@ -136,7 +141,7 @@ class Em_to_sans_Drv():
 	svariables['qmax'] 		= (str(qmax),'float')
 	svariables['plotflag'] 		= (str(plotflag),'int')
 
-	svariables['path']    = (path,'string')
+	svariables['path']    = (str(path),'string')
 
 	error = []
 	error,self.variables=input_filter.type_check_and_convert(svariables)

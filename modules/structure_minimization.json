@@ -23,31 +23,106 @@
                    },
                   {
                    "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
                    "id"      : "pdbfile",
-                   "label"   : "input file name (pdb)",
+                   "label"   : " ",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdbfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcd_list_box",
+                   "name"    : "dcd_list_box",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "infile",
-                   "label"   : "input file name (dcd or pdb)",
+                   "label"   : " ",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to energy minimize",
+                   "repeat"   : "dcd_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "infile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to energy minimize",
+                   "repeat"   : "dcd_list_box:c2",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "psf_list_box",
+                   "name"    : "psf_list_box",
+                   "label"   : "charmm PSF file name",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "psffile",
-                   "label"   : "charmm PSF filename",
+                   "label"   : " ",
                    "type"    : "file",
-                   "required" : "true"
+                   "required" : "true",
+                   "help"     : "name of PSF file with molecular topology",
+                   "repeat"   : "psf_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "psffile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of PSF file with molecular topology",
+                   "repeat"   : "psf_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "outfile",
                    "label"   : "output file name (dcd)",
                    "type"    : "text",
-                   "default" : "run_0/minimization/min_run_0.dcd",
+                   "default" : "min_run_0.dcd",
                    "required" : "true"
                    },
                   {

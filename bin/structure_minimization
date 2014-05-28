@@ -59,10 +59,31 @@ class Structure_minimization_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_pdbfile = json_variables['pdbfile']
-		temp_infile = json_variables['infile']
-		temp_psffile = json_variables['psffile']
+
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['pdbfile']
+                        head, pdbfile = os.path.split(temp_pdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbfile = json_variables['pdbfile_text']
+
+                if(json_variables['dcd_list_box'] == "c1"):
+                        temp_infile = json_variables['infile']
+                        head, infile = os.path.split(temp_infile[0])
+                elif(json_variables['dcd_list_box'] == "c2"):
+                        infile = json_variables['infile_text']
+
+
+                if(json_variables['psf_list_box'] == "c1"):
+                        temp_psffile = json_variables['psffile']
+                        head, psffile = os.path.split(temp_psffile[0])
+                elif(json_variables['psf_list_box'] == "c2"):
+                        psffile = json_variables['psffile_text']
 		
 		outfile = json_variables['outfile']
 		nsteps = json_variables['nsteps']
@@ -72,13 +93,7 @@ class Structure_minimization_Drv():
 		dielect = json_variables['dielect']
 		temperature = json_variables['temperature']
 
-		head, pdbfile= os.path.split(temp_pdbfile[0])
-		path = head.replace('\/','/') + "/"
-		head, infile = os.path.split(temp_infile[0])
 		head, psffile = os.path.split(temp_psffile[0])
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-		os.chdir(path) 
-
 
 		keepout_list_box = json_variables['keepout_list_box']
                 if(keepout_list_box == 'c1'):
