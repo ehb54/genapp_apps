@@ -1,0 +1,170 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,ast
+from StringIO import StringIO
+import multiprocessing,time,string
+
+import sassie.tools.coor_tools as coor_tools
+import sassie.interface.input_filter as input_filter
+
+class CoorTools_Drv():
+
+   module = 'coor_tools'
+
+   def background_job(self,process,txtQueue):
+	total_string = ''
+	while process.is_alive():
+		try:
+			this_text = txtQueue.get(True, timeout=0.1)
+			text_split=string.split(this_text)
+			if(text_split[0]=='STATUS'):
+				pass ; #progressBar.set(locale.atof(text_split[1]))
+			else:
+				total_string += this_text
+		except:
+			if not process.is_alive():
+				return total_string
+		time.sleep(0.01)
+	else:
+		return total_string
+
+	return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	pdb_filename ='input.pdb'
+        	filename = 'lysozyme.dcd'
+        	option ='single_frame'
+        	value = '6'
+		output_filename = 'output.dcd'
+		path = './'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+
+	#	output_dict['base_directory'] = json_variables['_base_directory']
+		#output_dict['logon'] = json_variables['_logon']
+	#	output_dict['project'] = json_variables['_project']
+
+		base_directory = json_variables['_base_directory']
+
+        	path = base_directory.replace('\/','/') + "/"
+
+		os.chdir(path)
+
+		if(json_variables['refpdb_list_box'] == "c1"):
+        		temp_pdb_filename = json_variables['pdb_filename']
+			head, pdb_filename = os.path.split(temp_pdb_filename[0])
+		elif(json_variables['refpdb_list_box'] == "c2"):
+        		pdb_filename = json_variables['pdb_filename_text']
+
+		if(json_variables['dcd_list_box'] == "c1"):
+        		temp_filename = json_variables['filename']
+			head, filename = os.path.split(temp_filename[0])
+		elif(json_variables['dcd_list_box'] == "c2"):
+        		filename = json_variables['filename_text']
+ 
+		path = ''
+
+	
+		option_list_box = json_variables['option_list_box']
+                if(option_list_box == 'c1'):
+                        option = 'single_frame'
+			value = json_variables['local_value_c1']
+                elif(option_list_box == 'c2'):
+                        option = 'range'
+			value = json_variables['local_value_c2']
+                elif(option_list_box == 'c3'):
+                        option = 'text_file'
+			if(json_variables['text_file_list_box'] == "c1"):
+        			temp_option = json_variables['local_value_c3']
+				head, value = os.path.split(temp_option[0])
+			elif(json_variables['text_file_list_box'] == "c2"):
+				value = json_variables['local_value_c3_text']
+                elif(option_list_box == 'c4'):
+                        option = 'weight_file'
+			if(json_variables['weight_file_list_box'] == "c1"):
+        			temp_option = json_variables['local_value_c4']
+				head, value = os.path.split(temp_option[0])
+			elif(json_variables['weight_file_list_box'] == "c2"):
+				value = json_variables['local_value_c4_text']
+
+		output_filename = json_variables['output_filename']
+
+	svariables={}
+
+
+	svariables['runname'] = (str(runname),'string') 		# prefix to name output files
+	svariables['path'] = (str(path),'string') 			# input file paths
+	svariables['pdb_filename'] = (str(pdb_filename),'string') 	# name of input PDB
+	svariables['filename'] = (str(filename),'string') 		# name of input PDB or DCD file	
+	svariables['option'] = (str(option),'string')		# option: single_frame, range, text_file, weight_file
+	svariables['local_value'] = (str(value),'string') 		#frame number, range, text/weight filename	
+	svariables['output_filename'] = (str(output_filename),'string')  	# name of output file (type determined by suffix)
+
+	error,variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+		runname=variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+	
+                process=multiprocessing.Process(target=coor_tools.extract_frames,args=(variables,txtQueue))	
+		process.start()
+
+		total_string = self.background_job(process,txtQueue)
+
+		#output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+
+	try:
+		#with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+		with open("log","w") as outfile:
+			json.dump(output_dict,outfile)
+	except:
+		output_dict['error_string'] = save_stdout
+
+#emre
+        sys.stdout = save_stdout;
+#end emre
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"coor_tools called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+			#json_variables = ast.literal_eval(argv_io_string)
+		a=CoorTools_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

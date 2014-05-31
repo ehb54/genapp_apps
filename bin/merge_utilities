@@ -1,0 +1,160 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,time
+from StringIO import StringIO
+import multiprocessing,time,string
+
+import sassie.tools.merge_utilities as merge_utilities
+import sassie.interface.input_filter as input_filter
+
+class Merge_utilities_Drv():
+
+   module = 'merge'
+
+   def background_job(self,process,txtQueue):
+        total_string = ''
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                        else:
+                                total_string += this_text
+                except:
+		#	time.sleep(1)
+                        if not process.is_alive():
+                                return total_string
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	pdb_file='min3.pdb'
+		merge_option = '0'
+		run_paths = 'run_m1,run_m2'
+		dcd_names = 'generate/run_m1.dcd,generate/run_m2.dcd'
+        	sas_type ='1'
+		sas_paths = 'xtal2sas'
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+                path = ''
+
+		print 'rpdb list box = ', json_variables['refpdb_list_box']
+
+
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+			temp_pdb_file = json_variables['pdb_file']
+                        head, pdb_file = os.path.split(temp_pdb_file[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdb_file = json_variables['pdb_file_text']
+
+		
+		run_paths = json_variables['run_paths']
+		dcd_names = json_variables['dcd_names']
+		sas_paths = json_variables['sas_paths']
+
+		merge_option_list_box = json_variables['merge_option_list_box']
+                if(merge_option_list_box == 'c1'):
+                        merge_option = '0'
+                elif(merge_option_list_box == 'c2'):
+                        merge_option = '1'
+                 
+		sas_type_list_box = json_variables['sas_type_list_box']
+                if(sas_type_list_box == 'c1'):
+                        sas_type = '1'
+                elif(sas_type_list_box == 'c2'):
+                        sas_type = '2'
+                elif(sas_type_list_box == 'c3'):
+                        sas_type = '3'
+
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+	svariables['pdb_file']  = (str(pdb_file),'string')
+	svariables['merge_option']  = (str(merge_option),'int')
+	svariables['run_paths']   = (str(run_paths),'string')
+	svariables['dcd_names']   = (str(dcd_names),'string')
+	svariables['sas_type']   = (str(sas_type),'int')
+	svariables['sas_paths']   = (str(sas_paths),'string')
+	svariables['path']    = (path,'string')
+
+	error,variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+		runname=variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+
+                process=multiprocessing.Process(target=merge_utilities.merge_runs,args=(variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue)
+
+		#output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                #with open("log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = save_stdout	
+
+#emre
+        sys.stdout = save_stdout;
+#end emre
+	
+        print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Merge_utilities_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+
