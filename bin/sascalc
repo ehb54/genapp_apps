@@ -1,0 +1,222 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,locale
+from StringIO import StringIO
+import multiprocessing,time,string
+
+import sassie.interface.input_filter as input_filter
+import sassie.interface.sascalc_filter as sascalc_filter
+import sassie.calculate.sascalc as sascalc
+
+class CGenerate_Drv():
+
+   module = 'sascalc'
+
+   def background_job(self,process,txtQueue):
+        total_string = ''
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+                                return total_string
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	dcdpath='./'
+		dcdfile='ubq.dcd'
+		pdbpath='./'
+		pdbfile='ubq.pdb'
+		maxqmag='2.0'
+		nq='10'
+		i0='1.0'
+		#
+		pRDF = "off"
+		#
+		surfr='1.8'
+		surfd='2.5'
+		surfrou='-15.0'
+		surfeta='1.0'
+		surfn='90'
+		surfcoverage='0.3'
+		#
+		prdfpath='./'
+		prdffile='pRDF.txt'
+		prdfcubelength='0.5'
+		prdfcubecutoff='7.0'
+
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		temp_pdbfile= json_variables['pdbfile']
+		temp_dcdfile = json_variables['dcdfile']
+
+		head, pdbfile = os.path.split(temp_pdbfile[0])
+		pdbpath = head.replace('\/','/') + "/"
+		head, dcdfile = os.path.split(temp_dcdfile[0])
+		dcdpath = head.replace('\/','/') + "/"
+		
+		maxqmag = json_variables['max_q']
+		nq = json_variables['n_q']
+		i0 = json_variables['I0']
+ 
+		try:
+			pRDF = json_variables['pRDF']
+		except:
+			pRDF = 'off'
+
+		if(pRDF == "on"):
+ 			surfr = json_variables['r']
+ 			surfd = json_variables['d']
+ 			surfrou = json_variables['rou']
+ 			surfeta = json_variables['eta']
+ 			surfn = json_variables['grid_number']
+ 			surfcoverage = json_variables['coverage']
+			#
+ 			temp_prdffile = json_variables['prdffile']
+			head, prdffile = os.path.split(temp_prdffile[0])
+			prdfpath = head.replace('\/','/') + "/"
+ 			prdfcubelength = json_variables['prdfcubelength']
+ 			prdfcubecutoff = json_variables['prdfcubecutoff']
+			
+		'''
+		else:
+ 			surfr = '1.8'
+ 			surfd = '2.5'
+ 			surfrou = '-15.0'
+ 			surfeta = '1.0'
+ 			surfn = '90'
+ 			surfcoverage = '0.3'
+			#
+ 			prdffile = 'pRDF.txt'
+ 			prdfcubelength = '1.0'
+ 			prdfcubecutoff = '7.0'
+		'''
+			
+
+
+
+	variables={}
+
+	variables['runname'] = (str(runname),'string')
+
+ 	variables['dcdpath']		= (str(dcdpath),'string')
+ 	variables['dcdfile']		= (str(dcdfile),'string')
+ 	variables['pdbpath']		= (str(pdbpath),'string')
+ 	variables['pdbfile']		= (str(pdbfile),'string')
+ 	variables['max_q_mag']		= (str(maxqmag),'float')
+ 	variables['N_q']		= (str(nq),'int')
+ 	variables['I0']		= (str(i0),'float')
+	#
+	if(pRDF == "on"):
+		variables['surf_r']		= (str(surfr),'float')
+		variables['surf_d']		= (str(surfd),'float')
+		variables['surf_rou']		= (str(surfrou),'float')
+		variables['surf_eta']		= (str(surfeta),'float')
+		variables['surf_N']		= (str(surfn),'int')
+		variables['surf_coverage']	= (str(surfcoverage),'float')
+		variables['prdfpath']		= (str(prdfpath),'string')
+		variables['prdffile']		= (str(prdffile),'string')
+		variables['cube_length']	= (str(prdfcubelength),'float')
+		variables['cube_cutoff']	= (str(prdfcubecutoff),'float')
+
+	error = []
+
+ 	error,variables=input_filter.type_check_and_convert(variables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+		return
+	else:
+#		error=contrast_filter.check_align(self.variables)
+               	if(len(error) > 0):
+			output_dict['error'] = 'Error in sascalc filter'
+			output_dict['sasoutput1'] = 'run failed'
+			return
+		else:
+			runname=variables['runname'][0]
+
+			if os.path.exists(runname+'/'+self.module):
+				shutil.rmtree(runname+'/'+self.module)
+
+			with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+				json.dump("\nvariables\n",outfile)
+				json.dump(variables,outfile)
+
+			txtQueue=multiprocessing.JoinableQueue()
+			process=multiprocessing.Process(target=sascalc.sascalc,args=(variables,txtQueue))
+			process.start()
+
+                        total_string = self.background_job(process,txtQueue)
+
+			output_dict['sasoutput2'] = total_string
+
+			'''
+			flot_data = self.get_data_from_disk(runname+"/sascalc/"+outfile+"_sld.txt",5)
+
+			if(isinstance(flot_data, basestring)):
+				print 'error reading data'
+				output_dict['plot_error'] = flot_data
+			else:
+				output_dict['plot1'] = flot_data
+			'''
+
+#emre
+        sys.stdout = save_stdout;
+#end emre
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+        print json.dumps( output_dict )
+	
+		
+if __name__=='__main__':
+
+	json_flag = True
+	json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"sascalc called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+                json_variables = " "
+                if(json_flag):
+                        argv_io_string = StringIO(sys.argv[1])
+                        json_variables = json.load(argv_io_string)
+		a=CGenerate_Drv()
+                a.run_me(json_flag,json_variables,sys.argv[1])
+
+
