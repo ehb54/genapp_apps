@@ -52,6 +52,16 @@
                    "norow" : "true"
                    },
                   {
+                   "role"    : "input",
+                   "id"      : "refpdbfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "PDB file for the reference structure",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
+                   },
+                  {
                    "role"     : "input",
                    "id"       : "mol_2_label",
                    "label"    : "Molecule 2[structure to move]",
@@ -84,7 +94,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "pdbfile_text",
+                   "id"      : "movepdbfile_text",
                    "label"   : "enter full path and file name ",
                    "type"    : "text",
                    "required" : "true",
@@ -271,7 +281,7 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "excluded_residues",
+                   "id"       : "excluded_input",
                    "label"    : "Check Box for Exclude Residues",
                    "type"     : "checkbox",
                    "checked"  : "false",
@@ -284,7 +294,7 @@
                    "type"     : "text",
                    "default"  : "3",
                    "required" : "true",
-                   "repeat"  : "excluded_residues"
+                   "repeat"  : "excluded_input"
 		  },
                   {
                    "role"     : "input",
@@ -293,7 +303,7 @@
                    "type"     : "text",
                    "default"  : "INT1,INT2,LED1",
                    "required" : "true",
-                   "repeat"  : "excluded_residues"
+                   "repeat"  : "excluded_input"
 		  },
                   {
                    "role"     : "input",
@@ -302,7 +312,7 @@
                    "type"     : "text",
                    "default"  : "271,271,94",
                    "required" : "true",
-                   "repeat"  : "excluded_residues"
+                   "repeat"  : "excluded_input"
 		  },
                   {
                    "role"     : "input",
@@ -311,7 +321,7 @@
                    "type"     : "text",
                    "default"  : "18,18,31",
                    "required" : "true",
-                   "repeat"  : "excluded_residues"
+                   "repeat"  : "excluded_input"
 		  },
                   {
                    "role"     : "input",
@@ -320,7 +330,7 @@
                    "type"     : "text",
                    "default"  : "3",
                    "required" : "true",
-                   "repeat"  : "excluded_residues"
+                   "repeat"  : "excluded_input"
 		  },
                   {
                    "role"     : "input",
@@ -329,7 +339,7 @@
                    "type"     : "text",
                    "default"  : "INT3,INT4,LED2",
                    "required" : "true",
-                   "repeat"  : "excluded_residues"
+                   "repeat"  : "excluded_input"
 		  },
                   {
                    "role"     : "input",
@@ -338,7 +348,7 @@
                    "type"     : "text",
                    "default"  : "271,271,94",
                    "required" : "true",
-                   "repeat"  : "excluded_residues"
+                   "repeat"  : "excluded_input"
 		  },
                   {
                    "role"     : "input",
@@ -347,7 +357,7 @@
                    "type"     : "text",
                    "default"  : "18,18,31",
                    "required" : "true",
-                   "repeat"  : "excluded_residues"
+                   "repeat"  : "excluded_input"
 		  },
 #
  		  {

@@ -10,6 +10,28 @@ class Tamd_Drv():
 
    module = 'tamd'
 
+
+   def background_job(self,process,txtQueue):
+        total_string = ''
+
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+				time.sleep(1.0)
+                                return total_string
+                time.sleep(0.1)
+        else:
+                return total_string
+
+        return 
+
    def run_me(self,json_flag,json_variables,input_string):
 
 	output_dict = {}
@@ -153,26 +175,33 @@ class Tamd_Drv():
 		process=multiprocessing.Process(target=tamd.tamd,args=(variables,psegvariables,txtQueue))
 
 		process.start()
+		total_string = 'starting self.background_job' 
+		print "total_string = ",total_string	
+		total_string = self.background_job(process,txtQueue)
 
-		total_string = background_job(process,txtQueue)
+		ttxt=time.ctime()
+        	st=''.join(['=' for x in xrange(60)])
 
-		output_dict['io_string'] = input_string
+		total_string += ("\n%s \n" %(st))
+		total_string += "DATA FROM RUN:  "+ ttxt + "\n\n"
+        	total_string += ("Structures saved to : %s\n" % (runname+'/tamd/'))
+        	total_string += ("\n%s \n" %(st))	
+
+		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 	
         try:
                 with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-                #with open("log","w") as outfile:
                         json.dump(output_dict,outfile)
         except:
                 output_dict['error_string'] = "error writing log file"
 
 #emre
-        sys.stdout = save_stdout;
+        sys.stdout = save_stdout
 #end emre
 
         print json.dumps( output_dict )
 
-		
 if __name__=='__main__':
 
 	json_flag = True

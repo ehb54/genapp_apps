@@ -1,15 +1,33 @@
 #!/share/apps/local/bin/python/bin/python
 import json,sys,os,shutil
 from StringIO import StringIO
-import multiprocessing
+import multiprocessing,time,string
 
-import sassie.interface.input_filter as input_filter
-import sassie.interface.two_body_grid_filter as two_body_grid_filter
 import sassie.simulate.rigid_body.two_body_grid.two_body_grid as two_body_grid
+import sassie.interface.input_filter as input_filter
 
-class Two_body_grid_Drv():
+class TwoBodyGrid_Drv():
 
    module = 'two_body_grid'
+
+   def background_job(self,process,txtQueue):
+        total_string = ''
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+                                return total_string
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -21,39 +39,33 @@ class Two_body_grid_Drv():
         	#### BEGIN USER EDIT
         	#### BEGIN USER EDIT
 
-        	runname='run_0'
-		dcdfile='run_0.dcd'
-		path=''
-		pdbfile='c2.pdb'
-		trials='50'
-		goback='10'
-		temp='300.0'
-		moltype = 'protein'
-		numranges='5'
-		dtheta='30.0,30.0,30.0,30.0,30.0'
-		reslow='123,278,354,378,408'
-		numcont='21,5,24,11,4'
-		lowres1='284'
-		highres1='350'
-		basis='CA'
-		cutoff='3.0'
-		lowrg='0.0'
-		highrg='400.0'
-		zflag='0'
-		zcutoff='0.0'
-		cflag='0'
+        	runname = 'run_0'
+		pdbfile1 = 'iase1.pdb'
+		pdbfile2 = 'iase2.pdb'
+		ofile = 'output.dcd'
+		accpos = '0'
+		pos = '-20,-20,-20'
+		trans = '5,5,5'
+		dtrans = '20,20,20'
+		theta = '4,4,4'
+		dtheta = '45,45,45'
+		basis = 'CA'
+		cutoff = '3.0'
+		lowrg = '0.0'
+		highrg = '400.0'
+		zflag = '0'
+		zcutoff = '0.0'
+		cflag = '0'
 		confile = 'constraints.txt'
-		nonbonflag='0'		
-		nonbonscale='1.0'
-		psffilepath='./'
-		psffilename='refgag.psf'
-		parmfilepath='/usr/local/bin/toppar'
-		parmfilename='par_all27_prot_na.inp'
-		plotflag = '0'
-		directedmc = '0'
-		seed = '0,123'        
+		nexsegments1 = '3'
+		nsegments1 = 'INT1,INT2,LED1'
+		reslow1 = '271,271,94'
+		numcont1 = '18,18,31'
+		nexsegments2 = '3'
+		nsegments2 = 'INT3,INT4,LED2'
+		reslow2 = '271,271,94'
+		numcont2 = '18,18,31'
 
-	
         	path='./'
 
         	#### END USER EDIT
@@ -61,115 +73,182 @@ class Two_body_grid_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_pdbfile= json_variables['pdbfile']
-		temp_confile = json_variables['confile']
-		temp_psffilename = json_variables['psffilename']
-		
-		head, pdbfile = os.path.split(temp_pdbfile[0])
-		path = head.replace('\/','/') + "/"
-		#os.chdir(os.path.dirname( temp_infile[0] ) )
-		
-		head, confile = os.path.split(temp_confile[0])
-
-		psffilepath, psffilename = os.path.split(temp_psffilename[0])
-
-		os.chdir(path) 
-		
-		dcdfile = json_variables['dcdfile']
-		trials = json_variables['trials']
-		goback = json_variables['goback']
-		temp = json_variables['temp']
-		moltype = json_variables['moltype']
-		numranges = json_variables['numranges']
-		dtheta = json_variables['dtheta']
-		reslow = json_variables['reslow']
-		numcont = json_variables['numcont']
- 		lowres1 = json_variables['lowres1']
- 		highres1 = json_variables['highres1']
- 		basis = json_variables['basis']
- 		cutoff = json_variables['cutoff']
- 		lowrg = json_variables['lowrg']
- 		highrg = json_variables['highrg']
- 		zflag = json_variables['zflag']
- 		zcutoff = json_variables['zcutoff']
- 		cflag = json_variables['cflag']
- 		nonbondflag = json_variables['nonbondflag']
- 		nonbondscale = json_variables['nonbondscale']
- 		plotflag = json_variables['plotflag']
- 		directedmc = json_variables['directedmc']
-
-		path = ''
-
-	parmfilepath = '/usr/local/bin/toppar/'
-	parmfilename = 'par_all27_prot_na.inp'
-
-	svariables={}
-
-	svariables['runname'] = (str(runname),'string')
-
- 	svariables['dcdfile']		= (str(dcdfile),'string')
- 	svariables['path']		= (str(path),'string')
- 	svariables['pdbfile']		= (str(pdbfile),'string')
- 	svariables['trials']		= (str(trials),'int')
- 	svariables['goback']		= (str(goback),'int')
- 	svariables['temp']		= (str(temp),'float')
- 	svariables['moltype']		= (str(moltype),'string')
- 	svariables['numranges']		= (str(numranges),'int')
- 	svariables['dtheta']		= (str(dtheta),'float_array')
- 	svariables['reslow']		= (str(reslow),'int_array')
- 	svariables['numcont']		= (str(numcont),'int_array')
- 	svariables['lowres1']		= (str(lowres1),'int')
- 	svariables['highres1']		= (str(highres1),'int')
- 	svariables['basis']		= (str(basis),'string')
- 	svariables['cutoff']		= (str(cutoff),'float')
- 	svariables['lowrg']		= (str(lowrg),'float')
- 	svariables['highrg']		= (str(highrg),'float')
- 	svariables['zflag']		= (str(zflag),'int')
- 	svariables['zcutoff']		= (str(zcutoff),'float')
- 	svariables['cflag']		= (str(cflag),'int')
- 	svariables['confile']		= (str(confile),'string')
- 	svariables['nonbondflag']	= (str(nonbondflag),'int')
- 	svariables['nonbondscale']	= (str(nonbondscale),'float')
- 	svariables['psffilepath']	= (str(psffilepath),'string')
- 	svariables['psffilename']	= (str(psffilename),'string')
- 	svariables['parmfilepath']	= (str(parmfilepath),'string')
- 	svariables['parmfilename']	= (str(parmfilename),'string')
- 	svariables['plotflag']		= (str(plotflag),'int')
- 	svariables['directedmc']	= (str(directedmc),'float')
- 	svariables['seed']		= ('0,123', 'int_array') # set this to '1,123' if you want to set the seed or '0,123' if not
-
-
- 	svariables['path']    = (path,'string')
 	
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+		data_path = path
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_refpdbfile = json_variables['refpdbfile']
+                        head, pdbfile1 = os.path.split(temp_refpdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbfile1 = json_variables['refpdbfile_text']
+
+                if(json_variables['movepdb_list_box'] == "c1"):
+                        temp_movepdbfile = json_variables['movepdbfile']
+                        head, pdbfile2 = os.path.split(temp_movepdbfile[0])
+                elif(json_variables['movepdb_list_box'] == "c2"):
+                        pdbfile2 = json_variables['movepdbfile_text']
+
+		ofile = json_variables['dcdfile']
+		acceptInitial_list_box = json_variables['acceptIntial_list_box']
+		pos = json_variables['x0']
+		trans = json_variables['n_xyz_moves']
+		dtrans = json_variables['xyz_step_size']
+		theta = json_variables['n_ang_moves']
+		dtheta = json_variables['theta_step_size']
+
+		try:
+			advanced_input = json_variables['advanced_input']
+		except:
+			advanced_input = 'off'
+
+		if(advanced_input == "on"):
+		
+			basis = json_variables['basis']
+			cutoff = json_variables['cutoff']
+			lowrg = json_variables['lowrg']
+			highrg = json_variables['highrg']
+ 			zcutoff = json_variables['zcutoff']
+
+			zflag_list_box = json_variables['zflag_list_box']
+ 			cflag_list_box = json_variables['cflag_list_box']
+
+		else:
+			basis = 'CA'
+			cutoff = '3.0'
+			lowrg = "0.0"
+			highrg = "400.0"
+			zcutoff = "0.0"
+			zflag_list_box = "c1"
+			cflag_list_box = "c1"
+
+                if(acceptInitial_list_box == 'c1'):
+                        accpos = '0' # NO
+                elif(acceptInitial_list_box == 'c2'):
+                        accpos = '1' # YES
+ 		
+                if(zflag_list_box == 'c1'):
+                        zflag = '0' # NO
+                elif(zflag_list_box == 'c2'):
+                        zflag = '1' # YES
+
+                if(cflag_list_box == 'c1'):
+                        cflag = '0' # NO
+			confile = 'constraints.txt'
+                elif(cflag_list_box == 'c2'):
+                        cflag = '1' # YES
+			temp_confile = json_variables['confile']
+			head, confile = os.path.split(temp_confile[0])
+
+		try:
+			excluded_input = json_variables['excluded_input']
+		except:
+			excluded_input = 'off'
+
+		if(excluded_input == "on"):
+			nexsegments1 = json_variables['n1_excluded']
+			nsegments1 = json_variables['name1_excluded']
+			reslow1 = json_variables['first1_excluded']
+			numcont1 = json_variables['ncont1_excluded']
+			nexsegments2 = json_variables['n2_excluded']
+			nsegments2 = json_variables['name2_excluded']
+			reslow2 = json_variables['first2_excluded']
+			numcont2 = json_variables['ncont2_excluded']
+
+		else:
+			nexsegments1 = '3'
+			nsegments1 = 'INT1,INT2,LED1'
+			reslow1 = '271,271,94'
+			numcont1 = '18,18,31'
+			nexsegments2 = '3'
+			nsegments2 = 'INT3,INT4,LED2'
+			reslow2 = '271,271,94'
+			numcont2 = '18,18,31'
+
+	variables={}
+
+	variables['runname'] = (str(runname),'string')
+ 	variables['path']		= (str(path),'string')
+ 	variables['pdbmol1']		= (str(pdbfile1),'string')
+ 	variables['pdbmol2']		= (str(pdbfile2),'string')
+ 	variables['ofile']		= (str(ofile),'string')
+ 	variables['accpos']		= (str(accpos),'int')
+ 	variables['pos']		= (str(pos),'float_array')
+ 	variables['trans']		= (str(trans),'int_array')
+ 	variables['dtrans']		= (str(dtrans),'float_array')
+ 	variables['theta']		= (str(theta),'int_array')
+ 	variables['dtheta']		= (str(dtheta),'float_array')
+ 	variables['basis']		= (str(basis),'string')
+ 	variables['cutoff']		= (str(cutoff),'float')
+ 	variables['lowrg']		= (str(lowrg),'float')
+ 	variables['highrg']		= (str(highrg),'float')
+ 	variables['zflag']		= (str(zflag),'int')
+ 	variables['zcutoff']		= (str(zcutoff),'float')
+ 	variables['cflag']		= (str(cflag),'int')
+ 	variables['confile']		= (str(confile),'string')
+
+ 	variables['nexsegments1']	= (str(nexsegments1),'int')
+ 	variables['nsegments1']		= (str(nsegments1),'string')
+ 	variables['reslow1']		= (str(reslow1),'int_array')
+ 	variables['numcont1']		= (str(numcont1),'int_array')
+ 	variables['nexsegments2']	= (str(nexsegments2),'int')
+ 	variables['nsegments2']		= (str(nsegments2),'string')
+ 	variables['reslow2']		= (str(reslow2),'int_array')
+ 	variables['numcont2']		= (str(numcont2),'int_array')
+
+ 	error,self.variables=input_filter.type_check_and_convert(variables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+
+
 	error = []
 
-# 	error,self.variables=input_filter.type_check_and_convert(svariables)
-
+	print(variables)
+ 	error,variables=input_filter.type_check_and_convert(variables)
 
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
 	else:
-#		runname=self.variables['runname'][0]
+		runname=self.variables['runname'][0]
 
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-#		two_body_grid.two_body_grid(self.variables,txtQueue) 
+		process=multiprocessing.Process(target=two_body_grid.two_body_grid,args=(variables,txtQueue))
+                process.start()
 
-		output_dict['io_string'] = input_string
-		output_dict['sasoutput2'] = 'successfully completed run'
-	
-	with open("/home/curtisj/sassie2/log","w") as outfile:
-		json.dump(output_dict,outfile)
+                total_string = self.background_job(process,txtQueue)
+		print("ZHL: ")
+		print(total_string)
+
+		#output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+
+#emre
+        sys.stdout = save_stdout;
+#end emre
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
 	print json.dumps( output_dict )
 		
 if __name__=='__main__':
 
 	json_flag = True
-	json_flag = False
+	#json_flag = False
 
 	if (len(sys.argv) < 1):
 		print "\{\"error\":\"center called with no arguments\"\}\n";
@@ -180,6 +259,6 @@ if __name__=='__main__':
 		if(json_flag):
 			argv_io_string = StringIO(sys.argv[1])
 			json_variables = json.load(argv_io_string)
-		a=Two_body_grid_Drv()
+		a=TwoBodyGrid_Drv()
 		a.run_me(json_flag,json_variables,sys.argv[1])
 
