@@ -176,17 +176,29 @@ class Generate_Drv():
 		except:
 			advanced_input = 'off'
 
+		nonbondscale = "1.0"
+		cflag = "0"
 		if(advanced_input == "on"):
 		
 			lowrg = json_variables['lowrg']
  			highrg = json_variables['highrg']
  			zcutoff = json_variables['zcutoff']
- 			nonbondscale = json_variables['nonbondscale']
+			try:
+ 				nonbondflag_check_box = json_variables['nonbondflag_check_box']
+			except:
+				nonbondflag_check_box = "off"
+
+			if(nonbondflag_check_box == "on"):	
+ 				nonbondscale = json_variables['nonbondscale']
+
  			directedmc = json_variables['directedmc']
 			
 			zflag_list_box = json_variables['zflag_list_box']
- 			cflag_list_box = json_variables['cflag_list_box']
- 			nonbondflag_list_box = json_variables['nonbondflag_list_box']
+			try:
+ 				cflag_check_box = json_variables['cflag_check_box']
+			except:
+				cflag_check_box = "off"
+
  			plotflag_list_box = json_variables['plotflag_list_box']
 
 		else:
@@ -196,8 +208,9 @@ class Generate_Drv():
 			nonbondscale = "1.0"
 			directedmc = "0"
 			zflag_list_box = "c1"
-			cflag_list_box = "c1"
- 			nonbondflag_list_box = "c1"
+			cflag_check_box = "off"
+			cflag = "0"
+ 			nonbondflag_check_box = "off"
  			plotflag_list_box = "c1"
 
 		moltype_list_box = json_variables['moltype_list_box']
@@ -211,19 +224,19 @@ class Generate_Drv():
                 elif(zflag_list_box == 'c2'):
                         zflag = '1' # YES
 
-                if(cflag_list_box == 'c1'):
+                if(cflag_check_box == 'off'):
                         cflag = '0' # NO
 			confile = 'constraints.txt'
-                elif(cflag_list_box == 'c2'):
+                elif(cflag_check_box == 'on'):
                         cflag = '1' # YES
 			temp_confile = json_variables['confile']
 			head, confile = os.path.split(temp_confile[0])
 
-                if(nonbondflag_list_box == 'c1'):
+                if(nonbondflag_check_box == 'off'):
                         nonbondflag = '0' # NO
 			psffilepath='./'
 			psffilename='refgag.psf'
-                elif(nonbondflag_list_box == 'c2'):
+                elif(nonbondflag_check_box == 'on'):
                         nonbondflag = '1' # YES
 			temp_psffilename = json_variables['psffilename']
 			psffilepath, psffilename = os.path.split(temp_psffilename[0])

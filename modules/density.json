@@ -90,7 +90,7 @@
                    "id"       : "ofile",
                    "label"    : "output file name prefix",
                    "type"     : "text",
-		   "default"  : "1",
+		   "default"  : "test",
                    "required" : "true"
                    },
                   {

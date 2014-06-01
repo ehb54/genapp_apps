@@ -21,4 +21,5 @@
                   ,"compute1" : "ssh compute-0-1"
                  }
   ,"resourcedefault" : "compute1"
+  ,"submitpolicy"    : "login"
 }
