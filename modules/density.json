@@ -170,7 +170,7 @@
                    "id"       : "weightsfile_text",
                    "label"    : "weights file name",
                    "type"     : "text",
-		   "default"  : "run_0/filter/rghighweights.txt",
+		   "default"  : "run_0/filter/x2lowweights.txt",
                    "help"     : "name of file containing weighting information for each structure in trajectory",
 		   "norow"   : "true",
                    "repeat"   : "weight_flag_list_box:c2"

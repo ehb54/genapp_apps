@@ -90,6 +90,7 @@
                    "id"      : "ofile",
                    "label"   : "output filename",
                    "type"    : "text",
+		   "safefile" : "on",
                    "default" : "centered_c2.dcd",
                    "required" : "true",
 		   "help"     : "name of final PDB or DCD file centered coordinates"
