@@ -89,10 +89,12 @@
                    "role"    : "output",
                    "id"    : "outputpdb",
                    "label" : "test pdb output",
-                   "type"  : "file"
+                   "type"  : "atomicstructure",
+                   "height" : "850",
+                   "width" : "850"
                    }
                   ],
 # the executable will take inputs in order and produce output
     "executable" : "data_interpolation"
-    ,"uniqueid"  : "on"
+    ,"resource"  : "compute0"
 }
