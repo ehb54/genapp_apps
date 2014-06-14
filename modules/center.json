@@ -95,6 +95,14 @@
                    "required" : "true",
 		   "help"     : "name of final PDB or DCD file centered coordinates"
                    },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputpdb",
+                   "label" : "test pdb output",
+                   "type"  : "atomicstructure",
+                   "height" : "500",
+                   "width" : "500"
+                   },
 		  {
                     "role"    : "output",
                     "id"      : "sasoutput2",
