@@ -12,6 +12,15 @@
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
+                   {
+                   "role"       : "input",
+                   "id"       : "message",
+                   "label"    : "Module under development: due Fall 2014",
+                   "type"     : "label",
+                   "default"  : "header3",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",
