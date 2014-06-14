@@ -129,7 +129,7 @@ class Center_Drv():
 		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 
-		output_dict['outputpdb'] = pdb_path+refpdb
+		#output_dict['outputpdb'] = pdb_path+refpdb
 		#output_dict['outputpdb'] = pdb_path+'c.cube'
 
 	#except

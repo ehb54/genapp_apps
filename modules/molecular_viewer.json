@@ -3,6 +3,15 @@
     "moduleid" : "molecular_viewer",
     "label"    : "Molecular Viewer",
     "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Molecular Viewer",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"    : "input",
                    "id"      : "refpdb_list_box",
@@ -39,7 +48,7 @@
                   {
                    "role"    : "output",
                    "id"    : "outputpdb",
-                   "label" : "test pdb output",
+                   "label" : "viewer (right click for options)", 
                    "type"  : "atomicstructure",
                    "height" : "600",
                    "width" : "600"
