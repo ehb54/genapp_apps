@@ -29,12 +29,18 @@
                    "type"    : "listbox",
                    "values"  : "upload file~c1~use local file~c2",
                    "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current projec
-t directory",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
                    "repeater" : "true",
                    "norow"    : "true"
                    },
-
+                  {
+                   "role"    : "output",
+                   "id"    : "outputpdb",
+                   "label" : "viewer (right click for options)",
+                   "type"  : "atomicstructure",
+                   "height" : "600",
+                   "width" : "600"
+                   }
                   ],
 # the executable will take inputs in order and produce output
     "executable" : "interactive_sas"
