@@ -26,7 +26,7 @@
                    "name"    : "refpdb_list_box",
                    "label"   : "reference pdb",
                    "type"    : "listbox",
-                   "values"  : "upload file~c1~use local file~c2",
+                   "values"  : "upload file~c1~use file on server~c2",
                    "default" : "c1",
                    "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
                    "repeater" : "true",

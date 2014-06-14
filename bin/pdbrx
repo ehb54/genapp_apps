@@ -61,10 +61,6 @@ class PDBRx_Drv():
        	else:
 		runname = json_variables['runname']
 
-	#	output_dict['base_directory'] = json_variables['_base_directory']
-		#output_dict['logon'] = json_variables['_logon']
-	#	output_dict['project'] = json_variables['_project']
-
 		base_directory = json_variables['_base_directory']
 
         	path = base_directory.replace('\/','/') + "/"
@@ -72,8 +68,6 @@ class PDBRx_Drv():
 		os.chdir(path)
 		pdb_path = path
 
-        	ofile = json_variables['ofile']
-	
 		if(json_variables['refpdb_list_box'] == "c1"):
         		temp_refpdb = json_variables['refpdb']
 			head, refpdb = os.path.split(temp_refpdb[0])
@@ -119,8 +113,8 @@ class PDBRx_Drv():
 		#output_dict['io_string'] = input_string
 		#output_dict['sasoutput2'] = total_string
 
-		#output_dict['outputpdb'] = pdb_path+refpdb
-		output_dict['outputpdb'] = pdb_path+'c.cube'
+		output_dict['outputpdb'] = pdb_path+refpdb
+		
 
 	#except
 		#	print 'failed to send to socket'

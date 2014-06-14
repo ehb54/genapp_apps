@@ -27,11 +27,31 @@
                    "name"    : "refpdb_list_box",
                    "label"   : "pdb file input",
                    "type"    : "listbox",
-                   "values"  : "upload file~c1~use local file~c2",
+                   "values"  : "upload file~c1~use file on server~c2",
                    "default" : "c1",
                    "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
                    "repeater" : "true",
                    "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "refpdb",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "refpdb_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"    : "output",

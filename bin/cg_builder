@@ -61,18 +61,12 @@ class CGBuilder_Drv():
        	else:
 		runname = json_variables['runname']
 
-	#	output_dict['base_directory'] = json_variables['_base_directory']
-		#output_dict['logon'] = json_variables['_logon']
-	#	output_dict['project'] = json_variables['_project']
-
 		base_directory = json_variables['_base_directory']
 
         	path = base_directory.replace('\/','/') + "/"
 
 		os.chdir(path)
 		pdb_path = path
-
-        	ofile = json_variables['ofile']
 	
 		if(json_variables['refpdb_list_box'] == "c1"):
         		temp_refpdb = json_variables['refpdb']
@@ -119,8 +113,7 @@ class CGBuilder_Drv():
 		#output_dict['io_string'] = input_string
 		#output_dict['sasoutput2'] = total_string
 
-		#output_dict['outputpdb'] = pdb_path+refpdb
-		output_dict['outputpdb'] = pdb_path+'c.cube'
+		output_dict['outputpdb'] = pdb_path+refpdb
 
 	#except
 		#	print 'failed to send to socket'
@@ -156,6 +149,6 @@ if __name__=='__main__':
 			argv_io_string = StringIO(sys.argv[1])
 			json_variables = json.load(argv_io_string)
 			#json_variables = ast.literal_eval(argv_io_string)
-		a=CGBuiler_Drv()
+		a=CGBuilder_Drv()
 		a.run_me(json_flag,json_variables,sys.argv[1])
 
