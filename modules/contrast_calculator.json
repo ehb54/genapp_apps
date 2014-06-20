@@ -13,6 +13,15 @@
                    "prehline" : "true",
                    "posthline": "true"
                    },
+                   {
+                   "role"       : "input",
+                   "id"       : "message",
+                   "label"    : "Module under development: ... due by June 20",
+                   "type"     : "label",
+                   "default"  : "header3",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"       : "input",
                    "id"         : "runname",
@@ -157,6 +166,73 @@
                    "required" : "true",
 		   "default"  : "0.15",
                    "repeat"   : "numsolv",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_chemicals",
+                   "label"    : "enter number of chemical species",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "chemical_formula",
+                   "label"    : "chemical formula",
+                   "type"     : "text",
+                   "default"  : "(C3H4O3)12",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_exchangeable_hydrogens",
+                   "label"    : "number exchangeable hydrogens",
+                   "type"     : "text",
+                   "default"  : "12",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fraction_exchangeable_hydrogens",
+                   "label"    : "fraction of hydrogens that exchange",
+                   "type"     : "text",
+                   "default"  : "0.95",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mass_density",
+                   "label"    : "mass density",
+                   "type"     : "text",
+                   "default"  : "1.3",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
                    "norow"    : "true"
                    },
  		  {

@@ -2,7 +2,7 @@
 {
   "smtpmail" : {
                 "admin"    : "emre@biochem.uthscsa.edu",
-                "from"     : "genapp.chem.utk.edu",
+                "from"     : "sassie-web.chem.utk.edu",
                 "host"     : "vownet.net",
                 "user"     : "emre.brookes@vownet.net",
                 "password" : "REMOVED-CREDENTIAL"
