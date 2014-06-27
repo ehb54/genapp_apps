@@ -13,15 +13,6 @@
                    "prehline" : "true",
                    "posthline": "true"
                    },
-                   {
-                   "role"       : "input",
-                   "id"       : "message",
-                   "label"    : "Module under development: ... due by June 20",
-                   "type"     : "label",
-                   "default"  : "header3",
-                   "prehline"  : "true",
-                   "posthline"  : "true"
-                   },
                   {
                    "role"       : "input",
                    "id"         : "runname",
