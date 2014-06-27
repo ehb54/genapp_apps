@@ -258,11 +258,11 @@ class Contrast_Drv():
 		
 		solv_variables = []
 
-		if(int(num_solv)>0):
+		if(int(numsolv)>0):
 			solv_comp = 	json_variables['solv_comp']
 			solv_conc = 	json_variables['solv_conc']
 
-			error,dum_formula = input_filter.check_and_convert_formula(solv_comp)
+			error,solv_formula = input_filter.check_and_convert_formula(solv_comp)
 
 			if(len(error)>0):
 				print 'error = ',str(error)
@@ -272,7 +272,8 @@ class Contrast_Drv():
 				return
 
 			for i in xrange(locale.atoi(numsolv)):
-				solv_variables.append([solv_comp[i],solv_conc[i]])
+				#solv_variables.append([solv_comp[i],solv_conc[i]])
+				solv_variables.append([solv_formula[i],solv_conc[i]])
 
 		number_of_chemicals = 0
 		chemical_variables = []
