@@ -69,14 +69,26 @@ class CGenerate_Drv():
         	#### END USER EDIT
        	else:
 		runname = json_variables['runname']
-		
-		temp_pdbfile= json_variables['pdbfile']
-		temp_dcdfile = json_variables['dcdfile']
 
-		head, pdbfile = os.path.split(temp_pdbfile[0])
-		pdbpath = head.replace('\/','/') + "/"
-		head, dcdfile = os.path.split(temp_dcdfile[0])
-		dcdpath = head.replace('\/','/') + "/"
+		base_directory = json_variables['_base_directory']
+
+        	path = base_directory.replace('\/','/') + "/"
+
+		os.chdir(path)
+		pdbpath = path
+		dcdpath = path
+		
+
+		if(json_variables['refpdb_list_box'] == "c1"):
+        		temp_pdbfile = json_variables['pdbfile_text']
+			head, pdbfile = os.path.split(temp_pdbfile[0])
+		elif(json_variables['refpdb_list_box'] == "c2"):
+        		pdbfile = json_variables['pdbfile_text']
+		if(json_variables['dcd_list_box'] == "c1"):
+        		temp_dcdfile = json_variables['dcdfile_text']
+			head, dcdfile = os.path.split(temp_dcdfile[0])
+		elif(json_variables['dcd_list_box'] == "c2"):
+        		dcdfile = json_variables['dcdfile_text']
 		
 		maxqmag = json_variables['max_q']
 		nq = json_variables['n_q']
@@ -100,23 +112,11 @@ class CGenerate_Drv():
 			prdfpath = head.replace('\/','/') + "/"
  			prdfcubelength = json_variables['prdfcubelength']
  			prdfcubecutoff = json_variables['prdfcubecutoff']
-			
-		'''
-		else:
- 			surfr = '1.8'
- 			surfd = '2.5'
- 			surfrou = '-15.0'
- 			surfeta = '1.0'
- 			surfn = '90'
- 			surfcoverage = '0.3'
-			#
- 			prdffile = 'pRDF.txt'
- 			prdfcubelength = '1.0'
- 			prdfcubecutoff = '7.0'
-		'''
-			
+ 
+		path = ''
 
-
+		UDP_IP = json_variables['_udphost']
+			
 
 	variables={}
 
@@ -205,7 +205,7 @@ class CGenerate_Drv():
 if __name__=='__main__':
 
 	json_flag = True
-	json_flag = False
+	#json_flag = False
 
 	if (len(sys.argv) < 1):
 		print "\{\"error\":\"sascalc called with no arguments\"\}\n";
