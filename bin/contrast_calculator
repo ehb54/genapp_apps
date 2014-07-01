@@ -33,7 +33,7 @@ class Contrast_Drv():
 
         return total_string
 
-   def read_file(self,flot_data,filename,number_columns,this_pass):
+   def read_file(self,flot_data,filename,number_columns,this_pass,flot_labels):
 
         # sasfile: q-value, goal, best, worst, average
 
@@ -61,18 +61,22 @@ class Contrast_Drv():
                         			this_y1 = lin[1]
 						data.append([this_x,this_y1])
 						legend = "protein"
+						legend = flot_labels[0]
 					elif(this_pass == 2):
                         			this_y1 = lin[2]
 						data.append([this_x,this_y1])
 						legend = "dna"
+						legend = flot_labels[1]
 					elif(this_pass == 3):
                         			this_y1 = lin[3]
 						data.append([this_x,this_y1])
 						legend = "complex"
+						legend = flot_labels[2]
 					elif(this_pass == 4):
                         			this_y1 = lin[4]
 						data.append([this_x,this_y1])
 						legend = "solvent"
+						legend = flot_labels[3]
 
 				elif(lin[0][0] != "#" and this_pass >= 5):
                         		#this_x = locale.atof(lin[0])
@@ -113,7 +117,29 @@ class Contrast_Drv():
 
         return value
 
-   def get_data_from_disk(self,filename,number_columns,izero):
+   def get_labels_from_disk(self,filename):
+
+        try:
+	#if True:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+		flot_labels = []
+                for i in xrange(nl):
+			if(data_file[i][:10] == '# frac D2O'):
+	                        lin = string.split(data_file[i],',')
+				for j in xrange(len(lin)):
+					if j>0:
+						this_string = lin[j].strip() #.strip('\n')
+						flot_labels.append(this_string)
+				
+	
+	except:
+		flot_labels = []
+	
+	return flot_labels 
+
+   def get_data_from_disk(self,filename,number_columns,izero,flot_labels):
 
 	# dum_sld.txt --> plot1
 # frac D2O, Protein SLD, DNA SLD, Complex SLD, Solvent SLD (10^10 cm^-2)
@@ -130,17 +156,17 @@ class Contrast_Drv():
         flot_data = []
 
 	if(number_columns < 6):	
-		value = self.read_file(flot_data,filename,number_columns,1)
-        	value = self.read_file(flot_data,filename,number_columns,2)
-        	value = self.read_file(flot_data,filename,number_columns,3)
+		value = self.read_file(flot_data,filename,number_columns,1,flot_labels)
+        	value = self.read_file(flot_data,filename,number_columns,2,flot_labels)
+        	value = self.read_file(flot_data,filename,number_columns,3,flot_labels)
 	if(number_columns == 5):
-        	value = self.read_file(flot_data,filename,number_columns,4)
+        	value = self.read_file(flot_data,filename,number_columns,4,flot_labels)
 
 	if(number_columns == 6 and izero == 0):
 		#my_flot_data = []
-        	value = self.read_file(flot_data,filename,number_columns,5)
+        	value = self.read_file(flot_data,filename,number_columns,5,flot_labels)
 	elif(number_columns == 6 and izero == 1):
-        	value = self.read_file(flot_data,filename,number_columns,6)
+        	value = self.read_file(flot_data,filename,number_columns,6,flot_labels)
 
         return flot_data
 
@@ -369,12 +395,14 @@ class Contrast_Drv():
 			#output_dict['io_string'] = input_string
 			output_dict['sasoutput2'] = total_string
 
-
 			if(int(numfile) + int(number_of_chemicals) < 3):
 
 				izero = 0
+			
+				flot_labels = self.get_labels_from_disk(runname+"/contrast_calc/"+outfile+"_sld.txt")
+				print 'flot_labels_1 = ',flot_labels
 
-				flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_sld.txt",5,izero)
+				flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_sld.txt",5,izero,flot_labels)
 
 				if(isinstance(flot_data, basestring)):
 					print 'error reading data'
@@ -382,7 +410,10 @@ class Contrast_Drv():
 				else:
 					output_dict['plotout1'] = flot_data
 	
-				flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_contrast.txt",4,izero)
+				flot_labels = self.get_labels_from_disk(runname+"/contrast_calc/"+outfile+"_contrast.txt")
+				print 'flot_labels_2 = ',flot_labels
+				
+				flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_contrast.txt",4,izero,flot_labels)
 	
 				if(isinstance(flot_data, basestring)):
 					print 'error reading data'
@@ -390,7 +421,7 @@ class Contrast_Drv():
 				else:
 					output_dict['plotout2'] = flot_data
 
-				flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero)
+				flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero,flot_labels)
 
 				if(isinstance(flot_data, basestring)):
 					print 'error reading data'
@@ -400,7 +431,7 @@ class Contrast_Drv():
 			
 				izero = 1
 
-				flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero)
+				flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero,flot_labels)
 
 				if(isinstance(flot_data, basestring)):
 					print 'error reading data'
