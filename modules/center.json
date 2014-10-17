@@ -2,6 +2,8 @@
 {
     "moduleid" : "center",
     "label"    : "Center",
+    "executable"   : "center",
+    "submitpolicy"   : "all",
     "fields"   : [
                   {
                    "role"     : "input",
@@ -16,29 +18,60 @@
                    },
                   {
                    "role"    : "input", 
-                   "id"      : "input2",
-                   "label"   : "Center value 2",
-                   "type"    : "integer",
+                   "id"      : "runminutes",
+                   "label"   : "Minutes to run",
+                   "type"    : "float",
                    "default" : 1,
-                   "min"     : -10,
-                   "max"     : 10,
-                   "step"     : 2,
-                   "required" : "false"
+                   "min"     : 0,
+                   "max"     : 10000,
+                   "required" : "true"
                    },
                   {
                    "role"    : "input", 
-                   "id"      : "input3",
-                   "label"   : "Center value 3",
+                   "id"      : "usemessage",
+                   "label"   : "Message results",
                    "type"    : "checkbox",
-                   "checked" : "true"
+                   "checked"  : "true",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "messagesecs",
+                   "label"   : "Results interval in seconds",
+                   "type"    : "integer",
+                   "default" : 1,
+                   "min"     : 10,
+                   "max"     : 1000,
+                   "repeat"  : "usemessage"
+                   },
+                  {
+                   "role"     : "input", 
+                   "id"       : "filetext",
+                   "label"    : "filetext",
+                   "type"     : "text",
+                   "safefile" : "on"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "output2",
+                   "label"   : "Message text",
+                   "type"    : "textarea",
+                   "append"  : "on",
+                   "cols"    : 60
                    },
                    {
                    "role"    : "output",
                    "id"      : "output1",
                    "label"   : "Output value 1",
-                   "type"    : "text"
+                   "type"    : "text",
+                   "size"    : 60
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "output3",
+                   "label"   : "Progress",
+                   "type"    : "progress",
+                   "max"     : 1.0
                    }
-                  ],
-# the executable will take inputs in json and produce outputs in json
-    "executable"   : "center"
+                  ]
 }

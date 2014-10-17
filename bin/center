@@ -13,24 +13,43 @@ if ( !@ARGV )
 $json = shift;
 $ref = decode_json( $json );
 
-my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => 37779, PeerAddr => '127.0.0.1' );
+my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => $$ref{ "_udpport" }, PeerAddr => $$ref{ "_udphost" } );
 
 
 $msg = {};
 $$msg{ "_uuid" } = $$ref{ "_uuid" };
 $$msg{ "hi" } = "center messaging";
-for ( $i = 0; $i < 15; ++$i )
 
+$runminutes = $$ref{ 'runminutes' };
+$sleepsecs = $runminutes * 60;
+$runtimes = 1;
+
+if ( $$ref{ 'usemessage' } )
 {
-    $$msg{ "completion" } = sprintf( "%.1f%%", 100.0 * $i / 15.0 );
-    $$msg{ "output1" } = "$i of 15";
-    $sock->send( encode_json( $msg ) );
-    sleep( 1 );
+    $usemessage = 1;
+    $messagesecs = $$ref{ 'messagesecs' };
+    $runtimes = $sleepsecs / $messagesecs;
+    $sleepsecs /= $runtimes;
+}    
+
+
+for ( $i = 0; $i < $runtimes; ++$i )
+{
+    sleep( $sleepsecs );
+    if ( $usemessage )
+    {
+        $$msg{ "output2" } = "Completed " . ( $i+1 ) . " of $runtimes of sleep ${sleepsecs}s";
+        $$msg{ "output3" } = $i / $runtimes;
+        $sock->send( encode_json( $msg ) );
+    }
 }
 
 $res = {};
+$$res{ "output3" } = 1.0;
 $$res{ "hi" } = "center executable";
-$$res{ "output1" } = "my out1 value";
+$$res{ "output1" } = "Fully completed $runtimes runs of sleep ${sleepsecs}s";
+$$res{ "udphost" } = $$ref{ "_udphost" };
+$$res{ "udpport" } = $$ref{ "_udpport" };
 
 open OUT, ">/src/sassie2/log";
 print OUT Dumper($ref);
