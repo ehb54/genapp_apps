@@ -34,7 +34,7 @@
                   {
                    "role"     : "input",
                    "id"       : "numfile",
-                   "label"    : "number of input files",
+                   "label"    : "enter number of protein, DNA or RNA input files",
                    "type"     : "integer",
                    "default"  : 2,
                    "required" : "true",
@@ -89,7 +89,55 @@
                    "repeat"   : "numfile",
                    "norow"    : "true"
                    },
-
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_chemicals",
+                   "label"    : "enter number of addtional components",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "required" : "true",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "chemical_formula",
+                   "label"    : "chemical formula",
+                   "type"     : "text",
+                   "default"  : "C387H870O363P120N",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_exchangeable_hydrogens",
+                   "label"    : "number exchangeable H",
+                   "type"     : "text",
+                   "default"  : "3",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fraction_exchangeable_hydrogens",
+                   "label"    : "fraction exchangeable H",
+                   "type"     : "text",
+                   "default"  : "1.00",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mass_density",
+                   "label"    : "mass density",
+                   "type"     : "text",
+                   "default"  : "1.38",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "optional_input_header",
@@ -157,73 +205,6 @@
                    "required" : "true",
 		   "default"  : "0.15",
                    "repeat"   : "numsolv",
-                   "norow"    : "true"
-                   },
-                   {
-                   "role"       : "input",
-                   "id"       : "advanced_input_header",
-                   "label"    : "Advanced Input",
-                   "type"     : "label",
-                   "default"  : " ",
-                   "prehline"  : "true",
-                   "posthline"  : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "advanced_input",
-                   "label"    : "Check Box for Advanced Input",
-                   "type"     : "checkbox",
-                   "checked"  : "false",
-                   "repeater" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "number_of_chemicals",
-                   "label"    : "enter number of chemical species",
-                   "type"     : "integer",
-                   "default"  : 0,
-                   "required" : "true",
-                   "repeat"  : "advanced_input",
-                   "repeater"  : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "chemical_formula",
-                   "label"    : "chemical formula",
-                   "type"     : "text",
-                   "default"  : "C387H870O363P120N",
-                   "required" : "true",
-                   "repeat"   : "number_of_chemicals",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "number_exchangeable_hydrogens",
-                   "label"    : "number exchangeable hydrogens",
-                   "type"     : "text",
-                   "default"  : "3",
-                   "required" : "true",
-                   "repeat"   : "number_of_chemicals",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "fraction_exchangeable_hydrogens",
-                   "label"    : "fraction of hydrogens that exchange",
-                   "type"     : "text",
-                   "default"  : "1.00",
-                   "required" : "true",
-                   "repeat"   : "number_of_chemicals",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "mass_density",
-                   "label"    : "mass density",
-                   "type"     : "text",
-                   "default"  : "1.38",
-                   "required" : "true",
-                   "repeat"   : "number_of_chemicals",
                    "norow"    : "true"
                    },
  		  {
