@@ -7,6 +7,7 @@
                 "user"     : "emre.brookes@vownet.net",
                 "password" : "REMOVED-CREDENTIAL"
                }
+  ,"feedbackmail" : "madscatt@googlegroups.com,emre@biochem.uthscsa.edu,curtisj@nist.gov"
   ,"hostip" : "160.36.200.49"
   ,"messaging" : {
                   "wsport"     : 8080

@@ -49,7 +49,7 @@
                    "label"   : "enter full path and file name ",
                    "type"    : "text",
                    "required" : "true",
-                   "default"  : "ubq.pdb",
+                   "default"  : "lysozyme.pdb",
                    "help"     : "name of PDB file for reference structure",
                    "repeat"   : "refpdb_list_box:c2",
                    "norow" : "true"
@@ -82,17 +82,26 @@
                    "label"   : "enter full path and file name ",
                    "type"    : "text",
                    "required" : "true",
-                   "default"  : "ubq.dcd",
+                   "default"  : "lysozyme.dcd",
                    "help"     : "name of DCD or PDB file with trajectories",
                    "repeat"   : "dcd_list_box:c2",
                    "norow" : "true"
+                   },
+		  {
+                   "role"     : "input",
+                   "id"       : "source_list_box",
+                   "label"    : "neutrons or X-ray?",
+                   "type"     : "listbox",
+                   "values"   : "neutrons~c1~X_ray~c2",
+                   "default"  : "c1",
+                   "required" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "max_q",
                    "label"   : "maximum q value: ",
                    "type"    : "text",
-                   "default" : "2.0",
+                   "default" : "0.5",
                    "required" : "true"
                    },
                   {
@@ -100,16 +109,25 @@
                    "id"      : "n_q",
                    "label"   : "number of q values:",
                    "type"    : "text",
-                   "default" : "10",
+                   "default" : "50",
                    "required" : "true"
                    },
                   {
                    "role"    : "input",
                    "id"      : "I0",
-                   "label"   : "I0 value:",
+                   "label"   : "I(0):",
                    "type"    : "text",
                    "default" : "1.0",
                    "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "n_gv0",
+                   "label"   : "initial number of golden vectors:",
+                   "type"    : "text",
+                   "default" : "21",
+                   "required" : "true",
+		   "help"    : "must be an odd number"
                    },
                   {
                    "role"     : "input",

@@ -45,9 +45,11 @@ class CGenerate_Drv():
 		dcdfile='ubq.dcd'
 		pdbpath='./'
 		pdbfile='ubq.pdb'
+		xon = '0'
 		maxqmag='2.0'
 		nq='10'
 		i0='1.0'
+		ngv0='21'
 		#
 		pRDF = "off"
 		#
@@ -80,19 +82,27 @@ class CGenerate_Drv():
 		
 
 		if(json_variables['refpdb_list_box'] == "c1"):
-        		temp_pdbfile = json_variables['pdbfile_text']
+        		temp_pdbfile = json_variables['pdbfile']
 			head, pdbfile = os.path.split(temp_pdbfile[0])
 		elif(json_variables['refpdb_list_box'] == "c2"):
         		pdbfile = json_variables['pdbfile_text']
 		if(json_variables['dcd_list_box'] == "c1"):
-        		temp_dcdfile = json_variables['dcdfile_text']
+        		temp_dcdfile = json_variables['dcdfile']
 			head, dcdfile = os.path.split(temp_dcdfile[0])
 		elif(json_variables['dcd_list_box'] == "c2"):
         		dcdfile = json_variables['dcdfile_text']
+
+                source_list_box = json_variables['source_list_box']
+                if(source_list_box == 'c1'):
+                        xon = '0' # neutron
+                elif(source_list_box == 'c2'):
+                        xon = '1' # xray
+
 		
 		maxqmag = json_variables['max_q']
 		nq = json_variables['n_q']
 		i0 = json_variables['I0']
+		ngv0 = json_variables['n_gv0']
  
 		try:
 			pRDF = json_variables['pRDF']
@@ -126,9 +136,11 @@ class CGenerate_Drv():
  	variables['dcdfile']		= (str(dcdfile),'string')
  	variables['pdbpath']		= (str(pdbpath),'string')
  	variables['pdbfile']		= (str(pdbfile),'string')
+	variables['xon']		= (str(xon),'int')
  	variables['max_q_mag']		= (str(maxqmag),'float')
  	variables['N_q']		= (str(nq),'int')
  	variables['I0']		= (str(i0),'float')
+ 	variables['N_gv0']		= (str(ngv0),'int')
 	#
 	if(pRDF == "on"):
 		variables['surf_r']		= (str(surfr),'float')

@@ -65,7 +65,6 @@
                    "label"    : "I(0)",
                    "type"     : "float",
                    "default"  : 0.011,
-		   "step"     : 0.001,
 #                   "min"      : 0.0,
 #                   "max"      : 1e50,
                    "required" : "true"
@@ -76,7 +75,6 @@
                    "label"    : "I(0) error",
                    "type"     : "float",
                    "default"  : 0.001,
-		   "step"     : 0.001,
                    "required" : "true"
                    },
                   {
@@ -85,13 +83,12 @@
                    "label"    : "new delta q",
                    "type"     : "float",
                    "default"  : 0.01,
-		   "step"     : 0.001,
                    "required" : "true"
                    },
                   {
                    "role"       : "input",
                    "id"       : "maxpoints",
-                   "label"    : "number of new points",
+                   "label"    : "number of new q-values",
                    "type"     : "integer",
                    "default"  : 30,
                    "required" : "true"
