@@ -44,11 +44,12 @@
                    "role"     : "input",
                    "id"       : "isFasta",
                    "label"    : "FASTA ?",
-                   "type"     : "checkbox",
-                   "checked"  : "false",
+                   "type"     : "listbox",
+                   "values"   : "off~c1~on~c2",
+                   "default"  : "c1",
                    "repeat"   : "numfile",
                    "norow"    : "true",
-		   "help"     : "check the box if the file contains sequence information in FASTA format"
+		   "help"     : "choose the value if the file contains sequence information in FASTA format"
                    },
                   {
                    "role"     : "input",
@@ -63,7 +64,7 @@
                    "role"     : "input",
                    "id"       : "numunits",
                    "label"    : "number of units",
-                   "type"     : "integer",
+                   "type"     : "text",
                    "required" : "false",
 		   "default"  : "1",
                    "repeat"   : "numfile",

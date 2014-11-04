@@ -257,17 +257,13 @@ class Contrast_Drv():
 	
 		ivariables = []
 		for i in xrange(locale.atoi(numfile)):
-	
-			try:
-				isFasta = json_variables['isFasta']
-				this_Fasta = "on"
-			except:
-				this_Fasta = "off"
 
-			if(this_Fasta == "on"): 
-				fasta = "1"
-			else:
+			isFasta = json_variables['isFasta'][i]
+
+			if(isFasta == "c1"):
 				fasta = "0"
+			elif(isFasta == "c2"):
+				fasta = "1"
 
 			if(moltype[i] == "c1"):
 				mtype = "dna"
