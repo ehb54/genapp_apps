@@ -3,18 +3,15 @@ import json,sys,os,shutil,ast
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
-#import sassie.tools.center as center
+import sassie.build.pdbscan as pdbscan
 import sassie.interface.input_filter as input_filter
 
 class PDBScan_Drv():
 
    module = 'pdbscan'
 
-   def background_job(self,process,txtQueue,sock,UDP_IP,UDP_PORT):
+   def background_job(self,process,txtQueue):
 	total_string = ''
-
-	sock_dict = {}
-	sock_dict['_uuid'] = json_variables['_uuid']
 
 	while process.is_alive():
 		try:
@@ -23,8 +20,6 @@ class PDBScan_Drv():
 			if(text_split[0]=='STATUS'):
 				sock_dict['percent done'] = locale_atof(text_split[1])
  				MESSAGE = json.dumps(sock_dict).encode()
- 				sock.sendto(MESSAGE,(UDP_IP,UDP_PORT))
-				print json.dumps( sock_dict )
 				time.sleep(0.1)
 				#pass ; #progressBar.set(locale.atof(text_split[1]))
 			else:
@@ -82,7 +77,7 @@ class PDBScan_Drv():
 	svariables={}
 
 	svariables['runname'] = (str(runname),'string')
-	svariables['refpdb']  = (str(refpdb),'string')
+	svariables['pdbfile']  = (str(refpdb),'string')
 	svariables['path']    = (path,'string')
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)
@@ -100,18 +95,18 @@ class PDBScan_Drv():
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
 
-#		txtQueue=multiprocessing.JoinableQueue()
+		txtQueue=multiprocessing.JoinableQueue()
 
-#		process=multiprocessing.Process(target=center.center,args=(self.variables,txtQueue))
-#		process.start()
+		process=multiprocessing.Process(target=pdbscan.scan_pdb,args=(self.variables,txtQueue))
+		process.start()
 
 #		sock = socket.socket(socket.AF_INET, # Internet
 #                     socket.SOCK_DGRAM) # UDP
 
-#		total_string = self.background_job(process,txtQueue,sock,UDP_IP,UDP_PORT)
+		total_string = self.background_job(process,txtQueue)
 
 		#output_dict['io_string'] = input_string
-		#output_dict['sasoutput2'] = total_string
+		output_dict['sasoutput2'] = total_string
 
 		output_dict['outputpdb'] = pdb_path+refpdb
 
