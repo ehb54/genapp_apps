@@ -11,6 +11,26 @@ class Align_Drv():
 
    module = 'align'
 
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
    def background_job(self,process,txtQueue,json_variables):
 
         total_string = ''
@@ -145,21 +165,25 @@ class Align_Drv():
         sys.stdout = sys.stderr
 #end emre
 
-	if(len(error)>0):
-		#print 'error = ',error
-		output_dict['error'] = 'Error in input_filter'	
-		output_dict['error2'] = error[0]
-		output_dict['sasoutput1'] = 'run failed'
+        if(len(error)>0):
 
-	else:
-#		error=align2_filter.check_align(self.variables)
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
 
-               	if(len(error) > 0):
-			#print 'error = ',error
-			output_dict['error'] = 'Error in align_filter'	
-			output_dict['error2'] = error[0]
-			output_dict['sasoutput1'] = 'run failed'
-			return
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+		error=align2_filter.check_align(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in align variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
 		else:
 			runname=self.variables['runname'][0]
 
