@@ -225,6 +225,20 @@
                    "required" : "true",
 		   "help"    : "advanced overlap selection for molecule 2"
                    },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
 		  {
                     "role"    : "output",
                     "id"      : "sasoutput2",

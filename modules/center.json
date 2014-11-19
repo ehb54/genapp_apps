@@ -95,6 +95,20 @@
                    "required" : "true",
 		   "help"     : "name of final PDB or DCD file centered coordinates"
                    },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
 #                   {
 #                   "role"    : "output",
 #                   "id"    : "outputpdb",
@@ -107,9 +121,8 @@
                     "role"    : "output",
                     "id"      : "sasoutput2",
                     "name"    : "sasoutput2",
-                    "label"   : " ",
+                    "label"   : "",
                     "type"    : "textarea",
-#                    "default" : "this is a text area",
                     "rows"    : 20,
                     "cols"    : 80
                    }
