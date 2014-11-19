@@ -129,6 +129,14 @@ class Center_Drv():
 		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 
+		html = """<html>
+			<header><title>This is title</title></header>
+			<body>
+				Hello world
+			</body>
+			</html>"""
+		output_dict['htmloutput'] = html
+
 		#output_dict['outputpdb'] = pdb_path+refpdb
 		#output_dict['outputpdb'] = pdb_path+'c.cube'
 
