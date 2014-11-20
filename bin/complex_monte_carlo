@@ -331,7 +331,7 @@ class CGenerate_Drv():
 
 		monflag = '1' ; eflag = 0
 	
-#		error=complex_filter.check_complex(self.variables,psegvariables,eflag,monflag)
+		error=complex_filter.check_complex(self.variables,psegvariables,eflag,monflag,no_file_check="true")
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
