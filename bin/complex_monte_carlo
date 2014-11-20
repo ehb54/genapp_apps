@@ -1,28 +1,68 @@
 #!/share/apps/local/bin/python/bin/python
 import json,sys,os,shutil,locale
 from StringIO import StringIO
-import multiprocessing,time,string
+import multiprocessing,time,string,socket
 
 import sassie.simulate.monte_carlo.complex.nmer_dihedral as nmer_dihedral
 import sassie.interface.input_filter as input_filter
+import sassie.interface.complex_filter as complex_filter
 
 class CGenerate_Drv():
 
    module = 'generate'
 
-   def background_job(self,process,txtQueue):
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
         total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+
         while process.is_alive():
                 try:
                         this_text = txtQueue.get(True, timeout=0.1)
                         text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
-                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
                                 total_string += this_text
                 except:
                         if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 return total_string
+
                 time.sleep(0.01)
         else:
                 return total_string
@@ -266,40 +306,57 @@ class CGenerate_Drv():
 
 	error = []
 
- 	error,variables=input_filter.type_check_and_convert(svariables)
+ 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
-#emre
-        save_stdout = sys.stdout
-        sys.stdout = sys.stderr
-#end emre
+        if(len(error)>0):
 
-	if(len(error)>0):
-		output_dict['error'] = 'Error in input variables'	
-		output_dict['sasoutput1'] = 'run failed'
-		return
-	else:
-#		error=contrast_filter.check_align(self.variables)
-               	if(len(error) > 0):
-			output_dict['error'] = 'Error in complex_monte_carlo_filter'	
-			output_dict['sasoutput1'] = 'run failed'
-			return
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                #error=align2_filter.check_align(self.variables,no_file_check="true")
+
+#		error = complex_filter.check_psegvariables_exist('psegvariables',globals())
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in pseg variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		monflag = '1' ; eflag = 0
+	
+#		error=complex_filter.check_complex(self.variables,psegvariables,eflag,monflag)
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in complex variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
 		else:
-			runname=variables['runname'][0]
+			runname=self.variables['runname'][0]
 
 			if os.path.exists(runname+'/'+self.module):
 				shutil.rmtree(runname+'/'+self.module)
 
 			with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-				json.dump("\nsvariables\n",outfile)
+				json.dump("\nsself.variables\n",outfile)
 				json.dump(svariables,outfile)
 				json.dump("\npsegvariables\n",outfile)
 				json.dump(psegvariables,outfile)
 
 			txtQueue=multiprocessing.JoinableQueue()
-			process=multiprocessing.Process(target=nmer_dihedral.dihedralgenerate,args=(variables,psegvariables,txtQueue))
+			process=multiprocessing.Process(target=nmer_dihedral.dihedralgenerate,args=(self.variables,psegvariables,txtQueue))
 			process.start()
 
-                        total_string = self.background_job(process,txtQueue)
+                        total_string = self.background_job(process,txtQueue,json_variables)
 
 			output_dict['sasoutput2'] = total_string
 
@@ -317,10 +374,6 @@ class CGenerate_Drv():
 				output_dict['plot_error'] = flot_data
 			else:
 				output_dict['plotout4'] = flot_data
-
-#emre
-        sys.stdout = save_stdout;
-#end emre
 
         try:
                 with open("/share/apps/genapp/sassie2/results/log","w") as outfile:

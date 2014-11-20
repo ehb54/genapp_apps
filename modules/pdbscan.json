@@ -12,6 +12,15 @@
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
+                   {
+                   "role"       : "input",
+                   "id"       : "message",
+                   "label"    : "Module under development: due end of 2014",
+                   "type"     : "label",
+                   "default"  : "header3",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",
@@ -52,6 +61,20 @@
                    "help"     : "name of PDB file for atom naming purposes",
                    "repeat"   : "refpdb_list_box:c2",
                    "norow" : "true"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
                    },
                    {
                    "role"    : "output",

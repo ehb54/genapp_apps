@@ -1,10 +1,7 @@
 #!/share/apps/local/bin/python/bin/python
 import json,sys,os,shutil,locale
 from StringIO import StringIO
-import multiprocessing,time,string
-
-import pyflot
-
+import multiprocessing,time,string,socket
 
 import sassie.interface.input_filter as input_filter
 import sassie.tools.contrast as contrast
@@ -14,19 +11,58 @@ class Contrast_Drv():
 
    module = 'constrast_calc'
 
-   def background_job(self,process,txtQueue):
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
         total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+
         while process.is_alive():
                 try:
                         this_text = txtQueue.get(True, timeout=0.1)
                         text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
-                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
                                 total_string += this_text
                 except:
                         if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 return total_string
+
                 time.sleep(0.01)
         else:
                 return total_string
@@ -390,7 +426,7 @@ class Contrast_Drv():
 			process=multiprocessing.Process(target=contrast.contrast,args=(variables,ivariables,solv_variables,chemical_variables,txtQueue))
 			process.start()
 
-                        total_string = self.background_job(process,txtQueue)
+                        total_string = self.background_job(process,txtQueue,json_variables)
 
 			#output_dict['io_string'] = input_string
 			output_dict['sasoutput2'] = total_string

@@ -15,7 +15,7 @@
                    {
                    "role"       : "input",
                    "id"       : "message",
-                   "label"    : "Module under development: due Fall 2014",
+                   "label"    : "Module under development: due Fall 2015",
                    "type"     : "label",
                    "default"  : "header3",
                    "prehline"  : "true",
