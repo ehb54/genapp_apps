@@ -1,33 +1,74 @@
 #!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil,ast
+import json,sys,os,shutil,ast,locale
 from StringIO import StringIO
-import multiprocessing,time,string
+import multiprocessing,time,string,socket
 
 import sassie.tools.coor_tools as coor_tools
 import sassie.interface.input_filter as input_filter
+import sassie.interface.coor_tools_filter as coor_tools_filter
 
 class CoorTools_Drv():
 
    module = 'coor_tools'
 
-   def background_job(self,process,txtQueue):
-	total_string = ''
-	while process.is_alive():
-		try:
-			this_text = txtQueue.get(True, timeout=0.1)
-			text_split=string.split(this_text)
-			if(text_split[0]=='STATUS'):
-				pass ; #progressBar.set(locale.atof(text_split[1]))
-			else:
-				total_string += this_text
-		except:
-			if not process.is_alive():
-				return total_string
-		time.sleep(0.01)
-	else:
-		return total_string
 
-	return total_string
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -119,10 +160,25 @@ class CoorTools_Drv():
         save_stdout = sys.stdout
         sys.stdout = sys.stderr
 #end emre
-	if(len(error)>0):
-		output_dict['error'] = 'Error in input variables'	
-		output_dict['sasoutput1'] = 'run failed'
-	else:
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+		error=coor_tools_filter.check_coor_tools(variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in Coor Tools variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+	
 		runname=variables['runname'][0]
 
 		if os.path.exists(runname+'/'+self.module):
@@ -133,7 +189,7 @@ class CoorTools_Drv():
                 process=multiprocessing.Process(target=coor_tools.extract_frames,args=(variables,txtQueue))	
 		process.start()
 
-		total_string = self.background_job(process,txtQueue)
+		total_string = self.background_job(process,txtQueue,json_variables)
 
 		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string

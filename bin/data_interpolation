@@ -204,12 +204,11 @@ class Interpolate_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                error=interpolate_filter.check_interpolate(self.variables)
-                #error=align2_filter.check_align(self.variables,no_file_check="true")
+                error=interpolate_filter.check_interpolate(self.variables,no_file_check="true")
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
-                        output_dict['error'] = 'Error in align variables'
+                        output_dict['error'] = 'Error in interpolate variables'
                         output_dict['sasoutput2'] = 'run failed'
                         print json.dumps( output_dict )
                         return
