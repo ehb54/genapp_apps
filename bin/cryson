@@ -1,28 +1,75 @@
 #!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil
+import json,sys,os,shutil,locale
 from StringIO import StringIO
-import multiprocessing,time,string
+import multiprocessing,time,string,socket
 
 import sassie.calculate.gcryson as gcryson
 import sassie.interface.input_filter as input_filter
+import sassie.interface.cryson_filter as cryson_filter
 
 class Cryson_Drv():
 
    module = 'cryson'
 
-   def background_job(self,process,txtQueue):
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
         total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
         while process.is_alive():
                 try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
                         this_text = txtQueue.get(True, timeout=0.1)
                         text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
-                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
                                 total_string += this_text
                 except:
                         if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 return total_string
+
                 time.sleep(0.01)
         else:
                 return total_string
@@ -119,7 +166,7 @@ class Cryson_Drv():
                  NOTE: all external variables are left as strings
                          and values are NOT filtered
  	'''
- 	svariables['delafs']		= (str(delafs),'string')
+ 	svariables['delafs']		= (str(delafs),'int')
  	svariables['option']		= (str(option),'string')
  	svariables['maxh']		= (str(maxh),'string')
  	svariables['fib']		= (str(fib),'string')
@@ -137,35 +184,40 @@ class Cryson_Drv():
 	error = []
  	error,self.variables=input_filter.type_check_and_convert(svariables)
 
-#emre
-        save_stdout = sys.stdout
-        sys.stdout = sys.stderr
-#end emre
+        if(len(error)>0):
 
-	if(len(error)>0):
-		output_dict['error'] = 'Error in input variables'	
-		output_dict['sasoutput1'] = 'run failed'
-	else:
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=cryson_filter.check_cryson(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in cryson variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
 		runname=self.variables['runname'][0]
 
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-		#gcryson.gcryson(self.variables,txtQueue) 
 
                 process=multiprocessing.Process(target=gcryson.gcryson,args=(self.variables,txtQueue))
                 process.start()
 
-                total_string = self.background_job(process,txtQueue)
+                total_string = self.background_job(process,txtQueue,json_variables)
 
 		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 	
-#emre
-        sys.stdout = save_stdout;
-#end emre
-
         try:
                 with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
                         json.dump(output_dict,outfile)

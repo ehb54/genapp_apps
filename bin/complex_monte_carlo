@@ -42,9 +42,16 @@ class CGenerate_Drv():
 
         socket_dict={}
         socket_dict['_uuid'] = json_variables['_uuid']
+	first = True
 
         while process.is_alive():
                 try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
                         this_text = txtQueue.get(True, timeout=0.1)
                         text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
