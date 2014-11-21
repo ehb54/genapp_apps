@@ -5,6 +5,7 @@ import multiprocessing,time,string,socket
 
 import sassie.simulate.monte_carlo.monomer.dihedral_monte_carlo as dihedral_monte_carlo
 import sassie.interface.input_filter as input_filter
+import sassie.interface.generate_filter as generate_filter
 
 class Generate_Drv():
 
@@ -315,30 +316,36 @@ class Generate_Drv():
          svariables['directedmc']        = (str(directedmc),'float')
          svariables['seed']                = ('0,123', 'int_array') # set this to '1,123' if you want to set the seed or '0,123' if not
 
-
          svariables['path']    = (path,'string')
 
+         error = []
          error,self.variables=input_filter.type_check_and_convert(svariables)
 
-#emre
-         save_stdout = sys.stdout
-         sys.stdout = sys.stderr
-#end emre
-
-
-         error = []
-
          if(len(error)>0):
-                output_dict['error'] = 'Error in input variables'        
-                output_dict['sasoutput1'] = 'run failed'
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
          else:
+		monflag=1 ; eflag = 0
+                error=generate_filter.check_protein(self.variables,eflag,monflag,no_file_check="true")
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in monomer monte carlo variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
                 runname=self.variables['runname'][0]
 
                 if os.path.exists(runname+'/'+self.module):
                         shutil.rmtree(runname+'/'+self.module)
 
                 txtQueue=multiprocessing.JoinableQueue()
-#                dihedral_monte_carlo.dihedralgenerate(self.variables,txtQueue) 
 
                 process=multiprocessing.Process(target=dihedral_monte_carlo.dihedralgenerate,args=(self.variables,txtQueue))
                 process.start()
@@ -363,9 +370,6 @@ class Generate_Drv():
                         output_dict['plot_error'] = flot_data
                 else:
                         output_dict['plotout4'] = flot_data
-#emre
-         sys.stdout = save_stdout;
-#end emre
 
          try:
                 with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
