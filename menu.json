@@ -54,11 +54,6 @@
                           "id"    : "pdbrx",
                           "label" : "PDB Rx",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "cg_builder",
-                          "label" : "CG Builder",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
             },
@@ -70,11 +65,6 @@
                          { 
                           "id"    : "molecular_viewer",
                           "label" : "Molecular Viewer",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "interactive_sas",
-                          "label" : "Interactive SAS",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]

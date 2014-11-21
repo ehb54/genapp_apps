@@ -212,7 +212,7 @@ class Density_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                #error=density_filter.check_density(self.variables,segvariables,no_file_check="true")
+                error=density_filter.check_density(self.variables,segvariables,no_file_check="true")
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
