@@ -1,28 +1,75 @@
 #!/share/apps/local/bin/python/bin/python
-import json,sys,os,shutil
+import json,sys,os,shutil,locale
 from StringIO import StringIO
-import multiprocessing,time,string
+import multiprocessing,time,string,socket
 
 import sassie.calculate.gxtal2sas as gxtal2sas
 import sassie.interface.input_filter as input_filter
+import sassie.interface.xtal2sas_filter as xtal2sas_filter
 
 class Xtal2sas_Drv():
 
    module = 'xtal2sas'
 
-   def background_job(self,process,txtQueue):
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
         total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
         while process.is_alive():
                 try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
                         this_text = txtQueue.get(True, timeout=0.1)
                         text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
-                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
                                 total_string += this_text
                 except:
                         if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 return total_string
+
                 time.sleep(0.01)
         else:
                 return total_string
@@ -150,22 +197,36 @@ class Xtal2sas_Drv():
         sys.stdout = sys.stderr
 #end emre
 
-	if(len(error)>0):
-		output_dict['error'] = 'Error in input variables'	
-		output_dict['sasoutput1'] = 'run failed'
-	else:
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=error=xtal2sas_filter.check_xtal2sas(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in xtal2sas variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
 		runname=self.variables['runname'][0]
 
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-#		gxtal2sas.gxtal2sas(self.variables,txtQueue) 
 
                 process=multiprocessing.Process(target=gxtal2sas.gxtal2sas,args=(self.variables,txtQueue))
                 process.start()
 
-                total_string = self.background_job(process,txtQueue)
+                total_string = self.background_job(process,txtQueue,json_variables)
 
 #		output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
