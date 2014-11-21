@@ -93,11 +93,6 @@
                           "id"    : "tamd",
                           "label" : "Torsion Angle MD ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "two_body_grid",
-                          "label" : "Two-Body Grid",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
             },
