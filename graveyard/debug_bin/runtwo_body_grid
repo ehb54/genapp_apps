@@ -1,3 +1,3 @@
-~/sassie2/bin/two_body_grid '
+../../bin/two_body_grid '{"runname":"run_0","refpdb_list_box":"c1","movepdb_list_box":"c1","dcdfile":"run_0.dcd","acceptIntial_list_box":"c2","x0":"-20,-20,-20","n_xyz_moves":"3,3,3","xyz_step_size":"20,20,20","n_ang_moves":"4,4,4","theta_step_size":"45,45,45","_logon":"joseph","_project":"first_test","_window":"303d7022-04d2-4d47-c434-74988c38ae01","_uuid":"b4afdb10-70db-11e4-b10a-1912370bfab3","_base_directory":"\/share\/apps\/genapp\/sassie2\/results\/users\/joseph\/first_test","_udphost":"160.36.200.49","_udpport":37779,"resourcedefault":"compute1","refpdbfile":["\/share\/apps\/genapp\/sassie2\/results\/users\/joseph\/first_test\/iase1.pdb"],"movepdbfile":["\/share\/apps\/genapp\/sassie2\/results\/users\/joseph\/first_test\/iase2.pdb"]}'
 
 
