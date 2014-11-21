@@ -170,6 +170,20 @@
                    "required" : "false",
                    "repeat"  : "file_list_box:c2" 
                    },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
 		  {
                     "role"    : "output",
                     "id"      : "sasoutput2",

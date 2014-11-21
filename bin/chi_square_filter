@@ -1,35 +1,78 @@
 #!/share/apps/local/bin/python/bin/python
 import json,sys,os,shutil,time,math,locale
 from StringIO import StringIO
-import multiprocessing,time,string
+import multiprocessing,time,string,socket
 
 import sassie.analyze.best as best
 import sassie.interface.input_filter as input_filter
+import sassie.interface.best_filter as best_filter
 
 class Chi_square_filter_Drv():
 
    module = 'filter'
 
+   def message_box(self,text,icon):
 
-   def background_job(self,process,txtQueue):
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
         total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
         while process.is_alive():
                 try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
                         this_text = txtQueue.get(True, timeout=0.1)
                         text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
-                                pass ; #progressBar.set(locale.atof(text_split[1]))
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
                                 total_string += this_text
                 except:
-                	time.sleep(0.1)
                         if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 return total_string
+
                 time.sleep(0.01)
         else:
                 return total_string
-
-        return total_string
 
    def read_file(self,flot_data,filename,number_columns,this_pass):
 
@@ -270,10 +313,25 @@ class Chi_square_filter_Drv():
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
-	if(len(error)>0):
-		output_dict['error'] = 'Error in input variables'	
-		output_dict['sasoutput1'] = 'run failed'
-	else:
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=best_filter.check_best(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in chi-square filter variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
 		runname=self.variables['runname'][0]
 
 		if os.path.exists(runname+'/'+self.module):
@@ -284,7 +342,7 @@ class Chi_square_filter_Drv():
                 process=multiprocessing.Process(target=best.best,args=(self.variables,txtQueue))
                 process.start()
 
-                total_string = self.background_job(process,txtQueue)
+                total_string = self.background_job(process,txtQueue,json_variables)
 
 #		output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
