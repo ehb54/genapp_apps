@@ -46,18 +46,19 @@ class Align_Drv():
 
         while process.is_alive():
                 try:
-                        if(first):
-                                socket_dict['progress_html'] = 0.01
+			if(first):
                                 socket_dict['progress_html'] = '<center>starting job</center>'
+        			socket_dict['_progress'] = 0.01
                                 doc_string = json.dumps(socket_dict)
                                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 first = False
-                        this_text = txtQueue.get(True, timeout=0.1)
-                        text_split=string.split(this_text)
+			this_text = txtQueue.get(True, timeout=0.1)
+			text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
                                 value = locale.atof(text_split[1])
                                 svalue = str(100*value)
                                 socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
                                 socket_dict['progress_html'] = '<center>'+svalue+'</center>'
                                 doc_string = json.dumps(socket_dict)
                                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -164,9 +165,9 @@ class Align_Drv():
 	svariables['ebasis1']=(str(ebasis1),'string')
 	svariables['ebasis2']=(str(ebasis2),'string')
 
+	error = []
 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
-	#error = []
 #emre
         save_stdout = sys.stdout
         sys.stdout = sys.stderr
@@ -191,20 +192,20 @@ class Align_Drv():
                         print json.dumps( output_dict )
                         return
 
-			runname=self.variables['runname'][0]
+		runname=self.variables['runname'][0]
 
-			txtQueue=multiprocessing.JoinableQueue()
-			if os.path.exists(runname+'/'+self.module):
-				shutil.rmtree(runname+'/'+self.module)
+		txtQueue=multiprocessing.JoinableQueue()
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
 
 		#	align2.align(self.variables,txtQueue)
 
-			process=multiprocessing.Process(target=align2.align,args=(self.variables,txtQueue))
-			process.start()
-			total_string = self.background_job(process,txtQueue,json_variables)
+		process=multiprocessing.Process(target=align2.align,args=(self.variables,txtQueue))
+		process.start()
+		total_string = self.background_job(process,txtQueue,json_variables)
 
 			#output_dict['io_string'] = input_string
-			output_dict['sasoutput2'] = total_string
+		output_dict['sasoutput2'] = total_string
 
 
 #emre

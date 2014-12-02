@@ -2,7 +2,7 @@
 {
   "title"                     : "SASSIE-web",
   "application"               : "sassie2",
-  "version"                   : "0.1",
+  "version"                   : "0.8",
 #  "languages"                 : [ "html5", "qt3", "qt4" ],
   "languages"                 : [ "html5"],
   "executable_path"           :

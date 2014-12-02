@@ -49,6 +49,7 @@ class Contrast_Drv():
                         if(first):
                                 socket_dict['progress_html'] = 0.01
                                 socket_dict['progress_html'] = '<center>starting job</center>'
+                                socket_dict['_progress'] = 0.01
                                 doc_string = json.dumps(socket_dict)
                                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 first = False
@@ -58,6 +59,7 @@ class Contrast_Drv():
                                 value = locale.atof(text_split[1])
                                 svalue = str(100*value)
                                 socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
                                 socket_dict['progress_html'] = '<center>'+svalue+'</center>'
                                 doc_string = json.dumps(socket_dict)
                                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
