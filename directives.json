@@ -22,7 +22,7 @@
                                  "pdb" :"rasmol"
                                 },
   "footer"		      : "<center>Support via CCP-SAS a joint EPSRC (EP/K039121/1) and NSF (CHE-1265821) grant</center>",
-  "footersize"                : "2rem",
+  "footersize"                : "3rem",
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",
   "background_color_rgb"      : "0,0,95",
