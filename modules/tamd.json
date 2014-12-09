@@ -150,6 +150,22 @@
                    "required" : "true"
                    },
                   {
+                   "role"    : "input",
+                   "id"      : "rg_force",
+                   "label"   : "Rg force",
+                   "type"    : "text",
+                   "default" : "0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "rg_value",
+                   "label"   : "Rg value",
+                   "type"    : "text",
+                   "default" : "0",
+                   "required" : "true"
+                   },
+                  {
                    "role"     : "input",
                    "id"       : "optional_input_header",
                    "label"    : "Complex Specific Input",

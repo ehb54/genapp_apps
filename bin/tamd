@@ -99,6 +99,8 @@ class Tamd_Drv():
 		dcdfreq		= '20'
 		charmmexe	= '/share/apps/local/bin/charmm.exe'
 		temperature	= '300.0'
+		rgforce		= '0.0'
+		rgvalue		= '0.0'
 	
 		dna_segnames	= "None"
 
@@ -190,6 +192,8 @@ class Tamd_Drv():
 	svariables['dcdfreq']		= (str(dcdfreq),'int')
 	svariables['charmmexe']		= (str(charmmexe),'string')
 	svariables['temperature']	= (str(temperature),'float')
+	svariables['rgforce']		= (str(rgforce),'float')
+	svariables['rgvalue']		= (str(rgvalue),'float')
 
 	svariables['dna_segnames']	= (str(dna_segnames),'string')
 			
