@@ -152,6 +152,8 @@ class Tamd_Drv():
 		number_flexible_segments = json_variables['number_flexible_segments']
 		pretamd_min_steps = json_variables['pretamd_min_steps']
 		poll_frequency = json_variables['poll_frequency']
+		rgforce = json_variables['rgforce']
+		rgvalue = json_variables['rgvalue']
 
 		topfile         = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
                 parmfile        = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'

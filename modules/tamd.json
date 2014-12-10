@@ -151,7 +151,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "rg_force",
+                   "id"      : "rgforce",
                    "label"   : "Rg force",
                    "type"    : "text",
                    "default" : "0",
@@ -159,7 +159,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "rg_value",
+                   "id"      : "rgvalue",
                    "label"   : "Rg value",
                    "type"    : "text",
                    "default" : "0",

@@ -11,6 +11,26 @@ class Generate_Drv():
 
    module = 'generate'
 
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
    def background_job(self,process,txtQueue,json_variables):
 
         total_string = ''
