@@ -102,6 +102,8 @@ class Structure_minimization_Drv():
 		temperature = '300.0'
 		outfile = 'run_0/minimization/min_run_0.dcd'	
         	path='./'
+		parmfile = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
+		#topfile = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
 
         	#### END USER EDIT
         	#### END USER EDIT
@@ -158,9 +160,32 @@ class Structure_minimization_Drv():
                 elif(md_list_box == 'c3'):
                         md = '2' #  min / md /min
 
+                try:
+                        advanced_input = json_variables['advanced_input']
+                except:
+                        advanced_input = 'off'
+
+                if(advanced_input == "on"):
+
+                	#if(json_variables['top_list_box'] == "c1"):
+                        #	temp_topfile = json_variables['topfile']
+                        #	head, topfile = os.path.split(temp_topfile[0])
+                	#elif(json_variables['top_list_box'] == "c2"):
+                        #	topfile = json_variables['topfile_text']
+
+                	if(json_variables['par_list_box'] == "c1"):
+                        	temp_parmfile = json_variables['parmfile']
+                        	head, parmfile = os.path.split(temp_parmfile[0])
+                	elif(json_variables['par_list_box'] == "c2"):
+                        	parmfile = json_variables['parmfile_text']
+
+		else:
+			#topfile = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
+			parmfile = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
+
 		path = ''
 
-	parmfile = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
+	#parmfile = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
 	
 	svariables={}
 
@@ -181,7 +206,9 @@ class Structure_minimization_Drv():
 	svariables['mdsteps']		= (str(mdsteps),'int')
 	svariables['dielect']		= (str(dielect),'float')
 	svariables['temperature']	= (str(temperature),'float')
-			
+		
+	#svariables['topfile']		= (str(topfile),'string')
+	
 	svariables['path']    = (str(path),'string')
 	
 	error = []

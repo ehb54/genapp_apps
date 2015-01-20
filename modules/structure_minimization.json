@@ -89,7 +89,7 @@
                    "role"    : "input",
                    "id"      : "psf_list_box",
                    "name"    : "psf_list_box",
-                   "label"   : "charmm PSF file name",
+                   "label"   : "PSF file name",
                    "type"    : "listbox",
                    "values"  : "upload file~c1~use file on server~c2",
                    "default" : "c1",
@@ -190,6 +190,89 @@
                    "type"    : "text",
                    "default" : "300.0",
                    "required" : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "repeater" : "true"
+                   },
+#                  {
+#                   "role"    : "input",
+#                   "id"      : "top_list_box",
+#                   "name"    : "top_list_box",
+#                   "label"   : "charmm topology file",
+#                   "type"    : "listbox",
+#                   "values"  : "upload file~c1~use file on server~c2",
+#                   "default" : "c1",
+#                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+#                   "repeat" : "advanced_input",
+#                   "repeater" : "true",
+#                   "norow"    : "false"
+#                   },
+#                  {
+#                   "role"    : "input",
+#                   "id"      : "topfile",
+#                   "label"   : " ",
+#                   "type"    : "file",
+#                   "required" : "true",
+#                   "help"     : "name of molecular topology file",
+#                   "repeat"   : "top_list_box:c1",
+#                   "norow" : "true"
+#                   },
+#                  {
+#                   "role"    : "input",
+#                   "id"      : "topfile_text",
+#                   "label"   : "enter full path and file name ",
+#                   "type"    : "text",
+#                   "required" : "true",
+#                   "help"     : "name of molecular topology file",
+#                   "repeat"   : "top_list_box:c2",
+#                   "norow" : "true"
+#                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "par_list_box",
+                   "name"    : "par_list_box",
+                   "label"   : "charmm parameter file",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use file on server~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeat" : "advanced_input",
+                   "repeater" : "true",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "parmfile",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "name of molecular parameter file",
+                   "repeat"   : "par_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "parfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of molecular parameter file",
+                   "repeat"   : "par_list_box:c2",
+                   "norow" : "true"
                    },
                   {
                    "role"    : "output",
