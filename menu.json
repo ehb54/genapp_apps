@@ -121,6 +121,11 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
+                          "id"    : "sctcalc",
+                          "label" : "SCTCalc",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
                           "id"    : "sldmol",
                           "label" : "SLD MOL",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]

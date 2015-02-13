@@ -5,6 +5,7 @@
   "version"                   : "0.8",
 #  "languages"                 : [ "html5", "qt3", "qt4" ],
   "languages"                 : [ "html5"],
+  "mongojournal" : "true",
   "executable_path"           :
                                 {
                                  "html5" : "/share/apps/genapp/sassie2/bin",
