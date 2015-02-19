@@ -1,29 +1,41 @@
 # this is a project directives file
+# comments are ok but must start the line in this JSON
 {
-  "title"                     : "genapptest",
+  "title"                     : "SOME TITLE",
+
+# "genapptest" below could be replaced, but you should probably also then replace "genapptest" in the paths below
+# the application name should not contain any special characters
   "application"               : "genapptest",
-  "version"                   : "2.0",
-#  "languages"                 : [ "html5", "qt3", "qt4", "qt5" ],
-  "languages"                 : [ "html5" ],
+
+  "footer"                    : "Test footer",
+  "footersize"                : "50px",
+
+  "version"                   : "0.1",
+# choose your target languages to generate currently from [ "html5", "qt3", "qt4", "qt5" ]
+  "languages"                 : [ "html5", "qt4" ],
 
   "executable_path"           :
                                 {
-                                 "html5" : "/share/apps/genapp/genapptest/bin",
-                                 "qt3"   : "/home/ehb/genapptest/bin",
-                                 "qt4"   : "/home/ehb/genapptest/bin"
+                                 "html5" : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
+                                 "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
+                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin"
+                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin"
                                 },
 
   "docroot"                   :
                                 {
-                                 "html5" : "/share/apps/genapp",
-                                 "qt3"   : "/tmp",
-                                 "qt4"   : "/tmp"
+                                 "html5" : "/REPLACE_WITH_YOUR_WEBROOT",
+                                 "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp",
+                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp"
+                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp"
                                 },
+# these are helper editor and pdb viewer applications and can be changed
   "helper"                    : {
-                                 "txt" :"emacs",
+                                 "txt" :"vi",
                                  "pdb" :"rasmol"
                                 },
 
+# "blue" colors
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",
   "background_color_rgb"      : "0,0,95",
@@ -43,7 +55,7 @@
   "help_background_color_rgb" : "0,0,75",
   "help_text_color_rgb"       : "240,240,210"
 
-# paper colors
+# paper colors (useful for screenshots for publications)
 #  "text_color_rgb"            : "0,0,0",
 #  "error_color_rgb"           : "255,0,0",
 #  "background_color_rgb"      : "255,255,255",
@@ -63,11 +75,18 @@
 #  "help_background_color_rgb" : "230,230,230",
 #  "help_text_color_rgb"       : "0,0,0"
 
+# debugging controls
 #  ,"debugvalues"               : "true"
 #  ,"debugrepeat"               : "true"
-#  "debugrepeatlb"             : "true"
-#  ,"debugpull"                : "true"
+#  ,"debugrepeatlb"             : "true"
+#  ,"debugrepeatinit"           : "true"
+#  ,"debugpull"                 : "true"
 #  ,"debugws"                   : "true"
+#  ,"debugmsg"                  : "true"
+#  ,"debugjob"                  : "true"
 
-  ,"appconfig"                 : "/home/ehb/genapptest/appconfig.json"
+# the following are currently only meaningful for "html5" language
+  ,"appconfig"                 : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/appconfig.json"
+# if you have a 64 bit mongo system "html5", uncomment this
+#  ,"mongojournal"               : "true"
 }
