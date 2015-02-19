@@ -18,7 +18,15 @@ my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => $$ref{ "_udpport" 
 
 $msg = {};
 $$msg{ "_uuid" } = $$ref{ "_uuid" };
-$$msg{ "hi" } = "center messaging";
+# $$msg{ "hi" } = "center messaging";
+$usemessagebox = $$ref{ 'usemessagebox' };
+
+if ( $usemessagebox )
+{
+    $$msg{ "_message" } = {};
+    $$msg{ "_message" }{ 'icon' } = 'skull.png';
+    $$msg{ "_message" }{ 'text' } = 'udp message';
+}
 
 $runminutes = $$ref{ 'runminutes' };
 $sleepsecs = $runminutes * 60;
@@ -30,6 +38,8 @@ if ( $$ref{ 'usemessage' } )
     $messagesecs = $$ref{ 'messagesecs' };
     $runtimes = $sleepsecs / $messagesecs;
     $sleepsecs /= $runtimes;
+    $$msg{ "_progress" } = 0.0;
+    $sock->send( encode_json( $msg ) );
 }    
 
 
@@ -40,16 +50,24 @@ for ( $i = 0; $i < $runtimes; ++$i )
     {
         $$msg{ "output2" } = "Completed " . ( $i+1 ) . " of $runtimes of sleep ${sleepsecs}s";
         $$msg{ "output3" } = $i / $runtimes;
+        $$msg{ "_progress" } = $i / $runtimes;
+        if ( $usemessagebox )
+        {
+            $$msg{ "_message" }{ 'text' } = 'udp message ' . ( $i+1 ) . " of $runtimes of sleep ${sleepsecs}s";
+        }
         $sock->send( encode_json( $msg ) );
     }
 }
 
 $res = {};
 $$res{ "output3" } = 1.0;
-$$res{ "hi" } = "center executable";
+# $$res{ "hi" } = "center executable";
 $$res{ "output1" } = "Fully completed $runtimes runs of sleep ${sleepsecs}s";
-$$res{ "udphost" } = $$ref{ "_udphost" };
-$$res{ "udpport" } = $$ref{ "_udpport" };
+# $$res{ "udphost" } = $$ref{ "_udphost" };
+# $$res{ "udpport" } = $$ref{ "_udpport" };
+$$res{ "_message" } = {};
+$$res{ "_message" }{ 'icon' } = 'information.png';
+$$res{ "_message" }{ 'text' } = 'test message';
 
 open OUT, ">/src/sassie2/log";
 print OUT Dumper($ref);
