@@ -18,7 +18,7 @@
                                 {
                                  "html5" : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
                                  "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin"
+                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
                                  "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin"
                                 },
 
@@ -26,7 +26,7 @@
                                 {
                                  "html5" : "/REPLACE_WITH_YOUR_WEBROOT",
                                  "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp",
-                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp"
+                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp",
                                  "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp"
                                 },
 # these are helper editor and pdb viewer applications and can be changed
