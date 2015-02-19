@@ -9,18 +9,15 @@
             "modules" : [ 
                          { 
                           "id"    : "center",
-                          "label" : "Center",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Center"
                          },
                          { 
                           "id"    : "align",
-                          "label" : "Align",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Align"
                          },
                          { 
                           "id"    : "data_interpolation",
-                          "label" : "Data Interpolation",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Data Interpolation"
                          }
                         ]
             },
@@ -31,13 +28,11 @@
             "modules" : [ 
                          { 
                           "id"    : "build_1",
-                          "label" : "Build 1",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Build 1"
                          },
                          { 
                           "id"    : "build_2",
-                          "label" : "Build 2",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Build 2"
                          }
                         ]
             },
@@ -48,13 +43,11 @@
             "modules" : [ 
                          { 
                           "id"    : "interact_1",
-                          "label" : "Interact 1",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Interact 1"
                          },
                          { 
                           "id"    : "interact_2",
-                          "label" : "Interact 2",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Interact 2"
                          }
                         ]
             },
@@ -65,13 +58,11 @@
             "modules" : [ 
                          { 
                           "id"    : "simulate_1",
-                          "label" : "Simulate 1",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Simulate 1"
                          },
                          { 
                           "id"    : "simulate_2",
-                          "label" : "Simulate 2",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Simulate 2"
                          }
                         ]
             },
@@ -82,13 +73,11 @@
             "modules" : [ 
                          { 
                           "id"    : "calculate_1",
-                          "label" : "Calculate 1",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Calculate 1"
                          },
                          { 
                           "id"    : "calculate_2",
-                          "label" : "Calculate 2",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Calculate 2"
                          }
                         ]
             },
@@ -98,19 +87,12 @@
             "icon"    : "pngs/analyze.png",
             "modules" : [ 
                          { 
-                          "id"    : "pm",
-                          "label" : "Parsimonious Modeling",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
                           "id"    : "analyze_1",
-                          "label" : "Analyze 1",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Analyze 1"
                          },
                          { 
                           "id"    : "analyze_2",
-                          "label" : "Analyze 2",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          "label" : "Analyze 2"
                          }
                         ]
             }
