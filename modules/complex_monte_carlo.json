@@ -18,6 +18,7 @@
                    "label"    : "project name",
                    "type"     : "text",
                    "default"  : "run_0",
+                   "help"     : "results will be placed in a folder called generate/ in the directory name you enter here",
                    "required" : "true"
                    },
                   {
@@ -57,6 +58,7 @@
                    "id"       : "dcdfile",
                    "label"    : "output file name (dcd)",
                    "type"     : "text",
+		   "help"     : "enter name of file that will contain coordinates for accepted structures",
                    "default"  : "run_0.dcd",
                    "required" : "true"
                    },
@@ -66,6 +68,7 @@
                    "label"    : "number of trial attempts",
                    "type"     : "text",
                    "default"  : "20",
+		   "help"     : "enter number of Monte Carlo move attempts",
                    "required" : "true"
                    },
                   {
@@ -74,6 +77,7 @@
                    "label"    : "return to previous structure",
                    "type"     : "text",
                    "default"  : "20",
+                   "help"     : "after this number of failed Monte Carlo steps, the program will reset the current coordinates to a previously accepted structure",
                    "required" : "true"
                    },
                   {
@@ -82,6 +86,7 @@
                    "label"    : "temperature (K)",
                    "type"     : "text",
                    "default"  : "300.0",
+                   "help"  : "enter run temperature in Kelvin",
                    "required" : "true"
                    },
                   {
@@ -99,6 +104,7 @@
                    "label"    : "Enter TOTAL number of segements:",
                    "type"     : "text",
                    "default"  : "2",
+                   "help"  : "enter the sum of flexible and rigid segments",
                    "required" : "true"
                    },
                   {
@@ -107,6 +113,7 @@
                    "label"    : "segment overlap basis",
                    "type"     : "text",
                    "default"  : "CA,CA",
+                   "help"  : "enter the atom name used to check for overlap for each segment",
                    "required" : "true"
                    },
                   {
@@ -116,6 +123,7 @@
                    "type"     : "integer",
                    "default"  : 2,
                    "required" : "true",
+                   "help" : "enter the number of segments that have regions you wish to sample",
                    "repeater" : "true"
                    },
                   {
@@ -124,6 +132,7 @@
                    "label"    : "segment name(s) of flexible segments",
                    "type"     : "text",
                    "default"  : "ENDA,ENDB",
+                   "help"  : "enter the name of each segment that have regions you wish to sample",
                    "required" : "true"
                    },
                   {
@@ -132,6 +141,7 @@
                    "label"    : "structure alignment: low residue",
                    "type"     : "text",
                    "default"  : "95,95",
+                   "help"  : "select the low residue used for structural alignment, this should be in a rigid/non-flexible region for each segment",
                    "required" : "true"
                    },
                   {
@@ -140,6 +150,7 @@
                    "label"    : "structure alignment: high residue",
                    "type"     : "text",
                    "default"  : "110,110",
+                   "help"  : "select the high residue used for structural alignment, this should be in a rigid/non-flexible region for each segment",
                    "required" : "true"
                    },
                   {
@@ -150,6 +161,7 @@
                    "default"  : "2",
                    "required" : "false",
                    "repeat"   : "npsegments",
+		   "help"  : "enter the number of regions that have residues to sample",
                    "norow"    : "true"
                    },
                   {
@@ -160,6 +172,7 @@
                    "default"  : "30.0,30.0",
                    "required" : "false",
                    "repeat"   : "npsegments",
+                   "help"  : "enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
                    "norow"    : "true"
                    },
                   {
@@ -170,6 +183,7 @@
                    "default"  : "123,277",
                    "required" : "false",
                    "repeat"   : "npsegments",
+                   "help"  : "enter the number of the first residue in each of the flexible regions",
                    "norow"    : "true"
                    },
                   {
@@ -180,6 +194,7 @@
                    "default"  : "21,5",
                    "required" : "false",
                    "repeat"   : "npsegments",
+                   "help"  : "enter the number residues in each of the flexible regions",
                    "norow"    : "true"
                    },
                   {
@@ -208,6 +223,7 @@
                    "label"    : "Check Box for Advanced Input",
                    "type"     : "checkbox",
                    "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
                    "repeater" : "true"
                    },
                   {
@@ -217,6 +233,7 @@
                    "type"     : "text",
                    "default"  : "CA",
                    "required" : "true",
+                   "help"  : "select the atom name used to check for overlap",
                    "repeat"  : "advanced_input"
                    },
                   {
@@ -226,6 +243,7 @@
                    "type"     : "text",
                    "default"  : "3.0",
                    "required" : "true",
+                   "help"  : "enter distance for overlap check",
                    "repeat"  : "advanced_input"
                    },
                   {
@@ -235,6 +253,7 @@
                    "type"     : "text",
                    "default"  : "0.0",
                    "required" : "true",
+                   "help" : "discard all accepted structures with a Rg less than this value",
                    "repeat"  : "advanced_input"
                    },
                   {
@@ -244,6 +263,7 @@
                    "type"     : "text",
                    "default"  : "300.0",
                    "required" : "true",
+                   "help" : "discard all accepted structures with a Rg greater than this value",
                    "repeat"  : "advanced_input"
                    },
 		  {
@@ -263,6 +283,7 @@
                    "type"     : "text",
                    "default"  : "0.0",
                    "required" : "true",
+                   "help" : "discard all accepted structures with any atomic coordinates (in the z-axis) less than this value",
                    "repeat"  : "advanced_input"
                    },
 		  {
@@ -282,6 +303,7 @@
                    "type"     : "file",
                    "required" : "false",
 		   "default"  : "contraints.txt",
+		   "help"  : "check this box if you wish to enable atomic constraints",
                    "repeat"  : "cflag_list_box"
                    },
 		  {

@@ -91,6 +91,7 @@
                    "label"   : "output file name (dcd)",
                    "type"    : "text",
                    "default" : "tamd_output.dcd",
+                   "help"     : "enter name of file that will contain coordinates for structures",
                    "required" : "true"
                    },
                   {
@@ -99,6 +100,7 @@
                    "label"   : "number of TAMD steps",
                    "type"    : "text",
                    "default" : "100",
+                   "help" : "usually 100 to 10000 is adequate",
                    "required" : "true"
                    },
                   {
@@ -107,6 +109,7 @@
                    "label"   : "temperature (K)",
                    "type"    : "text",
                    "default" : "300.0",
+                   "help" : "run temperature",
                    "required" : "true"
                    },
                   {
@@ -115,6 +118,7 @@
                    "label"   : "check box to keep output files",
                    "type"    : "checkbox",
                    "checked" : "true",
+                   "help"  : "useful to debug troublesome runs",
                    "required" : "true"
                    },
                   {
@@ -123,6 +127,7 @@
                    "label"   : "DCD write frequency",
                    "type"    : "text",
                    "default" : "20",
+                   "help" : "how often to save preliminary structures: should be a factor of the number of simulation steps",
                    "required" : "true"
                    },
                   {
@@ -131,6 +136,7 @@
                    "label"   : "dna segment names",
                    "type"    : "text",
                    "default" : "None",
+                   "help" : "input is only required for systems with DNA: enter name of each DNA containing segment",
                    "required" : "true"
                    },
                   {
@@ -139,6 +145,7 @@
                    "label"   : "number of preliminary minimization steps",
                    "type"    : "text",
                    "default" : "2000",
+                   "help" : "structures need extensive minimization: usually 2000 or more is adequate",
                    "required" : "true"
                    },
                   {
@@ -147,6 +154,7 @@
                    "label"   : "poll frequency (seconds)",
                    "type"    : "text",
                    "default" : "60",
+                   "help" : "how often should the output files be probed to see if a run is complete: use a longer poll time for longer runs",
                    "required" : "true"
                    },
                   {
@@ -155,6 +163,7 @@
                    "label"   : "Rg force",
                    "type"    : "text",
                    "default" : "0",
+                   "help" : "use a larger value if you wish to use a Rg constraint",
                    "required" : "true"
                    },
                   {
@@ -163,6 +172,7 @@
                    "label"   : "Rg value",
                    "type"    : "text",
                    "default" : "0",
+                   "help" : "enter a non-zero value of the intended Rg if you wish to use a Rg constraint",
                    "required" : "true"
                    },
                   {
@@ -181,6 +191,7 @@
                    "type"     : "integer",
                    "default"  :  1,
                    "required" : "true",
+                   "help"  : "enter the number of segments that have residues to sample",
                    "repeater" : "true"
                    },
                   {
@@ -190,6 +201,7 @@
                    "type"     : "text",
                    "required" : "true",
 		   "default"  : "GAG",
+		   "help"  : "enter name of this flexible segment",
                    "repeat"   : "number_flexible_segments",
                    "norow"    : "true"
                    },
@@ -201,6 +213,7 @@
                    "required" : "true",
 		   "default"  : "1",
                    "repeat"   : "number_flexible_segments",
+                   "help"  : "enter the number of regions that have residues to sample",
                    "norow"    : "true"
                    },
                   {
@@ -211,6 +224,7 @@
                    "required" : "true",
 		   "default"  : "121",
                    "repeat"   : "number_flexible_segments",
+                   "help"  : "enter the number of the first residue in each of the flexible regions",
                    "norow"    : "true"
                    },
                   {
@@ -221,6 +235,7 @@
                    "required" : "true",
 		   "default"  : "23",
                    "repeat"   : "number_flexible_segments",
+                   "help"  : "enter the number residues in each of the flexible regions",
                    "norow"    : "true"
                    },
                   {

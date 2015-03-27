@@ -123,6 +123,7 @@
                    "label"   : "output file name (dcd)",
                    "type"    : "text",
                    "default" : "min_run_0.dcd",
+                   "help"     : "enter name of file that will contain coordinates for minimized structures",
                    "required" : "true"
                    },
                   {
@@ -131,6 +132,7 @@
                    "label"   : "number of minimization steps",
                    "type"    : "text",
                    "default" : "100",
+                   "help" : "usually between 100 to 5000 should be sufficient",
                    "required" : "true"
                    },
                   {
@@ -139,6 +141,7 @@
                    "label"   : "number of processors",
                    "type"    : "text",
                    "default" : "1",
+                   "help" : "choose between 1 and 8",
                    "required" : "true"
                    },
                   {
@@ -148,6 +151,7 @@
                    "label"    : "keep run output files",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
+                   "help"  : "useful to debug troublesome runs",
                    "default" : "c1"
                    },
                   {
@@ -156,6 +160,7 @@
                    "label"   : "DCD write frequency",
                    "type"    : "text",
                    "default" : "20",
+                   "help" : "how often to save preliminary minimized structures: should be a factor of the number of energy minimization steps",
                    "required" : "true"
                    },
                   {
@@ -165,6 +170,7 @@
                    "label"   : "run type",
                    "type"    : "listbox",
                    "values"  : "minimization~c1~minimization / md~c2~minimization / md / minimization~c3",
+                   "help" : "one can choose a combination of minimization and MD runs",
                    "default" : "c1"
                    },
                   {
@@ -173,6 +179,7 @@
                    "label"   : "number md timesteps (1 step = 2 fs)",
                    "type"    : "text",
                    "default" : "10000",
+                   "help" : "if one chooses a MD option then the number of steps entered here is used",
                    "required" : "true"
                    },
                   {
@@ -181,6 +188,7 @@
                    "label"   : "solvent dielectric",
                    "type"    : "text",
                    "default" : "1.0",
+                   "help" : "required by MD option, not for energy minimization",
                    "required" : "true"
                    },
                   {
@@ -189,6 +197,7 @@
                    "label"   : "temperature (K)",
                    "type"    : "text",
                    "default" : "300.0",
+                   "help" : "required by MD option, not for energy minimization",
                    "required" : "true"
                    },
                    {
@@ -206,6 +215,7 @@
                    "label"    : "Check Box for Advanced Input",
                    "type"     : "checkbox",
                    "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
                    "repeater" : "true"
                    },
 #                  {
