@@ -44,5 +44,6 @@
   "help_text_color_rgb"       : "240,240,210"
 
   ,"appconfig"                 : "/share/apps/genapp/sassie2/appconfig.json"
+  ,"logdirectory"              : "_logs"
 }
 

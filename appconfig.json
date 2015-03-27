@@ -1,6 +1,11 @@
 
 {
-  "smtpmail" : {
+  "mail"     : {
+                "admin"    : "emre@biochem.uthscsa.edu"
+                ,"feedback" : "madscatt@googlegroups.com,emre@biochem.uthscsa.edu,curtisj@nist.gov"
+                ,"from"     : "sassie-web.chem.utk.edu"
+               }
+  ,"smtpmail" : {
                 "admin"    : "emre@biochem.uthscsa.edu",
                 "from"     : "sassie-web.chem.utk.edu",
                 "host"     : "vownet.net",

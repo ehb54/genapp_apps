@@ -92,6 +92,11 @@
                           "id"    : "docking",
                           "label" : "Docking ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "two_body_grid",
+                          "label" : "Two-Body Grid ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
             },
@@ -122,7 +127,7 @@
                          },
                          { 
                           "id"    : "sctcalc",
-                          "label" : "SCTCalc",
+                          "label" : "SCT Calculate",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
@@ -145,6 +150,11 @@
                          { 
                           "id"    : "chi_square_filter",
                           "label" : "Chi-Square Filter",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sctanal",
+                          "label" : "SCT Analyze",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 

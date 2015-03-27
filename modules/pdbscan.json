@@ -86,6 +86,13 @@
                    },
                   {
                     "role"    : "output",
+                    "id"      : "report_html",
+                    "name"    : "report_html",
+                    "label"   : "report : ",
+                    "type"    : "html"
+                   },
+                  {
+                    "role"    : "output",
                     "id"      : "sasoutput2",
                     "name"    : "sasoutput2",
                     "label"   : " ",
