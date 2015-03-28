@@ -56,6 +56,7 @@
                    "id"      : "merge_option_list_box",
                    "label"   : "select option",
                    "type"    : "listbox",
+                   "help"    : "user can merge both trajectory data (dcd) and sas data, or only sas data",
                    "values"  : "merge dcd and sas~c1~merge sas only~c2",
                    "default" : "c1"
                    },
@@ -65,6 +66,7 @@
                    "label"    : "run name paths",
                    "type"     : "text",
 		   "default"  : "run_m1,run_m2",
+		   "help"  : "enter directories that contain data you wish to merge",
                    "required" : "true"
 	           },
                   {
@@ -73,6 +75,7 @@
                    "label"    : "dcd filenames",
                    "type"     : "text",
 		   "default"  : "generate/run_m1.dcd,generate/run_m2.dcd",
+		   "help"  : "enter paths, within the run name paths, where trajectory (dcd) data are located",
                    "required" : "true"
                    },
                   {
@@ -81,6 +84,7 @@
                    "name"    : "sas_type_list_box",
                    "label"   : "select SAS type",
                    "type"    : "listbox",
+                   "help"    : "pick the SAS calculator that generated data you wish to merge",
                    "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
                    "default" : "c1"
                    },
@@ -90,6 +94,7 @@
                    "label"    : "sas path",
                    "type"     : "text",
                    "default"  : "xtal2sas",
+                   "help"  : "this can be anything, but the default values are xtal2sas, cryson, or crysol",
                    "required" : "true"
                    },
                   {

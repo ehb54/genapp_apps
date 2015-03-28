@@ -57,6 +57,7 @@
                    "label"    : "output file name",
                    "type"     : "text",
                    "default"  : "caw_0p6mgml.dat",
+                   "help"  : "data file should have three columns: q, I(q), and error",
                    "required" : "true"
                    },
                   {
@@ -65,6 +66,7 @@
                    "label"    : "I(0)",
                    "type"     : "float",
                    "default"  : 0.011,
+                   "help"  : "experimentally derived I(0), usually predicted, by Guiner analysis",
 #                   "min"      : 0.0,
 #                   "max"      : 1e50,
                    "required" : "true"
@@ -75,6 +77,7 @@
                    "label"    : "I(0) error",
                    "type"     : "float",
                    "default"  : 0.001,
+                   "help"  : "estimated error of the user supplied I(0)",
                    "required" : "true"
                    },
                   {
@@ -83,6 +86,7 @@
                    "label"    : "new delta q",
                    "type"     : "float",
                    "default"  : 0.01,
+                   "help"  : "desired q-spacing between interpolated points: needs to be consistent with spacing used in SAS calculator modules",
                    "required" : "true"
                    },
                   {
@@ -91,6 +95,7 @@
                    "label"    : "number of new q-values",
                    "type"     : "integer",
                    "default"  : 30,
+                   "help"  : "range will be from 0 to a maximum q-value of (number of q-values - 1) * delta q",
                    "required" : "true"
                    },
                   {
