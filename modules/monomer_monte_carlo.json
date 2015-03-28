@@ -96,7 +96,8 @@
                    "label"    : "molecule type",
                    "type"    : "listbox",
                    "values"  : "protein~c1~rna~c2",
-                   "default" : "c1"
+                   "default" : "c1",
+                   "help" : "choose the molecule type"
                    },
                   {
                    "role"     : "input",
@@ -240,6 +241,7 @@
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
                    "default" : "c1",
+                   "help" : "not implemented: future -> choose to display Rg values during Monte Carlo run",
                    "repeat"  : "advanced_input"
                    },
                   {

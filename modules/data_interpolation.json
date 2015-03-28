@@ -39,6 +39,7 @@
                    "label"    : "input data file",
                    "type"    : "file",
                    "required" : "true",
+                   "help" : "choose the experimental data file",
                    "repeat"   : "data_file_list_box:c1",
                    "norow" : "true"
                    },
@@ -48,6 +49,7 @@
                    "label"   : "enter full path and file name ",
                    "type"    : "text",
                    "required" : "true",
+                   "help" : "choose the experimental data file",
                    "repeat"   : "data_file_list_box:c2",
                    "norow" : "true"
                    },

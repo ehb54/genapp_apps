@@ -204,6 +204,7 @@
                    "type"     : "listbox",
                    "values"   : "dna~c1~rna~c2~protein~c3",
                    "default"  : "c3",
+                   "help"  : "choose a molecule type for this segment",
                    "required" : "false",
                    "repeat"   : "npsegments",
                    "norow"    : "true"
@@ -293,6 +294,7 @@
                    "label"    : "check box to use atomic constraints",
                    "type"    : "checkbox",
                    "checked" : "false",
+		   "help"  : "check this box if you wish to enable atomic constraints",
                    "repeat"  : "advanced_input",
 		   "repeater" : "true"
                    },
@@ -303,7 +305,7 @@
                    "type"     : "file",
                    "required" : "false",
 		   "default"  : "contraints.txt",
-		   "help"  : "check this box if you wish to enable atomic constraints",
+		   "help"  : "enter file name with constraint definitions",
                    "repeat"  : "cflag_list_box"
                    },
 		  {
@@ -314,6 +316,7 @@
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
                    "default" : "c1",
+                   "help" : "not implemented: future -> choose to display Rg values during Monte Carlo run",
                    "repeat"  : "advanced_input"
                    },
                   {

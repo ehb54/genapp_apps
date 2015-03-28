@@ -246,6 +246,7 @@
                    "values"   : "protein~c1~dna~c2~rna~c3",
                    "required" : "true",
 	 	   "default"  : "c1",
+	 	   "help"  : "choose a molecule type",
                    "repeat"   : "number_flexible_segments",
                    "norow"    : "true"
                    },

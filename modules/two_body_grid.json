@@ -252,6 +252,7 @@
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
                    "default" : "c1",
+                   "help" : "choose yes to discard all accepted structures with any atomic coordinates (in the z-axis) less than this value",
                    "repeat"  : "advanced_input"
                    },
                   {
