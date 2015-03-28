@@ -37,7 +37,8 @@
                    "label"   : "select EM file type",
                    "type"    : "listbox",
                    "values"  : "mrc~c1~Gaussian cube~c2",
-                   "default" : "c2"
+                   "default" : "c2",
+                   "help" : "choose an input map type"
                    },
                   {
                    "role"    : "input",
@@ -77,14 +78,16 @@
                    "label"    : "mrc angstroms/pixel resolution (x,y,z)",
                    "type"     : "text",
 		   "default"  : "20.0,20.0,20.0",
+		   "help"  : "values only required for MRC input maps",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "pdbfile",
-                   "label"    : "ouput file name (pdb)",
+                   "label"    : "output file name (pdb)",
                    "type"     : "text",
                    "default"  : "p20a.pdb",
+                   "help"  : "module creates a PDB file of balls that fit inside the EM map",
                    "required" : "true"
                    },
                   {
@@ -93,6 +96,7 @@
                    "label"    : "cutoff threshold",
                    "type"     : "text",
                    "default"  : "0.1",
+                   "help"  : "sets the three-dimensional contour to define the EM map",
                    "required" : "true"
                    },
                   {
@@ -101,6 +105,7 @@
                    "label"    : "output SANS profile file name",
                    "type"     : "text",
                    "default"  : "p20a.sub",
+                   "help"  : "module creates a SANS profile file for the EM map",
                    "required" : "true"
                    },
                   {
@@ -109,6 +114,7 @@
                    "label"    : "number of q points in SANS profile",
                    "type"     : "text",
                    "default"  : "100",
+                   "help"  : "enter the number of I(q) values in the output SANS profile",
                    "required" : "true"
                    },
                   {
@@ -117,6 +123,7 @@
                    "label"    : "maximum q in SANS profile",
                    "type"     : "text",
                    "default"  : "0.3",
+                   "help"  : "(1/angstrom)",
                    "required" : "true"
                    },
                   {

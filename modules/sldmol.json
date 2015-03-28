@@ -18,6 +18,7 @@
                    "label"    : "project name",
                    "type"     : "text",
                    "default"  : "run_0",
+                   "help"     : "results will be placed in a folder called sld/ in the directory name you enter here",
                    "required" : "true"
                    },
                   {
@@ -71,7 +72,7 @@
                    "label"   : " ",
                    "type"    : "file",
                    "required" : "true",
-                   "help"     : "name of DCD or PDB file with coordinates you wish to center",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SLD profiles",
                    "repeat"   : "dcd_list_box:c1",
                    "norow" : "true"
                    },
@@ -82,7 +83,7 @@
                    "type"    : "text",
                    "required" : "true",
                    "default"  : "a5.dcd",
-                   "help"     : "name of DCD or PDB file with coordinates you wish to center",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SLD profiles",
                    "repeat"   : "dcd_list_box:c2",
                    "norow" : "true"
                    },
@@ -104,6 +105,7 @@
                    "label"   : " ",
                    "type"    : "file",
                    "required" : "true",
+                   "help" : "data file : three columns : z, SLD(z), SLD(z) error",
                    "repeat"   : "data_list_box:c1",
                    "norow" : "true"
                    },
@@ -114,6 +116,7 @@
                    "type"    : "text",
                    "required" : "true",
                    "default"  : "SNS_dDPPG_myrdNef_nSLD.txt",
+                   "help" : "data file : three columns : z, SLD(z), SLD(z) error",
                    "repeat"   : "data_list_box:c2",
                    "norow" : "true"
                    },
@@ -123,6 +126,7 @@
                    "label"    : "output file name:",
                    "type"     : "text",
                    "default"  : "tmp_smoothdist.txt",
+                   "help"  : "name of output SLD data file calculated by module",
                    "required" : "true"
                    },
                   {
@@ -142,6 +146,7 @@
                    "type"     : "listbox",
                    "values"   : "average_structural_sld~c1~individual_sld~c2",
                    "default"  : "c1",
+                   "help"  : "the average SLD (fast), or ensemble member SLD with fitting (slow)",
                    "required" : "true"
                    },
                   {
@@ -150,6 +155,7 @@
                    "label"    : "scattering length density of bulk:",
                    "type"     : "text",
                    "default"  : "-0.51E-6",
+                   "help"  : "bulk SLD of solvent",
                    "required" : "true"
                    },
 		          {
@@ -159,6 +165,7 @@
                    "type"     : "listbox",
                    "values"   : "neutrons~c1~X_ray~c2",
                    "default"  : "c1",
+                   "help"  : "choose a scattering type",
                    "required" : "true"
                    },
                   {
@@ -167,6 +174,7 @@
                    "label"    : "number of deuterated regions:",
                    "type"     : "text",
                    "default"  : "1",
+                   "help"  : "enter the number or regions that you wish to model as fully deuterated",
                    "required" : "true"
                    },
                   {
@@ -175,6 +183,7 @@
                    "label"    : "first amino acid per region:",
                    "type"     : "text",
                    "default"  : "1",
+                   "help"  : "enter the number of the first residue in each of the deuterated regions",
                    "required" : "true"
                    },
                   {
@@ -183,6 +192,7 @@
                    "label"    : "last amino acid per region:",
                    "type"     : "text",
                    "default"  : "200",
+                   "help"  : "enter the number of the last residue in each of the deuterated regions",
                    "required" : "true"
                    },
                   {
@@ -191,6 +201,7 @@
                    "label"    : "bin width to decompose protein (angstroms):",
                    "type"     : "text",
                    "default"  : "0.2",
+                   "help"  : "user defined resolution of the SLD calculation",
                    "required" : "true"
                    },
                   {
@@ -199,6 +210,7 @@
                    "label"    : "scattering length smoothing width (angstroms):",
                    "type"     : "text",
                    "default"  : "2.5",
+                   "help"  : "smoothing improves results",
                    "required" : "true"
                    },
 		  {
@@ -208,6 +220,7 @@
                    "type"     : "listbox",
                    "values"   : "no~c1~yes~c2",
                    "default"  : "c1",
+                   "help"  : "fit to each SLD (average or ensemble members): time consuming",
                    "required" : "true"
                    },
                   {
@@ -216,6 +229,7 @@
                    "label"    : "experiment SLD offset correction (angstroms):",
                    "type"     : "text",
                    "default"  : "0.0",
+                   "help"  : "required for imprecise data reduction",
                    "required" : "true"
                    },
                    {
@@ -223,6 +237,7 @@
                    "id"       : "fitting_header5",
                    "label"    : "z fitting anchor position (angstroms)",
                    "type"     : "label",
+                   "help"     : "required to defined position of protein in SLD(z)",
                    "prehline"  : "true"
                    },
                    {
@@ -231,6 +246,7 @@
                    "label"    : "Initial Estimate",
                    "type"     : "text",
                    "default"  : "25.0",
+                   "help"  : "angstroms",
                    "norow"    : "true"
                    },
                    {
@@ -239,6 +255,7 @@
                    "label"    : "Fit minimum",
                    "type"     : "text",
                    "default"  : "20.0",
+                   "help"  : "angstroms",
                    "norow"    : "true"
                    },
                    {
@@ -247,6 +264,7 @@
                    "label"    : "Fit maximum",
                    "type"     : "text",
                    "default"  : "30.0",
+                   "help"  : "angstroms",
                    "norow"    : "true"
                    },
                    {
@@ -254,6 +272,7 @@
                    "id"       : "fitting_header6",
                    "label"    : "error evaluation range (angstroms)",
                    "type"     : "label",
+                   "help"     : "user defined range to select region to calculate error",
                    "prehline"  : "true"
                    },
                    {
@@ -276,6 +295,7 @@
                    "label"    : "Fit minimum",
                    "type"     : "text",
                    "default"  : "28.0",
+                   "help"  : "angstroms",
                    "norow"    : "true"
                    },
                    {
@@ -283,7 +303,8 @@
                    "id"       : "zevalmax",
                    "label"    : "Fit maximum",
                    "type"     : "text",
-                   "default"  : "145.0"
+                   "default"  : "145.0",
+                   "help"  : "angstroms"
                    },
                    {
                    "role"       : "input",
@@ -298,6 +319,7 @@
                    "label"    : "Initial Estimate",
                    "type"     : "text",
                    "default"  : "0.3",
+                   "help"  : "fractional surface coverage",
                    "norow"    : "true"
                    },
                    {
@@ -306,6 +328,7 @@
                    "label"    : "Fit minimum",
                    "type"     : "text",
                    "default"  : "0.2",
+                   "help"  : "minimal fractional surface coverage",
                    "norow"    : "true"
                    },
                    {
@@ -314,6 +337,7 @@
                    "label"    : "Fit maximum",
                    "type"     : "text",
                    "default"  : "0.4",
+                   "help"  : "maximal fractional surface coverage",
                    "norow"    : "true"
                    },
                   {

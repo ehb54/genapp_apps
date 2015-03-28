@@ -38,7 +38,7 @@
                    "type"     : "integer",
                    "default"  : 2,
                    "required" : "true",
-                   "help" : "each file should only contain one of the three: protein, DNA, or RNA",
+                   "help" : "enter an integer AND press TAB to refresh: each file should only contain one of the three: protein, DNA, or RNA",
                    "repeater" : "true"
                    },
                   {
@@ -164,7 +164,7 @@
                    "label"    : "total solute concentration (mg/ml)",
                    "type"     : "text",
                    "default"  : "1.00",
-                   "help"  : "solute is protein + DNA + RNA",
+                   "help"  : "solute is protein + DNA + RNA + non-protein, non-RNA and non-DNA components",
                    "required" : "true"
                    },
                   {
@@ -200,7 +200,7 @@
                    "label"    : "number of non-water solvent components",
                    "type"     : "integer",
                    "default"  : 1,
-                   "help"  : "generally, these co-solutes are inorganic",
+                   "help"  : "enter an integer AND press TAB to refresh: generally, these co-solvent(s) are inorganic",
                    "required" : "true",
                    "repeater" : "true"
                    },

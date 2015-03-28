@@ -15,7 +15,7 @@
                    {
                    "role"       : "input",
                    "id"       : "message",
-                   "label"    : "Module under development: due end of 2014",
+                   "label"    : "Module under development: due Spring 2015",
                    "type"     : "label",
                    "default"  : "header3",
                    "prehline"  : "true",
@@ -103,14 +103,7 @@
                    "type"     : "listbox",
                    "values"   : "neutrons~c1~X_ray~c2",
                    "default"  : "c1",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "max_q",
-                   "label"   : "maximum q value: ",
-                   "type"    : "text",
-                   "default" : "0.5",
+                   "help"  : "choose a scattering type",
                    "required" : "true"
                    },
                   {
@@ -119,6 +112,17 @@
                    "label"   : "number of q values:",
                    "type"    : "text",
                    "default" : "50",
+#                   "help" : "delta q = maximum q-value / (number q-values - 1)",
+                   "help" : "enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "max_q",
+                   "label"   : "maximum q value: ",
+                   "type"    : "text",
+                   "default" : "0.5",
+                   "help" : "(1/angstrom)",
                    "required" : "true"
                    },
                   {
@@ -127,6 +131,7 @@
                    "label"   : "I(0):",
                    "type"    : "text",
                    "default" : "1.0",
+                   "help" : "experimentally determined value of I(0): usually determined by Guiner analysis",
                    "required" : "true"
                    },
                   {
@@ -135,25 +140,27 @@
                    "label"   : "initial number of golden vectors:",
                    "type"    : "text",
                    "default" : "21",
-                   "required" : "true",
-		   "help"    : "must be an odd number"
+                   "help" : "must be an odd number of vectors: typically 21 to 51 are adequate",
+                   "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "pRDF",
-                   "label"    : "Check here if pRDF solvent model is needed",
+                   "label"    : "Check box to enable HyPred pRDF solvent model",
                    "type"     : "checkbox",
                    "checked"  : "false",
+                   "help"  : "not yet implemented",
                    "repeater" : "true"
                    },
                   {
                    "role"       : "input",
                    "id"       : "surface",
-                   "label"    : "variables for surface atom finding",
+                   "label"    : "variables to determine surface atoms",
                    "type"     : "label",
                    "prehline"  : "true",
                    "posthline"  : "true",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                   },
@@ -164,6 +171,7 @@
                    "type"     : "text",
                    "default:" : "1.8",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                   },
@@ -174,6 +182,7 @@
                    "type"     : "text",
                    "default:" : "2.5",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                   },
@@ -184,6 +193,7 @@
                    "type"     : "text",
                    "default:" : "-15.0",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                   },
@@ -194,6 +204,7 @@
                    "type"     : "text",
                    "default:" : "1.0",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                   },
@@ -204,6 +215,7 @@
                    "type"     : "text",
                    "default:" : "90",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                   },
@@ -214,6 +226,7 @@
                    "type"     : "text",
                    "default:" : "0.3",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                   },
@@ -225,6 +238,7 @@
                    "prehline"  : "true",
                    "posthline"  : "true",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                   },
@@ -234,6 +248,7 @@
                    "label"   : "prdf file name:",
                    "type"    : "file",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                    },
@@ -244,6 +259,7 @@
                    "type"     : "text",
                    "default:" : "0.5",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
                    },
@@ -254,6 +270,7 @@
                    "type"     : "text",
                    "default:" : "7.0",
                    "required" : "false",
+                   "help"  : "not yet implemented",
                    "repeat"   : "pRDF"
                    #"norow"    : "true"
 	 	   },
