@@ -111,10 +111,10 @@
                   {
                    "role"     : "input",
                    "id"       : "dtheta",
-                   "label"    : "enter MAX [dtheta] for each region",
+                   "label"    : "enter maximum angle sampled in a single Monte Carlo step for each region",
                    "type"     : "text",
                    "default"  : "30.0,30.0,30.0,30.0,30.0",
-                   "help"  : "enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
+                   "help"  : "(degrees): enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
                    "required" : "true"
                    },
                   {
@@ -221,6 +221,7 @@
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
                    "default" : "c1",
+                   "help" : "choose YES to discard all accepted structures with any atomic coordinates (in the z-axis) less than the Z cutoff value below", 
                    "repeat"  : "advanced_input"
                    },
                   {
