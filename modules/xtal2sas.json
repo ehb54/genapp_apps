@@ -109,7 +109,7 @@
                    "label"    : "intensity at I(0)",
                    "type"     : "text",
                    "default"  : "1.0",
-                   "help" : "experimentally determined value of I(0): usually determined by Guiner analysis",
+                   "help" : "experimentally determined value of I(0): usually determined by Guinier analysis",
                    "required" : "true"
                    },
                   {

@@ -91,30 +91,34 @@
                    "label"    : "output file name prefix",
                    "type"     : "text",
 		   "default"  : "test",
+		   "help"  : "output Gaussian cube files will have this prefix in the file name: useful for multiple runs in same project folder",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "xlength",
-                   "label"    : "xlength (angstroms)",
+                   "label"    : "x-length (angstroms)",
                    "type"     : "text",
                    "default"  : "350",
+                   "help"  : "estimate of molecular dimension along the x-axis",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "ylength",
-                   "label"    : "ylength (angstroms)",
+                   "label"    : "y-length (angstroms)",
                    "type"     : "text",
                    "default"  : "350",
+                   "help"  : "estimate of molecular dimension along the y-axis",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "zlength",
-                   "label"    : "zlength (angstroms)",
+                   "label"    : "z-length (angstroms)",
                    "type"     : "text",
                    "default"  : "350",
+                   "help"  : "estimate of molecular dimension along the z-axis",
                    "required" : "true"
                    },
                   {
@@ -123,6 +127,7 @@
                    "label"    : "grid spacing (angstroms)",
                    "type"     : "text",
                    "default"  : "5.0",
+                   "help"  : "size of voxels: typically 4 to 10 is adequate",
                    "required" : "true"
                    },
                   {
@@ -132,7 +137,8 @@
                    "label"   : "save occupancy information",
                    "type"    : "listbox",
                    "values"  : "no~c1~yes~c2",
-                   "default" : "c1"
+                   "default" : "c1",
+                   "help" : "useful to keep this information for debugging or futher analysis"
                    },
                   {
                    "role"    : "input",
@@ -141,6 +147,7 @@
                    "type"    : "checkbox",
                    "checked" : "false",
                    "repeater" : "true",
+                   "help" : "options are useful to create specific density plots",
 		   "norow"   : "true"
                    },
                   {
@@ -171,7 +178,7 @@
                    "label"    : "weights file name",
                    "type"     : "text",
 		   "default"  : "run_0/filter/x2lowweights.txt",
-                   "help"     : "name of file containing weighting information for each structure in trajectory",
+                   "help"     : "name of file (optionally including the path) containing weighting information for each structure in trajectory",
 		   "norow"   : "true",
                    "repeat"   : "weight_flag_list_box:c2"
                    },
@@ -181,6 +188,7 @@
                    "label"    : "number of segments",
                    "type"     : "integer",
                    "default"  : 1,
+                   "help"  : "enter an integer AND press TAB to refresh: for systems with multiple segments one can create families of density plots, each saved in a separate file",
                    "required" : "true",
 		   "repeater" : "true"
                    },
@@ -190,6 +198,7 @@
                    "label"    : "number of ranges",
                    "type"     : "text",
                    "default"  : "5",
+                   "help"  : "choose the number of ranges for this segment",
                    "required" : "true",
 		   "norow"    : "true",
                    "repeat"  : "nsegments"
@@ -200,6 +209,7 @@
                    "label"    : "enter low regions",
                    "type"     : "text",
                    "default"  : "1,124,143,355,380",
+                   "help"  : "select the low residue used for this density plot",
                    "required" : "true",
 		   "norow"    : "true",
                    "repeat"  : "nsegments"
@@ -210,6 +220,7 @@
                    "label"    : "enter high regions",
                    "type"     : "text",
                    "default"  : "123,142,353,379,420",
+                   "help"  : "select the high residue used for this density plot",
                    "required" : "true",
 		   "norow"    : "true",
                    "repeat"  : "nsegments"
@@ -220,6 +231,7 @@
                    "label"    : "segment basis",
                    "type"     : "text",
                    "default"  : "CA",
+                   "help"  : "enter an atom name to determine occupancy in each voxel",
                    "required" : "true",
 		   "norow"    : "true",
                    "repeat"  : "nsegments"
@@ -230,6 +242,7 @@
                    "label"    : "segment name",
                    "type"     : "text",
                    "default"  : "GAG",
+                   "help"  : "name of this segment from PDB file",
                    "required" : "true",
 		   "norow"    : "true",
                    "repeat"  : "nsegments"

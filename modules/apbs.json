@@ -18,6 +18,7 @@
                    "label"      : "project name",
                    "type"       : "text",
                    "default"    : "run_0",
+                   "help"     : "results will be placed in a folder called contrast_calc/ in the directory name you enter here",
                    "required"   : "true"
                    },
                   {
@@ -90,6 +91,7 @@
                    "label"   : "output file name",
                    "type"    : "text",
                    "default" : "apbs.dat",
+                   "help" : "name of file containing data from run",
                    "required" : "true"
                    },
                   {
@@ -98,6 +100,7 @@
                    "label"   : "pH",
                    "type"    : "text",
                    "default" : "5.2",
+                   "help" : "enter a pH for your system",
                    "required" : "true"
                    },
                   {
@@ -106,6 +109,7 @@
                    "label"   : "temperature (K)",
                    "type"    : "text",
                    "default" : "300.0",
+                   "help"  : "enter run temperature in Kelvin", 
                    "required" : "true"
                    },
                   {
@@ -114,6 +118,7 @@
                    "label"   : "ion concentration (M):",
                    "type"    : "text",
                    "default" : "0.15",
+                   "help" : "enter total ion concentration for your system",
                    "required" : "true"
                    },
                   {
@@ -122,6 +127,7 @@
                    "label"   : "ion charge:",
                    "type"    : "text",
                    "default" : "1.0",
+                   "help" : "enter valency of ionic charge for your system",
                    "required" : "true"
                    },
                   {
@@ -130,6 +136,7 @@
                    "label"   : "largest ion radius:",
                    "type"    : "text",
                    "default" : "1.62",
+                   "help" : "enter ion radius (angstrom)",
                    "required" : "true"
                    },
                   {
@@ -138,6 +145,7 @@
                    "label"    : "user input file",
                    "type"    : "checkbox",
                    "checked" : "false",
+                   "help" : "not yet implemented: future -> check this box to upload an input file for your run: this will override local inputs",
                    "repeater" : "true"
                    },
                   {
@@ -158,6 +166,7 @@
                    "id"       : "manualfile",
                    "label"    : "user apbs input file name",
                    "type"     : "file",
+                   "help"     : "apbs input file",
                    "required" : "false",
                    "repeat"  : "file_list_box:c1" 
                    },
@@ -167,6 +176,7 @@
                    "label"    : "user apbs input file name",
                    "type"    : "text",
                    "default"  : "apbs_input.in",
+                   "help"     : "apbs input file",
                    "required" : "false",
                    "repeat"  : "file_list_box:c2" 
                    },

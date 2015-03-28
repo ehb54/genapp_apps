@@ -27,6 +27,7 @@
                    "label"    : "path to SAS files",
                    "type"     : "text",
                    "default"  : "run_0/xtal2sas/",
+                   "help"  : "enter directory that contain SAS profiles you wish to compare to experimental data",
                    "required" : "true"
                    },
                   {
@@ -68,7 +69,7 @@
                    "type"     : "text",
                    "default"  : "0.019",
                    "required" : "true",
-		   "help"     : "experimental scattering intensity at zero-angle ... usually obtained by Guinier analysis"
+		   "help"  : "experimentally derived I(0), usually predicted, by Guinier analysis"
                    },
                   {
                    "role"    : "input",
@@ -77,7 +78,8 @@
                    "label"   : "SAS type",
                    "type"    : "listbox",
                    "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
-                   "default" : "c1"
+                   "default" : "c1",
+                   "help" : "choose a scattering data file type"
                    },
                   {
                    "role"    : "input",
@@ -86,7 +88,8 @@
                    "label"   : "chi-square type",
                    "type"    : "listbox",
                    "values"  : "reduced chi-square~c1~chi-square~c2~Pearson chi-square~c3",
-                   "default" : "c1"
+                   "default" : "c1",
+                   "help" : "choose statistical fit method"
                    },
                   {
                    "role"     : "input",
