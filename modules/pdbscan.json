@@ -15,7 +15,7 @@
                    {
                    "role"       : "input",
                    "id"       : "message",
-                   "label"    : "Module under development: due end of 2014",
+                   "label"    : "Module under development: only complete PDB headers for proteins is implemented",
                    "type"     : "label",
                    "default"  : "header3",
                    "prehline"  : "true",
