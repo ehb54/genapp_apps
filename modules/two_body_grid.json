@@ -299,7 +299,7 @@
                   {
                    "role"     : "input",
                    "id"       : "excluded_input",
-                   "label"    : "Check Box for Exclude Residues",
+                   "label"    : "Check Box to Exclude Residues from Overlap Check",
                    "type"     : "checkbox",
                    "checked"  : "false",
                    "help"  : "select this if you wish to NOT include specifc atoms in the check for atomic overlap",

@@ -1,0 +1,193 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "sctcalc",
+    "label"    : "SCT Calculate",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"         : "module_header",
+                   "label"      : "SCT Calculate",
+                   "type"       : "label",
+                   "default"    : "header4",
+                   "prehline"   : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"       : "results will be placed in a folder called sascalc/ in the directory name you enter here"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "refpdb_list_box",
+                   "name"      : "refpdb_list_box",
+                   "label"     : "pdb reference file name:",
+                   "type"      : "listbox",
+                   "values"    : "upload file~c1~use file on server~c2",
+                   "default"   : "c1",
+                   "help"      : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater"  : "true",
+                   "norow"     : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "pdbfile",
+                   "label"     : " ",
+                   "type"      : "file",
+                   "required"  : "true",
+                   "help"      : "name of PDB file for atom naming purposes",
+                   "repeat"    : "refpdb_list_box:c1",
+                   "norow"     : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "pdbfile_text",
+                   "label"     : "enter full path and file name ",
+                   "type"      : "text",
+                   "required"  : "true",
+                   "default"   : "lysozyme.pdb",
+                   "help"      : "name of PDB file for reference structure",
+                   "repeat"    : "refpdb_list_box:c2",
+                   "norow"     : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "psf_list_box",
+                   "name"      : "psf_list_box",
+                   "label"     : "psf topology file name:",
+                   "type"      : "listbox",
+                   "values"    : "upload file~c1~use file on server~c2",
+                   "default"   : "c1",
+                   "help"      : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater"  : "true",
+                   "norow"     : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "psffile",
+                   "label"     : " ",
+                   "type"      : "file",
+                   "required"  : "true",
+                   "help"      : "name of PSF file for reference structure",
+                   "repeat"    : "psf_list_box:c1",
+                   "norow"     : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "psffile_text",
+                   "label"     : "enter full path and file name ",
+                   "type"      : "text",
+                   "required"  : "true",
+                   "default"   : "lysozyme.psf",
+                   "help"      : "name of PSF file for reference structure",
+                   "repeat"    : "psf_list_box:c2",
+                   "norow"     : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "dcd_list_box",
+                   "name"       : "dcd_list_box",
+                   "label"      : "trajectory file filename (dcd or pdb):",
+                   "type"       : "listbox",
+                   "values"     : "upload file~c1~use file on server~c2",
+                   "default"    : "c1",
+                   "help"       : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater"   : "true",
+                   "norow"      : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "dcdfile",
+                   "label"      : " ",
+                   "type"       : "file",
+                   "required"   : "true",
+                   "help"       : "name of DCD or PDB file with trajectories",
+                   "repeat"     : "dcd_list_box:c1",
+                   "norow"      : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "dcdfile_text",
+                   "label"     : "enter full path and file name ",
+                   "type"      : "text",
+                   "required"  : "true",
+                   "default"   : "lysozyme.dcd",
+                   "help"      : "name of DCD or PDB file with trajectories",
+                   "repeat"    : "dcd_list_box:c2",
+                   "norow"     : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "param_list_box",
+                   "name"       : "param_list_box",
+                   "label"      : "SCT parameter file (YAML):",
+                   "type"       : "listbox",
+                   "values"     : "upload file~c1~use file on server~c2",
+                   "default"    : "c1",
+                   "help"       : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater"   : "true",
+                   "norow"      : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "paramfile",
+                   "label"      : " ",
+                   "type"       : "file",
+                   "required"   : "true",
+                   "help"       : "name of SCT parameter file",
+                   "repeat"     : "param_list_box:c1",
+                   "norow"      : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "paramfile_text",
+                   "label"     : "enter full path and file name ",
+                   "type"      : "text",
+                   "required"  : "true",
+                   "default"   : "params.yml",
+                   "help"      : "name of SCT parameter file",
+                   "repeat"    : "param_list_box:c2",
+                   "norow"     : "true"
+                   },
+		   {
+                   "role"     : "input",
+                   "id"       : "source_list_box",
+                   "label"    : "neutron, X-ray or both?",
+                   "type"     : "listbox",
+                   "values"   : "neutron~c1~X-ray~c2~both~c3",
+                   "default"  : "c1",
+                   "help"  : "chose a scattering type (or both)",
+                   "required" : "true"
+                   },
+  		   {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "name"    : "progress",
+                   "label"   : "progress:",
+                   "type"    : "progress",
+		   "max"     : 1.0
+                   },
+  		   {
+                   "role"    : "output",
+                   "id"      : "progress_html",
+                   "name"    : "progress_html",
+                   "label"   : "percent done:",
+                   "type"    : "html"
+                   },
+  		   {
+                   "role"    : "output",
+                   "id"      : "sasoutput2",
+                   "name"    : "sasoutput2",
+                   "label"   : " ",
+                   "type"    : "textarea",
+		   "rows"    : 20,
+		   "cols"    : 80
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "sctcalc"
+}

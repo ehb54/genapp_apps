@@ -1,0 +1,151 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "sctanal",
+    "label"    : "SCT Analyse",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"         : "module_header",
+                   "label"      : "SCT Analyse",
+                   "type"       : "label",
+                   "default"    : "header4",
+                   "prehline"   : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"       : "results will be placed in a folder called sctanal/ in the directory name you enter here"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "param_list_box",
+                   "name"       : "param_list_box",
+                   "label"      : "SCT parameter file (YAML):",
+                   "type"       : "listbox",
+                   "values"     : "upload file~c1~use file on server~c2",
+                   "default"    : "c1",
+                   "help"       : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater"   : "true",
+                   "norow"      : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "paramfile",
+                   "label"      : " ",
+                   "type"       : "file",
+                   "required"   : "true",
+                   "help"       : "name of SCT parameter file",
+                   "repeat"     : "param_list_box:c1",
+                   "norow"      : "true"
+                   },
+                   {
+                   "role"      : "input",
+                   "id"        : "paramfile_text",
+                   "label"     : "enter full path and file name ",
+                   "type"      : "text",
+                   "required"  : "true",
+                   "default"   : "params.yml",
+                   "help"      : "name of SCT parameter file",
+                   "repeat"    : "param_list_box:c2",
+                   "norow"     : "true"
+                   },
+                   {
+                   "role"     : "input",
+                   "id"       : "noneutron",
+                   "label"    : "number of neutron curves:",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "required" : "true",
+                   "repeater" : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "neutroncurve",
+                   "name"       : "neutroncurve",
+                   "label"      : "neutron experimental curve:",
+                   "type"       : "file",
+                   "required"   : "true",
+                   "repeat"     : "noneutron",
+                   "norow"      : "true"
+                   },
+		   {
+                   "role"     : "input",
+                   "id"       : "neutronunits",
+                   "name"     : "neutronunits",
+                   "label"    : "units of Q in neutron experiment (inverse angstrom or nm)",
+                   "type"     : "listbox",
+                   "values"   : "a~c1~nm~c2",
+                   "default"  : "c1",
+                   "required" : "true"
+                   },
+                   {
+                   "role"     : "input",
+                   "id"       : "noxray",
+                   "label"    : "number of x-ray curves:",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "required" : "true",
+                   "repeater" : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "xraycurve",
+                   "name"       : "xraycurve",
+                   "label"      : "xray experimental curve:",
+                   "type"       : "file",
+                   "required"   : "true",
+                   "repeat"     : "noxray",
+                   "norow"      : "true"
+                   },
+		   {
+                   "role"     : "input",
+                   "id"       : "xrayunits",
+                   "name"     : "xrayunits",
+                   "label"    : "units of Q in xray experiment (inverse angstrom or nm)",
+                   "type"     : "listbox",
+                   "values"   : "a~c1~nm~c2",
+                   "default"  : "c1",
+                   "required" : "true"
+                   },
+		   {
+                   "role"     : "input",
+                   "id"       : "metric_box",
+                   "label"    : "comparison metric",
+                   "type"     : "listbox",
+                   "values"   : "rfactor~c1~chi2~c2",
+                   "default"  : "c1",
+                   "required" : "true"
+                   },
+  		   {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "name"    : "progress",
+                   "label"   : "progress:",
+                   "type"    : "progress",
+		   "max"     : 1.0
+                   },
+  		   {
+                   "role"    : "output",
+                   "id"      : "progress_html",
+                   "name"    : "progress_html",
+                   "label"   : "percent done:",
+                   "type"    : "html"
+                   },
+  		   {
+                   "role"    : "output",
+                   "id"      : "sasoutput2",
+                   "name"    : "sasoutput2",
+                   "label"   : " ",
+                   "type"    : "textarea",
+		   "rows"    : 20,
+		   "cols"    : 80
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "sctanal"
+}
