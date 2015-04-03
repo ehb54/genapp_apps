@@ -16,6 +16,10 @@
                           "label" : "Align"
                          },
                          { 
+                          "id"    : "filetest",
+                          "label" : "Filetest"
+                         },
+                         { 
                           "id"    : "data_interpolation",
                           "label" : "Data Interpolation"
                          }

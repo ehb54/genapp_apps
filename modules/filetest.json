@@ -1,0 +1,51 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid"   : "filetest",
+    "label"      : "Filetest",
+    "executable" : "filetest",
+    "fields"   : [
+                  {
+                   "role"     : "input",
+                   "id"       : "file1",
+                   "label"    : "Choose a file",
+                   "type"     : "lrfile"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "file2",
+                   "label"    : "Choose another file",
+                   "type"     : "lrfile"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "cbfile3cb",
+                   "label"    : "How about yet another file",
+                   "type"     : "checkbox",
+                   "repeater" : "true"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "file3cb",
+                   "label"    : "Choose a CB file",
+                   "type"     : "lrfile",
+                   "repeat"   : "cbfile3cb"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "file4i",
+                   "label"    : "How about a bunch of files",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "min"      : 0,
+                   "max"      : 5,
+                   "repeater" : "true"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "file4if",
+                   "label"    : "Choose a numbered file",
+                   "type"     : "lrfile",
+                   "repeat"   : "file4i"
+                   }
+                  ]
+}
