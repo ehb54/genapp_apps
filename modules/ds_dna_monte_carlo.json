@@ -22,36 +22,13 @@
                    "help"     : "results will be placed in a folder called generate/ in the directory name you enter here"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "refpdb_list_box",
-                   "name"    : "refpdb_list_box",
+                   "role"     : "input",
+                   "id"       : "pdbfile",
                    "label"   : "reference pdb",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeater" : "true",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "pdbfile",
-                   "label"   : " ",
-                   "type"    : "file",
+                   "type"     : "lrfile",
                    "required" : "true",
                    "help"     : "PDB file containing initial coordinates",
-                   "repeat"   : "refpdb_list_box:c1",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "pdbfile_text",
-                   "label"   : "enter full path and file name ",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "PDB file containing initial coordinates",
-                   "repeat"   : "refpdb_list_box:c2",
-                   "norow" : "true"
+                   "norow"    : "false"
                    },
                   {
                    "role"     : "input",
@@ -95,11 +72,11 @@
                    "repeater" : "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "flexfile",
+                   "role"     : "input",
+                   "id"       : "flexfile",
                    "label"   : " ",
-                   "type"    : "file",
-                   "required" : "true",
+                   "type"     : "lrfile",
+                   "required" : "false",
                    "help"     : "text file containing definition of flexible regions",
                    "repeat"   : "flexible_file_input:c1",
                    "norow" : "true"

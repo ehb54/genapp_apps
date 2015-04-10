@@ -56,10 +56,10 @@
                    "role"     : "input",
                    "id"       : "seqfiles",
                    "label"    : "input file name",
-                   "type"     : "file",
-                   "required" : "false",
+                   "type"     : "lrfile",
+                   "required" : "true",
                    "repeat"   : "numfile",
-                   "help"   : "select a file to upload",
+		   "help"  : "select a file to upload either from your local hard drive or a file previously uploaded to your directory on the server",
                    "norow"    : "true"
                    },
                   {

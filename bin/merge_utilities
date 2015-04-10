@@ -110,19 +110,26 @@ class Merge_utilities_Drv():
                 os.chdir(path)
                 path = ''
 
-		print 'rpdb list box = ', json_variables['refpdb_list_box']
-
-
-
-                if(json_variables['refpdb_list_box'] == "c1"):
-			temp_pdb_file = json_variables['pdb_file']
-                        head, pdb_file = os.path.split(temp_pdb_file[0])
-                elif(json_variables['refpdb_list_box'] == "c2"):
-                        pdb_file = json_variables['pdb_file_text']
-
+		pdb_file = json_variables['pdb_file'][0]
+                #head, pdb_file = os.path.split(temp_pdb_file[0])
 		
 		run_paths = json_variables['run_paths']
-		dcd_names = json_variables['dcd_names']
+
+		dcd_names = '' ; run_paths = ''
+		for i in xrange(int(json_variables['number_of_runs'])):
+			this_name = json_variables['dcd_names'][i]
+			this_path = json_variables['run_paths'][i]
+
+			temp_dcd_names =  this_name[0]
+			temp_run_paths =  this_path[0]
+	                head, this_dcd = os.path.split(temp_dcd_names)
+
+			dcd_names += temp_dcd_names + ','
+			run_paths += temp_run_paths + ','
+
+		dcd_names = dcd_names[:-1]
+		run_paths = run_paths[:-1]
+
 		sas_paths = json_variables['sas_paths']
 
 		merge_option_list_box = json_variables['merge_option_list_box']
@@ -162,7 +169,7 @@ class Merge_utilities_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-		error=merge_utilities_filter.check_files(self.variables)
+		#error=merge_utilities_filter.check_files(self.variables)
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')

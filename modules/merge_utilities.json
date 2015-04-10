@@ -22,34 +22,13 @@
                    "help"     : "results will be placed in a folder called merge/ in the directory name you enter here"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "refpdb_list_box",
+                   "role"     : "input",
+                   "id"       : "pdb_file",
                    "label"   : "reference pdb",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeater" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "pdb_file",
-                   "label"   : "enter full path and file name",
-                   "type"    : "file",
+                   "type"     : "lrfile",
                    "required" : "true",
                    "help"     : "name of PDB file for atom naming purposes",
-                   "repeat"   : "refpdb_list_box:c1",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "pdb_file_text",
-                   "label"   : "enter full path and file name",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "name of PDB file for atom naming purposes",
-                   "repeat"   : "refpdb_list_box:c2",
-                   "norow" : "true"
+                   "norow"    : "false"
                    },
                   {
                    "role"    : "input",
@@ -62,21 +41,32 @@
                    },
                   {
                    "role"     : "input",
+                   "id"       : "number_of_runs",
+                   "label"    : "enter number of runs to merge",
+                   "type"     : "integer",
+                   "default"  : 2,
+                   "required" : "true",
+                   "help" : "enter the number of independent runs to merge together",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
                    "id"       : "run_paths",
                    "label"    : "run name paths",
-                   "type"     : "text",
-		   "default"  : "run_m1,run_m2",
+                   "type"     : "rpath",
 		   "help"  : "enter directories that contain data you wish to merge",
+		   "repeat"   : "number_of_runs",
                    "required" : "true"
 	           },
                   {
                    "role"     : "input",
                    "id"       : "dcd_names",
                    "label"    : "dcd filenames",
-                   "type"     : "text",
+                   "type"     : "lrfile",
 		   "default"  : "generate/run_m1.dcd,generate/run_m2.dcd",
 		   "help"  : "enter paths, within the run name paths, where trajectory (dcd) data are located",
-                   "required" : "true"
+		   "repeat"   : "number_of_runs",
+                   "required" : "false"
                    },
                   {
                    "role"    : "input",

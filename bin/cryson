@@ -118,24 +118,18 @@ class Cryson_Drv():
 
                 path = base_directory.replace('\/','/') + "/"
 
-                pdbpath = path
-                dcdpath = path
-
                 os.chdir(path)
                 path = ''
 
-                if(json_variables['refpdb_list_box'] == "c1"):
-                        temp_pdbfile = json_variables['pdbfile']
-                        head, pdbfile = os.path.split(temp_pdbfile[0])
-                elif(json_variables['refpdb_list_box'] == "c2"):
-                        pdbfile = json_variables['pdbfile_text']
+                temp_pdbfile = json_variables['pdbfile']
+                head, pdbfile = os.path.split(temp_pdbfile[0])
+                
+		pdbpath = head.replace('\/','/') + "/"
 
-                if(json_variables['dcd_list_box'] == "c1"):
-                        temp_dcdfile = json_variables['dcdfile']
-                        head, dcdfile = os.path.split(temp_dcdfile[0])
-                elif(json_variables['dcd_list_box'] == "c2"):
-                        dcdfile = json_variables['dcdfile_text']
+                temp_dcdfile = json_variables['dcdfile']
+                head, dcdfile = os.path.split(temp_dcdfile[0])
 
+                dcdpath = head.replace('\/','/') + "/"
 
 		maxh = json_variables['maxh']
 		fib = json_variables['fib']

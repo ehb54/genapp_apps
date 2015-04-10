@@ -31,36 +31,13 @@
                    "posthline": "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "refpdb_list_box",
-                   "name"    : "refpdb_list_box",
-                   "label"   : "input pdb file",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeater" : "true",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"    : "input",
+                   "role"     : "input",
                    "id"      : "refpdbfile",
-                   "label"   : " ",
-                   "type"    : "file",
+                   "label"   : "input pdb file",
+                   "type"     : "lrfile",
                    "required" : "true",
-                   "help"     : "PDB file for the fixed structure",
-                   "repeat"   : "refpdb_list_box:c1",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "refpdbfile_text",
-                   "label"   : "enter full path and file name ",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "PDB file for the fixed structure",
-                   "repeat"   : "refpdb_list_box:c2",
-                   "norow" : "true"
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
                    },
                   {
                    "role"     : "input",
@@ -72,36 +49,13 @@
                    "posthline": "true"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "movepdb_list_box",
-                   "name"    : "movepdb_list_box",
-                   "label"   : "input pdb file",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeater" : "true",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"    : "input",
+                   "role"     : "input",
                    "id"      : "movepdbfile",
-                   "label"   : " ",
-                   "type"    : "file",
+                   "label"   : "input pdb file",
+                   "type"     : "lrfile",
                    "required" : "true",
                    "help"     : "PDB file to be moved",
-                   "repeat"   : "movepdb_list_box:c1",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "movepdbfile_text",
-                   "label"   : "enter full path and file name ",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "PDB file to be moved",
-                   "repeat"   : "movepdb_list_box:c2",
-                   "norow" : "true"
+                   "norow"    : "false"
                    },
 #
                    {

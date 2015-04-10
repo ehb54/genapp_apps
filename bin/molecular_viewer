@@ -78,11 +78,8 @@ class Mol_Drv():
 		os.chdir(path)
 		pdb_path = path
 
-		if(json_variables['refpdb_list_box'] == "c1"):
-        		temp_refpdb = json_variables['refpdb']
-			head, refpdb = os.path.split(temp_refpdb[0])
-		elif(json_variables['refpdb_list_box'] == "c2"):
-        		refpdb = json_variables['refpdb_text']
+	        refpdb = json_variables['refpdb'][0]
+		#head, refpdb = os.path.split(temp_refpdb[0])
 
 		path = ''
 

@@ -113,17 +113,11 @@ class CoorTools_Drv():
 
 		os.chdir(path)
 
-		if(json_variables['refpdb_list_box'] == "c1"):
-        		temp_pdb_filename = json_variables['pdb_filename']
-			head, pdb_filename = os.path.split(temp_pdb_filename[0])
-		elif(json_variables['refpdb_list_box'] == "c2"):
-        		pdb_filename = json_variables['pdb_filename_text']
+        	pdb_filename = json_variables['pdb_filename'][0]
+		#head, pdb_filename = os.path.split(temp_pdb_filename[0])
 
-		if(json_variables['dcd_list_box'] == "c1"):
-        		temp_filename = json_variables['filename']
-			head, filename = os.path.split(temp_filename[0])
-		elif(json_variables['dcd_list_box'] == "c2"):
-        		filename = json_variables['filename_text']
+        	filename = json_variables['filename'][0]
+		#head, filename = os.path.split(temp_filename[0])
  
 		path = ''
 
@@ -137,19 +131,14 @@ class CoorTools_Drv():
 			value = json_variables['local_value_c2']
                 elif(option_list_box == 'c3'):
                         option = 'text_file'
-			if(json_variables['text_file_list_box'] == "c1"):
-        			temp_option = json_variables['local_value_c3']
-				head, value = os.path.split(temp_option[0])
-			elif(json_variables['text_file_list_box'] == "c2"):
-				value = json_variables['local_value_c3_text']
+        		temp_option = json_variables['local_value_c3']
+			#head, value = os.path.split(temp_option[0])
+			value = temp_option[0]
                 elif(option_list_box == 'c4'):
                         option = 'weight_file'
-			if(json_variables['weight_file_list_box'] == "c1"):
-        			temp_option = json_variables['local_value_c4']
-				head, value = os.path.split(temp_option[0])
-			elif(json_variables['weight_file_list_box'] == "c2"):
-				value = json_variables['local_value_c4_text']
-
+        		temp_option = json_variables['local_value_c4']
+			#head, value = os.path.split(temp_option[0])
+			value = temp_option[0]
 		output_filename = json_variables['output_filename']
 
 	svariables={}

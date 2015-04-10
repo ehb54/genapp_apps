@@ -145,11 +145,8 @@ class Em_to_sans_Drv():
 
                 os.chdir(path)
 
-                if(json_variables['emfile_list_box'] == "c1"):
-                        temp_emdensityfile = json_variables['emdensityfile']
-                        head, emdensityfile = os.path.split(temp_emdensityfile[0])
-                elif(json_variables['emfile_list_box'] == "c2"):
-                        emdensityfile = json_variables['emdensityfile_text']
+                emdensityfile = json_variables['emdensityfile'][0]
+                #head, emdensityfile = os.path.split(temp_emdensityfile[0])
 
 		angpix = json_variables['angpix']
 		pdbfile = json_variables['pdbfile']

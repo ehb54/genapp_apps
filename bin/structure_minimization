@@ -117,24 +117,14 @@ class Structure_minimization_Drv():
 
                 os.chdir(path)
 
-                if(json_variables['refpdb_list_box'] == "c1"):
-                        temp_pdbfile = json_variables['pdbfile']
-                        head, pdbfile = os.path.split(temp_pdbfile[0])
-                elif(json_variables['refpdb_list_box'] == "c2"):
-                        pdbfile = json_variables['pdbfile_text']
+                pdbfile = json_variables['pdbfile'][0]
+                #head, pdbfile = os.path.split(temp_pdbfile[0])
 
-                if(json_variables['dcd_list_box'] == "c1"):
-                        temp_infile = json_variables['infile']
-                        head, infile = os.path.split(temp_infile[0])
-                elif(json_variables['dcd_list_box'] == "c2"):
-                        infile = json_variables['infile_text']
+		infile = json_variables['infile'][0]
+		#head, infile = os.path.split(temp_infile[0])
 
-
-                if(json_variables['psf_list_box'] == "c1"):
-                        temp_psffile = json_variables['psffile']
-                        head, psffile = os.path.split(temp_psffile[0])
-                elif(json_variables['psf_list_box'] == "c2"):
-                        psffile = json_variables['psffile_text']
+       		psffile = json_variables['psffile'][0]
+       		#head, psffile = os.path.split(temp_psffile[0])
 		
 		outfile = json_variables['outfile']
 		nsteps = json_variables['nsteps']
@@ -174,8 +164,8 @@ class Structure_minimization_Drv():
                         #	topfile = json_variables['topfile_text']
 
                 	if(json_variables['par_list_box'] == "c1"):
-                        	temp_parmfile = json_variables['parmfile']
-                        	head, parmfile = os.path.split(temp_parmfile[0])
+                        	parmfile = json_variables['parmfile'][0]
+                        	#head, parmfile = os.path.split(temp_parmfile[0])
                 	elif(json_variables['par_list_box'] == "c2"):
                         	parmfile = json_variables['parmfile_text']
 

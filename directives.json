@@ -2,7 +2,7 @@
 {
   "title"                     : "SASSIE-web",
   "application"               : "sassie2",
-  "version"                   : "0.8",
+  "version"                   : "0.9",
 #  "languages"                 : [ "html5", "qt3", "qt4" ],
   "languages"                 : [ "html5"],
   "mongojournal" : "true",

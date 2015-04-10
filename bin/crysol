@@ -117,31 +117,21 @@ class Crysol_Drv():
 
                 path = base_directory.replace('\/','/') + "/"
 
-                pdbpath = path
-                dcdpath = path
-
                 os.chdir(path)
                 path = ''
 
-                if(json_variables['refpdb_list_box'] == "c1"):
-                        temp_pdbfile = json_variables['pdbfile']
-                        head, pdbfile = os.path.split(temp_pdbfile[0])
-                elif(json_variables['refpdb_list_box'] == "c2"):
-                        pdbfile = json_variables['pdbfile_text']
+                temp_pdbfile = json_variables['pdbfile']
+                pdbpath, pdbfile = os.path.split(temp_pdbfile[0])
 
-                if(json_variables['dcd_list_box'] == "c1"):
-                        temp_dcdfile = json_variables['dcdfile']
-                        head, dcdfile = os.path.split(temp_dcdfile[0])
-                elif(json_variables['dcd_list_box'] == "c2"):
-                        dcdfile = json_variables['dcdfile_text']
-	
+                temp_dcdfile = json_variables['dcdfile']
+                dcdpath, dcdfile = os.path.split(temp_dcdfile[0])
+
 		maxh = json_variables['maxh']
 		fib = json_variables['fib']
 		maxs = json_variables['maxs']
 		numpoints = json_variables['numpoints']
 		contrast = json_variables['contrast']
 		edensolv = json_variables['edensolv']
-
 
                 delafs_list_box = json_variables['delafs_list_box']
                 if(delafs_list_box == 'c1'):
@@ -208,6 +198,7 @@ class Crysol_Drv():
                         self.message_box(error,'warning.png')
                         output_dict['error'] = 'Error in crysol variables'
                         output_dict['sasoutput2'] = 'run failed'
+                        output_dict['error'] = error
                         print json.dumps( output_dict )
                         return
 

@@ -232,16 +232,16 @@ class Chi_square_filter_Drv():
 
                 os.chdir(path)
 
-                if(json_variables['data_list_box'] == "c1"):
-                        temp_sasintfile = json_variables['sasintfile']
-                        head, sasintfile = os.path.split(temp_sasintfile[0])
-                elif(json_variables['data_list_box'] == "c2"):
-                        sasintfile = json_variables['sasintfile_text']
+                sasintfile = json_variables['sasintfile'][0]
+                #head, sasintfile = os.path.split(temp_sasintfile[0])
 
                 path = ''
 	
-                saspath = json_variables['saspath']
-		saspath = saspath.replace('\/','/') + "/"
+                saspath = json_variables['saspath'][0]
+                #head, saspath = os.path.split(temp_saspath[0])
+                
+		#saspath = json_variables['saspath']
+		#saspath = saspath.replace('\/','/') + "/"
                 io = json_variables['io']
 
                 try:

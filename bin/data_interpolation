@@ -173,11 +173,8 @@ class Interpolate_Drv():
 
                 ofile = json_variables['ofile']
         
-                if(json_variables['data_file_list_box'] == "c1"):
-			temp_expdata = json_variables['expdata']
-                        head, expdata = os.path.split(temp_expdata[0])
-                elif(json_variables['data_file_list_box'] == "c2"):
-			expdata = json_variables['expdata_text']
+		expdata = json_variables['expdata'][0]
+        	#head, expdata = os.path.split(temp_expdata[0])
 
 		data_path = path
 
@@ -240,7 +237,8 @@ class Interpolate_Drv():
 		
 		#sassie_root = '/var/www/html/sassie2/'
 
-		flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/interpolate/'+ofile,data_path+expdata)
+		#flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/interpolate/'+ofile,data_path+expdata)
+		flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/interpolate/'+ofile,expdata)
 
 	#	output_dict['test_ofile'] = data_path+ofile
 

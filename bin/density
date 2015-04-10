@@ -129,17 +129,11 @@ class Density_Drv():
 
                 ofile = json_variables['ofile']
 
-                if(json_variables['refpdb_list_box'] == "c1"):
-                        temp_pdbfile = json_variables['pdbfile']
-                        head, pdbfile = os.path.split(temp_pdbfile[0])
-                elif(json_variables['refpdb_list_box'] == "c2"):
-                        pdbfile = json_variables['pdbfile_text']
+                pdbfile = json_variables['pdbfile'][0]
+                #head, pdbfile = os.path.split(temp_pdbfile[0])
 
-                if(json_variables['dcd_list_box'] == "c1"):
-                        temp_dcdfile = json_variables['dcdfile']
-                        head, dcdfile = os.path.split(temp_dcdfile[0])
-                elif(json_variables['dcd_list_box'] == "c2"):
-                        dcdfile = json_variables['dcdfile_text']
+                dcdfile = json_variables['infile'][0]
+                #head, dcdfile = os.path.split(temp_dcdfile[0])
 
                 path = ''
 	
@@ -164,11 +158,8 @@ class Density_Drv():
 				weightsfile = " "
                 	elif(weight_flag_check_box == 'on'):
                 	        equalweights = '0' # NO
-                		if(json_variables['weight_flag_list_box'] == "c1"):
-                		        temp_weightsfile = json_variables['weightsfile']
-                		        head, weightsfile = os.path.split(temp_weightsfile[0])
-                		elif(json_variables['weight_flag_list_box'] == "c2"):
-                		        weightsfile = json_variables['weightsfile_text']
+                		weightsfile = json_variables['weightsfile'][0]
+                		#head, weightsfile = os.path.split(temp_weightsfile[0])
 		except:
               		equalweights = '1' # YES
 			weightsfile = " "

@@ -127,17 +127,11 @@ class TwoBodyGrid_Drv():
                 os.chdir(path)
 		data_path = path
 
-                if(json_variables['refpdb_list_box'] == "c1"):
-                        temp_refpdbfile = json_variables['refpdbfile']
-                        head, pdbfile1 = os.path.split(temp_refpdbfile[0])
-                elif(json_variables['refpdb_list_box'] == "c2"):
-                        pdbfile1 = json_variables['refpdbfile_text']
+                pdbfile1 = json_variables['refpdbfile'][0]
+                #head, pdbfile1 = os.path.split(temp_refpdbfile[0])
 
-                if(json_variables['movepdb_list_box'] == "c1"):
-                        temp_movepdbfile = json_variables['movepdbfile']
-                        head, pdbfile2 = os.path.split(temp_movepdbfile[0])
-                elif(json_variables['movepdb_list_box'] == "c2"):
-                        pdbfile2 = json_variables['movepdbfile_text']
+                pdbfile2 = json_variables['movepdbfile'][0]
+		#head, pdbfile2 = os.path.split(temp_movepdbfile[0])
 
 		ofile = json_variables['dcdfile']
 		acceptInitial_list_box = json_variables['acceptIntial_list_box']
@@ -187,8 +181,8 @@ class TwoBodyGrid_Drv():
 			confile = 'constraints.txt'
                 elif(cflag_list_box == 'c2'):
                         cflag = '1' # YES
-			temp_confile = json_variables['confile']
-			head, confile = os.path.split(temp_confile[0])
+			confile = json_variables['confile'][0]
+			#head, confile = os.path.split(temp_confile[0])
 
 		try:
 			excluded_input = json_variables['excluded_input']

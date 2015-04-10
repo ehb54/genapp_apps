@@ -115,20 +115,11 @@ class Apbs_Drv():
 		os.chdir(path)
 		path = ''
 
-		if(json_variables['refpdb_list_box'] == "c1"):
-        		temp_pdbfile = json_variables['pdbfile']
-			head, pdbfile = os.path.split(temp_pdbfile[0])
-		elif(json_variables['refpdb_list_box'] == "c2"):
-        		pdbfile = json_variables['pdbfile_text']
+        	pdbfile = json_variables['pdbfile'][0]
+		#head, pdbfile = os.path.split(temp_pdbfile[0])
 
-		if(json_variables['dcd_list_box'] == "c1"):
-        		temp_infile = json_variables['infile']
-			head, infile = os.path.split(temp_infile[0])
-		elif(json_variables['dcd_list_box'] == "c2"):
-        		infile = json_variables['infile_text']
-
-
-
+        	infile = json_variables['infile'][0]
+		#head, infile = os.path.split(temp_infile[0])
 
 		outfile = json_variables['outfile']
 		temp = json_variables['temp']
@@ -143,11 +134,8 @@ class Apbs_Drv():
 		try:
 			if(json_variables['user_list_box'] == "on"):
 				manualflag = "1"
-				if(json_variables['file_list_box'] == "c1"):
-        				temp_manualfile = json_variables['manualfile']
-					head, manualfile = os.path.split(temp_manualfile[0])
-				elif(json_variables['file_list_box'] == "c2"):
-        				manualfile = json_variables['manualfile_text']
+        			manualfile = json_variables['manualfile'][0]
+				#head, manualfile = os.path.split(temp_manualfile[0])
 		except:
 			pass
 

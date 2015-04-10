@@ -204,12 +204,8 @@ class CGenerate_Drv():
 		data_path = path
                 path = ''
 
-		
-                if(json_variables['refpdb_list_box'] == "c1"):
-                        temp_pdbfile = json_variables['pdbfile']
-                        head, pdbfile = os.path.split(temp_pdbfile[0])
-                elif(json_variables['refpdb_list_box'] == "c2"):
-                        pdbfile = json_variables['pdbfile_text']
+                pdbfile = json_variables['pdbfile'][0]
+                #head, pdbfile = os.path.split(temp_pdbfile[0])
 
 		dcdfile = json_variables['dcdfile']
 		trials = json_variables['trials']
@@ -262,8 +258,8 @@ class CGenerate_Drv():
 			confile = 'constraints.txt'
                 elif(cflag_list_box == 'on'):
                         cflag = '1' # YES
-			temp_confile = json_variables['confile']
-			head, confile = os.path.split(temp_confile[0])
+			confile = json_variables['confile'][0]
+			#head, confile = os.path.split(temp_confile[0])
                 if(plotflag_list_box == 'c1'):
                         plotflag = '0' # NO
                 elif(plotflag_list_box == 'c2'):

@@ -126,23 +126,14 @@ class Align_Drv():
 
                 ofile = json_variables['ofile']
 
-		if(json_variables['pdbmol1_list_box'] == "c1"):
-        		temp_pdbmol1 = json_variables['pdbmol1']
-			head, pdbmol1 = os.path.split(temp_pdbmol1[0])
-		elif(json_variables['pdbmol1_list_box'] == "c2"):
-        		pdbmol1 = json_variables['pdbmol1_text']
+        	pdbmol1 = json_variables['pdbmol1'][0]
+		#head, pdbmol1 = os.path.split(temp_pdbmol1[0])
 
-		if(json_variables['pdbmol2_list_box'] == "c1"):
-        		temp_pdbmol2 = json_variables['pdbmol2']
-			head, pdbmol2 = os.path.split(temp_pdbmol2[0])
-		elif(json_variables['pdbmol2_list_box'] == "c2"):
-        		pdbmol2 = json_variables['pdbmol2_text']
+        	pdbmol2 = json_variables['pdbmol2'][0]
+		#head, pdbmol2 = os.path.split(temp_pdbmol2[0])
 
-                if(json_variables['dcd_list_box'] == "c1"):
-                        temp_infile = json_variables['infile']
-                        head, infile = os.path.split(temp_infile[0])
-                elif(json_variables['dcd_list_box'] == "c2"):
-                        infile = json_variables['infile_text']
+                infile = json_variables['infile'][0]
+                #head, infile = os.path.split(temp_infile[0])
 
 		path = ''
 

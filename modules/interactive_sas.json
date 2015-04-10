@@ -15,7 +15,7 @@
                    {
                    "role"       : "input",
                    "id"       : "message",
-                   "label"    : "Module under development: due Fall 2014",
+                   "label"    : "Module under development: due Fall 2015",
                    "type"     : "label",
                    "default"  : "header3",
                    "prehline"  : "true",
@@ -31,36 +31,13 @@
                    "help"     : "results will be placed in a folder called interative_sas/ in the directory name you enter here"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "refpdb_list_box",
-                   "name"    : "refpdb_list_box",
+                   "role"     : "input",
+                   "id"       : "refpdb",
                    "label"   : "pdb file input",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeater" : "true",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "refpdb",
-                   "label"   : " ",
-                   "type"    : "file",
-                   "required" : "true",
+                   "type"     : "lrfile",
+#                   "required" : "false",
                    "help"     : "name of PDB file for atom naming purposes",
-                   "repeat"   : "refpdb_list_box:c1",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "refpdb_text",
-                   "label"   : "enter full path and file name ",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "name of PDB file for atom naming purposes",
-                   "repeat"   : "refpdb_list_box:c2",
-                   "norow" : "true"
+                   "norow"    : "false"
                    },
                   {
                    "role"    : "output",

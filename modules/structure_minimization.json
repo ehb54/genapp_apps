@@ -22,100 +22,31 @@
                    "help"     : "results will be placed in a folder called minimization/ in the directory name you enter here"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "refpdb_list_box",
-                   "name"    : "refpdb_list_box",
+                   "role"     : "input",
+                   "id"       : "pdbfile",
                    "label"   : "reference pdb",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeater" : "true",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "pdbfile",
-                   "label"   : " ",
-                   "type"    : "file",
+                   "type"     : "lrfile",
                    "required" : "true",
-                   "help"     : "name of PDB file for atom naming purposes",
-                   "repeat"   : "refpdb_list_box:c1",
-                   "norow" : "true"
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "pdbfile_text",
-                   "label"   : "enter full path and file name ",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "name of PDB file for atom naming purposes",
-                   "repeat"   : "refpdb_list_box:c2",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "dcd_list_box",
-                   "name"    : "dcd_list_box",
-                   "label"   : "input filename (dcd or pdb)",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeater" : "true",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
+                   "role"     : "input",
                    "id"      : "infile",
-                   "label"   : " ",
-                   "type"    : "file",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
                    "required" : "true",
                    "help"     : "name of DCD or PDB file with coordinates you wish to energy minimize",
-                   "repeat"   : "dcd_list_box:c1",
-                   "norow" : "true"
+                   "norow"    : "false"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "infile_text",
-                   "label"   : "enter full path and file name ",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "name of DCD or PDB file with coordinates you wish to energy minimize",
-                   "repeat"   : "dcd_list_box:c2",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "psf_list_box",
-                   "name"    : "psf_list_box",
+                   "role"     : "input",
+                   "id"       : "psffile",
                    "label"   : "PSF file name",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeater" : "true",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "psffile",
-                   "label"   : " ",
-                   "type"    : "file",
+                   "type"     : "lrfile",
                    "required" : "true",
                    "help"     : "name of PSF file with molecular topology",
-                   "repeat"   : "psf_list_box:c1",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "psffile_text",
-                   "label"   : "enter full path and file name ",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "name of PSF file with molecular topology",
-                   "repeat"   : "psf_list_box:c2",
-                   "norow" : "true"
+                   "norow"    : "false"
                    },
                   {
                    "role"    : "input",
@@ -252,37 +183,14 @@
 #                   "norow" : "true"
 #                   },
                   {
-                   "role"    : "input",
-                   "id"      : "par_list_box",
-                   "name"    : "par_list_box",
-                   "label"   : "charmm parameter file",
-                   "type"    : "listbox",
-                   "values"  : "upload file~c1~use file on server~c2",
-                   "default" : "c1",
-                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-                   "repeat" : "advanced_input",
-                   "repeater" : "true",
-                   "norow"    : "false"
-                   },
-                  {
-                   "role"    : "input",
+                   "role"     : "input",
                    "id"      : "parmfile",
-                   "label"   : " ",
-                   "type"    : "file",
-                   "required" : "true",
-                   "help"     : "name of molecular parameter file",
-                   "repeat"   : "par_list_box:c1",
-                   "norow" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "parfile_text",
-                   "label"   : "enter full path and file name ",
-                   "type"    : "text",
-                   "required" : "true",
-                   "help"     : "name of molecular parameter file",
-                   "repeat"   : "par_list_box:c2",
-                   "norow" : "true"
+                   "label"   : "charmm parameter file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+	  	   "repeat" : "advanced_input",
+                   "help"     : "name of PSF file with molecular topology",
+                   "norow"    : "false"
                    },
                   {
                    "role"    : "output",
