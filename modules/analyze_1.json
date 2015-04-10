@@ -2,6 +2,7 @@
 {
     "moduleid" : "analyze_1",
     "label"    : "Analyze_1",
+    "help"     : "help for Analyze_1",
     "fields"   : [
                   {
                    "role"       : "input",

@@ -2,6 +2,7 @@
 {
     "moduleid" : "center",
     "label"    : "Center",
+    "help"     : "help for Center",
     "executable"   : "center",
     "submitpolicy"   : "all",
     "fields"   : [

@@ -2,6 +2,7 @@
 {
     "moduleid" : "simulate_1",
     "label"    : "Simulate_1",
+    "help"     : "help for Simulate_1",
     "fields"   : [
                   {
                    "role"     : "input",

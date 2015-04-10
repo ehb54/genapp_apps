@@ -2,6 +2,7 @@
 {
     "moduleid" : "align",
     "label"    : "Align",
+    "help"     : "help for Align",
     "fields"   : [
                   {
                    "role"       : "input",

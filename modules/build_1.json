@@ -2,6 +2,7 @@
 {
     "moduleid" : "build_1",
     "label"    : "Build_1",
+    "help"     : "help for Build_1",
     "fields"   : [
                   {
                    "role"       : "input",

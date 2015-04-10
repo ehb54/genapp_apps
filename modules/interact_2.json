@@ -2,6 +2,7 @@
 {
     "moduleid" : "interact_2",
     "label"    : "Interact_2",
+    "help"     : "help for Interact_2",
     "fields"   : [
                   {
                    "role"       : "input",

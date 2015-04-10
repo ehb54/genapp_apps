@@ -2,6 +2,7 @@
 {
     "moduleid" : "data_interpolation",
     "label"    : "Data_interpolation",
+    "help"     : "help for Data_interpolation",
 #    "session"  : "true",
 #    "newsession"  : "true",
     "fields"   : [

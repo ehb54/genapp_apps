@@ -2,6 +2,7 @@
 {
     "moduleid" : "calculate_1",
     "label"    : "Calculate_1",
+    "help"     : "help for Calculate_1",
     "fields"   : [
                   {
                    "role"     : "input",

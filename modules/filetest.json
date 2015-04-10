@@ -2,6 +2,7 @@
 {
     "moduleid"   : "filetest",
     "label"      : "Filetest",
+    "help"       : "help for Filetest",
     "executable" : "filetest",
     "fields"   : [
                   {
