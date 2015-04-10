@@ -1,6 +1,6 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "sctcalc",
+    "moduleid" : "sct_calculate",
     "label"    : "SCT Calculate",
     "fields"   : [
                    {
@@ -93,5 +93,5 @@
                    }
                   ],
 # the executable will take inputs in json and produce output in json
-    "executable" : "sctcalc"
+    "executable" : "sct_calculate"
 }

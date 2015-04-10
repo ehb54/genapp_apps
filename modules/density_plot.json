@@ -1,6 +1,6 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "density",
+    "moduleid" : "density_plot",
     "label"    : "Density Plot",
     "fields"   : [
                    {
@@ -203,5 +203,5 @@
 		    "cols"    : 80
 		   }
                   ],
-    "executable" : "density"
+    "executable" : "density_plot"
 }

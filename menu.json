@@ -126,7 +126,7 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "sctcalc",
+                          "id"    : "sct_calculate",
                           "label" : "SCT Calculate",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
@@ -153,12 +153,12 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "sctanal",
+                          "id"    : "sct_analyze",
                           "label" : "SCT Analyze",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "density",
+                          "id"    : "density_plot",
                           "label" : "Density Plot",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
