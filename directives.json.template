@@ -50,6 +50,8 @@
                                  ,"help"        : "this is help help"
                                  ,"project"     : "this is project help"
                                  ,"menu"        : "this is menu help"
+                                 ,"submit"      : "this is help for the submit button"
+                                 ,"reset"       : "this is help for the reset to default values button"
                                 },
 
 # "blue" colors
