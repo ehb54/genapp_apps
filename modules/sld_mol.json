@@ -1,12 +1,12 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "sldmol",
+    "moduleid" : "sld_mol",
     "label"    : "Scattering Length Density",
     "fields"   : [
                    {
                    "role"       : "input",
                    "id"       : "module_header",
-                   "label"    : "Scattering Length Density",
+                   "label"    : "SLD MOL",
                    "type"     : "label",
                    "default"  : "header4",
                    "prehline"  : "true",
@@ -298,5 +298,5 @@
 		    "cols"    : 80
 		   }
                   ],
-    "executable" : "sldmol"
+    "executable" : "sld_mol"
 }
