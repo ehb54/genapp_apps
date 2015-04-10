@@ -1,0 +1,106 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "merge_utilities",
+    "label"    : "Merge Utilities",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Merge Utilities",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called merge/ in the directory name you enter here"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use local file~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdb_file",
+                   "label"   : "enter full path and file name",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pdb_file_text",
+                   "label"   : "enter full path and file name",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "merge_option_list_box",
+                   "label"   : "select option",
+                   "type"    : "listbox",
+                   "values"  : "merge dcd & sas~c1~merge sas only~c2",
+                   "default" : "merge dcd & sas"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "run_paths",
+                   "label"    : "run name paths",
+                   "type"     : "text",
+		   "default"  : "run_m1,run_m2",
+                   "required" : "true"
+	           },
+                  {
+                   "role"     : "input",
+                   "id"       : "dcd_names",
+                   "label"    : "dcd filenames",
+                   "type"     : "text",
+		   "default"  : "generate/run_m1.dcd,generate/run_m2.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "sas_type_list_box",
+                   "name"    : "sas_type_list_box",
+                   "label"   : "select SAS type",
+                   "type"    : "listbox",
+                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
+                   "default" : "c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sas_paths",
+                   "label"    : "sas path",
+                   "type"     : "text",
+                   "default"  : "xtal2sas",
+                   "required" : "true"
+                   },
+		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : " ",
+                    "type"    : "textarea",
+		    "rows"    : 20,
+		    "cols"    : 80
+		   }
+                  ],
+    "executable" : "merge_utilities"
+}
