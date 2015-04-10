@@ -84,7 +84,7 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          {
-                          "id"    : "tamd",
+                          "id"    : "torsion_angle_md",
                           "label" : "Torsion Angle MD ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },

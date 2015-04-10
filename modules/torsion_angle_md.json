@@ -1,6 +1,6 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "tamd",
+    "moduleid" : "torsion_angle_md",
     "label"    : "Torsion Angle MD",
     "fields"   : [
                    {
@@ -229,5 +229,5 @@
                    }
                   ],
 # the executable will take inputs in json and produce output in json
-    "executable" : "tamd"
+    "executable" : "torsion_angle_md"
 }
