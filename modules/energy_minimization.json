@@ -1,12 +1,12 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "structure_minimization",
-    "label"    : "Structure Minimization",
+    "moduleid" : "energy_minimization",
+    "label"    : "Energy Minimization",
     "fields"   : [
                    {
                    "role"       : "input",
                    "id"       : "module_header",
-                   "label"    : "Structure Minimization",
+                   "label"    : "Energy Minimization",
                    "type"     : "label",
                    "default"  : "header4",
                    "prehline"  : "true",
@@ -217,5 +217,5 @@
                    }
                   ],
 # the executable will take inputs in json and produce output in json
-    "executable" : "structure_minimization"
+    "executable" : "energy_minimization"
 }

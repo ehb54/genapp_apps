@@ -79,7 +79,7 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "structure_minimization",
+                          "id"    : "energy_minimization",
                           "label" : "Energy Minimization ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
