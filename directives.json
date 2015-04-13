@@ -2,7 +2,7 @@
 {
   "title"                     : "SASSIE-web",
   "application"               : "sassie2",
-  "version"                   : "0.9",
+  "version"                   : ": Beta 0.9",
 #  "languages"                 : [ "html5", "qt3", "qt4" ],
   "languages"                 : [ "html5"],
   "mongojournal" : "true",
@@ -18,11 +18,14 @@
                                  "qt3"   : "/tmp",
                                  "qt4"   : "/tmp"
                                 }, 
+  "docsbaseurl"               : "docs",
   "helper"                    : {
                                  "txt" :"vi",
                                  "pdb" :"rasmol"
                                 },
-  "footer"		      : "<center>Support via CCP-SAS a joint EPSRC (EP/K039121/1) and NSF (CHE-1265821) grant</center>",
+
+
+  "footer"		      : "<center>Supported via CCP-SAS a joint EPSRC (EP/K039121/1) and NSF (CHE-1265821) grant</center>",
   "footersize"                : "3rem",
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",

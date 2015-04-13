@@ -237,8 +237,7 @@ class Interpolate_Drv():
 		
 		#sassie_root = '/var/www/html/sassie2/'
 
-		#flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/interpolate/'+ofile,data_path+expdata)
-		flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/interpolate/'+ofile,expdata)
+		flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/data_interpolation/'+ofile,expdata)
 
 	#	output_dict['test_ofile'] = data_path+ofile
 

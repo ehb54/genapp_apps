@@ -19,7 +19,7 @@
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true",
-                   "help"     : "results will be placed in a folder called interpolate/ in the directory name you enter here"
+                   "help"     : "results will be placed in a folder called data_interpolation/ in the directory name you enter here"
                    },
                   {
                    "role"     : "input",
@@ -27,7 +27,7 @@
                    "label"   : "experimental data file",
                    "type"     : "lrfile",
                    "required" : "true",
-                   "help"  : "select a file to upload either from your local hard drive or a file previously uploaded to your directory on the server",
+                   "help"  : "data file should have three columns: q, I(q), and error",
                    "norow"    : "false"
                    },
                   {
@@ -35,8 +35,8 @@
                    "id"       : "ofile",
                    "label"    : "output file name",
                    "type"     : "text",
-                   "default"  : "caw_0p6mgml.dat",
-                   "help"  : "data file should have three columns: q, I(q), and error",
+                   "default"  : "sans_data.int",
+                   "help"  : "new data file will have three columns: q, I(q), and error",
                    "required" : "true"
                    },
                   {
@@ -65,7 +65,7 @@
                    "label"    : "new delta q",
                    "type"     : "float",
                    "default"  : 0.01,
-                   "help"  : "desired q-spacing between interpolated points: needs to be consistent with spacing used in SAS calculator modules",
+                   "help"  : "desired q-spacing between interpolated points (units = 1/Angstrom): needs to be consistent with spacing used in SAS calculator modules",
                    "required" : "true"
                    },
                   {

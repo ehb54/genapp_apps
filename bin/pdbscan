@@ -110,6 +110,7 @@ class PDBScan_Drv():
 
         	refpdb = json_variables['refpdb'][0]
 		#head, refpdb = os.path.split(temp_refpdb[0])
+		print 'refpdb = ',refpdb
 
 		path = ''
 
@@ -121,6 +122,7 @@ class PDBScan_Drv():
 	svariables['runname'] = (str(runname),'string')
 	svariables['pdbfile']  = (str(refpdb),'string')
 	svariables['path']    = (path,'string')
+	svariables['outputfile']    = ('pdbscan_output.txt','string')
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
@@ -142,7 +144,8 @@ class PDBScan_Drv():
 
 		txtQueue=multiprocessing.JoinableQueue()
 
-		process=multiprocessing.Process(target=pdbscan.scan_pdb,args=(self.variables,txtQueue))
+		#process=multiprocessing.Process(target=pdbscan.scan_pdb,args=(self.variables,txtQueue))
+		process=multiprocessing.Process(target=pdbscan.pdbscan,args=(self.variables,txtQueue))
 		process.start()
 
 		total_string = self.background_job(process,txtQueue,json_variables)
