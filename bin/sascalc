@@ -7,7 +7,7 @@ import sassie.interface.input_filter as input_filter
 import sassie.interface.sascalc_filter as sascalc_filter
 import sassie.calculate.sascalc as sascalc
 
-class CGenerate_Drv():
+class SasCalc_Driver():
 
    module = 'sascalc'
 
@@ -224,6 +224,8 @@ class CGenerate_Drv():
 				json.dump("\nvariables\n",outfile)
 				json.dump(variables,outfile)
 
+			total_string = "MODULE UNDER CURRENT DEVELOPMENT: NOT RUNNING YET (PRE-ALPHA)"
+
 			txtQueue=multiprocessing.JoinableQueue()
 			process=multiprocessing.Process(target=sascalc.sascalc,args=(variables,txtQueue))
 			process.start()
@@ -233,7 +235,7 @@ class CGenerate_Drv():
 			output_dict['sasoutput2'] = total_string
 
 			'''
-			flot_data = self.get_data_from_disk(runname+"/sascalc/"+outfile+"_sld.txt",5)
+			flot_data = self.get_data_from_disk(runname+"/sascalc/"+outfile+".txt",5)
 
 			if(isinstance(flot_data, basestring)):
 				print 'error reading data'
@@ -269,7 +271,7 @@ if __name__=='__main__':
                 if(json_flag):
                         argv_io_string = StringIO(sys.argv[1])
                         json_variables = json.load(argv_io_string)
-		a=CGenerate_Drv()
+		a=SasCalc_Driver()
                 a.run_me(json_flag,json_variables,sys.argv[1])
 
 

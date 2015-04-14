@@ -43,12 +43,13 @@
                           "id"    : "pdbscan",
                           "label" : "PDB Scan",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "pdbrx",
-                          "label" : "PDB Rx",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
+#                        },
+#                         { 
+#                          "id"    : "pdbrx",
+#                          "label" : "PDB Rx",
+#                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+#                         }
                         ]
             },
            { 
@@ -108,6 +109,11 @@
                          { 
                           "id"    : "sascalc",
                           "label" : "SasCalc",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sascalc_md",
+                          "label" : "SasCalc-MD",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 

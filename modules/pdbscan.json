@@ -53,21 +53,21 @@
                     "label"   : "percent done: ",
                     "type"    : "html"
                    },
+#                   {
+#                   "role"    : "output",
+#                   "id"    : "outputpdb",
+#                   "label" : "viewer (right click for options)", 
+#                   "type"  : "atomicstructure",
+#                   "height" : "500",
+#                   "width" : "500"
+#                   },
                    {
-                   "role"    : "output",
-                   "id"    : "outputpdb",
-                   "label" : "viewer (right click for options)", 
-                   "type"  : "atomicstructure",
-                   "height" : "500",
-                   "width" : "500"
-                   },
-                  {
-                    "role"    : "output",
-                    "id"      : "report_html",
-                    "name"    : "report_html",
-                    "label"   : "report : ",
-                    "type"    : "html"
-                   },
+                     "role"    : "output",
+                     "id"      : "report_html",
+                     "name"    : "report_html",
+                     "label"   : "report : ",
+                     "type"    : "html"
+                    },
                   {
                     "role"    : "output",
                     "id"      : "sasoutput2",

@@ -153,7 +153,8 @@ class PDBScan_Drv():
 		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 
-		output_dict['outputpdb'] = pdb_path+refpdb
+### DISABLE JSMOL
+#		output_dict['outputpdb'] = pdb_path+refpdb
 
 	try:
 		with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
