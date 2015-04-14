@@ -2,7 +2,6 @@
 {
     "moduleid" : "data_interpolation",
     "label"    : "Data_interpolation",
-    "help"     : "help for Data_interpolation",
 #    "session"  : "true",
 #    "newsession"  : "true",
     "fields"   : [
@@ -93,9 +92,17 @@
                    "type"  : "atomicstructure",
                    "height" : "850",
                    "width" : "850"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputpdb2",
+                   "label" : "test pdb output2",
+                   "type"  : "atomicstructure",
+                   "height" : "850",
+                   "width" : "850"
                    }
                   ],
 # the executable will take inputs in order and produce output
     "executable" : "data_interpolation"
-    ,"resource"  : "compute0"
+    ,"uniqueid"  : "on"
 }
