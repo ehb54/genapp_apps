@@ -52,6 +52,7 @@
                                  ,"menu"        : "this is menu help"
                                  ,"submit"      : "this is help for the submit button"
                                  ,"reset"       : "this is help for the reset to default values button"
+                                 ,"application" : "this is application help"
                                 },
 
 # "blue" colors
