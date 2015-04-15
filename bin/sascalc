@@ -4,8 +4,8 @@ from StringIO import StringIO
 import multiprocessing,time,string,socket
 
 import sassie.interface.input_filter as input_filter
-import sassie.interface.sascalc_filter as sascalc_filter
-import sassie.calculate.sascalc as sascalc
+#import sassie.interface.sascalc_filter as sascalc_filter
+#import sassie.calculate.sascalc as sascalc
 
 class SasCalc_Driver():
 
@@ -226,11 +226,11 @@ class SasCalc_Driver():
 
 			total_string = "MODULE UNDER CURRENT DEVELOPMENT: NOT RUNNING YET (PRE-ALPHA)"
 
-			txtQueue=multiprocessing.JoinableQueue()
-			process=multiprocessing.Process(target=sascalc.sascalc,args=(variables,txtQueue))
-			process.start()
+			#txtQueue=multiprocessing.JoinableQueue()
+			#process=multiprocessing.Process(target=sascalc.sascalc,args=(variables,txtQueue))
+			#process.start()
 
-                        total_string = self.background_job(process,txtQueue,json_variables)
+                        #total_string = self.background_job(process,txtQueue,json_variables)
 
 			output_dict['sasoutput2'] = total_string
 
