@@ -55,6 +55,13 @@
                                  ,"apptitle"    : "this is application help"
                                 },
 
+  "textarea"                 : {
+      "label"           : "Report:"
+      ,"verticalalign"  : "top"
+      ,"cols"           : "60"
+      ,"help"           : "general textarea help"
+  },
+
 # "blue" colors
   "text_color_rgb"            : "220,210,210",
   "error_color_rgb"           : "255,0,0",
