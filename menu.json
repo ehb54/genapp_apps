@@ -9,6 +9,11 @@
             "help"    : "tools help text",
             "modules" : [ 
                          { 
+                          "id"    : "plottest",
+                          "label" : "Plot test",
+                          "help"  : "A plot testing demo"
+                         },
+                         { 
                           "id"    : "center",
                           "label" : "Center"
                          },
