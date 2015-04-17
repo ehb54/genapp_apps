@@ -10,8 +10,8 @@
                    "id"       : "startx",
                    "label"    : "Start x",
                    "type"     : "float",
-                   "default"  : 0.0,
-#                   "min"      : 0.0,
+                   "default"  : 1.0,
+                   "min"      : 1.0,
 #                   "max"      : 1e50,
                    "required" : "true"
                    },
@@ -20,7 +20,7 @@
                    "id"      : "endx",
                    "label"   : "End x",
                    "type"    : "float",
-                   "default" : 26,
+                   "default" : 10,
 #                   "min"     : -10,
 #                   "max"     : 10,
                    "required" : "true"
@@ -30,7 +30,7 @@
                    "id"      : "deltax",
                    "label"   : "Delta x",
                    "type"    : "float",
-                   "default" : 0.1,
+                   "default" : 0.5,
 #                   "min"     : -10,
 #                   "max"     : 10,
                    "required" : "true"
@@ -49,14 +49,35 @@
                    "type"    : "checkbox",
                    "checked" : "false"
                    },
+                  {
+                   "role"      : "input",
+                   "id"      : "logx",
+                   "label"   : "x axis log scale",
+                   "type"    : "checkbox",
+                   "checked" : "true"
+                   },
+                  {
+                   "role"      : "input",
+                   "id"      : "logx10",
+                   "label"   : "x axis log10 scale",
+                   "type"    : "checkbox",
+                   "checked" : "false"
+                   },
+                  {
+                   "role"      : "input",
+                   "id"      : "logy",
+                   "label"   : "y axis log scale",
+                   "type"    : "checkbox",
+                   "checked" : "false"
+                   },
                    {
                    "role"           : "output",
                    "id"             : "plotout4",
                    "label"          : "plot 2d",
                    "type"           : "plot2d",
                    "titlefontclass" : "header3",
-                   "height"         : "500px",
-                   "width"          : "300px",
+                   "height"         : "400px",
+                   "width"          : "800px",
                    "pan"            : "true",
                    "zoom"           : "true",
                    "hover"          : "true",

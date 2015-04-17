@@ -57,8 +57,11 @@
 
   "textarea"                 : {
       "label"           : "Report:"
+      ,"default"        : "header3"
       ,"verticalalign"  : "top"
       ,"cols"           : "60"
+# define rows to stop autosize
+#      ,"rows"           : "10"
       ,"help"           : "general textarea help"
   },
 

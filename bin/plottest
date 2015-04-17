@@ -39,24 +39,36 @@ sub mk_series {
 undef @plot1;
 undef @plot2;
 
+
+
 if ( $startx <= $endx && $deltax > 0 ||
      $endx >= $startx && $deltax < 0 )
 {
 
-    if ( $$ref{ "abs" } )
+    if ( $$ref{ "logy" } )
     {
         for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
         {
-            $plot1[ $pos ] = [ $x, abs( sin( $x ) ) ];
-            $plot2[ $pos ] = [ $x, abs( cos( $x ) ) ];
+            $plot1[ $pos ] = [ $x, exp( $x ) ];
+            $plot2[ $pos ] = [ $x, exp( abs( sin( $x ) ) * $x ) ];
             $pos++;
         }
     } else {
-        for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
+        if ( $$ref{ "abs" } )
         {
-            $plot1[ $pos ] = [ $x, sin( $x ) ];
-            $plot2[ $pos ] = [ $x, cos( $x ) ];
-            $pos++;
+            for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
+            {
+                $plot1[ $pos ] = [ $x, abs( sin( $x ) ) ];
+                $plot2[ $pos ] = [ $x, abs( cos( $x ) ) ];
+                $pos++;
+            }
+        } else {
+            for ( $x = $$ref{ "startx" }; $x <= $$ref{ "endx" }; $x += $$ref{ "deltax" } )
+            {
+                $plot1[ $pos ] = [ $x, sin( $x ) ];
+                $plot2[ $pos ] = [ $x, cos( $x ) ];
+                $pos++;
+            }
         }
     }
 
@@ -74,14 +86,35 @@ if ( $startx <= $endx && $deltax > 0 ||
 
     $json = encode_json( $res );
 
+    $optstr = "";
     if ( $$ref{"axislabels"} ) {
-        $json =~ s/\}$/,"plotout4":{"options":{"title":"example title","xlabel":"x label","ylabel":"y label"},"data":$pout}}/;
+        $optstr .= ',' if length( $optstr );
+        $optstr .= '"title":"example title","xlabel":"x label","ylabel":"y label"';
+    }
+    if ( $$ref{"logx"} ) {
+        $optstr .= "," if length( $optstr );
+        if ( $$ref{"logx10"} ) {
+            $optstr .= '"xscale":"log10","xtics":50';
+        } else {
+            $optstr .= '"xscale":"log","xtics":20';
+        }
+    }
+    if ( $$ref{"logy"} ) {
+        $optstr .= "," if length( $optstr );
+        $optstr .= '"yscale":"log"';
+    }
+    if ( length( $optstr ) ) {
+        $json =~ s/\}$/,"plotout4":{"options":{$optstr},"data":$pout}}/;
     } else {
         $json =~ s/\}$/,"plotout4":$pout}/;
     }        
 } else {
     $$res{ "errors" } .= "Plot range error";
     $json = encode_json( $res );
+}
+
+if ( $$ref{"logx"} && $startx <= 0 ) {
+    $$res{ "errors" } .= "Plot range error for log x";
 }
 
 open OUT, ">$p/logref.txt";
