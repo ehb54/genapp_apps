@@ -13,7 +13,7 @@
                   }
                   ,{
                    "role"     : "input",
-                   "id"       : "integerrepeater",
+                   "id"       : "integerrepeater1",
                    "label"    : "How about a number of repeatings",
                    "type"     : "integer",
                    "default"  : 0,
@@ -25,11 +25,19 @@
                    }
                   ,{
                    "role"     : "input",
-                   "id"       : "labelr",
+                   "id"       : "labelr1",
                    "label"    : "this is a label repeat",
                    "type"     : "label",
-                   "repeat"   : "integerrepeater",
+                   "repeat"   : "integerrepeater1",
                    "help"     : "this is a label repeat on an integer repeater"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "lrfile1",
+                   "label"    : "this is a lrfile repeat",
+                   "type"     : "lrfile",
+                   "repeat"   : "integerrepeater1",
+                   "help"     : "this is a lrfile repeat on an integer repeater"
                    }
                   ,{
                    "role"     : "input",
@@ -57,6 +65,14 @@
                    "type"     : "label",
                    "repeat"   : "integerrepeater2",
                    "help"     : "this is a label repeat on an integer repeater2"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "rpath2",
+                   "label"    : "this is a rpath repeat",
+                   "type"     : "rpath",
+                   "repeat"   : "integerrepeater2",
+                   "help"     : "this is a rpath repeat on an integer repeater2"
                    }
                   ]
 }
