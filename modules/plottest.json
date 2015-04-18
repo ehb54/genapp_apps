@@ -58,13 +58,6 @@
                    },
                   {
                    "role"      : "input",
-                   "id"      : "logx10",
-                   "label"   : "x axis log10 scale",
-                   "type"    : "checkbox",
-                   "checked" : "false"
-                   },
-                  {
-                   "role"      : "input",
                    "id"      : "logy",
                    "label"   : "y axis log scale",
                    "type"    : "checkbox",

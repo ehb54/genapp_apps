@@ -93,11 +93,7 @@ if ( $startx <= $endx && $deltax > 0 ||
     }
     if ( $$ref{"logx"} ) {
         $optstr .= "," if length( $optstr );
-        if ( $$ref{"logx10"} ) {
-            $optstr .= '"xscale":"log10","xtics":50';
-        } else {
-            $optstr .= '"xscale":"log","xtics":20';
-        }
+        $optstr .= '"xscale":"log","xtics":20';
     }
     if ( $$ref{"logy"} ) {
         $optstr .= "," if length( $optstr );
