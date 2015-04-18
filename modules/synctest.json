@@ -1,0 +1,62 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid"   : "synctest",
+    "label"      : "Synctest",
+    "executable" : "synctest",
+    "fields"   : [
+                  {
+                   "role"     : "input",
+                   "id"       : "checkboxrepeater1",
+                   "label"    : "a synced sub set",
+                   "type"     : "checkbox",
+                   "repeater" : "true"
+                  }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "integerrepeater",
+                   "label"    : "How about a number of repeatings",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "min"      : 0,
+                   "max"      : 5,
+                   "repeater" : "true",
+                   "sync"     : "a",
+                   "repeat"   : "checkboxrepeater1"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "labelr",
+                   "label"    : "this is a label repeat",
+                   "type"     : "label",
+                   "repeat"   : "integerrepeater",
+                   "help"     : "this is a label repeat on an integer repeater"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "checkboxrepeater2",
+                   "label"    : "another synced sub set",
+                   "type"     : "checkbox",
+                   "repeater" : "true"
+                  }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "integerrepeater2",
+                   "label"    : "Again how about a number of repeatings",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "min"      : 0,
+                   "max"      : 5,
+                   "repeater" : "true",
+                   "sync"     : "a",
+                   "repeat"   : "checkboxrepeater2"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "labelr2",
+                   "label"    : "this is a label repeat again",
+                   "type"     : "label",
+                   "repeat"   : "integerrepeater2",
+                   "help"     : "this is a label repeat on an integer repeater2"
+                   }
+                  ]
+}
