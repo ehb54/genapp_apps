@@ -6,6 +6,16 @@
     "fields"   : [
                   {
                    "role"     : "input",
+                   "id"       : "integerrepeater0",
+                   "label"    : "Base repeater",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "min"      : 0,
+                   "max"      : 5,
+                   "sync"     : "a"
+                   }
+                  ,{
+                   "role"     : "input",
                    "id"       : "checkboxrepeater1",
                    "label"    : "a synced sub set",
                    "type"     : "checkbox",
@@ -21,7 +31,8 @@
                    "max"      : 5,
                    "repeater" : "true",
                    "sync"     : "a",
-                   "repeat"   : "checkboxrepeater1"
+                   "repeat"   : "checkboxrepeater1",
+                   "hidden"   : "true"
                    }
                   ,{
                    "role"     : "input",
@@ -56,7 +67,8 @@
                    "max"      : 5,
                    "repeater" : "true",
                    "sync"     : "a",
-                   "repeat"   : "checkboxrepeater2"
+                   "repeat"   : "checkboxrepeater2",
+                   "hidden"   : "true"
                    }
                   ,{
                    "role"     : "input",
