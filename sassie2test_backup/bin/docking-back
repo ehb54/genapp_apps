@@ -1,0 +1,291 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.simulate.rigid_body.docking.docking as docking
+import sassie.interface.input_filter as input_filter
+
+class Docking_Drv():
+
+   module = 'docking'
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+             socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+
+        while process.is_alive():
+                try:
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+		#		pass ;
+				value = locale.atof(text_split[1])
+				svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+                                #socket_dict['progress_html'] = '<center>100.0 : plotting results</center>'
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+	
+        return total_string
+
+
+   def read_file(self,flot_data,filename,dvar):
+
+        try:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+        
+                        if(lin[0] != '#'):
+                                this_x = lin[dvar[0]]
+                                this_y = lin[dvar[1]]
+                        #       this_z = lin[2]
+                                data.append([this_x,this_y])
+                        #       error.append([this_x,this_z])   
+
+                if(dvar[0] == 0):
+
+                        flot_dict = {
+                                        'lines' : { "show": "false" },
+                                        'points' : { "show" : "true", "radius" : "4" },
+                                        'color' : 'red',
+                                        'label' : 'all structures',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+                else:
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "3.0" },
+                                        'points' : { "show" : "true", "radius" : "2" },
+                                        'color' : 'green',
+                                        'label' : 'accepted structures',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+        
+#                data_file.close()
+
+        except:
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+                flot_data = "error reading file and making plot"
+
+        return
+
+   def get_data_from_disk(self,file1,file2):
+
+        flot_data = []
+        dvar=[0,1]
+        self.read_file(flot_data,file1,dvar)
+        dvar=[2,1]
+        self.read_file(flot_data,file2,dvar)
+
+        return flot_data
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+         print json_variables
+         output_dict = {}
+
+         if not json_flag:
+
+                #### BEGIN USER EDIT
+                #### BEGIN USER EDIT
+                #### BEGIN USER EDIT
+
+                runname = 'run_0'
+                pdbmol1 = '2HHB-A-nW.pdb'
+                pdbmol2 = '2HHB-B-nW.pdb'
+                r = '1.8' # parameter to derive almn and blmn
+                d = '2.5' # thickness of the surface layer
+                rou = '-15' # molecular 1 interior parameter
+                delta = '1' # molecular 2 interior parameter
+                angle_step = '50'
+                eta = '1.0' # grid step size, 1.0-1.2
+                N = '90' # Number of grid points
+                eta_fine = '0.7' # grid step size, 0.7-0.8
+                N_fine = '128'
+                nMax = '10'
+        
+                path='./'
+
+                #### END USER EDIT
+                #### END USER EDIT
+                #### END USER EDIT
+         else:
+
+                #outputref = "/home/curtisj/sassie2/json_input_reference.txt"
+                #with open(outputref,"w") as outfile:
+                #        json.dump(json_variables,outfile)
+
+                runname = json_variables['runname']
+        
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+                data_path = path
+                path = ''
+
+                if(json_variables['refpdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['refpdbfile']
+                        head, pdbmol1 = os.path.split(temp_pdbfile[0])
+                elif(json_variables['refpdb_list_box'] == "c2"):
+                        pdbmol2 = json_variables['refpdbfile_text']
+
+                if(json_variables['movepdb_list_box'] == "c1"):
+                        temp_pdbfile = json_variables['movepdbfile']
+                        head, pdbmol2 = os.path.split(temp_pdbfile[0])
+                elif(json_variables['movepdb_list_box'] == "c2"):
+                        pdbmol2 = json_variables['movepdbfile_text']
+
+                try:
+                        advanced_input = json_variables['advanced_input']
+                except:
+                        advanced_input = 'off'
+
+                if(advanced_input == "on"):
+                        r = json_variables['r']
+                        d = json_variables['d']
+                        rou = json_variables['rou']
+                        delta = json_variables['delta']
+                        eta = json_variables['eta']
+                        eta_fine = json_variables['eta_fine']
+                        N = json_variables['N']
+                        N_fine = json_variables['N_fine']
+                        angle_step = json_variables['angle_step']
+                        nMax = json_variables['nMax']
+
+                else:
+                        r = '1.8' # parameter to derive almn and blmn
+                        d = '2.5' # thickness of the surface layer
+                        rou = '-15' # molecular 1 interior parameter
+                        delta = '1' # molecular 2 interior parameter
+                        angle_step = '50'
+                        eta = '1.0' # grid step size, 1.0-1.2
+                        N = '90' # Number of grid points
+                        eta_fine = '0.7' # grid step size, 0.7-0.8
+                        N_fine = '128'
+                        nMax = '10'
+
+                path = ''
+
+         svariables={}
+
+         svariables['runname'] = (str(runname),'string')
+         svariables['pdbmol1']        = (str(pdbmol1),'string')
+         svariables['pdbmol2']        = (str(pdbmol2),'string')
+         svariables['r']  = (str(r),'float')
+         svariables['d']  = (str(d),'float')
+         svariables['rou']  = (str(rou),'float')
+         svariables['delta']  = (str(delta),'float')
+         svariables['eta']  = (str(eta),'float')
+         svariables['eta_fine']  = (str(eta_fine),'float')
+         svariables['N']  = (str(N),'int')
+         svariables['N_fine']  = (str(N_fine),'int')
+         svariables['angle_step']  = (str(angle_step),'float')
+         svariables['nMax']  = (str(nMax),'int')
+
+         svariables['path']    = (path,'string')
+
+         error,self.variables=input_filter.type_check_and_convert(svariables)
+
+         save_stdout = sys.stdout
+         sys.stdout = sys.stderr
+#end emre
+	 _message = {}
+	 _message['icon'] = "warning.png"
+	 _message['text'] = "Error in input variables"
+
+         UDP_IP = json_variables['_udphost']
+         UDP_PORT = json_variables['_udpport']
+         sock = socket.socket(socket.AF_INET, # Internet
+             socket.SOCK_DGRAM) # UDP
+
+         socket_dict={}
+         socket_dict['_uuid'] = json_variables['_uuid']
+	 socket_dict['_message'] = _message
+
+         doc_string = json.dumps(socket_dict)
+         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+#         json.dumps(_message)
+
+         error = []
+
+         if(len(error)>0):
+
+                output_dict['error'] = 'Error in input variables'        
+                output_dict['sasoutput1'] = 'run failed'
+         else:
+                runname=self.variables['runname'][0]
+
+                if os.path.exists(os.path.join(runname,self.module)):
+                        shutil.rmtree(os.path.join(runname,self.module))
+
+                txtQueue=multiprocessing.JoinableQueue()
+
+                process=multiprocessing.Process(target=docking.docking,args=(self.variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue,json_variables)
+
+		output_dict['sasoutput2'] = total_string
+
+#emre
+         sys.stdout = save_stdout;
+#end emre
+
+         try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+         except:
+                output_dict['error_string'] = "error writing log file"
+
+         print json.dumps( output_dict )
+                
+if __name__=='__main__':
+
+        json_flag = True
+#        json_flag = False
+
+        if (len(sys.argv) < 1):
+                print "\{\"error\":\"docking called with no arguments\"\}\n";
+#                 print 'exiting now'
+
+        elif len(sys.argv) > 1:
+                json_variables = " "
+                if(json_flag):
+                        argv_io_string = StringIO(sys.argv[1])
+                        json_variables = json.load(argv_io_string)
+                a=Docking_Drv()
+                a.run_me(json_flag,json_variables,sys.argv[1])
+

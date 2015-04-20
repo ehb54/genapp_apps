@@ -1,0 +1,279 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,locale	
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.tools.interpolate as interpolate
+import sassie.interface.input_filter as input_filter
+import sassie.interface.interpolate_filter as interpolate_filter
+
+class Interpolate_Drv():
+
+   module = 'interpolate'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+	first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def read_file(self,flot_data,filename,this_pass):
+
+	try:
+		data = [] ; error = []
+		data_file = open(filename,'r').readlines()
+		nl = len(data_file)
+
+		for i in xrange(nl):
+			lin = string.split(data_file[i])
+			this_x = lin[0]
+			this_y = lin[1]	
+		#	this_z = lin[2]
+			data.append([this_x,this_y])	
+		#	error.append([this_x,this_z])	
+
+		if(this_pass == 2):
+
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "1.0" },
+                                        'points' : { "show" : "true", "radius" : "1" },
+                                        'color' : 'red',
+					'label' : 'original data',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+		else:                
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "6.0" },
+                                        #'points' : { "show" : "true" },
+                                        'color' : 'green',
+					'label' : 'interpolated data',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+#		data_file.close()
+
+	except:
+		print 'ERROR READING INTERPOLATED DATA FILE'
+		print 'ERROR READING INTERPOLATED DATA FILE'
+		print 'ERROR READING INTERPOLATED DATA FILE'
+		flot_data = "error reading file and making plot"
+
+	return
+
+   def get_interpolated_data_from_disk(self,ofile,ifile):
+
+	flot_data = []	
+
+	self.read_file(flot_data,ofile,1) # new interpolated data
+	self.read_file(flot_data,ifile,2) # experimental data
+
+ 	return flot_data
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	expdata = 'caw_0p6mgml.sub'
+        	ofile ='caw_op6mgml.dat'
+		io = '0.011'
+		ioe = '0.001'
+		dq = '0.01'
+		maxpoints = '30'
+		plotflag = '0'
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		ofile = json_variables['ofile']
+		io = json_variables['io']
+		ioe = json_variables['ioe']
+		dq = json_variables['dq']
+		maxpoints = json_variables['maxpoints']
+
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                ofile = json_variables['ofile']
+        
+		expdata = json_variables['expdata'][0]
+        	#head, expdata = os.path.split(temp_expdata[0])
+
+		data_path = path
+
+		path = ''
+
+	plotflag = '0'
+
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+        svariables['expdata']   = (str(expdata),'string')
+        svariables['ofile']     = (str(ofile),'string')
+        svariables['io']        = (str(io),'float')
+        svariables['ioe']       = (str(ioe),'float')
+        svariables['dq']        = (str(dq),'float')
+        svariables['maxpoints'] = (str(maxpoints),'int')
+        svariables['plotflag']  = (str(plotflag),'int')
+	svariables['path']    = (path,'string')
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=interpolate_filter.check_interpolate(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in interpolate variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+#		interpolate.interpolate(self.variables,txtQueue) 
+
+                process=multiprocessing.Process(target=interpolate.interpolate,args=(self.variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue,json_variables)
+
+	#	output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+		
+		#sassie_root = '/var/www/html/sassie2/'
+
+		flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/data_interpolation/'+ofile,expdata)
+
+	#	output_dict['test_ofile'] = data_path+ofile
+
+		#flot_data = [[[0.0,0.0],[1.0,2.0],[2.0,4.0],[3.0,9.0]]]
+		if(isinstance(flot_data, basestring)):
+			print 'error reading data'
+			output_dict['plot_error'] = flot_data
+		else:	
+			output_dict['plotout4'] = flot_data	
+
+#emre
+        sys.stdout = save_stdout;
+#end emre
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Interpolate_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

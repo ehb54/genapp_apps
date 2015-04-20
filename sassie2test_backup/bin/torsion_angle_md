@@ -1,0 +1,281 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,time,locale
+from StringIO import StringIO
+import multiprocessing,string,socket
+
+import sassie.simulate.tamd.tamd as tamd
+import sassie.interface.input_filter as input_filter
+
+class Tamd_Drv():
+
+   module = 'tamd'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+	first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+		runname		= 'run_2'
+		infile		= 'mc2.pdb'
+		pdbfile		= 'min3.pdb'
+		outfile		= 'test.dcd'
+		nsteps		= '200' 
+		
+		topfile		= '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
+		parmfile	= '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
+		keepout		= '1'
+		dcdfreq		= '20'
+		charmmexe	= '/share/apps/local/bin/charmm.exe'
+		temperature	= '300.0'
+		rgforce		= '0.0'
+		rgvalue		= '0.0'
+	
+		dna_segnames	= "None"
+
+		number_flexible_segments = '1'
+
+		pretamd_min_steps = '100'
+		poll_frequency = '10'
+
+		all_flexible_segnames=['GAG']
+		all_snumranges=['1']
+		all_srlow=['121']
+		all_srnum=['23']
+		all_moltype=['protein']
+
+                psegvariables = []
+                for i in xrange(locale.atoi(number_flexible_segments)):
+                        psegvariables.append([all_flexible_segnames[i],all_snumranges[i],all_srlow[i],all_srnum[i],all_moltype[i]])
+
+	
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+	
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                pdbfile = json_variables['pdbfile'][0]
+                #head, pdbfile = os.path.split(temp_pdbfile[0])
+
+                infile = json_variables['infile'][0]
+                #head, infile = os.path.split(temp_infile[0])
+
+		outfile = json_variables['outfile']
+		nsteps = json_variables['nsteps']
+		dcdfreq = json_variables['dcdfreq']
+		temperature = json_variables['temperature']
+		dna_segnames = json_variables['dna_segnames']
+		number_flexible_segments = json_variables['number_flexible_segments']
+		pretamd_min_steps = json_variables['pretamd_min_steps']
+		poll_frequency = json_variables['poll_frequency']
+		rgforce = json_variables['rgforce']
+		rgvalue = json_variables['rgvalue']
+
+		topfile         = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
+                parmfile        = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
+		charmmexe	= '/share/apps/local/bin/charmm.exe'
+
+		if(json_variables['keepout_checkbox'] == "on"):
+			keepout = "1"
+		else:
+			keepout = "0"
+
+                all_flexible_segnames=	json_variables['all_flexible_segnames']
+                all_snumranges=	json_variables['all_snumranges']
+                all_srlow=	json_variables['all_srlow']
+                all_srnum=	json_variables['all_srnum']
+                all_moltype=	json_variables['all_moltype']
+
+                psegvariables = []
+                for i in xrange(locale.atoi(json_variables['number_flexible_segments'])):
+                        if(all_moltype[i] == "c1"):
+                                mtype = "protein"
+                        elif(all_moltype[i] == "c2"):
+                                mtype = "dna"
+                        elif(all_moltype[i] == "c3"):
+                                mtype = "rna"
+                       	psegvariables.append([all_flexible_segnames[i],all_snumranges[i],all_srlow[i],all_srnum[i],mtype])
+
+	path = ''
+	svariables={}
+
+	svariables['runname'] 		= (str(runname),'string')
+	svariables['infile']		= (str(infile),'string')
+	svariables['pdbfile']		= (str(pdbfile),'string')
+	svariables['outfile']		= (str(outfile),'string')
+	svariables['nsteps']		= (str(nsteps),'int')
+	svariables['topfile']		= (str(topfile),'string')
+	svariables['parmfile']		= (str(parmfile),'string')
+	svariables['keepout']		= (str(keepout),'int')
+	svariables['dcdfreq']		= (str(dcdfreq),'int')
+	svariables['charmmexe']		= (str(charmmexe),'string')
+	svariables['temperature']	= (str(temperature),'float')
+	svariables['rgforce']		= (str(rgforce),'float')
+	svariables['rgvalue']		= (str(rgvalue),'float')
+
+	svariables['dna_segnames']	= (str(dna_segnames),'string')
+			
+	svariables['number_flexible_segments']	= (str(number_flexible_segments),'int')
+	svariables['pretamd_min_steps']	= (str(pretamd_min_steps),'string')
+	svariables['poll_frequency']	= (str(poll_frequency),'float')
+	
+	svariables['path']    = (str(path),'string')
+	
+	error = []
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+#                error=align2_filter.check_align(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in tamd variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+
+		txtQueue=multiprocessing.JoinableQueue()
+		process=multiprocessing.Process(target=tamd.tamd,args=(self.variables,psegvariables,txtQueue))
+
+		process.start()
+		total_string = 'starting self.background_job' 
+		print "total_string = ",total_string	
+		total_string = self.background_job(process,txtQueue,json_variables)
+
+		#ttxt=time.ctime()
+        	#st=''.join(['=' for x in xrange(60)])
+
+		#total_string += ("\n%s \n" %(st))
+		#total_string += "DATA FROM RUN:  "+ ttxt + "\n\n"
+        	#total_string += ("Structures saved to : %s\n" % (runname+'/tamd/'))
+        	#total_string += ("\n%s \n" %(st))	
+
+		#output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+	
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+#emre
+        sys.stdout = save_stdout
+#end emre
+
+        print json.dumps( output_dict )
+
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"tamd called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Tamd_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

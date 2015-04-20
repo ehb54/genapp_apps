@@ -1,0 +1,163 @@
+# this is a project menu file
+{
+ "header" : "Sassie 2",
+ "menu" : [
+           { 
+            "id"      : "tools",
+            "label"   : "Tools",
+            "icon"    : "pngs/tools.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "contrast_calculator",
+                          "label" : "Contrast Calculator",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "align",
+                          "label" : "Align",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "data_interpolation",
+                          "label" : "Data Interpolation",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "coordinate_tools",
+                          "label" : "Coordinate Tools",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "merge_utilities",
+                          "label" : "Merge Utilities",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "build",
+            "label"   : "Build",
+            "icon"    : "pngs/build.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "pdbscan",
+                          "label" : "PDB Scan",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "pdbrx",
+                          "label" : "PDB Rx",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "cg_builder",
+                          "label" : "CG Builder",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "interact",
+            "label"   : "Interact",
+            "icon"    : "pngs/interact.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "molecular_viewer",
+                          "label" : "Molecular Viewer",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "interactive_sas",
+                          "label" : "Interactive SAS",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "simulate",
+            "label"   : "Simulate",
+            "icon"    : "pngs/simulate.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "monomer_monte_carlo",
+                          "label" : "Monomer Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "complex_monte_carlo",
+                          "label" : "Complex Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "structure_minimization",
+                          "label" : "Energy Minimization ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "tamd",
+                          "label" : "Torsion Angle MD ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "ds_dna_monte_carlo",
+                          "label" : "ds DNA Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "docking",
+                          "label" : "Docking",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "calculate",
+            "label"   : "Calculate",
+            "icon"    : "pngs/calculate.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "sascalc",
+                          "label" : "SasCalc",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sctcalc",
+                          "label" : "SCTCalc",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sldmol",
+                          "label" : "SLD MOL",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "emtosans",
+                          "label" : "EM to SAS",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "analyze",
+            "label"   : "Analyze",
+            "icon"    : "pngs/analyze.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "chi_square_filter",
+                          "label" : "Chi-Square Filter",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "density",
+                          "label" : "Density Plot",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "apbs",
+                          "label" : "APBS",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            }
+          ]
+}

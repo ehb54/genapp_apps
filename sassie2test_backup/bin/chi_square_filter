@@ -1,0 +1,393 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,time,math,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.analyze.best as best
+import sassie.interface.input_filter as input_filter
+import sassie.interface.best_filter as best_filter
+
+class Chi_square_filter_Drv():
+
+   module = 'filter'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+   def read_file(self,flot_data,filename,number_columns,this_pass):
+
+        # sasfile: q-value, goal, best, worst, average
+
+        value = 1
+
+	log = False
+
+	log_q = False
+
+        #try:
+        if True:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+                        if(len(lin)>0):
+                                if(lin[0][0] != "#" and this_pass < 5):
+					if(locale.atof(lin[0]) > 0.0):
+						if log_q:
+                                        		this_x = str(math.log(locale.atof(lin[0]),10))
+	                                        else:
+							this_x = lin[0]
+	                                        if(this_pass == 1):
+							if log:
+								this_y1 = str(math.log(locale.atof(lin[1]),10))
+							else:
+	                                                	this_y1 = lin[1]
+	                                                data.append([this_x,this_y1])
+	                                                legend = "goal"
+	                                        elif(this_pass == 2):
+							if log:
+								this_y1 = str(math.log(locale.atof(lin[2]),10))
+							else:
+	                                                	this_y1 = lin[2]
+	                                                data.append([this_x,this_y1])
+	                                                legend = "best"
+	                                        elif(this_pass == 3):
+							if log:
+								this_y1 = str(math.log(locale.atof(lin[3]),10))
+							else:
+	                                                	this_y1 = lin[3]
+	                                                data.append([this_x,this_y1])
+	                                                legend = "worst"
+	                                        elif(this_pass == 4):
+							if log:
+								this_y1 = str(math.log(locale.atof(lin[4]),10))
+							else:
+	                                                	this_y1 = lin[4]
+	                                                data.append([this_x,this_y1])
+	                                                legend = "average"
+
+                                elif(lin[0][0] != "#" and this_pass == 5):
+                                        #this_x = locale.atof(lin[0])
+                                        this_x = lin[0]
+                                        #this_y1 = locale.atof(lin[4])
+                                        this_y1 = lin[1]
+                                        data.append([this_x,this_y1])
+
+                if(this_pass == 5):
+
+                        flot_dict = {
+					#'lines' : { "show": "false" },
+					'points' : { "show" : "true" },
+                                        'color': 'yellow',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+                elif(this_pass < 5):
+
+                        flot_dict = {
+                #                       'lines' : {lineWidth: 3},
+                                        'label': legend,
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+                else:
+                        flot_data.append(data)
+
+        #except:
+        #        print 'ERROR READING DATA FILE'
+        #        print 'ERROR READING DATA FILE'
+        #        print 'ERROR READING DATA FILE'
+        #        flot_data = "error reading file and making plot"
+
+        return value
+
+
+   def get_data_from_disk(self,filename,number_columns):
+
+	# sas_spectra_plot.txt 
+# q-value, goal, best, worst, average
+#0.000000	0.019000	0.019000	0.019000	0.019000
+
+	# x2_versus_rg_plot.txt 
+# Rg	X2
+#63.749069	10.383249
+
+
+        flot_data = []
+
+        if(number_columns > 2):
+                value = self.read_file(flot_data,filename,number_columns,1)
+                value = self.read_file(flot_data,filename,number_columns,2)
+                value = self.read_file(flot_data,filename,number_columns,3)
+                value = self.read_file(flot_data,filename,number_columns,4)
+        else:
+                value = self.read_file(flot_data,filename,number_columns,5)
+
+        return flot_data
+
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+		saspath = './run_0/xtal2sas/'
+		sasintfile = './nsfit.data'
+		io = '0.019'
+		x2highcut = '10.0'
+		x2highweightfile = 'x2highweights.txt'
+		x2lowcut = '1.0'
+		x2lowweightfile = 'x2lowweights.txt'
+		rghighcut = '60.0'
+		rghighweightfile = 'rghighweights.txt'
+		rglowcut = '40.0'
+		rglowweightfile = 'rglowweights.txt'
+		sastype = '1'
+		reduced_x2 = '1'
+		plotflag = '0'
+
+		path='./'
+
+                data_path = path
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+	
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                sasintfile = json_variables['sasintfile'][0]
+                #head, sasintfile = os.path.split(temp_sasintfile[0])
+
+                path = ''
+	
+                saspath = json_variables['saspath'][0]
+                #head, saspath = os.path.split(temp_saspath[0])
+                
+		#saspath = json_variables['saspath']
+		#saspath = saspath.replace('\/','/') + "/"
+                io = json_variables['io']
+
+                try:
+                        advanced_input = json_variables['advanced_input']
+                except:
+                        advanced_input = 'off'
+
+                if(advanced_input == "on"):
+
+                	x2highcut = json_variables['x2highcut']
+                	x2highweightfile = json_variables['x2highweightfile']
+                	x2lowcut = json_variables['x2lowcut']
+                	x2lowweightfile = json_variables['x2lowweightfile']
+                	rghighcut = json_variables['rghighcut']
+                	rghighweightfile = json_variables['rghighweightfile']
+                	rglowcut = json_variables['rglowcut']
+                	rglowweightfile = json_variables['rglowweightfile']
+                else:
+			x2highcut = '10.0'
+			x2highweightfile = 'x2highweights.txt'
+			x2lowcut = '1.0'
+			x2lowweightfile = 'x2lowweights.txt'
+			rghighcut = '60.0'
+			rghighweightfile = 'rghighweights.txt'
+			rglowcut = '40.0'
+			rglowweightfile = 'rglowweights.txt'
+
+
+                sastype_list_box = json_variables['sastype_list_box']
+                if(sastype_list_box == 'c1'):
+                        sastype = '1' # xtal2sas
+                elif(sastype_list_box == 'c2'):
+                        sastype = '2' # cryson
+                elif(sastype_list_box == 'c3'): 
+                        sastype = '3' # crysol
+
+                reduced_x2_list_box = json_variables['reduced_x2_list_box']
+                if(reduced_x2_list_box == 'c1'):
+                        reduced_x2 = '1' # reduced chi-square
+                elif(reduced_x2_list_box == 'c2'):
+                        reduced_x2 = '0' # chi-square
+                elif(reduced_x2_list_box == 'c3'):
+                        reduced_x2 = '2' # Pearson's chi-square
+
+                data_path = path
+
+		path = ''
+
+	svariables={}
+
+	plotflag = '0'
+
+	svariables['runname'] = (str(runname),'string')
+
+	svariables['saspath']   	= (str(saspath),'string')
+	svariables['sasintfile']	= (str(sasintfile),'string')
+	svariables['io']        	= (str(io),'float')
+	svariables['x2highcut'] 	= (str(x2highcut),'float')
+	svariables['x2highweightfile']	= (str(x2highweightfile),'string')
+	svariables['x2lowcut'] 		= (str(x2lowcut),'float')
+	svariables['x2lowweightfile']	= (str(x2lowweightfile),'string')
+	svariables['rghighcut']		= (str(rghighcut),'float')
+	svariables['rghighweightfile'] 	= (str(rghighweightfile),'string')
+	svariables['rglowcut'] 		= (str(rglowcut),'float')
+	svariables['rglowweightfile'] 	= (str(rglowweightfile),'string')
+	svariables['sastype']        	= (str(sastype),'int')
+	svariables['reduced_x2']	= (str(reduced_x2),'int')
+	svariables['plotflag']        	= (str(plotflag),'int')
+
+	svariables['path']    = (path,'string')
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=best_filter.check_best(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in chi-square filter variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+
+                process=multiprocessing.Process(target=best.best,args=(self.variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue,json_variables)
+
+#		output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+
+                flot_data = self.get_data_from_disk(data_path+runname+'/filter/sas_spectra_plot.txt',5)
+
+                if(isinstance(flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = flot_data
+                else:
+                        output_dict['iq_plot'] = flot_data
+
+                flot_data = self.get_data_from_disk(data_path+runname+'/filter/x2_vs_rg_plot.txt',2)
+
+                if(isinstance(flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = flot_data
+                else:
+                        output_dict['chi_square_plot'] = flot_data
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+        print json.dumps( output_dict )
+
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"chi-square filter called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Chi_square_filter_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

@@ -1,0 +1,248 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "docking",
+    "label"    : "Docking",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Docking",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mol_1_label",
+                   "label"    : "Fixed molecule",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "input pdb file (mol 1)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use file on server~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "refpdbfile",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "PDB file for the fixed structure",
+                   "repeat"   : "refpdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "refpdbfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "PDB file for the fixed structure",
+                   "repeat"   : "refpdb_list_box:c2",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mol_2_label",
+                   "label"    : "Moving molecule",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "movepdb_list_box",
+                   "name"    : "movepdb_list_box",
+                   "label"   : "input pdb file (mol 2)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use file on server~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "movepdbfile",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+                   "help"     : "PDB file to be moved",
+                   "repeat"   : "movepdb_list_box:c1",
+                   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "movepdbfile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+                   "help"     : "PDB file to be moved",
+                   "repeat"   : "movepdb_list_box:c2",
+                   "norow" : "true"
+                   },
+#
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "r",
+                   "label"    : "r",
+                   "help"     : "atomic radius for docking map construction (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 1.8,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "d",
+                   "label"    : "d",
+                   "help"     : "thickness of the surface layer (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 2.5,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rou",
+                   "label"    : "rou",
+                   "help"     : "grid value inside the fixed molecule (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : -15.0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "delta",
+                   "label"    : "delta",
+                   "help"     : "grid value inside the moving molecule (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 1.0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "eta",
+                   "label"    : "eta (coarse)",
+                   "help"     : "grid distance for coarse scanning (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 1.0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "N",
+                   "label"    : "N (coarse)",
+                   "help"     : "Number of grid points for coarse scanning (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "integer",
+                   "default"  : 90,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "eta_fine",
+                   "label"    : "eta (fine)",
+                   "help"     : "grid distance for fine scanning (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 0.7,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "N_fine",
+                   "label"    : "N (fine)",
+                   "help"     : "Number of grid points for coarse scanning (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "integer",
+                   "default"  : 128,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "angle_step",
+                   "label"    : "Euler angular step size (degree)",
+                   "help"     : "Euler angular step size for coarse scanning (as defined in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 50.0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nMax",
+                   "label"    : "Number of best docking configurations to be generated",
+                   "type"     : "integer",
+                   "default"  : 10,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+#
+                  {   
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0 
+                   },  
+                  {   
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },  
+                   {   
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "", 
+                    "type"    : "textarea",
+                    "rows"    : 20, 
+                    "cols"    : 80
+                    } 
+                  ],
+    "executable" : "docking"
+}

@@ -1,0 +1,255 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "sascalc",
+    "label"    : "SasCalc",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "SasCalc",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "message",
+                   "label"    : "Module under development: due Spring 2015",
+                   "type"     : "label",
+                   "default"  : "header3",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called sascalc/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "dcdfile",
+                   "label"   : "trajectory file filename (dcd or pdb):",
+                   "type"     : "lrfile",
+		   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SAS",
+                   "norow"    : "false"
+                   },
+		  {
+                   "role"     : "input",
+                   "id"       : "source_list_box",
+                   "label"    : "neutrons or X-ray?",
+                   "type"     : "listbox",
+                   "values"   : "neutrons~c1~X_ray~c2",
+                   "default"  : "c1",
+                   "help"  : "choose a scattering type",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "n_q",
+                   "label"   : "number of q values:",
+                   "type"    : "text",
+                   "default" : "50",
+#                   "help" : "delta q = maximum q-value / (number q-values - 1)",
+                   "help" : "enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "max_q",
+                   "label"   : "maximum q value: ",
+                   "type"    : "text",
+                   "default" : "0.5",
+                   "help" : "(1/angstrom)",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "I0",
+                   "label"   : "I(0):",
+                   "type"    : "text",
+                   "default" : "1.0",
+                   "help" : "experimentally determined value of I(0): usually determined by Guinier analysis",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "n_gv0",
+                   "label"   : "initial number of golden vectors:",
+                   "type"    : "text",
+                   "default" : "21",
+                   "help" : "must be an odd number of vectors: typically 21 to 51 are adequate",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pRDF",
+                   "label"    : "Check box to enable HyPred pRDF solvent model",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "not yet implemented",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "surface",
+                   "label"    : "variables to determine surface atoms",
+                   "type"     : "label",
+                   "prehline"  : "true",
+                   "posthline"  : "true",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "r",
+                   "label"    : "surface atom probe radius:",
+                   "type"     : "text",
+                   "default:" : "1.8",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "d",
+                   "label"    : "surface layer thickness:",
+                   "type"     : "text",
+                   "default:" : "2.5",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "rou",
+                   "label"    : "surface molecule interior parameter:",
+                   "type"     : "text",
+                   "default:" : "-15.0",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "eta",
+                   "label"    : "surface grid step size:",
+                   "type"     : "text",
+                   "default:" : "1.0",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "grid_number",
+                   "label"    : "surface grid number:",
+                   "type"     : "text",
+                   "default:" : "90",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "coverage",
+                   "label"    : "surface coverage parameter:",
+                   "type"     : "text",
+                   "default:" : "0.3",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"       : "input",
+                   "id"       : "header_prdf",
+                   "label"    : "variables for prdf",
+                   "type"     : "label",
+                   "prehline"  : "true",
+                   "posthline"  : "true",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"      : "prdffile",
+                   "label"   : "prdf file name:",
+                   "type"     : "lrfile",
+                   "required" : "false",
+                   "repeat"   : "pRDF",
+                   "help"  : "not yet implemented",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "prdf_cube_length",
+                   "label"    : "prdf cube length:",
+                   "type"     : "text",
+                   "default:" : "0.5",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "prdf_cube_cutoff",
+                   "label"    : "prdf cube cutoff:",
+                   "type"     : "text",
+                   "default:" : "7.0",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+	 	   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : " ",
+                    "type"    : "textarea",
+		    "rows"    : 20,
+		    "cols"    : 80
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "sascalc"
+}
