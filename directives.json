@@ -17,7 +17,10 @@
                                  "html5" : "/share/apps/genapp",
                                  "qt3"   : "/tmp",
                                  "qt4"   : "/tmp"
-                                }, 
+                                },
+  "plot2d"                   : {
+                                 "precision" : 5
+                               }, 
   "docsbaseurl"               : "docs",
   "help"                      : {
                                  "user_config" : "Settings Manager: use to register and or change projects and settings"

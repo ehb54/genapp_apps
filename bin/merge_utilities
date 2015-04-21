@@ -90,11 +90,17 @@ class Merge_utilities_Drv():
 
         	runname='run_0'
         	pdb_file='min3.pdb'
-		merge_option = '0'
-		run_paths = 'run_m1,run_m2'
-		dcd_names = 'generate/run_m1.dcd,generate/run_m2.dcd'
-        	sas_type ='1'
-		sas_paths = 'xtal2sas'
+    		merge_option = '0'   # 0 -> pdb/dcd:sas ; 1 -> sas ; 2 -> pdb/dcd
+    		#merge_option = '2'   # 0 -> pdb/dcd:sas ; 1 -> sas ; 2 -> pdb/dcd
+    		number_of_runs = '2'
+    		trajectory_names = 'run_m1/generate/run_m1.dcd,run_m2/generate/run_m2.dcd'
+    		#trajectory_names = 'generate/run_m1.pdb,generate/run_m2.pdb'
+    		sas_type = '1'      # 1 -> xtal2sas, 2 -> cryson, 3 -> cyrsol
+    		sas_paths = 'run_m1/xtal2sas,run_m1/xtal2sas'
+
+    		output_filename = 'merged_run_0.dcd'
+    		#output_filename = 'merged_run_0.pdb'
+
         	path='./'
 
         	#### END USER EDIT
@@ -110,51 +116,78 @@ class Merge_utilities_Drv():
                 os.chdir(path)
                 path = ''
 
-		pdb_file = json_variables['pdb_file'][0]
-                #head, pdb_file = os.path.split(temp_pdb_file[0])
+		number_of_runs = json_variables['number_of_runs_to_merge'][0]	
 		
-		run_paths = json_variables['run_paths']
+		try:
+			trajectory_checkbox = json_variables['trajectory_checkbox']
+		except:		
+			trajectory_checkbox = 'off'
+		try:
+			sas_checkbox = json_variables['sas_checkbox']
+		except:		
+			sas_checkbox = 'off'
 
-		dcd_names = '' ; run_paths = ''
-		for i in xrange(int(json_variables['number_of_runs'])):
-			this_name = json_variables['dcd_names'][i]
-			this_path = json_variables['run_paths'][i]
+		if(trajectory_checkbox == 'on' and sas_checkbox == 'on'):
+			merge_option = '0'
+		elif(trajectory_checkbox == 'off' and sas_checkbox == 'on'):
+			merge_option = '1'
+		elif(trajectory_checkbox == 'on' and sas_checkbox == 'off'):
+			merge_option = '2'
 
-			temp_dcd_names =  this_name[0]
-			temp_run_paths =  this_path[0]
-	                head, this_dcd = os.path.split(temp_dcd_names)
 
-			dcd_names += temp_dcd_names + ','
-			run_paths += temp_run_paths + ','
+		pdb_file = ''
+		trajectory_names = ''
+		output_filename = ''
+		sas_path_names = ''
+		sas_type = '1'
 
-		dcd_names = dcd_names[:-1]
-		run_paths = run_paths[:-1]
+		if (merge_option == '0' or merge_option == '2'):
 
-		sas_paths = json_variables['sas_paths']
+			pdb_file = json_variables['pdb_file'][0]
+               
+			trajectory_names = ''
+			for i in xrange(int(number_of_runs)):
+				this_name = json_variables['trajectory_names'][i]
+				trajectory_names += this_name[0] + ','
+
+			trajectory_names = trajectory_names[:-1]
+
+			output_filename = json_variables['output_filename']
+				
+		if (merge_option == '0' or merge_option == '1'):
+			sas_path_names = ''
+			for i in xrange(int(number_of_runs)):
+				this_path = json_variables['sas_paths'][i]
+
+				sas_path_names += this_path[0] + ','
+
+			sas_path_names = sas_path_names[:-1]
+                 
+			sas_type_list_box = json_variables['sas_type_list_box']
+                	if(sas_type_list_box == 'c1'):
+                        	sas_type = '1'
+                	elif(sas_type_list_box == 'c2'):
+                	        sas_type = '2'
+                	elif(sas_type_list_box == 'c3'):
+                	        sas_type = '3'
 
 		merge_option_list_box = json_variables['merge_option_list_box']
                 if(merge_option_list_box == 'c1'):
-                        merge_option = '0'
+                        merge_type_option = '0'
                 elif(merge_option_list_box == 'c2'):
-                        merge_option = '1'
-                 
-		sas_type_list_box = json_variables['sas_type_list_box']
-                if(sas_type_list_box == 'c1'):
-                        sas_type = '1'
-                elif(sas_type_list_box == 'c2'):
-                        sas_type = '2'
-                elif(sas_type_list_box == 'c3'):
-                        sas_type = '3'
+                        merge_type_option = '1'
 
 	svariables={}
 
 	svariables['runname'] = (str(runname),'string')
 	svariables['pdb_file']  = (str(pdb_file),'string')
 	svariables['merge_option']  = (str(merge_option),'int')
-	svariables['run_paths']   = (str(run_paths),'string')
-	svariables['dcd_names']   = (str(dcd_names),'string')
+	svariables['merge_type_option']  = (str(merge_type_option),'int')
+	svariables['number_of_runs']  = (str(number_of_runs),'int')
+	svariables['trajectory_names']   = (str(trajectory_names),'string')
 	svariables['sas_type']   = (str(sas_type),'int')
-	svariables['sas_paths']   = (str(sas_paths),'string')
+	svariables['sas_paths']   = (str(sas_path_names),'string')
+	svariables['output_filename']   = (str(output_filename),'string')
 	svariables['path']    = (path,'string')
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)

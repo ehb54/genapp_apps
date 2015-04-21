@@ -95,7 +95,11 @@
                    "role"    : "output",
                    "id"      : "plotout4",
                    "label"   : "original and interpolated data",
-                   "type"    : "plot2d"
+                   "type"    : "plot2d",
+		   "pan"     : "true",
+   		   "zoom"    : "true",
+		   "hover"   : "true",
+		   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
                    },
 		   {
                     "role"    : "output",

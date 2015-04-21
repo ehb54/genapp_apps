@@ -78,60 +78,113 @@ class Interpolate_Drv():
 
         return total_string
 
-   def read_file(self,flot_data,filename,this_pass):
+   def find_min_max(self,data_file):
+	nl = len(data_file)
 
-	try:
+	minx = 1E10 ; maxx = -1E10
+	miny = 1E10 ; maxy = -1E10
+	for i in xrange(nl):
+		lin = string.split(data_file[i])
+		try:
+			this_x = locale.atof(lin[0])
+			this_y = locale.atof(lin[1])
+			if(this_x < minx) : minx = this_x
+			if(this_y < miny) : miny = this_y
+			if(this_x > maxx) : maxx = this_x
+			if(this_y > maxy) : maxy = this_y
+		except:
+			pass
+	
+	return minx,miny,maxx,maxy
+
+   def read_file(self,filename,this_pass):
+	if True:
+	#try:
 		data = [] ; error = []
 		data_file = open(filename,'r').readlines()
 		nl = len(data_file)
+		minx,miny,maxx,maxy = self.find_min_max(data_file)
+
+		print 'minx = ',minx
+		print 'maxx = ',maxx
+		print 'miny = ',miny
+		print 'maxy = ',maxy
+
+		if miny < 0.0: miny = 1E-6
+		if minx < 0.0: minx = 1E-6
+
+		minx = 0.85 * minx ; maxx = 1.15 * maxx
+		miny = 0.85 * miny ; maxy = 1.15 * maxy
 
 		for i in xrange(nl):
 			lin = string.split(data_file[i])
-			this_x = lin[0]
-			this_y = lin[1]	
-		#	this_z = lin[2]
-			data.append([this_x,this_y])	
+			try:
+				this_x = locale.atof(lin[0])
+				this_y = locale.atof(lin[1])
+#				if this_y < 0:
+#					this_y = 0.00001	
+				if this_x > 0:
+					data.append([str(this_x),str(this_y)])	
+			except:
+				pass
 		#	error.append([this_x,this_z])	
 
 		if(this_pass == 2):
 
-                        flot_dict = {
-                                        'lines' : { "show": "true", "lineWidth" : "1.0" },
-                                        'points' : { "show" : "true", "radius" : "1" },
-                                        'color' : 'red',
-					'label' : 'original data',
-                                        'data': data
+                        self.flot_data = {
+					"options": {
+						"title"  : "Results",
+						"xlabel"  : "q (1/angstrom)",
+						"ylabel"  : "I(q)",
+ 						"xscale"  : "log",
+						"yscale"  : "log",
+						"xmin"	  : minx,
+						"xmax"	  : maxx,
+						"ymin"	  : miny,
+						"ymax"	  : maxy,
+			
+					},
+			
+					"data" : [
+                                        	{
+							"lines" : { "show": "true", "lineWidth" : "1.0" },
+                                        		"points" : { "show" : "true", "radius" : "1" },
+                                        		"color" : "red",
+							"label" : "original data",
+                                        		"data": data
+						}
+					]
+					
                                 }
-                        flot_data.append(flot_dict)
-
 		else:                
-                        flot_dict = {
-                                        'lines' : { "show": "true", "lineWidth" : "6.0" },
-                                        #'points' : { "show" : "true" },
+                        pass_1_data = {
+                                        'lines' : { 'show': 'true', 'lineWidth' : '3.0' },
+                                        'points' : { 'show' : 'true' },
                                         'color' : 'green',
 					'label' : 'interpolated data',
                                         'data': data
-                                }
-                        flot_data.append(flot_dict)
+					}
 
-#		data_file.close()
+                        self.flot_data["data"].append(pass_1_data)
 
-	except:
+		#data_file.close()
+
+	#except:
+	else:
 		print 'ERROR READING INTERPOLATED DATA FILE'
 		print 'ERROR READING INTERPOLATED DATA FILE'
 		print 'ERROR READING INTERPOLATED DATA FILE'
-		flot_data = "error reading file and making plot"
+		self.flot_data = {"error reading file and making plot"}
 
-	return
+	return 
 
    def get_interpolated_data_from_disk(self,ofile,ifile):
 
-	flot_data = []	
+	self.flot_data = {}
+	self.read_file(ifile,2) # experimental data
+	self.read_file(ofile,1) # new interpolated data
 
-	self.read_file(flot_data,ofile,1) # new interpolated data
-	self.read_file(flot_data,ifile,2) # experimental data
-
- 	return flot_data
+ 	return 
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -237,16 +290,20 @@ class Interpolate_Drv():
 		
 		#sassie_root = '/var/www/html/sassie2/'
 
-		flot_data = self.get_interpolated_data_from_disk(data_path+runname+'/data_interpolation/'+ofile,expdata)
+		self.get_interpolated_data_from_disk(data_path+runname+'/data_interpolation/'+ofile,expdata)
 
 	#	output_dict['test_ofile'] = data_path+ofile
 
+#		print 'flot_data = ',flot_data ; sys.stdout.flush()
+
+#		output_dict['plot_error'] = flot_data
+
 		#flot_data = [[[0.0,0.0],[1.0,2.0],[2.0,4.0],[3.0,9.0]]]
-		if(isinstance(flot_data, basestring)):
+		if(isinstance(self.flot_data, basestring)):
 			print 'error reading data'
-			output_dict['plot_error'] = flot_data
+			output_dict['plot_error'] = self.flot_data
 		else:	
-			output_dict['plotout4'] = flot_data	
+			output_dict['plotout4'] = self.flot_data	
 
 #emre
         sys.stdout = save_stdout;
