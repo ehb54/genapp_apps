@@ -23,8 +23,8 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "coordinate_tools",
-                          "label" : "Coordinate Tools",
+                          "id"    : "extract_utilities",
+                          "label" : "Extract Utilities",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 

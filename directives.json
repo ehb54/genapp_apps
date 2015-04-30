@@ -22,6 +22,21 @@
                                  "precision" : 5
                                }, 
   "docsbaseurl"               : "docs",
+  "textarea"                 : {
+				# an optional label
+      				#"label"           : ""
+				# the standard label defaults apply e.g.
+      				#,"default"        : "header2"
+				# where the label will be placed in relation to the textarea
+      				#,"verticalalign"  : "top"
+      				"verticalalign"  : "top"
+				# number of rows, if not set the textarea will autosize
+      				,"rows"           : "20"
+				# number of columns
+      				,"cols"           : "80"
+				# and of course help
+      				#,"help"           : ""
+  				},
   "help"                      : {
                                  "user_config" : "Settings Manager: use to register and or change projects and settings"
                                  ,"register"    : "Settings Manager: use to register and or change projects and settings"

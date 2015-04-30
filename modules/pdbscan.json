@@ -15,7 +15,7 @@
                    {
                    "role"       : "input",
                    "id"       : "message",
-                   "label"    : "Module under development: only complete PDB headers for proteins is implemented",
+                   "label"    : "Module under development: currently only PDB files of proteins are supported",
                    "type"     : "label",
                    "default"  : "header3",
                    "prehline"  : "true",
@@ -67,16 +67,7 @@
                      "name"    : "report_html",
                      "label"   : "report : ",
                      "type"    : "html"
-                    },
-                  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : " ",
-                    "type"    : "textarea",
-                    "rows"    : 20,
-                    "cols"    : 80
-                   } 
+                    }
                  ],
 # the executable will take inputs in order and produce output
     "executable" : "pdbscan"

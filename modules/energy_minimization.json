@@ -149,39 +149,6 @@
                    "help"  : "click this box for extra options for the run",
                    "repeater" : "true"
                    },
-#                  {
-#                   "role"    : "input",
-#                   "id"      : "top_list_box",
-#                   "name"    : "top_list_box",
-#                   "label"   : "charmm topology file",
-#                   "type"    : "listbox",
-#                   "values"  : "upload file~c1~use file on server~c2",
-#                   "default" : "c1",
-#                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
-#                   "repeat" : "advanced_input",
-#                   "repeater" : "true",
-#                   "norow"    : "false"
-#                   },
-#                  {
-#                   "role"    : "input",
-#                   "id"      : "topfile",
-#                   "label"   : " ",
-#                   "type"    : "file",
-#                   "required" : "true",
-#                   "help"     : "name of molecular topology file",
-#                   "repeat"   : "top_list_box:c1",
-#                   "norow" : "true"
-#                   },
-#                  {
-#                   "role"    : "input",
-#                   "id"      : "topfile_text",
-#                   "label"   : "enter full path and file name ",
-#                   "type"    : "text",
-#                   "required" : "true",
-#                   "help"     : "name of molecular topology file",
-#                   "repeat"   : "top_list_box:c2",
-#                   "norow" : "true"
-#                   },
                   {
                    "role"     : "input",
                    "id"      : "parmfile",

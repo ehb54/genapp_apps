@@ -97,6 +97,11 @@ class Merge_utilities_Drv():
     		#trajectory_names = 'generate/run_m1.pdb,generate/run_m2.pdb'
     		sas_type = '1'      # 1 -> xtal2sas, 2 -> cryson, 3 -> cyrsol
     		sas_paths = 'run_m1/xtal2sas,run_m1/xtal2sas'
+    		merge_type_option = '0'   # 0 -> all, 1->weight files, 2-> periodic
+
+		local_value = 'None'
+    		#local_value = 'weights_file_m1.txt,weights_file_m2.txt'
+    		#local_value = '10'
 
     		output_filename = 'merged_run_0.dcd'
     		#output_filename = 'merged_run_0.pdb'
@@ -174,8 +179,20 @@ class Merge_utilities_Drv():
 		merge_option_list_box = json_variables['merge_option_list_box']
                 if(merge_option_list_box == 'c1'):
                         merge_type_option = '0'
+                        local_value = 'None'
                 elif(merge_option_list_box == 'c2'):
                         merge_type_option = '1'
+			local_value = ''
+			for i in xrange(int(number_of_runs)):
+				this_path = json_variables['weight_files'][i]
+
+				local_value += this_path[0] + ','
+
+			local_value = local_value[:-1]
+
+                elif(merge_option_list_box == 'c3'):
+                        merge_type_option = '2'
+                        local_value = json_variables['sampling_frequency']
 
 	svariables={}
 
@@ -188,6 +205,7 @@ class Merge_utilities_Drv():
 	svariables['sas_type']   = (str(sas_type),'int')
 	svariables['sas_paths']   = (str(sas_path_names),'string')
 	svariables['output_filename']   = (str(output_filename),'string')
+	svariables['local_value']   = (str(local_value),'string')
 	svariables['path']    = (path,'string')
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)

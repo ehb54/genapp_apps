@@ -163,11 +163,7 @@ class Structure_minimization_Drv():
                 	#elif(json_variables['top_list_box'] == "c2"):
                         #	topfile = json_variables['topfile_text']
 
-                	if(json_variables['par_list_box'] == "c1"):
-                        	parmfile = json_variables['parmfile'][0]
-                        	#head, parmfile = os.path.split(temp_parmfile[0])
-                	elif(json_variables['par_list_box'] == "c2"):
-                        	parmfile = json_variables['parmfile_text']
+                        parmfile = json_variables['parmfile'][0]
 
 		else:
 			#topfile = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'

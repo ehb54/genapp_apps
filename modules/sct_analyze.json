@@ -1,12 +1,12 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "sctanal",
-    "label"    : "SCT Analyse",
+    "moduleid" : "sct_analyze",
+    "label"    : "SCT Analyze",
     "fields"   : [
                    {
                    "role"       : "input",
                    "id"         : "module_header",
-                   "label"      : "SCT Analyse",
+                   "label"      : "SCT Analyze",
                    "type"       : "label",
                    "default"    : "header4",
                    "prehline"   : "true",
@@ -19,7 +19,7 @@
                    "type"       : "text",
                    "default"    : "run_0",
                    "required"   : "true",
-                   "help"       : "results will be placed in a folder called sctanal/ in the directory name you enter here"
+                   "help"       : "results will be placed in a folder called sct_analyze/ in the directory name you enter here"
                    },
                   {
                    "role"     : "input",
@@ -124,5 +124,5 @@
                    }
                   ],
 # the executable will take inputs in json and produce output in json
-    "executable" : "sctanal"
+    "executable" : "sct_analyze"
 }

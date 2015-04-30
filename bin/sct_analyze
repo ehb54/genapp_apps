@@ -16,7 +16,7 @@ import sassie.analyze.gsct_anal as gsct_anal
 
 class SCTAnal_Drv():
 
-    module = 'sctanal'
+    module = 'sct_analyze'
 
     def message_box(self, text, icon):
 
@@ -98,12 +98,14 @@ class SCTAnal_Drv():
             # BEGIN USER EDIT
 
             runname = 'run_0'
-            sct_calc_dir = './run_0/sct_calc/'
-            paramfile = './run_0/params.yml'
-            xrayfiles = ['x1.dat','x2.dat']
+            sct_calc_dir = './'
+            paramfile = './params.yml'
+            xrayfiles = ['x_1.dat','x_2.dat']
             xrayunits = 'a'
             neutronfiles = ['n.dat']
+            neutfiles = ['n.dat']
             neutronunits = 'a'
+            neutunits = 'a'
             chi2 = '0'
             path = './'
 
@@ -170,28 +172,26 @@ class SCTAnal_Drv():
 
         error,self.variables = input_filter.type_check_and_convert(svariables)
 
-# emre
-        save_stdout = sys.stdout
-        sys.stdout = sys.stderr
-# end emre
-
         if error:
 
-            self.message_box(error, 'skull.png')
+        #    self.message_box(error, 'skull.png')
 #               warning.png, information.png, skull.png, toast.png
 
             output_dict['error'] = 'Error in input variables'
             output_dict['sasoutput2'] = 'run failed'
+            print 'error = ',error
+
             print json.dumps(output_dict)
             return
         else:
             error = sct_filter.check_sct(self.variables)
 
             if error:
-                self.message_box(error, 'warning.png')
+        #        self.message_box(error, 'warning.png')
                 output_dict['error'] = 'Error in sctanal variables'
                 output_dict['sasoutput2'] = 'run failed'
                 print json.dumps(output_dict)
+                print error
                 return
 
             runname = self.variables['runname'][0]
@@ -214,10 +214,6 @@ class SCTAnal_Drv():
                 
             output_dict['sasoutput2'] = total_string
 
-# emre
-        sys.stdout = save_stdout
-# end emre
-
         try:
             with open("/share/apps/genapp/sassie2/results/log", "w") as outfile:
                 json.dump(output_dict, outfile)
@@ -228,17 +224,16 @@ class SCTAnal_Drv():
 
 if __name__ == '__main__':
 
-    json_flag = True
-#	json_flag = False
+	json_flag = True
+	#json_flag = False
 
-    if (len(sys.argv) < 1):
-        print "\{\"error\":\"center called with no arguments\"\}\n"
-# 		print 'exiting now'
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"sct_analyze called with no arguments\"\}\n"
 
-    elif len(sys.argv) > 1:
-        json_variables = " "
-        if(json_flag):
-            argv_io_string = StringIO(sys.argv[1])
-            json_variables = json.load(argv_io_string)
-        a = SCTAnal_Drv()
-        a.run_me(json_flag, json_variables, sys.argv[1])
+	elif len(sys.argv) > 1:
+		json_variables = " "
+	if(json_flag):
+		argv_io_string = StringIO(sys.argv[1])
+		json_variables = json.load(argv_io_string)
+	a = SCTAnal_Drv()
+	a.run_me(json_flag, json_variables, sys.argv[1])
