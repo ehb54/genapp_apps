@@ -6,10 +6,11 @@ import multiprocessing,time,string,socket
 import sassie.simulate.monte_carlo.monomer.dihedral_monte_carlo as dihedral_monte_carlo
 import sassie.interface.input_filter as input_filter
 import sassie.interface.generate_filter as generate_filter
+import sassie.sasconfig as sasconfig
 
 class Generate_Drv():
 
-   module = 'generate'
+   module = 'monomer_monte_carlo'
 
    def message_box(self,text,icon):
 
@@ -43,43 +44,46 @@ class Generate_Drv():
         socket_dict={}
         socket_dict['_uuid'] = json_variables['_uuid']
 	first = True
+
         while process.is_alive():
                 try:
                         if(first):
-                                socket_dict['progress_html'] = 0.01
-                                socket_dict['_progress'] = 0.01
                                 socket_dict['progress_html'] = '<center>starting job</center>'
+                                socket_dict['_progress'] = 0.01
                                 doc_string = json.dumps(socket_dict)
                                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 first = False
-                        this_text = txtQueue.get(True, timeout=0.1)
+                        this_text = txtQueue.get(True, timeout=0.01)
                         text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
-		#		pass ;
-				value = locale.atof(text_split[1])
-				svalue = str(100*value)
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
                                 socket_dict['progress_output'] = value
                                 socket_dict['_progress'] = value
                                 socket_dict['progress_html'] = '<center>'+svalue+'</center>'
-                                doc_string = json.dumps(socket_dict)
-                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 total_string += this_text
                 except:
                         if not process.is_alive():
-                                #socket_dict['progress_html'] = '<center>100.0 : plotting results</center>'
-                                #doc_string = json.dumps(socket_dict)
-                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
                                 return total_string
 
                 time.sleep(0.01)
         else:
                 return total_string
-	
+
         return total_string
 
-
-   def read_file(self,flot_data,filename,dvar):
+   def read_file(self,filename,dvar):
 
         try:
                 data = [] ; error = []
@@ -98,24 +102,24 @@ class Generate_Drv():
 
                 if(dvar[0] == 0):
 
-                        flot_dict = {
+                        this_data = {
                                         'lines' : { "show": "false" },
                                         'points' : { "show" : "true", "radius" : "4" },
                                         'color' : 'red',
                                         'label' : 'all structures',
                                         'data': data
                                 }
-                        flot_data.append(flot_dict)
+                        self.flot_data["data"].append(this_data)
 
                 else:
-                        flot_dict = {
+                        this_data = {
                                         'lines' : { "show": "true", "lineWidth" : "3.0" },
                                         'points' : { "show" : "true", "radius" : "2" },
                                         'color' : 'green',
                                         'label' : 'accepted structures',
                                         'data': data
                                 }
-                        flot_data.append(flot_dict)
+                        self.flot_data["data"].append(this_data)
 
         
 #                data_file.close()
@@ -124,19 +128,26 @@ class Generate_Drv():
         #        print 'ERROR READING PLOT DATA FILE'
         #        print 'ERROR READING PLOT DATA FILE'
         #        print 'ERROR READING PLOT DATA FILE'
-                flot_data = "error reading file and making plot"
+                self.flot_data = "error reading file and making plot"
 
         return
 
    def get_data_from_disk(self,file1,file2):
 
-        flot_data = []
+	self.flot_data = {
+                                        "options": {
+                                                "title"  : "Rg Results",
+                                                "xlabel"  : "Structure Number",
+                                                "ylabel"  : "Rg (Angstrom^2)",
+                                        }, 
+					"data": []
+			}       
         dvar=[0,1]
-        self.read_file(flot_data,file1,dvar)
+        self.read_file(file1,dvar)
         dvar=[2,1]
-        self.read_file(flot_data,file2,dvar)
+        self.read_file(file2,dvar)
 
-        return flot_data
+        return 
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -176,7 +187,7 @@ class Generate_Drv():
                 nonbonscale='1.0'
                 psffilepath='./'
                 psffilename='refgag.psf'
-                parmfilepath='/usr/local/bin/toppar'
+	 	parmfilepath = sasconfig._bin_path+'toppar/'
                 parmfilename='par_all27_prot_na.inp'
                 plotflag = '0'
                 directedmc = '0'
@@ -190,10 +201,6 @@ class Generate_Drv():
                 #### END USER EDIT
          else:
 
-                #outputref = "/home/curtisj/sassie2/json_input_reference.txt"
-                #with open(outputref,"w") as outfile:
-                #        json.dump(json_variables,outfile)
-
                 runname = json_variables['runname']
         
                 base_directory = json_variables['_base_directory']
@@ -205,7 +212,6 @@ class Generate_Drv():
                 path = ''
 
                 pdbfile = json_variables['pdbfile'][0]
-                #head, pdbfile = os.path.split(temp_pdbfile[0])
 
                 dcdfile = json_variables['dcdfile']
                 trials = json_variables['trials']
@@ -217,8 +223,22 @@ class Generate_Drv():
                 numcont = json_variables['numcont']
                 lowres1 = json_variables['lowres1']
                 highres1 = json_variables['highres1']
-                basis = json_variables['basis']
-                cutoff = json_variables['cutoff']
+
+
+		overlap_list_box = json_variables['overlap_list_box']
+
+		if(overlap_list_box == "c1"):
+			basis = 'heavy'
+			cutoff = '0.8'
+		elif(overlap_list_box == "c2"):
+			basis = 'all'
+			cutoff = '0.8'
+		elif(overlap_list_box == "c3"):
+			basis = 'backbone'
+			cutoff = '1.0'
+		elif(overlap_list_box == "c4"):
+	                basis = json_variables['basis']
+	                cutoff = json_variables['cutoff']
  
                 try:
                         advanced_input = json_variables['advanced_input']
@@ -231,7 +251,6 @@ class Generate_Drv():
                 
                         lowrg = json_variables['lowrg']
                         highrg = json_variables['highrg']
-                        zcutoff = json_variables['zcutoff']
                         try:
                                 nonbondflag_check_box = json_variables['nonbondflag_check_box']
                         except:
@@ -242,13 +261,17 @@ class Generate_Drv():
 
                         directedmc = json_variables['directedmc']
                         
-                        zflag_list_box = json_variables['zflag_list_box']
+                        try:
+                        	zflag_check_box = json_variables['zflag_check_box']
+                        except:
+                                zflag_check_box = "off"
+
                         try:
                                 cflag_check_box = json_variables['cflag_check_box']
                         except:
                                 cflag_check_box = "off"
 
-                        plotflag_list_box = json_variables['plotflag_list_box']
+                        #plotflag_list_box = json_variables['plotflag_list_box']
 
                 else:
                         lowrg = "0.0"
@@ -256,11 +279,11 @@ class Generate_Drv():
                         zcutoff = "0.0"
                         nonbondscale = "1.0"
                         directedmc = "0"
-                        zflag_list_box = "c1"
+                        zflag_check_box = "off"
                         cflag_check_box = "off"
                         cflag = "0"
                         nonbondflag_check_box = "off"
-                        plotflag_list_box = "c1"
+                        #plotflag_list_box = "c1"
 
                 moltype_list_box = json_variables['moltype_list_box']
                 if(moltype_list_box == 'c1'):
@@ -268,10 +291,12 @@ class Generate_Drv():
                 elif(moltype_list_box == 'c2'):
                         moltype = 'rna' 
                  
-                if(zflag_list_box == 'c1'):
+                if(zflag_check_box == 'off'):
                         zflag = '0' # NO
-                elif(zflag_list_box == 'c2'):
+                        zcutoff = '0'
+                elif(zflag_check_box == 'on'):
                         zflag = '1' # YES
+                        zcutoff = json_variables['zcutoff']
 
                 if(cflag_check_box == 'off'):
                         cflag = '0' # NO
@@ -279,7 +304,6 @@ class Generate_Drv():
                 elif(cflag_check_box == 'on'):
                         cflag = '1' # YES
                         confile = json_variables['confile'][0]
-                        #head, confile = os.path.split(temp_confile[0])
 
                 if(nonbondflag_check_box == 'off'):
                         nonbondflag = '0' # NO
@@ -290,14 +314,17 @@ class Generate_Drv():
                         temp_psffilename = json_variables['psffilename'][0]
                         psffilepath, psffilename = os.path.split(temp_psffilename[0])
 
-                if(plotflag_list_box == 'c1'):
-                        plotflag = '0' # NO
-                elif(plotflag_list_box == 'c2'):
-                        plotflag = '1' # YES
+                #if(plotflag_list_box == 'c1'):
+                #        plotflag = '0' # NO
+                #elif(plotflag_list_box == 'c2'):
+                #        plotflag = '1' # YES
+		plotflag = '0'
 
                 path = ''
 
-         parmfilepath = '/usr/local/bin/toppar/'
+	
+
+	 parmfilepath = sasconfig._bin_path+'toppar/'
          parmfilename = 'par_all27_prot_na.inp'
 
          svariables={}
@@ -371,32 +398,27 @@ class Generate_Drv():
 
                 total_string = self.background_job(process,txtQueue,json_variables)
 
-		output_dict['sasoutput2'] = total_string
+#		output_dict['sasoutput2'] = total_string
 
-                accepted_rg_file = data_path+runname+'/generate/'+dcdfile+'.accepted_rg_results_data.txt'
-                all_rg_file = data_path+runname+'/generate/'+dcdfile+'.all_rg_results_data.txt'
+                accepted_rg_file = data_path+runname+'/monomer_monte_carlo/'+dcdfile+'.accepted_rg_results_data.txt'
+                all_rg_file = data_path+runname+'/monomer_monte_carlo/'+dcdfile+'.all_rg_results_data.txt'
 
                 print 'acc rg file = ', accepted_rg_file        
                 print 'all_rg_file = ', all_rg_file
 
-                flot_data = self.get_data_from_disk(all_rg_file,accepted_rg_file)
+                self.get_data_from_disk(all_rg_file,accepted_rg_file)
 
-        #       output_dict['test_ofile'] = data_path+ofile
-
-                #flot_data = [[[0.0,0.0],[1.0,2.0],[2.0,4.0],[3.0,9.0]]]
-                if(isinstance(flot_data, basestring)):
+                if(isinstance(self.flot_data, basestring)):
                         print 'error reading data'
-                        output_dict['plot_error'] = flot_data
+                        output_dict['plot_error'] = self.flot_data
                 else:
-                        output_dict['plotout4'] = flot_data
+                        output_dict['plotout4'] = self.flot_data
 
-         try:
-                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-                        json.dump(output_dict,outfile)
-         except:
-                output_dict['error_string'] = "error writing log file"
-
-         print json.dumps( output_dict )
+         if output_dict:
+		print json.dumps( output_dict )
+         else:
+        	output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
                 
 if __name__=='__main__':
 
@@ -404,7 +426,7 @@ if __name__=='__main__':
 #        json_flag = False
 
         if (len(sys.argv) < 1):
-                print "\{\"error\":\"center called with no arguments\"\}\n";
+                print "\{\"error\":\"monomer monte carlo called with no arguments\"\}\n";
 #                 print 'exiting now'
 
         elif len(sys.argv) > 1:

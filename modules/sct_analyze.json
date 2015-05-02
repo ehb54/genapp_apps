@@ -3,7 +3,7 @@
     "moduleid" : "sct_analyze",
     "label"    : "SCT Analyze",
     "fields"   : [
-                   {
+                  {
                    "role"       : "input",
                    "id"         : "module_header",
                    "label"      : "SCT Analyze",
@@ -11,7 +11,7 @@
                    "default"    : "header4",
                    "prehline"   : "true",
                    "posthline"  : "true"
-                   },
+                  },
                   {
                    "role"       : "input",
                    "id"         : "runname",
@@ -20,7 +20,15 @@
                    "default"    : "run_0",
                    "required"   : "true",
                    "help"       : "results will be placed in a folder called sct_analyze/ in the directory name you enter here"
-                   },
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "calcpath",
+                   "label"    : "path to files output by SCT Calculate module",
+                   "type"     : "rpath",
+                   "help"     : "enter directory that contains sphere models and calculated scattering curves you wish to compare to experiment",
+                   "required" : "true"
+                  },                   
                   {
                    "role"     : "input",
                    "id"         : "paramfile",
@@ -29,8 +37,8 @@
                    "required" : "true",
                    "help"       : "name of SCT parameter file",
                    "norow"    : "false"
-                   },
-                   {
+                  },
+                  {
                    "role"     : "input",
                    "id"       : "noneutron",
                    "label"    : "number of neutron curves:",
@@ -38,19 +46,19 @@
                    "default"  : 1,
                    "required" : "true",
                    "repeater" : "true"
-                   },
+                  },
                   {
                    "role"     : "input",
-                   "id"         : "neutroncurve",
-                   "name"       : "neutroncurve",
-                   "label"      : "neutron experimental curve:",
+                   "id"       : "neutroncurve",
+                   "name"     : "neutroncurve",
+                   "label"    : "neutron experimental curve:",
                    "type"     : "lrfile",
                    "required" : "true",
-                   "help"       : "name of file with neutron data",
-		   "repeat"     : "noneutron",
+                   "help"     : "name of file containing neutron scattering data",
+        		   "repeat"   : "noneutron",
                    "norow"    : "true"
-                   },
-		   {
+                  },
+                  {
                    "role"     : "input",
                    "id"       : "neutronunits",
                    "name"     : "neutronunits",
@@ -59,8 +67,8 @@
                    "values"   : "a~c1~nm~c2",
                    "default"  : "c1",
                    "required" : "true"
-                   },
-                   {
+                  },
+                  {
                    "role"     : "input",
                    "id"       : "noxray",
                    "label"    : "number of x-ray curves:",
@@ -68,18 +76,18 @@
                    "default"  : 1,
                    "required" : "true",
                    "repeater" : "true"
-                   },
+                  },
                   {
                    "role"     : "input",
-                   "id"         : "xraycurve",
-                   "label"      : "xray experimental curve:",
+                   "id"       : "xraycurve",
+                   "label"    : "xray experimental curve:",
                    "type"     : "lrfile",
                    "required" : "true",
-                   "help"       : "name of file with xray data",
-		   "repeat"     : "noxray",
+                   "help"     : "name of file containing xray scattering data",
+        		   "repeat"   : "noxray",
                    "norow"    : "true"
-                   },
-		   {
+                  },
+                  {
                    "role"     : "input",
                    "id"       : "xrayunits",
                    "name"     : "xrayunits",
@@ -88,24 +96,24 @@
                    "values"   : "a~c1~nm~c2",
                    "default"  : "c1",
                    "required" : "true"
-                   },
-		   {
+                  },
+                  {
                    "role"     : "input",
                    "id"       : "metric_box",
                    "label"    : "comparison metric",
                    "type"     : "listbox",
-                   "values"   : "rfactor~c1~chi2~c2",
+                   "values"   : "rfactor~c1~reduced chi2~c2",
                    "default"  : "c1",
                    "required" : "true"
-                   },
-  		   {
+                  },
+                  {
                    "role"    : "output",
                    "id"      : "progress_output",
                    "name"    : "progress",
                    "label"   : "progress:",
                    "type"    : "progress",
-		   "max"     : 1.0
-                   },
+        		   "max"     : 1.0
+                  },
   		   {
                    "role"    : "output",
                    "id"      : "progress_html",
@@ -119,8 +127,8 @@
                    "name"    : "sasoutput2",
                    "label"   : " ",
                    "type"    : "textarea",
-		   "rows"    : 20,
-		   "cols"    : 80
+		           "rows"    : 20,
+         		   "cols"    : 80
                    }
                   ],
 # the executable will take inputs in json and produce output in json

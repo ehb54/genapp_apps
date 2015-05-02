@@ -113,7 +113,7 @@ class PDBScan_Drv():
 		pdb_path = path
 
         	refpdb = json_variables['refpdb'][0]
-		#head, refpdb = os.path.split(temp_refpdb[0])
+		head,pdbfilename= os.path.split(refpdb)
 		print 'refpdb = ',refpdb
 
 		path = ''
@@ -158,7 +158,9 @@ class PDBScan_Drv():
 
  		output_dict['outputpdb'] = refpdb
 
-	html_file = os.path.join(runname,self.module,'pdbscan_output.html')
+	html_base_name = pdbfilename+'_pdbscan_output.html'
+
+	html_file = os.path.join(runname,self.module,html_base_name)
 
 	try:
 		output_dict['report_html'] = open(html_file).readlines()

@@ -19,7 +19,8 @@
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true",
-                   "help"     : "results will be placed in a folder called generate/ in the directory name you enter here"
+                   #"help"     : "results will be placed in a folder called generate/ in the directory name you enter here"
+                   "help"     : "results will be placed in a folder called monte_carlo/ in the directory name you enter here"
                    },
                   {
                    "role"     : "input",
@@ -88,7 +89,7 @@
                   {
                    "role"     : "input",
                    "id"       : "dtheta",
-                   "label"    : "enter maximum angle sampled in a single Monte Carlo step for each region",
+                   "label"    : "maximum angle sampled for each region",
                    "type"     : "text",
                    "default"  : "30.0,30.0,30.0,30.0,30.0",
                    "help"  : "(degrees): enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
@@ -131,12 +132,24 @@
                    "required" : "true"
                    },
                   {
+                   "role"    : "input",
+                   "id"      : "overlap_list_box",
+                   "name"    : "overlap_list_box",
+                   "label"    : "overlap basis",
+                   "type"    : "listbox",
+                   "values"  : "heavy atoms~c1~all~c2~backbone~c3~enter atom name~c4",
+                   "default" : "c1",
+		   "repeater" : "yes",
+                   "help" : "choose the type of overlap check you wish to use"
+                   },
+                  {
                    "role"     : "input",
                    "id"       : "basis",
                    "label"    : "overlap basis",
                    "type"     : "text",
                    "default"  : "CA",
                    "help"  : "select the atom name used to check for overlap",
+                   "repeat" : "overlap_list_box:c4",
                    "required" : "true"
                    },
                   {
@@ -147,6 +160,7 @@
                    "default"  : 3.0,
                    "help"  : "enter distance for overlap check",
 		   "step"     : 0.01,
+                   "repeat" : "overlap_list_box:c4",
                    "required" : "true"
                    },
                    {
@@ -192,13 +206,13 @@
                    },
 		  {
                    "role"    : "input",
-                   "id"      : "zflag_list_box",
-                   "name"    : "zflag_list_box",
-                   "label"    : "Z coordinate filter", 
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "help" : "choose YES to discard all accepted structures with any atomic coordinates (in the z-axis) less than the Z cutoff value below", 
+                   "id"      : "zflag_check_box",
+                   "name"    : "zflag_check_box",
+                   "label"    : "check box to use Z coordinate filter", 
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help" : "check box to discard all accepted structures with any atomic coordinates (in the z-axis) less than the Z cutoff value below", 
+                   "repeater"  : "true",
                    "repeat"  : "advanced_input"
                    },
                   {
@@ -209,19 +223,19 @@
                    "default"  : "0.0",
                    "required" : "true",
                    "help" : "discard all accepted structures with any atomic coordinates (in the z-axis) less than this value",
-                   "repeat"  : "advanced_input"
+                   "repeat"  : "zflag_check_box"
                    },
-		  {
-                   "role"    : "input",
-                   "id"      : "plotflag_list_box",
-                   "name"    : "plotflag_list_box",
-                   "label"    : "plot Rg during run",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "help" : "not implemented: future -> choose to display Rg values during Monte Carlo run",
-                   "repeat"  : "advanced_input"
-                   },
+		  #{
+                  # "role"    : "input",
+                  # "id"      : "plotflag_list_box",
+                  # "name"    : "plotflag_list_box",
+                  # "label"    : "plot Rg during run",
+                  # "type"    : "listbox",
+                  # "values"  : "no~c1~yes~c2",
+                  # "default" : "c1",
+                  # "help" : "not implemented: future -> choose to display Rg values during Monte Carlo run",
+                  # "repeat"  : "advanced_input"
+                  # },
                   {
                    "role"     : "input",
                    "id"       : "directedmc",
@@ -253,38 +267,38 @@
                    "repeat"  : "cflag_check_box",
                    "norow"    : "false"
                    },
-		  {
-                   "role"    : "input",
-                   "id"      : "nonbondflag_check_box",
-                   "name"    : "nonbondflag_check_box",
-                   "label"    : "check box to use non-bonding energies",
-                   "type"    : "checkbox",
-		   "required" : "true",
-                   "checked" : "false",
-                   "repeat"  : "advanced_input",
-                   "help"  : "not currently implmented",
-                   "repeater"  : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "nonbondscale",
-                   "label"    : "non-bonding scale factor",
-                   "type"     : "text",
-                   "default"  : "1.0",
-                   "required" : "true",
-                   "help"  : "not currently implmented",
-                   "repeat"  : "nonbondflag_check_box"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "psffilename",
-                   "label"    : "psf file name",
-                   "type"     : "lrfile",
-                   "required" : "false",
-                   "help"  : "not currently implmented",
-                   "repeat"  : "nonbondflag_check_box",
-                   "norow"    : "false"
-                   },
+		  #{
+                  # "role"    : "input",
+                  # "id"      : "nonbondflag_check_box",
+                  # "name"    : "nonbondflag_check_box",
+                  # "label"    : "check box to use non-bonding energies",
+                  # "type"    : "checkbox",
+		  # "required" : "true",
+                  # "checked" : "false",
+                  # "repeat"  : "advanced_input",
+                  # "help"  : "not currently implmented",
+                  # "repeater"  : "true"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "nonbondscale",
+                  # "label"    : "non-bonding scale factor",
+                  # "type"     : "text",
+                  # "default"  : "1.0",
+                  # "required" : "true",
+                  # "help"  : "not currently implmented",
+                  # "repeat"  : "nonbondflag_check_box"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "psffilename",
+                  # "label"    : "psf file name",
+                  # "type"     : "lrfile",
+                  # "required" : "false",
+                  # "help"  : "not currently implmented",
+                  # "repeat"  : "nonbondflag_check_box",
+                  # "norow"    : "false"
+                  # },
                   {
                    "role"    : "output",
                    "id"      : "progress_output",
@@ -303,17 +317,12 @@
                    "role"    : "output",
                    "id"      : "plotout4",
                    "label"   : "all rg and accepted rg data",
-                   "type"    : "plot2d"
-                   },
- 		  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : "",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
-		   }
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"    : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+                   }
                   ],
     "executable" : "monomer_monte_carlo"
 }

@@ -137,6 +137,11 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
+                          "id"    : "sct_optimize",
+                          "label" : "SCT Optimize",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
                           "id"    : "sld_mol",
                           "label" : "SLD MOL",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]

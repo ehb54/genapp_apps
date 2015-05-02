@@ -122,7 +122,8 @@ class SCTAnal_Drv():
 
             os.chdir(path)
 
-            sct_calc_dir = os.path.join(base_directory,runname,'sct_calc')
+            #sct_calc_dir = os.path.join(base_directory,runname,'sct_calc')
+            sct_calc_dir = json_variables['calcpath']
 
             paramfile = json_variables['paramfile'][0]
             #head,paramfile = os.path.split(temp_paramfile[0])
