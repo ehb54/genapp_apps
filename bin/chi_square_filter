@@ -61,30 +61,51 @@ class Chi_square_filter_Drv():
                                 socket_dict['progress_output'] = value
                                 socket_dict['_progress'] = value
                                 socket_dict['progress_html'] = '<center>'+svalue+'</center>'
-                                doc_string = json.dumps(socket_dict)
-                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 total_string += this_text
                 except:
                         if not process.is_alive():
 
-                                #doc_string = json.dumps(socket_dict)
-                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 return total_string
 
                 time.sleep(0.01)
         else:
                 return total_string
 
-   def read_file(self,flot_data,filename,number_columns,this_pass):
+
+   def find_min_max(self,data_file):
+        nl = len(data_file)
+
+        minx = 1E10 ; maxx = -1E10
+        miny = 1E10 ; maxy = -1E10
+        for i in xrange(nl):
+                lin = string.split(data_file[i])
+                try:
+                        this_x = locale.atof(lin[0])
+                        this_y = locale.atof(lin[1])
+                        if(this_x < minx) : minx = this_x
+                        if(this_y < miny) : miny = this_y
+                        if(this_x > maxx) : maxx = this_x
+                        if(this_y > maxy) : maxy = this_y
+                except:
+                        pass
+
+        return minx,miny,maxx,maxy
+
+   def read_file(self,filename,number_columns,this_pass):
 
         # sasfile: q-value, goal, best, worst, average
 
         value = 1
-
-	log = False
-
-	log_q = False
 
         #try:
         if True:
@@ -92,43 +113,41 @@ class Chi_square_filter_Drv():
                 data_file = open(filename,'r').readlines()
                 nl = len(data_file)
 
+		if this_pass == 1:
+	                minx,miny,maxx,maxy = self.find_min_max(data_file)
+
+	                if miny < 0.0: miny = 1E-6
+	                if minx < 0.0: minx = 1E-6
+
+	                minx = 0.85 * minx ; maxx = 1.15 * maxx
+	                miny = 0.85 * miny ; maxy = 1.15 * maxy
+
                 for i in xrange(nl):
                         lin = string.split(data_file[i])
                         if(len(lin)>0):
                                 if(lin[0][0] != "#" and this_pass < 5):
 					if(locale.atof(lin[0]) > 0.0):
-						if log_q:
-                                        		this_x = str(math.log(locale.atof(lin[0]),10))
-	                                        else:
-							this_x = lin[0]
+						this_x = lin[0]
 	                                        if(this_pass == 1):
-							if log:
-								this_y1 = str(math.log(locale.atof(lin[1]),10))
-							else:
-	                                                	this_y1 = lin[1]
+	                                                this_y1 = lin[1]
 	                                                data.append([this_x,this_y1])
 	                                                legend = "goal"
+							points = { "show" : "true", "radius" : "2" }
 	                                        elif(this_pass == 2):
-							if log:
-								this_y1 = str(math.log(locale.atof(lin[2]),10))
-							else:
-	                                                	this_y1 = lin[2]
+	         					this_y1 = lin[2]
 	                                                data.append([this_x,this_y1])
 	                                                legend = "best"
+							#points = { "show" : "false" }
 	                                        elif(this_pass == 3):
-							if log:
-								this_y1 = str(math.log(locale.atof(lin[3]),10))
-							else:
-	                                                	this_y1 = lin[3]
+							this_y1 = lin[3]
 	                                                data.append([this_x,this_y1])
 	                                                legend = "worst"
+							#points = { "show" : "false" }
 	                                        elif(this_pass == 4):
-							if log:
-								this_y1 = str(math.log(locale.atof(lin[4]),10))
-							else:
-	                                                	this_y1 = lin[4]
+							this_y1 = lin[4]
 	                                                data.append([this_x,this_y1])
 	                                                legend = "average"
+							#points = { "show" : "false" }
 
                                 elif(lin[0][0] != "#" and this_pass == 5):
                                         #this_x = locale.atof(lin[0])
@@ -139,30 +158,69 @@ class Chi_square_filter_Drv():
 
                 if(this_pass == 5):
 
-                        flot_dict = {
-					#'lines' : { "show": "false" },
-					'points' : { "show" : "true" },
-                                        'color': 'yellow',
-                                        'data': data
+                        self.flot_data = {
+                                       "options": {
+                                                "xlabel"  : "Rg",
+                                                "ylabel"  : "Chi-square",
+                                        },
+                                       "data" : [
+                                                {
+						#'lines' : { "show": "false" },
+						'points' : { "show" : "true" },
+                                        	'color': 'yellow',
+                                        	'data': data
+						}
+						]
                                 }
-                        flot_data.append(flot_dict)
+                        #self.flot_data.append(flot_dict)
 
                 elif(this_pass < 5):
 
-                        flot_dict = {
-                #                       'lines' : {lineWidth: 3},
+			if(this_pass == 1):
+                       		self.flot_data = {
+                                        "options": {
+                                         #       "title"  : "Results",
+                                                "xlabel"  : "q (1/angstrom)",
+                                                "ylabel"  : "I(q)",
+                                                "xscale"  : "log",
+                                                "yscale"  : "log",
+                                                "xmin"    : minx,
+                                                "xmax"    : maxx,
+                                                "ymin"    : miny,
+                                                "ymax"    : maxy,
+                                        }, 
+					"data" : [
+                                        	{
+						'lines' : { 'show': 'true', 'lineWidth' : '1.0' },
+						'label': legend,
+                                        	'points': points,
+                                        	'data': data
+						}
+					]
+					}
+			else:
+				pass_data = {
                                         'label': legend,
                                         'data': data
-                                }
-                        flot_data.append(flot_dict)
-                else:
-                        flot_data.append(data)
+				}
+                        #pass_1_data = {
+                        #                'lines' : { 'show': 'true', 'lineWidth' : '3.0' },
+                        #                'points' : { 'show' : 'true' },
+                        #                'color' : 'green',
+                        #                'label' : 'interpolated data',
+                        #                'data': data
+                        #                }
+
+				self.flot_data["data"].append(pass_data) 
+
+#                else:
+#                        self.flot_data = flot_dict
 
         #except:
         #        print 'ERROR READING DATA FILE'
         #        print 'ERROR READING DATA FILE'
         #        print 'ERROR READING DATA FILE'
-        #        flot_data = "error reading file and making plot"
+        #        self.flot_data = "error reading file and making plot"
 
         return value
 
@@ -177,18 +235,18 @@ class Chi_square_filter_Drv():
 # Rg	X2
 #63.749069	10.383249
 
-
-        flot_data = []
+        self.flot_data = []
+        self.flot_data = {}
 
         if(number_columns > 2):
-                value = self.read_file(flot_data,filename,number_columns,1)
-                value = self.read_file(flot_data,filename,number_columns,2)
-                value = self.read_file(flot_data,filename,number_columns,3)
-                value = self.read_file(flot_data,filename,number_columns,4)
+                value = self.read_file(filename,number_columns,1)
+                value = self.read_file(filename,number_columns,2)
+                value = self.read_file(filename,number_columns,3)
+                value = self.read_file(filename,number_columns,4)
         else:
-                value = self.read_file(flot_data,filename,number_columns,5)
+                value = self.read_file(filename,number_columns,5)
 
-        return flot_data
+        return 
 
 
    def run_me(self,json_flag,json_variables,input_string):
@@ -346,33 +404,29 @@ class Chi_square_filter_Drv():
 
                 total_string = self.background_job(process,txtQueue,json_variables)
 
-#		output_dict['io_string'] = input_string
-		output_dict['sasoutput2'] = total_string
+#		output_dict['sasoutput2'] = total_string
 
-                flot_data = self.get_data_from_disk(data_path+runname+'/filter/sas_spectra_plot.txt',5)
+                self.get_data_from_disk(data_path+runname+'/filter/sas_spectra_plot.txt',5)
 
-                if(isinstance(flot_data, basestring)):
+                if(isinstance(self.flot_data, basestring)):
                         print 'error reading data'
-                        output_dict['plot_error'] = flot_data
+                        output_dict['plot_error'] = self.flot_data
                 else:
-                        output_dict['iq_plot'] = flot_data
+                        output_dict['iq_plot'] = self.flot_data
 
-                flot_data = self.get_data_from_disk(data_path+runname+'/filter/x2_vs_rg_plot.txt',2)
+                self.get_data_from_disk(data_path+runname+'/filter/x2_vs_rg_plot.txt',2)
 
-                if(isinstance(flot_data, basestring)):
+                if(isinstance(self.flot_data, basestring)):
                         print 'error reading data'
-                        output_dict['plot_error'] = flot_data
+                        output_dict['plot_error'] = self.flot_data
                 else:
-                        output_dict['chi_square_plot'] = flot_data
+                        output_dict['chi_square_plot'] = self.flot_data
 
-        try:
-                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-                        json.dump(output_dict,outfile)
-        except:
-                output_dict['error_string'] = "error writing log file"
-
-        print json.dumps( output_dict )
-
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
 		
 if __name__=='__main__':
 

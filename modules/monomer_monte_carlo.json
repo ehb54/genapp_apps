@@ -262,7 +262,7 @@
                    "id"       : "confile",
                    "label"    : "constraint file name",
                    "type"     : "lrfile",
-                   "required" : "false",
+                   "required" : "true",
 		   "help"  : "enter name of constaint file",
                    "repeat"  : "cflag_check_box",
                    "norow"    : "false"
