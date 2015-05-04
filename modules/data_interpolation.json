@@ -73,7 +73,7 @@
                    "id"       : "maxpoints",
                    "label"    : "number of new q-values",
                    "type"     : "integer",
-                   "default"  : 30,
+                   "default"  : 31,
                    "help"  : "range will be from 0 to a maximum q-value of (number of q-values - 1) * delta q",
                    "required" : "true"
                    },

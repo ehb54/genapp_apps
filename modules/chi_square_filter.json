@@ -23,14 +23,6 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "saspath",
-                   "label"    : "path to SAS files",
-                   "type"     : "rpath",
-                   "help"  : "enter directory that contain SAS profiles you wish to compare to experimental data",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
                    "id"       : "sasintfile",
                    "label"   : "interpolated data file",
                    "type"     : "lrfile",
@@ -56,6 +48,14 @@
                    "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
                    "default" : "c1",
                    "help" : "choose a scattering data file type"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "saspath",
+                   "label"    : "SAS data path",
+                   "type"     : "rpath",
+                   "help"  : "enter directory that contain SAS profiles you wish to compare to experimental data",
+                   "required" : "true"
                    },
                   {
                    "role"    : "input",

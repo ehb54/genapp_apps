@@ -41,20 +41,20 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "numiq",
-                   "label"    : "number of I(Q) values",
+                   "id"       : "qmax",
+                   "label"    : "maximum q-value",
                    "type"     : "text",
-                   "default"  : "50",
-                   "help" : "enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
+                   "default"  : "0.30",
+                   "help" : "(1/angstrom)",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "qmax",
-                   "label"    : "maximum Q value",
+                   "id"       : "numiq",
+                   "label"    : "number of I(q) values",
                    "type"     : "text",
-                   "default"  : "0.5",
-                   "help" : "(1/angstrom)",
+                   "default"  : "31",
+                   "help" : "enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
                    "required" : "true"
                    },
                   {
@@ -62,7 +62,7 @@
                    "id"       : "iomax",
                    "label"    : "intensity at I(0)",
                    "type"     : "text",
-                   "default"  : "1.0",
+                   "default"  : "0.019",
                    "help" : "experimentally determined value of I(0): usually determined by Guinier analysis",
                    "required" : "true"
                    },
@@ -135,16 +135,7 @@
                     "name"    : "progress_html",
                     "label"   : "percent done: ",
                     "type"    : "html"
-                   },
- 		  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : " ",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
-		   }
+                   }
                   ],
     "executable" : "xtal2sas"
 }

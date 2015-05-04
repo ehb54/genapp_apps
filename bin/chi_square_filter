@@ -132,22 +132,26 @@ class Chi_square_filter_Drv():
 	                                                this_y1 = lin[1]
 	                                                data.append([this_x,this_y1])
 	                                                legend = "goal"
+	                                                color = "green"
 							points = { "show" : "true", "radius" : "2" }
 	                                        elif(this_pass == 2):
 	         					this_y1 = lin[2]
 	                                                data.append([this_x,this_y1])
 	                                                legend = "best"
+	                                                color = "red"
 							#points = { "show" : "false" }
 	                                        elif(this_pass == 3):
 							this_y1 = lin[3]
 	                                                data.append([this_x,this_y1])
 	                                                legend = "worst"
+	                                                color = "black"
 							#points = { "show" : "false" }
 	                                        elif(this_pass == 4):
 							this_y1 = lin[4]
 	                                                data.append([this_x,this_y1])
 	                                                legend = "average"
-							#points = { "show" : "false" }
+	                                                color = "yellow"
+							points = { "show" : "true", "radius" : "2" }
 
                                 elif(lin[0][0] != "#" and this_pass == 5):
                                         #this_x = locale.atof(lin[0])
@@ -194,15 +198,25 @@ class Chi_square_filter_Drv():
 						'lines' : { 'show': 'true', 'lineWidth' : '1.0' },
 						'label': legend,
                                         	'points': points,
+                                        	'color': color,
                                         	'data': data
 						}
 					]
 					}
 			else:
-				pass_data = {
-                                        'label': legend,
-                                        'data': data
-				}
+				if(this_pass !=4):
+					pass_data = {
+                                        	'label': legend,
+                                        	'color': color,
+                                        	'data': data
+					}
+				else:
+					pass_data = {
+                                        	'label': legend,
+                                        	'color': color,
+                                        	'points': points,
+                                    		'data': data
+					}
                         #pass_1_data = {
                         #                'lines' : { 'show': 'true', 'lineWidth' : '3.0' },
                         #                'points' : { 'show' : 'true' },
