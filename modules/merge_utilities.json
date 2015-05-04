@@ -65,6 +65,16 @@
                    },
                   {
                    "role"     : "input",
+                   "id"       : "pdb_file",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "trajectory_checkbox",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
                    "id"       : "number_of_trajectories",
                    "label"    : "number of runs to merge",
                    "type"     : "integer",
@@ -76,16 +86,6 @@
 		   "repeat"   : "trajectory_checkbox",
 		   "repeater"   : "true",
 		   "sync"   : "a"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "pdb_file",
-                   "label"   : "reference pdb",
-                   "type"     : "lrfile",
-                   "required" : "true",
-                   "help"     : "name of PDB file for atom naming purposes",
-		   "repeat"   : "trajectory_checkbox",
-                   "norow"    : "false"
                    },
                   {
                    "role"     : "input",
@@ -141,6 +141,17 @@
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
+		  {
+		   "role"    : "input",
+                   "id"      : "sas_type_list_box",
+                   "name"    : "sas_type_list_box",
+                   "label"   : "SAS type",
+                   "type"    : "listbox",
+                   "help"    : "pick the SAS calculator that generated data you wish to merge",
+                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
+		   "default"   : "c1",
+		   "repeat"   : "sas_checkbox"
+                   },
                   {
                    "role"     : "input",
                    "id"       : "number_of_sas",
@@ -154,17 +165,6 @@
                    "repeater" : "true",
 		   "repeat"   : "sas_checkbox",
 		   "sync"   : "a"
-                   },
-		  {
-		   "role"    : "input",
-                   "id"      : "sas_type_list_box",
-                   "name"    : "sas_type_list_box",
-                   "label"   : "SAS type",
-                   "type"    : "listbox",
-                   "help"    : "pick the SAS calculator that generated data you wish to merge",
-                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
-		   "default"   : "c1",
-		   "repeat"   : "sas_checkbox"
                    },
                   {
                    "role"     : "input",
@@ -239,16 +239,17 @@
                     "name"    : "progress_html",
                     "label"   : "percent done: ",
                     "type"    : "html"
-                   },
-		  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : " ",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
-		   }
+                   }
+#                  },
+#	  {
+#                   "role"    : "output",
+#                   "id"      : "sasoutput2",
+#                   "name"    : "sasoutput2",
+#                   "label"   : " ",
+#                   "type"    : "textarea",
+#	    "rows"    : 20,
+#	    "cols"    : 80
+#	   }
                   ],
     "executable" : "merge_utilities"
 }

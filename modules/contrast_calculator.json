@@ -239,15 +239,6 @@
                     "label"   : "percent done: ",
                     "type"    : "html"
                    },
- 		  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : "",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
-		   },
                    {
                    "role"    : "output",
                    "id"      : "plotout1",

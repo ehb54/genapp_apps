@@ -100,16 +100,7 @@
    		   "zoom"    : "true",
 		   "hover"   : "true",
 		   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
-                   },
-		   {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : "",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
-		    }
+                   }
                   ],
 # the executable will take inputs in order and produce output
     "executable" : "data_interpolation"

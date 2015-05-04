@@ -60,15 +60,21 @@ class SasCalc_Driver():
                                 socket_dict['progress_output'] = value
                                 socket_dict['_progress'] = value
                                 socket_dict['progress_html'] = '<center>'+svalue+'</center>'
-                                doc_string = json.dumps(socket_dict)
-                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
                                 total_string += this_text
                 except:
                         if not process.is_alive():
 
-                                #doc_string = json.dumps(socket_dict)
-                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 return total_string
 
                 time.sleep(0.01)
@@ -199,11 +205,6 @@ class SasCalc_Driver():
 
  	error,variables=input_filter.type_check_and_convert(variables)
 
-#emre
-        save_stdout = sys.stdout
-        sys.stdout = sys.stderr
-#end emre
-
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
@@ -232,7 +233,7 @@ class SasCalc_Driver():
 
                         #total_string = self.background_job(process,txtQueue,json_variables)
 
-			output_dict['sasoutput2'] = total_string
+#			output_dict['sasoutput2'] = total_string
 
 			'''
 			flot_data = self.get_data_from_disk(runname+"/sascalc/"+outfile+".txt",5)
@@ -244,18 +245,11 @@ class SasCalc_Driver():
 				output_dict['plot1'] = flot_data
 			'''
 
-#emre
-        sys.stdout = save_stdout;
-#end emre
-
-        try:
-                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-                        json.dump(output_dict,outfile)
-        except:
-                output_dict['error_string'] = "error writing log file"
-
-        print json.dumps( output_dict )
-	
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
 		
 if __name__=='__main__':
 

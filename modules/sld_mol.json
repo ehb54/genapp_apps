@@ -287,16 +287,7 @@
                    "id"      : "plotout1",
                    "label"   : "experimental data and average structural sld",
                    "type"    : "plot2d"
-                   },
- 		  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : " ",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
-		   }
+                   }
                   ],
     "executable" : "sld_mol"
 }

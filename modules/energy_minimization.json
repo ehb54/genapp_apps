@@ -172,15 +172,6 @@
                     "name"    : "progress_html",
                     "label"   : "percent done: ",
                     "type"    : "html"
-                   },
-		  {
-                    "role"    : "output",
-                    "id"      : "sasoutput2",
-                    "name"    : "sasoutput2",
-                    "label"   : " ",
-                    "type"    : "textarea",
-		    "rows"    : 20,
-		    "cols"    : 80
                    }
                   ],
 # the executable will take inputs in json and produce output in json
