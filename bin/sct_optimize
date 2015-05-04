@@ -70,15 +70,21 @@ class SCTOpt_Drv():
                     socket_dict['_progress'] = value
                     socket_dict['progress_html'] = '<center>' + \
                         svalue + '</center>'
-                    doc_string = json.dumps(socket_dict)
-                    sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    if "_textarea" in socket_dict:
+                        del socket_dict["_textarea"]
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                 else:
+                    socket_dict["_textarea"] = this_text
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
                     total_string += this_text
             except:
                 if not process.is_alive():
 
-                    #doc_string = json.dumps(socket_dict)
-                    # sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                     return total_string
 
             time.sleep(0.01)
@@ -133,11 +139,6 @@ class SCTOpt_Drv():
      
         error,self.variables = input_filter.type_check_and_convert(svariables)
 
-# emre
-        save_stdout = sys.stdout
-        sys.stdout = sys.stderr
-# end emre
-
         if error:
 
             self.message_box(error, 'skull.png')
@@ -175,19 +176,13 @@ class SCTOpt_Drv():
                 txtQueue,
                 json_variables)
                 
-            output_dict['sasoutput2'] = total_string
+#            output_dict['sasoutput2'] = total_string
 
-# emre
-        sys.stdout = save_stdout
-# end emre
-
-        try:
-            with open("/share/apps/genapp/sassie2/results/log", "w") as outfile:
-                json.dump(output_dict, outfile)
-        except:
-            output_dict['error_string'] = "error writing log file"
-
-        print json.dumps(output_dict)         
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
 
 if __name__ == '__main__':
 
@@ -195,7 +190,7 @@ if __name__ == '__main__':
 #	json_flag = False
 
     if (len(sys.argv) < 1):
-        print "\{\"error\":\"center called with no arguments\"\}\n"
+        print "\{\"error\":\"sct_optimize called with no arguments\"\}\n"
 # 		print 'exiting now'
 
     elif len(sys.argv) > 1:
