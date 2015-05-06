@@ -1,0 +1,31 @@
+
+{
+  "mail"     : {
+                "admin"    : "emre@biochem.uthscsa.edu,curtisj@nist.gov"
+                ,"feedback" : "madscatt@googlegroups.com,emre@biochem.uthscsa.edu,curtisj@nist.gov"
+                ,"from"     : "sassie-web.chem.utk.edu"
+               }
+  ,"smtpmail" : {
+                "admin"    : "emre@biochem.uthscsa.edu",
+                "from"     : "sassie-web.chem.utk.edu",
+                "host"     : "vownet.net",
+                "user"     : "emre.brookes@vownet.net",
+                "password" : "REMOVED-CREDENTIAL"
+               }
+  ,"feedbackmail" : "madscatt@googlegroups.com,emre@biochem.uthscsa.edu,curtisj@nist.gov"
+  ,"hostip" : "10.0.1.50"
+  ,"messaging" : {
+                  "wsport"     : 8080
+                  ,"zmqhostip" : "10.0.1.50"
+                  ,"zmqport"   : 37778
+                  ,"udphostip" : "10.0.1.50"
+                  ,"udpport"   : 37779
+                 }
+  ,"resources" : {
+                  "local"     : ""
+                  ,"compute0" : "ssh mobileentropy"
+                  ,"compute1" : "ssh mobileentropy"
+                 }
+  ,"resourcedefault" : "compute1"
+  ,"submitpolicy"    : "login"
+}
