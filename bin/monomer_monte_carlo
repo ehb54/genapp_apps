@@ -153,15 +153,20 @@ class Generate_Drv():
    def convert_residue_ranges(self,original_reslow):
 
 	r = string.split(original_reslow,',')
+	number_of_pairs = 0
 
 	lowres = ''; numcont = ''
 	for pair in r:
 		this_pair = string.split(pair,'-')
 		lowres += this_pair[0]+','
 		numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+		number_of_pairs += 1
 
 	lowres = lowres[:-1]
 	numcont = numcont[:-1]
+
+	print 'lowres = ',lowres
+	print 'numcont = ',numcont
 	
 	return lowres, numcont
 

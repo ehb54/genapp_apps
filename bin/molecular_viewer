@@ -9,40 +9,77 @@ class Mol_Drv():
 
    module = 'molecular_viewer'
 
-   def background_job(self,process,txtQueue,sock,UDP_IP,UDP_PORT):
-	total_string = ''
 
-	sock_dict = {}
-	sock_dict['_uuid'] = json_variables['_uuid']
-	first = True
+   def message_box(self,text,icon):
 
-	while process.is_alive():
-		try:
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+             socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+                try:
                         if(first):
-                                socket_dict['progress_html'] = 0.01
                                 socket_dict['progress_html'] = '<center>starting job</center>'
+                                socket_dict['_progress'] = 0.01
                                 doc_string = json.dumps(socket_dict)
                                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 first = False
-			this_text = txtQueue.get(True, timeout=0.1)
-			text_split=string.split(this_text)
-			if(text_split[0]=='STATUS'):
-				sock_dict['percent done'] = locale_atof(text_split[1])
- 				MESSAGE = json.dumps(sock_dict).encode()
- 				sock.sendto(MESSAGE,(UDP_IP,UDP_PORT))
-				print json.dumps( sock_dict )
-				time.sleep(0.1)
-				#pass ; #progressBar.set(locale.atof(text_split[1]))
-			else:
-				total_string += this_text
-		except:
-			if not process.is_alive():
-				return total_string
-		time.sleep(0.01)
-	else:
-		return total_string
+                        this_text = txtQueue.get(True, timeout=0.01)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
 
-	return total_string
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -78,10 +115,11 @@ class Mol_Drv():
 		os.chdir(path)
 		pdb_path = path
 
-	        refpdb = json_variables['refpdb'][0]
-		#head, refpdb = os.path.split(temp_refpdb[0])
+                refpdb = json_variables['refpdb'][0]
+                head,pdbfilename= os.path.split(refpdb)
+                print 'refpdb = ',refpdb
 
-		path = ''
+                path = ''
 
 		UDP_IP = json_variables['_udphost']
 		UDP_PORT = json_variables['_udpport']
@@ -96,49 +134,20 @@ class Mol_Drv():
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
-#emre
-#        save_stdout = sys.stdout
-#        sys.stdout = sys.stderr
-#end emre
 	if(len(error)>0):
 		output_dict['error'] = 'Error in input variables'	
 		output_dict['sasoutput1'] = 'run failed'
 	else:
 		runname=self.variables['runname'][0]
 
-#		if os.path.exists(runname+'/'+self.module):
-#			shutil.rmtree(runname+'/'+self.module)
-
-#		txtQueue=multiprocessing.JoinableQueue()
-#		process=multiprocessing.Process(target=center.center,args=(self.variables,txtQueue))
-#		process.start()
-
-#		sock = socket.socket(socket.AF_INET, # Internet
-#                     socket.SOCK_DGRAM) # UDP
-
-#		total_string = self.background_job(process,txtQueue,sock,UDP_IP,UDP_PORT)
-
-		#output_dict['io_string'] = input_string
-#		output_dict['sasoutput2'] = total_string
-
-		output_dict['outputpdb'] = pdb_path+refpdb
+		output_dict['outputpdb'] = refpdb
 		#output_dict['outputpdb'] = pdb_path+'c.cube'
 
-	#except
-		#	print 'failed to send to socket'
-		#	sock_dict = {}
-		#	sock_dict['_uuid'] = json_variables['_uuid']
-		#	json.dumps(sock_dict)
-		#	print json.dumps( sock_dict )
-
-	try:
-		with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-			json.dump(output_dict,outfile)
-	except:
-		#output_dict['error_string'] = save_stdout
-		output_dict['error_string'] = 'you should work'
-
-	print json.dumps( output_dict )
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
 		
 if __name__=='__main__':
 
