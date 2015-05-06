@@ -138,9 +138,6 @@ class Mol_Drv():
 		#output_dict['error_string'] = save_stdout
 		output_dict['error_string'] = 'you should work'
 
-#emre
-#        sys.stdout = save_stdout;
-#end emre
 	print json.dumps( output_dict )
 		
 if __name__=='__main__':

@@ -3,13 +3,13 @@ import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
-import sassie.calculate.volumetobeads as volumetobeads
+import sassie.calculate.em_to_sans as em_to_sans
 import sassie.interface.input_filter as input_filter
 import sassie.interface.em_to_sans_filter as em_to_sans_filter
 
 class Em_to_sans_Drv():
 
-   module = 'emtosans'
+   module = 'em_to_sans'
 
    def message_box(self,text,icon):
 
@@ -222,7 +222,7 @@ class Em_to_sans_Drv():
 
 		txtQueue=multiprocessing.JoinableQueue()
 
-                process=multiprocessing.Process(target=volumetobeads.em,args=(self.variables,txtQueue))
+                process=multiprocessing.Process(target=em_to_sans.em,args=(self.variables,txtQueue))
                 process.start()
 
                 total_string = self.background_job(process,txtQueue,json_variables)
@@ -230,8 +230,8 @@ class Em_to_sans_Drv():
 #		output_dict['sasoutput2'] = total_string
 
 		prefix = string.split(sansfile,'.')	
-		pr_file = data_path+runname+'/emtosans/'+prefix[0]+'.pr'
-		iq_file = data_path+runname+'/emtosans/'+sansfile
+		pr_file = data_path+runname+'/em_to_sans/'+prefix[0]+'.pr'
+		iq_file = data_path+runname+'/em_to_sans/'+sansfile
 
                 flot_data1 = self.get_data_from_disk(pr_file)
                 flot_data2 = self.get_data_from_disk(iq_file)
@@ -263,7 +263,7 @@ if __name__=='__main__':
 	#json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"emtosans called with no arguments\"\}\n";
+		print "\{\"error\":\"em_to_sans called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:

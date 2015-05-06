@@ -47,9 +47,8 @@ class Xtal2sas_Drv():
         while process.is_alive():
                 try:
                         if(first):
-                                socket_dict['progress_html'] = 0.01
-                                socket_dict['_progress'] = 0.01
                                 socket_dict['progress_html'] = '<center>starting job</center>'
+                                socket_dict['_progress'] = 0.01
                                 doc_string = json.dumps(socket_dict)
                                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                                 first = False

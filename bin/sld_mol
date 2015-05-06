@@ -3,13 +3,13 @@ import json,sys,os,shutil,ast,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
-import sassie.calculate.sld as sld
+import sassie.calculate.sld_mol as sld_mol
 import sassie.interface.input_filter as input_filter
-import sassie.interface.sld_filter as sld_filter
+import sassie.interface.sld_mol_filter as sld_mol_filter
 
 class Sld_Drv():
 
-   module = 'sldmol'
+   module = 'sld_mol'
 
    def message_box(self,text,icon):
 
@@ -272,12 +272,6 @@ class Sld_Drv():
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
-#emre
-        save_stdout = sys.stdout
-        sys.stdout = sys.stderr
-#end emre
-
-
         if(len(error)>0):
 
                 self.message_box(error,'skull.png')
@@ -288,11 +282,11 @@ class Sld_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                error=sld_filter.check_sld(self.variables,no_file_check="true")
+                error=sld_mol_filter.check_sld_mol(self.variables,no_file_check="true")
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
-                        output_dict['error'] = 'Error in sldmol variables'
+                        output_dict['error'] = 'Error in sld_mol variables'
                         output_dict['sasoutput2'] = 'run failed'
                         print json.dumps( output_dict )
                         return
@@ -303,14 +297,14 @@ class Sld_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-		process=multiprocessing.Process(target=sld.sld_main,args=(self.variables,txtQueue))
+		process=multiprocessing.Process(target=sld_mol.sld_mol_main,args=(self.variables,txtQueue))
 		process.start()
 
 		total_string = self.background_job(process,txtQueue,json_variables)
 
 #		output_dict['sasoutput2'] = total_string
 
-                average_sld_file = runname+'/sld/sldfile_00001.txt'
+                average_sld_file = runname+'/sld_mol/sldfile_00001.txt'
 
                 flot_data = self.get_data_from_disk(expdatafile,average_sld_file)
 
@@ -335,7 +329,7 @@ if __name__=='__main__':
 	#json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"sldmol called with no arguments\"\}\n";
+		print "\{\"error\":\"sld_mol called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:

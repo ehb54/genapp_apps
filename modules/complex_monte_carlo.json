@@ -179,10 +179,10 @@
                    "id"       : "moltype",
                    "label"    : "molecule type (protein or rna)",
                    "type"     : "listbox",
-                   "values"   : "dna~c1~rna~c2~protein~c3",
-                   "default"  : "c3",
+                   "values"   : "protein~c1~rna~c2~ss-dna~c3",
+                   "default"  : "c1",
                    "help"  : "choose a molecule type for this segment",
-                   "required" : "false",
+                   "required" : "true",
                    "repeat"   : "npsegments",
                    "norow"    : "true"
                    },

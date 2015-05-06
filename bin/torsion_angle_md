@@ -3,7 +3,7 @@ import json,sys,os,shutil,time,locale
 from StringIO import StringIO
 import multiprocessing,string,socket
 
-import sassie.simulate.tamd.tamd as tamd
+import sassie.simulate.torsion_angle_md.torsion_angle_md as torsion_angle_md
 import sassie.interface.input_filter as input_filter
 
 class Tamd_Drv():
@@ -221,7 +221,7 @@ class Tamd_Drv():
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
-                        output_dict['error'] = 'Error in tamd variables'
+                        output_dict['error'] = 'Error in torsion_angle_md variables'
                         output_dict['sasoutput2'] = 'run failed'
                         print json.dumps( output_dict )
                         return
@@ -233,7 +233,7 @@ class Tamd_Drv():
 
 
 		txtQueue=multiprocessing.JoinableQueue()
-		process=multiprocessing.Process(target=tamd.tamd,args=(self.variables,psegvariables,txtQueue))
+		process=multiprocessing.Process(target=torsion_angle_md.tamd,args=(self.variables,psegvariables,txtQueue))
 
 		process.start()
 		total_string = 'starting self.background_job' 

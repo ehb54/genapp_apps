@@ -128,14 +128,15 @@ class SCTAnal_Drv():
             os.chdir(path)
 
             #sct_calc_dir = os.path.join(base_directory,runname,'sct_calc')
-            sct_calc_dir = json_variables['calcpath']
+            sct_calc_dir = json_variables['calcpath'][0]
 
             paramfile = json_variables['paramfile'][0]
             #head,paramfile = os.path.split(temp_paramfile[0])
 
             xrayfiles = []
-            for xfile in json_variables['xraycurve']:
-                xrayfiles.append(xfile[0])
+	    if int(json_variables['noxray'][0]) > 0:
+                for xfile in json_variables['xraycurve']:
+                    xrayfiles.append(xfile[0])
 
             if(json_variables['xrayunits'] == 'c2'):
                 xrayunits = 'nm'
@@ -143,8 +144,9 @@ class SCTAnal_Drv():
                 xrayunits = 'a'
 
             neutfiles = []
-            for xfile in json_variables['neutroncurve']:
-                neutfiles.append(xfile[0])
+	    if int(json_variables['noneutron'][0]) > 0:
+                for xfile in json_variables['neutroncurve']:
+                    neutfiles.append(xfile[0])
 
             if(json_variables['neutronunits'] == 'c2'):
                 neutunits = 'nm'

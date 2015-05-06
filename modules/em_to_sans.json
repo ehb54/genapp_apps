@@ -1,6 +1,6 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "emtosans",
+    "moduleid" : "em_to_sans",
     "label"    : "EM to SANS",
     "fields"   : [
                    {
@@ -28,7 +28,7 @@
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true",
-                   "help"     : "results will be placed in a folder called emtosans/ in the directory name you enter here"
+                   "help"     : "results will be placed in a folder called em_to_sans/ in the directory name you enter here"
                    },
                   {
                    "role"    : "input",
@@ -130,5 +130,5 @@
                    "type"    : "plot2d"
                    }
                   ],
-    "executable" : "emtosans"
+    "executable" : "em_to_sans"
 }

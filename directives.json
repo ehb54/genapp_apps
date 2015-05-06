@@ -2,7 +2,7 @@
 {
   "title"                     : "SASSIE-web",
   "application"               : "sassie2",
-  "version"                   : ": Beta 0.9",
+  "version"                   : ": Beta",
 #  "languages"                 : [ "html5", "qt3", "qt4" ],
   "languages"                 : [ "html5"],
   "mongojournal" : "true",
@@ -38,8 +38,8 @@
       				#,"help"           : ""
   				},
   "help"                      : {
-                                 "user_config" : "Settings Manager: use to register and or change projects and settings"
-                                 ,"register"    : "Settings Manager: use to register and or change projects and settings"
+                                 "user_config" : "Settings Manager: use change projects and settings"
+                                 ,"register"    : "Click me to register"
                                  ,"jobs"        : "Job Manager: use to monitor running and finished jobs"
                                  ,"files"       : "File Manager: use to download and remove files"
                                  ,"feedback"    : "Press to provide feedback to Google Groups page"

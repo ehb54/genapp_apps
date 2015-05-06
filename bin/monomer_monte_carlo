@@ -149,10 +149,24 @@ class Generate_Drv():
 
         return 
 
+
+   def convert_residue_ranges(self,original_reslow):
+
+	r = string.split(original_reslow,',')
+
+	lowres = ''; numcont = ''
+	for pair in r:
+		this_pair = string.split(pair,'-')
+		lowres += this_pair[0]+','
+		numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+
+	lowres = lowres[:-1]
+	numcont = numcont[:-1]
+	
+	return lowres, numcont
+
    def run_me(self,json_flag,json_variables,input_string):
 
-         print "ZHL json"
-         print json_variables
          output_dict = {}
 
          if not json_flag:
@@ -171,8 +185,8 @@ class Generate_Drv():
                 moltype = 'protein'
                 numranges='5'
                 dtheta='30.0,30.0,30.0,30.0,30.0'
-                reslow='123,278,354,378,408'
-                numcont='21,5,24,11,4'
+                original_reslow='123-144,278-283,354-378,378-389,408-412'
+                #numcont='21,5,24,11,4'
                 lowres1='284'
                 highres1='350'
                 basis='CA'
@@ -219,8 +233,8 @@ class Generate_Drv():
                 temp = json_variables['temp']
                 numranges = json_variables['numranges']
                 dtheta = json_variables['dtheta']
-                reslow = json_variables['reslow']
-                numcont = json_variables['numcont']
+                original_reslow = json_variables['reslow']
+                #numcont = json_variables['numcont']
                 lowres1 = json_variables['lowres1']
                 highres1 = json_variables['highres1']
 
@@ -322,7 +336,17 @@ class Generate_Drv():
 
                 path = ''
 
-	
+	 try:
+	 	reslow, numcont = self.convert_residue_ranges(original_reslow)
+	 except:
+		error = 'unable to parse residue range for flexible regions: check your input values\n'
+		error += 'it should consist of a pair of hyphenated integers separated by commas\n'
+		error += 'the number of pairs should equal the number of flexible regions'
+ 		self.message_box(error,'warning.png')
+		output_dict['error'] = error
+        	output_dict['sasoutput2'] = 'run failed'
+        	print json.dumps( output_dict )
+        	return
 
 	 parmfilepath = sasconfig._bin_path+'toppar/'
          parmfilename = 'par_all27_prot_na.inp'

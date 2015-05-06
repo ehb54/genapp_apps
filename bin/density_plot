@@ -3,13 +3,13 @@ import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
-import sassie.analyze.density as density
+import sassie.analyze.density_plot as density_plot
 import sassie.interface.input_filter as input_filter
-import sassie.interface.density_filter as density_filter
+import sassie.interface.density_plot_filter as density_plot_filter
 
 class Density_Drv():
 
-   module = 'density'
+   module = 'density_plot'
 
    def message_box(self,text,icon):
 
@@ -211,11 +211,11 @@ class Density_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                error=density_filter.check_density(self.variables,segvariables,no_file_check="true")
+                error=density_plot_filter.check_density_plot(self.variables,segvariables,no_file_check="true")
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
-                        output_dict['error'] = 'Error in density variables'
+                        output_dict['error'] = 'Error in density_plot variables'
                         output_dict['sasoutput2'] = 'run failed'
                         print json.dumps( output_dict )
                         return
@@ -227,7 +227,7 @@ class Density_Drv():
 
 		txtQueue=multiprocessing.JoinableQueue()
 
-		process=multiprocessing.Process(target=density.density,args=(self.variables,segvariables,txtQueue))
+		process=multiprocessing.Process(target=density_plot.density,args=(self.variables,segvariables,txtQueue))
                 process.start()
 
                 total_string = self.background_job(process,txtQueue,json_variables)
@@ -247,7 +247,7 @@ if __name__=='__main__':
 #	json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"density called with no arguments\"\}\n";
+		print "\{\"error\":\"density_plot called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:

@@ -147,7 +147,7 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "emtosans",
+                          "id"    : "em_to_sans",
                           "label" : "EM to SANS",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
