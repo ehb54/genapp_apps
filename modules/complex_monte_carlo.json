@@ -15,10 +15,11 @@
                   {
                    "role"     : "input",
                    "id"       : "runname",
-                   "label"    : "project name",
+                   "label"    : "run name",
                    "type"     : "text",
                    "default"  : "run_0",
-                   "help"     : "results will be placed in a folder called generate/ in the directory name you enter here",
+                   "help"     : "results will be placed in a folder called complex_monte_carlo/ in the directory name you enter here",
+                   #"size"    : 40, 
                    "required" : "true"
                    },
                   {
@@ -78,7 +79,7 @@
                   {
                    "role"     : "input",
                    "id"       : "nsegments",
-                   "label"    : "Enter TOTAL number of segements:",
+                   "label"    : "Enter TOTAL number of segments:",
                    "type"     : "text",
                    "default"  : "2",
                    "help"  : "enter the sum of flexible and rigid segments",
@@ -133,7 +134,7 @@
                   {
                    "role"     : "input",
                    "id"       : "numranges",
-                   "label"    : "number of flexible regions to vary",
+                   "label"    : "number of flexible regions in segment",
                    "type"     : "text",
                    "default"  : "2",
                    "required" : "false",
@@ -144,40 +145,41 @@
                   {
                    "role"     : "input",
                    "id"       : "sith",
-                   "label"    : "enter maximum angle sampled in a single Monte Carlo step for each region",
+                   "label"    : "maximum angle sampled for each region",
                    "type"     : "text",
                    "default"  : "30.0,30.0",
                    "required" : "false",
                    "repeat"   : "npsegments",
-                   "help"  : "enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
+                   "help"  : "(degrees): enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
                    "norow"    : "true"
                    },
                   {
                    "role"     : "input",
                    "id"       : "srlow",
-                   "label"    : "first residue per region",
+                   "label"    : "residue range for each flexible region",
                    "type"     : "text",
-                   "default"  : "123,277",
-                   "required" : "false",
+                   "default"  : "123-144,277-282",
+                   "required" : "true",
                    "repeat"   : "npsegments",
-                   "help"  : "enter the number of the first residue in each of the flexible regions",
+                   "help"  : "enter residue range for each flexible region: pairs of hyphenated integers separated by commas",
+                   "size"       :30,
                    "norow"    : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "srnum",
-                   "label"    : "number contiguous residues per region",
-                   "type"     : "text",
-                   "default"  : "21,5",
-                   "required" : "false",
-                   "repeat"   : "npsegments",
-                   "help"  : "enter the number residues in each of the flexible regions",
-                   "norow"    : "true"
-                   },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "srnum",
+                  # "label"    : "number contiguous residues per region",
+                  # "type"     : "text",
+                  # "default"  : "21,5",
+                  # "required" : "false",
+                  # "repeat"   : "npsegments",
+                  # "help"  : "enter the number residues in each of the flexible regions",
+                  # "norow"    : "true"
+                  # },
                   {
                    "role"     : "input",
                    "id"       : "moltype",
-                   "label"    : "molecule type (protein or rna)",
+                   "label"    : "molecule type (protein, rna,ss-dna)",
                    "type"     : "listbox",
                    "values"   : "protein~c1~rna~c2~ss-dna~c3",
                    "default"  : "c1",
@@ -244,15 +246,25 @@
                    "help" : "discard all accepted structures with a Rg greater than this value",
                    "repeat"  : "advanced_input"
                    },
-		  {
+                  {
+                   "role"     : "input",
+                   "id"       : "directedmc",
+                   "label"    : "directed Monte Carlo (0==no or Rg value)",
+                   "type"     : "text",
+                   "default"  : "0",
+                   "required" : "true",
+                   "help" : "enter a non-zero value to guide the Rg value of the Monte Carlo run to the desired value",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
                    "role"    : "input",
-                   "id"      : "zflag_list_box",
-                   "name"    : "zflag_list_box",
-                   "label"    : "Z coordinate filter", 
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "help" : "choose YES to discard all accepted structures with any atomic coordinates (in the z-axis) less than the Z cutoff value below",
+                   "id"      : "zflag_check_box",
+                   "name"    : "zflag_check_box",
+                   "label"    : "check box to use Z coordinate filter",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help" : "check box to discard all accepted structures with any atomic coordinates (in the z-axis) less than the Z cutoff value below",
+                   "repeater"  : "true",
                    "repeat"  : "advanced_input"
                    },
                   {
@@ -263,7 +275,7 @@
                    "default"  : "0.0",
                    "required" : "true",
                    "help" : "discard all accepted structures with any atomic coordinates (in the z-axis) less than this value",
-                   "repeat"  : "advanced_input"
+                   "repeat"  : "zflag_check_box"
                    },
 		  {
                    "role"    : "input",
@@ -286,17 +298,17 @@
                    "repeat"  : "cflag_list_box",
                    "norow"    : "false"
                    },
-		  {
-                   "role"    : "input",
-                   "id"      : "plotflag_list_box",
-                   "name"    : "plotflag_list_box",
-                   "label"    : "plot Rg during run",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "help" : "not implemented: future -> choose to display Rg values during Monte Carlo run",
-                   "repeat"  : "advanced_input"
-                   },
+		  #{
+                  # "role"    : "input",
+                  # "id"      : "plotflag_list_box",
+                  # "name"    : "plotflag_list_box",
+                  # "label"    : "plot Rg during run",
+                  # "type"    : "listbox",
+                  # "values"  : "no~c1~yes~c2",
+                  # "default" : "c1",
+                  # "help" : "not implemented: future -> choose to display Rg values during Monte Carlo run",
+                  # "repeat"  : "advanced_input"
+                  # },
                   {
                    "role"    : "output",
                    "id"      : "progress_output",

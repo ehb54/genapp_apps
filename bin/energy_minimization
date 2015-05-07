@@ -9,7 +9,7 @@ import sassie.interface.minimize_filter as minimize_filter
 
 class Structure_minimization_Drv():
 
-   module = 'minimize'
+   module = 'energy_minimization'
 
    def message_box(self,text,icon):
 
@@ -135,9 +135,6 @@ class Structure_minimization_Drv():
 		nsteps = json_variables['nsteps']
 		ncpu = json_variables['ncpu']
 		dcdfreq = json_variables['dcdfreq']
-		mdsteps = json_variables['mdsteps']
-		dielect = json_variables['dielect']
-		temperature = json_variables['temperature']
 
 		#head, psffile = os.path.split(temp_psffile[0])
 
@@ -150,10 +147,19 @@ class Structure_minimization_Drv():
 		md_list_box = json_variables['md_list_box']
                 if(md_list_box == 'c1'):
                         md = '0' #  minimization only
+			mdsteps = '0'
+			dielect = '1.0'
+			temperature = '300.0'
                 elif(md_list_box == 'c2'):
                         md = '1' #  min / md
+			mdsteps = json_variables['mdsteps']
+			dielect = json_variables['dielect']
+			temperature = json_variables['temperature']
                 elif(md_list_box == 'c3'):
                         md = '2' #  min / md /min
+			mdsteps = json_variables['mdsteps']
+			dielect = json_variables['dielect']
+			temperature = json_variables['temperature']
 
                 try:
                         advanced_input = json_variables['advanced_input']
@@ -229,7 +235,6 @@ class Structure_minimization_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-#		namd_minimize.minimize(self.variables,txtQueue) 
 		process=multiprocessing.Process(target=namd_minimize.minimize,args=(self.variables,txtQueue))
                 process.start()
 

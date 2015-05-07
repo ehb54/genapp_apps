@@ -206,6 +206,16 @@
                    "help" : "discard all accepted structures with a Rg greater than this value",
                    "repeat"  : "advanced_input"
                    },
+                  {
+                   "role"     : "input",
+                   "id"       : "directedmc",
+                   "label"    : "directed Monte Carlo (0==no or Rg value)",
+                   "type"     : "text",
+                   "default"  : "0",
+                   "required" : "true",
+                   "help" : "enter a non-zero value to guide the Rg value of the Monte Carlo run to the desired value",
+                   "repeat"  : "advanced_input"
+                   },
 		  {
                    "role"    : "input",
                    "id"      : "zflag_check_box",
@@ -238,16 +248,6 @@
                   # "help" : "not implemented: future -> choose to display Rg values during Monte Carlo run",
                   # "repeat"  : "advanced_input"
                   # },
-                  {
-                   "role"     : "input",
-                   "id"       : "directedmc",
-                   "label"    : "directed Monte Carlo (0==no or Rg value)",
-                   "type"     : "text",
-                   "default"  : "0",
-                   "required" : "true",
-                   "help" : "enter a non-zero value to guide the Rg value of the Monte Carlo run to the desired value",
-                   "repeat"  : "advanced_input"
-                   },
 		  {
                    "role"    : "input",
                    "id"      : "cflag_check_box",

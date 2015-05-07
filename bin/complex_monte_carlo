@@ -9,7 +9,7 @@ import sassie.interface.complex_filter as complex_filter
 
 class CGenerate_Drv():
 
-   module = 'generate'
+   module = 'complex_monte_carlo'
 
    def message_box(self,text,icon):
 
@@ -85,7 +85,8 @@ class CGenerate_Drv():
 
    def read_file(self,filename,dvar,this_pass):
 
-        try:
+        #try:
+        if True:
                 data = [] ; error = []
                 data_file = open(filename,'r').readlines()
                 nl = len(data_file)
@@ -128,7 +129,8 @@ class CGenerate_Drv():
 
 
 
-        except:
+        else: 
+        #except:
         #        print 'ERROR READING PLOT DATA FILE'
         #        print 'ERROR READING PLOT DATA FILE'
         #        print 'ERROR READING PLOT DATA FILE'
@@ -153,6 +155,26 @@ class CGenerate_Drv():
         self.read_file(file2,dvar,2)
 
         return 
+
+   def convert_residue_ranges(self,original_reslow):
+
+        r = string.split(original_reslow,',')
+        number_of_pairs = 0
+
+        lowres = ''; numcont = ''
+        for pair in r:
+                this_pair = string.split(pair,'-')
+                lowres += this_pair[0]+','
+                numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+                number_of_pairs += 1
+
+        lowres = lowres[:-1]
+        numcont = numcont[:-1]
+
+        print 'lowres = ',lowres
+        print 'numcont = ',numcont
+
+        return lowres, numcont
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -186,6 +208,7 @@ class CGenerate_Drv():
 		cflag='0'
 		confile = 'constraints.txt'
 		plotflag = '0'
+		directedmc = '0'
 		seed = '0,123'        
 
 		allsnumranges = ["2","2"]
@@ -239,14 +262,20 @@ class CGenerate_Drv():
  			cutoff = json_variables['cutoff']
 			lowrg = json_variables['lowrg']
  			highrg = json_variables['highrg']
- 			zcutoff = json_variables['zcutoff']
-			
-			zflag_list_box = json_variables['zflag_list_box']
+		
+                        try:
+                                zflag_check_box = json_variables['zflag_check_box']
+                        except:
+                                zflag_check_box = "off"
+	
 			try:
 				cflag_list_box = json_variables['cflag_list_box']
 			except:
 				cflag_list_box = 'off'
- 			plotflag_list_box = json_variables['plotflag_list_box']
+ 			#plotflag_list_box = json_variables['plotflag_list_box']
+ 			plotflag_list_box = "c1"
+
+ 			directedmc = json_variables['directedmc']
 
 		else:
  			basis = 'CA'
@@ -254,14 +283,18 @@ class CGenerate_Drv():
 			lowrg = "20.0"
 			highrg = "185.0"
 			zcutoff = "0.0"
-			zflag_list_box = "c1"
+			zflag_check_box = "off"
 			cflag_list_box = "off"
  			plotflag_list_box = "c1"
+ 			directedmc = "0"
 
-                if(zflag_list_box == 'c1'):
+
+                if(zflag_check_box == 'off'):
                         zflag = '0' # NO
-                elif(zflag_list_box == 'c2'):
+                        zcutoff = '0'
+                elif(zflag_check_box == 'on'):
                         zflag = '1' # YES
+                        zcutoff = json_variables['zcutoff']
 
                 if(cflag_list_box == 'off'):
                         cflag = '0' # NO
@@ -284,8 +317,25 @@ class CGenerate_Drv():
 				mtype = "rna"
 			elif(json_variables['moltype'][i] == "c1"):
 				mtype = "protein"
-			psegvariables.append([json_variables['numranges'][i].encode('utf8'), json_variables['sith'][i].encode('utf8'), json_variables['srlow'][i].encode('utf8'), json_variables['srnum'][i].encode('utf8'), mtype]);
-			#psegvariables.append([json_variables['numranges'][i], json_variables['sith'][i], json_variables['srlow'][i], json_variables['srnum'][i], mtype]);
+		
+			#try:
+			if True:
+				original_srlow = json_variables['srlow'][i]
+                		srlow, srnum = self.convert_residue_ranges(original_srlow)
+         		else:
+         		#except:
+                		error = 'unable to parse residue range for flexible regions: check your input values\n'
+                		error += 'it should consist of a pair of hyphenated integers separated by commas\n'
+                		error += 'the number of pairs should equal the number of flexible regions'
+                		self.message_box(error,'warning.png')
+                		output_dict['error'] = error
+                		output_dict['sasoutput2'] = 'run failed'
+                		print json.dumps( output_dict )
+                		return
+	
+			psegvariables.append([json_variables['numranges'][i].encode('utf8'), json_variables['sith'][i].encode('utf8'), srlow.encode('utf8'), srnum.encode('utf8'), mtype]);
+
+			#psegvariables.append([json_variables['numranges'][i].encode('utf8'), json_variables['sith'][i].encode('utf8'), json_variables['srlow'][i].encode('utf8'), json_variables['srnum'][i].encode('utf8'), mtype]);
 
 	plotflag = '0'
 
@@ -317,6 +367,7 @@ class CGenerate_Drv():
  	svariables['cflag']		= (str(cflag),'int')
  	svariables['confile']		= (str(confile),'string')
  	svariables['plotflag']		= (str(plotflag),'int')
+ 	svariables['directedmc']        = (str(directedmc),'float')
  	svariables['seed']		= ('0,123', 'int_array') # set this to '1,123' if you want to set the seed or '0,123' if not
 
 	error = []
@@ -375,8 +426,8 @@ class CGenerate_Drv():
 
 			#output_dict['sasoutput2'] = total_string
 
-			accepted_rg_file = data_path+runname+'/generate/'+dcdfile+'.accepted_rg_results_data.txt'
-			all_rg_file = data_path+runname+'/generate/'+dcdfile+'.all_rg_results_data.txt'
+			accepted_rg_file = data_path+runname+'/complex_monte_carlo/'+dcdfile+'.accepted_rg_results_data.txt'
+			all_rg_file = data_path+runname+'/complex_monte_carlo/'+dcdfile+'.all_rg_results_data.txt'
 
 			self.get_data_from_disk(all_rg_file,accepted_rg_file)
 

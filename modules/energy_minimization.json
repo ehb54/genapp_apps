@@ -102,6 +102,7 @@
                    "type"    : "listbox",
                    "values"  : "minimization~c1~minimization / md~c2~minimization / md / minimization~c3",
                    "help" : "one can choose a combination of minimization and MD runs",
+		   "repeater" : "true",
                    "default" : "c1"
                    },
                   {
@@ -110,6 +111,7 @@
                    "label"   : "number md timesteps (1 step = 2 fs)",
                    "type"    : "text",
                    "default" : "10000",
+		   "repeat" : "md_list_box:c2",
                    "help" : "if one chooses a MD option then the number of steps entered here is used",
                    "required" : "true"
                    },
@@ -118,7 +120,8 @@
                    "id"      : "dielect",
                    "label"   : "solvent dielectric",
                    "type"    : "text",
-                   "default" : "1.0",
+                   "default" : "80.0",
+		   "repeat" : "md_list_box:c2",
                    "help" : "required by MD option, not for energy minimization",
                    "required" : "true"
                    },
@@ -128,6 +131,37 @@
                    "label"   : "temperature (K)",
                    "type"    : "text",
                    "default" : "300.0",
+		   "repeat" : "md_list_box:c2",
+                   "help" : "required by MD option, not for energy minimization",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "mdsteps",
+                   "label"   : "number md timesteps (1 step = 2 fs)",
+                   "type"    : "text",
+                   "default" : "10000",
+		   "repeat" : "md_list_box:c3",
+                   "help" : "if one chooses a MD option then the number of steps entered here is used",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dielect",
+                   "label"   : "solvent dielectric",
+                   "type"    : "text",
+                   "default" : "80.0",
+		   "repeat" : "md_list_box:c3",
+                   "help" : "required by MD option, not for energy minimization",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "temperature",
+                   "label"   : "temperature (K)",
+                   "type"    : "text",
+                   "default" : "300.0",
+		   "repeat" : "md_list_box:c3",
                    "help" : "required by MD option, not for energy minimization",
                    "required" : "true"
                    },
