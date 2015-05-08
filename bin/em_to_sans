@@ -153,6 +153,7 @@ class Em_to_sans_Drv():
 
                 emdensityfile = json_variables['emdensityfile'][0]
                 #head, emdensityfile = os.path.split(temp_emdensityfile[0])
+		print 'emdensityfile = ',emdensityfile
 
 		angpix = json_variables['angpix']
 		pdbfile = json_variables['pdbfile']
@@ -211,6 +212,7 @@ class Em_to_sans_Drv():
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
                         output_dict['error'] = 'Error in em2sans variables'
+                        output_dict['error'] = error
                         output_dict['sasoutput2'] = 'run failed'
                         print json.dumps( output_dict )
                         return

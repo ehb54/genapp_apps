@@ -62,9 +62,18 @@ class PDBScan_Drv():
                                 socket_dict['progress_html'] = '<center>'+svalue+'</center>'
                                 if "_textarea" in socket_dict:
                                         del socket_dict["_textarea"]
+                                if "report" in socket_dict:
+                                        del socket_dict["report"]
                                 if socket_dict:
                                         doc_string = json.dumps(socket_dict)
                                         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        if(text_split[0]=='REPORT'):
+				#socket_dict['_textarea'] = text_split[1]	
+				total_string = text_split[1]
+				#print 'total_string (bj) = ',total_string
+                                #if socket_dict:
+                                #        doc_string = json.dumps(socket_dict)
+                                #        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
                                 socket_dict["_textarea"] = this_text
                                 if socket_dict:
@@ -80,7 +89,6 @@ class PDBScan_Drv():
                 return total_string
 
         return total_string
-
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -152,13 +160,23 @@ class PDBScan_Drv():
 		process=multiprocessing.Process(target=pdbscan.pdbscan,args=(self.variables,txtQueue))
 		process.start()
 
+		report_info = ''
 		total_string = self.background_job(process,txtQueue,json_variables)
 
-#		output_dict['sasoutput2'] = total_string
-
+		#output_dict['sasoutput2'] = total_string
+	
  		output_dict['outputpdb'] = refpdb
-
-	html_base_name = pdbfilename+'_pdbscan_output.html'
+	
+	try:
+		report_flag = str(total_string)
+		if report_flag == "header":
+			html_base_name = pdbfilename+'_header_pdbscan_output.html'
+		elif report_flag == "non_header":
+			html_base_name = pdbfilename+'_no_header_pdbscan_output.html'
+	except:
+		html_base_name = pdbfilename+'_header_pdbscan_output.html'
+ 		
+	#html_base_name = pdbfilename+'header_pdbscan_output.html'
 
 	html_file = os.path.join(runname,self.module,html_base_name)
 

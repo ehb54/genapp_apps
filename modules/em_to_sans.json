@@ -12,15 +12,15 @@
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
-                  {
-                   "role"       : "input",
-                   "id"       : "message",
-                   "label"    : "MRC MAP INPUT DISABLED . . .  under development: due spring 2015",
-                   "type"     : "label",
-                   "default"  : "header3",
-                   "prehline"  : "true",
-                   "posthline"  : "true"
-                   },
+#                  {
+#                   "role"       : "input",
+#                   "id"       : "message",
+#                   "label"    : "MRC MAP INPUT DISABLED . . .  under development: due spring 2015",
+#                   "type"     : "label",
+#                   "default"  : "header3",
+#                   "prehline"  : "true",
+#                   "posthline"  : "true"
+#                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",
@@ -37,7 +37,7 @@
                    "label"   : "select EM file type",
                    "type"    : "listbox",
                    "values"  : "mrc~c1~Gaussian cube~c2",
-                   "default" : "c2",
+                   "default" : "c1",
                    "help" : "choose an input map type"
                    },
                   {
