@@ -84,9 +84,71 @@ class Em_to_sans_Drv():
 
         return total_string
 
-   def read_file(self,flot_data,filename):
+   def find_min_max(self,data_file):
+        nl = len(data_file)
 
-        try:
+        minx = 1E10 ; maxx = -1E10
+        miny = 1E10 ; maxy = -1E10
+        for i in xrange(nl):
+                lin = string.split(data_file[i])
+                try:
+                        this_x = locale.atof(lin[0])
+                        this_y = locale.atof(lin[1])
+                        if(this_x < minx) : minx = this_x
+                        if(this_y < miny) : miny = this_y
+                        if(this_x > maxx) : maxx = this_x
+                        if(this_y > maxy) : maxy = this_y
+                except:
+                        pass
+
+        return minx,miny,maxx,maxy
+
+   def read_file(self,filename,this_pass):
+
+	if this_pass == 1:
+		self.flot_data = {
+			"options": {
+                		"title"  : "Pair Distribution Function",
+                        	"xlabel"  : "r (angstrom)",
+                        	"ylabel"  : "P(r)",
+                        	},
+			"data" : []
+			}
+
+	if this_pass == 2:
+
+                minx,miny,maxx,maxy = self.find_min_max(filename)
+
+                minx = 0.85 * minx ; maxx = 1.15 * maxx
+                miny = 0.85 * miny ; maxy = 1.15 * maxy
+                
+		if miny < 0.0: miny = 1E-6
+                if minx < 0.0: minx = 1E-6
+
+		self.flot_data = {
+			"options": {
+                		"title"  : "Scattering Profile",
+                        	"xlabel"  : "q (1/angstrom)",
+                        	"ylabel"  : "I(q)",
+                        	#"xscale"  : "log",
+                        	#"yscale"  : "log",
+                        	#"xmin"    : minx,
+                        	#"xmax"    : maxx,
+                        	#"ymin"    : miny,
+                        	#"ymax"    : maxy,
+                        	},
+                        "data" : []
+    #                            {
+    #                            	"lines" : { "show": "true", "lineWidth" : "1.0"},
+    #                                    "points" : { "show" : "true", "radius" : "1" },
+    #                                    "color" : "red",
+     #                                   "label" : "original data",
+    #                                    "data": data
+    #                             }
+                     #           ]
+			}
+        #try:
+        if True:
                 data = [] ; error = []
                 data_file = open(filename,'r').readlines()
                 nl = len(data_file)
@@ -98,24 +160,16 @@ class Em_to_sans_Drv():
                         	this_y = lin[1]
                         	data.append([this_x,this_y])
 
-                flot_data.append(data)
-#                data_file.close()
+                self.flot_data["data"].append(data)
 
-        except:
+        #except:
+        else:
                 print 'ERROR READING INTERPOLATED DATA FILE'
                 print 'ERROR READING INTERPOLATED DATA FILE'
                 print 'ERROR READING INTERPOLATED DATA FILE'
-                flot_data = "error reading file and making plot"
+                self.flot_data = "error reading file and making plot"
 
         return
-
-   def get_data_from_disk(self,filename):
-
-        flot_data = []
-
-        self.read_file(flot_data,filename)
-
-        return flot_data
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -235,23 +289,21 @@ class Em_to_sans_Drv():
 		pr_file = data_path+runname+'/em_to_sans/'+prefix[0]+'.pr'
 		iq_file = data_path+runname+'/em_to_sans/'+sansfile
 
-                flot_data1 = self.get_data_from_disk(pr_file)
-                flot_data2 = self.get_data_from_disk(iq_file)
+                self.read_file(pr_file,1)
 
-        #       output_dict['test_ofile'] = data_path+ofile
-
-                #flot_data = [[[0.0,0.0],[1.0,2.0],[2.0,4.0],[3.0,9.0]]]
-                if(isinstance(flot_data1, basestring)):
+                if(isinstance(self.flot_data, basestring)):
                         print 'error reading data'
-                        output_dict['plot_pr_error'] = flot_data1
+                        output_dict['plot_pr_error'] = self.flot_data
                 else:
-                        output_dict['pr_plot'] = flot_data1
+                        output_dict['pr_plot'] = self.flot_data
 
-                if(isinstance(flot_data2, basestring)):
+                self.read_file(iq_file,2)
+
+                if(isinstance(self.flot_data, basestring)):
                         print 'error reading data'
-                        output_dict['plot_iq_error'] = flot_data2
+                        output_dict['plot_iq_error'] = self.flot_data
                 else:
-                        output_dict['iq_plot'] = flot_data2
+                        output_dict['iq_plot'] = self.flot_data
 
         if output_dict:
                 print json.dumps( output_dict )

@@ -277,6 +277,9 @@ class Chi_square_filter_Drv():
 		saspath = './run_0/xtal2sas/'
 		sasintfile = './nsfit.data'
 		io = '0.019'
+		number_of_weight_files = '0'
+		basis_string  = ''
+		weight_file_names  = ''
 		x2highcut = '10.0'
 		x2highweightfile = 'x2highweights.txt'
 		x2lowcut = '1.0'
@@ -358,6 +361,15 @@ class Chi_square_filter_Drv():
                 elif(reduced_x2_list_box == 'c3'):
                         reduced_x2 = '2' # Pearson's chi-square
 
+		try:
+			number_of_weight_files = json_variables['number_of_weight_files']
+			basis_string = json_variables['basis_string']
+			weight_file_names = json_variables['weight_file_names']
+		except:
+			number_of_weight_files = '0'
+			basis_string  = ''
+			weight_file_names  = ''
+
                 data_path = path
 
 		path = ''
@@ -371,6 +383,9 @@ class Chi_square_filter_Drv():
 	svariables['saspath']   	= (str(saspath),'string')
 	svariables['sasintfile']	= (str(sasintfile),'string')
 	svariables['io']        	= (str(io),'float')
+	svariables['number_of_weight_files'] = (str(number_of_weight_files),'int')
+	svariables['basis_string'] 	= (str(basis_string),'string')
+	svariables['weight_file_names'] = (str(weight_file_names),'string')
 	svariables['x2highcut'] 	= (str(x2highcut),'float')
 	svariables['x2highweightfile']	= (str(x2highweightfile),'string')
 	svariables['x2lowcut'] 		= (str(x2lowcut),'float')
