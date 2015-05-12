@@ -88,16 +88,6 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "dtheta",
-                   "label"    : "maximum angle sampled for each region",
-                   "type"     : "text",
-                   "default"  : "30.0,30.0,30.0,30.0,30.0",
-                   "size"	:40,
-                   "help"  : "(degrees): enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
-                   "required" : "true"
-                   },
-                  {
-                   "role"     : "input",
                    "id"       : "reslow",
                    "label"    : "residue range for each flexible region",
                    "type"     : "text",
@@ -106,31 +96,23 @@
                    "size"	:40,
                    "required" : "true"
                    },
-                  #{
-                  # "role"     : "input",
-                  # "id"       : "numcont",
-                  # "label"    : "number contiguous residues per region",
-                  # "type"     : "text",
-                  # "default"  : "21,5,20,11,4",
-                  # "help"  : "enter the number residues in each of the flexible regions",
-                  # "required" : "true"
-                  # },
                   {
                    "role"     : "input",
-                   "id"       : "lowres1",
-                   "label"    : "structure alignment: low residue",
-                   "type"     : "integer",
-                   "default"  : 284,
-                   "help"  : "select the low residue used for structural alignment, this should be in a rigid/non-flexible region",
+                   "id"       : "dtheta",
+                   "label"    : "maximum angle(s)",
+                   "type"     : "text",
+                   "default"  : "30.0,30.0,30.0,30.0,30.0",
+                   "size"	:40,
+                   "help"  : "(degrees): enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
                    "required" : "true"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "highres1",
-                   "label"    : "structure alignment: high residue",
-                   "type"     : "integer",
-                   "default"  : 350,
-                   "help"  : "select the high residue used for structural alignment, this should be in a rigid/non-flexible region",
+                   "id"       : "residue_alignment",
+                   "label"    : "structure alignment range",
+                   "type"     : "text",
+                   "default"  : "284-350",
+                   "help"  : "select the residue range used for structural alignment, this should be in a rigid/non-flexible region",
                    "required" : "true"
                    },
                   {

@@ -50,6 +50,15 @@
                    },
                   {
                    "role"    : "input",
+                   "id"      : "pretamd_min_steps",
+                   "label"   : "number of preliminary minimization steps",
+                   "type"    : "text",
+                   "default" : "2000",
+                   "help" : "structures need extensive minimization: usually 2000 or more is adequate",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
                    "id"      : "nsteps",
                    "label"   : "number of TAMD steps",
                    "type"    : "text",
@@ -75,42 +84,24 @@
                    "help"  : "useful to debug troublesome runs",
                    "required" : "true"
                    },
-                  {
-                   "role"    : "input",
-                   "id"      : "dcdfreq",
-                   "label"   : "DCD write frequency",
-                   "type"    : "text",
-                   "default" : "20",
-                   "help" : "how often to save preliminary structures: should be a factor of the number of simulation steps",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "dna_segnames",
-                   "label"   : "dna segment names",
-                   "type"    : "text",
-                   "default" : "None",
-                   "help" : "input is only required for systems with DNA: enter name of each DNA containing segment",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "pretamd_min_steps",
-                   "label"   : "number of preliminary minimization steps",
-                   "type"    : "text",
-                   "default" : "2000",
-                   "help" : "structures need extensive minimization: usually 2000 or more is adequate",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "poll_frequency",
-                   "label"   : "poll frequency (seconds)",
-                   "type"    : "text",
-                   "default" : "60",
-                   "help" : "how often should the output files be probed to see if a run is complete: use a longer poll time for longer runs",
-                   "required" : "true"
-                   },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "dcdfreq",
+                  # "label"   : "DCD write frequency",
+                  # "type"    : "text",
+                  # "default" : "20",
+                  # "help" : "how often to save preliminary structures: should be a factor of the number of simulation steps",
+                  # "required" : "true"
+                  # },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "poll_frequency",
+                  # "label"   : "poll frequency (seconds)",
+                  # "type"    : "text",
+                  # "default" : "60",
+                  # "help" : "how often should the output files be probed to see if a run is complete: use a longer poll time for longer runs",
+                  # "required" : "true"
+                  # },
                   {
                    "role"    : "input",
                    "id"      : "rgforce",
@@ -141,56 +132,13 @@
                   {
                    "role"     : "input",
                    "id"       : "number_flexible_segments",
-                   "label"    : "number of segments with flexible regions:",
+                   "label"    : "number of flexible segments",
                    "type"     : "integer",
                    "default"  :  1,
+                   "min"      :  1,
                    "required" : "true",
                    "help"  : "enter the number of segments that have residues to sample",
                    "repeater" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "all_flexible_segnames",
-                   "label"    : "segment name:",
-                   "type"     : "text",
-                   "required" : "true",
-		   "default"  : "GAG",
-		   "help"  : "enter name of this flexible segment",
-                   "repeat"   : "number_flexible_segments",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "all_snumranges",
-                   "label"    : "number of ranges:",
-                   "type"     : "text",
-                   "required" : "true",
-		   "default"  : "1",
-                   "repeat"   : "number_flexible_segments",
-                   "help"  : "enter the number of regions that have residues to sample",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "all_srlow",
-                   "label"    : "enter low residues",
-                   "type"     : "text",
-                   "required" : "true",
-		   "default"  : "121",
-                   "repeat"   : "number_flexible_segments",
-                   "help"  : "enter the number of the first residue in each of the flexible regions",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "all_srnum",
-                   "label"    : "number contiguous residues",
-                   "type"     : "text",
-                   "required" : "true",
-		   "default"  : "23",
-                   "repeat"   : "number_flexible_segments",
-                   "help"  : "enter the number residues in each of the flexible regions",
-                   "norow"    : "true"
                    },
                   {
                    "role"     : "input",
@@ -203,6 +151,62 @@
 	 	   "help"  : "choose a molecule type",
                    "repeat"   : "number_flexible_segments",
                    "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "all_flexible_segnames",
+                   "label"    : "flexible segment name",
+                   "type"     : "text",
+                   "required" : "true",
+                   "size"     : 6,
+		   "default"  : "GAG",
+		   "help"  : "enter name of this flexible segment",
+                   "repeat"   : "number_flexible_segments",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "all_snumranges",
+                   "label"    : "number of fleible region(s)",
+                   "type"     : "text",
+                   "required" : "true",
+                   "size"     : 4,
+		   "default"  : "2",
+                   "repeat"   : "number_flexible_segments",
+                   "help"  : "enter the number of regions that have residues to sample",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "residue_ranges",
+                   "label"    : "flexible residue range(s)",
+                   "type"     : "text",
+                   "required" : "true",
+                   "size"     : 30,
+		   "default"  : "123-144, 277-282",
+                   "repeat"   : "number_flexible_segments",
+                   "help"  : "enter the number of the first residue in each of the flexible regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dna_checkbox",
+                   "label"   : "check box if system has ds DNA",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help"  : "special input requirement for ds DNA",
+                   "repeater"  : "true",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dna_segnames",
+                   "label"   : "dna segment names",
+                   "type"    : "text",
+                   "default" : "DNA1, DNA2",
+                   "help" : "input is only required for systems with DNA: enter name of each DNA containing segment / chain",
+                   "repeat" : "dna_checkbox",
+                   "required" : "true"
                    },
                   {
                    "role"    : "output",

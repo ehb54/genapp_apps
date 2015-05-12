@@ -19,7 +19,7 @@
                    "type"     : "text",
                    "default"  : "run_0",
                    "required" : "true",
-		   "help"     : "results will be placed in a folder called filter/ in the directory name you enter here" 
+		   "help"     : "results will be placed in a folder called chi_square_filter/ in the directory name you enter here" 
                    },
                   {
                    "role"     : "input",
@@ -67,94 +67,45 @@
                    "default" : "c1",
                    "help" : "choose statistical fit method"
                    },
+                  #{
+                   #"role"     : "input",
+                   #"id"       : "advanced_input",
+                   #"label"    : "Check Box for Advanced Input",
+                   #"type"     : "checkbox",
+                   #"checked"  : "false",
+                   #"help"     : "check box to reveal input fields to generate weight files used to filter data",
+                   #"repeater" : "true"
+                   #},
                   {
                    "role"     : "input",
-                   "id"       : "advanced_input",
-                   "label"    : "Check Box for Advanced Input",
-                   "type"     : "checkbox",
-                   "checked"  : "false",
-		   "help"     : "check box to reveal input fields to generate weight files used to filter data",
-                   "repeater" : "true" 
+                   "id"       : "number_of_weight_files",
+                   "label"    : "number of weight files",
+                   "type"     : "integer",
+                   "default"  : 2,
+                   "required" : "true",
+ #                  "repeat" : "advanced_input",
+                   "repeater" : "true",
+		   "help"  : "enter a non-zero integer to open inputs for weight files"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "x2highcut",
-                   "label"    : "X2 high cutoff",
+                   "id"       : "basis_string",
+                   "label"    : "enter expression",
                    "type"     : "text",
-		   "default"  : "10.0",
+		   "default"  : "x2 < &apos;5&apos;",
                    "required" : "true",
-	   	   "help"     : "select SAS profiles with chi-square value less than this value... saved to associated weight file",
-                   "repeat"  : "advanced_input"
+	   	   "help"     : "enter expression : must use either x2 or rg and all numbers must be in parentheses",
+                   "repeat"  : "number_of_weight_files"
                    },
-                  {
+		  {
                    "role"     : "input",
-                   "id"       : "x2highweightfile",
-                   "label"    : "X2 high cutoff file (output)",
+                   "id"       : "weight_file_names",
+                   "label"    : "weight file name",
                    "type"     : "text",
-                   "default"  : "x2highweights.txt",
+		   "default"  : "x2_lt_5.txt",
                    "required" : "true",
-	   	   "help"     : "weight file for high chi-square cutoff ... can be used by subsequent modules",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "x2lowcut",
-                   "label"    : "X2 low cutoff",
-                   "type"     : "text",
-		   "default"  : "1.0",
-                   "required" : "true",
-	   	   "help"     : "select SAS profiles with chi-square value greater than this value... saved to associated weight file",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "x2lowweightfile",
-                   "label"    : "X2 low cutoff file (output)",
-                   "type"     : "text",
-                   "default"  : "x2lowweights.txt",
-                   "required" : "true",
-	   	   "help"     : "weight file for low chi-square cutoff ... can be used by subsequent modules",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "rghighcut",
-                   "label"    : "Rg high cutoff",
-                   "type"     : "text",
-		   "default"  : "60.0",
-                   "required" : "true",
-	   	   "help"     : "select SAS profiles with radius of gyration values less than this value... saved to associated weight file",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "rghighweightfile",
-                   "label"    : "Rg high cutoff file (output)",
-                   "type"     : "text",
-                   "default"  : "rghighweights.txt",
-                   "required" : "true",
-	   	   "help"     : "weight file for high Rg cutoff ... can be used by subsequent modules",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "rglowcut",
-                   "label"    : "Rg low cutoff",
-                   "type"     : "text",
-		   "default"  : "40.0",
-                   "required" : "true",
-	   	   "help"     : "select SAS profiles with radius of gyration values greater than this value... saved to associated weight file",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "rglowweightfile",
-                   "label"    : "Rg low cutoff file (output)",
-                   "type"     : "text",
-                   "default"  : "rglowweights.txt",
-                   "required" : "true",
-	   	   "help"     : "weight file for low Rg cutoff ... can be used by subsequent modules",
-                   "repeat"  : "advanced_input"
+	   	   "help"     : "enter filename",
+                   "repeat"  : "number_of_weight_files"
                    },
                   {
                    "role"    : "output",

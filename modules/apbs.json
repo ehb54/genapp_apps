@@ -15,7 +15,7 @@
                   {
                    "role"       : "input",
                    "id"         : "runname",
-                   "label"      : "project name",
+                   "label"      : "run name",
                    "type"       : "text",
                    "default"    : "run_0",
                    "help"     : "results will be placed in a folder called contrast_calc/ in the directory name you enter here",
