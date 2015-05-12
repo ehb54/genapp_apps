@@ -156,23 +156,30 @@ class CGenerate_Drv():
 
         return 
 
-   def convert_residue_ranges(self,original_reslow):
+   def convert_residue_ranges(self,original_reslow,**kwargs):
 
         r = string.split(original_reslow,',')
         number_of_pairs = 0
+	align_flag = False
+	if 'seg' in kwargs:
+		align_flag = True
 
         lowres = ''; numcont = ''
         for pair in r:
                 this_pair = string.split(pair,'-')
-                lowres += this_pair[0]+','
-                numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+		if not align_flag:
+                	lowres += this_pair[0]+','
+                	numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+		elif align_flag:
+                	lowres += str(this_pair[0])+','
+                	numcont += str(this_pair[1])+','
                 number_of_pairs += 1
 
         lowres = lowres[:-1]
         numcont = numcont[:-1]
 
-        print 'lowres = ',lowres
-        print 'numcont = ',numcont
+        print 'lowres (convert_residue) = ',lowres
+        print 'numcont (convert_residue) = ',numcont
 
         return lowres, numcont
 
@@ -199,8 +206,6 @@ class CGenerate_Drv():
 		flpsegname='ENDA, ENDB'
 		seglow='95, 95'
 		seghigh='110, 110'
-		basis='CA'
-		cutoff='3.0'
 		lowrg='20.0'
 		highrg='185.0'
 		zflag='0'
@@ -245,11 +250,22 @@ class CGenerate_Drv():
 		goback = json_variables['goback']
 		temp = json_variables['temp']
 		nsegments = json_variables['nsegments']
-		segbasis = json_variables['segbasis']
 		npsegments = json_variables['npsegments']
-		flpsegname = json_variables['flpsegname']
-		seglow = json_variables['seglow']
-		seghigh = json_variables['seghigh']
+
+                overlap_list_box = json_variables['overlap_list_box']
+
+                if(overlap_list_box == "c1"):
+                        segbasis = 'heavy'
+                        cutoff = '0.8'
+                elif(overlap_list_box == "c2"):
+                        segbasis = 'all'
+                        cutoff = '0.8'
+                elif(overlap_list_box == "c3"):
+                        segbasis = 'backbone'
+                        cutoff = '1.0'
+                elif(overlap_list_box == "c4"):
+                        segbasis = json_variables['basis']
+                        cutoff = json_variables['cutoff']
  
 		try:
 			advanced_input = json_variables['advanced_input']
@@ -258,8 +274,8 @@ class CGenerate_Drv():
 
 		if(advanced_input == "on"):
 		
- 			basis = json_variables['basis']
- 			cutoff = json_variables['cutoff']
+ 			#basis = json_variables['basis']
+ 			#cutoff = json_variables['cutoff']
 			lowrg = json_variables['lowrg']
  			highrg = json_variables['highrg']
 		
@@ -278,8 +294,8 @@ class CGenerate_Drv():
  			directedmc = json_variables['directedmc']
 
 		else:
- 			basis = 'CA'
- 			cutoff = '3.0'
+ 			#basis = 'CA'
+ 			#cutoff = '3.0'
 			lowrg = "20.0"
 			highrg = "185.0"
 			zcutoff = "0.0"
@@ -308,6 +324,10 @@ class CGenerate_Drv():
                 elif(plotflag_list_box == 'c2'):
                         plotflag = '1' # YES
 
+		all_seg_low = ''
+		all_seg_high = ''
+		flpsegname = ''
+
 		psegvariables = []
 		for i in xrange(locale.atoi(npsegments)):
 			mtype = "protein"
@@ -320,8 +340,14 @@ class CGenerate_Drv():
 		
 			#try:
 			if True:
+				original_flpsegname = str(json_variables['flpsegname'][i])
+				flpsegname += original_flpsegname + ','
+				original_seg_align = json_variables['seg_align'][i]
 				original_srlow = json_variables['srlow'][i]
                 		srlow, srnum = self.convert_residue_ranges(original_srlow)
+                		seglow, seghigh = self.convert_residue_ranges(original_seg_align,seg=True)
+				all_seg_low += seglow + ','
+				all_seg_high += seghigh + ','
          		else:
          		#except:
                 		error = 'unable to parse residue range for flexible regions: check your input values\n'
@@ -336,6 +362,13 @@ class CGenerate_Drv():
 			psegvariables.append([json_variables['numranges'][i].encode('utf8'), json_variables['sith'][i].encode('utf8'), srlow.encode('utf8'), srnum.encode('utf8'), mtype]);
 
 			#psegvariables.append([json_variables['numranges'][i].encode('utf8'), json_variables['sith'][i].encode('utf8'), json_variables['srlow'][i].encode('utf8'), json_variables['srnum'][i].encode('utf8'), mtype]);
+
+		flpsegname = flpsegname[0:-1]
+		all_seg_low = all_seg_low[0:-1]
+		all_seg_high = all_seg_high[0:-1]
+
+	print 'asl = ',all_seg_low
+	print 'ash = ',all_seg_high
 
 	plotflag = '0'
 
@@ -354,11 +387,9 @@ class CGenerate_Drv():
  	svariables['segbasis']		= (str(segbasis),'string')
  	svariables['npsegments']	= (str(npsegments),'int')
  	svariables['flpsegname']	= (str(flpsegname),'string')
- 	svariables['seglow']		= (str(seglow),'int_array')
- 	svariables['seghigh']		= (str(seghigh),'int_array')
+ 	svariables['seglow']		= (str(all_seg_low),'int_array')
+ 	svariables['seghigh']		= (str(all_seg_high),'int_array')
 
- 	svariables['basis']		= (str(basis),'string')
- 	svariables['cutoff']		= (str(cutoff),'float')
  	svariables['lowrg']		= (str(lowrg),'float')
  	svariables['highrg']		= (str(highrg),'float')
 
@@ -384,17 +415,6 @@ class CGenerate_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                #error=align2_filter.check_align(self.variables,no_file_check="true")
-
-#		error = complex_filter.check_psegvariables_exist('psegvariables',globals())
-
-                if(len(error) != 0):
-                        self.message_box(error,'warning.png')
-                        output_dict['error'] = 'Error in pseg variables'
-                        output_dict['sasoutput2'] = 'run failed'
-                        print json.dumps( output_dict )
-                        return
-
 		monflag = '1' ; eflag = 0
 	
 		error=complex_filter.check_complex(self.variables,psegvariables,eflag,monflag,no_file_check="true")

@@ -3,13 +3,13 @@ import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
-import sassie.tools.interpolate as interpolate
+import sassie.tools.data_interpolation as data_interpolation
 import sassie.interface.input_filter as input_filter
-import sassie.interface.interpolate_filter as interpolate_filter
+import sassie.interface.interpolate_filter as data_interpolation_filter
 
 class Interpolate_Drv():
 
-   module = 'interpolate'
+   module = 'data_interpolation'
 
    def message_box(self,text,icon):
 
@@ -264,11 +264,11 @@ class Interpolate_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                error=interpolate_filter.check_interpolate(self.variables,no_file_check="true")
+                error=data_interpolation_filter.check_interpolate(self.variables,no_file_check="true")
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
-                        output_dict['error'] = 'Error in interpolate variables'
+                        output_dict['error'] = 'Error in data interpolation variables'
                         output_dict['sasoutput2'] = 'run failed'
                         print json.dumps( output_dict )
                         return
@@ -279,9 +279,8 @@ class Interpolate_Drv():
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
-#		interpolate.interpolate(self.variables,txtQueue) 
 
-                process=multiprocessing.Process(target=interpolate.interpolate,args=(self.variables,txtQueue))
+                process=multiprocessing.Process(target=data_interpolation.interpolate,args=(self.variables,txtQueue))
                 process.start()
 
                 total_string = self.background_job(process,txtQueue,json_variables)
