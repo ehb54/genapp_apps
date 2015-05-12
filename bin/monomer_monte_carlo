@@ -194,6 +194,7 @@ class Generate_Drv():
                 #numcont='21,5,24,11,4'
                 lowres1='284'
                 highres1='350'
+                residue_alignment='284-350'
                 basis='CA'
                 cutoff='3.0'
                 lowrg='0.0'
@@ -202,8 +203,8 @@ class Generate_Drv():
                 zcutoff='0.0'
                 cflag='0'
                 confile = 'constraints.txt'
-                nonbonflag='0'                
-                nonbonscale='1.0'
+                nonbondflag='0'                
+                nonbondscale='1.0'
                 psffilepath='./'
                 psffilename='refgag.psf'
 	 	parmfilepath = sasconfig._bin_path+'toppar/'
@@ -239,10 +240,10 @@ class Generate_Drv():
                 numranges = json_variables['numranges']
                 dtheta = json_variables['dtheta']
                 original_reslow = json_variables['reslow']
+                residue_alignment = json_variables['residue_alignment']
                 #numcont = json_variables['numcont']
-                lowres1 = json_variables['lowres1']
-                highres1 = json_variables['highres1']
-
+                #lowres1 = json_variables['lowres1']
+                #highres1 = json_variables['highres1']
 
 		overlap_list_box = json_variables['overlap_list_box']
 
@@ -353,6 +354,25 @@ class Generate_Drv():
         	print json.dumps( output_dict )
         	return
 
+	 #if True:
+	 try:
+		residue_alignment = string.split(residue_alignment,'-')
+	 	lowres1 = residue_alignment[0]
+	 	highres1 = residue_alignment[1]
+	 	print 'lowres1 = ',lowres1
+	 	print 'highres1 = ',highres1
+	 except:
+	 #else:
+		error = 'unable to parse residue range for alignment : check your input values\n'
+		error += 'it should consist of a pair of hyphenated integers separated by commas\n'
+		error += 'the number of pairs should equal the number of flexible regions'
+ 		self.message_box(error,'warning.png')
+		output_dict['error'] = error
+        	output_dict['sasoutput2'] = 'run failed'
+        	print json.dumps( output_dict )
+        	return
+
+#residue_alignment
 	 parmfilepath = sasconfig._bin_path+'toppar/'
          parmfilename = 'par_all27_prot_na.inp'
 
@@ -452,7 +472,7 @@ class Generate_Drv():
 if __name__=='__main__':
 
         json_flag = True
-#        json_flag = False
+        #json_flag = False
 
         if (len(sys.argv) < 1):
                 print "\{\"error\":\"monomer monte carlo called with no arguments\"\}\n";

@@ -362,9 +362,18 @@ class Chi_square_filter_Drv():
                         reduced_x2 = '2' # Pearson's chi-square
 
 		try:
+		#if True:
 			number_of_weight_files = json_variables['number_of_weight_files']
 			basis_string = json_variables['basis_string']
 			weight_file_names = json_variables['weight_file_names']
+			nwf = '' ; bs = ''
+			for i in xrange(len(weight_file_names)):
+				nwf += weight_file_names[i]+','
+				bs += basis_string[i]+','
+			nwf = nwf[:-1] ; bs = bs[:-1]
+			weight_file_names = nwf
+			basis_string = bs
+		#else:
 		except:
 			number_of_weight_files = '0'
 			basis_string  = ''

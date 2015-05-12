@@ -4,6 +4,7 @@ from StringIO import StringIO
 import multiprocessing,string,socket
 
 import sassie.simulate.torsion_angle_md.torsion_angle_md as torsion_angle_md
+import sassie.interface.torsion_angle_md_filter as torsion_angle_md_filter
 import sassie.interface.input_filter as input_filter
 
 class Tamd_Drv():
@@ -82,6 +83,26 @@ class Tamd_Drv():
 
         return total_string
 
+   def convert_residue_ranges(self,original_reslow):
+
+        r = string.split(original_reslow,',')
+        number_of_pairs = 0
+
+        lowres = ''; numcont = ''
+        for pair in r:
+                this_pair = string.split(pair,'-')
+                lowres += this_pair[0]+','
+                numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+                number_of_pairs += 1
+
+        lowres = lowres[:-1]
+        numcont = numcont[:-1]
+
+        print 'lowres = ',lowres
+        print 'numcont = ',numcont
+
+        return lowres, numcont
+
    def run_me(self,json_flag,json_variables,input_string):
 
 	output_dict = {}
@@ -107,7 +128,7 @@ class Tamd_Drv():
 		rgforce		= '0.0'
 		rgvalue		= '0.0'
 	
-		dna_segnames	= "None"
+		dna_segnames	= ""
 
 		number_flexible_segments = '1'
 
@@ -138,19 +159,24 @@ class Tamd_Drv():
                 os.chdir(path)
 
                 pdbfile = json_variables['pdbfile'][0]
-                #head, pdbfile = os.path.split(temp_pdbfile[0])
 
                 infile = json_variables['infile'][0]
-                #head, infile = os.path.split(temp_infile[0])
 
 		outfile = json_variables['outfile']
 		nsteps = json_variables['nsteps']
-		dcdfreq = json_variables['dcdfreq']
+
+		try:
+			dcdfreq = json_variables['dcdfreq']
+		except:
+			dcdfreq = nsteps 
+
 		temperature = json_variables['temperature']
-		dna_segnames = json_variables['dna_segnames']
 		number_flexible_segments = json_variables['number_flexible_segments']
 		pretamd_min_steps = json_variables['pretamd_min_steps']
-		poll_frequency = json_variables['poll_frequency']
+		try:	
+			poll_frequency = json_variables['poll_frequency']
+		except:	
+			poll_frequency = '10'
 		rgforce = json_variables['rgforce']
 		rgvalue = json_variables['rgvalue']
 
@@ -163,10 +189,16 @@ class Tamd_Drv():
 		else:
 			keepout = "0"
 
+		try:
+			if(json_variables['dna_checkbox'] == "on"):
+				dna_segnames = json_variables['dna_segnames']
+ 		except:
+			dna_segnames = ''
+
+                all_flexible_segnames=	json_variables['all_flexible_segnames']
                 all_flexible_segnames=	json_variables['all_flexible_segnames']
                 all_snumranges=	json_variables['all_snumranges']
-                all_srlow=	json_variables['all_srlow']
-                all_srnum=	json_variables['all_srnum']
+
                 all_moltype=	json_variables['all_moltype']
 
                 psegvariables = []
@@ -177,7 +209,23 @@ class Tamd_Drv():
                                 mtype = "dna"
                         elif(all_moltype[i] == "c3"):
                                 mtype = "rna"
-                       	psegvariables.append([all_flexible_segnames[i],all_snumranges[i],all_srlow[i],all_srnum[i],mtype])
+
+                        try:
+                        #if True:
+                                original_srlow = json_variables['residue_ranges'][i]
+                                srlow, srnum = self.convert_residue_ranges(original_srlow)
+                        #else:
+                        except:
+                                error = 'unable to parse residue range for flexible regions: check your input values\n'
+                                error += 'it should consist of a pair of hyphenated integers separated by commas\n'
+                                error += 'the number of pairs should equal the number of flexible regions'
+                                self.message_box(error,'warning.png')
+                                output_dict['error'] = error
+                                output_dict['sasoutput2'] = 'run failed'
+                                print json.dumps( output_dict )
+                                return
+
+                       	psegvariables.append([all_flexible_segnames[i],all_snumranges[i],srlow,srnum,mtype])
 
 	path = ''
 	svariables={}
@@ -217,8 +265,8 @@ class Tamd_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-#                error=align2_filter.check_align(self.variables,no_file_check="true")
-
+                error=torsion_angle_md_filter.check_torsion_angle_md(self.variables,psegvariables)
+		print 'error = ',error ; sys.stdout.flush()
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
                         output_dict['error'] = 'Error in torsion_angle_md variables'

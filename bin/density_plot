@@ -84,6 +84,35 @@ class Density_Drv():
 
         return total_string
 
+   def convert_residue_ranges(self,original_reslow,**kwargs):
+
+        #original_reslow = str(original_reslow).strip('[]')
+        original_reslow = str(original_reslow[0])
+        r = string.split(original_reslow,',')
+        number_of_pairs = 0
+        align_flag = False
+        if 'seg' in kwargs:
+                align_flag = True
+
+        lowres = ''; numcont = ''
+        for pair in r:
+                this_pair = string.split(pair,'-')
+                if not align_flag:
+                        lowres += this_pair[0]+','
+                        numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+                elif align_flag:
+                        lowres += str(this_pair[0])+','
+                        numcont += str(this_pair[1])+','
+                number_of_pairs += 1
+
+        lowres = str(lowres[:-1])
+        numcont = str(numcont[:-1])
+
+        print 'lowres (convert_residue) = ',lowres
+        print 'numcont (convert_residue) = ',numcont
+
+        return lowres, numcont
+
    def run_me(self,json_flag,json_variables,input_string):
 
 	output_dict = {}
@@ -99,9 +128,10 @@ class Density_Drv():
 		pdbfile = 'min3.pdb'
 		dcdfile = 'run_0.dcd'
 		ofile = 'test'
-		xlength = '350.0'
-		ylength = '350.0'
-		zlength = '350.0'
+		#xlength = '350.0'
+		#ylength = '350.0'
+		#zlength = '350.0'
+		box_lengths = '100.0,100.0,100.0'
 		gridsp = '5.0'
 		equalweights = '1'
       		weightsfile = './data/filter/x2lowweights.txt'
@@ -110,8 +140,9 @@ class Density_Drv():
 		nsegments = '1'
 
 		allsnumregions = ['5']
-		allslow = ['1, 124, 143, 355, 380']
-		allshigh = ['123, 142, 353, 379, 420']
+		residue_regions = ['1-123, 124-142, 143-354, 355-379, 380-420']
+		#allslow = ['1, 124, 143, 355, 380']
+		#allshigh = ['123, 142, 353, 379, 420']
 		allsbasis = ['CA']
 		allsname = ['GAG']
  
@@ -144,9 +175,10 @@ class Density_Drv():
                 path = ''
 	
 		ofile = json_variables['ofile']
-		xlength = json_variables['xlength']
-		ylength = json_variables['ylength']
-		zlength = json_variables['zlength']
+		box_lengths = string.split(json_variables['box_lengths'],',')
+		xlength = box_lengths[0] ; print 'xlength = ',xlength
+		ylength = box_lengths[1] ; print 'ylength = ',ylength
+		zlength = box_lengths[2] ; print 'zlength = ',zlength
 		gridsp = json_variables['gridsp']
 		nsegments = json_variables['nsegments']
 
@@ -171,14 +203,17 @@ class Density_Drv():
 			weightsfile = " "
 	
 		allsnumregions = json_variables['nregions']
-		allslow = json_variables['lowregions']
-		allshigh = json_variables['highregions']
+		#allslow = json_variables['lowregions']
+		#allshigh = json_variables['highregions']
 		allsbasis = json_variables['sbasis']
 		allsname = json_variables['sname']
+		residue_regions = json_variables['residue_regions']
 
-                segvariables = []
+		slow, shigh  = self.convert_residue_ranges(residue_regions,seg=True)
+        	slow = string.split(slow,',') ; shigh = string.split(shigh,',')        
+		segvariables = []
                 for i in xrange(locale.atoi(nsegments)):
-                        segvariables.append([allsnumregions[i],allslow[i],allshigh[i],allsbasis[i],allsname[i]])
+                        segvariables.append([allsnumregions[i],slow[i],shigh[i],allsbasis[i],allsname[i]])
 
 	svariables={}
 
