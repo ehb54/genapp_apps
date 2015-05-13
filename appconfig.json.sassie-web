@@ -14,6 +14,7 @@
                }
   ,"feedbackmail" : "madscatt@googlegroups.com,emre@biochem.uthscsa.edu,curtisj@nist.gov"
   ,"hostip" : "160.36.200.49"
+  ,"hostname" : "sassie-web.chem.utk.edu"
   ,"messaging" : {
                   "wsport"     : 8080
                   ,"zmqhostip" : "160.36.200.49"

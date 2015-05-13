@@ -92,9 +92,9 @@
                    "id"       : "basis_string",
                    "label"    : "enter expression",
                    "type"     : "text",
-		   "default"  : "x2 < &apos;5&apos;",
+		   "default"  : "x2 < 5",
                    "required" : "true",
-	   	   "help"     : "enter expression : must use either x2 or rg and all numbers must be in parentheses",
+	   	   "help"     : "enter expression : must use either x2 or rg",
                    "repeat"  : "number_of_weight_files"
                    },
 		  {

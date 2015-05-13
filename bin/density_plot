@@ -113,6 +113,20 @@ class Density_Drv():
 
         return lowres, numcont
 
+   def convert_residue_low_and_high(self,residue_regions):
+        residue_regions = residue_regions.split(',')
+
+        lowres = []
+        highres = []
+        for residue_region in residue_regions:
+                this_pair = string.split(residue_region,'-')
+                lowres.append(this_pair[0])
+                highres.append(this_pair[1])
+        lowres = ','.join(lowres)
+        highres = ','.join(highres)
+
+        return lowres, highres
+
    def run_me(self,json_flag,json_variables,input_string):
 
 	output_dict = {}
@@ -209,11 +223,25 @@ class Density_Drv():
 		allsname = json_variables['sname']
 		residue_regions = json_variables['residue_regions']
 
-		slow, shigh  = self.convert_residue_ranges(residue_regions,seg=True)
-        	slow = string.split(slow,',') ; shigh = string.split(shigh,',')        
+		all_slow = [] ; all_shigh = []
+                for i in xrange(locale.atoi(nsegments)):
+			try:
+				slow, shigh  = self.convert_residue_low_and_high(residue_regions[i])
+				all_slow.append(slow) ; all_shigh.append(shigh)
+			except:
+ 		       		error = 'unable to parse residue range for flexible regions: check your input values\n'
+                		error += 'it should consist of a pair of hyphenated integers separated by commas\n'
+                		error += 'the number of pairs should equal the number of flexible regions'
+                		self.message_box(error,'warning.png')
+                		output_dict['error'] = error
+                		output_dict['sasoutput2'] = 'run failed'
+                		print json.dumps( output_dict )
+                		return
+
+        	print 'all_slow (genapp) = ',all_slow ; print 'all_shigh (genapp) = ',all_shigh
 		segvariables = []
                 for i in xrange(locale.atoi(nsegments)):
-                        segvariables.append([allsnumregions[i],slow[i],shigh[i],allsbasis[i],allsname[i]])
+                        segvariables.append([allsnumregions[i],all_slow[i],all_shigh[i],allsbasis[i],allsname[i]])
 
 	svariables={}
 
@@ -251,7 +279,7 @@ class Density_Drv():
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
                         output_dict['error'] = 'Error in density_plot variables'
-                        output_dict['sasoutput2'] = 'run failed'
+                        output_dict['sasoutput2'] = error
                         print json.dumps( output_dict )
                         return
 
