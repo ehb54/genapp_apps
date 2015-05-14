@@ -83,6 +83,30 @@ class Cryson_Drv():
 
         return total_string
 
+   def remove_stale_files(self):
+
+	import glob
+
+	filelist = ['*.alm','*.log','*.flm','*.sav','*.int','*.ans']
+	directory = 'conflict_files'
+	if(not os.path.isdir(directory)):
+		os.system('mkdir -p '+directory)
+
+	stale_files=[]
+	mvst = 'mv -f '
+	for this_file in filelist:
+		local_list = [n for n in glob.glob(this_file) if os.path.isfile(n)]
+		for f in local_list:	
+			mvst += f+' '		
+			stale_files.append(f)
+
+	mvst += ' '+directory+'/'
+
+	if(len(stale_files)>0):
+		os.system(mvst)
+
+	return directory,stale_files
+
    def run_me(self,json_flag,json_variables,input_string):
 
 	output_dict = {}
@@ -182,6 +206,15 @@ class Cryson_Drv():
  
  	svariables['path']    = (path,'string')
 
+	try:
+   		self.remove_stale_files()
+        except:
+                self.message_box(error,'skull.png')
+                output_dict['error'] = 'error when trying to move existing conflict files'
+                output_dict['sasoutput2'] = "conflict file types: *.alm, *.log, *.flm, *.sav, *.int, *.ans"
+                print json.dumps( output_dict )
+                return
+
 	error = []
  	error,self.variables=input_filter.type_check_and_convert(svariables)
 
@@ -206,8 +239,10 @@ class Cryson_Drv():
 
 		runname=self.variables['runname'][0]
 
+		'''
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
+		'''
 
 		txtQueue=multiprocessing.JoinableQueue()
 
