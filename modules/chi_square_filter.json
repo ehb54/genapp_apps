@@ -81,7 +81,7 @@
                    "id"       : "number_of_weight_files",
                    "label"    : "number of weight files",
                    "type"     : "integer",
-                   "default"  : 2,
+                   "default"  : 1,
                    "required" : "true",
  #                  "repeat" : "advanced_input",
                    "repeater" : "true",
