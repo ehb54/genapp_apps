@@ -35,7 +35,7 @@
                    "id"       : "ofile",
                    "label"    : "output file name",
                    "type"     : "text",
-                   "default"  : "sans_data.int",
+                   "default"  : "sans_data.dat",
                    "help"  : "new data file will have three columns: q, I(q), and error",
                    "required" : "true"
                    },
@@ -44,7 +44,7 @@
                    "id"       : "io",
                    "label"    : "I(0)",
                    "type"     : "float",
-                   "default"  : 0.011,
+                   "default"  : 0.019,
                    "help"  : "experimentally derived I(0), usually predicted, by Guinier analysis",
 #                   "min"      : 0.0,
 #                   "max"      : 1e50,
