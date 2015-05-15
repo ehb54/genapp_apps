@@ -239,10 +239,8 @@ class Cryson_Drv():
 
 		runname=self.variables['runname'][0]
 
-		'''
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
-		'''
 
 		txtQueue=multiprocessing.JoinableQueue()
 

@@ -432,12 +432,12 @@ class CGenerate_Drv():
 			if os.path.exists(runname+'/'+self.module):
 				shutil.rmtree(runname+'/'+self.module)
 
-			with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-				json.dump("\nsself.variables\n",outfile)
-				json.dump(svariables,outfile)
-				json.dump("\npsegvariables\n",outfile)
-				json.dump(psegvariables,outfile)
-
+			#with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+			#	json.dump("\nsself.variables\n",outfile)
+			#	json.dump(svariables,outfile)
+			#	json.dump("\npsegvariables\n",outfile)
+			#	json.dump(psegvariables,outfile)
+#
 			txtQueue=multiprocessing.JoinableQueue()
 			process=multiprocessing.Process(target=nmer_dihedral.dihedralgenerate,args=(self.variables,psegvariables,txtQueue))
 			process.start()

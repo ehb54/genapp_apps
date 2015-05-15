@@ -428,10 +428,10 @@ class Contrast_Drv():
 		else:
 			runname=variables['runname'][0]
 
-			txtQueue=multiprocessing.JoinableQueue()
 			if os.path.exists(runname+'/'+self.module):
 				shutil.rmtree(runname+'/'+self.module)
 
+			txtQueue=multiprocessing.JoinableQueue()
 			process=multiprocessing.Process(target=contrast_calculator.contrast,args=(variables,ivariables,solv_variables,chemical_variables,txtQueue))
 			process.start()
 

@@ -191,10 +191,10 @@ class Docking_Drv():
 
 		runname=self.variables['runname'][0]
 
-		txtQueue=multiprocessing.JoinableQueue()
                 if os.path.exists(os.path.join(runname,self.module)):
                         shutil.rmtree(os.path.join(runname,self.module))
 
+		txtQueue=multiprocessing.JoinableQueue()
                 process=multiprocessing.Process(target=docking.docking,args=(self.variables,txtQueue))
 		process.start()
 		total_string = self.background_job(process,txtQueue,json_variables)

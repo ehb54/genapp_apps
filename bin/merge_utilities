@@ -9,7 +9,7 @@ import sassie.interface.merge_utilities_filter as merge_utilities_filter
 
 class Merge_utilities_Drv():
 
-   module = 'merge'
+   module = 'merge_utilities'
 
    def message_box(self,text,icon):
 
