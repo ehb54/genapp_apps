@@ -15,7 +15,7 @@
                    {
                    "role"       : "input",
                    "id"       : "message",
-                   "label"    : "Module under development: currently only PDB files of proteins are supported",
+                   "label"    : "Only PDB files of proteins are supported",
                    "type"     : "label",
                    "default"  : "header3",
                    "prehline"  : "true",
