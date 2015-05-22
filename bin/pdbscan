@@ -67,7 +67,7 @@ class PDBScan_Drv():
                                 if socket_dict:
                                         doc_string = json.dumps(socket_dict)
                                         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                        if(text_split[0]=='REPORT'):
+                        elif(text_split[0]=='REPORT'):
 				#socket_dict['_textarea'] = text_split[1]	
 				total_string = text_split[1]
 				#print 'total_string (bj) = ',total_string

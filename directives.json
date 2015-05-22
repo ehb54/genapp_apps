@@ -79,6 +79,7 @@
   "help_background_color_rgb" : "0,0,75",
   "help_text_color_rgb"       : "240,240,210"
 
+  ,"usewss"                    : "true"
   ,"appconfig"                 : "/share/apps/genapp/sassie2/appconfig.json"
   ,"logdirectory"              : "_logs"
 }

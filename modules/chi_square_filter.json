@@ -125,13 +125,21 @@
                    "role"    : "output",
                    "id"      : "chi_square_plot",
                    "label"   : "Chi-Square Distribution",
-                   "type"    : "plot2d"
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
                    },
                    {
                    "role"    : "output",
                    "id"      : "iq_plot",
                    "label"   : "Scattering Plots",
-                   "type"    : "plot2d"
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
                    }
                   ],
     "executable" : "chi_square_filter"

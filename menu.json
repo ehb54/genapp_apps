@@ -180,5 +180,30 @@
                          }
                         ]
             }
+           ,{ 
+            "id"      : "admin",
+            "admin"   : "true",
+            "label"   : "Admin",
+            "icon"    : "pngs/admin.png",
+            "modules" : [ 
+                         {
+                          "id"    : "jobmonitor",
+                          "label" : "Job monitor"
+                         }
+                         ,{
+                          "id"    : "sysuserslist",
+                          "label" : "Users"
+                         }
+                        ]
+            }
+           ,{ 
+            "id"      : "license",
+            "modules" : [ 
+                         { 
+                          "id"    : "CHARMM",
+                          "label" : "CHARMM license"
+                         }
+            ]
+           }
           ]
 }

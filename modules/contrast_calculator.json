@@ -243,25 +243,41 @@
                    "role"    : "output",
                    "id"      : "plotout1",
                    "label"   : "Scattering Length Density versus D2O Fraction",
-                   "type"    : "plot2d"
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
                    },
                    {
                    "role"    : "output",
                    "id"      : "plotout2",
                    "label"   : "Contrast versus D2O Fraction",
-                   "type"    : "plot2d"
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
                    },
                    {
                    "role"    : "output",
                    "id"      : "plotout3",
                    "label"   : "I(0) versus D2O Fraction",
-                   "type"    : "plot2d"
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
                    },
                    {
                    "role"    : "output",
                    "id"      : "plotout4",
                    "label"   : "Sqrt[I(0)] versus D2O Fraction",
-                   "type"    : "plot2d"
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
                    }
                   ],
 # the executable will take inputs in json and produce output in json

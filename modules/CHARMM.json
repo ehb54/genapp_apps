@@ -1,0 +1,99 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid"       : "CHARMM"
+    ,"label"         : "CHARMM License"
+    ,"executable"    : "progtest"
+    ,"submitpolicy"  : "all"
+    ,"prefix"        : "license"
+    ,"approvalemail" : "marci@tammy.harvard.edu,curtis.family@mac.com,emre@biochem.uthscsa.edu"
+    ,"nooutputhr"    : "true"
+    ,"fields"   : [
+                  {
+                   "role"    : "input" 
+                   ,"type"    : "info"
+                   ,"info"    : "The following user of SASSIE-web wishes to confirm their possession of a valid license to CHARMM."
+                   }
+                  ,{
+                   "role"    : "input" 
+                   ,"type"    : "info"
+                   ,"info"    : ""
+                   }
+                  ,{
+                   "role"    : "input" 
+                   ,"id"      : "label0"
+                   ,"label"   : "If you wish to access modules which use the CHARMM library, you must have obtained a valid license from Harvard University, and we ask that you provide information about it."
+                   ,"type"    : "label"
+                   ,"colspan" : 4
+                   }
+                  ,{
+                   "role"     : "input"
+                   ,"id"       : "name"
+                   ,"label"    : "Name of CHARMM licensee"
+                   ,"type"     : "text"
+                   ,"size"     : "40"
+                   ,"required" : "true"
+                   ,"help"     : "Enter the name of the person who holds the CHARMM license"
+                   }
+                  ,{
+                   "role"     : "input"
+                   ,"id"       : "relationship"
+                   ,"label"    : "User relation to licensee"
+                   ,"type"     : "listbox"
+                   ,"values"   : "PI~PI~Post-doc~Post-doc~Other~Other"
+                   ,"repeater" : "true"
+                   ,"help"     : "Select the relationship of this user to the person who holds the CHARMM license"
+                   }
+                  ,{
+                   "role"     : "input"
+                   ,"id"       : "relationshipother"
+                   ,"label"    : "Relationship"
+                   ,"type"     : "text"
+                   ,"repeat"   : "relationship:Other"
+                   ,"size"     : "24"
+                   ,"help"     : "Describe the relationship of this user to the person who holds the CHARMM license"
+                   ,"required" : "true"
+                   }
+                  ,{
+                   "role"     : "input"
+                   ,"id"       : "version"
+                   ,"label"    : "CHARMM version number"
+                   ,"type"     : "text"
+                   ,"size"     : "40"
+                   ,"required" : "true"
+                   ,"help"     : "Enter the exact version CHARMM version number for the license"
+                   }
+                  ,{
+                   "role"     : "input"
+                   ,"id"       : "requestor"
+                   ,"label"    : "Name of person making the request"
+                   ,"type"     : "text"
+                   ,"required" : "true"
+                   ,"size"     : "40"
+                   ,"help"     : "Enter your name"
+                   }
+                  ,{
+                   "role"     : "input"
+                   ,"id"       : "institution"
+                   ,"label"    : "Institution/Company"
+                   ,"type"     : "text"
+                   ,"required" : "true"
+                   ,"size"     : "40"
+                   ,"help"     : "Enter your institution or company"
+                   }
+                  ,{
+                   "role"     : "input",
+                   "id"       : "email",
+                   "label"    : "Email address",
+                   "type"     : "email",
+                   "pull"     : "email",
+                   "required" : "true",
+                   "help"     : "Please provide an eamil address in case the license grantor has direct questions",
+                   "size"     : "40"
+                  }
+                  ,{
+                   "role"    : "input" 
+                   ,"type"    : "info"
+                   ,"info"    : ""
+                   }
+                  ]
+}

@@ -117,7 +117,7 @@
                    "label"    : "residue region(s)",
                    "type"     : "text",
                    "default"  : "1-123,124-142,143-354,355-379,380-420",
-                   "size"     : 40,
+                   "size"     : 30,
                    "help"  : "select the low residue used for this density plot",
                    "required" : "true",
 		   "norow"    : "true",
