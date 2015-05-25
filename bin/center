@@ -15,11 +15,17 @@ $ref = decode_json( $json );
 
 my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => $$ref{ "_udpport" }, PeerAddr => $$ref{ "_udphost" } );
 
+$res = {};
 
 $msg = {};
 $$msg{ "_uuid" } = $$ref{ "_uuid" };
 # $$msg{ "hi" } = "center messaging";
 $usemessagebox = $$ref{ 'usemessagebox' };
+if ( $usemessage && !$$ref{ "_udphost" } || !$$ref{ "_udpport" } )
+{
+    $$res{ "Notice" } = "UDP messaging is not setup. Messaging in currently only available in language html5.  If you are running html5, it could be that you have not defined udphost or updport in appconfig.json";
+    $$ref{ 'usemessage' } = 0;
+}
 
 if ( $usemessagebox )
 {
@@ -59,7 +65,6 @@ for ( $i = 0; $i < $runtimes; ++$i )
     }
 }
 
-$res = {};
 $$res{ "output3" } = 1.0;
 # $$res{ "hi" } = "center executable";
 $$res{ "output1" } = "Fully completed $runtimes runs of sleep ${sleepsecs}s";
@@ -69,8 +74,8 @@ $$res{ "_message" } = {};
 $$res{ "_message" }{ 'icon' } = 'information.png';
 $$res{ "_message" }{ 'text' } = 'test message';
 
-open OUT, ">/src/sassie2/log";
-print OUT Dumper($ref);
-close OUT;
+# open OUT, ">/src/sassie2/log";
+# print OUT Dumper($ref);
+# close OUT;
 print encode_json( $res ) . "\n";
 
