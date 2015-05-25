@@ -106,17 +106,54 @@
 #  "help_text_color_rgb"       : "0,0,0"
 
 # debugging controls
-#  ,"debugvalues"               : "true"
-#  ,"debugrepeat"               : "true"
-#  ,"debugrepeatlb"             : "true"
-#  ,"debugrepeatinit"           : "true"
-#  ,"debugpull"                 : "true"
-#  ,"debugws"                   : "true"
-#  ,"debugmsg"                  : "true"
-#  ,"debugjob"                  : "true"
+
+#   ,"debug"                   : {
+#         ,"jobmonitor"        : "true"
+#         ,"pid"               : "true"
+#         ,"cancel"            : "true"
+#         ,"license"           : "true"
+#         ,"help"              : "true"
+#         ,"_tree"             : "true"
+#         ,"valuen"            : "true"
+#        ,"valuenx"            : "true"
+#        ,"sync"               : "true"
+#        ,"spec"               : "true"
+#        ,"fp"                 : "true"
+#        ,"plottics"           : "true"
+#        ,"plottwod"           : "true"
+#        ,"data"               : "true"
+#        ,"textarea"           : "true"
+#        ,"values"             : "true"
+#        ,"repeat"             : "true"
+#        ,"repeathtml"         : "true"
+#        ,"hide"               : "true"
+#        ,"repeatdeps"         : "true"
+#        ,"repeatdepsobj"      : "true"
+#        ,"repeatlb"           : "true"
+#        ,"repeatcb"           : "true"
+#        ,"repeatinit"         : "true"
+#        ,"pull"               : "true"
+#        ,"ws"                 : "true"
+#        ,"msg"                : "true"
+#        ,"job"                : "true"
+#        ,"fc"                 : "true"
+#        ,"jc"                 : "true"
+#        ,"project"            : "true"
+#        ,"basemylog"          : "true"
+#        ,"event"              : "true"
+#        ,"altfile"            : "true"
+#        ,"valid"              : "true"
+#        ,"jsmol"              : "true"
+   }
+
+# only uncomment if you have configured secure web sockets in your webserver
+#  ,"usewss"                  : "true"
 
 # the following are currently only meaningful for "html5" language
   ,"appconfig"                 : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/appconfig.json"
 # if you have a 64 bit mongo system "html5", uncomment this
 #  ,"mongojournal"               : "true"
+
+# optionally define a log directory for "html5" language
+#  ,"logdirectory"               : "_log"
 }
