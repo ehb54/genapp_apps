@@ -59,20 +59,13 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "nsteps",
-                   "label"   : "number of minimization steps",
-                   "type"    : "text",
-                   "default" : "100",
-                   "help" : "usually between 100 to 5000 should be sufficient",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
                    "id"      : "ncpu",
                    "label"   : "number of processors",
-                   "type"    : "text",
-                   "default" : "1",
-                   "help" : "choose between 1 and 8",
+                   "type"    : "integer",
+                   "default" : 2,
+		   "min"     : 1,
+		   "max"     : 4,
+                   "help" : "choose between 1 and 4",
                    "required" : "true"
                    },
                   {
@@ -87,26 +80,27 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "dcdfreq",
-                   "label"   : "DCD write frequency",
-                   "type"    : "text",
-                   "default" : "20",
-                   "help" : "how often to save preliminary minimized structures: should be a factor of the number of energy minimization steps",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
                    "id"      : "md_list_box",
                    "name"    : "md_list_box",
                    "label"   : "run type",
                    "type"    : "listbox",
-                   "values"  : "minimization~c1~minimization / md~c2~minimization / md / minimization~c3",
+                   "values"  : "minimization~c1~minimization / md~c2~minimization / md / minimization~c3~supply input file~c4",
                    "help" : "one can choose a combination of minimization and MD runs",
 		   "repeater" : "true",
                    "default" : "c1"
                    },
                   {
                    "role"    : "input",
+                   "id"      : "nsteps",
+                   "label"   : "number of minimization steps",
+                   "type"    : "text",
+                   "default" : "100",
+		   "repeat" : "md_list_box:c1",
+                   "help" : "usually between 100 to 5000 should be sufficient",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
                    "id"      : "mdsteps",
                    "label"   : "number md timesteps (1 step = 2 fs)",
                    "type"    : "text",
@@ -137,6 +131,16 @@
                    },
                   {
                    "role"    : "input",
+                   "id"      : "nsteps",
+                   "label"   : "number of minimization steps",
+                   "type"    : "text",
+                   "default" : "100",
+		   "repeat" : "md_list_box:c2",
+                   "help" : "usually between 100 to 5000 should be sufficient",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
                    "id"      : "mdsteps",
                    "label"   : "number md timesteps (1 step = 2 fs)",
                    "type"    : "text",
@@ -164,6 +168,53 @@
 		   "repeat" : "md_list_box:c3",
                    "help" : "required by MD option, not for energy minimization",
                    "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "nsteps",
+                   "label"   : "number of minimization steps",
+                   "type"    : "text",
+                   "default" : "100",
+		   "repeat" : "md_list_box:c3",
+                   "help" : "usually between 100 to 5000 should be sufficient",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "external_input_file",
+                   "label"   : "namd input file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "repeat" : "md_list_box:c4",
+                   "help"     : "input file to run simulation: experimental"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "additional_files",
+                   "label"   : "check box to enter restart files",  
+                   "type"     : "checkbox",
+                   "required" : "false",
+		   "repeat" : "md_list_box:c4",
+		   "repeater" : "true",
+                   "help"  : "click this box for extra options for the run"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "velocity_restart_file",
+                   "label"   : "velocity restart file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+		   "repeat" : "additional_files",
+                   "help"     : "input file to run simulation: experimental"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "extended_system_restart_file",
+                   "label"   : "extended system restart file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+		   "repeat" : "additional_files",
+                   "help"     : "input file to run simulation: experimental"
                    },
                    {
                    "role"       : "input",
@@ -192,6 +243,16 @@
 	  	   "repeat" : "advanced_input",
                    "help"     : "name of PSF file with molecular topology",
                    "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcdfreq",
+                   "label"   : "DCD write frequency",
+                   "type"    : "text",
+                   "default" : "20",
+	  	   "repeat" : "advanced_input",
+                   "help" : "how often to save preliminary minimized structures: should be a factor of the number of energy minimization steps",
+                   "required" : "false"
                    },
                   {
                    "role"    : "output",

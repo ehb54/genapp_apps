@@ -421,7 +421,7 @@ class Chi_square_filter_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                error=chi_square_filter_filter.check_chi_square_filter(self.variables,no_file_check="true")
+                #error=chi_square_filter_filter.check_chi_square_filter(self.variables,no_file_check="true")
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')

@@ -109,6 +109,9 @@ class Structure_minimization_Drv():
         	path='./'
 		parmfile = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
 		#topfile = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
+		
+		use_external_input_file = 'False'
+		external_input_file = 'dum.txt'
 
         	#### END USER EDIT
         	#### END USER EDIT
@@ -125,16 +128,50 @@ class Structure_minimization_Drv():
                 pdbfile = json_variables['pdbfile'][0]
                 #head, pdbfile = os.path.split(temp_pdbfile[0])
 
+		try:
+			if pdbfile[-5:] == '.coor':
+				cpst = 'cp '+pdbfile+' '+pdbfile[:-5]+'.pdb'
+				os.system(cpst)
+				pdbfile = pdbfile[:-5]+'.pdb'
+		except:
+			error = 'could not rename .coor file to .pdb'
+			self.message_box(error,'skull.png')
+			output_dict['error'] = 'pdb file name is not correct'
+			output_dict['sasoutput2'] = 'pdb file name is not correct'
+			print json.dumps( output_dict )
+			return
+
 		infile = json_variables['infile'][0]
 		#head, infile = os.path.split(temp_infile[0])
+		try:
+			if infile[-5:] == '.coor':
+				cpst = 'cp '+infile+' '+infile[:-5]+'.pdb'
+				os.system(cpst)
+				infile = infile[:-5]+'.pdb'
+		except:
+			error = 'could not rename .coor file to .pdb'
+			self.message_box(error,'skull.png')
+			output_dict['error'] = 'pdb file name is not correct'
+			output_dict['sasoutput2'] = 'pdb file name is not correct'
+			print json.dumps( output_dict )
+			return
 
        		psffile = json_variables['psffile'][0]
        		#head, psffile = os.path.split(temp_psffile[0])
 		
 		outfile = json_variables['outfile']
-		nsteps = json_variables['nsteps']
+		
+		try:
+			nsteps = json_variables['nsteps']
+		except:
+			nsteps = 1
+
 		ncpu = json_variables['ncpu']
-		dcdfreq = json_variables['dcdfreq']
+		
+		try:	
+			dcdfreq = json_variables['dcdfreq']
+		except:
+			dcdfreq = nsteps
 
 		#head, psffile = os.path.split(temp_psffile[0])
 
@@ -143,6 +180,11 @@ class Structure_minimization_Drv():
                         keepout = '0' # NO
                 elif(keepout_list_box == 'c2'):
                         keepout = '1' # YES
+
+		use_external_input_file = 'False'
+		external_input_file = 'dum.txt'
+		velocity_restart_file = "False"
+		extended_system_restart_file = "False"
 
 		md_list_box = json_variables['md_list_box']
                 if(md_list_box == 'c1'):
@@ -160,6 +202,31 @@ class Structure_minimization_Drv():
 			mdsteps = json_variables['mdsteps']
 			dielect = json_variables['dielect']
 			temperature = json_variables['temperature']
+
+                elif(md_list_box == 'c4'):
+                        use_external_input_file = "True"
+                        external_input_file = json_variables['external_input_file'][0]
+                	### following are dummy variables and not used        
+			md = '0' #  minimization only
+			mdsteps = '0'
+			dielect = '1.0'
+			temperature = '300.0'
+			try:	
+				additional_files = json_variables['additional_files']
+			except:
+				additional_files = 'off'
+		
+			if(additional_files == "on"):
+				try:
+					velocity_restart_file = json_variables['velocity_restart_file'][0]	
+				except:
+					pass
+
+				try:
+					extended_system_restart_file = json_variables['extended_system_restart_file'][0]	
+
+				except:
+					pass
 
                 try:
                         advanced_input = json_variables['advanced_input']
@@ -203,7 +270,12 @@ class Structure_minimization_Drv():
 	svariables['mdsteps']		= (str(mdsteps),'int')
 	svariables['dielect']		= (str(dielect),'float')
 	svariables['temperature']	= (str(temperature),'float')
+	
+	svariables['use_external_input_file']	= (str(use_external_input_file),'boolean')
+	svariables['external_input_file']	= (str(external_input_file),'string')
 		
+	svariables['velocity_restart_file']	= (str(velocity_restart_file),'string')
+	svariables['extended_system_restart_file'] = (str(extended_system_restart_file),'string')
 	#svariables['topfile']		= (str(topfile),'string')
 	
 	svariables['path']    = (str(path),'string')

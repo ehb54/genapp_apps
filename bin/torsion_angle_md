@@ -114,8 +114,8 @@ class Tamd_Drv():
         	#### BEGIN USER EDIT
 
 		runname		= 'run_2'
-		infile		= 'mc2.pdb'
-		pdbfile		= 'min3.pdb'
+		infile		= 't.pdb'
+		pdbfile		= 't.pdb'
 		outfile		= 'test.dcd'
 		nsteps		= '200' 
 		
@@ -135,10 +135,10 @@ class Tamd_Drv():
 		pretamd_min_steps = '100'
 		poll_frequency = '10'
 
-		all_flexible_segnames=['GAG']
+		all_flexible_segnames=['PEP1']
 		all_snumranges=['1']
-		all_srlow=['121']
-		all_srnum=['23']
+		all_srlow=['2']
+		all_srnum=['4']
 		all_moltype=['protein']
 
                 psegvariables = []
