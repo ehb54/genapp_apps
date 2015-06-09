@@ -166,6 +166,20 @@ class Chi_square_filter_Drv():
                                        "options": {
                                                 "xlabel"  : "Rg",
                                                 "ylabel"  : "Chi-square",
+
+                                                "legend": {
+# "position" can be "ne" or "nw" or "se" or "sw"
+                                                        "position"           : "ne"
+# add a margin by number of pixels
+                                                        ,"margin"            : 5
+# "backgroundOpacity" is a number between 0 and 1
+                                                        ,"backgroundOpacity" : 0.7
+# "container" puts the legend to the right of the plot
+                                                        ,"container"         : "false"
+# "sorted" orders the legend entries can be "ascending" or "descending"
+                                                        ,"sorted"            : "ascending"
+                                                }
+
                                         },
                                        "data" : [
                                                 {
@@ -192,6 +206,18 @@ class Chi_square_filter_Drv():
                                                 "xmax"    : maxx,
                                                 "ymin"    : miny,
                                                 "ymax"    : maxy,
+                                                "legend": {
+# "position" can be "ne" or "nw" or "se" or "sw"
+                                                        "position"           : "ne"
+# add a margin by number of pixels
+                                                        ,"margin"            : 5
+# "backgroundOpacity" is a number between 0 and 1
+                                                        ,"backgroundOpacity" : 0.7
+# "container" puts the legend to the right of the plot
+                                                        ,"container"         : "false"
+# "sorted" orders the legend entries can be "ascending" or "descending"
+                                                        ,"sorted"            : "ascending"
+                                                }
                                         }, 
 					"data" : [
                                         	{
@@ -421,12 +447,13 @@ class Chi_square_filter_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                #error=chi_square_filter_filter.check_chi_square_filter(self.variables,no_file_check="true")
+                error=chi_square_filter_filter.check_chi_square_filter(self.variables,no_file_check="true")
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
                         output_dict['error'] = 'Error in chi-square filter variables'
                         output_dict['sasoutput2'] = 'run failed'
+                        output_dict['sasoutput2'] = error
                         print json.dumps( output_dict )
                         return
 

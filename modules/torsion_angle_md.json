@@ -2,6 +2,7 @@
 {
     "moduleid" : "torsion_angle_md",
     "label"    : "Torsion Angle MD",
+    "license"      : "CHARMM",
     "fields"   : [
                    {
                    "role"       : "input",

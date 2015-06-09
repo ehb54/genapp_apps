@@ -145,9 +145,24 @@ class CGenerate_Drv():
                                                 "title"  : "Rg Results",
                                                 "xlabel"  : "Structure Number",
                                                 "ylabel"  : "Rg (Angstrom^2)",
+
+                                                "legend": {
+# "position" can be "ne" or "nw" or "se" or "sw"
+                                                        "position"           : "ne"
+# add a margin by number of pixels
+                                                        ,"margin"            : 5
+# "backgroundOpacity" is a number between 0 and 1
+                                                        ,"backgroundOpacity" : 0.7
+# "container" puts the legend to the right of the plot
+                                                        ,"container"         : "false"
+# "sorted" orders the legend entries can be "ascending" or "descending"
+                                                        ,"sorted"            : "ascending"
+                                                }
+
                                         },
+
                                         "data": []
-                        }	
+                        }
 
         dvar=[0,1]
         self.read_file(file1,dvar,1)
