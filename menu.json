@@ -205,5 +205,15 @@
                          }
             ]
            }
+           ,{ 
+            "id"      : "etc",
+            "modules" : [ 
+                         { 
+                          "id"    : "sys_file_manager",
+                          "label" : "File Manager"
+                         }
+            ]
+           }
+
           ]
 }
