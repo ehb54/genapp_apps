@@ -106,5 +106,25 @@
                          }
                         ]
             }
+           ,{ 
+            "id"         : "admin",
+            "restricted" : "admin",
+            "label"      : "Admin",
+            "icon"       : "pngs/admin.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "jobmonitor",
+                          "label" : "Job monitor"
+                         }
+                         ,{ 
+                          "id"    : "jobintegritycheck",
+                          "label" : "Integrity check"
+                         }
+                         ,{ 
+                          "id"    : "sysuserslist",
+                          "label" : "Users"
+                         }
+                        ]
+            }
           ]
 }

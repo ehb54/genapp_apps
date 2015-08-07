@@ -30,6 +30,10 @@
                   ,"udphostip" : "NUMERIC IP ADDRESS OF THE SERVER RUNNING THE UDP MESSAGING"
                   ,"udpport" : 37779
                  }
+# "restricted" restricts top level access to authenticated and listed users
+  ,"restricted" : {
+      "admin"     : []
+  }
   ,"resources" : {
                   "local"      : ""
                  }
