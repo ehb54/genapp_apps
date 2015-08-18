@@ -10631,6 +10631,7 @@ sleep $sleep_after_complete;
         $cmd = 
 #            "ffmpeg -y -i spr_ell.mp4 -crf 18 spr_ell.webm > /dev/null 2>&1
             "ffmpeg -y -i spr_ell.mp4 -c:v libvpx -crf 18 -b:v 1M spr_ell_proc.webm > /dev/null 2>&1
+ffmpeg -y -i spr_ell.mp4 -c:v libx264 -preset slow -pix_fmt yuv420p -b:v 1M -profile:v baseline -level 3.0 -c:a copy spr_ell_proc.mp4 > /dev/null 2>&1
 ";
 #ffmpeg -y -i spr_ell.mpg -crf 18 spr_ell.mp4  > /dev/null 2>&1
 #";
