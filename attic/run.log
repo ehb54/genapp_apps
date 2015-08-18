@@ -1,0 +1,15 @@
+ 
+ ***************************************************************
+ *** Ab-Initio low-resolution shape determination of         ***
+ *** hydrated biological molecules from SAXS data            ***
+ *** DENFERT version 1.1.0                                   ***
+ *** Alexandros Koutsioubas / Javier Perez, Sep 2014         ***
+ *** JCNS @ MLZ / Synchrotron SOLEIL                         ***
+ *** please reference: J. Appl. Cryst. (2013) 46, 1884       ***
+ ***************************************************************
+ 
+ run with command line argument -help for brief usage instructions
+ 
+ FAQ: http://www.synchrotron-soleil.fr/Recherche/LignesLumiere/SWING
+ 
+ Invalid mode of operation...

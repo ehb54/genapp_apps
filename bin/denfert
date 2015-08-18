@@ -1,0 +1,147 @@
+#!/usr/bin/perl
+
+# user defines
+
+# uncomment below to create a logfile
+$save_in_log = "/tmp/denfert.log";
+
+# uncomment below to enable messaging
+$enable_msg = 1;
+
+use JSON;
+
+if ( !@ARGV )
+{
+    print "\{\"error\":\"denfert called with no arguments\"\}\n";
+    exit;
+}
+
+$ref = decode_json( shift );
+
+## messaging setup
+
+sub sendmsg {};
+
+if ( $enable_msg ) {
+
+    use IO::Socket;
+
+    my $domsg = $$ref{ "_uuid" } && $$ref{ "_udpport" } && $$ref{ "_udphost" };
+
+    my $sock;
+    $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => $$ref{ "_udpport" }, PeerAddr => $$ref{ "_udphost" } ) if $domsg;
+
+    sub sendmsg {
+        return if !$domsg;
+        my $text = $_[0];
+        my $prog = $_[1];
+        print "sendmsg: $prog $text\n" if $debug;
+
+        if ( length( $text ) || length( $prog ) ) {
+            my $msg  = {};
+            $$msg{ "_uuid" } = $$ref{ "_uuid" };
+            $$msg{ "_textarea" } = $text if length( $text );
+            $$msg{ "_progress" } = $prog if length( $prog );
+            $sock->send( encode_json( $msg ) );
+        }
+    }
+}
+
+## format inputs for replacement
+sub formatinput {
+    my $x    = $_[0];
+    my $dec  = $_[1];
+    my $mlen = $_[2];
+    my $fmt  = "\%.${mlen}f";
+    my $out  = sprintf( $fmt, $x );
+    $out = substr( $out, 0, $mlen );
+    $out .= '0'x( $mlen - length( $out ) );
+    $out;
+}
+
+$res = {};
+
+# assemble output
+
+# build up control file
+
+$gnom = $$ref{"gnom"}[0];
+$gnom =~ s/^.*\///g;
+
+$control = <<EOT;
+$$ref{"mode"}
+$$ref{"projectname"}
+$gnom
+$$ref{"qmax"}
+$$ref{"dmax"}
+$$ref{"subc"}
+$$ref{"rho_protein"}
+$$ref{"rho0"}
+$$ref{"drho0"}
+$$ref{"numpoints"}
+$$ref{"drad"}
+$$ref{"tempinit"}
+$$ref{"schedule"}
+$$ref{"pweight"}
+$$ref{"ntrials"}
+EOT
+    ;
+
+# sendmsg( $control, 0.01 );
+
+$f = "control.txt";
+open OUT, ">$f";
+print OUT $control;
+close OUT;
+sendmsg( "control.txt created\n", 0.02 );
+
+my $cmd = "${0}_linux64 $f";
+
+sendmsg( "run directory is " . $$ref{ "_base_directory" } . "\n", 0.04 );
+
+sendmsg( "starting Denfert executable\n", 0.04 );
+`$cmd > run.log 2>&1`;
+sendmsg( "finished Denfert executable\n", 0.98 );
+$f = "run.log";
+open IN, $f;
+@log = <IN>;
+close IN;
+sendmsg( ( join "", @log ) . "\n", 0.99 );
+
+# assemble files to output
+
+my @getresults = (
+    "projectlog",                 $$ref{"projectname"} . ".log",
+    "projectfitdat",              $$ref{"projectname"} . "_fit.dat",
+    "projectrawfit",              $$ref{"projectname"} . "_raw.fit",
+    "projectmodelpdb",            $$ref{"projectname"} . "_model.pdb",
+    "projecthydrationlayerpdb",   $$ref{"projectname"} . "_hydration_layer.pdb",
+    "projectsolventpdb",          $$ref{"projectname"} . "_solvent.pdb",
+    "projectmodelpdbas",          $$ref{"projectname"} . "_model.pdb",
+    "projecthydrationlayerpdbas", $$ref{"projectname"} . "_hydration_layer.pdb",
+    "projectsolventpdbas",        $$ref{"projectname"} . "_solvent.pdb"
+    );
+
+for ( my $i = 0; $i < @getresults; $i += 2 ) {
+    if ( -e $getresults[ $i + 1 ] ) {
+        $$res{ $getresults[ $i ] } = $$ref{ "_base_directory" } . "/" . $getresults[ $i + 1 ];
+    }
+}
+
+if ( length( $save_in_log ) ) {
+    use Data::Dumper;
+
+    open OUT, ">>$save_in_log";
+    print OUT "-"x20 . "\n";
+    print OUT `date`;
+    print OUT "$0\n";
+    print OUT "--- input ---\n";
+    print OUT Dumper($ref);
+    print OUT "--- output ---\n";
+    print OUT Dumper($res);
+    print OUT "-"x20 . "\n";
+    close OUT;
+}
+
+print encode_json( $res ) . "\n";
+

@@ -1,0 +1,43 @@
+# this is a project menu file
+{
+# "header" : "Genapptest",
+ "menu" : [
+           { 
+            "id"      : "simulate",
+            "label"   : "Simulate",
+            "icon"    : "pngs/simulate.png",
+#            "help"    : "simulate help text",
+            "modules" : [ 
+                         { 
+                          "id"    : "denfert",
+                          "label" : "Denfert"
+                         }
+                        ]
+            }
+           ,{ 
+            "id"      : "admin",
+            "restricted" : "admin",
+            "label"   : "Admin",
+            "icon"    : "pngs/admin.png",
+            "modules" : [ 
+                         {
+                          "id"    : "jobmonitor",
+                          "label" : "Job monitor"
+                         }
+                         ,{
+                          "id"    : "sysuserslist",
+                          "label" : "Users"
+                         }
+                        ]
+            }
+           ,{ 
+            "id"      : "etc",
+            "modules" : [ 
+                         { 
+                          "id"    : "sys_file_manager",
+                          "label" : "File Manager"
+                         }
+            ]
+           }
+          ]
+}

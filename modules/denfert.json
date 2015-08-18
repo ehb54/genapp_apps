@@ -1,0 +1,238 @@
+{
+    "moduleid" : "denfert"
+    ,"label"    : "Denfert"
+    ,"help"     : "help for Denfert"
+    ,"executable"   : "denfert"
+    ,"submitpolicy" : "login"
+    ,"resource" : "compute0"
+#    ,"uniquedir" : "true"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "label_0"
+            ,"type"      : "label"
+            ,"colspan"   : 3
+            ,"default"   : "header3"
+            ,"label"     : "Denfert"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+            ,"help"      : "For more details see J. Appl. Cryst. (2013) 46, 1884"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "projectname"
+            ,"label"      : "Project name"
+            ,"type"       : "text"
+            ,"required"   : "true"
+            ,"help"       : "Enter a project name"
+            ,"specifiedproject" : "Denfert_"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "gnom"
+            ,"label"      : "GNOM output"
+# need to force copy over
+#            ,"type"       : "lrfile"
+            ,"type"       : "file"
+            ,"required"   : "true"
+            ,"help"       : "Select your GNOM output file"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "qmax"
+            ,"label"      : "Qmax [Angstrom^-1]"
+            ,"type"       : "float"
+            ,"min"        : 0.05
+            ,"max"        : 1.0
+            ,"default"    : 0.25
+            ,"required"   : "true"
+            ,"help"       : "Enter q max in inverse Angstroms"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "dmax"
+            ,"label"      : "Dmax [Angstrom]"
+            ,"type"       : "float"
+            ,"min"        : 1
+            ,"max"        : 1e4
+            ,"help"       : "Enter Dmax in Angstroms, leave blank to calculate automatically"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "subc"
+            ,"label"      : "Constant to subtract from experimental data"
+            ,"type"       : "float"
+            ,"help"       : "Enter a constant to subtract from experimenal data, leave blank to calculate automatically"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "rho_protein"
+            ,"label"      : "Particle&apos;s electron density [A^-3]"
+            ,"type"       : "float"
+            ,"min"        : 0
+            ,"default"    : 0.44
+            ,"help"       : "Enter the particle&apos;s electron density in inverse cubic Angstroms"
+        }
+        ,{
+            "role"     : "input"
+            ,"id"       : "mode"
+            ,"label"    : "Mode"
+            ,"type"     : "listbox"
+            ,"repeater" : "true"
+            ,"values"   : "Fast~F~Slow~S~Advanced~A"
+            ,"default"  : "A"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "rho0"
+            ,"label"      : "Solvent/buffer electron density [A^-3]"
+            ,"type"       : "float"
+            ,"min"        : 0
+            ,"default"    : 0.334
+            ,"repeat"     : "mode:A"
+            ,"help"       : "Enter the solvent/buffer electron density in inverse cubic Angstroms"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "drho0"
+            ,"label"      : "Hydration layer contrast [A^-3]"
+            ,"type"       : "float"
+            ,"min"        : 0
+            ,"default"    : 0.03
+            ,"repeat"     : "mode:A"
+            ,"help"       : "Enter the hydration layer contrast in inverse cubic Angstroms"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "numpoints"
+            ,"label"      : "Number of knots"
+            ,"type"       : "integer"
+            ,"min"        : 20
+            ,"default"    : 20
+            ,"repeat"     : "mode:A"
+            ,"help"       : "Enter the number of knots"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "drad"
+            ,"label"      : "Dummy atom radius [A]"
+            ,"type"       : "float"
+            ,"min"        : 0.5
+            ,"max"        : 10
+            ,"default"    : 1.8
+            ,"repeat"     : "mode:A"
+            ,"help"       : "Enter the Dummy atom radius in Angstroms"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "tempinit"
+            ,"label"      : "Initial Annealing Temperature"
+            ,"type"       : "float"
+            ,"min"        : 0.00001
+            ,"max"        : 1
+            ,"default"    : 0.001
+            ,"repeat"     : "mode:A"
+            ,"help"       : "Enter the Initial Annealing Temperature"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "schedule"
+            ,"label"      : "Annealing Schedule"
+            ,"type"       : "float"
+            ,"min"        : 0.1
+            ,"default"    : 0.9
+            ,"repeat"     : "mode:A"
+            ,"help"       : "Enter the Annealing Schedule"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "pweight"
+            ,"label"      : "Penalty weight"
+            ,"type"       : "float"
+            ,"min"        : 0.1e-3
+            ,"default"    : 0.6e-2
+            ,"repeat"     : "mode:A"
+            ,"help"       : "Enter the Penalty weight"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "ntrials"
+            ,"label"      : "Trials per bead at each temperature"
+            ,"type"       : "integer"
+            ,"min"        : 5
+            ,"default"    : 100
+            ,"max"        : 1000
+            ,"repeat"     : "mode:A"
+            ,"help"       : "Enter the number of Trials per bead at each temperature"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projectlog"
+#                   ,"label"     : "Log"
+            ,"label"     : ""
+            ,"type"      : "file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projectfitdat"
+#                   ,"label"     : "fit.dat"
+            ,"label"     : ""
+            ,"type"      : "file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projectrawfit"
+#                   ,"label"     : "raw.fit"
+            ,"label"     : ""
+            ,"type"      : "file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projectmodelpdb"
+#                   ,"label"     : "Model"
+            ,"label"     : ""
+            ,"type"      : "file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projectsolventpdb"
+#                   ,"label"     : "Solvent"
+            ,"label"     : ""
+            ,"type"      : "file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projecthydrationlayerpdb"
+#                   ,"label"     : "Hydration layer"
+            ,"label"     : ""
+            ,"type"      : "file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projectmodelpdbas"
+            ,"label"     : "Model"
+            ,"type"      : "atomicstructure"
+            ,"jsmoladd" : "spacefill"
+            ,"width"     : 450
+            ,"height"    : 450
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projectsolventpdbas"
+            ,"label"     : "Solvent"
+            ,"type"      : "atomicstructure"
+            ,"jsmoladd" : "spacefill"
+            ,"width"     : 450
+            ,"height"    : 450
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "projecthydrationlayerpdbas"
+            ,"label"     : "Hydration layer"
+            ,"type"      : "atomicstructure"
+            ,"jsmoladd" : "spacefill"
+            ,"width"     : 450
+            ,"height"    : 450
+        }
+    ]
+}
