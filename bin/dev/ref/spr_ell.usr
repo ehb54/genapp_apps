@@ -1,0 +1,497 @@
+c-----------------------------------------------------------------------
+c
+c
+c             OSCILLATING CYLINDER EXAMPLE
+c             ============================
+c
+c
+c     This case illustrates the Nek5000 ALE formulation for
+c     flow past an oscillating cylinder in 2D.
+c
+c     (Note: The case "ocyl" is the first of two examples to
+c     be posted.  An improved version with faster computation 
+c     of mesh velocity will be posted soon.)
+c
+c     Frequency and amplitude of cylinder motion are set in the
+c     .rea file:
+c
+c       0.200000     p033  user: frequency of oscillation
+c       0.500000     p034  user: amplitude of oscillation
+c
+c     Note that the amplitude cannot be too large or the
+c     mesh will become entangled and the simulation will stop.
+c
+c
+c     The ALE formulation in this case solves an elasticity
+c     problem at every timestep in order compute the mesh
+c     velocity.  While robust, this approach is slow and not
+c     recommended for production runs.   A better approach is
+c     to compute the mesh velocity for a single periodic cycle
+c     and to then use a short Fourier exapansion based on a
+c     small set of time points over the full cycle to reconstruct
+c     the desired mesh velocity at any future time point.
+c     Such an approach would avoid repetitious computation of
+c     the mesh velocity, which for this example is far more expensive
+c     than computing the velocity/pressure for the fluid.  There
+c     would be no loss in accuracy because the ALE formulation
+c     allows for arbitrary mesh velocities, provided that they
+c     meet the kinematic condition that the normal mesh velocity
+c     component coincides with the normal fluid
+c     velocity component on the boundary.
+c
+c
+c     Prescribed boundary conditions are given in Cartesian coordinates.
+c     The prescribed surface motion is indicated by the "mv " bc on your
+c     moving surface (i.e., the cylinder surface).
+c
+c     To use mesh motion, you must also have
+c
+c     T ifstrs
+c     T ifmvbd
+c
+c     in the .rea file and SIZE must have the following settings:
+c
+c           parameter (lx2=lx1-2)
+c           parameter (ly2=ly1-2)
+c           parameter (lz2=lz1  )
+c           parameter (lx1m=lx1,ly1m=ly1,lz1m=lz1)
+c
+c
+c     An example of the result is shown in ocyl.gif.
+c
+c     07/7/14 - Ravi
+c     Modified to include object for force computation. 
+c   
+c
+c-----------------------------------------------------------------------
+      subroutine uservp (ix,iy,iz,eg)
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      integer e,eg,f
+
+      udiff  = 0
+      utrans = 0
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userf  (ix,iy,iz,eg)
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      integer e,eg,f
+
+      ffx = 0.
+      ffy = 0.
+      ffz = 0.
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userq  (ix,iy,iz,eg)
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      integer e,eg,f
+
+      qvol   = 0.0
+      source = 0.0
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userbc (ix,iy,iz,f,eg)
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      integer e,eg,f
+      
+      common /c_mybc/ umeshx(lx1,ly1,lz1,lelt)
+     $              , umeshy(lx1,ly1,lz1,lelt)
+     $              , umeshz(lx1,ly1,lz1,lelt)
+
+      if (x .lt. -1.1) then  ! At inflow
+
+          ux=1
+          uy=0.
+          uz=0.
+	
+      else
+
+        e = gllel(eg)
+        ux=umeshx(ix,iy,iz,e)
+        uy=umeshy(ix,iy,iz,e)
+        uz=umeshz(ix,iy,iz,e)
+
+      endif
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine useric (ix,iy,iz,eg)
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      integer e,eg,f
+      real ty
+    
+
+      ty = (y+12.0)/24 ! normalized y-coordinate
+      ux=1.0*ty/10
+      uy=0.0
+      uz=0.0
+
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat
+      include 'SIZE'
+      include 'TOTAL'
+
+      if (param(33) .eq. 0.0) param(33) = 1.0
+      if (param(34) .eq. 0.0) param(34) = 1.0e-2
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat3
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat2
+      include 'SIZE'
+      include 'TOTAL'
+
+      real lambda, aa, bb, alpha
+      real nn
+      real mapx, mapy, rotx, roty, arg1, arg2
+      ntot = nx1*ny1*nz1*nelt
+
+      one    = 1.0
+      pi     = 4.0*atan(one)
+
+      lambda = 5.0
+      aa     = 1
+      bb     = 1
+      alpha  = 0*pi/180   
+      nn     = 4.   
+
+      do i=1,ntot
+
+         arg1 = (xm1(i,1,1,1)**2 + ym1(i,1,1,1)**2 - 0.25)/lambda
+   
+         mapx = aa*xm1(i,1,1,1)						! Ellipse
+         mapy = bb*ym1(i,1,1,1)
+
+         xm1(i,1,1,1) = xm1(i,1,1,1) + (mapx-xm1(i,1,1,1))*exp(-arg1)
+         ym1(i,1,1,1) = ym1(i,1,1,1) + (mapy-ym1(i,1,1,1))*exp(-arg1)
+
+         rotx =  xm1(i,1,1,1)*cos(alpha) + ym1(i,1,1,1)*sin(alpha) 
+         roty = -xm1(i,1,1,1)*sin(alpha) + ym1(i,1,1,1)*cos(alpha) 
+
+         arg2 = ((xm1(i,1,1,1)/aa)**2 + (ym1(i,1,1,1)/bb)**2 
+     +            - 0.25)/lambda
+
+         xm1(i,1,1,1) = xm1(i,1,1,1) + (rotx-xm1(i,1,1,1))*exp(-arg2)
+         ym1(i,1,1,1) = ym1(i,1,1,1) + (roty-ym1(i,1,1,1))*exp(-arg2)
+
+      enddo
+
+       param(59) = 1  ! all elements deformed
+       param(66) = 4 
+       param(67) = 4
+
+      ifxyo = .true.
+      ifusermv = .false.  ! do not define our own mesh velocity
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userchk
+      include 'SIZE'
+      include 'TOTAL'
+      include 'RESTART'
+
+      real x0(3)
+      save x0
+      data x0 /3*0/
+
+      parameter (lt=lx1*ly1*lz1*lelv)
+      common /scrns/ vort(lt,3), w1(lt), w2(lt)
+      common /cyl_states/ xi,vi,xf,vf
+
+      n = nx1*ny1*nz1*nelv
+
+      if (istep.eq.0) call set_obj  ! define objects for surface integrals
+
+      call comp_vort3(vort , w1, w2, vx, vy, vz)
+      call copy (T,vort,n)    ! Vorticity --> T
+      ifto = .true.           ! Dump vorticity as T
+
+      scale = 2.  ! Cd = F/(.5 rho U^2 ) = 2*F
+      call torque_calc(scale,x0,.true.,.false.)
+
+
+      ifusermv = .true.
+      if (ifusermv) call my_meshv      ! Compute our own mesh velocity
+
+      return
+      end
+c-----------------------------------------------------------------------
+c-----------------------------------------------------------------------
+
+      subroutine Cyl_Dynamics_RK4(lift_force)
+c     !===========================================================
+c     ! Method:  Runge-Kutta 4th-order
+c     !===========================================================
+      real Cc,lift_force,omega,mstar
+      real x1,x2,k_1d,k_1v,k_2d,k_2v,k_3d,k_3v,k_4d,k_4v
+      real Finv, FFstar, Ren
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'RESTART'
+
+      common /cyl_states/ xi,vi,xf,vf
+
+         Cc = 0.0d0
+         
+	 Finv = param(35)
+         FFstar = 1/Finv
+	 Ren = 1/abs(param(2))
+
+	 fstar = param(33)
+
+	 mstar = 10.d0
+
+	 one = 1.0
+     	 pi = 4.0*atan(one)
+	 omega = (fstar*2*pi)**2
+          
+         h = abs(param(12))
+         
+         x1 = xi
+         x2 = vi
+         
+         k_1d = x2
+         k_1v = 4*lift_force/(pi*mstar) - Cc*x2 - omega*x1
+     
+         x1 = xi+0.5*h*k_1d
+         x2 = vi+0.5*h*k_1v
+     
+         k_2d = x2
+         k_2v = 4*lift_force/(pi*mstar) - Cc*x2 - omega*x1
+     
+         x1 = xi+0.5*h*k_2d
+         x2 = vi+0.5*h*k_2v
+     
+         k_3d = x2
+         k_3v = 4*lift_force/(pi*mstar) - Cc*x2 - omega*x1
+     
+         x1 = xi+h*k_3d
+         x2 = vi+h*k_3v
+     
+         k_4d = x2
+         k_4v = 4*lift_force/(pi*mstar) - Cc*x2 - omega*x1
+         
+         xf = xi + (h/6)*(k_1d + 2*k_2d + 2*k_3d + k_4d)
+         vf = vi + (h/6)*(k_1v + 2*k_2v + 2*k_3v + k_4v)
+
+        write (702,7020) time, xi, vi, xf, vf, lift_force
+7020    format(7f20.8)
+	
+
+         return
+        end 
+c-----------------------------------------------------------------------
+c-----------------------------------------------------------------------
+
+      subroutine my_meshv
+      include 'SIZE'
+      include 'TOTAL'
+      parameter (lt=lx1*ly1*lz1*lelv)
+      common /cmeshv/ basev(lt)
+      common /scrns/  h1(lt),h2(lt),rhs(lt),msk(lt),tmp(lt)
+      real msk
+      real lift_force,xi,vi,xf,vf
+
+      common /ctorq/ dragx(0:maxobj),dragpx(0:maxobj),dragvx(0:maxobj)
+     $             , dragy(0:maxobj),dragpy(0:maxobj),dragvy(0:maxobj)
+     $             , dragz(0:maxobj),dragpz(0:maxobj),dragvz(0:maxobj)
+c
+     $             , torqx(0:maxobj),torqpx(0:maxobj),torqvx(0:maxobj)
+     $             , torqy(0:maxobj),torqpy(0:maxobj),torqvy(0:maxobj)
+     $             , torqz(0:maxobj),torqpz(0:maxobj),torqvz(0:maxobj)
+c
+     $             , dpdx_mean,dpdy_mean,dpdz_mean
+     $             , dgtq(3,4)
+
+      common /c_mybc/ umeshx(lx1,ly1,lz1,lelt)
+     $             , umeshy(lx1,ly1,lz1,lelt)
+     $              , umeshz(lx1,ly1,lz1,lelt)
+
+      common /cyl_states/ xi,vi,xf,vf
+
+      if (istep.eq.0) then
+
+            xi =0.d0
+            vi =0.d0
+            xf =0.d0
+            vf =0.d0
+            lift_force = 0.d0
+
+	    open (unit=701,file="cyl_data.dat")
+            open (unit=702,file="cyl_data_debug.dat")
+	    open (unit=703,file="Input_data_debug.dat")
+
+      endif
+      
+      
+      if (istep.eq.0) call my_base_meshv(basev,h1,h2,rhs,msk,tmp)
+
+      lift_force = dragy(1)/2
+      call Cyl_Dynamics_RK4(lift_force)
+
+      ucx = 0.0 
+      ucy = vf
+      ucz = 0.0
+
+      write (701,7010) time,xf,vf,dragy(1),dragx(1)
+7010  format(5f20.8)
+     
+       xi = xf			! Update cylinder initial states to current state
+       vi = vf
+
+
+      n = nx1*ny1*nz1*nelv
+
+      do i=1,n                          ! Translational velocity
+         wx(i,1,1,1) = basev(i)*ucx     ! component.
+         wy(i,1,1,1) = basev(i)*ucy
+         wz(i,1,1,1) = basev(i)*ucz
+
+         umeshx(i,1,1,1) = wx(i,1,1,1)
+         umeshy(i,1,1,1) = wy(i,1,1,1)
+         umeshz(i,1,1,1) = wz(i,1,1,1)
+
+      enddo
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine my_base_meshv(basev,h1,h2,rhs,msk,tmp)
+      include 'SIZE'
+      include 'TOTAL'
+      real basev(lx1,ly1,lz1,lelt),tmp(lx1,ly1,lz1,lelt)
+      real h1(1),h2(1),rhs(1),msk(1)
+      real m1
+      integer e,f
+
+      n = nx1*ny1*nz1*nelv
+
+      call rone (h1 ,n)
+      call rzero(h2 ,n)
+      call rone (msk,n)
+      call rzero(tmp,n)
+
+      delta = 2.0 ! This section to make blending function stiff 
+      do i=1,n    ! near the cylinder.
+         x=xm1(i,1,1,1)
+         y=ym1(i,1,1,1)
+         rr = x*x + y*y
+         arg = -rr/(delta**2)
+         h1(i) = h1(i) + 9.0*exp(arg)
+      enddo
+
+      m1 = -1.
+      z0 =  0.
+
+      nface = 2*ndim
+      do e=1,nelv
+      do f=1,nface
+
+c        Set Dirichlet for mesh velocity on all boundaries
+
+         if (cbc(f,e,1).ne.'E  ') call facev(msk,e,f,z0,nx1,ny1,nz1)
+
+c        Inhomogeneous Dirichlet on cylinder only 
+
+         if (cbc(f,e,1).eq.'mv ') then
+           call fcaver(xavg,xm1,e,f)
+           if (xavg.gt.-1.2) call facev(tmp,e,f,m1,nx1,ny1,nz1)
+         endif
+      enddo
+      enddo
+      call axhelm (rhs,tmp,h1,h2,1,1)
+
+      tol    = 1.e-4
+      imsh   = 1
+      ifield = 1
+      call hmholtz('mshv',basev,rhs,h1,h2,msk,vmult,imsh,tol,200,1)
+      call sub2(basev,tmp,n)
+
+c     call outpost(basev,basev,basev,basev,basev,'   ')
+c     stop
+      
+
+      
+      return
+      end
+c-----------------------------------------------------------------------
+c-----------------------------------------------------------------------
+      subroutine set_obj  ! define objects for surface integrals
+c
+      include 'SIZE'
+      include 'TOTAL'
+
+      integer e,f,eg
+
+      nobj = 1
+      iobj = 0
+      do ii=nhis+1,nhis+nobj
+         iobj = iobj+1
+         hcode(10,ii) = 'I'
+         hcode( 1,ii) = 'F'
+         hcode( 2,ii) = 'F'
+         hcode( 3,ii) = 'F'
+         lochis(1,ii) = iobj
+      enddo
+c     write(6,*) 'Number of history=', nhis
+      nhis = nhis + nobj
+c      write(6,*) 'Number of history+obj=', nhis
+
+      if (maxobj.lt.nobj) call exitti('increase maxobj in SIZE$',nobj)
+
+      nxyz  = nx1*ny1*nz1
+      nface = 2*ndim
+
+c      write(6,*) 'Number of elements',nelv
+c      write(6,*) 'Number of faces', nface
+      do e=1,nelv
+      do f=1,nface
+         if (cbc(f,e,1).eq.'mv ') then
+            iobj  = 1
+            if (iobj.gt.0) then
+c         write(6,*) 'DEBUG iobj nmember(iobj)', iobj, nmember(iobj)
+               nmember(iobj) = nmember(iobj) + 1
+c         write(6,*) 'DEBUG nmember(iobj)', nmember(iobj)
+               mem = nmember(iobj)
+c       write(6,*) 'DEBUG e,f,mem, iobj, mem', e,f,mem, iobj
+               eg  = lglel(e)
+               object(iobj,mem,1) = eg
+               object(iobj,mem,2) = f
+c             write(6,1) iobj,mem,f,eg,e,nid,' OBJ'
+c   1          format(6i9,a4)
+
+            endif
+         endif
+      enddo
+      enddo
+
+c     write(6,*) 'number',(nmember(k),k=1,4)
+c
+      return
+      end
+c-----------------------------------------------------------------------

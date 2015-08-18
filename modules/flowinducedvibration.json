@@ -1,0 +1,94 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "flowinducedvibration"
+    ,"label"    : "Flow Induced Vibration"
+    ,"help"     : "help for Flowinducedvibration"
+# the executable will take inputs in json and produce output in json
+    ,"executable"   : "flowinducedvibration"
+    ,"submitpolicy" : "login"
+    ,"fields"   : [
+                  {
+                   "role"       : "input",
+                   "id"         : "re",
+                   "label"      : "Reynolds Number",
+                   "type"       : "float",
+                   "default"    : 100.0,
+                   "min"        : 50.0,
+                   "max"        : 600.0,
+                   "required"   : "true",
+                   "specifiedproject" : "re"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "fnstar",
+                   "label"   : "Inverse Spring Constant",
+                   "type"    : "float",
+                   "default" : 0.2,
+                   "min"     : 0.05,
+                   "max"     : 0.5,
+                   "required" : "true",
+                   "specifiedproject" : "fns"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "aa",
+                   "label"   : "Aspect Ratio",
+                   "type"    : "float",
+                   "default" : 1,
+                   "min"     : 0.2,
+                   "max"     : 5,
+                   "required" : "true",
+                   "specifiedproject" : "aa"
+                   },
+                   {
+                   "role"  : "output",
+                   "id"    : "note",
+                   "label" : "Note",
+                   "type"  : "text"
+                   }
+                   ,{
+                   "role"  : "output",
+                   "id"    : "sessionlog",
+                   "label" : "Session log",
+                   "type"  : "file"
+                   }
+                   ,{
+                   "role"  : "output",
+                   "id"    : "sprellmap",
+                   "label" : "Generated map",
+                   "type"  : "file"
+                   }
+#                   ,{
+#                  "role"  : "output",
+#                   "id"    : "sprellmpg",
+#                   "label" : "Generated mpg",
+#                   "type"  : "file"
+#                   }
+                   ,{
+                   "role"  : "output",
+                   "id"    : "sprellmp4full",
+                   "label" : "Generated mp4",
+                   "type"  : "file"
+                   }
+                   ,{
+                   "role"  : "output",
+                   "id"    : "sprellmp4",
+                   "label" : "Processed mp4",
+                   "type"  : "file"
+                   }
+                   ,{
+                   "role"  : "output",
+                   "id"    : "sprellwebm",
+                   "label" : "Processed webm",
+                   "type"  : "file"
+                   }
+                   ,{
+                   "role"  : "output",
+                   "id"    : "sprellmpgvideo",
+                   "label" : "video out",
+                   "width" : "1024",
+                   "height" : "1024",
+                   "type"  : "video"
+                   }
+                  ]
+}
