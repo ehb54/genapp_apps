@@ -146,6 +146,9 @@
 #        ,"jsmol"              : "true"
    }
 
+#  uncomment to enable "captcha" human validation upon registration
+#  ,"enablecaptcha"                  : "true"
+
 # only uncomment if you have configured secure web sockets in your webserver
 #  ,"usewss"                  : "true"
 
