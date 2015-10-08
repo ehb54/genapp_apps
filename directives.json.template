@@ -11,7 +11,7 @@
   "footersize"                : "50px",
 
   "version"                   : "0.1",
-# choose your target languages to generate currently from [ "html5", "qt3", "qt4", "qt5" ]
+# choose your target languages to generate currently from [ "html5", "qt3", "qt4", "qt5", "java" ]
   "languages"                 : [ "html5", "qt4" ],
 
   "executable_path"           :
@@ -19,7 +19,8 @@
                                  "html5" : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
                                  "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
                                  "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin"
+                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
+                                 "java"  : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin"
                                 },
 
   "docroot"                   :
@@ -28,6 +29,7 @@
                                  "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp",
                                  "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp",
                                  "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp"
+                                 "java"  : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp"
                                 },
 # these are helper editor and pdb viewer applications and can be changed
   "helper"                    : {
@@ -146,8 +148,11 @@
 #        ,"jsmol"              : "true"
    }
 
-#  uncomment to enable "captcha" human validation upon registration
+#  uncomment to enable "captcha" human validation upon registration for html5/php target
 #  ,"enablecaptcha"                  : "true"
+
+#  uncomment to enable "login/register" splash entry for html5/php target
+#  ,"usesplash"                  : "true"
 
 # only uncomment if you have configured secure web sockets in your webserver
 #  ,"usewss"                  : "true"
