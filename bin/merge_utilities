@@ -125,7 +125,7 @@ class Merge_utilities_Drv():
                 os.chdir(path)
                 path = ''
 
-		number_of_runs = json_variables['number_of_runs_to_merge'][0]	
+		number_of_runs = json_variables['number_of_runs_to_merge']
 		
 		try:
 			trajectory_checkbox = json_variables['trajectory_checkbox']

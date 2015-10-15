@@ -83,7 +83,7 @@ class Contrast_Drv():
 
         return total_string
 
-   def read_file(self,flot_data,filename,number_columns,this_pass,flot_labels,total_chem):
+   def read_file(self,filename,number_columns,this_pass,flot_labels,total_chem):
 
         # sasfile: q-value, goal, best, worst, average
 
@@ -110,23 +110,23 @@ class Contrast_Drv():
 					if(this_pass == 1):
                         			this_y1 = lin[1]
 						data.append([this_x,this_y1])
-						legend = "protein"
-						legend = flot_labels[0]
+						this_legend = "protein"
+						this_legend = flot_labels[0]
 					elif(this_pass == 2):
                         			this_y1 = lin[2]
 						data.append([this_x,this_y1])
-						legend = "dna"
-						legend = flot_labels[1]
+						this_legend = "dna"
+						this_legend = flot_labels[1]
 					elif(this_pass == 3):
                         			this_y1 = lin[3]
 						data.append([this_x,this_y1])
-						legend = "complex"
-						legend = flot_labels[2]
+						this_legend = "complex"
+						this_legend = flot_labels[2]
 					elif(this_pass == 4):
                         			this_y1 = lin[4]
 						data.append([this_x,this_y1])
-						legend = "solvent"
-						legend = flot_labels[3]
+						this_legend = "solvent"
+						this_legend = flot_labels[3]
 
 				elif(lin[0][0] != "#" and this_pass >= 5):
                         		#this_x = locale.atof(lin[0])
@@ -145,28 +145,46 @@ class Contrast_Drv():
 #print str(slist).replace("'","\"")
 		if(this_pass >= 5):
 
-        		tmp_d = {
+        		this_data = {
+					'lines' : {"show":"true","lineWidth":2},
 					'color': 'yellow',
             				'data': data
             			}
-        		flot_data.append(tmp_d)
+        		self.flot_data["data"].append(this_data)
+
+        		#tmp_d = {
+			#		'color': 'yellow',
+            		#		'data': data
+            		#	}
+        		#self.flot_data.append(tmp_d)
 
 		elif(this_pass < 5):
 
-        		tmp_d = {
+#			self.flot_data["options"] = {"xlabel" : "D2O Fraction",
+#						     "ylabel" : this_y_label,
+#						     "title"  : this_title}
+        		this_data = {
+					'lines' : {"show":"true","lineWidth":2},
 		#			'lines' : {lineWidth: 3},
-            				'label': legend,
+            				'label': this_legend,
             				'data': data
             			}
-        		flot_data.append(tmp_d)
-		else:
-                	flot_data.append(data)
+        		self.flot_data["data"].append(this_data)
+        		
+		#	tmp_d = {
+		##			'lines' : {lineWidth: 3},
+            	#			'label': legend,
+            	#			'data': data
+            	#		}
+        	#	self.flot_data.append(tmp_d)
+		#else:
+                #	self.flot_data.append(data)
 
         except:
                 print 'ERROR READING DATA FILE'
                 print 'ERROR READING DATA FILE'
                 print 'ERROR READING DATA FILE'
-                flot_data = "error reading file and making plot"
+                self.flot_data = "error reading file and making plot"
 
         return value
 
@@ -192,7 +210,7 @@ class Contrast_Drv():
 	
 	return flot_labels 
 
-   def get_data_from_disk(self,filename,number_columns,izero,flot_labels,total_chem):
+   def get_data_from_disk(self,filename,number_columns,izero,flot_labels,total_chem,this_title, this_x_label, this_y_label):
 
 	# dum_sld.txt --> plot1
 # frac D2O, Protein SLD, DNA SLD, Complex SLD, Solvent SLD (10^10 cm^-2)
@@ -206,23 +224,34 @@ class Contrast_Drv():
 # frac D2O, Protein Mw, DNA Mw, Complex Mw (kDa), I(0) (cm^-1), sqrtI(0)
 # 0.00	  69.307	 223.165	 292.472	  0.221	  0.470
 
-        flot_data = []
+	self.flot_data = {
+        		"options": {
+                         	"title"  : this_title,
+                                "xlabel"  : this_x_label,
+                                "ylabel"  : this_y_label,
+				"legend":{ "show": "true",
+				           "backgroundOpacity": 0}
+                        },
+                        "data": []
+                        }
+
+       # self.flot_data = []
 
 	if(number_columns < 6):	
-		value = self.read_file(flot_data,filename,number_columns,1,flot_labels,total_chem)
-        	value = self.read_file(flot_data,filename,number_columns,2,flot_labels,total_chem)
-        	value = self.read_file(flot_data,filename,number_columns,3,flot_labels,total_chem)
+		value = self.read_file(filename,number_columns,1,flot_labels,total_chem)
+        	value = self.read_file(filename,number_columns,2,flot_labels,total_chem)
+        	value = self.read_file(filename,number_columns,3,flot_labels,total_chem)
 	if(number_columns == 5):
-        	value = self.read_file(flot_data,filename,number_columns,4,flot_labels,total_chem)
+        	value = self.read_file(filename,number_columns,4,flot_labels,total_chem)
 
 	if(number_columns == 6 and izero == 0):
 		#my_flot_data = []
-        	value = self.read_file(flot_data,filename,number_columns,5,flot_labels,total_chem)
+        	value = self.read_file(filename,number_columns,5,flot_labels,total_chem)
 
 	elif(number_columns == 6 and izero == 1):
-        	value = self.read_file(flot_data,filename,number_columns,6,flot_labels,total_chem)
+        	value = self.read_file(filename,number_columns,6,flot_labels,total_chem)
 
-        return flot_data
+        return
 
    def run_me(self,json_flag,json_variables,input_string):
 
@@ -428,10 +457,10 @@ class Contrast_Drv():
 		else:
 			runname=variables['runname'][0]
 
+			txtQueue=multiprocessing.JoinableQueue()
 			if os.path.exists(runname+'/'+self.module):
 				shutil.rmtree(runname+'/'+self.module)
 
-			txtQueue=multiprocessing.JoinableQueue()
 			process=multiprocessing.Process(target=contrast_calculator.contrast,args=(variables,ivariables,solv_variables,chemical_variables,txtQueue))
 			process.start()
 
@@ -448,44 +477,58 @@ class Contrast_Drv():
 				flot_labels = self.get_labels_from_disk(runname+"/contrast_calculator/"+outfile+"_sld.txt")
 				print 'flot_labels_1 = ',flot_labels
 
-				flot_data = self.get_data_from_disk(runname+"/contrast_calculator/"+outfile+"_sld.txt",5,izero,flot_labels,total_chem)
+        			this_title = "Scattering Length Density (SLD) versus D2O Fraction"
+	
+        			this_xlabel = "D2O Fraction"
+        			this_ylabel = "SLD"
+				self.get_data_from_disk(runname+"/contrast_calculator/"+outfile+"_sld.txt",5,izero,flot_labels,total_chem,this_title,this_xlabel,this_ylabel)
 
-				if(isinstance(flot_data, basestring)):
+				if(isinstance(self.flot_data, basestring)):
 					print 'error reading data'
-					output_dict['plot_error'] = flot_data
+					output_dict['plot_error'] = self.flot_data
 				else:
-					output_dict['plotout1'] = flot_data
+					output_dict['plotout1'] = self.flot_data
 	
 				flot_labels = self.get_labels_from_disk(runname+"/contrast_calculator/"+outfile+"_contrast.txt")
 				print 'flot_labels_2 = ',flot_labels
+        			this_title = "Contrast versus D2O Fraction"
+        			this_xlabel = "D2O Fraction"
+        			this_ylabel = "Contrast"
 				
-				flot_data = self.get_data_from_disk(runname+"/contrast_calculator/"+outfile+"_contrast.txt",4,izero,flot_labels,total_chem)
+				self.get_data_from_disk(runname+"/contrast_calculator/"+outfile+"_contrast.txt",4,izero,flot_labels,total_chem,this_title,this_xlabel,this_ylabel)
 	
-				if(isinstance(flot_data, basestring)):
+				if(isinstance(self.flot_data, basestring)):
 					print 'error reading data'
-					output_dict['plot_error'] = flot_data
+					output_dict['plot_error'] = self.flot_data
 				else:
-					output_dict['plotout2'] = flot_data
+					output_dict['plotout2'] = self.flot_data
 
-				flot_data = self.get_data_from_disk(runname+"/contrast_calculator/"+outfile+"_izero.txt",6,izero,flot_labels,total_chem)
+        			this_title = "I(0) versus D2O Fraction"
+        			this_xlabel = "D2O Fraction"
+        			this_ylabel = "I(0)"
+				self.get_data_from_disk(runname+"/contrast_calculator/"+outfile+"_izero.txt",6,izero,flot_labels,total_chem,this_title,this_xlabel,this_ylabel)
 		
-				if(isinstance(flot_data, basestring)):
+				if(isinstance(self.flot_data, basestring)):
 					print 'error reading data'
-					output_dict['plot_error'] = flot_data
+					output_dict['plot_error'] = self.flot_data
 				else:
-					output_dict['plotout3'] = flot_data
+					output_dict['plotout3'] = self.flot_data
 			
 				izero = 1
 
-				flot_data = self.get_data_from_disk(runname+"/contrast_calculator/"+outfile+"_izero.txt",6,izero,flot_labels,total_chem)
-				
-				#flot_data = self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero,flot_labels)
+        			this_title = "Sqrt[I(0)] versus D2O Fraction"
+        			this_xlabel = "D2O Fraction"
+        			this_ylabel = "Sqrt[I(0)]"
 
-				if(isinstance(flot_data, basestring)):
+				self.get_data_from_disk(runname+"/contrast_calculator/"+outfile+"_izero.txt",6,izero,flot_labels,total_chem,this_title,this_xlabel,this_ylabel)
+				
+				#self.get_data_from_disk(runname+"/contrast_calc/"+outfile+"_izero.txt",6,izero,flot_labels)
+
+				if(isinstance(self.flot_data, basestring)):
 					print 'error reading data'
-					output_dict['plot_error'] = flot_data
+					output_dict['plot_error'] = self.flot_data
 				else:
-					output_dict['plotout4'] = flot_data
+					output_dict['plotout4'] = self.flot_data
 		
         if output_dict:
                 print json.dumps( output_dict )

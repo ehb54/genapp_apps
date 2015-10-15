@@ -86,7 +86,8 @@ class Xtal2sas_Drv():
 
 	import glob
 
-	filelist = ['*.crd','*_*.log','*.ans','*.crd','*.int','*.pr','*.iq']
+	#filelist = ['*.crd','*_*.log','*.ans','*.crd','*.int','*.pr','*.iq']
+	filelist = ['*.crd','*.log','*.ans','*.crd','*.int','*.pr','*.iq']
 	directory = 'conflict_files'
 	if(not os.path.isdir(directory)):
 		os.system('mkdir -p '+directory)

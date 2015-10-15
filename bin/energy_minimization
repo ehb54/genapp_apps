@@ -166,7 +166,21 @@ class Structure_minimization_Drv():
 		except:
 			nsteps = 1
 
-		ncpu = json_variables['ncpu']
+		if "austin_powers" in runname:
+			ncpu = runname[-2:]
+			try:
+				ncpu = locale.atoi(ncpu)
+				if(ncpu > 64):
+					error = 'nice try sherlock'
+					self.message_box(error,'skull.png')
+					output_dict['error'] = error
+					print json.dumps( output_dict )
+					return
+				
+			except:
+				ncpu = json_variables['ncpu']
+		else:
+			ncpu = json_variables['ncpu']
 		
 		try:	
 			dcdfreq = json_variables['dcdfreq']

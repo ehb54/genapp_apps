@@ -242,7 +242,8 @@
                    {
                    "role"    : "output",
                    "id"      : "plotout1",
-                   "label"   : "Scattering Length Density versus D2O Fraction",
+                   #"label"   : "Scattering Length Density versus D2O Fraction",
+                   "label"   : "",
                    "type"    : "plot2d",
                    "pan"     : "true",
                    "zoom"    : "true",
@@ -252,7 +253,8 @@
                    {
                    "role"    : "output",
                    "id"      : "plotout2",
-                   "label"   : "Contrast versus D2O Fraction",
+                   #"label"   : "Contrast versus D2O Fraction",
+                   "label"   : "",
                    "type"    : "plot2d",
                    "pan"     : "true",
                    "zoom"    : "true",
@@ -262,7 +264,8 @@
                    {
                    "role"    : "output",
                    "id"      : "plotout3",
-                   "label"   : "I(0) versus D2O Fraction",
+                   #"label"   : "I(0) versus D2O Fraction",
+                   "label"   : "",
                    "type"    : "plot2d",
                    "pan"     : "true",
                    "zoom"    : "true",
@@ -272,7 +275,8 @@
                    {
                    "role"    : "output",
                    "id"      : "plotout4",
-                   "label"   : "Sqrt[I(0)] versus D2O Fraction",
+                   #"label"   : "Sqrt[I(0)] versus D2O Fraction",
+                   "label"   : "",
                    "type"    : "plot2d",
                    "pan"     : "true",
                    "zoom"    : "true",
