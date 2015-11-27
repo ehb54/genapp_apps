@@ -1,0 +1,199 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "bead_modeller",
+    "label"    : "Bead Modeller/Hydrodynamic Calculations",
+    "help"     : "help for Bead Modeller",
+    "fields"   : [
+	          {
+                   "role"      : "input",
+                   "id"      : "hydro",
+                   #"label"   : "ON for HYDRO module",
+                   "type"    : "hidden",
+                   #"checked"  : "true",
+                   #"required" :  "true"
+		   "default" : "on"
+                   },	
+
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"    : "Input PDB file",
+                   "type"     : "file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "first_model",
+                   "label"    : "1st model processed?",
+		   "checked"  : "true",  
+                   "type"     : "checkbox"
+                   },
+
+#####################################################################
+
+                {
+		    "role"    : "input",
+		    "id"      : "bead_model_list_box",
+		    "name"    : "bead_model_list_box",
+		    "label"    : "Bead Model",
+		    "type"    : "listbox",
+		    "values"  : "AtoB~atob~SOMO~somo~SOMO overlap~somo_o",
+		    "default" : "atob",
+		    "repeater" : "yes",
+		    "help" : "choose the bead model"
+		},
+
+               {
+		    "role"     : "input",
+		    "id"       : "atob_list_box",
+		    "label"    : "Hydrodynamic Method",
+		    "type"     : "listbox",
+		    "values"  : "SMI~smi~Zeno~zeno~None~none",
+		    "default"  : "smi",
+		    "help"  : "select method for hydrodynamoc calculations",
+		    "repeat" : "bead_model_list_box:atob",
+		    "required" : "true"
+		},
+               {
+		    "role"     : "input",
+		    "id"       : "somo_list_box",
+		    "label"    : "Hydrodynamic Method",
+		    "type"     : "listbox",
+		    "values"  : "SMI~smi~Zeno~zeno~None~none",
+		    "default"  : "smi",
+		    "help"  : "select method for hydrodynamoc calculations",
+		    "repeat" : "bead_model_list_box:somo",
+		    "required" : "true"
+		},
+
+              {
+		    "role"     : "input",
+		    "id"       : "somo_o_list_box",
+		    "label"    : "Hydrodynamic Method",
+		    "type"     : "listbox",
+		    "values"  : "Zeno~zeno~None~none",
+		    "default"  : "zeno",
+		    "help"  : "select method for hydrodynamoc calculations",
+		    "repeat" : "bead_model_list_box:somo_o",
+		    "required" : "true"
+		},
+
+################################################################################
+#                 {
+#                   "role"  : "output",
+#                   "id"    : "hydro_output",
+##                   "label" : "Hydrodynamic Calculations", 
+#                   "label" : "", 
+#                    "type"  : "html"
+#                   },
+
+	         {
+                   "role"  : "output",
+                   "id"    : "model_name_file",
+                   "label" : "Bead Model File (1st model): ", 
+                   "type"  : "file"
+                   },
+
+	         {
+                   "role"  : "output",
+                   "id"    : "hydro_name_file",
+                   "label" : "Hydrodynamics Calculation File: ", 
+                   "type"  : "file"
+                   },
+
+	         {
+                   "role"  : "output",
+                   "id"    : "model_name",
+                   "label" : "Model", 
+                   "type"  : "text"
+                   },
+
+	         {
+                   "role"  : "output",
+                   "id"    : "method_used",
+                   "label" : "Method", 
+                   "type"  : "text"
+                   },
+
+	         {
+                   "role"  : "output",
+                   "id"    : "total_beads",
+                   "label" : "Total Beads in Model", 
+                   "type"  : "text"
+                   },
+	         {
+                   "role"  : "output",
+                   "id"    : "used_beads",
+                   "label" : "Used Beads in Model", 
+                   "type"  : "text"
+                   },
+	         {
+                   "role"  : "output",
+                   "id"    : "mass",
+                   "label" : "Molecular Mass", 
+                   "type"  : "text"
+                   },
+	         {
+                   "role"  : "output",
+                   "id"    : "vbar",
+                   "label" : "Part. Specific Volume", 
+                   "type"  : "text"
+                   },
+	         {
+                   "role"  : "output",
+                   "id"    : "s20w",
+                   "label" : "Sedimentation Coefficient", 
+                   "type"  : "text"
+                   },
+                 {
+                   "role"  : "output",
+                   "id"    : "D20w",
+                   "label" : "Tr. Diffusion Cefficient",
+                   "type"  : "text"
+                   },
+                 {
+                   "role"  : "output",
+                   "id"    : "rs",
+                   "label" : "Stokes Radius",
+                   "type"  : "text"
+                   },
+                 {
+                   "role"  : "output",
+                   "id"    : "ff0",
+                   "label" : "Frictional Ratio",
+                   "type"  : "text"
+                   },
+                 {
+                   "role"  : "output",
+                   "id"    : "rg",
+                   "label" : "Radius of Gyration",
+                   "type"  : "text"
+                   },
+                 {
+                   "role"  : "output",
+                   "id"    : "tau",
+                   "label" : "Relaxation Time, tau(h)",
+                   "type"  : "text"
+                   },
+                 {
+                   "role"  : "output",
+                   "id"    : "viscosity",
+                   "label" : "Intrinsic Viscosity",
+                   "type"  : "text"
+                   },
+
+	         {
+                   "role"  : "output",
+                   "id"    : "bead_pdb",
+                   "label" : "Bead Model (visual): ", 
+                   "type"  : "atomicstructure",
+		   "width"     : 450,
+	           "height"    : 450
+                   }
+	
+
+	         ],
+# the executable will take inputs in order and produce output
+    "executable" : "us_somo",
+    "submitpolicy" : "all"    
+}

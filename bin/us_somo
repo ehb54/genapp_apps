@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export ULTRASCAN=/src/ultrascan
+
+/src/ultrascan/bin64/us_saxs_cmds_t json "$@"
