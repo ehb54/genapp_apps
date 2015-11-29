@@ -192,7 +192,7 @@
                    "id"    : "bead_pdb",
                    "label" : "Bead Model (right click for options): ", 
                    "type"  : "atomicstructure",
-		   "jsmoladd" : "spacefill",
+		   "jsmoladd" : "spin on",
 		   "width"     : 450,
 	             "height"    : 450
 		 },
@@ -211,7 +211,7 @@
                    "id"    : "orig_model_pdb",
                    "label" : "Original Atomistic Model (right click for options): ", 
                    "type"  : "atomicstructure",
-		   #"jsmoladd" : "spacefill",
+		   "jsmoladd" : "hide HOH;color amino;spacefill;spin on",
 		   "width"     : 450,
 	           "height"    : 450,
 		   # "norow" : "true"
