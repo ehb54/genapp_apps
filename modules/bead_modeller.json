@@ -181,16 +181,42 @@
                    "label" : "Intrinsic Viscosity",
                    "type"  : "text"
                    },
-
+	         {
+                   "role"  : "output",
+                   "id"    : "log_name_file",
+                   "label" : "Log file: ", 
+                   "type"  : "file"
+                   },
 	         {
                    "role"  : "output",
                    "id"    : "bead_pdb",
-                   "label" : "Bead Model (visual): ", 
+                   "label" : "Bead Model (right click for options): ", 
                    "type"  : "atomicstructure",
+		   "jsmoladd" : "spacefill",
 		   "width"     : 450,
-	           "height"    : 450
+	             "height"    : 450
+		 },
+        
+                  {
+                   "role"     : "input",
+                   "id"       : "show_atomistic_model",
+                   "label"    : "Show Original Atomistic Model?",
+                   "type"     : "checkbox",
+		   #"checked"  : "true",
+                    "repeater" : "true"
+                   },	
+
+	         {
+                   "role"  : "output",
+                   "id"    : "orig_model_pdb",
+                   "label" : "Original Atomistic Model (right click for options): ", 
+                   "type"  : "atomicstructure",
+		   #"jsmoladd" : "spacefill",
+		   "width"     : 450,
+	           "height"    : 450,
+		   # "norow" : "true"
+		   "repeat" : "show_atomistic_model" 
                    }
-	
 
 	         ],
 # the executable will take inputs in order and produce output
