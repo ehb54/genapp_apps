@@ -86,6 +86,12 @@
 #                   "label" : "", 
 #                    "type"  : "html"
 #                   },
+	         {
+                   "role"  : "output",
+                   "id"    : "log_name_file",
+                   "label" : "Log file: ", 
+                   "type"  : "file"
+                   },
 
 	         {
                    "role"  : "output",
@@ -181,12 +187,7 @@
                    "label" : "Intrinsic Viscosity",
                    "type"  : "text"
                    },
-	         {
-                   "role"  : "output",
-                   "id"    : "log_name_file",
-                   "label" : "Log file: ", 
-                   "type"  : "file"
-                   },
+
 	         {
                    "role"  : "output",
                    "id"    : "bead_pdb",
