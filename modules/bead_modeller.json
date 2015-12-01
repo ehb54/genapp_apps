@@ -191,7 +191,7 @@
 	         {
                    "role"  : "output",
                    "id"    : "bead_pdb",
-                   "label" : "Bead Model (right click for options): ", 
+                   "label" : "Bead Model, 1st model (right click for options): ", 
                    "type"  : "atomicstructure",
 		   "jsmoladd" : "spin on",
 		   "width"     : 450,
@@ -210,7 +210,7 @@
 	         {
                    "role"  : "output",
                    "id"    : "orig_model_pdb",
-                   "label" : "Original Atomistic Model (right click for options): ", 
+                   "label" : "Original Atomistic Model, 1st model (right click for options): ", 
                    "type"  : "atomicstructure",
 		   "jsmoladd" : "hide HOH;color amino;spacefill;spin on",
 		   "width"     : 450,
