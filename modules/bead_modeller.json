@@ -86,6 +86,27 @@
 #                   "label" : "", 
 #                    "type"  : "html"
 #                   },
+
+                {
+		   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "Calculation Report",
+		   #"titlefontclass" : "header3",
+                   "type"    : "textarea",
+                   #"append"  : "on",
+                   "cols"    : 35
+                  },
+
+	        {
+                   "role"    : "output",
+                   "id"      : "progress1",
+                   "label"   : "Progress",
+		   #"titlefontclass" : "header3",
+                   "type"    : "progress",  
+		    "max"     : 1.0
+                  },
+
+
 	         {
                    "role"  : "output",
                    "id"    : "log_name_file",
@@ -218,6 +239,7 @@
 		   # "norow" : "true"
 		   "repeat" : "show_atomistic_model" 
                    }
+	
 
 	         ],
 # the executable will take inputs in order and produce output
