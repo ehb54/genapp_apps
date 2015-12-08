@@ -24,9 +24,10 @@
                   {
                    "role"     : "input",
                    "id"       : "first_model",
-                   "label"    : "1st model processed?",
+                   "label"    : "Process only 1st model?",
 		   "checked"  : "true",  
-                   "type"     : "checkbox"
+                   "type"     : "checkbox",
+	           "help"     : "the first model in the list of PDB models will be used"
                    },
 
 #####################################################################
@@ -94,7 +95,7 @@
 		   #"titlefontclass" : "header3",
                    "type"    : "textarea",
                    #"append"  : "on",
-                   "cols"    : 35
+                   "cols"    : 40
                   },
 
 	        {
