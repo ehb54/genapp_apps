@@ -39,11 +39,22 @@
 		    "name"    : "bead_model_list_box",
 		    "label"    : "Bead Model",
 		    "type"    : "listbox",
-		    "values"  : "AtoB~atob~SOMO~somo~SOMO overlap~somo_o",
+		    "values"  : "AtoB (Grid)~atob~SOMO~somo~SOMO overlap~somo_o",
 		    "default" : "atob",
 		    "repeater" : "yes",
 		    "help"     : "choose the method for bead model creation"
 		},
+
+	       {
+                    "role"     : "input",
+                    "id"       : "cube_side",
+                    "label"    : "Cube Side (Angstrom): ",
+                    "type"     : "text",
+                    "default"  : "5",
+                    "required" : "true",
+                    "help" : "set the dimension of the grid cubelets",
+                    "repeat"  : "bead_model_list_box:atob"
+                },	
 
                {
 		    "role"     : "input",
@@ -54,9 +65,21 @@
 		    "default"  : "smi",
 		    "help"  : "select method for hydrodynamoc calculations",
 		    "repeat" : "bead_model_list_box:atob",
+		    "repeater" : "true",
 		    "required" : "true"
 		},
-               {
+ 	      {
+                    "role"     : "input",
+                    "id"       : "zeno_steps_atob",
+                    "label"    : "Zeno Steps (thousands): ",
+                    "type"     : "text",
+                    "default"  : "1000",
+                    "required" : "true",
+                    "help" : "number of steps for Zeno method",
+                    "repeat"  : "atob_list_box:zeno"
+                },	
+
+              {
 		    "role"     : "input",
 		    "id"       : "somo_list_box",
 		    "label"    : "Hydrodynamic Method",
@@ -65,8 +88,20 @@
 		    "default"  : "smi",
 		    "help"  : "select method for hydrodynamoc calculations",
 		    "repeat" : "bead_model_list_box:somo",
+		    "repeater" : "true",
 		    "required" : "true"
 		},
+
+	      {
+                    "role"     : "input",
+                    "id"       : "zeno_steps_somo",
+                    "label"    : "Zeno Steps (thousands): ",
+                    "type"     : "text",
+                    "default"  : "1000",
+                    "required" : "true",
+                    "help" : "number of steps for Zeno method",
+                    "repeat"  : "somo_list_box:zeno"
+                },		
 
               {
 		    "role"     : "input",
@@ -77,8 +112,20 @@
 		    "default"  : "zeno",
 		    "help"  : "select method for hydrodynamoc calculations",
 		    "repeat" : "bead_model_list_box:somo_o",
+		    "repeater" : "true",
 		    "required" : "true"
 		},
+	      {
+                    "role"     : "input",
+                    "id"       : "zeno_steps_somo_o",
+                    "label"    : "Zeno Steps (thousands): ",
+                    "type"     : "text",
+                    "default"  : "1000",
+                    "required" : "true",
+                    "help" : "number of steps for Zeno method",
+                    "repeat"  : "somo_o_list_box:zeno"
+                },		
+
 	     
                   {
                    "role"     : "input",
@@ -101,102 +148,26 @@
 	           "prehline" : "true",
 	           "posthline": "true"
 	          },
-	         {
-                   "role"     : "input",
-                   "id"       : "advanced_input",
-                   "label"    : "Check for Advanced Input",
-                   "type"     : "checkbox",
-                   "checked"  : "false",
-                   "help"     : "click for modifying default options",
-                   "repeater" : "true"
-                  },
 
-	        {
-                    "role"    : "input",
-                    "id"      : "bead_model_options",
-                    "label"    : "Bead Model Options",
-                    "type"    : "checkbox",
-                    "checked" : "false",
-                    "help"    : "set options controlling the bead model generation",
-                    "repeater"  : "true",
-                    "repeat"  : "advanced_input"
-                 },	
-                {
-                  "role"     : "input",
-                  "id"       : "somo_overlap_reduction",
-                  "label"    : "SoMo Overlap Reduction ",
-                  "type"     : "checkbox",
-                  "checked" : "false",
-		  "repeater" : "true",
-                  "help" : "set the rules for removing the overlaps between the beads generated in the first stage of the bead model building process",
-                  "repeat"  : "bead_model_options"
-                },	
-             
-	       {
-                  "role"     : "input",
-                  "id"       : "bead_overlap_tolerance",
-                  "label"    : "Bead Overlap Tolerance: ",
-                  "type"     : "text",
-                  "default"  : "0.001",
-                  "required" : "true",
-                  "help" : "",
-                  "repeat"  : "somo_overlap_reduction"
-                },	
-	       {
-                  "role"     : "input",
-                  "id"       : "grid_overlap_reduction",
-                  "label"    : "AtoB Grid Bead Overlap Reduction ",
-                  "type"     : "checkbox",
-                  "checked" : "false",
-		  "repeater" : "true",
-                  "help" : "set the rules for removing the overlaps between the beads generated in the first stage of the bead model building process",
-                  "repeat"  : "bead_model_options"
-                },	
-             
-	       {
-                  "role"     : "input",
-                  "id"       : "grid_bead_overlap_tolerance",
-                  "label"    : "Bead Overlap Tolerance: ",
-                  "type"     : "text",
-                  "default"  : "0.001",
-                  "required" : "true",
-		  "help" : "",
-                  "repeat"  : "grid_overlap_reduction"
-                },	
-	      
-              {
-                  "role"     : "input",
-                  "id"       : "grid_function_options",
-                  "label"    : "Grid Function Options (AtoB)",
-                  "type"     : "checkbox",
-                  "checked" : "false",
-		  "repeater" : "true",
-                  "help" : "control the parameters of the routing building AtoB (Grid) bead model",
-                  "repeat"  : "bead_model_options"
-                },	
-             
-	       {
-                  "role"     : "input",
-                  "id"       : "cube_side",
-                  "label"    : "Cube Side (Angstrom): ",
-                  "type"     : "text",
-                  "default"  : "5",
-                  "required" : "true",
-                  "help" : "set the dimension of the grid cubelets",
-                  "repeat"  : "grid_function_options"
-                },	
-	
-
+#	         {
+#                   "role"     : "input",
+#                   "id"       : "advanced_input",
+#                   "label"    : "Check for Advanced Input",
+#                   "type"     : "checkbox",
+#                   "checked"  : "false",
+#                   "help"     : "click for modifying default options",
+#                   "repeater" : "true"
+#                  },
 
 	        {
                     "role"    : "input",
                     "id"      : "hydro_options",
-                    "label"    : "Hydrodynamic Calculation Options",
+                    "label"   : "Solvent Conditions",
                     "type"    : "checkbox",
                     "checked" : "false",
                     "help"    : "set options controlling the computations of the hydrodynamic parameters for the bead model",
-                    "repeater"  : "true",
-                    "repeat"  : "advanced_input"
+                    "repeater"  : "true" 
+                 #   "repeat"  : "advanced_input"
                  },
 
                 {
@@ -249,17 +220,62 @@
                   "help" : "temperature (in Celsius, C)",
                   "repeat"  : "hydro_options"
                 },	
-	      {
+
+	        {
+                    "role"    : "input",
+                    "id"      : "bead_model_options",
+                    "label"    : "Bead Model Options",
+                    "type"    : "checkbox",
+                    "checked" : "false",
+                    "help"    : "set options controlling the bead model generation",
+                    "repeater"  : "true" 
+                 #   "repeat"  : "advanced_input"
+                 },	
+   
+             {
                   "role"     : "input",
-                  "id"       : "zeno_steps",
-                  "label"    : "Zeno Steps (thousands): ",
+                  "id"       : "somo_overlap_reduction",
+                  "label"    : "SoMo Overlap Reduction ",
+                  "type"     : "checkbox",
+                  "checked" : "false",
+		  "repeater" : "true",
+                  "help" : "set the rules for removing the overlaps between the beads generated in the first stage of the bead model building process",
+                  "repeat"  : "bead_model_options"
+                },	
+             
+	       {
+                  "role"     : "input",
+                  "id"       : "bead_overlap_tolerance",
+                  "label"    : "Bead Overlap Tolerance: ",
                   "type"     : "text",
-                  "default"  : "1000",
+                  "default"  : "0.001",
                   "required" : "true",
-                  "help" : "number of steps for Zeno method",
-                  "repeat"  : "hydro_options"
+                  "help" : "",
+                  "repeat"  : "somo_overlap_reduction"
+                },	
+	       {
+                  "role"     : "input",
+                  "id"       : "grid_overlap_reduction",
+                  "label"    : "AtoB Grid Bead Overlap Reduction ",
+                  "type"     : "checkbox",
+                  "checked" : "false",
+		  "repeater" : "true",
+                  "help" : "set the rules for removing the overlaps between the beads generated in the first stage of the bead model building process",
+                  "repeat"  : "bead_model_options"
+                },	
+             
+	       {
+                  "role"     : "input",
+                  "id"       : "grid_bead_overlap_tolerance",
+                  "label"    : "Bead Overlap Tolerance: ",
+                  "type"     : "text",
+                  "default"  : "0.001",
+                  "required" : "true",
+		  "help" : "",
+                  "repeat"  : "grid_overlap_reduction"
                 },	
 	      
+       
 	       {
                     "role"    : "input",
                     "id"      : "miscellaneous_options",
@@ -267,8 +283,8 @@
                     "type"    : "checkbox",
                     "checked" : "false",
                     "help"    : "set some options affecting both the model building and the hydrodynamic computations stages",
-                    "repeater"  : "true",
-                    "repeat"  : "advanced_input"		   
+                    "repeater"  : "true"
+                  #  "repeat"  : "advanced_input"		   
 	         },
 
               {
