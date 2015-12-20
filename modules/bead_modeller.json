@@ -212,7 +212,7 @@
                 },
              {
                   "role"     : "input",
-                  "id"       : "temperature",
+                  "id"       : "solvent_temperature",
                   "label"    : "Temperature (C): ",
                   "type"     : "text",
                   "default"  : "20.00",
@@ -232,48 +232,48 @@
                  #   "repeat"  : "advanced_input"
                  },	
    
-             {
-                  "role"     : "input",
-                  "id"       : "somo_overlap_reduction",
-                  "label"    : "SoMo Overlap Reduction ",
-                  "type"     : "checkbox",
-                  "checked" : "false",
-		  "repeater" : "true",
-                  "help" : "set the rules for removing the overlaps between the beads generated in the first stage of the bead model building process",
-                  "repeat"  : "bead_model_options"
-                },	
+           # {
+           #     "role"     : "input",
+           #     "id"       : "somo_overlap_reduction",
+           #     "label"    : "SoMo Overlap Reduction ",
+           #     "type"     : "checkbox",
+           #     "checked" : "false",
+	   # 	  "repeater" : "true",
+           #      "help" : "set the rules for removing the overlaps between the beads generated in the first stage of the bead model building process",
+           #      "repeat"  : "bead_model_options"
+           #     },	
              
 	       {
                   "role"     : "input",
                   "id"       : "bead_overlap_tolerance",
-                  "label"    : "Bead Overlap Tolerance: ",
+                  "label"    : "SoMo/AtoB Bead Overlap Tolerance: ",
                   "type"     : "text",
                   "default"  : "0.001",
                   "required" : "true",
-                  "help" : "",
-                  "repeat"  : "somo_overlap_reduction"
-                },	
-	       {
-                  "role"     : "input",
-                  "id"       : "grid_overlap_reduction",
-                  "label"    : "AtoB Grid Bead Overlap Reduction ",
-                  "type"     : "checkbox",
-                  "checked" : "false",
-		  "repeater" : "true",
                   "help" : "set the rules for removing the overlaps between the beads generated in the first stage of the bead model building process",
                   "repeat"  : "bead_model_options"
                 },	
-             
-	       {
-                  "role"     : "input",
-                  "id"       : "grid_bead_overlap_tolerance",
-                  "label"    : "Bead Overlap Tolerance: ",
-                  "type"     : "text",
-                  "default"  : "0.001",
-                  "required" : "true",
-		  "help" : "",
-                  "repeat"  : "grid_overlap_reduction"
-                },	
+           #  {
+           #         "role"     : "input",
+           #         "id"       : "grid_overlap_reduction",
+           #         "label"    : "AtoB Grid Bead Overlap Reduction ",
+           #         "type"     : "checkbox",
+           #         "checked" : "false",
+	   #	  "repeater" : "true",
+           #         "help" : "set the rules for removing the overlaps between the beads generated in the first stage of the bead model building process",
+           #         "repeat"  : "bead_model_options"
+           #       },	
+            
+           #  {
+           #         "role"     : "input",
+           #         "id"       : "grid_bead_overlap_tolerance",
+           #         "label"    : "Bead Overlap Tolerance: ",
+           #         "type"     : "text",
+           #         "default"  : "0.001",
+	   #         "required" : "true",
+           #	  "help" : "",
+           #         "repeat"  : "grid_overlap_reduction"
+           #       },	
 	      
        
 	       {
