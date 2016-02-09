@@ -1,0 +1,443 @@
+# this is a module file, any module specific info belongs here
+{
+   "moduleid" : "quafit_module",
+   "label"    : "QuaFit",
+   "help"     : "help_module",
+   "fields"   : [
+                 { 
+                     "role"     : "input",  
+                     "id"       : "number_of_bins_for_integration",
+                     "label"    : "Number of Bins for Integration",
+                     "type"     : "text",  
+                     "default"  : "1",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "sticky_potential",
+                     "label"    : "Sticky potential",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "maximum_rank_l_for_ailmq",
+                     "label"    : "Maximum Rank L for [Ai][lm](Q)",
+                     "type"     : "text",  
+                     "default"  : "1",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "factor_h_starting",
+                     "label"    : "Factor H starting",
+                     "type"     : "text",  
+                     "default"  : "2.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "number_of_hydration_shells",
+                     "label"    : "Number of Hydration Shells",
+                     "type"     : "text",  
+                     "default"  : "1",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "ca_linker__domains_overlap_penalty",
+                     "label"    : "CA linker  Domains Overlap Penalty",
+                     "type"     : "text",  
+                     "default"  : "1.",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "qinputscale",
+                     "label"    : "qinputscale",
+                     "type"     : "text",  
+                     "default"  : "1.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "alm_calculation_flag",
+                     "label"    : "A[lm] Calculation Flag",
+                     "type"     : "checkbox",  
+                     "checked"  : "true",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "constant_value_of_t_if_not_00",
+                     "label"    : "Constant Value of T (if not 00)",
+                     "type"     : "text",  
+                     "default"  : "0.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "force_constant_of_linkers_ends_k",
+                     "label"    : "Force Constant of Linkers Ends (K)",
+                     "type"     : "text",  
+                     "default"  : "0.15",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "read_hetatm_atoms_in_pdb_file",
+                     "label"    : "Read HETATM atoms in PDB file",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "exponent_alpha_of_powerlaw_error_fu",
+                     "label"    : "Exponent alpha of powerlaw error fu",
+                     "type"     : "text",  
+                     "default"  : "0.8",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "rscale",
+                     "label"    : "rscale",
+                     "type"     : "text",  
+                     "default"  : "300.",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "number_of_zeros_for_integration",
+                     "label"    : "Number of Zeros for Integration",
+                     "type"     : "text",  
+                     "default"  : "32",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "icolumn3",
+                     "label"    : "icolumn3",
+                     "type"     : "text",  
+                     "default"  : "0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "plot_random_contact_distances",
+                     "label"    : "Plot Random Contact Distances",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "sinputscale",
+                     "label"    : "sinputscale",
+                     "type"     : "text",  
+                     "default"  : "1.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "stone_exp_contact_dist_family_name",
+                     "label"    : "Stone Exp Contact Dist Family Name",
+                     "type"     : "text",  
+                     "default"  : "septins/qua1_",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "number_of_points_for_3d_plots",
+                     "label"    : "Number of Points for 3D Plots",
+                     "type"     : "text",  
+                     "default"  : "31",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "mixed_d5c5_symmetry",
+                     "label"    : "Mixed D5/C5 symmetry",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "iconfr_rot",
+                     "label"    : "iconfr_rot",
+                     "type"     : "text",  
+                     "default"  : "0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "reference_temperature_celsius",
+                     "label"    : "Reference Temperature (Celsius)",
+                     "type"     : "text",  
+                     "default"  : "0.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "maximum_q_of_almq",
+                     "label"    : "Maximum Q of A[lm](Q)",
+                     "type"     : "text",  
+                     "default"  : "0.3",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "number_of_cycles_per_subrun",
+                     "label"    : "Number of Cycles per SubRun",
+                     "type"     : "text",  
+                     "default"  : "3",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "well_depth_of_lj_potential_epsilon",
+                     "label"    : "Well Depth of LJ potential (epsilon)",
+                     "type"     : "text",  
+                     "default"  : "1.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "reduction_cont_dist_for_sticky_pot",
+                     "label"    : "Reduction cont dist for sticky pot",
+                     "type"     : "text",  
+                     "default"  : "3.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "reduction_contact_distances_angs",
+                     "label"    : "Reduction contact distances (Angs)",
+                     "type"     : "text",  
+                     "default"  : "0.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "iterations_number_for_error_analysis",
+                     "label"    : "Iterations Number for Error Analysis",
+                     "type"     : "text",  
+                     "default"  : "0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "maximum_rank_l_for_aislmq",
+                     "label"    : "Maximum Rank L for [Ai]S[lm](Q)",
+                     "type"     : "text",  
+                     "default"  : "1",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "free__thermodlinked_fractions",
+                     "label"    : "Free / Thermodlinked fractions",
+                     "type"     : "checkbox",  
+                     "checked"  : "true",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "number_of_qs_for_almq",
+                     "label"    : "Number of Qs for A[lm](Q)",
+                     "type"     : "text",  
+                     "default"  : "120",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "check_equivalent_pairs_of_rd",
+                     "label"    : "Check equivalent pairs of RD",
+                     "type"     : "text",  
+                     "default"  : "1",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "hypothetical_final_hx",
+                     "label"    : "Hypothetical Final H(X)",
+                     "type"     : "text",  
+                     "default"  : "0.02",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "maximum_number_of_subrun",
+                     "label"    : "Maximum Number of SubRun",
+                     "type"     : "text",  
+                     "default"  : "10",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "twostates_comparison_flag",
+                     "label"    : "Twostates comparison flag",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "dummy_atom_shell_determination",
+                     "label"    : "Dummy Atom Shell Determination",
+                     "type"     : "text",  
+                     "default"  : "1",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "half_range_for_average_ovvolume_aa",
+                     "label"    : "Half range for average ovvolume (AA)",
+                     "type"     : "text",  
+                     "default"  : "3.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "plot_regular_contact_distances",
+                     "label"    : "Plot Regular Contact Distances",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "volumervolume0_at_the_overlap",
+                     "label"    : "Volume(r)/Volume(0) at the overlap",
+                     "type"     : "text",  
+                     "default"  : "0.025",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "maximum_rank_l_for_sl1l2l3k1k2",
+                     "label"    : "Maximum Rank L for S[l1l2l3k1k2]",
+                     "type"     : "text",  
+                     "default"  : "3",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "anisometry_lj_parameter_epsprime",
+                     "label"    : "Anisometry LJ parameter epsprime",
+                     "type"     : "text",  
+                     "default"  : "1.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "tcp_packing_distance_angs",
+                     "label"    : "TCP Packing Distance (Angs)",
+                     "type"     : "text",  
+                     "default"  : "2.8",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "stone_exp_contact_dist_flag",
+                     "label"    : "Stone Exp Contact Dist Flag",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "linker_lateral_chains_overlap_penalty",
+                     "label"    : "Linker Lateral Chains Overlap Penalty",
+                     "type"     : "text",  
+                     "default"  : "1.",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "nooverlap_test_connectedrd",
+                     "label"    : "NoOverlap test connectedRD",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "contact_dist_as_equilib_dist",
+                     "label"    : "Contact dist as equilib dist",
+                     "type"     : "checkbox",  
+                     "checked"  : "true",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "reference_pressure_bar",
+                     "label"    : "Reference Pressure (bar)",
+                     "type"     : "text",  
+                     "default"  : "1.0",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "two_linkers_caca_overlap_penalty",
+                     "label"    : "Two linkers CACA Overlap Penalty",
+                     "type"     : "text",  
+                     "default"  : "1.",
+		     "required" : "true",
+		     "help"     : ""	
+		 }
+             ], 
+
+   "executable"   : "your_executable",
+   "submitpolicy" : "all"
+}

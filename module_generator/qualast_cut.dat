@@ -1,0 +1,54 @@
+********************* Input Data File for Quafit 4.0 **********************
+                                                                                
+ OPTIMIZATION PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                                                
+ Number of Cycles per Sub-Run .........:3
+ Maximum Number of Sub-Run ............:10
+ Hypothetical Final H(X) ..............:0.02
+ Constant Value of T* (if not 0.0) ....:0.0
+ Iterations Number for Error Analysis .: 0
+ Maximum Rank L for [A^i][l,m](Q) .....:1
+ Maximum Rank L for [A^i]^S[l,m](Q) ...:1
+ Maximum Rank L for S[l1,l2,l3,k1,k2] .: 3
+ Maximum Q of A[l,m](Q) ...............:0.3
+ Number of Q's for A[l,m](Q) ..........:120
+ TCP Packing Distance (Angs.) .........:2.8
+ Number of Hydration Shells ...........: 1
+ Well Depth of LJ potential (epsilon) .: 1.0
+ Force Constant of Linker's Ends (K) ..: 0.15
+ Linker Lateral Chains Overlap Penalty : 1.
+ Two linkers CA-CA Overlap Penalty ....: 1.
+ CA linker - Domains Overlap Penalty ..: 1.
+ ......................................:
+ Number of Zeros for Integration ......: 32
+ Number of Bins for Integration .......: 1
+ Number of Points for 3D Plots ........: 31
+ Reference Temperature (Celsius) ......:0.0
+ Reference Pressure (bar) .............:1.0
+ Stone Exp. Contact Dist. Family Name .:septins/qua1_
+ Stone Exp. Contact Dist. Flag (1/0) ..:0
+ A[l,m] Calculation Flag (1/0) ........:1
+ Dummy Atom Shell Determination .......:1
+ Read HETATM atoms in PDB file (1/0) ..:0
+ Free / Thermod.-linked fractions (1/0):1
+ Optimisation free fraction (1/0) ......0
+ Plot Random Contact Distances (1/0) ..:0
+ No-Overlap test connected-RD (1/0) ...:0
+ Mixed D5/C5 symmetry (1/0) ...........:0
+ Exponent alpha of power-law error fu..:0.8
+ Reduction contact distances (Angs.) ..:0.0
+ Check equivalent pairs of RD .........:1
+ Contact dist. as equilib. dist. (1/0) :1
+ Sticky potential (1/0) ...............:0
+ Reduction cont. dist. for sticky pot. :3.0
+ Plot Regular Contact Distances (1/0) .:0
+ Volume(r)/Volume(0) at the overlap ...:0.025
+ Half range for average ov.volume (AA) :3.0
+ Anisometry LJ parameter epsprime .....:1.0
+ Two-states comparison flag (1/0) .....:0
+ Factor H starting ....................:2.0
+ rscale ...............................:300.
+ icolumn3 .............................:0
+ iconfr_rot ...........................:0
+ qinputscale ..........................:1.0
+ sinputscale ..........................:1.0
