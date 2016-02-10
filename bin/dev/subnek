@@ -1,0 +1,24 @@
+#!/bin/bash
+#SBATCH --job-name="spr_ell"
+#SBATCH --output="spr_ell.%j.%N.out"
+#SBATCH --partition=compute
+#SBATCH --nodes=5
+#SBATCH --ntasks-per-node=24
+#SBATCH --export=ALL
+#SBATCH -t 02:00:00
+
+
+echo spr_ell        >  SESSION.NAME
+echo `pwd`'/' >>  SESSION.NAME
+
+
+touch spr_ell.rea
+rm -f ioinfo
+rm -f logfile
+rm -f *.sch*
+
+ibrun ./nek5000 spr_ell > session.log
+
+sleep 2
+ln spr_ell.log logfile
+rm -f SESSION.NAME

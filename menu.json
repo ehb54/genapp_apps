@@ -1,0 +1,45 @@
+# this is a project menu file
+{
+ "menu" : [
+           { 
+            "id"      : "simulate",
+            "label"   : "Simulate",
+            "icon"    : "pngs/simulate.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "flowinducedvibration",
+                          "label" : "Flow Induced Vibration"
+                         }
+                        ]
+            }
+           ,{
+            "id"         : "admin",
+            "restricted" : "admin",
+            "label"      : "Admin",
+            "icon"       : "pngs/admin.png",
+            "modules"    : [
+                            {
+                             "id"    : "jobmonitor",
+                             "label" : "Job monitor"
+                            }
+                            ,{
+                             "id"    : "jobintegritycheck",
+                             "label" : "Integrity check"
+                            }
+                            ,{
+                             "id"    : "sysuserslist",
+                             "label" : "Users"
+                            }
+                           ]
+            }
+           ,{
+            "id"      : "etc",
+            "modules" : [
+                         {
+                          "id"    : "sys_file_manager",
+                          "label" : "File manager"
+                         }
+            ]
+          }
+    ]
+}
