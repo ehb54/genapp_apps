@@ -1,0 +1,17 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid"       : "importance",
+    "label"          : "The Importance of VIV",
+    "noreset"        : "true",
+    "nosubmit"       : "true",
+    "nooutputhr"     : "true",
+    "fields"   : [
+                  {
+                   "role"       : "input",
+                   "id"         : "text1",
+                   "type"       : "html",
+#                   "value"      : "__< The Importance of VIV 10222015.docx"
+                   "value"      : "__< The Importance of VIV 10222015_ehb.docx"
+                   }
+    ]
+}

@@ -10,15 +10,27 @@
                   {
                    "role"       : "input",
                    "id"         : "re",
-                   "label"      : "Reynolds Number",
+                   "label"      : "Reynolds number",
                    "type"       : "float",
-                   "default"    : 50.0,
-                   "min"        : 35.0,
+                   "default"    : 60.0,
+                   "min"        : 20.0,
                    "max"        : 100.0,
                    "required"   : "true",
                    "specifiedproject" : "re"
                    },
-                  {
+                   {
+                   "role"       : "input",
+                   "id"         : "NES1",
+                   "label"      : "NES1",
+                   "type"       : "float",
+                   "default"    : 60.0,
+                   "min"        : 20.0,
+                   "max"        : 100.0,
+                   "required"   : "false",
+                   "specifiedproject" : "NES1"
+                   },
+
+		   {
                    "role"    : "input",
                    "id"      : "fnstar",
                    "label"   : "Inverse Spring Constant",
@@ -41,6 +53,17 @@
                    "required" : "true",
                    "specifiedproject" : "aa"
                    },
+#                  {
+#                   "role"    : "input",
+#                   "id"      : "aa",
+#                   "label"   : "Aspect Ratio",
+#                   "type"    : "float",
+#                   "default" : 1,
+#                   "min"     : 0.2,
+#                   "max"     : 5,
+#                   "required" : "true",
+#                   "specifiedproject" : "aa"
+#                   },
                    {
                    "role"  : "output",
                    "id"    : "note",
