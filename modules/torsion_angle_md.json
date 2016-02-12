@@ -1,0 +1,229 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "torsion_angle_md",
+    "label"    : "Torsion Angle MD",
+#    "license"      : "CHARMM",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Torsion Angle MD",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called tamd/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "infile",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to run TAMD trajectories",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "outfile",
+                   "label"   : "output file name (dcd)",
+                   "type"    : "text",
+                   "default" : "tamd_output.dcd",
+                   "help"     : "enter name of file that will contain coordinates for structures",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pretamd_min_steps",
+                   "label"   : "number of preliminary minimization steps",
+                   "type"    : "text",
+                   "default" : "2000",
+                   "help" : "structures need extensive minimization: usually 2000 or more is adequate",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "nsteps",
+                   "label"   : "number of TAMD steps",
+                   "type"    : "text",
+                   "default" : "100",
+                   "help" : "usually 100 to 10000 is adequate",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "temperature",
+                   "label"   : "temperature (K)",
+                   "type"    : "text",
+                   "default" : "300.0",
+                   "help" : "run temperature",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "keepout_checkbox",
+                   "label"   : "check box to keep output files",
+                   "type"    : "checkbox",
+                   "checked" : "true",
+                   "help"  : "useful to debug troublesome runs",
+                   "required" : "true"
+                   },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "dcdfreq",
+                  # "label"   : "DCD write frequency",
+                  # "type"    : "text",
+                  # "default" : "20",
+                  # "help" : "how often to save preliminary structures: should be a factor of the number of simulation steps",
+                  # "required" : "true"
+                  # },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "poll_frequency",
+                  # "label"   : "poll frequency (seconds)",
+                  # "type"    : "text",
+                  # "default" : "60",
+                  # "help" : "how often should the output files be probed to see if a run is complete: use a longer poll time for longer runs",
+                  # "required" : "true"
+                  # },
+                  {
+                   "role"    : "input",
+                   "id"      : "rgforce",
+                   "label"   : "Rg force",
+                   "type"    : "text",
+                   "default" : "0",
+                   "help" : "use a larger value if you wish to use a Rg constraint",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "rgvalue",
+                   "label"   : "Rg value",
+                   "type"    : "text",
+                   "default" : "0",
+                   "help" : "enter a non-zero value of the intended Rg if you wish to use a Rg constraint",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "optional_input_header",
+                   "label"    : "Complex Specific Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_flexible_segments",
+                   "label"    : "number of flexible segments",
+                   "type"     : "integer",
+                   "default"  :  1,
+                   "min"      :  1,
+                   "required" : "true",
+                   "help"  : "enter the number of segments that have residues to sample",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "all_moltype",
+                   "label"    : "molecule type",
+                   "type"     : "listbox",
+                   "values"   : "protein~c1~dna~c2~rna~c3",
+                   "required" : "true",
+	 	   "default"  : "c1",
+	 	   "help"  : "choose a molecule type",
+                   "repeat"   : "number_flexible_segments",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "all_flexible_segnames",
+                   "label"    : "flexible segment name",
+                   "type"     : "text",
+                   "required" : "true",
+                   "size"     : 6,
+		   "default"  : "GAG",
+		   "help"  : "enter name of this flexible segment",
+                   "repeat"   : "number_flexible_segments",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "all_snumranges",
+                   "label"    : "number of fleible region(s)",
+                   "type"     : "text",
+                   "required" : "true",
+                   "size"     : 4,
+		   "default"  : "2",
+                   "repeat"   : "number_flexible_segments",
+                   "help"  : "enter the number of regions that have residues to sample",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "residue_ranges",
+                   "label"    : "flexible residue range(s)",
+                   "type"     : "text",
+                   "required" : "true",
+                   "size"     : 30,
+		   "default"  : "123-144, 277-282",
+                   "repeat"   : "number_flexible_segments",
+                   "help"  : "enter the number of the first residue in each of the flexible regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dna_checkbox",
+                   "label"   : "check box if system has ds DNA",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help"  : "special input requirement for ds DNA",
+                   "repeater"  : "true",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dna_segnames",
+                   "label"   : "dna segment names",
+                   "type"    : "text",
+                   "default" : "DNA1, DNA2",
+                   "help" : "input is only required for systems with DNA: enter name of each DNA containing segment / chain",
+                   "repeat" : "dna_checkbox",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "torsion_angle_md"
+}

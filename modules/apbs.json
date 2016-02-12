@@ -1,0 +1,132 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "apbs",
+    "label"    : "APBS",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "APBS",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "help"     : "results will be placed in a folder called contrast_calc/ in the directory name you enter here",
+                   "required"   : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "infile",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate solvation energies",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "outfile",
+                   "label"   : "output file name",
+                   "type"    : "text",
+                   "default" : "apbs.dat",
+                   "help" : "name of file containing data from run",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ph",
+                   "label"   : "pH",
+                   "type"    : "text",
+                   "default" : "5.2",
+                   "help" : "enter a pH for your system",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "temp",
+                   "label"   : "temperature (K)",
+                   "type"    : "text",
+                   "default" : "300.0",
+                   "help"  : "enter run temperature in Kelvin", 
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ion_conc",
+                   "label"   : "ion concentration (M):",
+                   "type"    : "text",
+                   "default" : "0.15",
+                   "help" : "enter total ion concentration for your system",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ion_charge",
+                   "label"   : "ion charge:",
+                   "type"    : "text",
+                   "default" : "1.0",
+                   "help" : "enter valency of ionic charge for your system",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ion_radius",
+                   "label"   : "largest ion radius:",
+                   "type"    : "text",
+                   "default" : "1.62",
+                   "help" : "enter ion radius (angstrom)",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "user_list_box",
+                   "label"    : "user input file",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help" : "not yet implemented: future -> check this box to upload an input file for your run: this will override local inputs",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "manualfile",
+                   "label"    : "user apbs input file name",
+                   "type"     : "lrfile",
+                   "required" : "false",
+                   "help"     : "apbs input file",
+	           "repeat"  : "user_list_box",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "apbs"
+}

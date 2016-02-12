@@ -1,0 +1,134 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "em_to_sans",
+    "label"    : "EM to SANS",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "EM to SANS",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+#                  {
+#                   "role"       : "input",
+#                   "id"       : "message",
+#                   "label"    : "MRC MAP INPUT DISABLED . . .  under development: due spring 2015",
+#                   "type"     : "label",
+#                   "default"  : "header3",
+#                   "prehline"  : "true",
+#                   "posthline"  : "true"
+#                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called em_to_sans/ in the directory name you enter here"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "emfiletype_list_box",
+                   "name"    : "emfiletype_list_box",
+                   "label"   : "select EM file type",
+                   "type"    : "listbox",
+                   "values"  : "mrc~c1~Gaussian cube~c2",
+                   "default" : "c1",
+                   "help" : "choose an input map type"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "emdensityfile",
+                   "label"    : "input EM density file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of file with EM density data",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "angpix",
+                   "label"    : "mrc angstroms/pixel resolution (x,y,z)",
+                   "type"     : "text",
+		   "default"  : "20.0,20.0,20.0",
+		   "help"  : "values only required for MRC input maps",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"    : "output file name (pdb)",
+                   "type"     : "text",
+                   "default"  : "p20a.pdb",
+                   "help"  : "module creates a PDB file of balls that fit inside the EM map",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "threshold",
+                   "label"    : "cutoff threshold",
+                   "type"     : "text",
+                   "default"  : "0.1",
+                   "help"  : "sets the three-dimensional contour to define the EM map",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sansfile",
+                   "label"    : "output SANS profile file name",
+                   "type"     : "text",
+                   "default"  : "p20a.sub",
+                   "help"  : "module creates a SANS profile file for the EM map",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "npoints",
+                   "label"    : "number of q points in SANS profile",
+                   "type"     : "text",
+                   "default"  : "100",
+                   "help"  : "enter the number of I(q) values in the output SANS profile",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "qmax",
+                   "label"    : "maximum q in SANS profile",
+                   "type"     : "text",
+                   "default"  : "0.3",
+                   "help"  : "(1/angstrom)",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "pr_plot",
+                   "label"   : "pr",
+                   "type"    : "plot2d"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "iq_plot",
+                   "label"   : "iq",
+                   "type"    : "plot2d"
+                   }
+                  ],
+    "executable" : "em_to_sans"
+}

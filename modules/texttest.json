@@ -1,0 +1,17 @@
+{
+    "moduleid"     : "texttest"
+    ,"label"        : "textarea test"
+    ,"executable"   : "texttest"
+    ,"help"         : "textarea test"
+    ,"submitpolicy" : "all"
+#    ,"license"      : "CHARMM"
+    ,"fields"   : [
+                  {
+                   "role"    : "input",
+                   "id"      : "label0",
+                   "label"   : "Submit to start test",
+                   "type"    : "label",
+                   "help"    : "Press submit to start test"
+                   }
+                  ]
+}

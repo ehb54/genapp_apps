@@ -1,0 +1,124 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "crysol",
+    "label"    : "Crysol",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Crysol",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called crysol/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "dcdfile",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SAXS",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "maxh",
+                   "label"    : "maximum harmonic order",
+                   "type"     : "text",
+                   "default"  : "15",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fib",
+                   "label"    : "Fibonacci grid order",
+                   "type"     : "text",
+                   "default"  : "17",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "maxs",
+                   "label"    : "maximum q value",
+                   "type"     : "text",
+                   "default"  : "0.3",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numpoints",
+                   "label"    : "number of q points",
+                   "type"     : "text",
+                   "default"  : "31",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "contrast",
+                   "label"    : "contrast of solvation shell",
+                   "type"     : "text",
+                   "default"  : "0.03",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "edensolv",
+                   "label"    : "electron density of solvent",
+                   "type"     : "text",
+                   "default"  : "0.334",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "hydrogens_list_box",
+                   "name"    : "hydrogens_list_box",
+                   "label"   : "explicit hydrogens",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "delafs_list_box",
+                   "name"    : "delafs_list_box",
+                   "label"   : "delete alm/flm/sav files",
+                   "type"    : "listbox",
+                   "values"  : "yes~c1~no~c2",
+                   "default" : "c1"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+    "executable" : "crysol"
+}

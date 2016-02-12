@@ -1,0 +1,176 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "align",
+    "label"    : "Align",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Align",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called align/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "reference_section_header",
+                   "label"    : "Molecule 1 [reference structure]",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbmol1",
+                   "label"   : "reference structure (mol 1)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of reference PDB file",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "basis1",
+                   "label"   : "alignment basis (mol 1)",
+                   "type"    : "text",
+                   "default" : "CA",
+                   "required" : "true",
+                   "help"     : "enter atom name to use as an alignment basis for molecule 1"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "lowres1",
+                   "label"   : "low residue (mol 1)",
+                   "type"    : "integer",
+                   "default" : 145,
+                   "required" : "true",
+		   "help"    : "enter low residue number for alignment basis for molecule 1"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "highres1",
+                   "label"   : "high residue (mol 1)",
+                   "type"    : "integer",
+                   "default" : 350,
+                   "required" : "true",
+		   "help"    : "enter high residue number for alignment basis for molecule 1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "align_section_header",
+                   "label"    : "Molecule 2 [structure(s) to align]",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbmol2",
+                   "label"   : "reference structure (mol 2)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of reference PDB file",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "infile",
+                   "label"   : "coordinates to be aligned: pdb or dcd",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : "name of PDB or DCD file with coordinates you wish to align",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ofile",
+                   "label"   : "output filename (aligned mol 2)",
+                   "type"    : "text",
+                   "default" : "ac7.dcd",
+                   "required" : "true",
+		   "help"    : "enter name of aligned coordinate file"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "basis2",
+                   "label"   : "alignment basis (mol 2)",
+                   "type"    : "text",
+                   "default" : "CA",
+                   "required" : "true",
+                   "help"     : "enter atom name to use as an alignment basis for molecule 2"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "lowres2",
+                   "label"   : "low residue (mol 2)",
+                   "type"    : "integer",
+                   "default" : 145,
+                   "required" : "true",
+		   "help"    : "enter low residue number for alignment basis for molecule 2"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "highres2",
+                   "label"   : "high residue (mol 2)",
+                   "type"    : "integer",
+                   "default" : 350,
+                   "required" : "true",
+		   "help"    : "enter high residue number for alignment basis for molecule 2"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "optional_section_header",
+                   "label"    : "Optional Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ebasis1",
+                   "label"   : "extra basis description (mol 1)",
+                   "type"    : "text",
+                   "default" : "None",
+                   "required" : "true",
+		   "help"    : "advanced overlap selection for molecule 1"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ebasis2",
+                   "label"   : "extra basis description (mol 2)",
+                   "type"    : "text",
+                   "default" : "None",
+                   "required" : "true",
+		   "help"    : "advanced overlap selection for molecule 2"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "align"
+}

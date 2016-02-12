@@ -1,0 +1,289 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "contrast_calculator",
+    "label"    : "Contrast Calculator",
+    "fields"   : [
+
+                   {
+                   "role"     : "input",
+                   "id"       : "module_header",
+                   "label"    : "Contrast Calculator",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called contrast_calc/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "outfile",
+                   "label"    : "output filename prefix (no extension)",
+                   "type"     : "text",
+                   "default"  : "contrast_output",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called contrast_calc/ with the file name that you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numfile",
+                   "label"    : "enter number of protein, DNA or RNA input files",
+                   "type"     : "integer",
+                   "default"  : 2,
+                   "required" : "true",
+                   "help" : "enter an integer AND press TAB to refresh: each file should only contain one of the three: protein, DNA, or RNA",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "isFasta",
+                   "label"    : "FASTA ?",
+                   "type"     : "listbox",
+                   "values"   : "off~c1~on~c2",
+                   "default"  : "c1",
+                   "repeat"   : "numfile",
+                   "norow"    : "true",
+		   "help"     : "choose the value if the file contains sequence information in FASTA format"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "seqfiles",
+                   "label"    : "input file name",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "repeat"   : "numfile",
+		   "help"  : "select a file to upload either from your local hard drive or a file previously uploaded to your directory on the server",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numunits",
+                   "label"    : "number of units",
+                   "type"     : "text",
+                   "required" : "false",
+		   "default"  : "1",
+		   "help"  : "enter number of oligomers present in the full molecule of this type",
+                   "repeat"   : "numfile",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fracdeut",
+                   "label"    : "fraction deuterated",
+                   "type"     : "text",
+                   "required" : "false",
+		   "default"  : "0.0",
+		   "help"  : "enter a number between 0.0 and 1.0",
+                   "repeat"   : "numfile",
+                   "norow"    : "true"
+                   },
+		          {
+                   "role"     : "input",
+                   "id"       : "moltype",
+                   "label"    : "molecular type", 
+                   "type"     : "listbox",
+                   "values"   : "dna~c1~rna~c2~protein~c3",
+                   "default"  : "c3",
+                   "help"  : "select a molecule type",
+                   "repeat"   : "numfile",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_chemicals",
+                   "label"    : "enter number of additional components",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "help"  : "components are not included in the user supplied files: enter an integer AND press TAB to refresh" ,
+                   "required" : "true",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "chemical_formula",
+                   "label"    : "chemical formula",
+                   "type"     : "text",
+                   "default"  : "C387H870O363P120N",
+                   "required" : "true",
+                   "help" : "any chemical formula is supported (entire periodic table) ",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_exchangeable_hydrogens",
+                   "label"    : "number exchangeable H",
+                   "type"     : "text",
+                   "default"  : "3",
+                   "help"  : "the number of H in this chemical that can exchange with solvent",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fraction_exchangeable_hydrogens",
+                   "label"    : "fraction exchangeable H",
+                   "type"     : "text",
+                   "default"  : "1.00",
+                   "help"  : "fraction of chemical exchangeable H that exchange with solvent",
+                   "required" : "true",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mass_density",
+                   "label"    : "mass density",
+                   "type"     : "text",
+                   "default"  : "1.38",
+                   "required" : "true",
+                   "help" : "enter a mass density (g/mL)",
+                   "repeat"   : "number_of_chemicals",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "optional_input_header",
+                   "label"    : "Optional Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "solute_conc",
+                   "label"    : "total solute concentration (mg/ml)",
+                   "type"     : "text",
+                   "default"  : "1.00",
+                   "help"  : "solute is protein + DNA + RNA + non-protein, non-RNA and non-DNA components",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "d2ostep",
+                   "label"    : "solvent % D2O step",
+                   "type"     : "text",
+                   "default"  : "5",
+                   "help"  : "parameters are calcualted between 0 and 100 % D2O with a step size indicated here",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fexchp",
+                   "label"    : "fraction exchangeable H (protein)",
+                   "type"     : "text",
+                   "default"  : "0.95",
+                   "help"  : "if protein is present, the fraction of H that exchange with solvent",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fexchn",
+                   "label"    : "fraction exchangeable H (nucleic acid)",
+                   "type"     : "text",
+                   "default"  : "1.0",
+                   "help"  : "if nucleic acid is present, the fraction of H that exchange with solvent",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numsolv",
+                   "label"    : "number of non-water solvent components",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "help"  : "enter an integer AND press TAB to refresh: generally, these co-solvent(s) are inorganic",
+                   "required" : "true",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "solv_comp",
+                   "label"    : "component (atomic formula)",
+                   "type"     : "text",
+	           "default"  : "NaCl",
+                   "repeat"   : "numsolv",
+                   "help" : "any chemical formula is supported (entire periodic table) ",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "solv_conc",
+                   "label"    : "concentration (M)",
+                   "type"     : "float",
+                   "required" : "true",
+		   "default"  : "0.15",
+		   "help"  : "enter the molar concentration of this co-solvent",
+                   "repeat"   : "numsolv",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout1",
+                   #"label"   : "Scattering Length Density versus D2O Fraction",
+                   "label"   : "",
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout2",
+                   #"label"   : "Contrast versus D2O Fraction",
+                   "label"   : "",
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout3",
+                   #"label"   : "I(0) versus D2O Fraction",
+                   "label"   : "",
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout4",
+                   #"label"   : "Sqrt[I(0)] versus D2O Fraction",
+                   "label"   : "",
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "contrast_calculator"
+}

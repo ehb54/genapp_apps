@@ -1,0 +1,141 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "xtal2sas",
+    "label"    : "Xtal2sas",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Xtal2sas",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called xtal2sas/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "dcdfile",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SANS",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "qmax",
+                   "label"    : "maximum q-value",
+                   "type"     : "text",
+                   "default"  : "0.30",
+                   "help" : "(1/angstrom)",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numiq",
+                   "label"    : "number of I(q) values",
+                   "type"     : "text",
+                   "default"  : "31",
+                   "help" : "enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "iomax",
+                   "label"    : "intensity at I(0)",
+                   "type"     : "text",
+                   "default"  : "0.019",
+                   "help" : "experimentally determined value of I(0): usually determined by Guinier analysis",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numiter",
+                   "label"    : "number of iterations",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "help"  : "usually 1 is adequate",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numhits",
+                   "label"    : "number of hits",
+                   "type"     : "text",
+                   "default"  : "1000",
+                   "help"  : "number of random points that fills the volume occupied by the molecule",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pd2O",
+                   "label"    : "percent solvent D2O",
+                   "type"     : "text",
+                   "default"  : "100.0",
+                   "help"  : "enter a value between 0.0 and 100.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fhdexchange",
+                   "label"    : "fraction H-D exchange",
+                   "type"     : "text",
+                   "default"  : "0.9",
+                   "help"  : "enter a value between 0.0 and 1.0",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "proteinhord_list_box",
+                   "name"    : "proteinhord_list_box",
+                   "label"   : "protein protonated or deuterated",
+                   "type"    : "listbox",
+                   "values"  : "H~c1~D~c2",
+                   "default" : "c1",
+                   "help" : "pick an option describe deuteration state"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "delcaipfiles_list_box",
+                   "name"    : "delcaipfiles_list_box",
+                   "label"   : "delete crd/ans/inf/pr files",
+                   "type"    : "listbox",
+                   "values"  : "yes~c1~no~c2",
+                   "default" : "c1",
+                   "help" : "useful to keep these files for further analysis and debugging"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+    "executable" : "xtal2sas"
+}

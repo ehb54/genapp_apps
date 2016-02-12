@@ -1,0 +1,128 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "coordinate_tools",
+    "label"    : "Coordinate Tools",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Coordinate Tools",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called coor_tools/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdb_filename",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"  : "select a file to upload either from your local hard drive or a file previously uploaded to your directory on the server",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "filename",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"  : "select a file to upload either from your local hard drive or a file previously uploaded to your directory on the server",
+#                   "help"     : "name of PDB or DCD file with coordinates you wish to extract structures from",
+                   "norow"    : "false"
+                   },
+	          {
+                   "role"    : "input",
+                   "id"      : "option_list_box",
+                   "name"    : "option_list_box",
+                   "label"   : "select option",
+                   "type"    : "listbox",
+                   "values"  : "single frame~c1~range~c2~text file~c3~weight file~c4",
+                   "default" : "c1",
+		   "help"    : "select either a frame to extract, a range of frames to extract, name of a text file with frame numbers, or a weight file (either 1 or 0 for all frames indicating to extract (1) or ignore (0))",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c1",
+                   "label"    : "input a single frame number",
+                   "type"     : "text",
+                   "default"  : "1",
+		   "help"     : "supply appropriate value",
+		   "repeat"   : "option_list_box:c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c2",
+                   "label"    : "input a range of frames",
+                   "type"     : "text",
+                   "default"  : "3-22",
+		   "help"     : "supply appropriate value",
+		   "repeat"   : "option_list_box:c2"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c3",
+                   "label"    : "input name of text file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+		   "help"     : "supply appropriate value: file lists desired frames",
+#                   "help"  : "select a file to upload either from your local hard drive or a file previously uploaded to your directory on the server",
+		   "repeat" : "option_list_box:c3",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c4",
+                   "label"    : "input name of weight file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+		   "help"     : "supply appropriate value: file is list of weights",
+#                   "help"  : "select a file to upload either from your local hard drive or a file previously uploaded to your directory on the server",
+		   "repeat" : "option_list_box:c4",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "output_filename",
+                   "label"    : "output filename (pdb or dcd)",
+                   "type"     : "text",
+                   "default"  : "output.dcd",
+                   "required" : "true",
+		   "help"     : "name of file with extracted coordinates"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : " ",
+                    "type"    : "textarea",
+		    "rows"    : 20,
+		    "cols"    : 80
+		   }
+                  ],
+    "executable" : "coordinate_tools"
+}

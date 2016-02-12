@@ -1,0 +1,248 @@
+# this is a project menu file
+{
+ "header" : "Sassie 2",
+ "menu" : [
+           { 
+            "id"      : "tools",
+            "label"   : "Tools",
+            "icon"    : "pngs/tools.png",
+            "help"    : "tools help",
+            "modules" : [ 
+                         { 
+                          "id"    : "contrast_calculator",
+                          "label" : "Contrast Calculator"
+                         },
+                         { 
+                          "id"    : "align",
+                          "label" : "Align"
+                         },
+                         { 
+                          "id"    : "data_interpolation",
+                          "label" : "Data Interpolation"
+                         },
+                         { 
+                          "id"    : "extract_utilities",
+                          "label" : "Extract Utilities"
+                         },
+                         { 
+                          "id"    : "merge_utilities",
+                          "label" : "Merge Utilities"
+                         }
+                        ]
+            },
+           { 
+            "id"      : "build",
+            "label"   : "Build",
+            "icon"    : "pngs/build.png",
+            "help"    : "build help",
+            "modules" : [ 
+                         { 
+                          "id"    : "pdbscan",
+                          "label" : "PDB Scan"
+                         },
+                         { 
+                          "id"    : "pdbrx",
+                          "label" : "PDB Rx"
+                         }
+#                         ,{ 
+#                          "id"    : "test",
+#                          "label" : "PDB test"
+#                         }
+#                         ,{ 
+#                          "id"    : "texttest",
+#                          "label" : "testarea test"
+#                         }
+#                         ,{ 
+#                          "id"    : "plottest",
+#                          "label" : "plot test"
+#                         }
+#                         ,{ 
+#                          "id"    : "synctest",
+#                          "label" : "sync test"
+#                         }
+#                         ,{ 
+#                          "id"    : "e_mmc",
+#                          "label" : "mmc test"
+#                         }
+            ]
+            },
+           { 
+            "id"      : "interact",
+            "label"   : "Interact",
+            "icon"    : "pngs/interact.png",
+            "help"    : "interact help",
+            "modules" : [ 
+                         { 
+                          "id"    : "molecular_viewer",
+                          "label" : "Molecular Viewer"
+                         }
+                        ]
+            },
+           { 
+            "id"      : "simulate",
+            "label"   : "Simulate",
+            "icon"    : "pngs/simulate.png",
+            "help"    : "simulate help",
+            "modules" : [ 
+                         { 
+                          "id"    : "monomer_monte_carlo",
+                          "label" : "Monomer Monte Carlo"
+                         },
+                         { 
+                          "id"    : "complex_monte_carlo",
+                          "label" : "Complex Monte Carlo"
+                         },
+                         { 
+                          "id"    : "torsion_angle_monte_carlo",
+                          "label" : "Torsion Angle Monte Carlo"
+                         },
+                         { 
+                          "id"    : "energy_minimization",
+                          "label" : "Energy Minimization "
+                         },
+                         {
+                          "id"    : "torsion_angle_md",
+                          "label" : "Torsion Angle MD "
+                         },
+                         { 
+                          "id"    : "docking",
+                          "label" : "Docking "
+                         },
+                         { 
+                          "id"    : "two_body_grid",
+                          "label" : "Two-Body Grid "
+                         }
+                        ]
+            },
+           { 
+            "id"      : "calculate",
+            "label"   : "Calculate",
+            "icon"    : "pngs/calculate.png",
+            "help"    : "calculate help",
+            "modules" : [ 
+                         { 
+                          "id"    : "sascalc",
+                          "label" : "SasCalc"
+                         },
+#                         { 
+#                          "id"    : "xtal2sas",
+#                          "label" : "Xtal2sas"
+#                         },
+#                         { 
+#                          "id"    : "cryson",
+#                          "label" : "Cryson"
+#                         },
+#                         { 
+#                          "id"    : "crysol",
+#                          "label" : "Crysol"
+#                         },
+                         { 
+                          "id"    : "sct_calculate",
+                          "label" : "SCT Calculate"
+                         },
+                         { 
+                          "id"    : "sld_mol",
+                          "label" : "SLD MOL"
+                         },
+                         { 
+                          "id"    : "emtosans",
+                          "label" : "EM to SANS"
+                         }
+                        ]
+            },
+           { 
+            "id"      : "analyze",
+            "label"   : "Analyze",
+            "icon"    : "pngs/analyze.png",
+            "help"    : "analyze help",
+            "modules" : [ 
+                         { 
+                          "id"    : "chi_square_filter",
+                          "label" : "Chi-Square Filter"
+                         },
+                         { 
+                          "id"    : "sct_analyze",
+                          "label" : "SCT Analyze"
+                         },
+                         { 
+                          "id"    : "density_plot",
+                          "label" : "Density Plot"
+                         },
+                         { 
+                          "id"    : "apbs",
+                          "label" : "APBS"
+                         }
+                        ]
+            }
+           ,{
+            "id"         : "beta",
+            "restricted" : "beta",
+            "label"   : "Beta",
+            "icon"    : "pngs/beta.png",
+            "modules" : [
+                         {
+                          "id"    : "testbeta",
+                          "label" : "testbeta"
+                         }
+                        ]
+            }
+           ,{
+            "id"         : "alpha",
+            "restricted" : "alpha",
+            "label"   : "Alpha",
+            "icon"    : "pngs/alpha.png",
+            "modules" : [
+                         {
+                          "id"    : "testalpha",
+                          "label" : "testalpha"
+                         }
+                        ]
+            }
+           ,{
+            "id"         : "graveyard",
+            "restricted" : "graveyard",
+            "label"   : "Graveyard",
+            "icon"    : "pngs/graveyard.png",
+            "modules" : [
+                         {
+                          "id"    : "testgraveyard",
+                          "label" : "testgraveyard"
+                         }
+                        ]
+            }
+           ,{ 
+            "id"         : "admin",
+            "restricted" : "admin",
+            "label"   : "Admin",
+            "icon"    : "pngs/admin.png",
+            "modules" : [ 
+                         {
+                          "id"    : "jobmonitor",
+                          "label" : "Job monitor"
+                         }
+                         ,{
+                          "id"    : "sysuserslist",
+                          "label" : "Users"
+                         }
+                        ]
+            }
+           ,{ 
+            "id"      : "license",
+            "modules" : [ 
+                         { 
+                          "id"    : "CHARMM",
+                          "label" : "CHARMM license"
+                         }
+            ]
+           }
+           ,{
+            "id"      : "etc",
+            "modules" : [
+                         {
+                          "id"    : "sys_file_manager",
+                          "label" : "File manager"
+                         }
+            ]
+           }
+          ]
+}

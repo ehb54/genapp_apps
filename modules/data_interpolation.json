@@ -1,0 +1,107 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "data_interpolation",
+    "label"    : "Data_interpolation",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Data Interpolation",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called data_interpolation/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "expdata",
+                   "label"   : "experimental data file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"  : "data file should have three columns: q, I(q), and error",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "ofile",
+                   "label"    : "output file name",
+                   "type"     : "text",
+                   "default"  : "sans_data.dat",
+                   "help"  : "new data file will have three columns: q, I(q), and error",
+                   "required" : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "io",
+                   "label"    : "I(0)",
+                   "type"     : "float",
+                   "default"  : 0.019,
+                   "help"  : "experimentally derived I(0), usually predicted, by Guinier analysis",
+#                   "min"      : 0.0,
+#                   "max"      : 1e50,
+                   "required" : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "ioe",
+                   "label"    : "I(0) error",
+                   "type"     : "float",
+                   "default"  : 0.001,
+                   "help"  : "estimated error of the user supplied I(0)",
+                   "required" : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "dq",
+                   "label"    : "new delta q",
+                   "type"     : "float",
+                   "default"  : 0.01,
+                   "help"  : "desired q-spacing between interpolated points (units = 1/Angstrom): needs to be consistent with spacing used in SAS calculator modules",
+                   "required" : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "maxpoints",
+                   "label"    : "number of new q-values",
+                   "type"     : "integer",
+                   "default"  : 31,
+                   "help"  : "range will be from 0 to a maximum q-value of (number of q-values - 1) * delta q",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout4",
+                   "label"   : "original and interpolated data",
+                   "type"    : "plot2d",
+		   "pan"     : "true",
+   		   "zoom"    : "true",
+		   "hover"   : "true",
+		   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+                   }
+                  ],
+# the executable will take inputs in order and produce output
+    "executable" : "data_interpolation"
+}

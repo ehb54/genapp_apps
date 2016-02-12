@@ -1,0 +1,15 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid"   : "testgraveyard",
+    "label"      : "Testgraveyard",
+    "executable" : "testgraveyard",
+    "help"       : "this is testgraveyard module help",
+    "fields"   : [
+                  {
+                   "role"     : "input",
+                   "id"       : "label1",
+                   "label"    : "Graveyardtest",
+                   "type"     : "label"
+                   }
+                  ]
+}

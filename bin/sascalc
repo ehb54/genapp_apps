@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH=/share/apps/local/cuda/lib64:$LD_LIBRARY_PATH
+exec /share/apps/local/anaconda/bin/python /share/apps/genapp/sassie2test/bin/sascalc_python "$@"

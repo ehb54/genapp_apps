@@ -1,0 +1,497 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "sascalc",
+    "label"    : "SasCalc",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "SasCalc",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called sascalc/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "dcdfile",
+                   "label"   : "trajectory file filename (dcd or pdb):",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SAS",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "number_q_values",
+                   "label"   : "number of q values:",
+                   "type"    : "text",
+                   "default" : "21",
+                   "help" : "enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "q_max",
+                   "label"   : "maximum q value: ",
+                   "type"    : "text",
+                   "default" : "0.2",
+                   "help" : "(1/angstrom)",
+                   "required" : "true"
+                   },
+                   {
+                   "role"     : "input",
+                   "id"       : "separator_2",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "false",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "neutron_checkbox",
+                   "label"   : "Neutron input",
+                   "type"    : "checkbox",
+                   "help"    : "click for X-ray inputs",
+                   "repeater": "true",
+                   "checked" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_contrast_points",
+                   "label"    : "number of contrast points",
+                   "help"     : "must be a positive number",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "min"      : 1,
+                   "repeat"   : "neutron_checkbox",
+                   "repeater" : "yes",
+                   "required" : "true"
+                  },
+                  {
+                   "role"       : "input",
+                   "id"       : "D2O_percentage_array",
+                   "label"    : "D2O percentage",
+                   "type"     : "text",
+                   "default"  : "100.0",
+                   "help"     : "must be between 0.0 and 100.0",
+                   "required" : "true",
+                   "repeat"   : "number_contrast_points",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "I0_array",
+                   "label"    : " I(0)",
+                   "type"     : "text",
+                   "default"  : "1.0",
+                   "help"     : "must be a positive number",
+                   "required" : "true",
+                   "repeat"   : "number_contrast_points"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_exH_regions",
+                   "label"    : "number of exchangeable H regions",
+                   "help"     : "must be a positive number",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "min"      : 1,
+                   "repeat" : "neutron_checkbox",
+                   "repeater" : "yes",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "exH_basis_string_array",
+                   "label"    : "exchangeable H region",
+                   "type"     : "text",
+                   "help"     : "use vmd selection syntax, e.g.: moltype protein, not (moltype protein), segname HC1 and (resid > 220 and resid < 226)",
+                   "default"  : "moltype protein",
+                   "required" : "true",
+                   "repeat"   : "number_exH_regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "fraction_exH_array",
+                   "label"    : "fraction of exchangeable H",
+                   "type"     : "text",
+                   "default"  : "0.95",
+                   "help"     : "must be between 0.0 and 1.0",
+                   "required" : "true",
+                   "repeat"   : "number_exH_regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_deuteration_regions",
+                   "label"    : "number of deuterated regions",
+                   "help"     : "must be a positive number",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "min"      : 0,
+                   "repeat"   : "neutron_checkbox",
+                   "repeater" : "yes",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "deuterated_basis_string_array",
+                   "label"    : "deuterated region",
+                   "type"     : "text",
+                   "help"     : "use vmd selection syntax, e.g.: moltype protein, not (moltype protein), segname HC1 and (resid > 220 and resid < 226)",
+                   "default"  : "moltype protein",
+                   "required" : "true",
+                   "repeat"   : "number_deuteration_regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "fraction_deuterated_array",
+                   "label"    : "fraction deuterated",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "help"     : "deuteration fraction of the non-exchangeable H; must be between 0.0 and 1.0",
+                   "required" : "true",
+                   "repeat"   : "number_deuteration_regions",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"     : "input",
+                   "id"       : "separator_1",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "false",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "xray_checkbox",
+                   "label"   : "X-ray input",
+                   "type"    : "checkbox",
+                   "help"    : "click for X-ray inputs",
+                   "repeater": "true",
+                   "checked" : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "xray_number_contrast_points",
+                   "label"    : "number of contrast points",
+                   "help"     : "must be a positive number; limited to 1 currently",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "min"      : 1,
+                   "max"      : 1,
+                   "repeat"   : "xray_checkbox",
+                   "repeater" : "yes",
+                   "required" : "true"
+                  },
+#                  {
+#                   "role"       : "input",
+#                   "id"       : "xray_D2O_percentage_array",
+#                   #"label"    : "D2O percentage",
+#                   "label"    : "solvent condition",
+#                   "type"     : "text",
+#                   "default"  : "100.0",
+#                   #"help"     : "must be between 0.0 and 100.0",
+#                   "help"     : "currently not implemented",
+#                   "required" : "true",
+#                   "repeat"   : "xray_number_contrast_points",
+#                   "norow"    : "true"
+#                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "xray_I0_array",
+                   "label"    : " I(0)",
+                   "type"     : "text",
+                   "default"  : "1.0",
+                   "help"     : "must be a positive number",
+                   "required" : "true",
+                   "repeat"   : "xray_number_contrast_points"
+                   },
+#                  {
+#                   "role"    : "input",
+#                   "id"      : "number_r_values",
+#                   "label"   : "number of r values:",
+#                   "type"    : "text",
+#                   "default" : "21",
+#                   "help" : "(not implemented yet!) enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
+#                   "required" : "true"
+#                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "prehline"  : "true",
+                   "posthline"  : "false"
+                   },
+#                  {
+#                   "role"     : "input",
+#                   "id"       : "dummy",
+#                   "label"    : "dummy",
+#                   "type"     : "integer",
+#                   "hidden"  : "true",
+#                   "required" : "true"
+#                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "method_list_box",
+                   "name"    : "method_list_box",
+                   "label"   : "SasCalc method:",
+                   "type"    : "listbox",
+                   "values"  : "fixed number of golden vectors~c1~converged number of golden vectors~c2",
+                   "default" : "c1",
+                   "repeater" : "yes",
+                   "help" : "choose the SasCalc method you wish to use"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_golden_vectors",
+                   "label"    : "number of golden vectors",
+                   "type"     : "text",
+                   "default"  : "35",
+                   "repeat" : "method_list_box:c1",
+                   "help" : "must be an odd number of vectors",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "golden_vector_method_converge_tolerance",
+                   "label"   : "tolerance of runtime average convergence:",
+                   "type"    : "text",
+                   "default" : "0.01",
+                   "repeat" : "method_list_box:c2",
+                   "help" : "tolerance value of GVVV runtime average convergence",
+                   "required" : "true"
+                   },
+#                  {
+#                   "role"     : "input",
+#                   "id"       : "solvent_volume",
+#                   "label"    : "solvent volume:",
+#                   "type"     : "text",
+#                   "default"  : "18.0",
+#                   "repeat" : "option_list_box:c1",
+#                   "help" : "volume of a single solvent molecule",
+#                   "required" : "true"
+#                   },
+#                  {
+#                   "role"     : "input",
+#                   "id"       : "VDW_scaling_factor",
+#                   "label"    : "VDW radii scale factor:",
+#                   "type"     : "text",
+#                   "default"  : "0.77",
+#                   "repeat" : "option_list_box:c1",
+#                   "help" : "scale factor to adjust atomic VDW radii",
+#                   "required" : "true"
+#                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pRDF",
+                   "label"    : "check box to enable HyPred pRDF solvent model",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "not yet implemented",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "surface",
+                   "label"    : "variables to determine surface atoms",
+                   "type"     : "label",
+                   "prehline"  : "true",
+                   "posthline"  : "true",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "r",
+                   "label"    : "surface atom probe radius:",
+                   "type"     : "text",
+                   "default:" : "1.8",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "d",
+                   "label"    : "surface layer thickness:",
+                   "type"     : "text",
+                   "default:" : "2.5",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "rou",
+                   "label"    : "surface molecule interior parameter:",
+                   "type"     : "text",
+                   "default:" : "-15.0",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "eta",
+                   "label"    : "surface grid step size:",
+                   "type"     : "text",
+                   "default:" : "1.0",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "grid_number",
+                   "label"    : "surface grid number:",
+                   "type"     : "text",
+                   "default:" : "90",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"       : "coverage",
+                   "label"    : "surface coverage parameter:",
+                   "type"     : "text",
+                   "default:" : "0.3",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"       : "input",
+                   "id"       : "header_prdf",
+                   "label"    : "variables for prdf",
+                   "type"     : "label",
+                   "prehline"  : "true",
+                   "posthline"  : "true",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                  },
+                  {
+                   "role"     : "input",
+                   "id"      : "prdffile",
+                   "label"   : "prdf file name:",
+                   "type"     : "lrfile",
+                   "required" : "false",
+                   "repeat"   : "pRDF",
+                   "help"  : "not yet implemented",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "prdf_cube_length",
+                   "label"    : "prdf cube length:",
+                   "type"     : "text",
+                   "default:" : "0.5",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "prdf_cube_cutoff",
+                   "label"    : "prdf cube cutoff:",
+                   "type"     : "text",
+                   "default:" : "7.0",
+                   "required" : "false",
+                   "help"  : "not yet implemented",
+                   "repeat"   : "pRDF"
+                   #"norow"    : "true"
+                    },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+#                   {
+#                   "role"    : "output",
+#                   "id"      : "plotout1",
+#                   "label"   : "scattering profile",
+#                   "type"    : "plot2d",
+#                   "pan"     : "true",
+#                   "zoom"    : "true",
+#                   "hover"   : "true",
+#                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+#                   },
+##                   {
+##                   "role"    : "output",
+##                   "id"      : "plotout2",
+##                   "label"   : "distance distribution",
+##                   "type"    : "plot2d",
+##                   "pan"     : "true",
+##                   "zoom"    : "true",
+##                   "hover"   : "true",
+##                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+##                   },
+#                   {
+#                   "role"    : "output",
+#                   "id"      : "plotout3",
+#                   "label"   : "real space convergence",
+#                   "type"    : "plot2d",
+#                   "pan"     : "true",
+#                   "zoom"    : "true",
+#                   "hover"   : "true",
+#                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+#                   },
+#                   {
+#                   "role"    : "output",
+#                   "id"      : "plotout4",
+#                   "label"   : "sas space convergence",
+#                   "type"    : "plot2d",
+#                   "pan"     : "true",
+#                   "zoom"    : "true",
+#                   "hover"   : "true",
+#                   "help"           : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
+#                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "sascalc"
+}
