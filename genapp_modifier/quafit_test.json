@@ -1,0 +1,65 @@
+# this is a module file, any module specific info belongs here
+{
+   "moduleid" : "quafit_test",
+   "label"    : "QuaFit",
+   "help"     : "help_module",
+   "fields"   : [
+                 { 
+                     "role"     : "input",  
+                     "id"       : "number_of_cycles_per_subrun",
+                     "label"    : "Number of Cycles per SubRun",
+                     "type"     : "text",  
+                     "default"  : "3",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "maximum_number_of_subrun",
+                     "label"    : "Maximum Number of SubRun",
+                     "type"     : "text",  
+                     "default"  : "10",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "hypothetical_final_hx",
+                     "label"    : "Hypothetical Final H(X)",
+                     "type"     : "text",  
+                     "default"  : "0.02",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "exponent_alpha_of_powerlaw_error_fu",
+                     "label"    : "Exponent alpha of powerlaw error fu",
+                     "type"     : "text",  
+                     "default"  : "0.8",
+		     "required" : "true",
+		     "help"     : ""	
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "stone_exp_contact_dist_flag",
+                     "label"    : "Stone Exp Contact Dist Flag",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },                  
+                 {
+                   "role"    : "output",
+                   "id"    : "outputfile",
+                   "label" : "Quafit Output",
+                   "type"  : "file"
+                   }
+
+
+
+             ], 
+
+   "executable"   : "parser_gennap_modifier.pl",
+   "submitpolicy" : "all"
+}

@@ -53,13 +53,32 @@ while (my $line = <$fh>) {
 	$id_key =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
 	$id_key =~ s/_$//;              # remove underscore at the end 
 	$id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
+
+
 	
 	if ( length $id_key )
 	{
+	    my $label_key = $id; # label
+	    $label_key =~ tr/a-zA-Z0-9_(\/)[] //cd; 
+	    $label_key =~ s/^\s*(.*?)\s*$/$1/;
+	    if ( $label_key =~ m/(1\/0)/ )
+	    {
+		$id_key =~ s/_10//ig;
+		if ($dval == 0 && !(exists $ref->{$id_key}))   # Solved problem with checkboxes!!
+		{
+		    print OUT $line_copy; 
+		}
+				    
+	    }
+	    
 	    for my $key (keys  $ref )
 	    {
 		if ($id_key eq $key)
 		{
+		    if ($$ref{$key} eq "on")
+		    {
+			$$ref{$key} = "1";
+		    }
 		    print OUT "$id:$$ref{$key}\n";
 		}
 	    }

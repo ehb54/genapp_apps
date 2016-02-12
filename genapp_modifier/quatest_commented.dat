@@ -1,0 +1,9 @@
+********************* Input Data File for Quafit 4.0 **********************
+                                                                                
+ OPTIMIZATION PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                                                
+ Number of Cycles per Sub-Run .........:3
+ Maximum Number of Sub-Run ............:10
+ Hypothetical Final H(X) ..............:0.02
+ Exponent alpha of power-law error fu..:0.8
+ Stone Exp. Contact Dist. Flag (1/0) ..:0
