@@ -4,7 +4,7 @@ use JSON;
 use Data::Dumper;
 
 
-#my $file = 'qualast_cut.dat';
+#my $file = 'quatest_tags.dat';
 
 if ( !@ARGV )
 {
@@ -18,9 +18,14 @@ my %data;
 
 open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
 while (my $line = <$fh>) {
-    chomp $line;
-    if ($line =~ /:/ && $line !~ m/:$/)
+    #chomp $line;
+    if ($line =~ m/#TAG/)
     {
+	$line =~ s/#TAG//;
+	chomp $line;
+	
+    #if ($line =~ /:/ && $line !~ m/:$/)
+    #{
 	++$num;
 	my $id = (split(/[:]/, $line))[0];
 	my $dval = (split(/[:]/, $line))[-1];
@@ -57,7 +62,7 @@ $size = keys %data;
 # this is a module file, any module specific info belongs here
 print "\# this is a module file, any module specific info belongs here
 {
-   \"moduleid\" : \"quafit_module\",
+   \"moduleid\" : \"quafit_test\",
    \"label\"    : \"QuaFit\",
    \"help\"     : \"help_module\",
    \"fields\"   : [";
@@ -104,35 +109,45 @@ for my $key (sort keys %data ) {
                      \"checked\"  : \"$check_value\",
 		     \"required\" : \"true\",
 		     \"help\"     : \"\"
-		 }"    
+		 },"    
 		;
-             if ( $a < $size)
-             {
-                print ",";
-             }
-        }
+ #            if ( $a < $size)
+ #            {
+ #               print ",";
+ #            }
+       }
         else
         {
-	    print "
-                 { 
-                     \"role\"     : \"input\",  
+  	    print "
+		   { 
+		     \"role\"     : \"input\",  
                      \"id\"       : \"$id_key\",
                      \"label\"    : \"$label_key\",
                      \"type\"     : \"text\",  
                      \"default\"  : \"$value\",
-		     \"required\" : \"true\",
-		     \"help\"     : \"\"	
-		 }"    
-		;
-             if ( $a < $size)
-             {
-                print ",";
-             }
+ 		     \"required\" : \"true\",
+ 		     \"help\"     : \"\"	
+ 		 },"    
+ 		;
+ #            if ( $a < $size)
+ #            {
+ #               print ",";
+ #            }
 	}
 }
+       print "
+	          { 
+	             \"role\"     : \"output\",  
+	             \"id\"       : \"outputfile\",
+	             \"label\"    : \"Quafit Output\",
+	             \"type\"     : \"file\"  
+	          }"    
+   	    ;
+
+
 print "
              ], \n
-   \"executable\"   : \"your_executable\",
+   \"executable\"   : \"parser_gennap_modifier.pl\",
    \"submitpolicy\" : \"all\"
 }\n"
     ;

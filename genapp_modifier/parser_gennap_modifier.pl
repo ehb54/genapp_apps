@@ -4,7 +4,7 @@ use JSON;
 use Data::Dumper;
 
 
-my $file = '/home/alexey/QuaFit/Commented/quatest_commented.dat';
+my $file = '/home/alexey/genapptest/quafit/module_generator/quatest_tags.dat';
 
 if ( !@ARGV )
 {
@@ -34,14 +34,18 @@ open OUT, ">$p/quafit.txt";
 open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
 while (my $line = <$fh>) {
     my $line_copy = $line;
-    chomp $line;
-    #print OUT $line;
-    
-    if ($line =~ /:/ && $line !~ m/:$/)
+    #chomp $line;
+      
+    if ($line_copy =~ m/#TAG/)
     {
+	$line =~ s/#TAG//;
+	chomp $line;
+	
 	my $id = (split(/[:]/, $line))[0];
 	my $dval = (split(/[:]/, $line))[-1];
 	
+	#print OUT "TAG: $id : $dval \n\n";
+
 	$dval =~ s/\s+$//;
 	$dval =~ s/^\s*(.*?)\s*$/$1/;  # remove whitespace from both ends
 	#push @{$data[$id]}, $dval;
@@ -55,18 +59,24 @@ while (my $line = <$fh>) {
 	$id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
 
 
-	
 	if ( length $id_key )
 	{
 	    my $label_key = $id; # label
 	    $label_key =~ tr/a-zA-Z0-9_(\/)[] //cd; 
 	    $label_key =~ s/^\s*(.*?)\s*$/$1/;
-	    if ( $label_key =~ m/(1\/0)/ )
+ 	    if ( $label_key =~ m/(1\/0)/ )
 	    {
 		$id_key =~ s/_10//ig;
 		if ($dval == 0 && !(exists $ref->{$id_key}))   # Solved problem with checkboxes!!
 		{
-		    print OUT $line_copy; 
+		    $line_copy =~ s/#TAG//;
+		    chomp $line_copy;
+		    $line_copy =~ s/\s+$//;
+		    print OUT $line_copy ."\n";
+		}
+		if ($dval == 1 && !(exists $ref->{$id_key}))   # Solved problem with checkboxes!!
+		{
+		    print OUT "$id:0\n"; 
 		}
 				    
 	    }
@@ -96,6 +106,8 @@ while (my $line = <$fh>) {
 ####################################################33
 
 close OUT;
+close OUT1;
+
 
 print encode_json( $res );
 

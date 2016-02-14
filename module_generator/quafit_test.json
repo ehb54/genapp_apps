@@ -1,0 +1,377 @@
+# this is a module file, any module specific info belongs here
+{
+   "moduleid" : "quafit_test",
+   "label"    : "QuaFit",
+   "help"     : "help_module",
+   "fields"   : [
+		   { 
+		     "role"     : "input",  
+                     "id"       : "number_of_cycles_per_subrun",
+                     "label"    : "Number of Cycles per SubRun",
+                     "type"     : "text",  
+                     "default"  : "3",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "maximum_number_of_subrun",
+                     "label"    : "Maximum Number of SubRun",
+                     "type"     : "text",  
+                     "default"  : "10",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "hypothetical_final_hx",
+                     "label"    : "Hypothetical Final H(X)",
+                     "type"     : "text",  
+                     "default"  : "0.02",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "maximum_rank_l_for_ailmq",
+                     "label"    : "Maximum Rank L for [Ai][lm](Q)",
+                     "type"     : "text",  
+                     "default"  : "7",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "maximum_rank_l_for_aislmq",
+                     "label"    : "Maximum Rank L for [Ai]S[lm](Q)",
+                     "type"     : "text",  
+                     "default"  : "7",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "maximum_q_of_almq",
+                     "label"    : "Maximum Q of A[lm](Q)",
+                     "type"     : "text",  
+                     "default"  : "0.3",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "stone_exp_contact_dist_family_name",
+                     "label"    : "Stone Exp Contact Dist Family Name",
+                     "type"     : "text",  
+                     "default"  : "invariants/rot_inv_",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "stone_exp_contact_dist_flag",
+                     "label"    : "Stone Exp Contact Dist Flag",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "optimisation_free_fraction",
+                     "label"    : "Optimisation free fraction",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "exponent_alpha_of_powerlaw_error_fu",
+                     "label"    : "Exponent alpha of powerlaw error fu",
+                     "type"     : "text",  
+                     "default"  : "0.8",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "factor_h_starting",
+                     "label"    : "Factor H starting",
+                     "type"     : "text",  
+                     "default"  : "2.0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "icolumn3",
+                     "label"    : "icolumn3",
+                     "type"     : "text",  
+                     "default"  : "0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "qinputscale",
+                     "label"    : "qinputscale",
+                     "type"     : "text",  
+                     "default"  : "1.0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "sinputscale",
+                     "label"    : "sinputscale",
+                     "type"     : "text",  
+                     "default"  : "1.0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "number_of_independent_states",
+                     "label"    : "Number of Independent States",
+                     "type"     : "text",  
+                     "default"  : "1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "number_of_mc_states_configurations",
+                     "label"    : "Number of MC States Configurations",
+                     "type"     : "text",  
+                     "default"  : "1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "number_of_hierarchic_aggregates",
+                     "label"    : "Number of Hierarchic Aggregates",
+                     "type"     : "text",  
+                     "default"  : "1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "point_group_symmetry",
+                     "label"    : "Point Group Symmetry",
+                     "type"     : "text",  
+                     "default"  : "C1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "screw_polymerization_number",
+                     "label"    : "Screw Polymerization Number",
+                     "type"     : "text",  
+                     "default"  : "1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "rd_pdb_file_name_without_pdb",
+                     "label"    : "RD PDB File Name (without pdb)",
+                     "type"     : "text",  
+                     "default"  : "pdb/pdb_RD_1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "primary_structure_from_n_to_cterm",
+                     "label"    : "Primary structure from N to Cterm",
+                     "type"     : "text",  
+                     "default"  : "MGSSHHHHHHSSGLVPRGSHMG",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "rd__attached_to_the_linkers_nterm",
+                     "label"    : "RD  attached to the linkers Nterm",
+                     "type"     : "text",  
+                     "default"  : "0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "aa__of_the_pdb_of_the_previous_rd",
+                     "label"    : "AA  of the PDB of the previous RD",
+                     "type"     : "text",  
+                     "default"  : "0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "rd__attached_to_the_linkers_cterm",
+                     "label"    : "RD  attached to the linkers Cterm",
+                     "type"     : "text",  
+                     "default"  : "1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "aa__of_the_pdb_of_the_previous_rd",
+                     "label"    : "AA  of the PDB of the previous RD",
+                     "type"     : "text",  
+                     "default"  : "23",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "flag_for_phi_psi_and_chi_variations",
+                     "label"    : "Flag for phi psi and chi variations",
+                     "type"     : "text",  
+                     "default"  : "2",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "number_of_experiments",
+                     "label"    : "Number of Experiments",
+                     "type"     : "text",  
+                     "default"  : "1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "experimental_scattering_curve",
+                     "label"    : "Experimental Scattering Curve",
+                     "type"     : "text",  
+                     "default"  : "sas_curves/curve_1.dat",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "concentration_gl",
+                     "label"    : "Concentration (g/l)",
+                     "type"     : "text",  
+                     "default"  : "3.0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "xrays_10__neutrons_x_d2o_flag",
+                     "label"    : "XRays (10) / Neutrons (x_D2O) Flag",
+                     "type"     : "text",  
+                     "default"  : "-1.0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "scatt_dens_solv_1012_cm_angs3",
+                     "label"    : "Scatt Dens Solv (1012 cm Angs3)",
+                     "type"     : "text",  
+                     "default"  : "0.09369",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "minimum_q_in_data_file_angs1",
+                     "label"    : "Minimum Q In Data File (Angs1)",
+                     "type"     : "text",  
+                     "default"  : "0.0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "maximum_q_in_data_file_angs1",
+                     "label"    : "Maximum Q In Data File (Angs1)",
+                     "type"     : "text",  
+                     "default"  : "0.28",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "parameter_k_for_poissonian_errors",
+                     "label"    : "Parameter K for Poissonian Errors",
+                     "type"     : "text",  
+                     "default"  : "0.025",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "number_of_lines_to_skip_in_data_file",
+                     "label"    : "Number of Lines To Skip In Data File",
+                     "type"     : "text",  
+                     "default"  : "0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "num_of_qpoints_to_average",
+                     "label"    : "Num of QPoints To Average",
+                     "type"     : "text",  
+                     "default"  : "2",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "maximum_distance_for_pr_calculation",
+                     "label"    : "Maximum Distance for p(r) Calculation",
+                     "type"     : "text",  
+                     "default"  : "90.0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "scaling_factor_if_0_is_optimized",
+                     "label"    : "Scaling Factor (if 0 Is Optimized)",
+                     "type"     : "text",  
+                     "default"  : "0.0",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "flag_background",
+                     "label"    : "Flag Background",
+                     "type"     : "checkbox",  
+                     "checked"  : "true",
+		     "required" : "true",
+		     "help"     : ""
+		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "family_number_same_scaling_factor",
+                     "label"    : "Family Number (Same Scaling Factor)",
+                     "type"     : "text",  
+                     "default"  : "1",
+ 		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+	          { 
+	             "role"     : "output",  
+	             "id"       : "outputfile",
+	             "label"    : "Quafit Output",
+	             "type"     : "file"  
+	          }
+             ], 
+
+   "executable"   : "parser_gennap_modifier.pl",
+   "submitpolicy" : "all"
+}
