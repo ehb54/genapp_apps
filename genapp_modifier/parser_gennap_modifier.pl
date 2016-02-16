@@ -36,7 +36,7 @@ while (my $line = <$fh>) {
     my $line_copy = $line;
     #chomp $line;
       
-    if ($line_copy =~ m/#TAG/)
+    if ($line_copy =~ m/#TAG/ && $line_copy!~ m/%%%%/)
     {
 	$line =~ s/#TAG//;
 	chomp $line;
@@ -100,7 +100,16 @@ while (my $line = <$fh>) {
     }
     else 
     {
-	print OUT $line_copy;
+	if ($line_copy =~ m/%%%%/)
+	{
+	    $line_copy =~ s/#TAG//;
+	    #chomp $line_copy;
+	    print OUT $line_copy;
+	}
+	else
+	{
+	    print OUT $line_copy;
+	}
     }
 }
 ####################################################33

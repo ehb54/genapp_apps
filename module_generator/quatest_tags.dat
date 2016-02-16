@@ -1,7 +1,7 @@
 ********************* Input Data File for Quafit 4.0 **********************
                                                                                 
- OPTIMIZATION PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                                                                                
+ OPTIMIZATION PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  #TAG
+
  Number of Cycles per Sub-Run .........:3       #TAG
  Maximum Number of Sub-Run ............:10      #TAG
  Hypothetical Final H(X) ..............:0.02    #TAG
@@ -60,20 +60,20 @@
  ......................................: 
  ......................................: 
 
- STRUCTURE OF STATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ STRUCTURE OF STATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     #TAG
                                                                                
  Number of Independent States .........:1        #TAG
 ---------------------------------------------------------- State
  Number of MC State's Configurations ..:1        #TAG
  Number of Sites ......................:12                                                       [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
- Number of Flexible Linkers ...........:14                 Sequence of RDs and FLs in the pdb ...: 13  1   14  2   15  3   16  4   17  5   18  6   19  20  7   21  8   22  9   23  10  24  11  25  12 26  
+ Number of Flexible Linkers ...........:14                 Sequence of RDs and FLs in the pdb ...: 13  1   14  2   15  3   16  4   17  5   18  6   19  20  7   21  8   22  9   23  10  24  11  25  12 26
  Number of Hierarchic Aggregates ......:1        #TAG
  Write the Aggregate Section In Order of Decreasing Symmetry
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Aggregate
  Point Group Symmetry .................:C1       #TAG
- Point Group Reference System ..: alpha:    0.0000     
-                           (deg)  beta :    0.0000     
-                                  gamma:    0.0000     
+ Point Group Reference System ..: alpha:    0.0000     #T_CBR 
+                           (deg)  beta :    0.0000     #T_CBR 
+                                  gamma:    0.0000     #T_CBR 
  Screw Polymerization Number ..........:1        #TAG
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
  Screw Axis Orientation: alpha (deg) ..:   0.00000          0.0000        360.0000         20.0000         0
@@ -507,7 +507,7 @@ SCHEME OF THE EQULIBRIA BETWEEN AGGREGATES Ai-Aj[1/0] %%%%%%%%%%%%%%%%%%%%%%
  A01-A14[ ] A02-A14[ ] A03-A14[ ] A04-A14[ ] A05-A14[ ] A06-A14[ ] A07-A14[ ] A08-A14[ ] A09-A14[ ] A10-A14[ ] A11-A14[ ] A12-A14[ ] A13-A14[1] 
  A01-A15[ ] A02-A15[ ] A03-A15[ ] A04-A15[ ] A05-A15[ ] A06-A15[ ] A07-A15[ ] A08-A15[ ] A09-A15[ ] A10-A15[ ] A11-A15[ ] A12-A15[ ] A13-A15[ ] A14-A15[1] 
                                                                                    
- EXPERIMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ EXPERIMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   #TAG
                                                                                
  Number of Experiments ................:1       #TAG
 ---------------------------------------------------------- Experiment

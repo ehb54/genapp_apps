@@ -4,6 +4,15 @@
    "label"    : "QuaFit",
    "help"     : "help_module",
    "fields"   : [
+		        { 
+			  "role"     : "input",  
+			  "id"       : "optimization_parameters",
+			  "label"    : "OPTIMIZATION PARAMETERS",
+			  "type"     : "label",
+			  "prehline" : "true",
+			  "posthline": "true",
+			  "default"  : ""
+			},
 		   { 
 		     "role"     : "input",  
                      "id"       : "number_of_cycles_per_subrun",
@@ -74,6 +83,7 @@
                      "type"     : "checkbox",  
                      "checked"  : "false",
 		     "required" : "true",
+                     "repeater" : "false",
 		     "help"     : ""
 		 },
                  { 
@@ -83,6 +93,7 @@
                      "type"     : "checkbox",  
                      "checked"  : "false",
 		     "required" : "true",
+                     "repeater" : "false",
 		     "help"     : ""
 		 },
 		   { 
@@ -130,6 +141,15 @@
  		     "required" : "true",
  		     "help"     : ""	
  		 },
+		        { 
+			  "role"     : "input",  
+			  "id"       : "structure_of_states",
+			  "label"    : "STRUCTURE OF STATES",
+			  "type"     : "label",
+			  "prehline" : "true",
+			  "posthline": "true",
+			  "default"  : ""
+			},
 		   { 
 		     "role"     : "input",  
                      "id"       : "number_of_independent_states",
@@ -164,6 +184,52 @@
                      "type"     : "text",  
                      "default"  : "C1",
  		     "required" : "true",
+ 		     "help"     : ""	
+ 		 },
+                 { 
+                     "role"     : "input",  
+                     "id"       : "point_group_reference_system",
+                     "label"    : "Point Group Reference System",
+                     "type"     : "checkbox",  
+                     "checked"  : "true",
+		     "required" : "true",
+                     "repeater" : "true",
+		     "help"     : ""
+		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "alpha",
+                     "label"    : "alpha",
+                     "type"     : "text",  
+                     "default"  : "0.0000",
+ 		     "required" : "true",
+                     "size"     : "6",
+                     "repeat"   : "point_group_reference_system",
+                     "norow"    : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "gamma",
+                     "label"    : "gamma",
+                     "type"     : "text",  
+                     "default"  : "0.0000",
+ 		     "required" : "true",
+                     "size"     : "6",
+                     "repeat"   : "point_group_reference_system",
+                     "norow"    : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "deg__beta",
+                     "label"    : "deg__beta",
+                     "type"     : "text",  
+                     "default"  : "0.0000",
+ 		     "required" : "true",
+                     "size"     : "6",
+                     "repeat"   : "point_group_reference_system",
+                     "norow"    : "true",
  		     "help"     : ""	
  		 },
 		   { 
@@ -238,6 +304,15 @@
  		     "required" : "true",
  		     "help"     : ""	
  		 },
+		        { 
+			  "role"     : "input",  
+			  "id"       : "experiments",
+			  "label"    : "EXPERIMENTS",
+			  "type"     : "label",
+			  "prehline" : "true",
+			  "posthline": "true",
+			  "default"  : ""
+			},
 		   { 
 		     "role"     : "input",  
                      "id"       : "number_of_experiments",
@@ -353,6 +428,7 @@
                      "type"     : "checkbox",  
                      "checked"  : "true",
 		     "required" : "true",
+                     "repeater" : "false",
 		     "help"     : ""
 		 },
 		   { 
