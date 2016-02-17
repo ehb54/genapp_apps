@@ -1,170 +1,45 @@
 # this is a project menu file
 {
-    "menu" : [
-        { 
-            "id"      : "welcome_menu",
-            "label"   : "Welcome!",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "welcome",
-            "startup" : "true",
-            "nohidemenu" : "true",
-            "help" : "test welcome help",
-            "modules" : [ 
-                { 
-                    "id"    : "welcome",
-                    "label" : "Welcome",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-        ,{ 
-            "id"      : "numericalaspects_menu",
-            "label"   : "Numerical Aspects",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "numericalaspects",
-            "modules" : [ 
-                { 
-                    "id"    : "numericalaspects",
-                    "label" : "Numerical Aspects",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-        ,{
-            "id"      : "nes_menu",
-            "label"   : "What&apos;s An NES?",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "nes",
-            "modules" : [
-                {
-                    "id"    : "nes",
-                    "label" : "What's An NES?",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-#
-	 ,{ 
-            "id"      : "importance_menu",
-            "label"   : "The Importance of VIV",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "importance",
-            "modules" : [ 
-                {
-                    "id"    : "importance",
-                    "label" : "The Importance of VIV",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-        ,{ 
-            "id"       : "theodorevonkarman_menu",
-            "label"    : "Theodore von Karman",
-            "icon"     : "pngs/noicon.png",
-            "autorun"  : "theodorevonkarman",
-            "modules" : [ 
-                {
-                    "id"    : "theodorevonkarman",
-                    "label" : "Theodore von Karman",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-	,{
-            "id"      : "about_us_menu", 
-            "label"   : "About Us",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "about_us",
-            "modules" : [
-                {
-                    "id"    : "about_us", 
-                    "label" : "About Us",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-
-        ,{ 
-            "id"      : "Acknowledgements_menu",
-            "label"   : "Acknowledgements",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "acknowledgements",
-            "modules" : [ 
-                {
-                    "id"    : "Acknowledgements",
-                    "label" : "Acknowledgements",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-	,{
-            "id"      : "disclaimer_menu",
-            "label"   : "Official Disclaimer",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "disclaimer",
-            "modules" : [
-                {
-                    "id"    : "disclaimer",
-                    "label" : "Official Disclaimer",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-#
-        ,{ 
+ "menu" : [
+           { 
             "id"      : "simulate",
             "label"   : "Simulate",
             "icon"    : "pngs/simulate.png",
-            "autorun" : "flowinducedvibration",
             "modules" : [ 
-                { 
-                    "id"    : "flowinducedvibration",
-                    "label" : "Flow Induced Vibration",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-        ,{
-            "id"      : "previous_runs",
-            "label"   : "Available Results",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "cachedresultsfiv",
-            "modules" : [
-                {
-                    "id"    : "cachedresultsfiv",
-                    "label" : "Cached results FIV",
-                    "nobutton" : "true"
-                }
-            ]
-        }
-	,{
+                         { 
+                          "id"    : "flowinducedvibration",
+                          "label" : "Flow Induced Vibration"
+                         }
+                        ]
+            }
+           ,{
             "id"         : "admin",
             "restricted" : "admin",
             "label"      : "Admin",
             "icon"       : "pngs/admin.png",
             "modules"    : [
-                {
-                    "id"    : "jobmonitor",
-                    "label" : "Job monitor"
-                }
-                ,{
-                    "id"    : "jobintegritycheck",
-                    "label" : "Integrity check"
-                }
-                ,{
-                    "id"    : "sysuserslist",
-                    "label" : "Users"
-                }
-            ]
-        }
-        ,{
+                            {
+                             "id"    : "jobmonitor",
+                             "label" : "Job monitor"
+                            }
+                            ,{
+                             "id"    : "jobintegritycheck",
+                             "label" : "Integrity check"
+                            }
+                            ,{
+                             "id"    : "sysuserslist",
+                             "label" : "Users"
+                            }
+                           ]
+            }
+           ,{
             "id"      : "etc",
             "modules" : [
-                {
-                    "id"    : "sys_file_manager",
-                    "label" : "File manager"
-                }
+                         {
+                          "id"    : "sys_file_manager",
+                          "label" : "File manager"
+                         }
             ]
-        }
+          }
     ]
 }

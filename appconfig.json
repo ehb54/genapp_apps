@@ -14,7 +14,7 @@
                   ,"udpport" : 37779
                  }
   ,"restricted" : {
-      "admin"     : [ "emre" ]
+      "admin"     : [ "emre", "spamidig" ]
   }
   ,"resources" : {
                   "local"      : ""
