@@ -6,19 +6,39 @@
 # the executable will take inputs in json and produce output in json
     ,"executable"   : "flowinducedvibration"
     ,"submitpolicy" : "login"
+# cache can be "public" or "private"
+    ,"cache"          : "public"
+# cachefound can be "notify", "askrecompute" or commented out (no notification)
+    ,"cachefound"     : "askrecompute"
+    ,"cachedelete"    : "admin"
+    ,"hideifnotlogon" : "true"
+    ,"backgroundimage" : "pngs/vortex2a.jpg"
+
     ,"fields"   : [
                   {
                    "role"       : "input",
                    "id"         : "re",
-                   "label"      : "Reynolds Number",
+                   "label"      : "Reynolds number",
                    "type"       : "float",
-                   "default"    : 100.0,
-                   "min"        : 50.0,
-                   "max"        : 600.0,
+                   "default"    : 60.0,
+                   "min"        : 20.0,
+                   "max"        : 100.0,
                    "required"   : "true",
                    "specifiedproject" : "re"
                    },
-                  {
+                   {
+                   "role"       : "input",
+                   "id"         : "NES1",
+                   "label"      : "NES1",
+                   "type"       : "float",
+                   "default"    : 60.0,
+                   "min"        : 20.0,
+                   "max"        : 100.0,
+                   "required"   : "false",
+                   "specifiedproject" : "NES1"
+                   },
+
+		   {
                    "role"    : "input",
                    "id"      : "fnstar",
                    "label"   : "Inverse Spring Constant",
@@ -33,13 +53,25 @@
                    "role"    : "input",
                    "id"      : "aa",
                    "label"   : "Aspect Ratio",
-                   "type"    : "float",
+#                   "type"    : "float",
+                   "type"    : "hidden",
                    "default" : 1,
                    "min"     : 0.2,
                    "max"     : 5,
                    "required" : "true",
                    "specifiedproject" : "aa"
                    },
+#                  {
+#                   "role"    : "input",
+#                   "id"      : "aa",
+#                   "label"   : "Aspect Ratio",
+#                   "type"    : "float",
+#                   "default" : 1,
+#                   "min"     : 0.2,
+#                   "max"     : 5,
+#                   "required" : "true",
+#                   "specifiedproject" : "aa"
+#                   },
                    {
                    "role"  : "output",
                    "id"    : "note",
