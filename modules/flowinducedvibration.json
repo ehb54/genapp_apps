@@ -6,6 +6,14 @@
 # the executable will take inputs in json and produce output in json
     ,"executable"   : "flowinducedvibration"
     ,"submitpolicy" : "login"
+# cache can be "public" or "private"
+    ,"cache"          : "public"
+# cachefound can be "notify", "askrecompute" or commented out (no notification)
+    ,"cachefound"     : "askrecompute"
+    ,"cachedelete"    : "admin"
+    ,"hideifnotlogon" : "true"
+    ,"backgroundimage" : "pngs/vortex2a.jpg"
+
     ,"fields"   : [
                   {
                    "role"       : "input",
