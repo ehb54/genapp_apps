@@ -132,11 +132,10 @@ for my $key ( sort keys %data )
     my @value = @{$data{$key}};
     
     for my $href ( @value ) {
-	for my $role ( keys %$href ) {
-	    #print "$role=$href->{$role} \n";
-	    #print "$role \n";
+	for my $role ( keys %$href ) 
+	{
 	    my $role_clean = $role;
-	     	    
+	    
 	    $role_clean =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
 	    $role_clean =~ tr/ /_/;             # replace whitespace with underscore
 	    $role_clean =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
@@ -191,33 +190,50 @@ for my $key ( sort keys %data )
                      \"role\"     : \"input\",  
                      \"id\"       : \"$id_key\",
                      \"label\"    : \"$label_key\",
-                     " ;
-	if ( $role_counter > 1 )
-	{
-	    print " \"type\"     : \"listbox\",
-                     \"values\"   : \"$listbox_string\",
-                     \"default\"  : \"\",
-                     \"repeater\" : \"$repeater\",
-		     \"help\"     : \"\"
-		 },"   
-		 ;
-	}
-	else
-	{
-	   print "   \"type\"     : \"checkbox\",  
+                     \"type\"     : \"checkbox\",  
                      \"checked\"  : \"$check_value\",
 		     \"required\" : \"true\",
                      \"repeater\" : \"$repeater\",
 		     \"help\"     : \"\"
-		 },"    
+		 }," ;   
+		 #;
+                 #    " ;
+	if ( $role_counter > 1 )
+	{
+	    print "
+                 { 
+                     \"role\"     : \"input\",  
+                     \"id\"       : \"$id_key$id_key\",
+                     \"label\"    : \"\",
+	          "
+		  ;
+	    print "  \"type\"     : \"listbox\",
+                     \"values\"   : \"$listbox_string\",
+                     \"default\"  : \"\",
+                     \"repeater\" : \"yes\",
+                     \"repeat\"   : \"$id_key\",
+		     \"help\"     : \"\"
+		 },"   
 		 ;
 	}
+	#else
+	#{
+	#   print "   \"type\"     : \"checkbox\",  
+        #             \"checked\"  : \"$check_value\",
+ 	#	     \"required\" : \"true\",
+        #             \"repeater\" : \"$repeater\",
+	#	     \"help\"     : \"\"
+	#	 },"    
+	#	 ;
+	#}
 	
 	for my $href ( @value ) {
 	    for my $role ( keys %$href )
 	    {
 		my $id = $role;
 		my $val = $$href{$role};
+		$val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+
 		$id =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
 		$id =~ tr/ /_/;             # replace whitespace with underscore
 		$id =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
@@ -226,8 +242,6 @@ for my $key ( sort keys %data )
 		
 		if ( $role_counter == 1 )
 		{
-		    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
-		    
 		    print "
 		   { 
 		     \"role\"     : \"input\",  
@@ -245,7 +259,6 @@ for my $key ( sort keys %data )
 		}
 		else
 		{
-		    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
 		    my @array1 = split /\s+/,$val;
 		    my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
 		    for ( my $i = 0; $i < @array1; $i++)
@@ -253,13 +266,13 @@ for my $key ( sort keys %data )
 			print "
 		                { 
 		                  \"role\"     : \"input\",  
-                                  \"id\"       : \"$array_ids[$i]$id\",
+                                  \"id\"       : \"$array_ids[$i]$id$id_key\",
                                   \"label\"    : \"$array_ids[$i]\",
                                   \"type\"     : \"text\",  
                                   \"default\"  : \"$array1[$i]\",
  		                  \"required\" : \"true\",
                                   \"size\"     : \"6\",
-                                  \"repeat\"   : \"$id_key:$id\",
+                                  \"repeat\"   : \"$id_key$id_key:$id\",
                                   \"norow\"    : \"true\",
  		                  \"help\"     : \"\"	
  		             },"    
@@ -287,7 +300,48 @@ for my $key ( sort keys %data )
 	}
 	else
 	{
-  	    print "
+	    my $val = $value[0];
+	    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+	    
+	    my @array1 = split /\s+/,$val;
+	    my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
+
+	    if ( @array1 > 1 )
+	    {
+		print "
+		   { 
+		     \"role\"     : \"input\",  
+                     \"id\"       : \"$id_key\",
+                     \"label\"    : \"$label_key\",
+                     \"type\"     : \"checkbox\",  
+                     \"checked\"  : \"true\",
+ 		     \"required\" : \"true\",
+                     \"repeater\" : \"yes\",  
+ 		     \"help\"     : \"\"	
+ 		 },"    
+		 ;
+		
+		for ( my $i = 0; $i < @array1; $i++)
+		    {
+			print "
+		                { 
+		                  \"role\"     : \"input\",  
+                                  \"id\"       : \"$array_ids[$i]$id_key\",
+                                  \"label\"    : \"$array_ids[$i]\",
+                                  \"type\"     : \"text\",  
+                                  \"default\"  : \"$array1[$i]\",
+ 		                  \"required\" : \"true\",
+                                  \"size\"     : \"6\",
+                                  \"repeat\"   : \"$id_key\",
+                                  \"norow\"    : \"true\",
+ 		                  \"help\"     : \"\"	
+ 		             },"    
+			     ;			
+		    }
+	    }
+	    else
+	    {
+		print "
 		   { 
 		     \"role\"     : \"input\",  
                      \"id\"       : \"$id_key\",
@@ -298,6 +352,7 @@ for my $key ( sort keys %data )
  		     \"help\"     : \"\"	
  		 },"    
 		 ;
+	    }
 	}
     }
 }

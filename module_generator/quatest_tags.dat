@@ -78,11 +78,11 @@
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
  Screw Axis Orientation: alpha (deg) ..:   0.00000          0.0000        360.0000         20.0000         0   #T_CBR 
                          cos(beta) ....:   1.0000          -1.0000          1.0000          0.5000         0   #T_CBR#END 
- Rotation along Screw Axis (deg) ......:   0.99018          0.0000         120.000          64.250         0
- Screw Translation along z (Ang.) .....:   141.133          5.0000         100.000          40.531         0
+ Rotation along Screw Axis (deg) ......:   0.99018          0.0000         120.000          64.250         0   #TAG
+ Screw Translation along z (Ang.) .....:   141.133          5.0000         100.000          40.531         0   #TAG
  Contraction factor gamma .............:      1.0
  Effective Aver. Atomic Radius (Angs.) :     1.62
- Relative mass density hydr. shell    .:    1.05           1.0            1.07               0.5           0
+ Relative mass density hydr. shell    .:    1.05           1.0            1.07               0.5           0   #TAG
  Relative Mass Density Hydr. Shell #2 .:
  Relative Mass Density Hydr. Shell #3 .:
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
