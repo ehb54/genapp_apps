@@ -3,7 +3,6 @@
 use JSON;
 use Data::Dumper;
 
-
 #my $file = 'quatest_tags.dat';
 
 if ( !@ARGV )
@@ -33,9 +32,8 @@ while (my $line = <$fh>) {
 	my $id_cbr_numbered;
 	my $dval_cbr;
 	my @array_cbr = ();
-	#my $int_data = {};
 
-	my @matches = $line =~ /:/g;   #Check for lines with more than 1 ":"
+	my @matches = $line =~ /:/g;   #Check for lines with more than 1 :'s
 	my $count = @matches;
 	if ($count > 1)
 	{
@@ -48,21 +46,34 @@ while (my $line = <$fh>) {
 	    
 	    $id_numbered_cbr = $id_cbr;
 	    substr($id_numbered_cbr, 0, 0) = 100+$num;
-
-	    push (@array_cbr,$int_data);
-	    
 	}
 	else 
 	{
-	    my $dval_cbr_11 = (split(/[:]/, $line))[0];
-	    my $dval_cbr_22 = (split(/[:]/, $line))[-1];
-	    
-	    $$int_data{ $dval_cbr_11 } = $dval_cbr_22;
-	    #push @array_cbr, {$dval_cbr_11 => $dval_cbr_22};
-	    push @array_cbr, $int_data;
+	    if ( $line =~ m/#END/ )
+	    {
+		$line =~ s/#END//;
+		chomp $line;
+		my $dval_cbr_11 = (split(/[:]/, $line))[0];
+		my $dval_cbr_22 = (split(/[:]/, $line))[-1];
+		$$int_data{ $dval_cbr_11 } = $dval_cbr_22;
+	
+		push @array_cbr, $int_data;
+		$data{ $id_numbered_cbr } = \@array_cbr;
+		$int_data = {};                               # Need to CLEAR temporary hash!!!
+	    }
+	    else
+	    {
+		my $dval_cbr_11 = (split(/[:]/, $line))[0];
+		my $dval_cbr_22 = (split(/[:]/, $line))[-1];
+		$$int_data{ $dval_cbr_11 } = $dval_cbr_22;
+	    }
 	}
 	
-	$data{ $id_numbered_cbr } = \@array_cbr;
+	#for my $href ( @{ $data{ $id_numbered_cbr }} ) {
+	#    for my $role ( keys %$href ) {
+        #	print "$role=$href->{$role} \n";
+	#    }
+	#}
     }
     
  ## TAG #######################################################
@@ -99,9 +110,7 @@ while (my $line = <$fh>) {
 	#print $data { $id_numbered }[0] . "\n";
     }
 }
-
 ###########################################################
-
 
 #$size = keys %data;
 
@@ -117,22 +126,39 @@ for my $key ( sort keys %data )
     #my $value = $data{$key};
     
     my $hash_counter = 0;
+    my $role_counter = 0;
+    my $listbox_string;
+
     my @value = @{$data{$key}};
     
     for my $href ( @value ) {
 	for my $role ( keys %$href ) {
 	    #print "$role=$href->{$role} \n";
-	    if (exists( $href->{$role}) )
+	    #print "$role \n";
+	    my $role_clean = $role;
+	     	    
+	    $role_clean =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+	    $role_clean =~ tr/ /_/;             # replace whitespace with underscore
+	    $role_clean =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
+	    $role_clean =~ s/_$//;              # remove underscore at the end 
+	    $role_clean =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
+	    
+	    $listbox_string = $role_clean . "~$role_clean" . "~" . $listbox_string; 
+	    $role_counter = 0;    
+	     while ($$href{$role} =~ /\S+/g)
 	    {
-		++$hash_counter;
+		++$role_counter;
+		
 	    }
+	    ++$hash_counter;
 	}
     }
+    
+    #print $hash_counter . ", " . $role_counter . "\n";
 
     my $id_key = $key;    # id
     my $label_key = $key; # label
-    ++$a;
-    
+        
     substr($id_key, 0, 3) = "";     # remove first character (index for sorting) 
     
     $id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
@@ -145,11 +171,10 @@ for my $key ( sort keys %data )
     $label_key =~ tr/a-zA-Z0-9_(\/)[] //cd; 
     $label_key =~ s/^\s*(.*?)\s*$/$1/;
     
-    
     if ( ($label_key =~ m/(1\/0)/) || ($hash_counter != 0) )
     {
-	my $check_value;
-	my $repeater;
+	my $check_value = "false";
+	my $repeater = "no";
 	$label_key =~ s/ \(1\/0\)//ig;
 	$id_key =~ s/_10//ig;
 	
@@ -157,32 +182,36 @@ for my $key ( sort keys %data )
 	{
 	    $check_value = "true";
 	}
-	
-	if ( ($value[0] eq "0") )
-	{
-	    $check_value = "false";
-	}
-
 	if ($hash_counter != 0)
 	{
-	    $repeater = "true";
-	}
-	else 
-	{ 
-	    $repeater = "false";
+	    $repeater = "yes";
 	}
 	print "
                  { 
                      \"role\"     : \"input\",  
                      \"id\"       : \"$id_key\",
                      \"label\"    : \"$label_key\",
-                     \"type\"     : \"checkbox\",  
+                     " ;
+	if ( $role_counter > 1 )
+	{
+	    print " \"type\"     : \"listbox\",
+                     \"values\"   : \"$listbox_string\",
+                     \"default\"  : \"\",
+                     \"repeater\" : \"$repeater\",
+		     \"help\"     : \"\"
+		 },"   
+		 ;
+	}
+	else
+	{
+	   print "   \"type\"     : \"checkbox\",  
                      \"checked\"  : \"$check_value\",
 		     \"required\" : \"true\",
                      \"repeater\" : \"$repeater\",
 		     \"help\"     : \"\"
 		 },"    
 		 ;
+	}
 	
 	for my $href ( @value ) {
 	    for my $role ( keys %$href )
@@ -195,9 +224,11 @@ for my $key ( sort keys %data )
 		$id =~ s/_$//;              # remove underscore at the end 
 		$id =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
 		
-		$val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
-		
-		print "
+		if ( $role_counter == 1 )
+		{
+		    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+		    
+		    print "
 		   { 
 		     \"role\"     : \"input\",  
                      \"id\"       : \"$id\",
@@ -210,7 +241,31 @@ for my $key ( sort keys %data )
                      \"norow\"    : \"true\",
  		     \"help\"     : \"\"	
  		 },"    
-		 ;	    
+		 ;
+		}
+		else
+		{
+		    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+		    my @array1 = split /\s+/,$val;
+		    my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
+		    for ( my $i = 0; $i < @array1; $i++)
+		    {
+			print "
+		                { 
+		                  \"role\"     : \"input\",  
+                                  \"id\"       : \"$array_ids[$i]$id\",
+                                  \"label\"    : \"$array_ids[$i]\",
+                                  \"type\"     : \"text\",  
+                                  \"default\"  : \"$array1[$i]\",
+ 		                  \"required\" : \"true\",
+                                  \"size\"     : \"6\",
+                                  \"repeat\"   : \"$id_key:$id\",
+                                  \"norow\"    : \"true\",
+ 		                  \"help\"     : \"\"	
+ 		             },"    
+			     ;			
+		    }
+		}
 	    }
 	}
     }

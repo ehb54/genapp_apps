@@ -73,11 +73,11 @@
  Point Group Symmetry .................:C1       #TAG
  Point Group Reference System ..: alpha:    0.0000     #T_CBR 
                            (deg)  beta :    0.0000     #T_CBR 
-                                  gamma:    0.0000     #T_CBR 
+                                  gamma:    0.0000     #T_CBR#END 
  Screw Polymerization Number ..........:1        #TAG
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
- Screw Axis Orientation: alpha (deg) ..:   0.00000          0.0000        360.0000         20.0000         0
-                         cos(beta) ....:   1.0000          -1.0000          1.0000          0.5000         0
+ Screw Axis Orientation: alpha (deg) ..:   0.00000          0.0000        360.0000         20.0000         0   #T_CBR 
+                         cos(beta) ....:   1.0000          -1.0000          1.0000          0.5000         0   #T_CBR#END 
  Rotation along Screw Axis (deg) ......:   0.99018          0.0000         120.000          64.250         0
  Screw Translation along z (Ang.) .....:   141.133          5.0000         100.000          40.531         0
  Contraction factor gamma .............:      1.0
@@ -220,12 +220,12 @@
 *************************** Rigid Domain
     RD PDB File Name (without .pdb) ...:pdb/pdb_RD_1    #TAG                                                                                                                                                                                                                                                                          
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
-    Geom. Center Vect.: modulus (ang.) :    11.299          0.0000          105.00          2.0000         0
-                        alpha   (deg) .:   -64.799         -180.00          180.00          90.000         0
-                        cos(beta) .....:   0.85824         -1.0000          1.0000         0.50000         0
-    Rotation Angles:    alpha_a (deg) .:   -134.26         -180.00          180.00          90.000         0
-                        cos(beta_a) ...:   0.99356         -1.0000          1.0000         0.50000         0
-                        gamma_a (deg) .:   -1.6726         -180.00          180.00          90.000         0
+    Geom. Center Vect.: modulus (ang.) :    11.299          0.0000          105.00          2.0000         0   #T_CBR
+                        alpha   (deg) .:   -64.799         -180.00          180.00          90.000         0   #T_CBR
+                        cos(beta) .....:   0.85824         -1.0000          1.0000         0.50000         0   #T_CBR#END
+    Rotation Angles:    alpha_a (deg) .:   -134.26         -180.00          180.00          90.000         0   #T_CBR
+                        cos(beta_a) ...:   0.99356         -1.0000          1.0000         0.50000         0   #T_CBR
+                        gamma_a (deg) .:   -1.6726         -180.00          180.00          90.000         0   #T_CBR#END
 *************************** Rigid Domain
     RD PDB File Name (without .pdb) ...:pdb/pdb_RD_2                                                                                                                                                                                                                                                                             
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
