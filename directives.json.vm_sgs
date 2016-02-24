@@ -80,9 +80,9 @@
 
 #  ,"debugvalues"               : "true"
 
-  ,"enablecaptcha"             : "true"
+#  ,"enablecaptcha"             : "true"
   ,"usesplash"                 : "true"
-  ,"usewss"                    : "true"
+#  ,"usewss"                    : "true"
   ,"appconfig"                 : "/share/apps/genapp/sassie2test/appconfig.json"
   ,"logdirectory"              : "_logs"
 }
