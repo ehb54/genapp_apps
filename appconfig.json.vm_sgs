@@ -1,0 +1,28 @@
+
+{
+  "mail"     : {
+                "admin"    : "emre@biochem.uthscsa.edu,curtisj@nist.gov"
+                ,"feedback" : "sassie2_test@googlegroups.com,emre@biochem.uthscsa.edu,curtisj@nist.gov"
+                ,"from"     : "sassie-web.chem.utk.edu"
+               }
+  ,"hostip"   : "192.168.56.101"
+  ,"hostname" : "192.168.56.101"
+  ,"messaging" : {
+                  "wsport"   : 8080
+                  ,"zmqhostip" : "127.0.0.1"
+                  ,"zmqport" : 37778
+                  ,"udphostip" : "127.0.0.1"
+                  ,"udpport" : 37779
+                 }
+  ,"resources" : {
+                  "local"     : ""
+                 }
+  ,"restricted" : {
+      "admin"      : [ "emre","joseph" ]
+      ,"alpha"     : [ "emre","joseph" ]
+      ,"beta"      : [ "emre","joseph" ]
+      ,"graveyard" : [ "emre","joseph" ]
+  }
+  ,"resourcedefault" : "local"
+  ,"submitpolicy"    : "login"
+}
