@@ -144,7 +144,7 @@ for my $key ( sort keys %data )
 	    
 	    $listbox_string = $role_clean . "~$role_clean" . "~" . $listbox_string; 
 	    $role_counter = 0;    
-	     while ($$href{$role} =~ /\S+/g)
+	    while ($$href{$role} =~ /\S+/g)
 	    {
 		++$role_counter;
 		
@@ -153,7 +153,7 @@ for my $key ( sort keys %data )
 	}
     }
     
-    #print $hash_counter . ", " . $role_counter . "\n";
+    $listbox_string =~ s/~$//; 
 
     my $id_key = $key;    # id
     my $label_key = $key; # label
