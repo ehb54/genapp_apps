@@ -20,10 +20,6 @@ $json = shift;
 $ref = decode_json( $json );
 
 $res = {};
-$int_data = {};
-
-#$$res{ "hi" } = "data_interpolation executable";
-
 $p = $$ref{ "_base_directory" };
 $$res{ "outputfile" } = "$p/quafit.txt";
 open OUT, ">$p/quafit.txt";
@@ -34,22 +30,15 @@ my $tag_id_key;
 open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
 while (my $line = <$fh>) {
     my $line_copy = $line;
-    #chomp $line;
-      
+    
+    # PROCESS SIMPLE FIELDS && COMPLEXER FIELDS OF SEVERAL VALUES  
     if ($line_copy =~ m/#TAG/ && $line_copy!~ m/%%%%/)
     {
 	$line =~ s/#TAG//;
 	chomp $line;
 	
 	my $id = (split(/[:]/, $line))[0];
-	my $dval = (split(/[:]/, $line))[-1];    ### FINISH FOR COMPLEX $dval FEILD (lines 81,82,85)
-	
-	#print OUT "TAG: $id : $dval \n\n";
-
-	$dval =~ s/\s+$//;
-	$dval =~ s/^\s*(.*?)\s*$/$1/;  # remove whitespace from both ends
-	#push @{$data[$id]}, $dval;
-	#print($id );
+	my $dval = (split(/[:]/, $line))[-1];
 	
 	my $id_key = $id;
 	$id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
@@ -58,13 +47,17 @@ while (my $line = <$fh>) {
 	$id_key =~ s/_$//;              # remove underscore at the end 
 	$id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
 
+	$dval =~ s/\s+$//;
+	$dval =~ s/^\s*(.*?)\s*$/$1/;  # remove whitespace from both ends
 
-	if ( length $id_key )
+	my @array1 = split /\s+/,$dval;
+	
+	if (@array1 == 1)
 	{
 	    my $label_key = $id; # label
 	    $label_key =~ tr/a-zA-Z0-9_(\/)[] //cd; 
 	    $label_key =~ s/^\s*(.*?)\s*$/$1/;
- 	    if ( $label_key =~ m/(1\/0)/ )
+	    if ( $label_key =~ m/(1\/0)/ )
 	    {
 		$id_key =~ s/_10//ig;
 		if ($dval == 0 && !(exists $ref->{$id_key}))   # Checkboxes!!
@@ -78,37 +71,52 @@ while (my $line = <$fh>) {
 		{
 		    print OUT "$id:0\n"; 
 		}
-	    }
-	    
-	    for my $key (keys  $ref )
-	    {
-		if ($id_key eq $key)
+		if ($$ref{$id_key} eq "on")
 		{
-		    if ($$ref{$key} eq "on")
-		    {
-			$$ref{$key} = "1";
-		    }
-		    print OUT "$id:$$ref{$key}\n";
+		    $$ref{$id_key} = "1";
+		    print OUT "$id:$$ref{$id_key}\n";
 		}
+	    }
+	    else
+	    {
+		print OUT "$id:$$ref{$id_key}\n";
 	    }
 	}
 	else
 	{
-	    print OUT $line_copy;
+	    my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
+	    
+	    my $tag_temp = "$array_ids[0]$id_key";
+	    
+	    if (exists $ref->{$tag_temp})
+	    {
+		print OUT "$id:";
+		for ( my $j = 0; $j < @array1; $j++)
+		{
+		    my $tag = "$array_ids[$j]$id_key";
+		    print OUT "  $$ref{$tag}  ";
+		}
+		print OUT "\n";
+	    }
+	    else
+	    {
+		$line_copy =~ s/#TAG//;
+		chomp $line_copy;
+		print OUT $line_copy . "\n"; 
+	    }
 	}
     }
     else 
     {
-	if ($line_copy =~ m/#TAG/ && $line_copy =~ m/%%%%/)
+	if ($line_copy =~ m/#TAG/ && $line_copy =~ m/%%%%/)     # LABELS in GenApp
 	{
 	    $line_copy =~ s/#TAG//;
-	    #chomp $line_copy;
-	    #$line_copy =~ s/\s+$//;
 	    print OUT $line_copy;
 	}
 	else
 	{
-	    if ($line_copy =~ m/#T_CBR/)   # 
+	    # PROCESS Listboxes #############################################################
+	    if ($line_copy =~ m/#T_CBR/)   
 	    {
 		$line_copy =~ s/#T_CBR//;
 		chomp $line_copy;
@@ -137,8 +145,6 @@ while (my $line = <$fh>) {
 		    }
 		    else 
 		    {
-			#print OUT "$id_cbr:$dval_cbr_1:";
-			
 			my $id = $dval_cbr_1;
 			$id =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
 			$id =~ tr/ /_/;             # replace whitespace with underscore
@@ -176,7 +182,6 @@ while (my $line = <$fh>) {
 			    }
 			}
 		    }
-		    
 		}
 		else 
 		{
@@ -235,7 +240,7 @@ while (my $line = <$fh>) {
 		    }
 		}
 	    }
-	    else
+	    else    # THE REST
 	    {
 		print OUT $line_copy;
 	    }
