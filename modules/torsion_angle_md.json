@@ -2,7 +2,7 @@
 {
     "moduleid" : "torsion_angle_md",
     "label"    : "Torsion Angle MD",
-#    "license"      : "CHARMM",
+    "license"      : "CHARMM",
     "fields"   : [
                    {
                    "role"       : "input",
@@ -209,6 +209,48 @@
                    "repeat" : "dna_checkbox",
                    "required" : "true"
                    },
+
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+
+                  {
+                   "role"    : "input",
+                   "id"      : "trajectory_check_box",
+                   "name"    : "trajectory_check_box",
+                   "label"    : "check box to save individual trajectories",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help" : "check box to save all structures from each trajectory", 
+                   "repeater"  : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "dcdfreq",
+                   "label"   : "DCD write frequency",
+                   "type"     : "text",
+                   "default" : "20",
+                   "required" : "true",
+                   "help" : "how often to save structures: should be a factor of the number of total number of TAMD steps",
+                   "repeat"  : "trajectory_check_box"
+                   },
+
                   {
                    "role"    : "output",
                    "id"      : "progress_output",
