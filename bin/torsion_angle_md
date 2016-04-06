@@ -165,11 +165,6 @@ class Tamd_Drv():
 		outfile = json_variables['outfile']
 		nsteps = json_variables['nsteps']
 
-		try:
-			dcdfreq = json_variables['dcdfreq']
-		except:
-			dcdfreq = nsteps 
-
 		temperature = json_variables['temperature']
 		number_flexible_segments = json_variables['number_flexible_segments']
 		pretamd_min_steps = json_variables['pretamd_min_steps']
@@ -226,6 +221,28 @@ class Tamd_Drv():
                                 return
 
                        	psegvariables.append([all_flexible_segnames[i],all_snumranges[i],srlow,srnum,mtype])
+
+
+                try:
+                        advanced_input = json_variables['advanced_input']
+                except:
+                        advanced_input = 'off'
+
+                if(advanced_input == "on"):
+                	try:
+                		trajectory_check_box = json_variables['trajectory_check_box']
+                	except:
+                        	trajectory_check_box = 'off'
+
+                	if(trajectory_check_box == "on"):
+
+				dcdfreq = json_variables['dcdfreq']
+			else:
+				dcdfreq = nsteps 
+
+                else:
+			dcdfreq = nsteps 
+
 
 	path = ''
 	svariables={}

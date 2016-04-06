@@ -61,27 +61,30 @@ class SCTCalc_Drv():
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string, (UDP_IP, UDP_PORT))
                     first = False
-                this_text = txtQueue.get(True, timeout=0.1)
-                text_split = string.split(this_text)
-                if(text_split[0] == 'STATUS'):
-                    value = locale.atof(text_split[1])
-                    svalue = str(100 * value)
-                    socket_dict['progress_output'] = value
-                    socket_dict['_progress'] = value
-                    socket_dict['progress_html'] = '<center>' + \
-                        svalue + '</center>'
-         	    if "_textarea" in socket_dict:
-         		del socket_dict["_textarea"]
-                    if socket_dict:
-                    	doc_string = json.dumps(socket_dict)
-                    	sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                else:
-                    socket_dict["_textarea"] = this_text
-                    if socket_dict:
-                    	doc_string = json.dumps(socket_dict)
-                    	sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
-                    total_string += this_text
+                if not txtQueue.empty():
+                #this_text = txtQueue.get(True, timeout=0.1)
+                    this_text = txtQueue.get()             
+                    text_split = string.split(this_text)
+                    if(text_split[0] == 'STATUS'):
+                        value = locale.atof(text_split[1])
+                        svalue = str(100 * value)
+                        socket_dict['progress_output'] = value
+                        socket_dict['_progress'] = value
+                        socket_dict['progress_html'] = '<center>' + \
+                            svalue + '</center>'
+                        if "_textarea" in socket_dict:
+                                del socket_dict["_textarea"]
+                        if socket_dict:
+                            doc_string = json.dumps(socket_dict)
+                            sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    else:
+                        socket_dict["_textarea"] = this_text
+                        if socket_dict:
+                            doc_string = json.dumps(socket_dict)
+                            sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+                        total_string += this_text
             except:
                 if not process.is_alive():
 

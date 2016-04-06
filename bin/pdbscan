@@ -167,16 +167,18 @@ class PDBScan_Drv():
 	
  		output_dict['outputpdb'] = refpdb
 	
-	try:
-		report_flag = str(total_string)
-		if report_flag == "header":
-			html_base_name = pdbfilename+'_header_pdbscan_output.html'
-		elif report_flag == "non_header":
-			html_base_name = pdbfilename+'_no_header_pdbscan_output.html'
-	except:
-		html_base_name = pdbfilename+'_header_pdbscan_output.html'
+#	try:
+#		report_flag = str(total_string)
+#		if report_flag == "header":
+#			html_base_name = pdbfilename+'_header_pdbscan_output.html'
+#		elif report_flag == "non_header":
+#			html_base_name = pdbfilename+'_no_header_pdbscan_output.html'
+#	except:
+#		html_base_name = pdbfilename+'_header_pdbscan_output.html'
  		
 	#html_base_name = pdbfilename+'header_pdbscan_output.html'
+
+	html_base_name = os.path.splitext(pdbfilename)[0] + '_pdbscan.html'
 
 	html_file = os.path.join(runname,self.module,html_base_name)
 

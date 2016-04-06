@@ -144,7 +144,7 @@ class CGenerate_Drv():
                                         "options": {
                                                 "title"  : "Rg Results",
                                                 "xlabel"  : "Structure Number",
-                                                "ylabel"  : "Rg (Angstrom^2)",
+                                                "ylabel"  : "Rg (Angstrom)",
 
                                                 "legend": {
 # "position" can be "ne" or "nw" or "se" or "sw"
@@ -311,8 +311,8 @@ class CGenerate_Drv():
 		else:
  			#basis = 'CA'
  			#cutoff = '3.0'
-			lowrg = "20.0"
-			highrg = "185.0"
+			lowrg = "0.0"
+			highrg = "1E9"
 			zcutoff = "0.0"
 			zflag_check_box = "off"
 			cflag_list_box = "off"

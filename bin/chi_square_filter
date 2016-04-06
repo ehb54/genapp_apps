@@ -164,7 +164,7 @@ class Chi_square_filter_Drv():
 
                         self.flot_data = {
                                        "options": {
-                                                "xlabel"  : "Rg",
+                                                "xlabel"  : "Rg (Angstrom)",
                                                 "ylabel"  : "Chi-square",
 
                                                 "legend": {
