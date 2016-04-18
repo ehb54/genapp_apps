@@ -1,0 +1,344 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "willitfit_test",
+    "label"    : "WillItFit",
+    "help"     : "help for WillItFit",
+    "fields"   : [
+
+ ############### Location of Data #####################################
+
+	       { 
+		   "role"     : "input",  
+		   "id"       : "location_of_data_label",
+		   "label"    : "INPUT DATA",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },
+                {
+                   "role"     : "input",
+                   "id"       : "data_location",
+                   "label"    : "Location of Data (.card file)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : ""
+                   },
+                 {
+                   "role"     : "input",
+                   "id"       : "sample_location",
+                   "label"    : "Location of Sample Info (.dat file)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : ""
+                   },
+
+	        {
+		    "role"     : "input",
+		    "id"       : "data_set_location",
+		    "label"    : "Input Data Set (.rad files)",
+		    "type"     : "file",
+		    "multiple" : "true",
+		    "array"    : "true",
+		    "required" : "true"
+		},
+
+############### Q limits #####################################
+
+	       { 
+		   "role"     : "input",  
+		   "id"       : "q_limits_label",
+		   "label"    : "Q-LIMITS",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },
+
+                  {
+                   "role"     : "input",
+                   "id"       : "qmin",
+                   "label"    : "QMin",
+                   "type"     : "text",
+                   "default"  : "0.0",
+		   "size"     : "6",   
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "qmax",
+                   "label"   : "QMax",
+                   "type"    : "text",
+                   "default" : "1.0",
+		   "size"     : "6",   
+                   "required" : "false"
+                   },
+
+############### MODEL #####################################
+
+	       { 
+		   "role"     : "input",  
+		   "id"       : "model_label",
+		   "label"    : "MODEL",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },
+                {
+		    "role"    : "input",
+		    "id"      : "model_list_box",
+		    "name"    : "model_list_box",
+		    "label"   : "",
+		    "type"    : "listbox",
+		    "values"  : "Anisotropic Core-Shell Micelles~anis_core_shell_micelles~Elliptic Cylinder~ellip_cyl~Nanodisk~nano~Nanodisk with Elliptic Cylinder as Membrane Protein~nano_ellip_cyl~Nanodisk with Cholesterol~nano_chol~Nanodisk with Curved Bilayer~nano_bilayer~Nanodisk with Tags~nano_tags~Nanodisk with Tags and Curved Bilayer~nano_tags_bilayer",
+		    "default" : "anis_core_shell_micelles",
+		    "repeater" : "yes",
+		    "help"     : ""
+		},
+		
+	       {
+                    "role"     : "input",
+                    "id"       : "nano_tags_model_list_box",
+                    "label"    : "Parameter File: ",
+                    "type"     : "lrfile",
+                    "help"     : "",
+                    "repeat"   : "model_list_box:nano_tags"
+                },	
+
+############### Algorithm #####################################
+
+	       { 
+		   "role"     : "input",  
+		   "id"       : "algorithm_label",
+		   "label"    : "ALGORITHM",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },
+	
+                {
+		    "role"    : "input",
+		    "id"      : "algorithm_list_box",
+		    "name"    : "algorithm_list_box",
+		    "label"   : "",
+		    "type"    : "listbox",
+		    "values"  : "Compute Model~comp_model~Levenberg-Marquardt~lm~Gridsearch (LM)~grid_lm~Swarm~swarm~Genetic~genetic~Profile Likelihood~profile_likelihood~PLH (Single Parameter)~plh",
+		    "default" : "comp_model",
+		    "repeater" : "yes",
+		    "help"     : ""
+		},
+	       {
+                    "role"     : "input",
+                    "id"       : "print_covariance_matrix_lm",
+                    "label"    : "Print Covariance Matrix: ",
+                    "type"     : "checkbox",
+                    "checked"  : "false",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:lm"
+                },	
+
+	       {
+                    "role"     : "input",
+                    "id"       : "number_of_cycles_grid_lm",
+                    "label"    : "# of Cycles: ",
+                    "type"     : "text",
+                    "default"  : "9",
+		    "size"     : "6",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:grid_lm"
+                },		
+
+	       {
+                    "role"     : "input",
+                    "id"       : "number_of_agents_swarm",
+                    "label"    : "# of Agents: ",
+                    "type"     : "text",
+		    "size"     : "6",
+                    "default"  : "32",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:swarm"
+                },		
+	       {
+                    "role"     : "input",
+                    "id"       : "number_of_flights_swarm",
+                    "label"    : "# of Flights: ",
+                    "type"     : "text",
+		    "size"     : "6",
+                    "default"  : "3",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:swarm"
+                },	
+
+	       {
+                    "role"     : "input",
+                    "id"       : "number_of_individuals_genetic",
+                    "label"    : "# of Individuals: ",
+                    "type"     : "text",
+                    "default"  : "100",
+		    "size"     : "6",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:genetic"
+                },		
+	       {
+                    "role"     : "input",
+                    "id"       : "number_of_generations_genetic",
+                    "label"    : "# of Generations: ",
+                    "type"     : "text",
+                    "default"  : "10",
+		    "size"     : "6",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:genetic"
+                },		
+
+	       {
+                    "role"     : "input",
+                    "id"       : "fractile_prof_likelihood",
+                    "label"    : "Fractile: ",
+                    "type"     : "text",
+                    "default"  : "3.84",
+		    "size"     : "6",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:profile_likelihood"
+                },		
+	       {
+                    "role"     : "input",
+                    "id"       : "number_of_cycles_prof_likelihood",
+                    "label"    : "# of Cycles: ",
+                    "type"     : "text",
+                    "default"  : "3",
+		    "size"     : "6",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:profile_likelihood"
+                },				
+
+	       {
+                    "role"     : "input",
+                    "id"       : "fractile_plh",
+                    "label"    : "Fractile: ",
+                    "type"     : "text",
+                    "default"  : "3.84",
+		    "size"     : "6",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:plh"
+                },		
+	       {
+                    "role"     : "input",
+                    "id"       : "number_of_cycles_plh",
+                    "label"    : "# of Cycles: ",
+                    "type"     : "text",
+                    "default"  : "3",
+		    "size"     : "6",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:plh"
+                },		
+	       {
+                    "role"     : "input",
+                    "id"       : "id_of_parameters_plh",
+                    "label"    : "ID of Parameters: ",
+                    "type"     : "text",
+                    "default"  : "0",
+		    "size"     : "6",
+                    "required" : "true",
+                    "help"     : "",
+                    "repeat"   : "algorithm_list_box:plh"
+                },		
+
+################## Resolution Effects ##########################
+	       { 
+		   "role"     : "input",  
+		   "id"       : "res_effects_label",
+		   "label"    : "RESOLUTION EFFECTS",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },	
+	
+               { 
+                     "role"     : "input",  
+                     "id"       : "include_res_effects",
+                     "label"    : "Include Resolution Effects ?",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "repeater" : "true",
+		     "help"     : ""
+	       },
+               {
+                  "role"     : "input",
+                  "id"       : "number_of_steps",
+                  "label"    : "Number of Steps:",
+                  "type"     : "text",
+                  "default"  : "14",
+		  "size"     : "6", 
+                  "required" : "true",
+                  "help"     : "",
+                  "repeat"   : "include_res_effects"
+                },	
+               {
+                   "role"     : "input",
+                   "id"       : "res_file_location",
+                   "label"    : "Location of .res File",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : "",
+		   "repeat"   : "include_res_effects"
+               },	
+               {
+                   "role"     : "input",
+                   "id"       : "pdb_file_location",
+                   "label"    : "Location of .pdb File",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : "",
+		   "repeat"   : "include_res_effects"
+               },	
+		
+
+	
+##################################################################
+	
+                  {
+                   "role"  : "output",
+                   "id"    : "outputfile_results",
+                   "label" : "Results: ",
+                   "type"  : "file"
+                   },
+                  {
+                   "role"  : "output",
+                   "id"    : "outputfile_dat1",
+                   "label" : "Data_1: ",
+                   "type"  : "file"
+                   },
+                  {
+                   "role"  : "output",
+                   "id"    : "outputfile_fit1",
+                   "label" : "Fit_1: ",
+                   "type"  : "file"
+                   },
+                 {
+                   "role"  : "output",
+                   "id"    : "fit_plot",
+                   "label" : "Fit Plot:",
+                   "type"  : "plot2d",
+		   "height": "400px",
+		   "width" : "600px",
+		   "pan"   : "true",
+		   "zoom"  : "true",
+		   "hover" : "true"
+                   }
+                  ],
+# the executable will take inputs in order and produce output
+    "executable"   : "willitfit_bin.py",
+    "submitpolicy" : "all"
+}
