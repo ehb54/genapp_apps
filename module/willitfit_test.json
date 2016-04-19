@@ -143,8 +143,10 @@
                     "role"     : "input",
                     "id"       : "number_of_cycles_grid_lm",
                     "label"    : "# of Cycles: ",
-                    "type"     : "text",
-                    "default"  : "9",
+                    "type"     : "integer",
+                    "default"  : 10,
+		    "min"      : 1,
+		    "max"      : 10000,
 		    "size"     : "6",
                     "required" : "true",
                     "help"     : "",
@@ -155,9 +157,11 @@
                     "role"     : "input",
                     "id"       : "number_of_agents_swarm",
                     "label"    : "# of Agents: ",
-                    "type"     : "text",
+                    "type"     : "integer",
+		    "min"      : 1,
+		    "max"      : 10000,
 		    "size"     : "6",
-                    "default"  : "32",
+                    "default"  : 32,
                     "required" : "true",
                     "help"     : "",
                     "repeat"   : "algorithm_list_box:swarm"
@@ -166,9 +170,11 @@
                     "role"     : "input",
                     "id"       : "number_of_flights_swarm",
                     "label"    : "# of Flights: ",
-                    "type"     : "text",
+                    "type"     : "integer",
+		    "min"      : 1,
+		    "max"      : 10000,
 		    "size"     : "6",
-                    "default"  : "3",
+                    "default"  : 3,
                     "required" : "true",
                     "help"     : "",
                     "repeat"   : "algorithm_list_box:swarm"
@@ -178,8 +184,10 @@
                     "role"     : "input",
                     "id"       : "number_of_individuals_genetic",
                     "label"    : "# of Individuals: ",
-                    "type"     : "text",
-                    "default"  : "100",
+                    "type"     : "integer",
+		    "min"      : 1,
+		    "max"      : 10000,
+                    "default"  : 100,
 		    "size"     : "6",
                     "required" : "true",
                     "help"     : "",
@@ -189,8 +197,10 @@
                     "role"     : "input",
                     "id"       : "number_of_generations_genetic",
                     "label"    : "# of Generations: ",
-                    "type"     : "text",
-                    "default"  : "10",
+                    "type"     : "integer",
+		    "min"      : 1,
+		    "max"      : 10000,
+                    "default"  : 10,
 		    "size"     : "6",
                     "required" : "true",
                     "help"     : "",
@@ -201,8 +211,8 @@
                     "role"     : "input",
                     "id"       : "fractile_prof_likelihood",
                     "label"    : "Fractile: ",
-                    "type"     : "text",
-                    "default"  : "3.84",
+                    "type"     : "float",
+                    "default"  : 3.84,
 		    "size"     : "6",
                     "required" : "true",
                     "help"     : "",
@@ -212,8 +222,10 @@
                     "role"     : "input",
                     "id"       : "number_of_cycles_prof_likelihood",
                     "label"    : "# of Cycles: ",
-                    "type"     : "text",
-                    "default"  : "3",
+                    "type"     : "integer",
+		    "min"      : 1,
+		    "max"      : 10000,
+                    "default"  : 3,
 		    "size"     : "6",
                     "required" : "true",
                     "help"     : "",
@@ -224,8 +236,8 @@
                     "role"     : "input",
                     "id"       : "fractile_plh",
                     "label"    : "Fractile: ",
-                    "type"     : "text",
-                    "default"  : "3.84",
+                    "type"     : "float",
+                    "default"  : 3.84,
 		    "size"     : "6",
                     "required" : "true",
                     "help"     : "",
@@ -235,8 +247,10 @@
                     "role"     : "input",
                     "id"       : "number_of_cycles_plh",
                     "label"    : "# of Cycles: ",
-                    "type"     : "text",
-                    "default"  : "3",
+                    "type"     : "integer",
+                    "default"  : 3,
+		    "min"      : 1,
+		    "max"      : 10000,
 		    "size"     : "6",
                     "required" : "true",
                     "help"     : "",
@@ -246,8 +260,10 @@
                     "role"     : "input",
                     "id"       : "id_of_parameters_plh",
                     "label"    : "ID of Parameters: ",
-                    "type"     : "text",
-                    "default"  : "0",
+                    "type"     : "integer",
+		    "min"      : 1,
+		    "max"      : 10000,
+                    "default"  : 0,
 		    "size"     : "6",
                     "required" : "true",
                     "help"     : "",
@@ -264,7 +280,6 @@
 		   "posthline": "true",
 		   "default"  : ""
 	       },	
-	
                { 
                      "role"     : "input",  
                      "id"       : "include_res_effects",
@@ -278,8 +293,10 @@
                   "role"     : "input",
                   "id"       : "number_of_steps",
                   "label"    : "Number of Steps:",
-                  "type"     : "text",
-                  "default"  : "14",
+                  "type"     : "integer",
+                  "default"  : 15,
+		  "min"      : 5,
+		  "max"      : 25,
 		  "size"     : "6", 
                   "required" : "true",
                   "help"     : "",
@@ -313,20 +330,88 @@
                    "id"    : "outputfile_results",
                    "label" : "Results: ",
                    "type"  : "file"
+                   },	
+                  {
+                   "role"  : "output",
+                   "id"    : "outputfile_parameters",
+                   "label" : "Parameters: ",
+                   "type"  : "file"
                    },
+                  {
+                   "role"  : "output",
+                   "id"    : "outputfile_covariance",
+                   "label" : "Covariance Matrix: ",
+                   "type"  : "file"
+                   },	
                   {
                    "role"  : "output",
                    "id"    : "outputfile_dat1",
                    "label" : "Data_1: ",
                    "type"  : "file"
                    },
-                  {
+	           {
+                   "role"  : "output",
+                   "id"    : "outputfile_dat2",
+                   "label" : "Data_2: ",
+                   "type"  : "file"
+                   },
+	           {
+                   "role"  : "output",
+                   "id"    : "outputfile_dat3",
+                   "label" : "Data_3: ",
+                   "type"  : "file"
+                   },
+	           {
+                   "role"  : "output",
+                   "id"    : "outputfile_dat4",
+                   "label" : "Data_4: ",
+                   "type"  : "file"
+                   },
+	           {
+                   "role"  : "output",
+                   "id"    : "outputfile_dat5",
+                   "label" : "Data_5: ",
+                   "type"  : "file"
+                   },	
+                   {
                    "role"  : "output",
                    "id"    : "outputfile_fit1",
                    "label" : "Fit_1: ",
                    "type"  : "file"
                    },
-                 {
+                   {
+                   "role"  : "output",
+                   "id"    : "outputfile_fit2",
+                   "label" : "Fit_2: ",
+                   "type"  : "file"
+                   },
+                    {
+                   "role"  : "output",
+                   "id"    : "outputfile_fit3",
+                   "label" : "Fit_3: ",
+                   "type"  : "file"
+                   },
+                   {
+                   "role"  : "output",
+                   "id"    : "outputfile_fit4",
+                   "label" : "Fit_4: ",
+                   "type"  : "file"
+                   },
+                   {
+                   "role"  : "output",
+                   "id"    : "outputfile_fit5",
+                   "label" : "Fit_5: ",
+                   "type"  : "file"
+                   },
+                   {
+                   "role"  : "output",
+                   "id"    : "chi_sqr",
+                   "label" : "Chi_sqr: ",
+		   "size"     : "6",
+                   "type"  : "text"
+                   },
+             
+	           {
                    "role"  : "output",
                    "id"    : "fit_plot",
                    "label" : "Fit Plot:",

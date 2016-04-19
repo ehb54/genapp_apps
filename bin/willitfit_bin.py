@@ -15,7 +15,7 @@ if (len(sys.argv) < 1):
     print "\{\"error\":\"module called with no arguments\"\}\n";
     #print 'exiting now'
 
-
+#### Get Data #####################################################
 def GetData(filename):
     file = open(filename, 'rU')
     data = file.readlines()
@@ -61,8 +61,71 @@ def GetData(filename):
     
     return xDataFlt, yDataFlt, wDataFlt, Contrast
 
-##### END of GetData #############################################
+## Function for copying results to appropriate directories
+def PrintResultsToCardfileDirectory():
+    DataArr = []
+    FitArr = []
+    
+    for root, dirs, files in os.walk('./'):
+        for name in files:
+            Filename = os.path.join(root, name)
+            
+            if os.path.splitext(Filename)[1] == '.dat':
+                ShortName = os.path.basename(Filename)
+                
+                if ShortName[0:3] == 'fit':
+                    FitArr.append(os.path.join('.data/', ShortName))
+                    
+                if ShortName[0:3] == 'dat':
+                    DataArr.append(os.path.join('.data/', ShortName))
+    
+    for file in FitArr:
+        try:
+            shutil.copy(file, ResultsDirectory)
+        except:
+            pass
+    
+    for file in DataArr:
+        try:
+            shutil.copy(file, ResultsDirectory)
+        except:
+            pass
+    
+    try:
+        shutil.copy(os.path.join('.data/', 'CovarianceMatrix.dat'), ResultsDirectory)
+    except:
+        pass
+    
+    try:
+        shutil.copy('ParametersAfter.mcp', os.path.join(ResultsDirectory, 'LastFit.par'))
+    except:
+        pass
 
+
+############# End of Copy Results ################################################
+## Function for clearing directory of old data-files and parameter-files
+def ClearOldData():
+    try:
+        shutil.rmtree('./.data/')
+    except:
+        pass
+
+## End of Clear ####################
+def GetChisquare():
+    file = open(os.path.join('./.data', 'ReturnMessage.mcp'), 'rU')
+    Chisquare = file.readlines()[0]
+    file.close()
+    
+    return Chisquare
+
+def GetReturnMessage():
+    file = open(os.path.join('./.data', 'ReturnMessage.mcp'), 'rU')
+    ReturnMessage = file.readline()
+    file.close()
+    
+    return ReturnMessage
+
+#### MAIN ####################################################################
 
 json_variables = " "
 
@@ -75,13 +138,14 @@ data_set_location = json_variables['data_set_location']
 
 qmin = json_variables['qmin']
 qmax = json_variables['qmax']
+ChiSquareFractile = 0.0
 
 param_file = json_variables['nano_tags_model_list_box']
 
-try:
-    shutil.rmtree('./.data/')
-except:
-    pass
+algoritnm_list = json_variables['algorithm_list_box']
+
+
+ClearOldData()
 os.mkdir('./.data/')
 
 try:
@@ -94,7 +158,7 @@ for i in range(len(data_set_location)):
     shutil.move(data_set_location[i], "./data")
 
 
-#############################################
+###### LOGIC  #######################################
 
 DataStr = data_location[0]
 #DataStr = 'Example.card'
@@ -105,16 +169,81 @@ SamplesStr = sample_location[0]
 ParametersStr = param_file[0]
 #ParametersStr = 'ParametersBefore.mcp'
 
+if algoritnm_list == 'comp_model':
+    FittingRoutine = 0
+    FittingRoutineArgument2 = 0
+    FittingRoutineArgument3 = 0
+elif algoritnm_list == 'lm':
+    FittingRoutine = 1
+    FittingRoutineArgument2 = 0
+    FittingRoutineArgument3 = 0
+elif algoritnm_list == 'grid_lm':
+    FittingRoutine = 2
+    FittingRoutineArgument2 = int(json_variables['number_of_cycles_grid_lm'])
+    FittingRoutineArgument3 = 0
+elif algoritnm_list == 'swarm':
+    FittingRoutine = 5
+    FittingRoutineArgument2 = int(json_variables['number_of_flights_swarm'])
+    FittingRoutineArgument3 = int(json_variables['number_of_agents_swarm'])
+elif algoritnm_list == 'genetic':
+    FittingRoutine = 6
+    FittingRoutineArgument2 = int(json_variables['number_of_individuals_genetic'])
+    FittingRoutineArgument3 = int(json_variables['number_of_generations_genetic'])
+elif algoritnm_list == 'profile_likelihood':
+    FittingRoutine = 7
+    ChiSquareFractile = float(json_variables['fractile_prof_likelihood'])
+    FittingRoutineArgument2 = 0
+    FittingRoutineArgument3 = int(json_variables['number_of_cycles_prof_likelihood'])
+else:
+    FittingRoutine = 8
+    ChiSquareFractile = float(json_variables['fractile_plh'])
+    FittingRoutineArgument2 = int(json_variables['id_of_parameters_plh']) 
+    FittingRoutineArgument3 = int(json_variables['number_of_cycles_plh'])
+
+if 'include_res_effects' in json_variables:      
+    NumberOfSteps = int(json_variables['number_of_steps'])
+    resolution_location = json_variables['res_file_location']
+    pdb_location = json_variables['pdb_file_location']
+    ResolutionFileName = resolution_location[0]
+    PDBStr = pdb_location[0]
+else:
+    NumberOfSteps = 0
+    ResolutionFileName = 'N/A'
+    PDBStr = 'N/A'
+
+if 'print_covariance_matrix_lm' in json_variables:
+    PrintCorrelationInt = 1
+else:
+    PrintCorrelationInt = 0
+
+
+
+#############################################
+
 MinQStr = qmin
 MaxQStr = qmax
-FittingRoutine = 0
-FittingRoutineArgument2 = 0
-NumberOfSteps = 0
-ResolutionFileName = 'N/A'
-PrintCorrelationInt = 0
-PDBStr = 'N/A'
-ChiSquareFractile = 0
-FittingRoutineArgument3 = 0 
+#FittingRoutine = 0
+#FittingRoutineArgument2 = 0
+#NumberOfSteps = 0
+#ResolutionFileName = 'N/A'
+#PrintCorrelationInt = 0
+#PDBStr = 'N/A'
+#ChiSquareFractile = 0
+#FittingRoutineArgument3 = 0 
+
+Cardfilename = os.path.basename(DataStr)
+try:
+    ResultsDirectory = './' + Cardfilename + '-results/'
+    os.mkdir(ResultsDirectory)
+except:
+    pass
+
+if FittingRoutine == 7 or FittingRoutine == 8:
+    try:
+        os.mkdir('ProfileLikelihood')
+    except:
+        pass
+
 
 Compilerflags = ['-O3', '-lm']
 
@@ -124,7 +253,6 @@ ExecutableFileLocation = os.path.join("./WillItFit.com")
 
 CompilerArguments = ["/usr/bin/gcc", SourceFileLocation, "-o", ExecutableFileLocation] + Compilerflags
 Compilationresult = subprocess.call(CompilerArguments)
-
 
 ##############################################
 
@@ -146,38 +274,18 @@ ProcessToCall.append('-d=%s' % PDBStr)
 ProcessToCall.append('-h=%s' % ChiSquareFractile)
 ProcessToCall.append('-a=%d' % FittingRoutineArgument3)
 
-
 #print ProcessToCall
-
-#args = "/home/alexey/WillItFit/For_genapp/a.out 4 10".split()
-#print args
 
 Process = subprocess.Popen(ProcessToCall)
 Process.wait()
 
-
-#fo = open("./Diff_q", "r")
-
-#Results = []
-#program_res = fo.readlines()
-#for line in program_res:
-#    Results.append(line)
-
-
-
-##############################################
-
-output_res = {}
-
-base_dir = json_variables[ '_base_directory' ]
-ResultsFileLocation = str(base_dir) + "/Results.wif"
-DataFile1 = str(base_dir) + "/.data/dat1.dat"
-DataFitFile1 = str(base_dir) + "/.data/fit1s.dat"
-
-output_res[ 'outputfile_results' ] = str(ResultsFileLocation)
-output_res[ 'outputfile_dat1' ] = str(DataFile1)
-output_res[ 'outputfile_fit1' ] = str(DataFitFile1)
-#output_res['output'] = 'NO'
+# Display concluding message and new parameters
+try:
+    #PrintParameters('ParametersAfter.mcp')
+    PrintResultsToCardfileDirectory()
+    Chisquare = GetChisquare()
+except:
+    ReturnMessage = GetReturnMessage()
 
 
 #### PLOT  ############################################
@@ -237,7 +345,7 @@ for i in range(NumberOfSets):
     #xDataArr_log = [log1p(ii) for ii in xDataArr]
     #yDataArr_log = [log1p(ii) for ii in yDataArr]
 
-    #print yDataArr
+    #print xDataArr
 
     min_data_x.append( min(ii for ii in xDataArr ) )
     min_data_y.append( min(ii for ii in yDataArr if ii > 0 ) )
@@ -319,10 +427,35 @@ for i in range(NumberOfSets):
     }
     flot_data['data'].append(current_set_fit)
 
-### END PLOT ################################################
 
+### OUTPUT JSON ###########################################
+
+output_res = {}
+
+base_dir = json_variables[ '_base_directory' ]
+ResultsFileLocation = str(base_dir) + "/Results.wif"
+output_res[ 'outputfile_results' ] = str(ResultsFileLocation)
+
+for i in range(NumberOfSets):
+    DataFile = str(base_dir) + '/' + ResultsDirectory + "dat" + str(i+1) + ".dat"
+    outputfile_dat = "outputfile_dat" + str(i+1)
+    output_res[ outputfile_dat ] = DataFile
+
+for i in range(NumberOfSets):
+    FitFile = str(base_dir) + '/' + ResultsDirectory + "fit" + str(i+1) + "s.dat"
+    outputfile_fit = "outputfile_fit" + str(i+1)
+    output_res[ outputfile_fit ] = DataFile
+
+
+output_res[ 'outputfile_parameters' ] = str(base_dir) + '/' + ResultsDirectory + "LastFit.par"
+
+if PrintCorrelationInt == 1:
+    output_res[ 'outputfile_covariance' ] = str(base_dir) + '/' + ResultsDirectory + "CovarianceMatrix.dat"
+
+output_res[ 'chi_sqr' ] = Chisquare
 output_res[ 'fit_plot' ] = flot_data
 
 print json.dumps( output_res )
 
 #os.remove(ExecutableFileLocation)
+ClearOldData()
