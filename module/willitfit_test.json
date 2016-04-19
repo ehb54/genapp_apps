@@ -96,13 +96,22 @@
 		    "repeater" : "yes",
 		    "help"     : ""
 		},
-		
+	        {
+                    "role"     : "input",
+                    "id"       : "anis_core_shell_micelles_model_list_box",
+                    "label"    : "Parameter File: ",
+                    "type"     : "lrfile",
+                    "help"     : "",
+		    "required" : "false",
+                    "repeat"   : "model_list_box:anis_core_shell_micelles"
+                },	
 	       {
                     "role"     : "input",
                     "id"       : "nano_tags_model_list_box",
                     "label"    : "Parameter File: ",
                     "type"     : "lrfile",
                     "help"     : "",
+		    "required" : "false",
                     "repeat"   : "model_list_box:nano_tags"
                 },	
 
@@ -343,66 +352,20 @@
                    "label" : "Covariance Matrix: ",
                    "type"  : "file"
                    },	
-                  {
+	           {
                    "role"  : "output",
-                   "id"    : "outputfile_dat1",
-                   "label" : "Data_1: ",
-                   "type"  : "file"
+                   "id"    : "outputfiles_data",
+                   "label" : "Data Files: ",
+                   "type"  : "file",
+		   "multiple": "true"    
                    },
 	           {
                    "role"  : "output",
-                   "id"    : "outputfile_dat2",
-                   "label" : "Data_2: ",
-                   "type"  : "file"
-                   },
-	           {
-                   "role"  : "output",
-                   "id"    : "outputfile_dat3",
-                   "label" : "Data_3: ",
-                   "type"  : "file"
-                   },
-	           {
-                   "role"  : "output",
-                   "id"    : "outputfile_dat4",
-                   "label" : "Data_4: ",
-                   "type"  : "file"
-                   },
-	           {
-                   "role"  : "output",
-                   "id"    : "outputfile_dat5",
-                   "label" : "Data_5: ",
-                   "type"  : "file"
+                   "id"    : "outputfiles_fit",
+                   "label" : "Fit Files: ",
+                   "type"  : "file",
+		   "multiple": "true"    
                    },	
-                   {
-                   "role"  : "output",
-                   "id"    : "outputfile_fit1",
-                   "label" : "Fit_1: ",
-                   "type"  : "file"
-                   },
-                   {
-                   "role"  : "output",
-                   "id"    : "outputfile_fit2",
-                   "label" : "Fit_2: ",
-                   "type"  : "file"
-                   },
-                    {
-                   "role"  : "output",
-                   "id"    : "outputfile_fit3",
-                   "label" : "Fit_3: ",
-                   "type"  : "file"
-                   },
-                   {
-                   "role"  : "output",
-                   "id"    : "outputfile_fit4",
-                   "label" : "Fit_4: ",
-                   "type"  : "file"
-                   },
-                   {
-                   "role"  : "output",
-                   "id"    : "outputfile_fit5",
-                   "label" : "Fit_5: ",
-                   "type"  : "file"
-                   },
                    {
                    "role"  : "output",
                    "id"    : "chi_sqr",

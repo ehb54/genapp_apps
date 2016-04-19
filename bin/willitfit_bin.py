@@ -125,9 +125,15 @@ def GetReturnMessage():
     
     return ReturnMessage
 
+#############################################################################
+
+
+
 #### MAIN ####################################################################
 
 json_variables = " "
+
+InputDir = '/home/alexey/WillItFit/Source'
 
 argv_io_string = StringIO(sys.argv[1])
 json_variables = json.load(argv_io_string)
@@ -139,8 +145,6 @@ data_set_location = json_variables['data_set_location']
 qmin = json_variables['qmin']
 qmax = json_variables['qmax']
 ChiSquareFractile = 0.0
-
-param_file = json_variables['nano_tags_model_list_box']
 
 algoritnm_list = json_variables['algorithm_list_box']
 
@@ -166,8 +170,6 @@ DataStr = data_location[0]
 SamplesStr = sample_location[0]
 #SamplesStr = 'Example.dat'
 
-ParametersStr = param_file[0]
-#ParametersStr = 'ParametersBefore.mcp'
 
 if algoritnm_list == 'comp_model':
     FittingRoutine = 0
@@ -217,7 +219,6 @@ else:
     PrintCorrelationInt = 0
 
 
-
 #############################################
 
 MinQStr = qmin
@@ -245,16 +246,121 @@ if FittingRoutine == 7 or FittingRoutine == 8:
         pass
 
 
+### Create header for specific model #########
+
+#ModelFunctionInt = event.GetSelection()
+model_list = json_variables['model_list_box']
+
+if model_list == 'anis_core_shell_micelles':
+    ModelPath = 'AnisotropicCoreShellMicelles'
+    #param_file = json_variables['anis_core_shell_micelles_model_list_box']
+
+elif model_list == 'ellip_cyl':
+    ModelPath = 'EllipticCylinder'
+    #param_file = json_variables['ellip_cyl_model_list_box']
+
+elif model_list == 'nano':
+    ModelPath = 'Nanodisc'
+    #param_file = json_variables['nano_model_list_box']
+
+elif model_list == 'nano_ellip_cyl':
+    ModelPath = 'NanodiscWithEllipticCylinderAsMembraneProtein'
+    #param_file = json_variables['nano_ellip_cyl_model_list_box']
+
+elif model_list == 'nano_chol':
+    ModelPath = 'NanodiscWithCholesterol'
+    #param_file = json_variables['nano_chol_model_list_box']
+
+elif model_list == 'nano_bilayer':
+    ModelPath = 'NanodiscWithEllipsoidalEndcaps'
+    #param_file = json_variables['nano_bilayer_model_list_box']
+
+else: #model_list == 'nano_tags_bilayer'
+    ModelPath = 'NanodiscWithTagsAndEllipsoidalEndcaps'
+    #param_file = json_variables['nano_tags_bilayer_model_list_box']
+
+
+#ParametersStr = param_file[0]
+
+HeaderFile = open(os.path.join(InputDir, 'Auxillary', 'ModelLocation.h'), "w+")
+HeaderFile.write('#include "' + os.path.join(InputDir, 'Models', ModelPath, 'ModelInfo.h') + '"')
+HeaderFile.close()
+
+for File in os.listdir(os.path.join(InputDir, 'Models', ModelPath)):
+    if os.path.splitext(File)[1] == '.par':
+        ParameterFileName = File
+        ParameterFileFound = True
+
+PathToParameterFile = os.path.join(os.path.join(InputDir, 'Models', ModelPath, ParameterFileName))
+#CreateParameters(PathToParameterFile)
+#PrintParameters(PathToParameterFile)
+
+
+file_par = open(PathToParameterFile, 'rU')
+ParametersArr = file_par.readlines()
+file_par.close()
+
+ParameterMin = []
+ParameterValues = []
+ParameterMax = []
+ParameterOnOff = []
+ParameterNames = []
+
+for line in ParametersArr:
+    LineArr = re.split(r'[\s]*', line)
+    ParameterMin.append(LineArr[0])
+    ParameterValues.append(LineArr[1])
+    ParameterMax.append(LineArr[2])
+    ParameterOnOff.append(LineArr[3])
+    ParameterNames.append(LineArr[4])
+
+#OnOff = []
+NumberOfParameters = len(ParameterValues)
+
+# Build dummy parameter file
+file_par_dummy = open('ParametersBefore.mcp','w')
+
+i = 0
+#OnOffToPrint = []
+NoFreeParameters = True
+
+for line in ParameterValues:
+    #if self.Checkboxes[i].GetValue():
+    #    OnOffToPrint.append('0')
+    #    NoFreeParameters = False
+    #else:
+    #    OnOffToPrint.append('1')
+    
+    LineToWrite = ParameterMin[i] + '   ' + \
+                  ParameterValues[i] + '   ' + \
+                  ParameterMax[i] + '   ' + \
+                  ParameterOnOff[i] + '   ' + \
+                  ParameterNames[i] + '\n'
+    
+    file_par_dummy.write(LineToWrite)
+    
+    i = i + 1
+
+file_par_dummy.close()
+
+
+ParametersStr = 'ParametersBefore.mcp'
+
+try:
+    os.remove('ParametersAfter.mcp')
+except:
+    pass
+
+############## Compile C-module and run ################
 Compilerflags = ['-O3', '-lm']
 
-# Compile C-module and run
-SourceFileLocation = os.path.join("/home/alexey/WillItFit/Source", "WillItFit.c")
+SourceFileLocation = os.path.join(InputDir, "WillItFit.c")
 ExecutableFileLocation = os.path.join("./WillItFit.com")
 
 CompilerArguments = ["/usr/bin/gcc", SourceFileLocation, "-o", ExecutableFileLocation] + Compilerflags
 Compilationresult = subprocess.call(CompilerArguments)
 
-##############################################
+#######################################################
 
 #print CompilerArguments
 
@@ -432,20 +538,24 @@ for i in range(NumberOfSets):
 
 output_res = {}
 
+outputfilesarr_data = []
+outputfilesarr_fit = []
+
 base_dir = json_variables[ '_base_directory' ]
 ResultsFileLocation = str(base_dir) + "/Results.wif"
 output_res[ 'outputfile_results' ] = str(ResultsFileLocation)
 
 for i in range(NumberOfSets):
     DataFile = str(base_dir) + '/' + ResultsDirectory + "dat" + str(i+1) + ".dat"
-    outputfile_dat = "outputfile_dat" + str(i+1)
-    output_res[ outputfile_dat ] = DataFile
-
+    outputfilesarr_data.append(DataFile)
+    
 for i in range(NumberOfSets):
     FitFile = str(base_dir) + '/' + ResultsDirectory + "fit" + str(i+1) + "s.dat"
-    outputfile_fit = "outputfile_fit" + str(i+1)
-    output_res[ outputfile_fit ] = DataFile
+    outputfilesarr_fit.append(FitFile)
+    
 
+output_res[ 'outputfiles_data' ] = outputfilesarr_data
+output_res[ 'outputfiles_fit' ] = outputfilesarr_fit
 
 output_res[ 'outputfile_parameters' ] = str(base_dir) + '/' + ResultsDirectory + "LastFit.par"
 
