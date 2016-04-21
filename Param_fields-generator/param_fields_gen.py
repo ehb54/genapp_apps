@@ -78,6 +78,6 @@ for ModelPath in ModelList:
                     Size = '17'
                     #type = 'label'
                     type = 'text'
-                    Label_add = str(i) + ': '
+                    Label_add = str(i) + ':'
                 
                 print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '"\n},\n' 

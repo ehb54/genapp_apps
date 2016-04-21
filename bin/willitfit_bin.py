@@ -275,6 +275,10 @@ elif model_list == 'nano_bilayer':
     ModelPath = 'NanodiscWithEllipsoidalEndcaps'
     #param_file = json_variables['nano_bilayer_model_list_box']
 
+elif model_list == 'nano_tags':
+    ModelPath = 'NanodiscWithTags'
+    #param_file = json_variables['nano_bilayer_model_list_box']
+
 else: #model_list == 'nano_tags_bilayer'
     ModelPath = 'NanodiscWithTagsAndEllipsoidalEndcaps'
     #param_file = json_variables['nano_tags_bilayer_model_list_box']
@@ -306,16 +310,52 @@ ParameterMax = []
 ParameterOnOff = []
 ParameterNames = []
 
+
+IdList = []
+Labels = ['Min: ','Value: ','Max: ','Fit?: ','Name: ']
+
 for line in ParametersArr:
     LineArr = re.split(r'[\s]*', line)
-    ParameterMin.append(LineArr[0])
-    ParameterValues.append(LineArr[1])
-    ParameterMax.append(LineArr[2])
-    ParameterOnOff.append(LineArr[3])
-    ParameterNames.append(LineArr[4])
+    del LineArr[-1]
+    Fields = len(LineArr)
+    
+    for fieldscurr in range(Fields):
+        id_str = ModelPath + Labels[fieldscurr] + LineArr[-1]
+        
+        
+        if len(IdList) > 1:
+            j = 0
+            for idcurr in range(len(IdList)):
+                if IdList[idcurr] == id_str:
+                    j = j + 1
 
-#OnOff = []
-NumberOfParameters = len(ParameterValues)
+                    id_str  = ModelPath + Labels[fieldscurr] + LineArr[-1] + '_' + str(j)
+
+        IdList.append(id_str)
+        new_id_str = id_str.replace(" ", "")
+        new_id_str1 = new_id_str.replace(":", "")
+        new_id_str2 = new_id_str1.replace("?", "")
+        
+        if (Labels[fieldscurr] == 'Fit?: '):
+            if new_id_str2 in json_variables:
+                ParameterOnOff.append('0')
+            else:
+                ParameterOnOff.append('1')
+
+        elif (Labels[fieldscurr] == 'Min: '):
+            ParameterMin.append(json_variables[ new_id_str2 ])
+                        
+        elif (Labels[fieldscurr] == 'Value: '):
+            ParameterValues.append(json_variables[ new_id_str2 ])
+            
+        elif (Labels[fieldscurr] == 'Max: '):
+            ParameterMax.append(json_variables[ new_id_str2 ])
+            
+        else: 
+            ParameterNames.append(json_variables[ new_id_str2 ])
+            #print json_variables[ new_id_str2 ]
+            
+            
 
 # Build dummy parameter file
 file_par_dummy = open('ParametersBefore.mcp','w')
@@ -323,6 +363,7 @@ file_par_dummy = open('ParametersBefore.mcp','w')
 i = 0
 #OnOffToPrint = []
 NoFreeParameters = True
+
 
 for line in ParameterValues:
     #if self.Checkboxes[i].GetValue():

@@ -46,7 +46,7 @@
  "id":"AnisotropicCoreShellMicellesNameScaleN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"1: ScaleN100", 
+ "default":"1:ScaleN100", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -100,7 +100,7 @@
  "id":"AnisotropicCoreShellMicellesNameScaleN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"2: ScaleN0", 
+ "default":"2:ScaleN0", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -154,7 +154,7 @@
  "id":"AnisotropicCoreShellMicellesNameScaleX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"3: ScaleX", 
+ "default":"3:ScaleX", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -208,7 +208,7 @@
  "id":"AnisotropicCoreShellMicellesNameNumberOfWaterAtHead", 
  "label":"Name: ", 
  "type":"text", 
- "default":"4: NumberOfWaterAtHead", 
+ "default":"4:NumberOfWaterAtHead", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -262,7 +262,7 @@
  "id":"AnisotropicCoreShellMicellesNameCVOfHeads", 
  "label":"Name: ", 
  "type":"text", 
- "default":"5: CVOfHeads", 
+ "default":"5:CVOfHeads", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -316,7 +316,7 @@
  "id":"AnisotropicCoreShellMicellesNameCVOfTails", 
  "label":"Name: ", 
  "type":"text", 
- "default":"6: CVOfTails", 
+ "default":"6:CVOfTails", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -370,7 +370,7 @@
  "id":"AnisotropicCoreShellMicellesNameCVOfWater", 
  "label":"Name: ", 
  "type":"text", 
- "default":"7: CVOfWater", 
+ "default":"7:CVOfWater", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -424,7 +424,7 @@
  "id":"AnisotropicCoreShellMicellesNameMinorRadiusOfCore", 
  "label":"Name: ", 
  "type":"text", 
- "default":"8: MinorRadiusOfCore", 
+ "default":"8:MinorRadiusOfCore", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -478,7 +478,7 @@
  "id":"AnisotropicCoreShellMicellesNameBackN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"9: BackN100", 
+ "default":"9:BackN100", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -532,7 +532,7 @@
  "id":"AnisotropicCoreShellMicellesNameBackN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"10: BackN0", 
+ "default":"10:BackN0", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -586,7 +586,7 @@
  "id":"AnisotropicCoreShellMicellesNameBackX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"11: BackX", 
+ "default":"11:BackX", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -640,7 +640,7 @@
  "id":"AnisotropicCoreShellMicellesNameAxisRatioOfCore", 
  "label":"Name: ", 
  "type":"text", 
- "default":"12: AxisRatioOfCore", 
+ "default":"12:AxisRatioOfCore", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -694,7 +694,7 @@
  "id":"AnisotropicCoreShellMicellesNameXRoughnessShell", 
  "label":"Name: ", 
  "type":"text", 
- "default":"13: XRoughnessShell", 
+ "default":"13:XRoughnessShell", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -748,7 +748,7 @@
  "id":"AnisotropicCoreShellMicellesNameXRoughnessCore", 
  "label":"Name: ", 
  "type":"text", 
- "default":"14: XRoughnessCore", 
+ "default":"14:XRoughnessCore", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -802,7 +802,7 @@
  "id":"AnisotropicCoreShellMicellesNameNRoughnessShell", 
  "label":"Name: ", 
  "type":"text", 
- "default":"15: NRoughnessShell", 
+ "default":"15:NRoughnessShell", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -856,7 +856,7 @@
  "id":"AnisotropicCoreShellMicellesNameNRoughnessCore", 
  "label":"Name: ", 
  "type":"text", 
- "default":"16: NRoughnessCore", 
+ "default":"16:NRoughnessCore", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -910,7 +910,7 @@
  "id":"AnisotropicCoreShellMicellesNameScaleConcentration", 
  "label":"Name: ", 
  "type":"text", 
- "default":"17: ScaleConcentration", 
+ "default":"17:ScaleConcentration", 
  "size":"17", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"false"
@@ -964,7 +964,7 @@
  "id":"EllipticCylinderNameScaleN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"1: ScaleN100", 
+ "default":"1:ScaleN100", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1018,7 +1018,7 @@
  "id":"EllipticCylinderNameScaleN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"2: ScaleN0", 
+ "default":"2:ScaleN0", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1072,7 +1072,7 @@
  "id":"EllipticCylinderNameScaleX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"3: ScaleX", 
+ "default":"3:ScaleX", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1126,7 +1126,7 @@
  "id":"EllipticCylinderNameR1", 
  "label":"Name: ", 
  "type":"text", 
- "default":"4: R1", 
+ "default":"4:R1", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1180,7 +1180,7 @@
  "id":"EllipticCylinderNameR2", 
  "label":"Name: ", 
  "type":"text", 
- "default":"5: R2", 
+ "default":"5:R2", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1234,7 +1234,7 @@
  "id":"EllipticCylinderNameHeight", 
  "label":"Name: ", 
  "type":"text", 
- "default":"6: Height", 
+ "default":"6:Height", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1288,7 +1288,7 @@
  "id":"EllipticCylinderNameBackN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"7: BackN100", 
+ "default":"7:BackN100", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1342,7 +1342,7 @@
  "id":"EllipticCylinderNameBackN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"8: BackN0", 
+ "default":"8:BackN0", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1396,7 +1396,7 @@
  "id":"EllipticCylinderNameBackX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"9: BackX", 
+ "default":"9:BackX", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1450,7 +1450,7 @@
  "id":"EllipticCylinderNameScaleConc", 
  "label":"Name: ", 
  "type":"text", 
- "default":"10: ScaleConc", 
+ "default":"10:ScaleConc", 
  "size":"17", 
  "repeat":"model_list_box:ellip_cyl", 
  "norow":"false"
@@ -1504,7 +1504,7 @@
  "id":"NanodiscNameAxisRatio", 
  "label":"Name: ", 
  "type":"text", 
- "default":"1: AxisRatio", 
+ "default":"1:AxisRatio", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1558,7 +1558,7 @@
  "id":"NanodiscNameAreaPerHeadgroup", 
  "label":"Name: ", 
  "type":"text", 
- "default":"2: AreaPerHeadgroup", 
+ "default":"2:AreaPerHeadgroup", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1612,7 +1612,7 @@
  "id":"NanodiscNameHeightOfBelt", 
  "label":"Name: ", 
  "type":"text", 
- "default":"3: HeightOfBelt", 
+ "default":"3:HeightOfBelt", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1666,7 +1666,7 @@
  "id":"NanodiscNameNumberOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"4: NumberOfLipids", 
+ "default":"4:NumberOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1720,7 +1720,7 @@
  "id":"NanodiscNameDummy", 
  "label":"Name: ", 
  "type":"text", 
- "default":"5: Dummy", 
+ "default":"5:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1774,7 +1774,7 @@
  "id":"NanodiscNameWaterAtHeads", 
  "label":"Name: ", 
  "type":"text", 
- "default":"6: WaterAtHeads", 
+ "default":"6:WaterAtHeads", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1828,7 +1828,7 @@
  "id":"NanodiscNameWaterAtBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"7: WaterAtBelts", 
+ "default":"7:WaterAtBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1882,7 +1882,7 @@
  "id":"NanodiscNameDummy_1", 
  "label":"Name: ", 
  "type":"text", 
- "default":"8: Dummy", 
+ "default":"8:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1936,7 +1936,7 @@
  "id":"NanodiscNameXRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"9: XRoughness", 
+ "default":"9:XRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -1990,7 +1990,7 @@
  "id":"NanodiscNameCVOfBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"10: CVOfBelts", 
+ "default":"10:CVOfBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2044,7 +2044,7 @@
  "id":"NanodiscNameCVOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"11: CVOfLipids", 
+ "default":"11:CVOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2098,7 +2098,7 @@
  "id":"NanodiscNameDummy_2", 
  "label":"Name: ", 
  "type":"text", 
- "default":"12: Dummy", 
+ "default":"12:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2152,7 +2152,7 @@
  "id":"NanodiscNameBackN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"13: BackN100", 
+ "default":"13:BackN100", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2206,7 +2206,7 @@
  "id":"NanodiscNameScaleN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"14: ScaleN100", 
+ "default":"14:ScaleN100", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2260,7 +2260,7 @@
  "id":"NanodiscNameBackN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"15: BackN0", 
+ "default":"15:BackN0", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2314,7 +2314,7 @@
  "id":"NanodiscNameScaleN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"16: ScaleN0", 
+ "default":"16:ScaleN0", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2368,7 +2368,7 @@
  "id":"NanodiscNameBackX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"17: BackX", 
+ "default":"17:BackX", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2422,7 +2422,7 @@
  "id":"NanodiscNameScaleX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"18: ScaleX", 
+ "default":"18:ScaleX", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2476,7 +2476,7 @@
  "id":"NanodiscNameNRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"19: NRoughness", 
+ "default":"19:NRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2530,7 +2530,7 @@
  "id":"NanodiscNameCVOfWater", 
  "label":"Name: ", 
  "type":"text", 
- "default":"20: CVOfWater", 
+ "default":"20:CVOfWater", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2584,7 +2584,7 @@
  "id":"NanodiscNameScaleConcentration", 
  "label":"Name: ", 
  "type":"text", 
- "default":"21: ScaleConcentration", 
+ "default":"21:ScaleConcentration", 
  "size":"17", 
  "repeat":"model_list_box:nano", 
  "norow":"false"
@@ -2638,7 +2638,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameAxisRatioOfDisc", 
  "label":"Name: ", 
  "type":"text", 
- "default":"1: AxisRatioOfDisc", 
+ "default":"1:AxisRatioOfDisc", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -2692,7 +2692,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameAreaPerHeadgroup", 
  "label":"Name: ", 
  "type":"text", 
- "default":"2: AreaPerHeadgroup", 
+ "default":"2:AreaPerHeadgroup", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -2746,7 +2746,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameHeightOfBelt", 
  "label":"Name: ", 
  "type":"text", 
- "default":"3: HeightOfBelt", 
+ "default":"3:HeightOfBelt", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -2800,7 +2800,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameNumberOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"4: NumberOfLipids", 
+ "default":"4:NumberOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -2854,7 +2854,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameDummy", 
  "label":"Name: ", 
  "type":"text", 
- "default":"5: Dummy", 
+ "default":"5:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -2908,7 +2908,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameNumberOfWaterAtHeads", 
  "label":"Name: ", 
  "type":"text", 
- "default":"6: NumberOfWaterAtHeads", 
+ "default":"6:NumberOfWaterAtHeads", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -2962,7 +2962,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameNumberOfWaterAtBelt", 
  "label":"Name: ", 
  "type":"text", 
- "default":"7: NumberOfWaterAtBelt", 
+ "default":"7:NumberOfWaterAtBelt", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3016,7 +3016,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameDummy_1", 
  "label":"Name: ", 
  "type":"text", 
- "default":"8: Dummy", 
+ "default":"8:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3070,7 +3070,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameXRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"9: XRoughness", 
+ "default":"9:XRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3124,7 +3124,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameCorretionToBeltVolume", 
  "label":"Name: ", 
  "type":"text", 
- "default":"10: CorretionToBeltVolume", 
+ "default":"10:CorretionToBeltVolume", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3178,7 +3178,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameCorrectionToLipidVolume", 
  "label":"Name: ", 
  "type":"text", 
- "default":"11: CorrectionToLipidVolume", 
+ "default":"11:CorrectionToLipidVolume", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3232,7 +3232,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameCorrectionToMPVolume", 
  "label":"Name: ", 
  "type":"text", 
- "default":"12: CorrectionToMPVolume", 
+ "default":"12:CorrectionToMPVolume", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3286,7 +3286,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameBackN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"13: BackN100", 
+ "default":"13:BackN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3340,7 +3340,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameScaleN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"14: ScaleN100", 
+ "default":"14:ScaleN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3394,7 +3394,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameBackN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"15: BackN0", 
+ "default":"15:BackN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3448,7 +3448,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameScaleN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"16: ScaleN0", 
+ "default":"16:ScaleN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3502,7 +3502,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameBackX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"17: BackX", 
+ "default":"17:BackX", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3556,7 +3556,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameScaleX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"18: ScaleX", 
+ "default":"18:ScaleX", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3610,7 +3610,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameNRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"19: NRoughness", 
+ "default":"19:NRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3664,7 +3664,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameCorretionToWater", 
  "label":"Name: ", 
  "type":"text", 
- "default":"20: CorretionToWater", 
+ "default":"20:CorretionToWater", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3718,7 +3718,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameScaleConcentration", 
  "label":"Name: ", 
  "type":"text", 
- "default":"21: ScaleConcentration", 
+ "default":"21:ScaleConcentration", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3772,7 +3772,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameAxisRatioOfMP", 
  "label":"Name: ", 
  "type":"text", 
- "default":"22: AxisRatioOfMP", 
+ "default":"22:AxisRatioOfMP", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3826,7 +3826,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameHeightOfMP", 
  "label":"Name: ", 
  "type":"text", 
- "default":"23: HeightOfMP", 
+ "default":"23:HeightOfMP", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3880,7 +3880,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameDummy_2", 
  "label":"Name: ", 
  "type":"text", 
- "default":"24: Dummy", 
+ "default":"24:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3934,7 +3934,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameAngularOffset", 
  "label":"Name: ", 
  "type":"text", 
- "default":"25: AngularOffset", 
+ "default":"25:AngularOffset", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -3988,7 +3988,7 @@
  "id":"NanodiscWithEllipticCylinderAsMembraneProteinNameDisplacementOfMP", 
  "label":"Name: ", 
  "type":"text", 
- "default":"26: DisplacementOfMP", 
+ "default":"26:DisplacementOfMP", 
  "size":"17", 
  "repeat":"model_list_box:nano_ellip_cyl", 
  "norow":"false"
@@ -4042,7 +4042,7 @@
  "id":"NanodiscWithCholesterolNameAxisRatio", 
  "label":"Name: ", 
  "type":"text", 
- "default":"1: AxisRatio", 
+ "default":"1:AxisRatio", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4096,7 +4096,7 @@
  "id":"NanodiscWithCholesterolNameHydrophobicMismatch", 
  "label":"Name: ", 
  "type":"text", 
- "default":"2: HydrophobicMismatch", 
+ "default":"2:HydrophobicMismatch", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4150,7 +4150,7 @@
  "id":"NanodiscWithCholesterolNameHeightOfBelt", 
  "label":"Name: ", 
  "type":"text", 
- "default":"3: HeightOfBelt", 
+ "default":"3:HeightOfBelt", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4204,7 +4204,7 @@
  "id":"NanodiscWithCholesterolNameNumberOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"4: NumberOfLipids", 
+ "default":"4:NumberOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4258,7 +4258,7 @@
  "id":"NanodiscWithCholesterolNameRatioOfCholesterol", 
  "label":"Name: ", 
  "type":"text", 
- "default":"5: RatioOfCholesterol", 
+ "default":"5:RatioOfCholesterol", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4312,7 +4312,7 @@
  "id":"NanodiscWithCholesterolNameWaterAtHeads", 
  "label":"Name: ", 
  "type":"text", 
- "default":"6: WaterAtHeads", 
+ "default":"6:WaterAtHeads", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4366,7 +4366,7 @@
  "id":"NanodiscWithCholesterolNameWaterAtBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"7: WaterAtBelts", 
+ "default":"7:WaterAtBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4420,7 +4420,7 @@
  "id":"NanodiscWithCholesterolNameRadiusOfGyrationOfTags", 
  "label":"Name: ", 
  "type":"text", 
- "default":"8: RadiusOfGyrationOfTags", 
+ "default":"8:RadiusOfGyrationOfTags", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4474,7 +4474,7 @@
  "id":"NanodiscWithCholesterolNameXRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"9: XRoughness", 
+ "default":"9:XRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4528,7 +4528,7 @@
  "id":"NanodiscWithCholesterolNameCVOfBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"10: CVOfBelts", 
+ "default":"10:CVOfBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4582,7 +4582,7 @@
  "id":"NanodiscWithCholesterolNameCVOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"11: CVOfLipids", 
+ "default":"11:CVOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4636,7 +4636,7 @@
  "id":"NanodiscWithCholesterolNameDummy", 
  "label":"Name: ", 
  "type":"text", 
- "default":"12: Dummy", 
+ "default":"12:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4690,7 +4690,7 @@
  "id":"NanodiscWithCholesterolNameBackN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"13: BackN100", 
+ "default":"13:BackN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4744,7 +4744,7 @@
  "id":"NanodiscWithCholesterolNameScaleN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"14: ScaleN100", 
+ "default":"14:ScaleN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4798,7 +4798,7 @@
  "id":"NanodiscWithCholesterolNameBackN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"15: BackN0", 
+ "default":"15:BackN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4852,7 +4852,7 @@
  "id":"NanodiscWithCholesterolNameScaleN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"16: ScaleN0", 
+ "default":"16:ScaleN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4906,7 +4906,7 @@
  "id":"NanodiscWithCholesterolNameBackX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"17: BackX", 
+ "default":"17:BackX", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -4960,7 +4960,7 @@
  "id":"NanodiscWithCholesterolNameScaleX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"18: ScaleX", 
+ "default":"18:ScaleX", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -5014,7 +5014,7 @@
  "id":"NanodiscWithCholesterolNameNRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"19: NRoughness", 
+ "default":"19:NRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -5068,7 +5068,7 @@
  "id":"NanodiscWithCholesterolNameCVOfWater", 
  "label":"Name: ", 
  "type":"text", 
- "default":"20: CVOfWater", 
+ "default":"20:CVOfWater", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -5122,7 +5122,7 @@
  "id":"NanodiscWithCholesterolNameScaleConcentration", 
  "label":"Name: ", 
  "type":"text", 
- "default":"21: ScaleConcentration", 
+ "default":"21:ScaleConcentration", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -5176,7 +5176,7 @@
  "id":"NanodiscWithCholesterolNameHeightOfEndcaps", 
  "label":"Name: ", 
  "type":"text", 
- "default":"22: HeightOfEndcaps", 
+ "default":"22:HeightOfEndcaps", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -5230,7 +5230,7 @@
  "id":"NanodiscWithCholesterolNameScaleFactorOfEndcaps", 
  "label":"Name: ", 
  "type":"text", 
- "default":"23: ScaleFactorOfEndcaps", 
+ "default":"23:ScaleFactorOfEndcaps", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -5284,7 +5284,7 @@
  "id":"NanodiscWithCholesterolNameRescalingOfTags", 
  "label":"Name: ", 
  "type":"text", 
- "default":"24: RescalingOfTags", 
+ "default":"24:RescalingOfTags", 
  "size":"17", 
  "repeat":"model_list_box:nano_chol", 
  "norow":"false"
@@ -5338,7 +5338,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameAxisRatio", 
  "label":"Name: ", 
  "type":"text", 
- "default":"1: AxisRatio", 
+ "default":"1:AxisRatio", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5392,7 +5392,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameHydrophobicMismatch", 
  "label":"Name: ", 
  "type":"text", 
- "default":"2: HydrophobicMismatch", 
+ "default":"2:HydrophobicMismatch", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5446,7 +5446,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameHeightOfBelt", 
  "label":"Name: ", 
  "type":"text", 
- "default":"3: HeightOfBelt", 
+ "default":"3:HeightOfBelt", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5500,7 +5500,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameNumberOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"4: NumberOfLipids", 
+ "default":"4:NumberOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5554,7 +5554,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameDummy", 
  "label":"Name: ", 
  "type":"text", 
- "default":"5: Dummy", 
+ "default":"5:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5608,7 +5608,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameWaterAtHeads", 
  "label":"Name: ", 
  "type":"text", 
- "default":"6: WaterAtHeads", 
+ "default":"6:WaterAtHeads", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5662,7 +5662,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameWaterAtBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"7: WaterAtBelts", 
+ "default":"7:WaterAtBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5716,7 +5716,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameDummy_1", 
  "label":"Name: ", 
  "type":"text", 
- "default":"8: Dummy", 
+ "default":"8:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5770,7 +5770,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameXRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"9: XRoughness", 
+ "default":"9:XRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5824,7 +5824,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameCVOfBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"10: CVOfBelts", 
+ "default":"10:CVOfBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5878,7 +5878,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameCVOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"11: CVOfLipids", 
+ "default":"11:CVOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5932,7 +5932,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameDummy_2", 
  "label":"Name: ", 
  "type":"text", 
- "default":"12: Dummy", 
+ "default":"12:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -5986,7 +5986,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameBackN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"13: BackN100", 
+ "default":"13:BackN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6040,7 +6040,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameScaleN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"14: ScaleN100", 
+ "default":"14:ScaleN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6094,7 +6094,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameBackN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"15: BackN0", 
+ "default":"15:BackN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6148,7 +6148,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameScaleN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"16: ScaleN0", 
+ "default":"16:ScaleN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6202,7 +6202,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameBackX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"17: BackX", 
+ "default":"17:BackX", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6256,7 +6256,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameScaleX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"18: ScaleX", 
+ "default":"18:ScaleX", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6310,7 +6310,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameNRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"19: NRoughness", 
+ "default":"19:NRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6364,7 +6364,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameCVOfWater", 
  "label":"Name: ", 
  "type":"text", 
- "default":"20: CVOfWater", 
+ "default":"20:CVOfWater", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6418,7 +6418,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameScaleConcentration", 
  "label":"Name: ", 
  "type":"text", 
- "default":"21: ScaleConcentration", 
+ "default":"21:ScaleConcentration", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6472,7 +6472,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameHeightOfEndcaps", 
  "label":"Name: ", 
  "type":"text", 
- "default":"22: HeightOfEndcaps", 
+ "default":"22:HeightOfEndcaps", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6526,7 +6526,7 @@
  "id":"NanodiscWithEllipsoidalEndcapsNameScaleFactorOfEndcaps", 
  "label":"Name: ", 
  "type":"text", 
- "default":"23: ScaleFactorOfEndcaps", 
+ "default":"23:ScaleFactorOfEndcaps", 
  "size":"17", 
  "repeat":"model_list_box:nano_bilayer", 
  "norow":"false"
@@ -6580,7 +6580,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameAxisRatio", 
  "label":"Name: ", 
  "type":"text", 
- "default":"1: AxisRatio", 
+ "default":"1:AxisRatio", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -6634,7 +6634,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameHydrophobicMismatch", 
  "label":"Name: ", 
  "type":"text", 
- "default":"2: HydrophobicMismatch", 
+ "default":"2:HydrophobicMismatch", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -6688,7 +6688,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameHeightOfBelt", 
  "label":"Name: ", 
  "type":"text", 
- "default":"3: HeightOfBelt", 
+ "default":"3:HeightOfBelt", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -6742,7 +6742,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameNumberOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"4: NumberOfLipids", 
+ "default":"4:NumberOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -6796,7 +6796,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameDummy", 
  "label":"Name: ", 
  "type":"text", 
- "default":"5: Dummy", 
+ "default":"5:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -6850,7 +6850,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameWaterAtHeads", 
  "label":"Name: ", 
  "type":"text", 
- "default":"6: WaterAtHeads", 
+ "default":"6:WaterAtHeads", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -6904,7 +6904,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameWaterAtBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"7: WaterAtBelts", 
+ "default":"7:WaterAtBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -6958,7 +6958,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameRadiusOfGyrationOfTags", 
  "label":"Name: ", 
  "type":"text", 
- "default":"8: RadiusOfGyrationOfTags", 
+ "default":"8:RadiusOfGyrationOfTags", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7012,7 +7012,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameXRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"9: XRoughness", 
+ "default":"9:XRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7066,7 +7066,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameCVOfBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"10: CVOfBelts", 
+ "default":"10:CVOfBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7120,7 +7120,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameCVOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"11: CVOfLipids", 
+ "default":"11:CVOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7174,7 +7174,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameDummy_1", 
  "label":"Name: ", 
  "type":"text", 
- "default":"12: Dummy", 
+ "default":"12:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7228,7 +7228,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameBackN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"13: BackN100", 
+ "default":"13:BackN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7282,7 +7282,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameScaleN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"14: ScaleN100", 
+ "default":"14:ScaleN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7336,7 +7336,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameBackN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"15: BackN0", 
+ "default":"15:BackN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7390,7 +7390,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameScaleN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"16: ScaleN0", 
+ "default":"16:ScaleN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7444,7 +7444,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameBackX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"17: BackX", 
+ "default":"17:BackX", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7498,7 +7498,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameScaleX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"18: ScaleX", 
+ "default":"18:ScaleX", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7552,7 +7552,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameNRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"19: NRoughness", 
+ "default":"19:NRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7606,7 +7606,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameCVOfWater", 
  "label":"Name: ", 
  "type":"text", 
- "default":"20: CVOfWater", 
+ "default":"20:CVOfWater", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7660,7 +7660,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameScaleConcentration", 
  "label":"Name: ", 
  "type":"text", 
- "default":"21: ScaleConcentration", 
+ "default":"21:ScaleConcentration", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7714,7 +7714,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameHeightOfEndcaps", 
  "label":"Name: ", 
  "type":"text", 
- "default":"22: HeightOfEndcaps", 
+ "default":"22:HeightOfEndcaps", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7768,7 +7768,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameScaleFactorOfEndcaps", 
  "label":"Name: ", 
  "type":"text", 
- "default":"23: ScaleFactorOfEndcaps", 
+ "default":"23:ScaleFactorOfEndcaps", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7822,7 +7822,7 @@
  "id":"NanodiscWithTagsAndEllipsoidalEndcapsNameChangeInTagVolume", 
  "label":"Name: ", 
  "type":"text", 
- "default":"24: ChangeInTagVolume", 
+ "default":"24:ChangeInTagVolume", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags_bilayer", 
  "norow":"false"
@@ -7876,7 +7876,7 @@
  "id":"NanodiscWithTagsNameAxisRatio", 
  "label":"Name: ", 
  "type":"text", 
- "default":"1: AxisRatio", 
+ "default":"1:AxisRatio", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -7930,7 +7930,7 @@
  "id":"NanodiscWithTagsNameAreaPerHeadgroup", 
  "label":"Name: ", 
  "type":"text", 
- "default":"2: AreaPerHeadgroup", 
+ "default":"2:AreaPerHeadgroup", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -7984,7 +7984,7 @@
  "id":"NanodiscWithTagsNameHeightOfBelt", 
  "label":"Name: ", 
  "type":"text", 
- "default":"3: HeightOfBelt", 
+ "default":"3:HeightOfBelt", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8038,7 +8038,7 @@
  "id":"NanodiscWithTagsNameNumberOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"4: NumberOfLipids", 
+ "default":"4:NumberOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8092,7 +8092,7 @@
  "id":"NanodiscWithTagsNameDummy", 
  "label":"Name: ", 
  "type":"text", 
- "default":"5: Dummy", 
+ "default":"5:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8146,7 +8146,7 @@
  "id":"NanodiscWithTagsNameWaterAtHeads", 
  "label":"Name: ", 
  "type":"text", 
- "default":"6: WaterAtHeads", 
+ "default":"6:WaterAtHeads", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8200,7 +8200,7 @@
  "id":"NanodiscWithTagsNameWaterAtBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"7: WaterAtBelts", 
+ "default":"7:WaterAtBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8254,7 +8254,7 @@
  "id":"NanodiscWithTagsNameRGOfTag", 
  "label":"Name: ", 
  "type":"text", 
- "default":"8: RGOfTag", 
+ "default":"8:RGOfTag", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8308,7 +8308,7 @@
  "id":"NanodiscWithTagsNameXRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"9: XRoughness", 
+ "default":"9:XRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8362,7 +8362,7 @@
  "id":"NanodiscWithTagsNameCVOfBelts", 
  "label":"Name: ", 
  "type":"text", 
- "default":"10: CVOfBelts", 
+ "default":"10:CVOfBelts", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8416,7 +8416,7 @@
  "id":"NanodiscWithTagsNameCVOfLipids", 
  "label":"Name: ", 
  "type":"text", 
- "default":"11: CVOfLipids", 
+ "default":"11:CVOfLipids", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8470,7 +8470,7 @@
  "id":"NanodiscWithTagsNameDummy_1", 
  "label":"Name: ", 
  "type":"text", 
- "default":"12: Dummy", 
+ "default":"12:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8524,7 +8524,7 @@
  "id":"NanodiscWithTagsNameBackN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"13: BackN100", 
+ "default":"13:BackN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8578,7 +8578,7 @@
  "id":"NanodiscWithTagsNameScaleN100", 
  "label":"Name: ", 
  "type":"text", 
- "default":"14: ScaleN100", 
+ "default":"14:ScaleN100", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8632,7 +8632,7 @@
  "id":"NanodiscWithTagsNameBackN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"15: BackN0", 
+ "default":"15:BackN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8686,7 +8686,7 @@
  "id":"NanodiscWithTagsNameScaleN0", 
  "label":"Name: ", 
  "type":"text", 
- "default":"16: ScaleN0", 
+ "default":"16:ScaleN0", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8740,7 +8740,7 @@
  "id":"NanodiscWithTagsNameBackX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"17: BackX", 
+ "default":"17:BackX", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8794,7 +8794,7 @@
  "id":"NanodiscWithTagsNameScaleX", 
  "label":"Name: ", 
  "type":"text", 
- "default":"18: ScaleX", 
+ "default":"18:ScaleX", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8848,7 +8848,7 @@
  "id":"NanodiscWithTagsNameNRoughness", 
  "label":"Name: ", 
  "type":"text", 
- "default":"19: NRoughness", 
+ "default":"19:NRoughness", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8902,7 +8902,7 @@
  "id":"NanodiscWithTagsNameCVOfWater", 
  "label":"Name: ", 
  "type":"text", 
- "default":"20: CVOfWater", 
+ "default":"20:CVOfWater", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -8956,7 +8956,7 @@
  "id":"NanodiscWithTagsNameScaleConcentration", 
  "label":"Name: ", 
  "type":"text", 
- "default":"21: ScaleConcentration", 
+ "default":"21:ScaleConcentration", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -9010,7 +9010,7 @@
  "id":"NanodiscWithTagsNameDummy_2", 
  "label":"Name: ", 
  "type":"text", 
- "default":"22: Dummy", 
+ "default":"22:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -9064,7 +9064,7 @@
  "id":"NanodiscWithTagsNameDummy_3", 
  "label":"Name: ", 
  "type":"text", 
- "default":"23: Dummy", 
+ "default":"23:Dummy", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
@@ -9118,7 +9118,7 @@
  "id":"NanodiscWithTagsNameRescalingOfTag", 
  "label":"Name: ", 
  "type":"text", 
- "default":"24: RescalingOfTag", 
+ "default":"24:RescalingOfTag", 
  "size":"17", 
  "repeat":"model_list_box:nano_tags", 
  "norow":"false"
