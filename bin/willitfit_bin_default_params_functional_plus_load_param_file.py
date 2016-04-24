@@ -7,9 +7,13 @@ import sys
 import subprocess
 import json
 import cStringIO
+import shlex 
+import socket
+import time
 
 from StringIO import StringIO
 from math import exp, expm1, log10, log, log1p
+from subprocess import Popen, PIPE, STDOUT
 
 if (len(sys.argv) < 1):
     print "\{\"error\":\"module called with no arguments\"\}\n";
@@ -150,6 +154,16 @@ ChiSquareFractile = 0.0
 
 algoritnm_list = json_variables['algorithm_list_box']
 
+
+## UDP messaging ##################################################
+UDP_IP = json_variables['_udphost']
+UDP_PORT = json_variables['_udpport']
+sock = socket.socket(socket.AF_INET, # Internet
+        socket.SOCK_DGRAM) # UDP
+
+socket_dict={}
+socket_dict['_uuid'] = json_variables['_uuid']
+###################################################################
 
 ClearOldData()
 os.mkdir('./.data/')
@@ -415,8 +429,28 @@ ProcessToCall.append('-a=%d' % FittingRoutineArgument3)
 
 #print ProcessToCall
 
-Process = subprocess.Popen(ProcessToCall)
-Process.wait()
+socket_dict["_textarea"] = 'Starting Calculations...'
+if socket_dict:
+    doc_string = json.dumps(socket_dict)
+    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+    #time.sleep(0.01)
+
+Process = subprocess.Popen(ProcessToCall,stdout=PIPE,bufsize=0)
+
+
+while True:
+    output = Process.stdout.readline()
+    if output == '' and Process.poll() is not None:
+        break
+    if output:
+        socket_dict["_textarea"] = output#.strip()
+        if socket_dict:
+            doc_string = json.dumps(socket_dict)
+            sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+            #time.sleep(0.01)
+            
+    
+#Process.wait()
 
 # Display concluding message and new parameters
 try:
