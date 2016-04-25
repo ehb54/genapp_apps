@@ -137,6 +137,8 @@ def GetReturnMessage():
 
 output_res = {}
 
+#output_res[ 'progress_output' ] = 0 
+
 json_variables = " "
 
 InputDir = '/home/alexey/WillItFit/Source'
@@ -444,12 +446,16 @@ ProcessToCall.append('-a=%d' % FittingRoutineArgument3)
 #print ProcessToCall
 
 socket_dict["_textarea"] = 'Starting Calculations...'
+socket_dict["progress_output"] =  str(0.0)
+socket_dict["progress_text"] =  ''
 if socket_dict:
     doc_string = json.dumps(socket_dict)
     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
     #time.sleep(0.01)
 
+
 Process = subprocess.Popen(ProcessToCall,stdout=PIPE,bufsize=0)
+
 
 
 while True:
@@ -457,7 +463,13 @@ while True:
     if output == '' and Process.poll() is not None:
         break
     if output:
-        socket_dict["_textarea"] = output#.strip()
+        if "Progress" not in output: 
+            socket_dict["_textarea"] = output#.strip()
+        else:
+            OutArr = re.split(r'[\s]*', output)
+            del OutArr[-1]
+            socket_dict['progress_output'] = OutArr[-1]
+            socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
         if socket_dict:
             doc_string = json.dumps(socket_dict)
             sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -644,7 +656,10 @@ if PrintCorrelationInt == 1:
 output_res[ 'chi_sqr' ] = Chisquare
 output_res[ 'fit_plot' ] = flot_data
 
+output_res[ 'progress_output' ] = str(1.0)
+output_res[ 'progress_text' ] = 'Fitting Progress: 100%' 
+
 print json.dumps( output_res )
 
-#os.remove(ExecutableFileLocation)
+os.remove(ExecutableFileLocation)
 ClearOldData()
