@@ -263,12 +263,26 @@ ModelList = []
 
 ModelList.append(['AnisotropicCoreShellMicelles','anis_core_shell_micelles'])
 ModelList.append(['EllipticCylinder','ellip_cyl'])
+ModelList.append(['MembraneProteinInNanodiscWithCurvedBilayer','membrane_prot_nano'])
+ModelList.append(['MonodisperseCoreShellMicelle','mono_core_micelle'])
+ModelList.append(['Spheres','mono_spheres'])
 ModelList.append(['Nanodisc','nano'])
 ModelList.append(['NanodiscWithEllipticCylinderAsMembraneProtein','nano_ellip_cyl'])
 ModelList.append(['NanodiscWithCholesterol','nano_chol'])
 ModelList.append(['NanodiscWithEllipsoidalEndcaps','nano_bilayer'])
-ModelList.append(['NanodiscWithTagsAndEllipsoidalEndcaps','nano_tags_bilayer'])
 ModelList.append(['NanodiscWithTags','nano_tags'])
+ModelList.append(['NanodiscWithTagsAndEllipsoidalEndcaps','nano_tags_bilayer'])
+ModelList.append(['PDB','pdb'])
+ModelList.append(['PeptideDiscs','peptide_discs'])
+ModelList.append(['PolydisperseCoreShellMicelles','poly_core_shell_micelles'])
+ModelList.append(['PolydispersePeptideDiscs','poly_peptide_discs'])
+ModelList.append(['PolydispersePeptideDiscsWithFreePeptides','poly_peptide_discs_free_peptides'])
+ModelList.append(['PolydisperseSpheres','poly_spheres'])
+ModelList.append(['PopulationOfAnisotropicNanodiscs','pop_aniso_nano'])
+ModelList.append(['SingleLorentzian','single_lorentzian'])
+ModelList.append(['SingleShellLiposome','single_liposome'])
+ModelList.append(['TripleShellLiposome','triple_liposome'])
+ModelList.append(['TripleShellLiposomeWMLandSQ','triple_liposome_landsq'])
 
 
 for model in ModelList:
