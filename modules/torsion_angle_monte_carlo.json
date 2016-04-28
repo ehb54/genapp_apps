@@ -33,7 +33,7 @@
                   {
                    "role"     : "input",
                    "id"       : "psffile",
-                   "label"   : "topology file",
+                   "label"   : "PSF filename",
                    "type"     : "lrfile",
                    "required" : "true",
                    "help"     : "PSF file containing system topology",
@@ -109,7 +109,7 @@
                    "label"    : "move type",
                    "type"     : "listbox",
 #                   "values"  : "ds_dna~c1~ss_na~c2~protein_backbone_dihedral~c3",
-                   "values"  : "protein backbone torsion~c1~single-stranded nucleic acid backbone torsion~c2~double-stranded nucleic acid worm-like chain torsion~c3",
+                   "values"  : "protein backbone torsion~c1~single-stranded nucleic acid backbone torsion~c2~double-stranded nucleic acid worm-like chain torsion~c3~isopeptide bond torsion~c4",
                    "default"  : "c1",
                    "required" : "true",
                    "repeat"   : "number_of_flexible_regions",

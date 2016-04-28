@@ -335,6 +335,8 @@ class CTAMC():
                     rotation_type_array.append('single_stranded_nucleic_backbone_torsion')
                 elif choice == 'c3':
                     rotation_type_array.append('double_stranded_nucleic_torsion')
+                elif choice == 'c4':
+                    rotation_type_array.append('isopeptide_bond_torsion')
             choice_rotation_direction_array = json_variables['rotation_direction_array']
 
             rotation_direction_array = []

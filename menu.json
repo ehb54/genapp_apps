@@ -124,18 +124,10 @@
                           "id"    : "sascalc",
                           "label" : "SasCalc"
                          },
-#                         { 
-#                          "id"    : "xtal2sas",
-#                          "label" : "Xtal2sas"
-#                         },
-#                         { 
-#                          "id"    : "cryson",
-#                          "label" : "Cryson"
-#                         },
-#                         { 
-#                          "id"    : "crysol",
-#                          "label" : "Crysol"
-#                         },
+                         { 
+                          "id"    : "capriqorn",
+                          "label" : "Capriqorn"
+                         },
                          { 
                           "id"    : "sct_calculate",
                           "label" : "SCT Calculate"
