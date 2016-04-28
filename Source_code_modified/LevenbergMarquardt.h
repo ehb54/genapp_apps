@@ -56,7 +56,7 @@ int LevenbergMarquardt(struct Dataset * Data, int NumberOfSpectra, struct Parame
 	
 
         if (Lambda > 10 && PreviousChiSquare - Chisquare < 1e-3) {
-            break;
+	  break;
         }
 
         PreviousChiSquare = Chisquare;

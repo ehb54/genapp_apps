@@ -292,7 +292,7 @@ int Genetic(struct Dataset * Data, int NumberOfSpectra, struct Parameter * Param
         // Conclusion of loop
         ++Generation;
 
-	double progress = ( (double) Generation )/( (double) MaxNumberOfGenerations );
+	double progress = ( (double) Generation - 1 )/( (double) MaxNumberOfGenerations );
 	printf("Progress = %g \n", progress);
 
         if (Generation > MaxNumberOfGenerations) {

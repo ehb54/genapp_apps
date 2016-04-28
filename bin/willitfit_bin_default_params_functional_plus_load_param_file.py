@@ -10,6 +10,8 @@ import cStringIO
 import shlex 
 import socket
 import time
+import pty
+import select
 
 from StringIO import StringIO
 from math import exp, expm1, log10, log, log1p
@@ -447,36 +449,47 @@ ProcessToCall.append('-a=%d' % FittingRoutineArgument3)
 
 socket_dict["_textarea"] = 'Starting Calculations...'
 socket_dict["progress_output"] =  str(0.0)
-socket_dict["progress_text"] =  ''
+socket_dict["progress_text"] =  'Fitting Progress: 0%'
 if socket_dict:
     doc_string = json.dumps(socket_dict)
     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
     #time.sleep(0.01)
 
 
-Process = subprocess.Popen(ProcessToCall,stdout=PIPE,bufsize=0)
+master, slave = pty.openpty()
 
+Process = subprocess.Popen(ProcessToCall,stdout=slave,stderr=STDOUT,bufsize=0,close_fds=True)
 
+stdout = os.fdopen(master, 'r', 0)
+
+timeout = .04 # seconds
 
 while True:
-    output = Process.stdout.readline()
-    if output == '' and Process.poll() is not None:
+    #output = Process.stdout.readline()
+    ready, _, _ = select.select([master], [], [], timeout)
+    if ready:
+        output = stdout.readline()
+        if not output:
+            break
+        if output:
+            if "Progress" not in output: 
+                socket_dict["_textarea"] = output#.strip()
+            else:
+                OutArr = re.split(r'[\s]*', output)
+                del OutArr[-1]
+                socket_dict['progress_output'] = OutArr[-1]
+                socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
+            if socket_dict:
+                doc_string = json.dumps(socket_dict)
+                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                #time.sleep(0.01)
+    elif Process.poll() is not None:  
         break
-    if output:
-        if "Progress" not in output: 
-            socket_dict["_textarea"] = output#.strip()
-        else:
-            OutArr = re.split(r'[\s]*', output)
-            del OutArr[-1]
-            socket_dict['progress_output'] = OutArr[-1]
-            socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
-        if socket_dict:
-            doc_string = json.dumps(socket_dict)
-            sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-            #time.sleep(0.01)
-            
-    
-#Process.wait()
+
+os.close(slave)
+os.close(master)
+  
+Process.wait()
 
 # Display concluding message and new parameters
 try:

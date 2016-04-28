@@ -271,7 +271,7 @@ int Swarm(struct Dataset * Data, int NumberOfSpectra, struct Parameter * Paramet
             }
 
             // Print best candidate
-	    double progress = ( ((double) i - 1) +  ((double) j)/((double) MaximumNumberOfIterations) ) * 1.0/( (double) NumberOfFlights);
+	    double progress = ( ((double) i - 1) +  ((double) j - 1)/((double) MaximumNumberOfIterations) ) * 1.0/( (double) NumberOfFlights);
 	    printf("Progress = %g \n", progress);
 
             if (j % 5 == 0 && ProfileLikelihood == false) {

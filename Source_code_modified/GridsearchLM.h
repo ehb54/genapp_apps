@@ -59,9 +59,6 @@ int GridsearchLM(struct Dataset * Data, int NumberOfSpectra, struct Parameter * 
     for (i = 0; i < NumberOfCycles; ++i) {
 
       
-      double progress = ( (double) i+1 )/( (double) NumberOfCycles );
-      printf("Progress = %g \n", progress);
-
       for (j = 0; j < NumberOfParametersToFit; ++j) {
             DummyParameters[ParametersToFit[j]].iParameter = true;
             StartingValue = DummyParameters[ParametersToFit[j]].Value;
@@ -82,7 +79,8 @@ int GridsearchLM(struct Dataset * Data, int NumberOfSpectra, struct Parameter * 
                 ChiXXDummy = PreviousChiXXDummy;
             }
 	    
-	    
+	     double progress = ( (double) i )/( (double) NumberOfCycles );
+	     printf("Progress = %g \n", progress);
 
             if (Printout == true) {
 	        printf("Cycle number     = %d \n", i + 1);
