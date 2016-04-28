@@ -84,13 +84,14 @@ for ModelPath in ModelList:
             
             if (Labels[fieldscurr] == 'Fit?: '):
                 type = 'checkbox'
-                #print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"true"\n},\n' 
+                
                 print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"param_choice_' + ModelPath[1]  + ':default", \n "norow":"true"\n},\n' 
             else: 
                 type = 'text'
                 NoRow = 'true'
                 Size = '3'
                 Label_add = ''
+                readonly = 'false'
                 
                 if Labels[fieldscurr] == 'Name: ':
                     NoRow = 'false'
@@ -98,6 +99,6 @@ for ModelPath in ModelList:
                     #type = 'label'
                     type = 'text'
                     Label_add = str(i) + ':'
-                
-                #print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '"\n},\n' 
-                print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"param_choice_' + ModelPath[1]  + ':default", \n "norow":"' + NoRow + '"\n},\n' 
+                    readonly = 'true'
+                                
+                print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"param_choice_' + ModelPath[1]  + ':default", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n' 
