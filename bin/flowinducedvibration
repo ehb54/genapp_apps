@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $debug++;
+$debug++;
 
 # user definition area
 
@@ -13,8 +13,9 @@ my $maxruntime = "02:00";
 
 # $$remote{ "genmap" }  = "/home/gridchem/bin/genmap";
 
-$queue_polling_seconds = 10;
-$sleep_after_complete  = 10;
+$queue_polling_seconds  = 10;
+$sleep_after_complete   = 15;
+$max_retries_for_output = 5;
 
 my @getresults = ( 
     'session.log',
@@ -10578,7 +10579,7 @@ while ( $running ) {
     sleep $queue_polling_seconds > 0 ? $queue_polling_seconds : 30;
 }
 
-sleep $sleep_after_complete;
+# sleep $sleep_after_complete;
 
 # setup to_get aa
 
@@ -10591,12 +10592,27 @@ sleep $sleep_after_complete;
 
 # check if they exist
 
-    my $checkall = '{' . ( join ',',@getresults ) . "}";
+    my $maxtries = $max_retries_for_output;
+    my @results;
+    my $sleeptime = $sleep_after_complete;
+    my $retry_count = 0;
+    while( $maxtries-- && scalar @results != @getresults ) {
+        $sleeptime *= 2 if $sleeptime < $sleep_after_complete * 20;
+        print "sleeping $sleeptime\n" if $debug;
+        sleep $sleeptime;
+        sendmsg( $retry_count ? "Retrieving results retry $retry_count\n" : "Retrieving results\n", 0.85 );
+        $retry_count++;
+        print "retry to get all data countdown from $maxtries\n" if $debug;
 
-    my $cmd = "ssh $remotesys 'cd $output_dir; ls -1 $checkall' 2>/dev/null\n";
-    print $cmd if $debug;
-    my @results = `$cmd`;
-    grep chomp, @results;
+        my $checkall = '{' . ( join ',',@getresults ) . "}";
+
+        my $cmd = "ssh $remotesys 'cd $output_dir; ls -1 $checkall' 2>/dev/null\n";
+        print $cmd if $debug;
+        @results = `$cmd`;
+        grep chomp, @results;
+    }
+
+    print "failed to get all data within our tries\n" if $debug && scalar @results != @getresults;
     
     my $getem = '{' . ( join ',',@results ) . "}";
     if ( @results == 1 ) {
@@ -10663,4 +10679,3 @@ close OUT;
 ## return results
 
 print encode_json( $res ) . "\n";
-
