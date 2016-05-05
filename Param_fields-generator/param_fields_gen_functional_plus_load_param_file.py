@@ -43,6 +43,9 @@ NumberOfModels = len(ModelList)
 
 Labels = ['Min: ','Value: ','Max: ','Fit?: ','Name: ']
 
+#out_str = ""
+out_str_ids = ""
+
 for ModelPath in ModelList:
     for File in os.listdir(os.path.join(InputDir, 'Models', ModelPath[0])):
         if os.path.splitext(File)[1] == '.par':
@@ -61,8 +64,9 @@ for ModelPath in ModelList:
     ##print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"File: ", \n "type":"file", \n "repeat":"param_choice_' + ModelPath[1]  + ':file"\n},\n'
     ##print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"File: ", \n "type":"file", \n "setinputfromfile":"whitespaceseparated", \n "setinputfromfileids":"models_ids",  \n "repeat":"model_list_box:' + ModelPath[1]  + '"\n},\n'
 
-
+    
     Param_ids = ""
+    out_str = ""
 ### INDIVIDUAL (ALL) FIELDS ##################################
     i = 0
     IdList = []
@@ -91,16 +95,18 @@ for ModelPath in ModelList:
             if (Labels[fieldscurr] == 'Fit?: '):
                 type = 'checkbox'
                 
-                #print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"param_choice_' + ModelPath[1]  + ':default", \n "norow":"true"\n},\n' 
-                print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"true"\n},\n' 
+                ##print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"param_choice_' + ModelPath[1]  + ':default", \n "norow":"true"\n},\n' 
+                #print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"true"\n},\n'
+                out_str = out_str + '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"true"\n},\n'
             else: 
-                type = 'text'
+                type = 'float'
                 NoRow = 'true'
                 Size = '3'
                 Label_add = ''
                 readonly = 'false'
                 
                 if Labels[fieldscurr] == 'Name: ':
+                    type = 'text'
                     NoRow = 'false'
                     Size = '17'
                     #type = 'label'
@@ -108,11 +114,14 @@ for ModelPath in ModelList:
                     Label_add = str(i) + ':'
                     readonly = 'true'
                                 
-                #print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"param_choice_' + ModelPath[1]  + ':default", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n' 
-                print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n' 
+                ##print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"param_choice_' + ModelPath[1]  + ':default", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n' 
+                #print '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n' 
+                out_str = out_str + '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n'
 #############################################################
 
     Param_ids = Param_ids[:-1]
-    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'_checkbox", \n "label":"Load Parameter File?: ", \n "type":"checkbox", \n "checked":"false", \n "repeater":"yes", \n "repeat":"model_list_box:' + ModelPath[1]  + '"\n},\n'
-    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"File: ", \n "type":"file", \n "setinputfromfile":"whitespaceseparated", \n "setinputfromfileids":"' + Param_ids + '",  \n "repeat":"param_choice_file_' + ModelPath[1]  + '_checkbox"\n},\n'
+    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"File: ", \n "type":"file", \n "setinputfromfile":"whitespaceseparated", \n "setinputfromfileids":"' + Param_ids + '",  \n "repeat":"model_list_box:' + ModelPath[1]  + '"\n},\n'
+    print out_str
+    
 
+   

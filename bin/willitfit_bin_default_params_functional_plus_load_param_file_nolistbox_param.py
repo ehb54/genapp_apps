@@ -314,7 +314,7 @@ HeaderFile.close()
 
 
 #### Parameters ##############################################################
-param_id = 'param_choice_file_' + model_list + '_checkbox'
+#param_id = 'param_choice_file_' + model_list + '_checkbox'
 #parameter_list = json_variables[ param_id]
 
 #if parameter_list == 'choose_params':
@@ -323,99 +323,99 @@ param_id = 'param_choice_file_' + model_list + '_checkbox'
 #    exit()  
 
 
-if param_id not in json_variables:
-    for File in os.listdir(os.path.join(InputDir, 'Models', ModelPath)):
-        if os.path.splitext(File)[1] == '.par':
-            ParameterFileName = File
-            ParameterFileFound = True
+#if param_id not in json_variables:
+for File in os.listdir(os.path.join(InputDir, 'Models', ModelPath)):
+    if os.path.splitext(File)[1] == '.par':
+        ParameterFileName = File
+        ParameterFileFound = True
 
-            
-    PathToParameterFile = os.path.join(os.path.join(InputDir, 'Models', ModelPath, ParameterFileName))
-
-
-    file_par = open(PathToParameterFile, 'rU')
-    ParametersArr = file_par.readlines()
-    file_par.close()
-    
-    ParameterMin = []
-    ParameterValues = []
-    ParameterMax = []
-    ParameterOnOff = []
-    ParameterNames = []
-
-    
-    IdList = []
-    Labels = ['Min: ','Value: ','Max: ','Fit?: ','Name: ']
-    NoFreeParameters = True
-    
-    for line in ParametersArr:
-        LineArr = re.split(r'[\s]*', line)
-        del LineArr[-1]
-        Fields = len(LineArr)
-    
-        for fieldscurr in range(Fields):
-            id_str = ModelPath + Labels[fieldscurr] + LineArr[-1]
         
+PathToParameterFile = os.path.join(os.path.join(InputDir, 'Models', ModelPath, ParameterFileName))
+
+
+file_par = open(PathToParameterFile, 'rU')
+ParametersArr = file_par.readlines()
+file_par.close()
+
+ParameterMin = []
+ParameterValues = []
+ParameterMax = []
+ParameterOnOff = []
+ParameterNames = []
+
+
+IdList = []
+Labels = ['Min: ','Value: ','Max: ','Fit?: ','Name: ']
+NoFreeParameters = True
+
+for line in ParametersArr:
+    LineArr = re.split(r'[\s]*', line)
+    del LineArr[-1]
+    Fields = len(LineArr)
+
+    for fieldscurr in range(Fields):
+        id_str = ModelPath + Labels[fieldscurr] + LineArr[-1]
+    
+    
+        if len(IdList) > 1:
+            j = 0
+            for idcurr in range(len(IdList)):
+                if IdList[idcurr] == id_str:
+                    j = j + 1
+                    id_str  = ModelPath + Labels[fieldscurr] + LineArr[-1] + '_' + str(j)
+
+        IdList.append(id_str)
+        new_id_str = id_str.replace(" ", "")
+        new_id_str1 = new_id_str.replace(":", "")
+        new_id_str2 = new_id_str1.replace("?", "")
         
-            if len(IdList) > 1:
-                j = 0
-                for idcurr in range(len(IdList)):
-                    if IdList[idcurr] == id_str:
-                        j = j + 1
-                        id_str  = ModelPath + Labels[fieldscurr] + LineArr[-1] + '_' + str(j)
+        if (Labels[fieldscurr] == 'Fit?: '):
+            if new_id_str2 in json_variables:
+                ParameterOnOff.append('0')
+                NoFreeParameters = False
+            else:
+                ParameterOnOff.append('1')
 
-            IdList.append(id_str)
-            new_id_str = id_str.replace(" ", "")
-            new_id_str1 = new_id_str.replace(":", "")
-            new_id_str2 = new_id_str1.replace("?", "")
-            
-            if (Labels[fieldscurr] == 'Fit?: '):
-                if new_id_str2 in json_variables:
-                    ParameterOnOff.append('0')
-                    NoFreeParameters = False
-                else:
-                    ParameterOnOff.append('1')
-
-            elif (Labels[fieldscurr] == 'Min: '):
-                ParameterMin.append(json_variables[ new_id_str2 ])
+        elif (Labels[fieldscurr] == 'Min: '):
+            ParameterMin.append(json_variables[ new_id_str2 ])
+                
+        elif (Labels[fieldscurr] == 'Value: '):
+            ParameterValues.append(json_variables[ new_id_str2 ])
+                
+        elif (Labels[fieldscurr] == 'Max: '):
+            ParameterMax.append(json_variables[ new_id_str2 ])
+                
+        else: 
+            ParameterNames.append(json_variables[ new_id_str2 ])
                     
-            elif (Labels[fieldscurr] == 'Value: '):
-                ParameterValues.append(json_variables[ new_id_str2 ])
-                    
-            elif (Labels[fieldscurr] == 'Max: '):
-                ParameterMax.append(json_variables[ new_id_str2 ])
-                    
-            else: 
-                ParameterNames.append(json_variables[ new_id_str2 ])
-                        
 
-    file_par_dummy = open('ParametersBefore.mcp','w')
+file_par_dummy = open('ParametersBefore.mcp','w')
 
-    i = 0
-    for line in ParameterValues:
-        LineToWrite = ParameterMin[i] + '   ' + \
-                      ParameterValues[i] + '   ' + \
-                      ParameterMax[i] + '   ' + \
-                      ParameterOnOff[i] + '   ' + \
-                      ParameterNames[i] + '\n'
-        
-        file_par_dummy.write(LineToWrite)
-        
-        i = i + 1
-        
-    file_par_dummy.close()
+i = 0
+for line in ParameterValues:
+    LineToWrite = ParameterMin[i] + '   ' + \
+                  ParameterValues[i] + '   ' + \
+                  ParameterMax[i] + '   ' + \
+                  ParameterOnOff[i] + '   ' + \
+                  ParameterNames[i] + '\n'
+    
+    file_par_dummy.write(LineToWrite)
+    
+    i = i + 1
+    
+file_par_dummy.close()
 
-    if NoFreeParameters and (FittingRoutine != 0):
-        output_res['error'] = 'This fitting routine needs free parameters...'
-        print json.dumps( output_res )
-        exit() 
+if NoFreeParameters and (FittingRoutine != 0):
+    output_res['error'] = 'This fitting routine needs free parameters...'
+    print json.dumps( output_res )
+    exit() 
 
-    ParametersStr = 'ParametersBefore.mcp'
+ParametersStr = 'ParametersBefore.mcp'
 
-else: 
-    param_file = 'param_choice_file_' + model_list
-    ParametersStr = json_variables[ param_file ][0]
-    #print ParametersStr
+#else: 
+#    param_file = 'param_choice_file_' + model_list
+#    ParametersStr = json_variables[ param_file ][0]
+#    #print ParametersStr
 
 
 try:
