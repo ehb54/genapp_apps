@@ -345,7 +345,7 @@ ParameterNames = []
 
 
 IdList = []
-Labels = ['Min: ','Value: ','Max: ','Fit?: ','Name: ']
+Labels = ['Min: ','Value: ','Max: ','Fit?: ','Parameter: ']
 NoFreeParameters = True
 
 for line in ParametersArr:
