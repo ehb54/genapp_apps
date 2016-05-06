@@ -94,46 +94,55 @@ for ModelPath in ModelList:
             
             if (Labels[fieldscurr] == 'Fit?: '):
                 type = 'checkbox'
-                out_str_fix = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"true"\n},\n'
+                NoRow = 'true'
+                pattern = ''
+                out_str_fix = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "checked":"false", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "pattern":"' + pattern + '"\n},\n'
             
             if (Labels[fieldscurr] == 'Min: '): 
-                type = 'float'
+                type = 'text'
                 NoRow = 'true'
                 Size = '3'
                 Label_add = ''
                 readonly = 'false'
-                out_str_min = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n'
+                pattern = '^([-+])?[0-9]+([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$'
+                required = 'true'
+                out_str_min = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":' + Size + ', \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "pattern":"' + pattern + '", \n "required":"' + required + '", \n "readonly":"' + readonly + '"\n},\n'
             
             if (Labels[fieldscurr] == 'Value: '): 
-                type = 'float'
+                type = 'text'
                 NoRow = 'true'
-                Size = '3'
+                Size = '5'
                 Label_add = ''
                 readonly = 'false'
-                out_str_val = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n'
+                required = 'true'
+                pattern = '^([-+])?[0-9]+([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$' # [-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?'
+                out_str_val = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":' + Size + ', \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "pattern":"' + pattern + '", \n "required":"' + required + '", \n "readonly":"' + readonly + '"\n},\n'
             
             if (Labels[fieldscurr] == 'Max: '): 
-                type = 'float'
+                type = 'text'
                 NoRow = 'false'
                 Size = '3'
                 Label_add = ''
                 readonly = 'false'
-                out_str_max = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n'              
+                required = 'true'
+                pattern = '^([-+])?[0-9]+([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$'
+                out_str_max = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":' + Size + ', \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "pattern":"' + pattern + '", \n "required":"' + required + '", \n "readonly":"' + readonly + '"\n},\n'              
                 
             if Labels[fieldscurr] == 'Parameter: ':
                 type = 'text'
                 NoRow = 'true'
-                Size = '17'
+                Size = '15'
                 Label_add = str(i) + ':'
                 readonly = 'true'
-                out_str_name = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":"' + Size + '", \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "readonly":"' + readonly + '"\n},\n'
+                required = 'true'
+                out_str_name = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"Parameter ' + Label_add + '", \n "type":"' + type + '", \n "default":"' + LineArr[fieldscurr] + '", \n "size":' + Size + ', \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "required":"' + required + '", \n "readonly":"' + readonly + '"\n},\n'
 
         out_str = out_str + out_str_name + out_str_fix + out_str_min + out_str_val + out_str_max
 
 #############################################################
 
     Param_ids = Param_ids[:-1]
-    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"LOAD FILE: ", \n "type":"file", \n "setinputfromfile":"whitespaceseparated", \n "setinputfromfileids":"' + Param_ids + '",  \n "repeat":"model_list_box:' + ModelPath[1]  + '"\n},\n'
+    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"LOAD FILE: ", \n "type":"lrfile", \n "setinputfromfile":"whitespaceseparated", \n "setinputfromfileids":"' + Param_ids + '",  \n "repeat":"model_list_box:' + ModelPath[1]  + '"\n},\n'
     print out_str
     
 
