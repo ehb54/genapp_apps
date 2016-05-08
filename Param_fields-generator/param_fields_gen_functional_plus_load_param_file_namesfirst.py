@@ -104,7 +104,7 @@ for ModelPath in ModelList:
                 Size = '3'
                 Label_add = ''
                 readonly = 'false'
-                pattern = '^([-+])?[0-9]+([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$'
+                pattern = '^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$'
                 required = 'true'
                 out_str_min = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":' + Size + ', \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "pattern":"' + pattern + '", \n "required":"' + required + '", \n "readonly":"' + readonly + '"\n},\n'
             
@@ -115,7 +115,7 @@ for ModelPath in ModelList:
                 Label_add = ''
                 readonly = 'false'
                 required = 'true'
-                pattern = '^([-+])?[0-9]+([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$' # [-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?'
+                pattern = '^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$' # [-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?'
                 out_str_val = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":' + Size + ', \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "pattern":"' + pattern + '", \n "required":"' + required + '", \n "readonly":"' + readonly + '"\n},\n'
             
             if (Labels[fieldscurr] == 'Max: '): 
@@ -125,7 +125,7 @@ for ModelPath in ModelList:
                 Label_add = ''
                 readonly = 'false'
                 required = 'true'
-                pattern = '^([-+])?[0-9]+([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$'
+                pattern = '^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$'
                 out_str_max = '{\n "role":"input", \n "id":"' + new_id_str2 + '", \n "label":"' + Labels[fieldscurr] + '", \n "type":"' + type + '", \n "default":"'+ Label_add + LineArr[fieldscurr] + '", \n "size":' + Size + ', \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "norow":"' + NoRow + '", \n "pattern":"' + pattern + '", \n "required":"' + required + '", \n "readonly":"' + readonly + '"\n},\n'              
                 
             if Labels[fieldscurr] == 'Parameter: ':
@@ -142,7 +142,7 @@ for ModelPath in ModelList:
 #############################################################
 
     Param_ids = Param_ids[:-1]
-    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"LOAD FILE: ", \n "type":"lrfile", \n "setinputfromfile":"whitespaceseparated", \n "setinputfromfileids":"' + Param_ids + '",  \n "repeat":"model_list_box:' + ModelPath[1]  + '"\n},\n'
+    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"LOAD FILE: ", \n "type":"lrfile", \n "setinputfromfile":"whitespaceseparated_reverselogic", \n "setinputfromfileids":"' + Param_ids + '",  \n "repeat":"model_list_box:' + ModelPath[1]  + '"\n},\n'
     print out_str
     
 
