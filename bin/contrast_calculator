@@ -184,7 +184,7 @@ class Contrast_Drv():
                 print 'ERROR READING DATA FILE'
                 print 'ERROR READING DATA FILE'
                 print 'ERROR READING DATA FILE'
-                self.flot_data = "error reading file and making plot"
+                self.flot_data = "error reading file and making plot : this_pass "+str(this_pass)
 
         return value
 

@@ -90,11 +90,6 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "docking",
-                          "label" : "Docking ",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
                           "id"    : "two_body_grid",
                           "label" : "Two-Body Grid ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
@@ -107,25 +102,10 @@
             "icon"    : "pngs/calculate.png",
             "modules" : [ 
                          #{ 
-                          #"id"    : "sascalc",
-                          #"label" : "SasCalc",
-                          #"views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         #},
-                         #{ 
                           #"id"    : "sascalc_md",
                           #"label" : "SasCalc-MD",
                           #"views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          #},
-                         { 
-                          "id"    : "xtal2sas",
-                          "label" : "Xtal2sas",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "cryson",
-                          "label" : "Cryson",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
                          { 
                           "id"    : "crysol",
                           "label" : "Crysol",
@@ -180,9 +160,58 @@
                          }
                         ]
             }
+           ,{
+            "id"      : "beta",
+            "group"   : "beta",
+            "label"   : "Beta",
+            "icon"    : "pngs/beta.png",
+            "modules" : [
+                         { 
+                          "id"    : "sascalc",
+                          "label" : "SasCalc",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }, 
+                         { 
+                          "id"    : "docking",
+                          "label" : "Docking ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+#,
+                        ]
+            }
+#           ,{
+#            "id"         : "alpha",
+#            "group"   : "alpha",
+#            "label"   : "Alpha",
+#            "icon"    : "pngs/alpha.png",
+#            "modules" : [
+#                         {
+#                          "id"    : "testalpha",
+#                          "label" : "testalpha"
+#                         }
+#                        ]
+#            }
+           ,{
+            "id"      : "graveyard",
+            "group"   : "graveyard",
+            "label"   : "Retired",
+            "icon"    : "pngs/graveyard.png",
+            "modules" : [
+                         {
+                          "id"    : "xtal2sas",
+                          "label" : "Xtal2sas",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "cryson",
+                          "label" : "Cryson",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            }
            ,{ 
             "id"      : "admin",
-            "admin"   : "true",
+            "restricted"   : "admin",
             "label"   : "Admin",
             "icon"    : "pngs/admin.png",
             "modules" : [ 

@@ -1,4 +1,4 @@
-#!/share/apps/local/bin/python/bin/python
+#!/share/apps/local/anaconda/bin/python
 import json,sys,os,shutil,time,math,locale,string
 from StringIO import StringIO
 import multiprocessing,time,string,socket
@@ -6,6 +6,8 @@ import multiprocessing,time,string,socket
 import sassie.analyze.chi_square_filter as chi_square_filter
 import sassie.interface.input_filter as input_filter
 import sassie.interface.chi_square_filter_filter as chi_square_filter_filter
+
+####!/share/apps/local/bin/python/bin/python
 
 class Chi_square_filter_Drv():
 
@@ -293,6 +295,8 @@ class Chi_square_filter_Drv():
 
 	output_dict = {}
 
+	folder_flag = True
+
 	if not json_flag:
 
         	#### BEGIN USER EDIT
@@ -317,6 +321,7 @@ class Chi_square_filter_Drv():
 		sastype = '1'
 		reduced_x2 = '1'
 		plotflag = '0'
+		folder_flag = False
 
 		path='./'
 
@@ -345,38 +350,23 @@ class Chi_square_filter_Drv():
 		#saspath = saspath.replace('\/','/') + "/"
                 io = json_variables['io']
 
-                try:
-                        advanced_input = json_variables['advanced_input']
-                except:
-                        advanced_input = 'off'
-
-                if(advanced_input == "on"):
-
-                	x2highcut = json_variables['x2highcut']
-                	x2highweightfile = json_variables['x2highweightfile']
-                	x2lowcut = json_variables['x2lowcut']
-                	x2lowweightfile = json_variables['x2lowweightfile']
-                	rghighcut = json_variables['rghighcut']
-                	rghighweightfile = json_variables['rghighweightfile']
-                	rglowcut = json_variables['rglowcut']
-                	rglowweightfile = json_variables['rglowweightfile']
-                else:
-			x2highcut = '10.0'
-			x2highweightfile = 'x2highweights.txt'
-			x2lowcut = '1.0'
-			x2lowweightfile = 'x2lowweights.txt'
-			rghighcut = '60.0'
-			rghighweightfile = 'rghighweights.txt'
-			rglowcut = '40.0'
-			rglowweightfile = 'rglowweights.txt'
-
+#                x2highcut = json_variables['x2highcut']
+#                x2highweightfile = json_variables['x2highweightfile']
+#                x2lowcut = json_variables['x2lowcut']
+#                x2lowweightfile = json_variables['x2lowweightfile']
+#                rghighcut = json_variables['rghighcut']
+#                rghighweightfile = json_variables['rghighweightfile']
+#                rglowcut = json_variables['rglowcut']
+#                rglowweightfile = json_variables['rglowweightfile']
 
                 sastype_list_box = json_variables['sastype_list_box']
-                if(sastype_list_box == 'c1'):
+                if(sastype_list_box == 'c0'):
+                        sastype = '0' # sascalc
+                elif(sastype_list_box == 'c1'):
                         sastype = '1' # xtal2sas
                 elif(sastype_list_box == 'c2'):
                         sastype = '2' # cryson
-                elif(sastype_list_box == 'c3'): 
+                elif(sastype_list_box == 'c3'):
                         sastype = '3' # crysol
 
                 reduced_x2_list_box = json_variables['reduced_x2_list_box']
@@ -405,6 +395,14 @@ class Chi_square_filter_Drv():
 			basis_string  = ''
 			weight_file_names  = ''
 
+                try:
+                	folder_flag_check_box = json_variables['folder_flag_check_box']
+                except:
+                	folder_flag_check_box = "off"
+
+                if(folder_flag_check_box == "on"):
+                	folder_flag = False
+
                 data_path = path
 
 		path = ''
@@ -412,6 +410,15 @@ class Chi_square_filter_Drv():
 	svariables={}
 
 	plotflag = '0'
+
+        x2highcut = '10.0'
+        x2highweightfile = 'x2highweights.txt'
+        x2lowcut = '1.0'
+        x2lowweightfile = 'x2lowweights.txt'
+        rghighcut = '60.0'
+        rghighweightfile = 'rghighweights.txt'
+        rglowcut = '40.0'
+        rglowweightfile = 'rglowweights.txt'
 
 	svariables['runname'] = (str(runname),'string')
 
@@ -460,7 +467,7 @@ class Chi_square_filter_Drv():
 
 		runname=self.variables['runname'][0]
 
-		if os.path.exists(runname+'/'+self.module):
+		if (os.path.exists(runname+'/'+self.module) and folder_flag):
 			shutil.rmtree(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
@@ -472,7 +479,11 @@ class Chi_square_filter_Drv():
 
 #		output_dict['sasoutput2'] = total_string
 
-                self.get_data_from_disk(data_path+runname+'/chi_square_filter/sas_spectra_plot.txt',5)
+		if sastype == '0':
+			saspath_base = os.path.basename(os.path.normpath(saspath))
+                	self.get_data_from_disk(os.path.join(data_path,runname,'chi_square_filter',saspath_base,'sas_spectra_plot.txt'),5)
+		else:
+                	self.get_data_from_disk(os.path.join(data_path,runname,'chi_square_filter','sas_spectra_plot.txt'),5)
 
                 if(isinstance(self.flot_data, basestring)):
                         print 'error reading data'
@@ -480,7 +491,11 @@ class Chi_square_filter_Drv():
                 else:
                         output_dict['iq_plot'] = self.flot_data
 
-                self.get_data_from_disk(data_path+runname+'/chi_square_filter/x2_vs_rg_plot.txt',2)
+		if sastype == '0':
+			saspath_base = os.path.basename(os.path.normpath(saspath))
+	                self.get_data_from_disk(os.path.join(data_path,runname,'chi_square_filter',saspath_base,'x2_vs_rg_plot.txt'),2)
+		else:
+	                self.get_data_from_disk(os.path.join(data_path,runname,'chi_square_filter','x2_vs_rg_plot.txt'),2)
 
                 if(isinstance(self.flot_data, basestring)):
                         print 'error reading data'

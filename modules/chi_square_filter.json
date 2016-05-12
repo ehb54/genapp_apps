@@ -45,8 +45,8 @@
                    "name"    : "sastype_list_box",
                    "label"   : "SAS type",
                    "type"    : "listbox",
-                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
-                   "default" : "c1",
+		   "values"  : "SasCalc~c0~xtal2sas~c1~cryson~c2~crysol~c3",
+                   "default" : "c0",
                    "help" : "choose a scattering data file type"
                    },
                   {
@@ -67,15 +67,6 @@
                    "default" : "c1",
                    "help" : "choose statistical fit method"
                    },
-                  #{
-                   #"role"     : "input",
-                   #"id"       : "advanced_input",
-                   #"label"    : "Check Box for Advanced Input",
-                   #"type"     : "checkbox",
-                   #"checked"  : "false",
-                   #"help"     : "check box to reveal input fields to generate weight files used to filter data",
-                   #"repeater" : "true"
-                   #},
                   {
                    "role"     : "input",
                    "id"       : "number_of_weight_files",
@@ -106,6 +97,45 @@
                    "required" : "true",
 	   	   "help"     : "enter filename",
                    "repeat"  : "number_of_weight_files"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowrg",
+                   "label"    : "low Rg cutoff",
+                   "type"     : "float",
+                   "default"  : 0.0,
+                   "min"      : 0.0,
+                   "step"     : 0.01,
+                   "required" : "true",
+                   "help" : "discard all accepted structures with a Rg less than this value",
+                   "repeat"  : "number_of_weight_files"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "folder_flag_check_box",
+                   "label"    : "Check Box to keep existing run name folder",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"     : "check box to override default behavior that removes existing run name folder",
+                   "repeat" : "advanced_input"
                    },
                   {
                    "role"    : "output",
