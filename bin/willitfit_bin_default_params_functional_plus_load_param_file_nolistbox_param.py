@@ -151,7 +151,9 @@ output_res = {}
 
 json_variables = " "
 
-InputDir = '/home/alexey/WillItFit/Source'
+
+InitialDirectoryStr = os.path.abspath(os.path.dirname(sys.argv[0]))
+InputDir = InitialDirectoryStr + '/willitfit_source/Source'
 
 argv_io_string = StringIO(sys.argv[1])
 json_variables = json.load(argv_io_string)
