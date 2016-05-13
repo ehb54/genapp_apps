@@ -1,0 +1,91 @@
+<style>
+#panel_admin {
+    position: relative;
+    display: block;  
+}
+</style>
+<p>
+<center>
+
+    <button id="admin_jobmonitor" class="help_link">Job monitor</button>
+<script>
+    $( "#admin_jobmonitor" ).click(function() {
+        var d=$( "#tab_docs > a" );
+        if ( d.length ) { d.attr( "href", "__docsbaseurl__/admin/jobmonitor/jobmonitor.html" ); };
+    
+        if ( ga.valuen.lastload && $( "#" + ga.valuen.lastload ).is( ":visible" ) ) { ga.valuen.save( ga.valuen.lastload ); }
+
+        if ( ga.valuen.lastload != "jobmonitor" || !$( "#" + ga.valuen.lastload ).is( ":visible" ) ) {
+            ga.loader.show();
+            $( "#panel_admin" ).load( "ajax/admin/jobmonitor.html", function() { ga.valuen.save( "jobmonitor", true ); ga.valuen.restore( "jobmonitor" ); ga.valuen.lastload = "jobmonitor"; ga.loader.hide(); });
+        }
+    });
+
+
+
+</script>
+    <button id="admin_jobintegritycheck" class="help_link">Integrity check</button>
+<script>
+    $( "#admin_jobintegritycheck" ).click(function() {
+        var d=$( "#tab_docs > a" );
+        if ( d.length ) { d.attr( "href", "__docsbaseurl__/admin/jobintegritycheck/jobintegritycheck.html" ); };
+    
+        if ( ga.valuen.lastload && $( "#" + ga.valuen.lastload ).is( ":visible" ) ) { ga.valuen.save( ga.valuen.lastload ); }
+
+        if ( ga.valuen.lastload != "jobintegritycheck" || !$( "#" + ga.valuen.lastload ).is( ":visible" ) ) {
+            ga.loader.show();
+            $( "#panel_admin" ).load( "ajax/admin/jobintegritycheck.html", function() { ga.valuen.save( "jobintegritycheck", true ); ga.valuen.restore( "jobintegritycheck" ); ga.valuen.lastload = "jobintegritycheck"; ga.loader.hide(); });
+        }
+    });
+
+
+
+</script>
+    <button id="admin_sysuserslist" class="help_link">Users</button>
+<script>
+    $( "#admin_sysuserslist" ).click(function() {
+        var d=$( "#tab_docs > a" );
+        if ( d.length ) { d.attr( "href", "__docsbaseurl__/admin/sysuserslist/sysuserslist.html" ); };
+    
+        if ( ga.valuen.lastload && $( "#" + ga.valuen.lastload ).is( ":visible" ) ) { ga.valuen.save( ga.valuen.lastload ); }
+
+        if ( ga.valuen.lastload != "sysuserslist" || !$( "#" + ga.valuen.lastload ).is( ":visible" ) ) {
+            ga.loader.show();
+            $( "#panel_admin" ).load( "ajax/admin/sysuserslist.html", function() { ga.valuen.save( "sysuserslist", true ); ga.valuen.restore( "sysuserslist" ); ga.valuen.lastload = "sysuserslist"; ga.loader.hide(); });
+        }
+    });
+
+
+
+</script>
+    <button id="admin_jobshistory_1" class="help_link">Job history</button>
+<script>
+    $( "#admin_jobshistory_1" ).click(function() {
+        var d=$( "#tab_docs > a" );
+        if ( d.length ) { d.attr( "href", "__docsbaseurl__/admin/jobshistory_1/jobshistory_1.html" ); };
+    
+        if ( ga.valuen.lastload && $( "#" + ga.valuen.lastload ).is( ":visible" ) ) { ga.valuen.save( ga.valuen.lastload ); }
+
+        if ( ga.valuen.lastload != "jobshistory_1" || !$( "#" + ga.valuen.lastload ).is( ":visible" ) ) {
+            ga.loader.show();
+            $( "#panel_admin" ).load( "ajax/admin/jobshistory_1.html", function() { ga.valuen.save( "jobshistory_1", true ); ga.valuen.restore( "jobshistory_1" ); ga.valuen.lastload = "jobshistory_1"; ga.loader.hide(); });
+        }
+    });
+
+
+
+</script>
+</center>
+</p>
+
+<div id="panel_admin">
+</div>
+
+
+<script>
+    $( "#panel_admin" ).text("");
+ga.tmp.bgi = "rgb( 0,0,95 )";
+
+
+$("body").css( { "background": ga.tmp.bgi + " no-repeat center center fixed", "-webkit-background-size" : "cover", "-moz-background-size" : "cover", "-o-background-size" : "cover" , "background-size": "cover"} );
+</script>

@@ -1,0 +1,685 @@
+
+<form id="jobmonitor">
+<span id="jobmonitor_input_area"></span>
+<script>
+ga.tmp.bgi = "rgb( 0,0,95 )";
+
+
+
+$("body").css( { "background": ga.tmp.bgi + " no-repeat center center fixed", "-webkit-background-size" : "cover", "-moz-background-size" : "cover", "-o-background-size" : "cover" , "background-size": "cover"} );
+
+
+input_eval = "";
+input_html = "<table>";
+input_repeats = "";
+input_trees = [];
+skipped_row = 0;
+jobmonitor_done_eval = "";
+_jmol_info = {};
+// jmol = "jmol";
+ga.pull.clearPull();
+ga.specproj.clear();
+$('#jobmonitor').on("keyup keypress", function(e) { var code = e.keyCode || e.which;  if (code  == 13) { e.preventDefault(); return false; }});
+ga.tmp.html = '';
+
+
+this_html = '<tr>' +
+'<td><label for="interval">Update frequency in seconds </label></td>' + 
+'<td><input type="number" name="interval" id="interval" value="5" data-type="integer" min="5"' +
+'><span id="interval_msg" class="warning field_msg" > </span></td></tr>'
+
+;
+
+this_eval = 
+'ga.value.setLastValue( "jobmonitor", "#interval" );'
+
+
++ '$( "#interval" ).on("change blur", function() { ga.valid.checkInt( "#interval" );'
+
+
++ '});'
+
++ '$( "#interval" ).keypress( function() { $( "#interval_msg" ).html( "" ); });'
+
+
+
+;
+
+;
+
+if ( skipped_row == 1 ){ this_html = this_html.replace(/^<tr>/, "" ); skipped_row=0;};
+
+
+
+
+
+
+input_html += this_html;
+input_eval += this_eval;
+if( skipped_row == 1 ){ input_html += "</tr>"; }
+input_html += '</table>';
+$( '#jobmonitor_input_area' ).html( input_html );
+eval( input_eval );
+</script>
+<p><button id="jobmonitor_submit" class="help_link"><span class="buttontext">Submit</span></button>
+<span class="help">this is help for the submit button</span>
+<button id="jobmonitor_reset" class="help_link"><span class="buttontext">Reset to default values</span></button>
+<span class="help">this is help for the reset to default values button</span>
+
+</p>
+<span id="jobmonitor_progress"></span>
+<script>
+
+
+
+
+
+
+var jobmonitor_output_msgs = $("#jobmonitor_output_msgs");
+jobmonitor_output_msgs.text( "" );
+
+var jobmonitor_timeout_handler = "unset";
+
+function get_results_jobmonitor( id, last_timeout, getlastmsg, getinput )
+{
+
+//             url:"ajax/get_results.php?_window=" +  window.name + "&_logon=" +$( "#_state" ).data( "_logon" ) + '&_uuid=' + id,
+    var job_status = "";
+    $.getJSON( 
+             "ajax/get_results.php",
+             {
+                tagmode: "any",
+                format: "json",
+                _window : window.name,
+                _logon : $( "#_state" ).data( "_logon" ),
+                _uuid : id,
+                _getlastmsg : getlastmsg,
+                _getinput : getinput ? true : false
+             } )
+    .done( function( data, status, xhr ) {
+
+           var do_refresh = 1;
+
+           if ( do_refresh ) {
+              ga.fc.clear( $.base64.encode( "./" + $( "#_state" ).data( "_project" ) ) );
+              ga.jc.clear_leaf( id );
+           }
+
+           job_status = ga.data.update( "jobmonitor", data ).job_status;
+           if ( job_status == "complete" ||
+                job_status == "cancelled" ||
+                job_status == "failed" )
+           {
+              if ( jobmonitor_timeout_handler != "unset" )
+              {
+                  clearTimeout( jobmonitor_timeout_handler );
+                  jobmonitor_timeout_handler = "unset";
+              }
+              unsubMsging( id, "jobmonitor" );
+              eval( jobmonitor_done_eval );
+           } else {
+               if ( !last_timeout || last_timeout < 2000 )
+               { 
+                  last_timeout = 2000;
+               } else {
+                  if ( last_timeout < 16000 )
+                  {
+                      last_timeout *= 2;
+                  } else {
+                      last_timeout = 16000;
+                  }
+               }
+
+               jobmonitor_timeout_handler =  setTimeout( get_results_jobmonitor, last_timeout, id, last_timeout, 0 );
+           }
+          } )
+    .fail( function( xhr, status, errorThrown ) {
+
+           $( "#jobmonitor_results" ).html( "<span class=\"warning\"> Failed: " + status + " : '" + xhr.status + ":" + errorThrown + "' on URL ajax/tools/center.php </span>" );
+           $('#jobmonitor_progress').html( "" );
+           if ( jobmonitor_timeout_handler != "unset" )
+           {
+               clearTimeout( jobmonitor_timeout_handler );
+               jobmonitor_timeout_handler = "unset";
+           }
+           unsubMsging( id, "jobmonitor" );
+           eval( jobmonitor_done_eval );
+          } );
+    return false;
+};
+
+function msg_jobmonitor ( id, data )
+{
+   ga.data.update( "jobmonitor", data, get_results_jobmonitor, id );
+};
+
+$( "#jobmonitor_submit" ).click( function( e ) {
+   e.preventDefault();
+   e.returnValue = false;
+   
+   return do_jobmonitor_submit( $(this) );
+});
+
+function do_jobmonitor_submit( $form, airavataresource, skipcached ) {
+
+   var $ok = 0;
+   
+   
+
+   ga.event( "", "jobmonitor", "submit clicked" );
+
+   
+
+
+
+
+
+   if ( !ga.valid.checksubmit( "jobmonitor" ) ) {
+       return false;
+   }
+
+   if ( ga.specproj.data.length ) {
+      if ( $( "#_state" ).data( '_logon' ) &&
+           $( "#_state" ).data( '_logon' ).length ) {
+          $( "#sel_project" ).html( ga.specproj.gname() );
+          $( "#_state" ).data( '_project', ga.specproj.gname() );
+          
+      }
+   }  
+
+   if ( !airavataresource ) {
+      
+      switch( airavataresource = ga.airavata.select( "local", "__airavataselect__", do_jobmonitor_submit, $form ) ) {
+      case "deferred" : return false; break;
+      case "abort"    : return false; break;
+      case "notused"  : break;
+      }
+      
+   }
+   
+
+   $.ajax({
+       type: 'get'
+       ,url: "ajax/sys_config/sys_joblocked.php?_window=" +  window.name + "&_logon=" + $( "#_state" ).data( "_logon" )
+ + "&_submitpolicy=all"
+
+       ,context: $form
+       ,success: function( data ) { // your success handler
+
+          if ( !$ok )
+          {
+          switch ( data )
+          {
+             case "1" :
+             {
+                 messagebox( { icon:"warning.png", text:"This project directory is currently locked by another project.\nYou can wait until it completes, change the project in user configuration or clear the lock in the job manager." } );
+                 return;
+             } break;
+             case "2" :
+             {
+                 messagebox( { icon:"warning.png", text:"You must be logged in to submit this module." } );
+                 return;
+             } break;
+             case "0" :
+             {
+
+                 $ok = 1;
+             } break;
+             default : 
+             {
+                
+                if ( skipcached ) {
+                    $ok = 1;
+                } else {
+                    switch( "" ) {
+                    case "notify" : 
+                        {               
+                           messagebox( { icon:"information.png", text:"Showing previously computed results." } );
+                        }
+                        break;
+                    case "askrecompute" : 
+                        // if "cacheadmin" or "admin" add clear cache ?
+                        messagebox( {
+                           icon  : "question.png"
+                           ,text  : "Previously computed results are available."
+                           ,buttons : [
+                                      { id    : "showcached"
+                                        ,label : "Show previously computed results"
+                                        ,cb    : get_results_jobmonitor
+                                        ,adata  : [ data, 0, 1, 1 ]
+                                      }
+                                      ,{ id    : "recompute"
+                                        ,label : "Recompute results"
+                                        ,cb    : do_jobmonitor_submit
+                                        ,adata  : [ $form, airavataresource, 1 ]
+                                      }
+                                      ,{ id    : "cancel",
+                                        label : "Cancel"
+                                      }
+                                     ]
+                                     } );
+                        return;
+                        break;
+                    default: 
+                        break;
+                    }
+                    get_results_jobmonitor( data, 0, 1, 1 );
+                    return;
+                 }
+             } break;
+          }
+          }
+       }
+       ,error: function() { // your error handler
+          messagebox( { icon:"toast.png", text:"Checking the project lock failed. This is possibly a server or network issue" } );
+       }
+       ,complete: function() { 
+          this.off('submit');
+          if ( $ok )
+          {
+
+
+              $( "#jobmonitor_results" ).text( "" );
+
+              ga.value.saveLastValues( "jobmonitor" );
+              ga.value.resetDefaultValues( "jobmonitor_output", true );
+
+              var found_errors = 0;
+              $("#jobmonitor").find("input").each(function(i){
+                 if ( $(this).attr( 'required' ) && $(this).val().length == 0 )
+                 {
+                    var tag =  "#jobmonitor " + "#" + $(this).attr('id') + "_msg";
+
+                    $( tag ).html( "missing required field" );
+                    found_errors = 1;
+                 }
+              });
+              if ( found_errors ) {
+                  return;
+              }
+
+    var tree_html = "";
+    $( "._hidden_tree_selects" ).remove( );
+    $.each( input_trees, function( k, v ){
+
+        $( 'input[type=hidden][name="' + v + '[]"]' ).remove();
+        var selectedElms = $('#' + v).jstree("get_selected", true);
+        var i = 0;
+        $.each(selectedElms, function() {
+           tree_html += '<input type="hidden" name="' + v + '[]" value="' + this.id + '" class="_hidden_tree_selects"/>';
+
+        });
+    });
+
+    $( this ).append( tree_html );
+
+
+    var logonadd = $("<input>").attr("type", "hidden").attr("name", "_logon").val( $( "#_state" ).data( "_logon" ) );$( this ).append($(logonadd));
+    var projectadd = $("<input>").attr("type", "hidden").attr("name", "_project").val( $( "#_state" ).data( "_project" ) );$( this ).append($(projectadd));
+    var windowadd = $("<input>").attr("type", "hidden").attr("name", "_window").val( window.name );$( this ).append($(windowadd));
+    var vuuid = uuid.v1();
+
+
+
+
+
+$( this ).append( $("<input>").attr("type", "hidden").attr("name", "_docrootexecutable").val( "ajax/sys_config/sys_jobmonitor.php" ) );
+
+    if ( airavataresource != "notused" ) {
+        $( this ).append( $("<input>").attr("type", "hidden").attr("name", "_airavataresource").val( airavataresource ) );
+    }
+
+    var uuidadd = $("<input>").attr("type", "hidden").attr("name", "_uuid").val( vuuid );$( this ).append($(uuidadd));
+//    ga.altfile.add( "jobmonitor" );
+    ga.valuen.addhtml( "jobmonitor" );
+
+    subMsging( vuuid, msg_jobmonitor, "jobmonitor" );
+
+    var formData = new FormData($('form')[0]);
+
+
+    $('#jobmonitor_progress').html( "Uploading:<progress></progress>" );
+
+    var job_status = "";
+
+    ga.event( "", "jobmonitor", "submit: passed submit checks, submitting" );
+
+    $.ajax( {
+             dataType: "json",
+             cache:false,
+//             timeout:3000,  // for testing
+             type:"POST",
+             url:"ajax/admin/jobmonitor.php",
+             data: formData,
+             xhr: function() {  // Custom XMLHttpRequest
+                 var myXhr = $.ajaxSettings.xhr();
+                 if(myXhr.upload){ // Check if upload property exists
+                     myXhr.upload.addEventListener('progress',
+                         function(e) {
+                         if(e.lengthComputable){
+                           $('#jobmonitor_progress progress').attr({value:e.loaded,max:e.total});
+                         } }
+//                     progressHandlingFunction
+                    , false);
+                 }
+                 return myXhr;
+             },
+             contentType: false,
+             processData: false
+            } )
+    .done( function( data, status, xhr ) {
+
+
+
+
+// refresh cache for this project
+           $('#jobmonitor_progress').html( "" );
+   
+           var do_refresh = 1;
+
+           if ( do_refresh ) {
+              ga.fc.clear( $.base64.encode( "./" + $( "#_state" ).data( "_project" ) ) );
+              ga.jc.clear_leaf( vuuid );
+           }
+           
+// loop through data pairs
+           jobmonitor_output_msgs.text( "" );
+           job_status = ga.data.update( "jobmonitor", data ).job_status;
+
+           if ( job_status == "complete" ||
+                job_status == "cancelled" ||
+                job_status == "failed" )
+           {
+               if ( jobmonitor_timeout_handler != "unset" )
+               {
+                   clearTimeout( jobmonitor_timeout_handler );
+                   jobmonitor_timeout_handler = "unset";
+               }
+               unsubMsging( vuuid, "jobmonitor" );
+               eval( jobmonitor_done_eval );
+           } else {
+               jobmonitor_timeout_handler = setTimeout( get_results_jobmonitor, 2000, vuuid, 2000, 0 );
+
+           }
+          } )
+    .fail( function( xhr, status, errorThrown ) {
+
+
+
+
+           $( "#jobmonitor_results" ).html( "<span class=\"warning\"> Failed: " + status + " : '" + xhr.status + ":" + errorThrown + "' on URL ajax/admin/jobmonitor.php </span>" );
+           $('#jobmonitor_progress').html( "" );
+           if ( jobmonitor_timeout_handler != "unset" )
+           {
+               clearTimeout( jobmonitor_timeout_handler );
+               jobmonitor_timeout_handler = "unset";
+           }
+           unsubMsging( vuuid, "jobmonitor" );
+           eval( jobmonitor_done_eval );
+          } );
+          } else {
+
+          }
+       }
+   });
+} 
+
+$( "#jobmonitor_reset" ).click( function() {
+    
+    
+    ga.event( "", "jobmonitor", "reset clicked" );
+    //    ga.value.resetDefaultValues( "jobmonitor" );
+    ga.valuen.restore.dflt(  "jobmonitor" );
+    ga.value.resetDefaultValues( "jobmonitor_output", true );
+    
+    eval( input_repeats );
+    return false;
+});
+setHoverHelp();
+
+
+eval( input_repeats );
+ga.pull.doPull();
+</script>
+</form>
+<div id="jobmonitor_results"></div>
+<script>
+ga.tmp.html = "<hr>";
+
+$("#jobmonitor").append( ga.tmp.html );
+</script>
+<form id="jobmonitor_output">
+<div id="jobmonitor_output_msgs" class="warning" type="msgs"></div>
+<script>
+ga.value.setLastValueOutput( "jobmonitor_output" );
+ga.value.extra_resets.clear();
+</script>
+
+<span id="jobmonitor_output_airavata"></span>
+
+<table>
+<tr>
+<td colspan="4" style="vertical-align:top"><label hidden id="jobmonitor_output_textarea_label" for="jobmonitor_output_textarea" class="header3 ">Report:</label>
+<textarea readonly hidden id="jobmonitor_output_textarea" rows="10" cols="110" class="help_link"></textarea>
+<span class="help">general textarea help</span>
+</td>
+</tr>
+</table>
+<p>
+
+<label for="jobhistory">Active job count</label></tr><tr>
+<table class="help_link">
+<tr>
+   <td></td>
+   <td id="jobhistory_title" style="text-align:center"></td>
+   <td id="jobhistory_xy" class="coord"></td>
+</tr>
+<tr>
+   <td id="jobhistory_ylabel" style="text-align:center"></td>
+   <td id="jobhistory" type="plot2d" class="plot2ddef" style="width:600px;height:150px"></td>
+   <td id="jobhistory_legend"></td>
+</tr>
+<tr>
+   <td></td>
+   <td id="jobhistory_xlabel" style="text-align:center"></td>
+   <td></td>
+</tr>
+</table>
+<span class="help">drag to pan, double click to zoom, to reset zoom and pan: click on live coordinates box</span>
+</p>
+
+<script>
+var tmp = $.plot( $( "#jobhistory" ), [[]], gd.data( "_plot_options" ) );
+ga.value.set.plot2d.pan( "#jobhistory", 10 );
+ga.value.set.plot2d.zoom( "#jobhistory", 10 );
+ga.value.set.plot2d.hover( "#jobhistory", 10 );
+ga.value.set.plot2d.pkg( "jobmonitor_output", "#jobhistory" );
+$("#jobhistory").bind("plothover",function(e,p,i){var r=ga.set("plot2d:precision");$("#jobhistory_xy").addClass("coordvisible").text("( "+p.x.toPrecision(r)+" , "+p.y.toPrecision(r)+" )");}).on("mouseout", function(){setTimeout(function(){$("#jobhistory_xy").removeClass( "coordvisible" );}, 1500 )});
+ga.value.setLastValue( "jobmonitor_output", "#jobhistory" );
+ga.value.extra_resets( "jobhistory" );
+</script>
+<table>
+</table>
+<p>
+
+<label for="load">Load %</label></tr><tr>
+<table class="help_link">
+<tr>
+   <td></td>
+   <td id="load_title" style="text-align:center"></td>
+   <td id="load_xy" class="coord"></td>
+</tr>
+<tr>
+   <td id="load_ylabel" style="text-align:center"></td>
+   <td id="load" type="plot2d" class="plot2ddef" style="width:600px;height:150px"></td>
+   <td id="load_legend"></td>
+</tr>
+<tr>
+   <td></td>
+   <td id="load_xlabel" style="text-align:center"></td>
+   <td></td>
+</tr>
+</table>
+<span class="help">drag to pan, double click to zoom, to reset zoom and pan: click on live coordinates box</span>
+</p>
+
+<script>
+var tmp = $.plot( $( "#load" ), [[]], gd.data( "_plot_options" ) );
+ga.value.set.plot2d.pan( "#load", 10 );
+ga.value.set.plot2d.zoom( "#load", 10 );
+ga.value.set.plot2d.hover( "#load", 10 );
+ga.value.set.plot2d.pkg( "jobmonitor_output", "#load" );
+$("#load").bind("plothover",function(e,p,i){var r=ga.set("plot2d:precision");$("#load_xy").addClass("coordvisible").text("( "+p.x.toPrecision(r)+" , "+p.y.toPrecision(r)+" )");}).on("mouseout", function(){setTimeout(function(){$("#load_xy").removeClass( "coordvisible" );}, 1500 )});
+ga.value.setLastValue( "jobmonitor_output", "#load" );
+ga.value.extra_resets( "load" );
+</script>
+<table>
+</table>
+<p>
+
+<label for="iowait">IO wait %</label></tr><tr>
+<table class="help_link">
+<tr>
+   <td></td>
+   <td id="iowait_title" style="text-align:center"></td>
+   <td id="iowait_xy" class="coord"></td>
+</tr>
+<tr>
+   <td id="iowait_ylabel" style="text-align:center"></td>
+   <td id="iowait" type="plot2d" class="plot2ddef" style="width:600px;height:150px"></td>
+   <td id="iowait_legend"></td>
+</tr>
+<tr>
+   <td></td>
+   <td id="iowait_xlabel" style="text-align:center"></td>
+   <td></td>
+</tr>
+</table>
+<span class="help">drag to pan, double click to zoom, to reset zoom and pan: click on live coordinates box</span>
+</p>
+
+<script>
+var tmp = $.plot( $( "#iowait" ), [[]], gd.data( "_plot_options" ) );
+ga.value.set.plot2d.pan( "#iowait", 10 );
+ga.value.set.plot2d.zoom( "#iowait", 10 );
+ga.value.set.plot2d.hover( "#iowait", 10 );
+ga.value.set.plot2d.pkg( "jobmonitor_output", "#iowait" );
+$("#iowait").bind("plothover",function(e,p,i){var r=ga.set("plot2d:precision");$("#iowait_xy").addClass("coordvisible").text("( "+p.x.toPrecision(r)+" , "+p.y.toPrecision(r)+" )");}).on("mouseout", function(){setTimeout(function(){$("#iowait_xy").removeClass( "coordvisible" );}, 1500 )});
+ga.value.setLastValue( "jobmonitor_output", "#iowait" );
+ga.value.extra_resets( "iowait" );
+</script>
+<table>
+</table>
+<p>
+
+<label for="memused">Memory used %</label></tr><tr>
+<table class="help_link">
+<tr>
+   <td></td>
+   <td id="memused_title" style="text-align:center"></td>
+   <td id="memused_xy" class="coord"></td>
+</tr>
+<tr>
+   <td id="memused_ylabel" style="text-align:center"></td>
+   <td id="memused" type="plot2d" class="plot2ddef" style="width:600px;height:150px"></td>
+   <td id="memused_legend"></td>
+</tr>
+<tr>
+   <td></td>
+   <td id="memused_xlabel" style="text-align:center"></td>
+   <td></td>
+</tr>
+</table>
+<span class="help">drag to pan, double click to zoom, to reset zoom and pan: click on live coordinates box</span>
+</p>
+
+<script>
+var tmp = $.plot( $( "#memused" ), [[]], gd.data( "_plot_options" ) );
+ga.value.set.plot2d.pan( "#memused", 10 );
+ga.value.set.plot2d.zoom( "#memused", 10 );
+ga.value.set.plot2d.hover( "#memused", 10 );
+ga.value.set.plot2d.pkg( "jobmonitor_output", "#memused" );
+$("#memused").bind("plothover",function(e,p,i){var r=ga.set("plot2d:precision");$("#memused_xy").addClass("coordvisible").text("( "+p.x.toPrecision(r)+" , "+p.y.toPrecision(r)+" )");}).on("mouseout", function(){setTimeout(function(){$("#memused_xy").removeClass( "coordvisible" );}, 1500 )});
+ga.value.setLastValue( "jobmonitor_output", "#memused" );
+ga.value.extra_resets( "memused" );
+</script>
+<table>
+</table>
+<p>
+
+<label for="swapused">Swap used %</label></tr><tr>
+<table class="help_link">
+<tr>
+   <td></td>
+   <td id="swapused_title" style="text-align:center"></td>
+   <td id="swapused_xy" class="coord"></td>
+</tr>
+<tr>
+   <td id="swapused_ylabel" style="text-align:center"></td>
+   <td id="swapused" type="plot2d" class="plot2ddef" style="width:600px;height:150px"></td>
+   <td id="swapused_legend"></td>
+</tr>
+<tr>
+   <td></td>
+   <td id="swapused_xlabel" style="text-align:center"></td>
+   <td></td>
+</tr>
+</table>
+<span class="help">drag to pan, double click to zoom, to reset zoom and pan: click on live coordinates box</span>
+</p>
+
+<script>
+var tmp = $.plot( $( "#swapused" ), [[]], gd.data( "_plot_options" ) );
+ga.value.set.plot2d.pan( "#swapused", 10 );
+ga.value.set.plot2d.zoom( "#swapused", 10 );
+ga.value.set.plot2d.hover( "#swapused", 10 );
+ga.value.set.plot2d.pkg( "jobmonitor_output", "#swapused" );
+$("#swapused").bind("plothover",function(e,p,i){var r=ga.set("plot2d:precision");$("#swapused_xy").addClass("coordvisible").text("( "+p.x.toPrecision(r)+" , "+p.y.toPrecision(r)+" )");}).on("mouseout", function(){setTimeout(function(){$("#swapused_xy").removeClass( "coordvisible" );}, 1500 )});
+ga.value.setLastValue( "jobmonitor_output", "#swapused" );
+ga.value.extra_resets( "swapused" );
+</script>
+<table>
+</table>
+<p>
+
+<label for="net">Network MB/s</label></tr><tr>
+<table class="help_link">
+<tr>
+   <td></td>
+   <td id="net_title" style="text-align:center"></td>
+   <td id="net_xy" class="coord"></td>
+</tr>
+<tr>
+   <td id="net_ylabel" style="text-align:center"></td>
+   <td id="net" type="plot2d" class="plot2ddef" style="width:600px;height:150px"></td>
+   <td id="net_legend"></td>
+</tr>
+<tr>
+   <td></td>
+   <td id="net_xlabel" style="text-align:center"></td>
+   <td></td>
+</tr>
+</table>
+<span class="help">drag to pan, double click to zoom, to reset zoom and pan: click on live coordinates box</span>
+</p>
+
+<script>
+var tmp = $.plot( $( "#net" ), [[]], gd.data( "_plot_options" ) );
+ga.value.set.plot2d.pan( "#net", 10 );
+ga.value.set.plot2d.zoom( "#net", 10 );
+ga.value.set.plot2d.hover( "#net", 10 );
+ga.value.set.plot2d.pkg( "jobmonitor_output", "#net" );
+$("#net").bind("plothover",function(e,p,i){var r=ga.set("plot2d:precision");$("#net_xy").addClass("coordvisible").text("( "+p.x.toPrecision(r)+" , "+p.y.toPrecision(r)+" )");}).on("mouseout", function(){setTimeout(function(){$("#net_xy").removeClass( "coordvisible" );}, 1500 )});
+ga.value.setLastValue( "jobmonitor_output", "#net" );
+ga.value.extra_resets( "net" );
+</script>
+<table>
+<tr><td><label for="monitordata"> </label></td><td><div name="monitordata" id="monitordata"></div></td></tr>
+<script>
+$( "#monitordata" ).attr( "type", "div" );
+ga.value.setLastValue( "jobmonitor_output", "#monitordata" );
+</script>
+</table>
+</form>
+
+

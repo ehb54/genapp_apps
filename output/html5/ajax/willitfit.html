@@ -1,0 +1,40 @@
+<style>
+#panel_willitfit {
+    position: relative;
+    display: block;  
+}
+</style>
+<p>
+<center>
+
+    <button id="willitfit_willitfit_test" class="help_link">WillItFit_m</button><span class="help">help for WillItFit</span>
+<script>
+    $( "#willitfit_willitfit_test" ).click(function() {
+        var d=$( "#tab_docs > a" );
+        if ( d.length ) { d.attr( "href", "__docsbaseurl__/willitfit/willitfit_test/willitfit_test.html" ); };
+    
+        if ( ga.valuen.lastload && $( "#" + ga.valuen.lastload ).is( ":visible" ) ) { ga.valuen.save( ga.valuen.lastload ); }
+
+        if ( ga.valuen.lastload != "willitfit_test" || !$( "#" + ga.valuen.lastload ).is( ":visible" ) ) {
+            ga.loader.show();
+            $( "#panel_willitfit" ).load( "ajax/willitfit/willitfit_test.html", function() { ga.valuen.save( "willitfit_test", true ); ga.valuen.restore( "willitfit_test" ); ga.valuen.lastload = "willitfit_test"; ga.loader.hide(); });
+        }
+    });
+
+
+
+</script>
+</center>
+</p>
+
+<div id="panel_willitfit">
+</div>
+
+
+<script>
+    $( "#panel_willitfit" ).text("");
+ga.tmp.bgi = "rgb( 0,0,95 )";
+
+
+$("body").css( { "background": ga.tmp.bgi + " no-repeat center center fixed", "-webkit-background-size" : "cover", "-moz-background-size" : "cover", "-o-background-size" : "cover" , "background-size": "cover"} );
+</script>
