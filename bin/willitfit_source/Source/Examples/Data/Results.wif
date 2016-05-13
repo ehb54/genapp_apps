@@ -1,0 +1,98 @@
+.card-file: 
+Example.card 
+
+Datafiles: 
+data/Dataset1.rad 
+data/Dataset2.rad 
+data/Dataset3.rad 
+data/Dataset4.rad 
+data/Dataset5.rad 
+
+Sample info-file: 
+Example.dat 
+
+Final chisq = 149.94 
+
+Lower limit on q = 0 
+Upper limit on q = 1 
+
+Parameters: 
+Name:             Value:            Error: 
+AxisRatio                   1.500000          Fixed 
+AreaPerHeadgroup            65.000000         Fixed 
+HeightOfBelt                24.000000         Fixed 
+NumberOfLipids              135.000000        Fixed 
+Dummy                       0.000000          Fixed 
+WaterAtHeads                0.000000          Fixed 
+WaterAtBelts                0.000000          Fixed 
+RGOfTag                     6.000000          Fixed 
+XRoughness                  4.000000          Fixed 
+CVOfBelts                   1.000000          Fixed 
+CVOfLipids                  1.000000          Fixed 
+Dummy                       0.000000          Fixed 
+BackN100                    0.000000          Fixed 
+ScaleN100                   1.000000          Fixed 
+BackN0                      0.000000          Fixed 
+ScaleN0                     1.000000          Fixed 
+BackX                       0.000000          Fixed 
+ScaleX                      1.000000          Fixed 
+NRoughness                  6.000000          Fixed 
+CVOfWater                   1.000000          Fixed 
+ScaleConcentration          1.000000          Fixed 
+Dummy                       0.000000          Fixed 
+Dummy                       0.000000          Fixed 
+RescalingOfTag              0.000000          Fixed 
+
+For spectrum 0: 
+Excess scattering length density of headgroups = -4.17164e-14 
+Excess scattering length density of core       = -6.68127e-14 
+Excess scattering length density of methyl     = -7.22421e-14 
+Excess scattering length density of belt       = -3.33522e-14 
+Excess scattering length density of tag        = -3.33391e-14 
+
+For spectrum 1: 
+Excess scattering length density of headgroups = -4.17164e-14 
+Excess scattering length density of core       = -6.68127e-14 
+Excess scattering length density of methyl     = -7.22421e-14 
+Excess scattering length density of belt       = -3.33522e-14 
+Excess scattering length density of tag        = -3.33391e-14 
+
+For spectrum 2: 
+Excess scattering length density of headgroups = -1.45855e-15 
+Excess scattering length density of core       = -2.65549e-14 
+Excess scattering length density of methyl     = -3.19843e-14 
+Excess scattering length density of belt       = 3.1025e-15 
+Excess scattering length density of tag        = 3.11756e-15 
+
+For spectrum 3: 
+Excess scattering length density of headgroups = -1.45855e-15 
+Excess scattering length density of core       = -2.65549e-14 
+Excess scattering length density of methyl     = -3.19843e-14 
+Excess scattering length density of belt       = 3.1025e-15 
+Excess scattering length density of tag        = 3.11756e-15 
+
+For spectrum 4: 
+Excess scattering length density of headgroups = 5.08276e-14 
+Excess scattering length density of core       = -1.30886e-14 
+Excess scattering length density of methyl     = -4.72228e-14 
+Excess scattering length density of belt       = 2.79315e-14 
+Excess scattering length density of tag        = 3.38911e-14 
+
+Global parameteres: 
+Height of bilayer             = 30.3077 
+Height of hydrophobic bilayer = 20.4923 
+Height of methyl layer        = 3.34154 
+Concentration                 = 1.36052e+16 
+Mol. volume of dry lipid head = 557.4 
+Mol. volume of lipid tail     = 557.4 
+Mol. volume of methyl         = 108.6 
+Mol. volume of belt           = 54292.8 
+Mol. volume of tag            = 3143.3 
+
+Number density       = 1.36052e+16 
+Major semiaxis       = 45.7684 
+Minor semiaxis       = 30.5123 
+Volume of core       = 75249 
+Volume of headgroups = 43065 
+Width of belt        = 8.49404 
+Volume of methyl     = 14661 

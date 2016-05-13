@@ -1,0 +1,1 @@
+#include "/home/alexey/WillItFit/Source/Models/NanodiscWithTags/ModelInfo.h"
