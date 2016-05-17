@@ -1,8 +1,9 @@
 # this is a module file, any module specific info belongs here
 {
     "moduleid" : "willitfit_test",
-    "label"    : "WillItFit",
-    "help"     : "help for WillItFit",
+    "label"    : "Calculate",
+    "help"     : "help for WillItFit Calculations",
+    "backgroundimage" : "Nanodisc-new.png",
     "fields"   : [
 
  ############### Location of Data #####################################
@@ -130,7 +131,8 @@
  "checked":"false", 
  "repeat":"model_list_box:anis_core_shell_micelles", 
  "norow":"true", 
- "pattern":""
+ "pattern":"",
+ "hideifnot": "true"   
 },
 {
  "role":"input", 

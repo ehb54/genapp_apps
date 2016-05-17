@@ -24,6 +24,6 @@
   }
  
   ,"resourcedefault" : "local"
-  ,"submitpolicy"    : "login"
+    ,"submitpolicy"    : "login"
 }
 

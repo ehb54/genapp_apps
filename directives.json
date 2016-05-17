@@ -7,10 +7,10 @@
 # the application name should not contain any special characters
   "application"               : "willitfit",
 
-  "footer"                    : "Test footer",
-  "footersize"                : "50px",
+#  "footer"                    : "Test footer",
+#  "footersize"                : "50px",
 
-  "version"                   : "alpha",
+  "version"                   : " - Beta 0.1",
 # choose your target languages to generate currently from [ "html5", "qt3", "qt4", "qt5" ]
   "languages"                 : [ "html5" ],
 
@@ -66,25 +66,30 @@
       ,"help"           : "general textarea help"
   },
 
+#"usercolors" : "true",
 
 "style" : {
         "sidebarwidth"        : "280px"
         ,"sidebartextalign"   : "left"
         ,"sidebarleftpadding" : "10px"
-        #,"backgroundimage"    : "pngs/toast.png"
+        ,"backgroundimage"    : "Univ_Copenhagen11.jpg"
     },
 
 
 
 # "blue" colors
-  "text_color_rgb"            : "220,210,210",
+  "text_color_rgb"            : "43,29,14",
+#  "text_color_rgb"            : "0,0,0",
   "error_color_rgb"           : "255,0,0",
-  "background_color_rgb"      : "0,0,95",
+  "background_color_rgb"      : "195,200,200",
+#  "background_color_rgb"      : "0,0,95",
   "select_color_rgb"          : "200,128,0",
   "button_color_rgb"          : "228,255,250",
   "button_color_hex"          : "E4FFFA",
   "button_g_color_rgb"        : "128,170,150",
   "button_g_color_hex"        : "80AA06",
+#  "button_g_color_rgb"        : "77,66,87",
+#  "button_g_color_hex"        : "4D4257",
   "button_hover_color_rgb"    : "255,255,255",
   "button_hover_color_hex"    : "FFFFFF",
   "button_hover_g_color_rgb"  : "228,255,250",

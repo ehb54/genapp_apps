@@ -2,15 +2,76 @@
 {
 # "header" : "WillItFit",
  "menu" : [
-          { 
+
+         { 
+            "id"      : "welcome_menu",
+            "label"   : "Welcome!",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "welcome",
+            "startup" : "true",
+            "nohidemenu" : "true",
+            "help" : "test welcome help",
+            "modules" : [ 
+                { 
+                    "id"    : "welcome",
+                    "label" : "Welcome",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+	,{
+            "id"      : "about_willitfit_menu", 
+            "label"   : "About Authors",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "aboutwillitfit",
+            "modules" : [
+                {
+                    "id"    : "aboutwillitfit", 
+                    "label" : "About WillItFit",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+        ,{ 
+            "id"      : "Acknowledgements_menu",
+            "label"   : "Acknowledgements",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "acknowledgements",
+            "modules" : [ 
+                {
+                    "id"    : "acknowledgements",
+                    "label" : "Acknowledgements",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+	,{
+            "id"      : "disclaimer_menu",
+            "label"   : "Official Disclaimer",
+	    "icon"    : "pngs/gnu_disclaimer.png",
+            "autorun" : "disclaimer",
+            "modules" : [
+                {
+                    "id"    : "disclaimer",
+                    "label" : "Official Disclaimer",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+        ,{ 
             "id"      : "willitfit",
-            "label"   : "WillItFit",
-            "icon"    : "pngs/calculate.png",
+            "label"   : "Calculations",
+            "icon"    : "pngs/simulate.png",
             "help"    : "willitfit help text",
+	    "autorun" : "willitfit_test",
             "modules" : [ 
                          { 
                           "id"    : "willitfit_test",
-                          "label" : "WillItFit_m"
+                          "label" : "WillItFit_m",
+			  "nobutton" : "true"
                          }
                         ]
             }
