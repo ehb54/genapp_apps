@@ -1,0 +1,116 @@
+# this is a project menu file
+{
+# "header" : "US-SOMO",
+ "menu" : [
+
+         { 
+            "id"      : "welcome_menu",
+            "label"   : "Welcome!",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "welcome",
+            "startup" : "true",
+            "nohidemenu" : "true",
+            "help" : "test welcome help",
+            "modules" : [ 
+                { 
+                    "id"    : "welcome",
+                    "label" : "Welcome",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+#	,{
+#            "id"      : "about_beadmodeller_menu", 
+#            "label"   : "About Authors",
+#            "icon"    : "pngs/noicon.png",
+#            "autorun" : "aboutbeadmodeller",
+#            "modules" : [
+#                {
+#                    "id"    : "aboutbeadmodeller", 
+#                    "label" : "About US-SOMO",
+#		    "nobutton" : "true"
+#                }
+#            ]
+#        }
+
+        ,{ 
+            "id"      : "Acknowledgements_menu",
+            "label"   : "Acknowledgements",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "acknowledgements",
+            "modules" : [ 
+                {
+                    "id"    : "acknowledgements",
+                    "label" : "Acknowledgements",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+	,{
+            "id"      : "disclaimer_menu",
+            "label"   : "Official Disclaimer",
+	    "icon"    : "pngs/gnu_disclaimer.png",
+            "autorun" : "disclaimer",
+            "modules" : [
+                {
+                    "id"    : "disclaimer",
+                    "label" : "Official Disclaimer",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+        ,{ 
+            "id"      : "beadmodeller",
+            "label"   : "Calculations",
+            "icon"    : "pngs/simulate.png",
+            "help"    : "beadmodeller help text",
+	    "autorun" : "bead_modeller",
+            "modules" : [ 
+                         { 
+                          "id"    : "bead_modeller",
+                          "label" : "bead_model",
+			  "nobutton" : "true"
+                         }
+                        ]
+            }
+
+           ,{ 
+            "id"         : "admin",
+            "restricted" : "admin",
+            "label"      : "Admin",
+            "icon"       : "pngs/admin.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "jobmonitor",
+                          "label" : "Job monitor"
+                         }
+                         ,{ 
+                          "id"    : "jobintegritycheck",
+                          "label" : "Integrity check"
+                         }
+                         ,{ 
+                          "id"    : "sysuserslist",
+                          "label" : "Users"
+                         }
+		         ,{ 
+                          "id"    : "jobshistory_1",
+                          "label" : "Job history"
+                         }
+		
+                        ]
+            }
+
+          ,{
+              "id"      : "etc",
+              "modules" : [
+                           {
+			    "id"    : "sys_file_manager",
+			    "label" : "File manager"
+			    }
+                          ]
+	  }
+     
+    ]
+}
