@@ -1196,7 +1196,7 @@
 	          { 
 	             "role"     : "output",  
 	             "id"       : "outputfile",
-	             "label"    : "Quafit Output",
+	             "label"    : "Quafit Output File: ",
 	             "type"     : "file"  
 	          }
              ], 
