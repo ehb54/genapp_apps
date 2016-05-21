@@ -1,153 +1,81 @@
 # this is a project menu file
 {
-# "header" : "Genapptest",
+# "header" : "qualfit",
  "menu" : [
-           { 
-            "id"      : "tools",
-            "label"   : "Tools",
-            "icon"    : "pngs/tools.png",
-            "help"    : "tools help text",
+
+         { 
+            "id"      : "welcome_menu",
+            "label"   : "Welcome!",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "welcome",
+            "startup" : "true",
+            "nohidemenu" : "true",
+            "help" : "test welcome help",
             "modules" : [ 
-                         { 
-                          "id"    : "center",
-                          "label" : "Center"
-                         },
-                         { 
-                          "id"    : "align",
-                          "label" : "Align"
-                         },
-                         { 
-                          "id"    : "filetest",
-                          "label" : "Filetest"
-                         },
-                         { 
-                          "id"    : "data_interpolation",
-                          "label" : "Data Interpolation"
-                         }
-                        ]
-            },
-           { 
-            "id"      : "build",
-            "label"   : "Build",
-            "icon"    : "pngs/build.png",
-            "help"    : "build help text",
+                { 
+                    "id"    : "welcome",
+                    "label" : "Welcome",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+	,{
+            "id"      : "about_qualfitmodeller_menu", 
+            "label"   : "About Authors",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "aboutquafit",
+            "modules" : [
+                {
+                    "id"    : "aboutquafit", 
+                    "label" : "About QualFit",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+        ,{ 
+            "id"      : "Acknowledgements_menu",
+            "label"   : "Acknowledgements",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "acknowledgements",
             "modules" : [ 
-                         { 
-                          "id"    : "build_1",
-                          "label" : "Build 1"
-                         },
-                         { 
-                          "id"    : "build_2",
-                          "label" : "Build 2"
-                         }
-                        ]
-            },
-           { 
-            "id"      : "interact",
-            "label"   : "Interact",
-            "icon"    : "pngs/interact.png",
-            "help"    : "interact help text",
-            "modules" : [ 
-                         { 
-                          "id"    : "interact_1",
-                          "label" : "Interact 1"
-                         },
-                         { 
-                          "id"    : "interact_2",
-                          "label" : "Interact 2"
-                         }
-                        ]
-            },
-           { 
-            "id"      : "simulate",
-            "label"   : "Simulate",
-            "icon"    : "pngs/simulate.png",
-            "help"    : "simulate help text",
-            "modules" : [ 
-                         { 
-                          "id"    : "simulate_1",
-                          "label" : "Simulate 1"
-                         },
-                         { 
-                          "id"    : "simulate_2",
-                          "label" : "Simulate 2"
-                         }
-                        ]
-            },
-           { 
-            "id"      : "us_somo",
-            "label"   : "US_SOMO",
-            "icon"    : "pngs/calculate.png",
-            "help"    : "us_somo help text",
-	    #"autorun" : "true",  
-            "modules" : [ 
-		         { 
-                          "id"    : "welcome",
-                          "label" : "Official Welcome"
-                         },
-		         { 
-                          "id"    : "numericalaspects",
-                          "label" : "Numerical Aspects"
-                         },
-		         { 
-                          "id"    : "importance",
-                          "label" : "The Importance"
-                         },
-		         { 
-                          "id"    : "disclaimer",
-                          "label" : "Official Disclaimer"
-                         },
-                         { 
-                          "id"    : "bead_modeller",
-                          "label" : "Bead Modeller/Hydrodynamic Calculations"
-                         }
-                        ]
-            },
-               { 
-            "id"      : "quafit",
-            "label"   : "QuaFit",
-            "icon"    : "pngs/calculate.png",
-            "help"    : "quafit help text",
+                {
+                    "id"    : "acknowledgements",
+                    "label" : "Acknowledgements",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+	,{
+            "id"      : "disclaimer_menu",
+            "label"   : "Official Disclaimer",
+	    "icon"    : "pngs/gnu_disclaimer.png",
+            "autorun" : "disclaimer",
+            "modules" : [
+                {
+                    "id"    : "disclaimer",
+                    "label" : "Official Disclaimer",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+        ,{ 
+            "id"      : "qualfitmodeller",
+            "label"   : "Calculations",
+            "icon"    : "pngs/analyze.png",
+            "help"    : "qualfit help text",
+	    "autorun" : "quafit_test",
             "modules" : [ 
                          { 
                           "id"    : "quafit_test",
-                          "label" : "QuaFit_m"
-                         }
-                        ]
-            },
-
-           { 
-            "id"      : "calculate",
-            "label"   : "Calculate",
-            "icon"    : "pngs/calculate.png",
-            "help"    : "calculate help text",
-            "modules" : [ 
-                         { 
-                          "id"    : "calculate_1",
-                          "label" : "Calculate 1"
-                         },
-                         { 
-                          "id"    : "calculate_2",
-                          "label" : "Calculate 2"
-                         }
-                        ]
-            },
-           { 
-            "id"      : "analyze",
-            "label"   : "Analyze",
-            "icon"    : "pngs/analyze.png",
-            "help"    : "analyze help text",
-            "modules" : [ 
-                         { 
-                          "id"    : "analyze_1",
-                          "label" : "Analyze 1"
-                         },
-                         { 
-                          "id"    : "analyze_2",
-                          "label" : "Analyze 2"
+                          "label" : "quafit_model",
+			  "nobutton" : "true"
                          }
                         ]
             }
+
            ,{ 
             "id"         : "admin",
             "restricted" : "admin",
@@ -182,7 +110,7 @@
 			    "label" : "File manager"
 			    }
                           ]
-	   }
+	  }
      
     ]
 }
