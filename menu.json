@@ -20,19 +20,19 @@
             ]
         }
 
-#	,{
-#            "id"      : "about_beadmodeller_menu", 
-#            "label"   : "About Authors",
-#            "icon"    : "pngs/noicon.png",
-#            "autorun" : "aboutbeadmodeller",
-#            "modules" : [
-#                {
-#                    "id"    : "aboutbeadmodeller", 
-#                    "label" : "About US-SOMO",
-#		    "nobutton" : "true"
-#                }
-#            ]
-#        }
+	,{
+            "id"      : "about_beadmodeller_menu", 
+            "label"   : "About Authors",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "aboutbeadmodeller",
+            "modules" : [
+                {
+                    "id"    : "aboutbeadmodeller", 
+                    "label" : "About US-SOMO",
+		    "nobutton" : "true"
+                }
+            ]
+        }
 
         ,{ 
             "id"      : "Acknowledgements_menu",
