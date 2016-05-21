@@ -18,7 +18,7 @@ import functools
 
 
 from StringIO import StringIO
-from math import exp, expm1, log10, log, log1p
+#from math import exp, expm1, log10, log, log1p
 from subprocess import Popen, PIPE, STDOUT
 
 if (len(sys.argv) < 1):
@@ -189,8 +189,8 @@ except:
 os.mkdir('./data/')
 
 for i in range(len(data_set_location)):
-    shutil.move(data_set_location[i], "./data")
-
+    #shutil.move(data_set_location[i], "./data")
+    shutil.copy(data_set_location[i], "./data")
 
 ###### LOGIC  #######################################
 
