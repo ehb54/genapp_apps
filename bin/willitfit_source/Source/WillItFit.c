@@ -27,71 +27,71 @@
 /// J. Appl. Cryst. 46(6), 1894-1898                    ///
 
 /// Defines
-#define pi 3.14159265
-#define EstimatedNumberOfStepsInLikelihoodProfile 10
-#define MaxNumberOfConstraints 50
-#define MaxSizeOfCardfile 1024
+//#define pi 3.14159265
+//#define EstimatedNumberOfStepsInLikelihoodProfile 10
+//#define MaxNumberOfConstraints 50
+//#define MaxSizeOfCardfile 1024
 
-/// Inclusions
+// Inclusions
 // Include build-in libraries
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <stdbool.h>
-#include <complex.h>
-#include <time.h>
-#include <string.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <math.h>
+//#include <stdbool.h>
+//#include <complex.h>
+//#include <time.h>
+//#include <string.h>
+//
+//// Include parallelisation
+//  #include "Auxillary/Parallelisation.h"
+//
+//// Include supporting headers
+//  #include "Auxillary/Structs.h"
+//#include "Auxillary/Allocation.h"
+//#include "Auxillary/AuxillaryFunctions.h"
+//#include "Auxillary/IncludeUserDefined.h"
+//
+//// Include mathematical headers
+//  #include "Formfactors/FormfactorDebye.h"
+//#include "Formfactors/FormfactorHalfBelt.h"
+//#include "Formfactors/FormfactorSphere.h"
+//#include "Formfactors/FormfactorCylinder.h"
+//#include "Formfactors/FormfactorCylinderDisplaced.h"
+//#include "Formfactors/FormfactorHammouda.h"
+//#include "Formfactors/FormfactorEllipticCylinderWithEllipsoidalEndcaps.h"
+//#include "Formfactors/FormfactorRodWithoutEndcaps.h"
+//
+///// Include model
+//#include "Auxillary/ModelLocation.h"
+//
+//// Include I/O
+//#include "InputOutput/ImportSpectra.h"
+//#include "InputOutput/ImportParameters.h"
+//#include "InputOutput/ImportSampleInfo.h"
+//#include "InputOutput/ImportPDBFile.h"
+//#include "InputOutput/OutputSpectra.h"
+//#include "InputOutput/OutputParameters.h"
+//
+//// Include functions accounting for instrumental smearing
+//#include "Resolution/SigmaOfQ.h"
+//#include "Resolution/Resolution.h"
+//
+//// Import fitting routines
+//#include "FittingRoutines/LevenbergMarquardtSupportingFunctions.h"
+//#include "FittingRoutines/BFGSSupportingFunctions.h"
+//#include "FittingRoutines/SwarmSupportingFunctions.h"
+//#include "FittingRoutines/GeneticSupportingFunctions.h"
+//#include "FittingRoutines/LevenbergMarquardt.h"
+//#include "FittingRoutines/BFGS.h"
+//#include "FittingRoutines/ComputeModel.h"
+//#include "FittingRoutines/Swarm.h"
+//#include "FittingRoutines/Genetic.h"
+//#include "FittingRoutines/GridsearchBFGS.h"
+//#include "FittingRoutines/GridsearchLM.h"
+//#include "FittingRoutines/ProfileLikelihood.h"
+//#include "FittingRoutines/ProfileLikelihoodSingleParameter.h"
 
-// Include parallelisation
-#include "Auxillary/Parallelisation.h"
-
-// Include supporting headers
-#include "Auxillary/Structs.h"
-#include "Auxillary/Allocation.h"
-#include "Auxillary/AuxillaryFunctions.h"
-#include "Auxillary/IncludeUserDefined.h"
-
-// Include mathematical headers
-#include "Formfactors/FormfactorDebye.h"
-#include "Formfactors/FormfactorHalfBelt.h"
-#include "Formfactors/FormfactorSphere.h"
-#include "Formfactors/FormfactorCylinder.h"
-#include "Formfactors/FormfactorCylinderDisplaced.h"
-#include "Formfactors/FormfactorHammouda.h"
-#include "Formfactors/FormfactorEllipticCylinderWithEllipsoidalEndcaps.h"
-#include "Formfactors/FormfactorRodWithoutEndcaps.h"
-
-// Include model
-#include "Auxillary/ModelLocation.h"
-
-// Include I/O
-#include "InputOutput/ImportSpectra.h"
-#include "InputOutput/ImportParameters.h"
-#include "InputOutput/ImportSampleInfo.h"
-#include "InputOutput/ImportPDBFile.h"
-#include "InputOutput/OutputSpectra.h"
-#include "InputOutput/OutputParameters.h"
-
-// Include functions accounting for instrumental smearing
-#include "Resolution/SigmaOfQ.h"
-#include "Resolution/Resolution.h"
-
-// Import fitting routines
-#include "FittingRoutines/LevenbergMarquardtSupportingFunctions.h"
-#include "FittingRoutines/BFGSSupportingFunctions.h"
-#include "FittingRoutines/SwarmSupportingFunctions.h"
-#include "FittingRoutines/GeneticSupportingFunctions.h"
-#include "FittingRoutines/LevenbergMarquardt.h"
-#include "FittingRoutines/BFGS.h"
-#include "FittingRoutines/ComputeModel.h"
-#include "FittingRoutines/Swarm.h"
-#include "FittingRoutines/Genetic.h"
-#include "FittingRoutines/GridsearchBFGS.h"
-#include "FittingRoutines/GridsearchLM.h"
-#include "FittingRoutines/ProfileLikelihood.h"
-#include "FittingRoutines/ProfileLikelihoodSingleParameter.h"
-
-/// Main program
+// Main program
 int main(int argc, char *argv[])
 {
     /// Declarations

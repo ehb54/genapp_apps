@@ -7,7 +7,6 @@
     "fields"   : [
 
  ############### Location of Data #####################################
-
 	       { 
 		   "role"     : "input",  
 		   "id"       : "location_of_data_label",
@@ -17,6 +16,16 @@
 		   "posthline": "true",
 		   "default"  : ""
 	       },
+              {
+	            "role"       : "input"
+	            ,"id"         : "projectname"
+	            ,"label"      : "Project name"
+	            ,"type"       : "text"
+	            ,"required"   : "true"
+	            ,"help"       : "Enter a project name"
+	            ,"specifiedproject" : "Run_"
+	        },
+
                 {
                    "role"     : "input",
                    "id"       : "data_location",

@@ -1,0 +1,25 @@
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/InputOutput/ImportSpectra.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/InputOutput/ImportParameters.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/InputOutput/ImportSampleInfo.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/InputOutput/ImportPDBFile.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/InputOutput/OutputSpectra.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/InputOutput/OutputParameters.h"
+
+// Include functions accounting for instrumental smearing
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Resolution/SigmaOfQ.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Resolution/Resolution.h"
+
+// Import fitting routines
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/LevenbergMarquardtSupportingFunctions.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/BFGSSupportingFunctions.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/SwarmSupportingFunctions.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/GeneticSupportingFunctions.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/LevenbergMarquardt.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/BFGS.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/ComputeModel.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/Swarm.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/Genetic.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/GridsearchBFGS.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/GridsearchLM.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/ProfileLikelihood.h"
+#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/FittingRoutines/ProfileLikelihoodSingleParameter.h"
