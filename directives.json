@@ -81,6 +81,7 @@
 
   ,"enablecaptcha"             : "true"
   ,"usesplash"                 : "true"
+  ,"splashdocs"                : "true"
   ,"usewss"                    : "true"
   ,"appconfig"                 : "/share/apps/genapp/sassie2/appconfig.json"
   ,"logdirectory"              : "_logs"

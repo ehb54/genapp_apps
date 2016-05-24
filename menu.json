@@ -223,6 +223,10 @@
                           "id"    : "sysuserslist",
                           "label" : "Users"
                          }
+                         ,{
+                          "id"    : "jobshistory_1",
+                          "label" : "Job history"
+                         }
                         ]
             }
            ,{ 
