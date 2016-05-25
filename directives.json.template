@@ -3,9 +3,9 @@
 {
   "title"                     : "SOME TITLE",
 
-# "genapptest" below could be replaced, but you should probably also then replace "genapptest" in the paths below
+# "demo" below could be replaced, but you should probably also then replace "demo" in the paths below
 # the application name should not contain any special characters
-  "application"               : "genapptest",
+  "application"               : "REPLACE_WITH_DIRNAME",
 
   "footer"                    : "Test footer",
   "footersize"                : "50px",
@@ -16,11 +16,11 @@
 
   "executable_path"           :
                                 {
-                                 "html5" : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "java"  : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin"
+                                 "html5" : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin",
+                                 "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin",
+                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin",
+                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin",
+                                 "java"  : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin"
                                 },
 
   "docroot"                   :
@@ -158,7 +158,7 @@
 #  ,"usewss"                  : "true"
 
 # the following are currently only meaningful for "html5" language
-  ,"appconfig"                 : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/appconfig.json"
+  ,"appconfig"                 : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/appconfig.json"
 # if you have a 64 bit mongo system "html5", uncomment this
 #  ,"mongojournal"               : "true"
 
