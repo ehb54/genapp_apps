@@ -3,7 +3,7 @@
     ,"label"    : "Energy"
     ,"help"     : "help for Energy"
     ,"executable"   : "penergy"
-#    ,"submitpolicy" : "login"
+    ,"submitpolicy" : "all"
     ,"uniquedir" : "true"
     ,"fields"   : [
         {
