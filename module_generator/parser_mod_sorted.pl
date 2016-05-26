@@ -131,7 +131,14 @@ print "
 	            \"help\"       : \"Enter a project name\",
 	            \"specifiedproject\" : \"Run_\" 
 		 },
-
+                {
+		    \"role\"       : \"input\",
+	            \"id\"         : \"codenumber\",
+	            \"label\"      : \"Code Number\",
+	            \"type\"       : \"text\",
+	            \"required\"   : \"true\",
+	            \"help\"       : \"\"
+                 },
                 {
                    \"role\"     : \"input\",
                    \"id\"       : \"pdb_location\",

@@ -50,8 +50,9 @@ mkdir $newdir, 0755;
 
 ###############################################################################
 
-$$res{ "outputfile" } = "$p/quafit.txt";
-open OUT, ">$p/quafit.txt";
+my $output_filename = join "", "$p/qua", $$ref{ "codenumber" }, ".dat";
+$$res{ "outputfile" } = "$output_filename";
+open OUT, ">$output_filename";
 
 my $tag_id_key;
 
