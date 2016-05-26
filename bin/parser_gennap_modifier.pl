@@ -123,7 +123,21 @@ while (my $line = <$fh>) {
 		for ( my $j = 0; $j < @array1; $j++)
 		{
 		    my $tag = "$array_ids[$j]$id_key";
-		    print OUT "  $$ref{$tag}  ";
+		    
+		    if ($j != @array1 -1)
+		    {
+			my $len = (16 - length($$ref{$tag}))/2.0; 
+			print OUT " " x $len;
+			print OUT $$ref{$tag};
+			print OUT " " x $len;			
+		    }
+		    else
+		    {
+			my $len = (5 - length($$ref{$tag}))/2.0; 
+			print OUT " " x $len;
+			print OUT " " . $$ref{$tag};
+		    }
+		    
 		}
 		print OUT "\n";
 	    }
@@ -151,6 +165,8 @@ while (my $line = <$fh>) {
 	    {
 		$line_copy =~ s/#T_CBR//;
 		chomp $line_copy;
+		$line_copy =~ s/\s*$/$1/; # remove whitespace from both ends
+
 		my $id_cbr;
 			
 		my @matches = $line_copy =~ /:/g;   #Check for lines with more than 1 :'s
@@ -203,7 +219,20 @@ while (my $line = <$fh>) {
 				for ( my $j = 0; $j < @array1; $j++)
 				{
 				    my $tag = "$array_ids[$j]$id$id_key";
-				    print OUT "  $$ref{$tag}  ";
+				    if ($j != @array1 -1)
+				    {
+					my $len = (16 - length($$ref{$tag}))/2.0; 
+					print OUT " " x $len;
+					print OUT $$ref{$tag};
+					print OUT " " x $len;			
+				    }
+				    else
+				    {
+					my $len = (5 - length($$ref{$tag}))/2.0; 
+					print OUT " " x $len;
+					print OUT " " . $$ref{$tag};
+				    }
+				    
 				}
 				print OUT "\n";
 			    }
@@ -261,7 +290,19 @@ while (my $line = <$fh>) {
 				for ( my $j = 0; $j < @array1; $j++)
 				{
 				    my $tag = "$array_ids[$j]$id$tag_id_key";
-				    print OUT "  $$ref{$tag}  ";
+				    if ($j != @array1 -1)
+				    {
+					my $len = (16 - length($$ref{$tag}))/2.0; 
+					print OUT " " x $len;
+					print OUT $$ref{$tag};
+					print OUT " " x $len;			
+				    }
+				    else
+				    {
+					my $len = (5 - length($$ref{$tag}))/2.0; 
+					print OUT " " x $len;
+					print OUT " " . $$ref{$tag};
+				    }
 				}
 				print OUT "\n";
 			    }
