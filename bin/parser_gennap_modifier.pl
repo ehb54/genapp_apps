@@ -2,9 +2,12 @@
 
 use JSON;
 use Data::Dumper;
+use IO::Socket;
 use File::Basename;
 use File::Copy;
 use FindBin '$Bin';
+#use strict;
+use warnings;
 
 #my $file = "$Bin/quatest_tags.dat";
 my $file = "$Bin/quaS004_test_tags.dat";
@@ -46,7 +49,7 @@ $familyname = substr($symfilename, 0, 4);
 #print $familyname;
 #exit;
 
-open OUT_code, ">code.usr";
+open OUT_code, ">$p/code.usr";
 print OUT_code $$ref{ "codenumber" };
 close OUT_code;
 
@@ -371,7 +374,42 @@ close OUT;
 
 ####################################################
 
-system("$Bin/quafit_source/quafit");
+
+# setup up the socket handle once:
+my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => $$ref{ "_udpport" }, PeerAddr => $$ref{ "_udphost" } );
+$msg = {};
+$$msg{ "_uuid" } = $$ref{ "_uuid" };
+
+#system("$Bin/quafit_source/quafit");
+
+#@qua_output = `$Bin/quafit_source/quafit`;
+
+#`$Bin/quafit_source/quafit > output`;
+
+## Messaging ################################
+#$$msg{ "_textarea" } = $stdout;
+#$sock->send( encode_json( $msg ) );
+##############################################
+
+open my $command, "$Bin/quafit_source/quafit |";
+open my $output, "> output";
+$$msg{ "_textarea" } = "Starting Calculations...\n\n";
+$sock->send( encode_json( $msg ) );
+while (<$command>)
+{
+    #print $output $_;
+    my $outputline = "$output $_";
+    if ($outputline =~ m/GLOB/)
+    {
+	$outputline =~ s/^\S+\s*//;
+    }
+    $$msg{ "_textarea" } = $outputline;
+    $sock->send( encode_json( $msg ) );
+}
+$$msg{ "_textarea" } = "\nCalculations Finished! \n";
+$sock->send( encode_json( $msg ) );
+
+##################################################### 
 
 my $mask1 = join "", "*", $$ref{ "codenumber" }, "*.cst";
 my $mask2 = join "", "*", $$ref{ "codenumber" }, "*.csw"; 
@@ -386,9 +424,10 @@ for my $file (glob $old_loc) {
 }
 
 $$res{ "outputfile" } = join "", $p, "/", $newdir, "/", "qua", $$ref{ "codenumber" }, ".dat";
+
 $$res{ "quaternary_pdb" } = join "", $p, "/", $newdir, "/qua", $$ref{ "codenumber" }, "002_001001001.pdb";
 
-print encode_json( $res );
+print encode_json( $res ). "\n" ;
 
 
 
