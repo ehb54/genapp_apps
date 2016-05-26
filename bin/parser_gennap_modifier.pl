@@ -45,6 +45,10 @@ $familyname = substr($symfilename, 0, 4);
 #print $familyname;
 #exit;
 
+open OUT_code, ">code.usr";
+print OUT_code $$ref{ "codenumber" };
+close OUT_code;
+
 $newdir =join "_", "Results", $pdbfilename;
 mkdir $newdir, 0755;
 
@@ -361,10 +365,12 @@ while (my $line = <$fh>) {
 	}
     }
 }
-####################################################33
+####################################################
 
 close OUT;
-close OUT1;
+
+####################################################
+
 
 
 print encode_json( $res );
