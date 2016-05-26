@@ -1,0 +1,7 @@
+
+gfortran  -O2 -march=native -c -mcmodel=medium pwig1.f &
+gfortran  -O2 -march=native -c -mcmodel=medium pwig2.f &
+gfortran  -O2 -march=native -c -mcmodel=medium pwig3.f &
+gfortran  -O2 -march=native -c -mcmodel=medium abs_all.f &
+wait
+gfortran  -O2 -march=native -mcmodel=medium -o quafit quafit2014.f abs_all.o pwig1.o pwig2.o pwig3.o

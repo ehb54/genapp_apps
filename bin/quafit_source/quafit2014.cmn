@@ -1,0 +1,761 @@
+      implicit real*8 (a-h,o-z)
+
+      character atom4*4,gru*3
+      complex*16 sig,stone,psi,psiar,sigbar,ovlbar,dstbar,rscbar
+      complex*16 ovl,dst,rsc
+      complex*16 eu1,ea1,ea2,eg1,eg2,ear,stone_new,eam
+c      complex*16 flm1,flm2,flm4,flm5,flm6,flm7
+      complex*16 alm,asylm,almstore,almshape
+
+      character ch1*1,ch2*2,ch3*3,ch8*8,name*40,atom*2,text*200,code*4
+     >,head*70,fsub*300,filexp*300,null*300,ch4*4,symb*4,ggss*4,
+     >csym*2,fsig*70,hc3*3,filee*300,varnam*40,desexp*300,famstone*300
+     >,string*40,atypej*3,amm*3,atypei*3,ataa*5,fupoly*1000
+     >,ch10*10,brna*3,amm1*1,subcode*3,nnaac*3,anapei*3
+     >,coordtype*2,methtype*2,condtype*3,lconstr_a*6,lconstr_b*6
+
+
+      parameter(iu_dat=1,iu_out=22,iu_sin=9,iu_sig=10,iu_gnu=18,
+     >iu_cop=13,iu_tmp=14,iu_pdb=15,iu_bto=16,iu_bt1=20,iu_bt2=21) 
+
+      parameter(ig77=0) !anche per g95 ?
+
+      parameter(mxtherf=6) ! numero funzioni termodinamiche
+      parameter(mxeffec=20) ! numero effettori
+
+      parameter(mxpoly=200)
+c.nodeu      parameter(mxpoly=200)
+c.deu      parameter(mxpoly=4)
+
+c      parameter(mxhagg=8) !! era 8
+c      parameter(mxpdb=8)!! era 8
+c      parameter(mxagg=15) !! era 15 !!!da cui dipende come e' scritto il .dat
+c      parameter(larr=15,lrt=15,mn=2**9,mxiter=1)!attento a larr !!! mn era 2**9
+
+c      parameter(mxhagg=5) !! era 8
+c      parameter(mxpdb=20)!! era 8
+c      parameter(mxagg=5) !! era 15 !!!da cui dipende come e' scritto il .dat
+c      parameter(larr=15,lrt=15,mn=2**8,mxiter=1)!attento a larr !!! mn era 2**9
+
+      parameter(mxhagg=8) !! era 8
+      parameter(mxpdb=15)!! era 8
+      parameter(mxagg=15) !! era 15 !!!da cui dipende come e' scritto il .dat
+      parameter(larr=15,lrt=15,mn=2**9,mxiter=1)!attento a larr !!! mn era 2**9
+      parameter(mnexp=3000)
+
+      parameter(mxwave=3)
+      parameter(mxshell=3) ! se lo tocchi cambia il file .dat
+      parameter(mxconf=20)
+      parameter(mxexper=100)
+      parameter(mxfamily=mxexper)
+      parameter(mxstate=2)
+
+      parameter(mxsite=13,mxsub=60,mxlink=15,mxaalink=100,mxlinkpdb=5)
+c.nodeu      parameter(mxsite=5,mxsub=60,mxlink=6,mxaalink=100,mxlinkpdb=5)
+c.deu      parameter(mxsite=40,mxsub=1,mxlink=6,mxaalink=100,mxlinkpdb=5)
+
+      parameter(mxconstr=20)
+      parameter(mmxdeg=30)
+      parameter(mxp=128)
+      parameter(mxpar=8000)
+      parameter(cutexp=100.d0)
+      parameter(mxrun=300000)
+      parameter(mxatconfr=20000)
+      parameter(mxnatovl=10000)
+      parameter(mxpsi=12000)
+      parameter(la3=15)
+      parameter(mxchain=500,
+     >mxdis=5000)!(mxsite*mxpoly*mxsub*(mxsite*mxpoly*mxsub-1))/2)
+
+      parameter(mxy=(lrt+1)*(lrt+1))
+      parameter(mx1=(6+mxshell)*(7+mxshell)/2)
+      parameter(mx2=(larr+1)*(larr+1)*(mxwave+mxshell+8))
+
+      common/vol01/vol
+      common/acnu01/brna(4)
+      common/store0/
+     >almstore(mxpdb+8,mn,0:larr,-larr:larr,mxshell+mxwave+8)
+c      common/store1/flm1(mn,0:larr,-larr:larr,mxshell+mxwave+8)  !!!! non so perche' con un solo almstore piu' grande compila con i flm1-7 no!
+c      common/store2/flm2(mn,0:larr,-larr:larr,mxshell+mxwave+8)
+c      common/store4/flm4(mn,0:larr,-larr:larr,mxshell+mxwave+8)
+c      common/store5/flm5(mn,0:larr,-larr:larr,mxshell+mxwave+8)
+c      common/store6/flm6(mn,0:larr,-larr:larr,mxshell+mxwave+8)
+c      common/store7/flm7(mn,0:larr,-larr:larr,mxshell+mxwave+8)
+      common/shape/almshape(mxpdb+1,mn,0:larr,-larr:larr,1)
+      common/ipro/iproj(mxstate,mxhagg,0:larr,-larr:larr)
+      common/pro/
+     >proj(mxstate,mxhagg,0:larr,-larr:larr,-larr:larr)
+
+      common/rr01/
+     > aa
+     >,uessea
+     >,aessea
+     >,bessea
+     >,uesselnk
+     >,aesselnk
+     >,besselnk
+     >,uesse(mxsite)
+     >,aesse(mxsite)
+     >,besse(mxsite)
+     >,aas(mxstate,mxsite,4+mxconf)
+     >,accmos
+     >,afac(mxrun)
+     >,agg(mxagg)
+     >,agga(mxstate,mxhagg)
+     >,aggb(mxstate,mxhagg)
+     >,aggg(mxstate,mxhagg)
+     >,alpscrew(mxstate,mxhagg,4+mxconf)
+     >,cbescrew(mxstate,mxhagg,4+mxconf)
+     >,al(mxp)
+     >,alen(103)
+     >,alm(0:larr,-larr:larr,mxshell+mxwave+8)
+     >,alp(mxsub)
+     >,alpha
+     >,alprot(mxsite,mxsub,mxpoly)
+     >,alprot_lnk(mxsub,mxpoly)
+     >,alpsym(mxstate,mxhagg,mxsub)
+     >,amgau(20,20)
+     >,aqrmax(mxexper)
+
+      common/rr02/
+     > aqrmin(mxexper)
+     >,ascrew(mxstate,mxhagg,4+mxconf)
+     >,asylm(0:larr,-larr:larr,mxshell+mxwave+8)
+
+      common/rr022/
+     > atfmt(23,5)
+     >,aus(mxstate,mxsite,4+mxconf)
+     >,axs(mxsite)
+     >,ays(mxsite)
+     >,bet(mxsub)
+     >,betrot(mxsite,mxsub,mxpoly)
+     >,betrot_lnk(mxsub,mxpoly)
+     >,betsym(mxstate,mxhagg,mxsub)
+     >,btfmt(23,5)
+     >,bxs(mxsite)
+     >,bys(mxsite)
+     >,c0
+     >,reddsmax
+     >,redsticky
+     >,ca(larr)
+     >,cb(mxp)
+     >,cba(mxstate,mxsite,4+mxconf)
+
+      common/rr03/
+     > cbu(mxstate,mxsite,4+mxconf)
+     >,cbx(mxsite)
+     >,cby(mxsite)
+
+      common/cc01file/
+     > filexp(mxexper)
+
+      common/com_anapei/anapei(28,2)
+      common/com_inapei/inapei(8,28)
+      common/com_nnaac/nnaac(8)
+      common/cc01/
+     > amm(22),amm1(22)
+     >,ataa(20)
+     >,atom(103)
+     >,atypei(21)
+     >,atypej(23)
+     >,ch3
+     >,code
+     >,subcode
+     >,csym(2)
+     >,famstone
+     >,fsub(mxpdb)
+     >,ggss(mxstate,mxhagg)
+     >,name
+     >,null
+     >,text
+
+      common/cc01var/
+     >varnam(mxpar),methtype(2),coordtype(8),condtype(7)
+
+      common/rr04/
+     > centre(mxsite,mxsub,mxpoly,3)
+     >,centre_lnk(mxsub,mxpoly,3)
+     >,chi2(mxexper)
+     >,chifat
+     >,chinew
+
+      common/com_iammch/iammch(mxrun,2)
+      common/com_inacch/inacch(mxrun,2)
+      common/com_fdeutaa/fdeutaa(22,mxchain)
+      common/com_fdeutna/fdeutna(8,mxchain)
+
+      common/rr042/
+     > chiold,fout
+     >,chipar(mxexper)
+     >,concp(mxexper)
+     >,coord(mxrun,3)
+     >,cosb
+     >,ctfmt(23)
+     >,ddsmax
+     >,delvar(6)
+     >,dfcc,afcc(3,3)
+     >,disvar(mxsite,3)
+     >,dmax(mxpdb)
+     >,dnexch
+     >,dprmax(mxexper)
+     >,dr
+     >,drpdb
+     >,dscrew(mxstate,mxhagg,4+mxconf)
+
+      common/rr05/
+     > dsmax
+     >,eam(-2*larr*(mxpoly-1):2*larr*(mxpoly-1),mxp)
+     >,ea1(-larr:larr)
+     >,ea2(-larr:larr)
+     >,ear(-larr:larr)
+     >,effexp(mxexper,mxeffec)
+     >,effave(mxeffec)
+     >,eg1(-larr:larr)
+     >,eg2(-larr:larr)
+     >,errkk(mxexper)
+     >,eu1(-larr:larr)
+     >,fhypo
+     >,fnew
+     >,fold
+      common/rr051/
+     > xfrac(mxagg,mxexper,4)
+     >,fract(mxstate,mxhagg,mxexper)
+     >,fracv(mxstate,mxhagg,mxexper)
+     >,ftherm(mxstate,mxhagg,mxtherf,mxeffec+1,4)
+     >,ftmp
+     >,gam(mxsub)
+     >,gamrot(mxsite,mxsub,mxpoly)
+     >,gamrot_lnk(mxsub,mxpoly)
+     >,gamsym(mxstate,mxhagg,mxsub)
+     >,gas(mxstate,mxsite,4+mxconf)
+     >,gibbs(mxstate,mxhagg)
+     >,gys(mxsite)
+     >,hexg(23)
+     >,hgrou(23)
+     >,hip(mxtherf)
+
+      common/rrii01/
+     > dnextsite(mxstate,mxsite)
+     >,something(mxstate,mxsite)
+
+      common/ii01/
+     > iammm(20,20)
+     >,iato(mxrun)
+     >,inato_ca(mxrun)
+     >,ifilm
+     >,ifamily(mxexper)
+     >,ifhinge(mxstate)
+     >,iflag2,l2flag
+     >,iflagg(mxagg,mxagg)
+     >,iflsim
+     >,ifsig
+     >,ifspdb
+     >,ihead
+     >,ihetatm
+     >,idisvconn
+     >,ieqcont
+     >,isticky
+     >,isigplotregular,i2confr
+     >,ilink(mxstate,mxstate)
+     >,iname
+     >,inhamm(22)
+     >,inv(mxsub)
+     >,ioconf
+     >,iostate
+     >,ipdbsite(mxstate,mxsite)
+     >,iplate(mxexper)
+     >,ipnt(2+mxwave,8+mxwave+mxshell)
+     >,iqipar(mxexper)
+     >,iqmv(mxexper)
+     >,irand(mxpar)
+
+
+      common/ii02/
+     > irefined
+     >,isalt(mxexper)
+     >,iscale
+     >,iseed
+     >,itypei(22,21)
+     >,iwave(mxexper)
+     >,izgr(23,4)
+     >,id5c5
+     >,jfrac
+     >,jfracm
+     >,icheckhag
+     >,jaas(mxstate,mxsite)
+     >,jaghag(mxstate,mxhagg)
+     >,jalpscrew(mxstate,mxhagg)
+     >,jcbescrew(mxstate,mxhagg)
+     >,jascrew(mxstate,mxhagg)
+     >,jaus(mxstate,mxsite)
+     >,jcba(mxstate,mxsite)
+     >,jcbu(mxstate,mxsite)
+     >,jdscrew(mxstate,mxhagg)
+     >,jett(mxexper)
+     >,jftherm(mxstate,mxhagg,mxtherf,mxeffec+1)
+     >,j2rhcl(mxshell)
+     >,j2ftherm(mxtherf,mxeffec+1)
+     >,j3alpscrew(mxstate)
+     >,j3cbescrew(mxstate)
+     >,j3ascrew(mxstate)
+     >,j3dscrew(mxstate)
+     >,j3rmeff(mxstate)
+     >,j3gammacontr(mxstate)
+     >,j3rhcl(mxstate,mxshell)
+     >,j3ftherm(mxstate,mxtherf,mxeffec+1)
+     >,j3ums(mxstate)
+     >,j3aus(mxstate)
+     >,j3cbu(mxstate)
+     >,j3aas(mxstate)
+     >,j3cba(mxstate)
+     >,j3gas(mxstate)
+c     >,j3lnk(mxstate)
+
+      common/ii03/
+     > jgas(mxstate,mxsite)
+     >,jhaagg(mxagg)
+     >,jmouve
+     >,jplate(mxexper)
+     >,jrhcl(mxstate,mxhagg,mxshell)
+     >,jrmeff(mxstate,mxhagg)
+     >,jgammacontr(mxstate,mxhagg)
+     >,jstagg(mxagg)
+     >,jtt(2+mxwave)
+     >,kii(2+mxwave)
+     >,ktt(2+mxwave)
+     >,jums(mxstate,mxsite)
+     >,lmax
+     >,lpar
+     >,lpara(mxstate,mxhagg)
+     >,lparp
+     >,lsecond
+     >,ldecidi
+     >,lfirst
+     >,ltird
+     >,mass(103)
+     >,ibfinal
+
+      common/ii04/
+     > mlink(mxstate)
+     >,mpar
+     >,mseq
+     >,mseqa(mxstate,mxhagg)
+     >,mseqp
+     >,mxdeg
+     >,mxdegp
+     >,nqgl
+     >,na
+     >,nagg
+     >,natgr(23)
+     >,nato
+     >,nato_ca
+     >,natoa
+     >,natob
+     >,nb
+     >,ncycl
+     >,nconf(mxstate)
+     >,nd
+     >,neffec
+     >,nexper
+     >,nfamily
+     >,nhagg(mxstate)
+     >,niter
+     >,np
+     >,npnt(2+mxwave)
+
+      common/ii05/
+     > np3d
+     >,npdb
+     >,npoly(mxstate,mxhagg)
+     >,nq
+     >,nqav(mxexper)
+     >,nqave
+     >,nqfull
+     >,nqn1(mxexper)
+     >,nqn(mxexper)
+     >,nqrn(mxexper)
+     >,nseq
+     >,nseqp
+     >,nsfull
+     >,nsite(mxstate)
+     >,nlink(mxstate)
+     >,nskpp(mxexper)
+     >,nskpr
+     >,nspeexp(mxexper)
+     >,nstate
+     >,nsub
+     >,nsubrun
+     >,nsymm(mxstate,mxhagg)
+     >,ntt
+     >,nwave
+     >,nz
+     >,ipair(mxstate,mxhagg,mxdis,9)
+     >,ndist(mxstate,mxhagg)
+     >,ipair_site(mxstate,mxhagg,mxsite+mxlink,mxdis)
+     >,npair_site(mxstate,mxhagg)
+     >,naalink(mxstate,mxlink)
+     >,iprimlink(mxstate,mxlink,mxaalink)
+     >,isitelink(mxstate,mxlink,6)
+     >,ilinksite(mxstate,mxsite,1+mxlink)
+     >,jlink(mxstate,mxlink)
+     >,naallpdb(mxpdb)
+     >,iaallpdb(mxpdb,mxlinkpdb,2+mxlink)
+
+      common/ii06/
+     > isitlnkconstr_a(mxstate,mxsite+mxlink,1+mxconstr)
+     >,isitlnkconstr_b(mxstate,mxsite+mxlink,1+2*mxconstr)
+     >,nconstr_a(mxstate),iconstr_a(mxstate,mxconstr,20)
+     >,jconstr_a(mxstate,mxconstr,2)
+     >,nconstr_b(mxstate),iconstr_b(mxstate,mxconstr,20)
+     >,jconstr_b(mxstate,mxconstr,2)
+      common/again/
+     >lconstr_a(mxstate,mxconstr),vconstr_a(mxstate,mxconstr)
+     >,fconstr_a(mxstate,mxconstr),cconstr_a(mxstate,mxconstr)
+     >,lconstr_b(mxstate,mxconstr),vconstr_b(mxstate,mxconstr)
+     >,fconstr_b(mxstate,mxconstr),cconstr_b(mxstate,mxconstr)
+     >,constr_a(mxstate,mxconf,mxconstr,3)
+     >,constr_b(mxstate,mxconf,mxconstr,3)
+     >,cverl(mxstate,mxconf)
+     >,cverm(mxstate,mxconf)
+      common/cooaa/
+     > cooaall_n (mxpdb,mxlinkpdb,3)
+     >,cooaall_ca(mxpdb,mxlinkpdb,3)
+     >,cooaall_c (mxpdb,mxlinkpdb,3)
+     >,cooaall_o (mxpdb,mxlinkpdb,3)
+
+      common/cooovl/
+     >cooovl(mxpdb,mxnatovl,3)
+      common/ncooovl/
+     > natovl(mxpdb)
+
+      common/cooaa/
+     > cooconstr_a(mxstate,mxconstr,3)
+     >,cooconstr_b(mxstate,mxconstr,2,3)
+     >,cooconstr_a_rot(mxstate,mxconstr,6)
+     >,cooconstr_b_rot(mxstate,mxconstr,2,6)
+
+      common/anglelink/phi_lnk(mxstate,mxlink,4+mxconf,mxaalink+1)
+     >,psi_lnk(mxstate,mxlink,4+mxconf,mxaalink)
+     >,chi_lnk(mxstate,mxlink,4+mxconf,mxaalink)
+     >,phi_old(mxstate,mxlink,4+mxconf,mxaalink)
+     >,psi_old(mxstate,mxlink,4+mxconf,mxaalink)
+     >,chi_old(mxstate,mxlink,4+mxconf,mxaalink)
+
+      common/rro71/overl_dis(mxstate,mxhagg,mxdis,mxconf)
+      common/rro72/overm_dis(mxstate,mxhagg,mxdis,mxconf)
+
+c      common/rr069/
+c     >overl_site(mxstate,mxsite,mxhagg,mxconf)
+c      common/rr060/
+c     >overm_site(mxstate,mxsite,mxhagg,mxconf)
+
+      common/rr06/
+     > overl(mxstate,mxhagg,mxconf)
+     >,overm(mxstate,mxhagg,mxconf)
+     >,p0ref
+     >,phi(mxtherf)
+     >,phyd(mxexper)
+     >,pdeu(mxexper)
+     >,plate(mxexper)
+     >,pold(mxexper)
+     >,polh(mxexper)
+
+       common/rr063/
+     > pqtt(mn,2+mxwave,mx1,mxstate,mxhagg,mxconf)
+
+       common/rr064/
+     > pquu(mn,2+mxwave,mx1,mxstate,mxhagg,mxconf)
+     >,presexp(mxexper)
+
+       common/rr065/
+     > p1rfull(2+mxwave,6+mxshell,mn)
+
+       common/rr066/
+     > prfull(2+mxwave,mx1,mn)
+
+       common/rr067/
+     > p1qfull(2+mxwave,6+mxshell,mn)
+
+       common/rr068/
+     > pqfull(2+mxwave,mx1,mn)
+
+       common/rr069/
+     > psiar(mxpsi,500)
+     >,pushdn
+     >,pushup
+     >,q
+     >,qglmax
+     >,qi(mnexp)
+     >,qid(mnexp)
+     >,qidn(mxexper,mn)
+     >,qie(mnexp)
+     >,qien(mxexper,mn)
+     >,qies(mnexp)
+     >,qipar(mxexper)
+     >,qis(mnexp)
+
+      common/rr07/
+     > qis1(mxexper,2,mn)
+     >,qis2(mxexper,2,mn)
+     >,qit
+     >,qit_parz(mxstate,mxhagg)
+     >,qit2(mnexp)
+     >,qit2n(mxexper,mn)
+     >,qit5(mnexp)
+     >,ql(mnexp)
+     >,qld(mnexp)
+     >,qle(mnexp)
+     >,qles(mnexp)
+     >,qlt
+     >,qmax
+     >,qmaxiq
+     >,qmfull
+     >,qmin
+     >,qq(mnexp)
+     >,qq3(mnexp)
+     >,qqfull(mn)
+     >,qqgl(mxp)
+     >,qqn(mxexper,mn)
+
+      common/rr08/
+     > qrmax
+     >,qrmin
+     >,qverl(mxstate,mxconf)
+     >,qverm(mxstate,mxconf)
+     >,rammm(20,20)
+     >,rapave(mxpar)
+     >,rapsqr(mxpar)
+     >,rcov(103)
+     >,rexc(23)
+     >,rglmax
+     >,rgstar
+     >,rhcl(mxstate,mxhagg,mxshell,4+mxconf)
+     >,rho0(mxexper)
+     >,rk(mxagg,mxagg)
+     >,rmass(103)
+     >,rmax
+     >,rmeff(mxstate,mxhagg,4+mxconf)
+     >,gammacontr(mxstate,mxhagg,4+mxconf)
+     >,rmfull(mxpdb+mxlink)
+     >,rot(3,3)
+     >,rot1(3,3)
+     >,rot2(3,3)
+
+      common/rr09/
+     > roz(3,3)
+     >,roz1(3,3)
+     >,zor1(3,3)
+     >,roz2(3,3)
+     >,rrgl(mxp)
+     >,rscale,rscale2
+     >,rtramax(mxpdb)
+     >,rtramin(mxpdb)
+     >,rvdw(103)
+     >,rx
+     >,ry
+     >,rz
+     >,sa(larr)
+     >,scale
+     >,scale0
+     >,sclen(23)
+     >,siest(mnexp)
+     >,stru(3)
+     >,t0ref
+     >,t_overl
+     >,t_overl_old
+
+      common/rrnew/pscale,tauscale,epsprime,facttstart
+
+      common/rr092/
+     > sig(0:la3,0:la3,0:la3,-la3:la3,-la3:la3)
+      common/rr093/
+     > sigbar(0:la3,0:la3,-la3:la3,-la3:la3,-la3:la3)
+
+      common/rr094/
+     > ovl(0:la3,0:la3,0:la3,-la3:la3,-la3:la3)
+      common/rr095/
+     > ovlbar(0:la3,0:la3,-la3:la3,-la3:la3,-la3:la3)
+
+      common/phiov/phiovl_l(mxpdb+1,mxpdb+1,2)
+
+      common/rr096/
+     > dst(0:la3,0:la3,0:la3,-la3:la3,-la3:la3)
+      common/rr097/
+     > dstbar(0:la3,0:la3,-la3:la3,-la3:la3,-la3:la3)
+
+      common/rr098/
+     > rsc(0:la3,0:la3,0:la3,-la3:la3,-la3:la3)
+      common/rr099/
+     > rscbar(0:la3,0:la3,-la3:la3,-la3:la3,-la3:la3)
+
+      common/rr101/
+     >trasl(mxstate,mxhagg,3)
+     >,travdw(mxpdb,mxp,mxp)
+     >,ums(mxstate,mxsite,4+mxconf)
+
+      common/rr10/
+     > t_qverl
+     >,t_qverl_old
+     >,t_cverl
+     >,t_cverl_old
+     >,temp
+     >,tempexp(mxexper)
+     >,tempfix
+     >,tor(3,3)
+     >,tor1(3,3)
+     >,tor2(3,3)
+     >,totmos
+     >,varacc(mxpar)
+     >,vardel(mxpar)
+     >,varmax(mxpar)
+     >,varmin(mxpar)
+     >,varnew(mxpar)
+     >,varold(mxpar)
+     >,vartot(mxpar)
+     >,vexc(23)
+     >,w_overl
+     >,w_kforce
+     >,w_penalty
+     >,w_aadd
+     >,w_aaaa
+
+      common/rr11/
+     > wqgl(mxp)
+     >,wa(mxp)
+     >,wagg(mxstate,mxhagg)
+     >,wave(mxwave)
+     >,wb(mxp)
+     >,weight(mxp)
+     >,wfull(mxpdb)
+     >,wlink(mxstate,mxlink)
+     >,wi(mnexp)
+     >,win(mxexper,mn)
+     >,wtmp(mx1)
+     >,xd2o(mxexper)
+     >,xlref(mxpdb)
+     >,xlrot(mxstate,mxsite)
+     >,xms(mxsite)
+     >,xrref(mxpdb)
+     >,xrrot(mxstate,mxsite)
+     >,ylref(mxpdb)
+
+      common/rr12/
+     > ylrot(mxstate,mxsite)
+     >,yrref(mxpdb)
+     >,yrrot(mxstate,mxsite)
+     >,zero(mxp)
+     >,zlref(mxpdb)
+     >,zlrot(mxstate,mxsite)
+     >,zrref(mxpdb)
+     >,zrrot(mxstate,mxsite)
+
+      common/ccs/csa(2,0:2*larr)
+      common/cpwar/pwar(0: 2*larr,- 2*larr: 2*larr,- 2*larr: 2*larr,32)
+      common/cysf/ysf(0: 2*larr,0: 2*larr)
+
+      parameter(zer=0.d0,half=0.5d0,one=1.d0,two=2.d0,tlittle=1.d-6)
+      parameter(three=3.d0,four=4.d0,five=5.d0,six=6.d0)
+      parameter(seven=7.d0,eight=8.d0,nine=9.d0,ten=10.d0)
+      parameter(hundr=100.d0,thous=1000.d0)
+      parameter(pi2    = 6.28318530717958647692528676656d0)
+      parameter(pi     = pi2*0.5d0)
+      parameter(pih    = pi*0.5d0)
+      parameter(pi3h   = 3.d0*pi*0.5d0)
+      parameter(pi4    = 2.d0*pi2)
+      parameter(spi4   = 3.544907701811032d+00)
+      parameter(s2pi   = 0.7978845608028654E+00)
+      parameter(conv   = 57.2957795130823208767981548141d0)
+
+      parameter(
+     >  acacn= 115.05350370613851/conv
+     >, acnca= 123.0623328420821/conv
+     >, anco= 124.88327029040619/conv
+     >, acaco= 121.06243825116934/conv
+     >, rcca= 1.526d0!1.5259885320670001
+     >, rcn= 1.324006797565632
+     >, rco= 1.250d0!499987999994249
+c CB-CA:  
+     >, rcbca=1.538d0!!1.5227360243981882d0 
+     >, accacb=112.74528837152725d0/conv 
+     >, phicbca=-59.71937135367104d0/conv
+c  N-CA:  
+     >, rnca=1.469d0!1.468538389011333d0 
+     >, ancac=106.08494033774384d0/conv 
+     >, phinca=59.71937135367104d0/conv)
+
+
+      common/works/p1(3),p2(3),p3(3),p4(3),p5(3)
+     >,pp1(3),pp2(3),pp3(3),pp4(3)
+     >,ppp1(3),ppp2(3),ppp3(3),ppp4(3)
+
+      common/cooaa2/
+     > cooaallrot_n (mxstate,mxlink,2,3)
+     >,cooaallrot_ca(mxstate,mxlink,2,3)
+     >,cooaallrot_c (mxstate,mxlink,2,3)
+     >,cooaallrot_o (mxstate,mxlink,2,3)
+
+
+c.....da qui in poi e' tutto da controllare/sistemare.
+
+      parameter(mxaapar=3*(mxaalink+1),mxaalinkc=400)
+
+      common/oo/pm(3,3),qm(3,3)
+      common/poly002/bbb1(3),bbb2(3),bbb3(3),bbb4(3),b0(3),xx(3)
+      common/poly003/v12(3),v23(3),b1s(3)
+      common/poly004/rCA(mxaalink,3),caard(mxaalinkc,3)
+      common/poly005/rN(mxaalink,3)
+      common/poly006/rC(mxaalink,3)
+      common/poly007/rO(mxaalink,3)
+      common/poly008/rCB(mxaalink,3)
+      common/poly009/atom4(mxaalink),gru(mxaalink)
+      common/poly010/q1(3),q2(3),q3(3)
+      common/poly011/pminv(3,3)
+      common/poly012/alphaaa(mxaalink,2),betaaa(mxaalink,2),
+     >gammaaa(mxaalink,2),
+     >centreaa(mxaalink,3,2)
+      common/poly013/chi(mxaalink),phi_r(mxaalink),psi_r(mxaalink),
+     >chi00(mxaalink)
+      common/poly014/isec(mxaalink),n,ic,ncicl,i_c,i_n,
+     >iseq(mxaalink),iflag3,iseqpdb(mxstate,mxsite+mxlink)
+     >,iseq2(mxaalink+3),ipdb3,iruoto
+      common/poly015/natoadj(23),natonac(mxaalink),
+     >natonac2(mxaalink,2)
+      common/poly016/cooadj(23,15,3),rmadj(23)
+      common/poly017/iammty(mxaalink)
+      common/poly018/psifirst,psilast
+      common/poly019/rncaco_c(4,3),rncaco_n(4,3)
+      common/dihedc/dihed(mxaalink+2,12)
+      common/poly020/ijadj(23,15,2),ijnac(mxaalink,15),
+     >ijnac2(mxaalink,15,2)
+      common/poly021/coonac(mxaalink,15,3)
+      common/poly022/coonac2(mxaalink,15,2,3)
+      common/poly023/i4lnk(mxaalink,3),iato4(mxaalinkc)
+     >,iato5(mxaalinkc),iato6(mxaalinkc),iato7(mxaalinkc)
+
+      common/poly023/
+     > umsaa(mxstate,mxlink,mxconf,mxaalink,2)
+     >,ausaa(mxstate,mxlink,mxconf,mxaalink,2)
+     >,cbuaa(mxstate,mxlink,mxconf,mxaalink,2)
+     >,aasaa(mxstate,mxlink,mxconf,mxaalink,2)
+     >,cbaaa(mxstate,mxlink,mxconf,mxaalink,2)
+     >,gasaa(mxstate,mxlink,mxconf,mxaalink,2)
+     >,terminals(mxstate,mxlink,mxconf,3,3)
+     >,umsaa_old(mxstate,mxlink,mxconf,mxaalink,2)
+     >,ausaa_old(mxstate,mxlink,mxconf,mxaalink,2)
+     >,cbuaa_old(mxstate,mxlink,mxconf,mxaalink,2)
+     >,aasaa_old(mxstate,mxlink,mxconf,mxaalink,2)
+     >,cbaaa_old(mxstate,mxlink,mxconf,mxaalink,2)
+     >,gasaa_old(mxstate,mxlink,mxconf,mxaalink,2)
+     >,terminals_old(mxstate,mxlink,mxconf,3,3)
+     >,centre_aa_fin(mxlink,mxaalink,mxsub,mxpoly,3)
+
+      common/qqo71/qverl_lnk(mxstate,mxlink,mxconf)
+      common/qqo72/qverm_lnk(mxstate,mxlink,mxconf)
+
+
+      common/j2confr/
+     >natconfr(2),iflag_confr,nat(mxsite),iconfr_rot
+      common/c2confr/
+     >cooconfr(2,mxatconfr,3),coontt(mxsite,mxatconfr,3)
+     >,aatmp,bbtmp,ggtmp,rrxtmp,rrytmp,rrztmp
+     >,tttmp,uuxtmp,uuytmp,uuztmp

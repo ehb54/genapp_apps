@@ -1,0 +1,6 @@
+
+gfortran  -c -mcmodel=medium pwig1.f
+gfortran  -c -mcmodel=medium pwig2.f
+gfortran  -c -mcmodel=medium pwig3.f
+gfortran  -c -mcmodel=medium abs_all.f
+gfortran  -mcmodel=medium -o quafit quafit2014.f abs_all.o pwig1.o pwig2.o pwig3.o

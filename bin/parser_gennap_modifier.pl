@@ -371,7 +371,7 @@ close OUT;
 
 ####################################################
 
-
+system("$Bin/quafit_source/quafit");
 
 print encode_json( $res );
 

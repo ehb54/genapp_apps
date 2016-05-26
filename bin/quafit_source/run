@@ -1,0 +1,9 @@
+
+echo $1 > code.usr
+cp $2/qua$1.dat .
+cp $2/qua$1.xfrac .
+./quafit
+rm -f qua$1.dat
+rm -f *$1*.cst
+rm -f *$1*.csw
+mv qua$1*.* $2
