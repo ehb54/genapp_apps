@@ -401,15 +401,25 @@ for my $key ( sort keys %data )
 	}
     }
 }
+
+#########  OUTPUT  ######################################################################
 print "
 	          { 
 	             \"role\"     : \"output\",  
 	             \"id\"       : \"outputfile\",
 	             \"label\"    : \"Quafit Output\",
 	             \"type\"     : \"file\"  
-	          }"    
-    ;
+	          }, 
 
+	         {
+                   \"role\"  : \"output\",
+                   \"id\"    : \"quaternary_pdb\",
+                   \"label\" : \"Resulting Assembled Structure (right click for options): \", 
+                   \"type\"  : \"atomicstructure\",
+		   \"jsmoladd\" : \"spin on\",
+		   \"width\"     : 450,
+	           \"height\"    : 450
+		 }";
 
 print "
              ], \n

@@ -3,6 +3,7 @@
 use JSON;
 use Data::Dumper;
 use File::Basename;
+use File::Copy;
 use FindBin '$Bin';
 
 #my $file = "$Bin/quatest_tags.dat";
@@ -55,7 +56,6 @@ mkdir $newdir, 0755;
 ###############################################################################
 
 my $output_filename = join "", "$p/qua", $$ref{ "codenumber" }, ".dat";
-$$res{ "outputfile" } = "$output_filename";
 open OUT, ">$output_filename";
 
 my $tag_id_key;
@@ -372,6 +372,21 @@ close OUT;
 ####################################################
 
 system("$Bin/quafit_source/quafit");
+
+my $mask1 = join "", "*", $$ref{ "codenumber" }, "*.cst";
+my $mask2 = join "", "*", $$ref{ "codenumber" }, "*.csw"; 
+unlink glob($mask1);
+unlink glob($mask2);
+
+my $old_loc = join "", "$p/qua", $$ref{ "codenumber" }, "*.*";
+my $arc_dir = $newdir;
+
+for my $file (glob $old_loc) {
+    move ($file, $arc_dir) or die $!;
+}
+
+$$res{ "outputfile" } = join "", $p, "/", $newdir, "/", "qua", $$ref{ "codenumber" }, ".dat";
+$$res{ "quaternary_pdb" } = join "", $p, "/", $newdir, "/qua", $$ref{ "codenumber" }, "002_001001001.pdb";
 
 print encode_json( $res );
 
