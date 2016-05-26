@@ -2,9 +2,11 @@
 
 use JSON;
 use Data::Dumper;
+use File::Basename;
 use FindBin '$Bin';
 
-my $file = "$Bin/quatest_tags.dat";
+#my $file = "$Bin/quatest_tags.dat";
+my $file = "$Bin/quaS004_test_tags.dat";
 
 #print "The script is located in $Bin_path.\n";
 #exit();
@@ -24,6 +26,30 @@ $ref = decode_json( $json );
 
 $res = {};
 $p = $$ref{ "_base_directory" };
+
+## Dir for project's files (usualy PDB base name, first 4 letters) ############
+
+$pathtopdb = ${ $$ref{ "pdb_location" } }[0];
+$pdbfilename = basename($pathtopdb);
+$pdbfilename =~ s{\.[^.]+$}{}; # removes extension 
+
+$pathtosas = ${ $$ref{ "sas_data_location" } }[0];
+$sasfilename = basename($pathtosas);
+#$sasfilename =~ s{\.[^.]+$}{}; # removes extension 
+
+$pathtosym = ${ $$ref{ "sym_group_location" } }[0];
+$symfilename = basename($pathtosym);
+#$symfilename =~ s{\.[^.]+$}{}; # removes extension 
+$familyname = substr($symfilename, 0, 4);
+
+#print $familyname;
+#exit;
+
+$newdir =join "_", "Results", $pdbfilename;
+mkdir $newdir, 0755;
+
+###############################################################################
+
 $$res{ "outputfile" } = "$p/quafit.txt";
 open OUT, ">$p/quafit.txt";
 
@@ -109,15 +135,17 @@ while (my $line = <$fh>) {
 	    }
 	}
     }
-    else 
+    else  #ddd
     {
 	if ($line_copy =~ m/#TAG/ && $line_copy =~ m/%%%%/)     # LABELS in GenApp
 	{
 	    $line_copy =~ s/#TAG//;
-	    print OUT $line_copy;
+	    $line_copy =~ s/\s+$//; # remove whitespace from the end
+	    #chomp $line_copy;
+	    print OUT "$line_copy\n";
 	}
-	else
-	{
+	else #dd
+	{ 
 	    # PROCESS Listboxes #############################################################
 	    if ($line_copy =~ m/#T_CBR/)   
 	    {
@@ -191,7 +219,8 @@ while (my $line = <$fh>) {
 		    if ( $line_copy =~ m/#END/ )
 		    {
 			$line_copy =~ s/#END//;
-			chomp $line_copy;
+			$line_copy =~ s/\s+$//; # remove whitespace from the end
+			#chomp $line_copy;
 		    }
 		    
 		    my $dval_cbr_11 = (split(/[:]/, $line_copy))[0];
@@ -200,6 +229,7 @@ while (my $line = <$fh>) {
 		    
 		    if (!(exists $ref->{$tag_id_key}))   # Checkboxes!!
 		    {
+			chomp $line_copy;
 			print OUT $line_copy . "\n";
 		    }
 		    else 
@@ -237,15 +267,54 @@ while (my $line = <$fh>) {
 			    }
 			    else
 			    {
+				chomp $line_copy;
 				print OUT $line_copy . "\n"; # To CORRECT!!
 			    }
 			}
 		    }
 		}
 	    }
-	    else    # THE REST
+	    else    
 	    {
-		print OUT $line_copy;
+		if ($line_copy =~ m/#EXPSAS/)
+		{
+		    $line_copy =~ s/#EXPSAS//;
+		    chomp $line_copy;
+		    my $id_exp = (split(/[:]/, $line))[0];
+		    #my $dval = (split(/[:]/, $line))[-1];
+		    
+		    print OUT "$id_exp:$sasfilename\n";
+		}
+		else
+		{
+		    if ($line_copy =~ m/#UNITSTR/)
+		    {
+			$line_copy =~ s/#UNITSTR//;
+			chomp $line_copy;
+			my $id_exp = (split(/[:]/, $line))[0];
+			#my $dval = (split(/[:]/, $line))[-1];
+		    
+			print OUT "$id_exp:$pdbfilename\n";
+		    }
+		    else
+		    {
+			if($line_copy =~ m/#SYM/)
+			{
+			    $line_copy =~ s/#SYM//;
+			    chomp $line_copy;
+			    my $id_exp = (split(/[:]/, $line))[0];
+			    #my $dval = (split(/[:]/, $line))[-1];
+			    
+			    print OUT "$id_exp:$familyname\n";
+			}
+			else # THE REST
+			{
+			    #chomp $line_copy;
+			    $line_copy =~ s/\s*$/$1/; # remove whitespace from both ends
+			    print OUT "$line_copy\n";
+			}
+		    }
+		}
 	    }
 	}
     }

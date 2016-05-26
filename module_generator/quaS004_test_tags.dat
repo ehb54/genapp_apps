@@ -1,0 +1,296 @@
+********************* Input Data File for Quafit 4.0 **********************
+                                                                                
+ OPTIMIZATION PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  #TAG
+                                                                                
+ Number of Cycles per Sub-Run .........:1      #TAG
+ Maximum Number of Sub-Run ............:2      #TAG
+ Hypothetical Final H(X) ..............:0.1    #TAG
+ Constant Value of T* (if not 0.0) ....:0.0        
+ Iterations Number for Error Analysis .: 0         
+ Maximum Rank L for [A^i][l,m](Q) .....:7      #TAG
+ Maximum Rank L for [A^i]^S[l,m](Q) ...:7      #TAG
+ Maximum Rank L for S[l1,l2,l3,k1,k2] .: 3         
+ Maximum Q of A[l,m](Q) ...............:0.4    #TAG
+ Number of Q's for A[l,m](Q) ..........:200
+ TCP Packing Distance (Angs.) .........:2.8
+ Number of Hydration Shells ...........: 1
+ Well Depth of LJ potential (epsilon) .: 0.1
+ Force Constant of Linker's Ends (K) ..: 0.15
+ Linker Lateral Chains Overlap Penalty : 1.
+ Two linkers CA-CA Overlap Penalty ....: 1.
+ CA linker - Domains Overlap Penalty ..: 1.
+ ......................................:
+ Number of Zeros for Integration ......: 32
+ Number of Bins for Integration .......: 1
+ Number of Points for 3D Plots ........: 31
+ Reference Temperature (Celsius) ......:0.0
+ Reference Pressure (bar) .............:1.0
+ Stone Exp. Contact Dist. Family Name .:1PL7/qua_  #SYM
+ Stone Exp. Contact Dist. Flag (1/0) ..:0       #TAG
+ A[l,m] Calculation Flag (1/0) ........:1	    
+ Dummy Atom Shell Determination .......:1	    
+ Read HETATM atoms in PDB file (1/0) ..:0	    
+ Free / Thermod.-linked fractions (1/0):1	    
+ Optimisation free fraction (1/0) .....:0	#TAG
+ Plot Random Contact Distances (1/0) ..:0	    
+ No-Overlap test connected-RD (1/0) ...:0	    
+ Mixed D5/C5 symmetry (1/0) ...........:0	    
+ Exponent alpha of power-law error fu..:0.	#TAG
+ Reduction contact distances (Angs.) ..:0.0	    
+ Check equivalent pairs of RD .........:1	    
+ Contact dist. as equilib. dist. (1/0) :1	    
+ Sticky potential (1/0) ...............:0	    
+ Reduction cont. dist. for sticky pot. :3.0	    
+ Plot Regular Contact Distances (1/0) .:0	    
+ Volume(r)/Volume(0) at the overlap ...:0.025	    
+ Half range for average ov.volume (AA) :3.0	    
+ Anisometry LJ parameter epsprime .....:1.0	    
+ Two-states comparison flag (1/0) .....:0	    
+ Factor H starting ....................:2.0	#TAG
+ Maximum Displ. in comparison (Angs.) .:200.0	    
+ icolumn3 .............................:1	#TAG
+ iconfr_rot ...........................:0	    
+ qinputscale ..........................:1.0	#TAG
+ sinputscale ..........................:1.0	#TAG
+ ......................................: 
+ ......................................: 
+ ......................................: 
+ ......................................: 
+ ......................................: 
+ ......................................: 
+ ......................................: 
+
+ STRUCTURE OF STATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    #TAG
+                                                                               
+ Number of Independent States .........:1       #TAG
+---------------------------------------------------------- State
+ Number of MC State's Configurations ..:1       #TAG		   
+ Number of Sites ......................:1                                                        [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+ Number of Flexible Linkers ...........:0                  Sequence of RDs and FLs in the pdb ...: 1
+ Number of Hierarchic Aggregates ......:1       #TAG   
+ Write the Aggregate Section In Order of Decreasing Symmetry
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Aggregate
+ Point Group Symmetry .................:D2      #TAG
+ Point Group Reference System ..: alpha:    0.0000     #T_CBR 	  
+                           (deg)  beta :    0.0000     #T_CBR 	  
+                                  gamma:    0.0000     #T_CBR#END 
+ Screw Polymerization Number ..........:1       #TAG
+                                       [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
+ Screw Axis Orientation: alpha (deg) ..:   0.00000          0.0000        360.0000         20.0000         0    #T_CBR 	    
+                         cos(beta) ....:   1.0000          -1.0000          1.0000          0.5000         0	#T_CBR#END   
+ Rotation along Screw Axis (deg) ......:   0.99018          0.0000         180.000          64.250         0	#TAG	    
+ Screw Translation along z (Ang.) .....:   141.133          5.0000         300.000          40.531         0	#TAG	    
+ Contraction factor gamma .............:      1.0								             
+ Effective Aver. Atomic Radius (Angs.) :     1.62								             
+ Relative mass density hydr. shell    .:    1.05           1.0            1.07               0.5           1	#TAG         
+ Relative Mass Density Hydr. Shell #2 .:
+ Relative Mass Density Hydr. Shell #3 .:
+                                       [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
+ Reference Gibbs Free Energy (cal/mol) : 
+ First Derivative Effectors #1 ........: 
+ First Derivative Effectors #2 ........:
+ First Derivative Effectors #3 ........:
+ First Derivative Effectors #4 ........:
+ First Derivative Effectors #5 ........:
+ First Derivative Effectors #6 ........:
+ First Derivative Effectors #7 ........:
+ First Derivative Effectors #8 ........:
+ First Derivative Effectors #9 ........:
+ First Derivative Effectors #10 .......:
+ First Derivative Effectors #11 .......:
+ First Derivative Effectors #12 .......:
+ First Derivative Effectors #13 .......:
+ First Derivative Effectors #14 .......:
+ First Derivative Effectors #15 .......:
+ First Derivative Effectors #16 .......:
+ First Derivative Effectors #17 .......:
+ First Derivative Effectors #18 .......:
+ First Derivative Effectors #19 .......:
+ First Derivative Effectors #20 .......:
+                                       [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
+ Reference Entropy (cal/mol/K) ........:
+ First Derivative Effectors #1 ........:
+ First Derivative Effectors #2 ........:
+ First Derivative Effectors #3 ........:
+ First Derivative Effectors #4 ........:
+ First Derivative Effectors #5 ........:
+ First Derivative Effectors #6 ........:
+ First Derivative Effectors #7 ........:
+ First Derivative Effectors #8 ........:
+ First Derivative Effectors #9 ........:
+ First Derivative Effectors #10 .......:
+ First Derivative Effectors #11 .......:
+ First Derivative Effectors #12 .......:
+ First Derivative Effectors #13 .......:
+ First Derivative Effectors #14 .......:
+ First Derivative Effectors #15 .......:
+ First Derivative Effectors #16 .......:
+ First Derivative Effectors #17 .......:
+ First Derivative Effectors #18 .......:
+ First Derivative Effectors #19 .......:
+ First Derivative Effectors #20 .......:
+                                       [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
+ Heat Capacity (cal/mol/K) ............:
+ First Derivative Effectors #1 ........:
+ First Derivative Effectors #2 ........:
+ First Derivative Effectors #3 ........:
+ First Derivative Effectors #4 ........:
+ First Derivative Effectors #5 ........:
+ First Derivative Effectors #6 ........:
+ First Derivative Effectors #7 ........:
+ First Derivative Effectors #8 ........:
+ First Derivative Effectors #9 ........:
+ First Derivative Effectors #10 .......:
+ First Derivative Effectors #11 .......:
+ First Derivative Effectors #12 .......:
+ First Derivative Effectors #13 .......:
+ First Derivative Effectors #14 .......:
+ First Derivative Effectors #15 .......:
+ First Derivative Effectors #16 .......:
+ First Derivative Effectors #17 .......:
+ First Derivative Effectors #18 .......:
+ First Derivative Effectors #19 .......:
+ First Derivative Effectors #20 .......:
+                                       [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
+ Displaced Volume (cm^3/mol) ..........:
+ First Derivative Effectors #1 ........:
+ First Derivative Effectors #2 ........:
+ First Derivative Effectors #3 ........:
+ First Derivative Effectors #4 ........:
+ First Derivative Effectors #5 ........:
+ First Derivative Effectors #6 ........:
+ First Derivative Effectors #7 ........:
+ First Derivative Effectors #8 ........:
+ First Derivative Effectors #9 ........:
+ First Derivative Effectors #10 .......:
+ First Derivative Effectors #11 .......:
+ First Derivative Effectors #12 .......:
+ First Derivative Effectors #13 .......:
+ First Derivative Effectors #14 .......:
+ First Derivative Effectors #15 .......:
+ First Derivative Effectors #16 .......:
+ First Derivative Effectors #17 .......:
+ First Derivative Effectors #18 .......:
+ First Derivative Effectors #19 .......:
+ First Derivative Effectors #20 .......:
+                                       [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
+ thermal Expansivity Fact. (cm^3/mol/K):
+ First Derivative Effectors #1 ........:
+ First Derivative Effectors #2 ........:
+ First Derivative Effectors #3 ........:
+ First Derivative Effectors #4 ........:
+ First Derivative Effectors #5 ........:
+ First Derivative Effectors #6 ........:
+ First Derivative Effectors #7 ........:
+ First Derivative Effectors #8 ........:
+ First Derivative Effectors #9 ........:
+ First Derivative Effectors #10 .......:
+ First Derivative Effectors #11 .......:
+ First Derivative Effectors #12 .......:
+ First Derivative Effectors #13 .......:
+ First Derivative Effectors #14 .......:
+ First Derivative Effectors #15 .......:
+ First Derivative Effectors #16 .......:
+ First Derivative Effectors #17 .......:
+ First Derivative Effectors #18 .......:
+ First Derivative Effectors #19 .......:
+ First Derivative Effectors #20 .......:
+                                       [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
+ Compressibility Fact. (cm^3/mol/bar) .:
+ First Derivative Effectors #1 ........:
+ First Derivative Effectors #2 ........:
+ First Derivative Effectors #3 ........:
+ First Derivative Effectors #4 ........:
+ First Derivative Effectors #5 ........:
+ First Derivative Effectors #6 ........:
+ First Derivative Effectors #7 ........:
+ First Derivative Effectors #8 ........:
+ First Derivative Effectors #9 ........:
+ First Derivative Effectors #10 .......:
+ First Derivative Effectors #11 .......:
+ First Derivative Effectors #12 .......:
+ First Derivative Effectors #13 .......:
+ First Derivative Effectors #14 .......:
+ First Derivative Effectors #15 .......:
+ First Derivative Effectors #16 .......:
+ First Derivative Effectors #17 .......:
+ First Derivative Effectors #18 .......:
+ First Derivative Effectors #19 .......:
+ First Derivative Effectors #20 .......:
+*************************** Rigid Domain
+    RD PDB File Name (without .pdb) ...:1PL7/1PL7_A     #UNITSTR
+                                       [
+    Geom. Center Vect.: modulus (ang.) :    26.005          0.0000           10.00          2.0000        -1    #T_CBR	 
+                        alpha   (deg) .:   -92.221         -180.00          180.00          90.000         1	#T_CBR	 
+                        cos(beta) .....:  -0.60943         -1.0000          1.0000         0.50000         1	#T_CBR#END
+    Rotation Angles:    alpha_a (deg) .:   -134.86         -180.00          180.00          90.000         1	#T_CBR	 
+                        cos(beta_a) ...:   0.35934E-002    -1.0000          1.0000         0.50000         1	#T_CBR	 
+                        gamma_a (deg) .:    149.80         -180.00          180.00          90.000         1	#T_CBR#END
+***************** Amino acid Constraints
+ AA |RD|SS|POL| Atom|Coord.vector r_i |     Condition     |Val,Name,Vec.u_d |Fact.Val.|Method|   K    |Name  |Flag
+    |FL|  |   |     |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0   
+******** Pairs of Amino acid Constraints
+i:AA|RD|SS|POL|i:Atom|j:AA|RD|SS|POL|j:Atom|Coord.vector r_ij|     Condition     |Val,Name,Vec.u_dd|Fact.Val.|Method|   K    |Name  |Flag
+    |FL|  |   |      |    |FL|  |   |      |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0
+
+SCHEME OF THE EQULIBRIA BETWEEN AGGREGATES Ai-Aj[1/0] %%%%%%%%%%%%%%%%%%%%%%
+                                                                               
+ A01-A02[1] 
+ A01-A03[ ] A02-A03[1] 
+ A01-A04[ ] A02-A04[ ] A03-A04[1] 
+ A01-A05[ ] A02-A05[ ] A03-A05[ ] A04-A05[1] 
+ A01-A06[ ] A02-A06[ ] A03-A06[ ] A04-A06[ ] A05-A06[1] 
+ A01-A07[ ] A02-A07[ ] A03-A07[ ] A04-A07[ ] A05-A07[ ] A06-A07[1] 
+ A01-A08[ ] A02-A08[ ] A03-A08[ ] A04-A08[ ] A05-A08[ ] A06-A08[ ] A07-A08[1] 
+ A01-A09[ ] A02-A09[ ] A03-A09[ ] A04-A09[ ] A05-A09[ ] A06-A09[ ] A07-A09[ ] A08-A09[ ] 
+ A01-A10[ ] A02-A10[ ] A03-A10[ ] A04-A10[ ] A05-A10[ ] A06-A10[ ] A07-A10[ ] A08-A10[ ] A09-A10[ ] 
+ A01-A11[ ] A02-A11[ ] A03-A11[ ] A04-A11[ ] A05-A11[ ] A06-A11[ ] A07-A11[ ] A08-A11[ ] A09-A11[ ] A10-A11[ ] 
+ A01-A12[ ] A02-A12[ ] A03-A12[ ] A04-A12[ ] A05-A12[ ] A06-A12[ ] A07-A12[ ] A08-A12[ ] A09-A12[ ] A10-A12[ ] A11-A12[ ] 
+ A01-A13[ ] A02-A13[ ] A03-A13[ ] A04-A13[ ] A05-A13[ ] A06-A13[ ] A07-A13[ ] A08-A13[ ] A09-A13[ ] A10-A13[ ] A11-A13[ ] A12-A13[ ] 
+ A01-A14[ ] A02-A14[ ] A03-A14[ ] A04-A14[ ] A05-A14[ ] A06-A14[ ] A07-A14[ ] A08-A14[ ] A09-A14[ ] A10-A14[ ] A11-A14[ ] A12-A14[ ] A13-A14[ ] 
+ A01-A15[ ] A02-A15[ ] A03-A15[ ] A04-A15[ ] A05-A15[ ] A06-A15[ ] A07-A15[ ] A08-A15[ ] A09-A15[ ] A10-A15[ ] A11-A15[ ] A12-A15[ ] A13-A15[ ] A14-A15[ ] 
+                                                                                   
+ EXPERIMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    #TAG
+                                                                               
+ Number of Experiment .................:1      #TAG
+---------------------------------------------------------- Experiment
+ Experimental Scattering Curve.........:1PL7/curve2.dat           #EXPSAS
+ Description of Experiment ............:        
+ Concentration (g/l) ..................:3.0                       #TAG
+ Temperature (Celsius) ................:20.
+ Pressure (bar) .......................:1.0
+ Effector #1  (Enter Name And Units) ..:1.0
+ Effector #2  (Enter Name And Units) ..:0.0
+ Effector #3  (Enter Name And Units) ..:0.0
+ Effector #4  (Enter Name And Units) ..:0.0
+ Effector #5  (Enter Name And Units) ..:0.0
+ Effector #6  (Enter Name And Units) ..:0.0
+ Effector #7  (Enter Name And Units) ..:0.0
+ Effector #8  (Enter Name And Units) ..:0.0
+ Effector #9  (Enter Name And Units) ..:0.0
+ Effector #10 (Enter Name And Units) ..:0.0
+ Effector #11 (Enter Name And Units) ..:0.0
+ Effector #12 (Enter Name And Units) ..:0.0
+ Effector #13 (Enter Name And Units) ..:0.0
+ Effector #14 (Enter Name And Units) ..:0.0
+ Effector #15 (Enter Name And Units) ..:0.0
+ Effector #16 (Enter Name And Units) ..:0.0
+ Effector #17 (Enter Name And Units) ..:0.0
+ Effector #18 (Enter Name And Units) ..:0.0
+ Effector #19 (Enter Name And Units) ..:0.0
+ Effector #20 (Enter Name And Units) ..:0.0
+ X-Rays (-1.0) / Neutrons (x_D2O) Flag :-1.0          #TAG
+ Polarized Neutron Beam: P(H) Factor ..:0.0	          
+ Polarized Neutron Beam: P(D) Factor ..:0.0	          
+ Scatt. Dens. Solv (10^-12 cm Angs^-3) :0.09369	      #TAG
+ X-Ray Wavelength (Angs.) .............:1.00	          
+ Minimum Q In Data File (Angs.^-1).....:0.0	      #TAG
+ Maximum Q In Data File (Angs.^-1).....:0.4	      #TAG
+ Parameter K for Poissonian Errors ....:0.0	      #TAG
+ Number of Lines To Skip In Data File .:0	      #TAG
+ Num. of Q-Points To Average ..........:1	      #TAG
+ Mouve Q-Points In the Error bar (1/0) :0	          
+ Maximum Distance for p(r) Calculation :90.	      #TAG
+ Scaling Factor (if 0. Is Optimized) ..:0.	      #TAG
+ Flag Background (1/0) ................:1	      #TAG
+ Family Number (Same Scaling Factor) ..:1	      #TAG

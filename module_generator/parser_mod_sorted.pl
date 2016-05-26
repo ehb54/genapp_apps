@@ -121,6 +121,44 @@ print "\# this is a module file, any module specific info belongs here
    \"help\"     : \"help_module\",
    \"fields\"   : [";
 
+print "
+                 { 
+		    \"role\"       : \"input\",
+	            \"id\"         : \"projectname\",
+	            \"label\"      : \"Project name\",
+	            \"type\"       : \"text\",
+	            \"required\"   : \"true\",
+	            \"help\"       : \"Enter a project name\",
+	            \"specifiedproject\" : \"Run_\" 
+		 },
+
+                {
+                   \"role\"     : \"input\",
+                   \"id\"       : \"pdb_location\",
+                   \"label\"    : \"Location of the RD PDB file \",
+                   \"type\"     : \"lrfile\",
+                   \"required\" : \"true\",
+		   \"help\"     : \"\"
+                   },
+               {
+                   \"role\"     : \"input\",
+                   \"id\"       : \"sas_data_location\",
+                   \"label\"    : \"Experimental Scattering Curve \",
+                   \"type\"     : \"lrfile\",
+                   \"required\" : \"true\",
+		   \"help\"     : \"\"
+                   },
+
+              {
+                   \"role\"     : \"input\",
+                   \"id\"       : \"sym_group_location\",
+                   \"label\"    : \"Symmetry Group Information  \",
+                   \"type\"     : \"lrfile\",
+                   \"required\" : \"true\",
+		   \"help\"     : \"\"
+                   },
+      ";
+
 for my $key ( sort keys %data ) 
 {
     #my $value = $data{$key};
