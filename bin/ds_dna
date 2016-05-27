@@ -388,17 +388,13 @@ class Generate_Drv():
                         output_dict['plot_error'] = flot_data
                 else:
                         output_dict['plotout4'] = flot_data
-#emre
-         sys.stdout = save_stdout;
-#end emre
 
-         try:
-                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-                        json.dump(output_dict,outfile)
-         except:
-                output_dict['error_string'] = "error writing log file"
-
-         print json.dumps( output_dict )
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
                 
 if __name__=='__main__':
 

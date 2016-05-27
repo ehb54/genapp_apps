@@ -124,17 +124,12 @@ class ISAS_Drv():
 		#	json.dumps(sock_dict)
 		#	print json.dumps( sock_dict )
 
-	try:
-		with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-			json.dump(output_dict,outfile)
-	except:
-		#output_dict['error_string'] = save_stdout
-		output_dict['error_string'] = 'you should work'
-
-#emre
-#        sys.stdout = save_stdout;
-#end emre
-	print json.dumps( output_dict )
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
 		
 if __name__=='__main__':
 

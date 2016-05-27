@@ -91,6 +91,15 @@ class SCTOpt_Drv():
         else:
             return total_string
 
+        if total_string:
+                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+#                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
+
         return total_string
 
     def run_me(self, json_flag, json_variables, input_string):

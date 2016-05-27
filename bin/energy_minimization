@@ -328,10 +328,14 @@ class Structure_minimization_Drv():
 		
 #		output_dict['sasoutput2'] = total_string
 
-        if output_dict:
+        #if output_dict:
+	if total_string:
+                output_dict['_empty_return'] = 1
                 print json.dumps( output_dict )
         else:
-                output_dict['_empty_return'] = 1
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+#                output_dict['_empty_return'] = 1
                 print json.dumps( output_dict )
 
 if __name__=='__main__':

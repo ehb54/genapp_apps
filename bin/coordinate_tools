@@ -192,17 +192,20 @@ class CoorTools_Drv():
 		#output_dict['io_string'] = input_string
 		output_dict['sasoutput2'] = total_string
 
-	try:
-		#with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
-		with open("log","w") as outfile:
-			json.dump(output_dict,outfile)
-	except:
-		output_dict['error_string'] = save_stdout
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
 
-#emre
-        sys.stdout = save_stdout;
-#end emre
-	print json.dumps( output_dict )
+#	try:
+#		#with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+#		with open("log","w") as outfile:
+#			json.dump(output_dict,outfile)
+#	except:
+#		output_dict['error_string'] = save_stdout
+#
 		
 if __name__=='__main__':
 
