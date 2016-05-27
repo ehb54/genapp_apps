@@ -54,7 +54,7 @@ print OUT_code $$ref{ "codenumber" };
 close OUT_code;
 
 $newdir =join "_", "Results", $pdbfilename;
-mkdir $newdir, 0755;
+mkdir $newdir, oct("777");
 
 ###############################################################################
 
@@ -374,38 +374,37 @@ close OUT;
 
 ####################################################
 
-
 # setup up the socket handle once:
 my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => $$ref{ "_udpport" }, PeerAddr => $$ref{ "_udphost" } );
 $msg = {};
 $$msg{ "_uuid" } = $$ref{ "_uuid" };
 
 #system("$Bin/quafit_source/quafit");
-
 #@qua_output = `$Bin/quafit_source/quafit`;
-
 #`$Bin/quafit_source/quafit > output`;
 
-## Messaging ################################
-#$$msg{ "_textarea" } = $stdout;
-#$sock->send( encode_json( $msg ) );
 ##############################################
 
 open my $command, "$Bin/quafit_source/quafit |";
 open my $output, "> output";
+open OUT_log, ">$p/logfile.txt";
+
 $$msg{ "_textarea" } = "Starting Calculations...\n\n";
 $sock->send( encode_json( $msg ) );
 while (<$command>)
 {
-    #print $output $_;
     my $outputline = "$output $_";
     if ($outputline =~ m/GLOB/)
     {
 	$outputline =~ s/^\S+\s*//;
     }
+    print OUT_log $outputline;
     $$msg{ "_textarea" } = $outputline;
     $sock->send( encode_json( $msg ) );
 }
+
+close OUT_log; 
+
 $$msg{ "_textarea" } = "\nCalculations Finished! \n";
 $sock->send( encode_json( $msg ) );
 
@@ -423,8 +422,12 @@ for my $file (glob $old_loc) {
     move ($file, $arc_dir) or die $!;
 }
 
-$$res{ "outputfile" } = join "", $p, "/", $newdir, "/", "qua", $$ref{ "codenumber" }, ".dat";
+my $archive_name = join "", "results_run_", $$ref{"projectname"}, "_", $pdbfilename, ".tar.gz";
+system("tar", "czf", "$archive_name", "$newdir");
 
+#$$res{ "outputfile" } = join "", $p, "/", $newdir, "/", "qua", $$ref{ "codenumber" }, ".dat";
+$$res{ "logfile" } = "$p/logfile.txt";
+$$res{ "results" } = "$p/$archive_name";
 $$res{ "quaternary_pdb" } = join "", $p, "/", $newdir, "/qua", $$ref{ "codenumber" }, "002_001001001.pdb";
 
 print encode_json( $res ). "\n" ;

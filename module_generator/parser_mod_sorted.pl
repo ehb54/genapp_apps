@@ -404,19 +404,31 @@ for my $key ( sort keys %data )
 
 #########  OUTPUT  ######################################################################
 print "
+	         # { 
+	         #    \"role\"     : \"output\",  
+	         #    \"id\"       : \"outputfile\",
+	         #    \"label\"    : \"Quafit Parameter File: \",
+	         #    \"type\"     : \"file\"  
+	         # }, 
 	          { 
 	             \"role\"     : \"output\",  
-	             \"id\"       : \"outputfile\",
-	             \"label\"    : \"Quafit Output\",
+	             \"id\"       : \"logfile\",
+	             \"label\"    : \"Log File: \",
+	             \"type\"     : \"file\"  
+	          }, 
+	          { 
+	             \"role\"     : \"output\",  
+	             \"id\"       : \"results\",
+	             \"label\"    : \"File with Results: \",
 	             \"type\"     : \"file\"  
 	          }, 
 
 	         {
                    \"role\"  : \"output\",
                    \"id\"    : \"quaternary_pdb\",
-                   \"label\" : \"Resulting Assembled Structure (right click for options): \", 
+                   \"label\" : \"Assembled Quaternary Structure (right click for options): \", 
                    \"type\"  : \"atomicstructure\",
-		   \"jsmoladd\" : \"spin on\",
+		   \"jsmoladd\" : \"hide HOH;color amino;spacefill;spin on\",
 		   \"width\"     : 450,
 	           \"height\"    : 450
 		 }";
