@@ -167,8 +167,8 @@
                         ]
             }
            ,{
-            "id"         : "beta",
-            "restricted" : "beta",
+            "id"      : "beta",
+            "group"   : "beta",
             "label"   : "Beta",
             "icon"    : "pngs/beta.png",
             "modules" : [
@@ -180,7 +180,7 @@
             }
            ,{
             "id"         : "alpha",
-            "restricted" : "alpha",
+            "group"   : "alpha",
             "label"   : "Alpha",
             "icon"    : "pngs/alpha.png",
             "modules" : [
@@ -191,8 +191,8 @@
                         ]
             }
            ,{
-            "id"         : "graveyard",
-            "restricted" : "graveyard",
+            "id"      : "graveyard",
+            "group"   : "graveyard",
             "label"   : "Graveyard",
             "icon"    : "pngs/graveyard.png",
             "modules" : [
@@ -215,6 +215,10 @@
                          ,{
                           "id"    : "sysuserslist",
                           "label" : "Users"
+                         }
+                         ,{
+                          "id"    : "jobshistory_1",
+                          "label" : "Job history"
                          }
                         ]
             }

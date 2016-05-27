@@ -514,13 +514,13 @@ class CTAMC():
                 #	json.dump("\npsegvariables\n",outfile)
                 #	json.dump(psegvariables,outfile)
 #
-                txtQueue=multiprocessing.JoinableQueue()
-                simulation = monte_carlo.simulation()
-                process=multiprocessing.Process(target=simulation.main,args=(self.variables,txtQueue))
-                process.start()
 
-                total_string = self.background_job(process,txtQueue,json_variables)
-
+		txtQueue=multiprocessing.JoinableQueue()
+               	simulation = monte_carlo.simulation()
+               	process=multiprocessing.Process(target=simulation.main,args=(self.variables,txtQueue))
+               	process.start()
+	
+               	total_string = self.background_job(process,txtQueue,json_variables)
 
 #			accepted_rg_file = data_path+runname+'/complex_monte_carlo/'+dcdfile+'.accepted_rg_results_data.txt'
 #			all_rg_file = data_path+runname+'/complex_monte_carlo/'+dcdfile+'.all_rg_results_data.txt'
@@ -533,11 +533,12 @@ class CTAMC():
 #			else:
 #				output_dict['plotout4'] = self.flot_data
 
-        if output_dict:
-            print json.dumps( output_dict )
-        else:
-            output_dict['_empty_return'] = 1
-            print json.dumps( output_dict )
+	if output_dict:
+		print json.dumps( output_dict )
+	else:
+		error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+		output_dict['error'] = error_string
+            	print json.dumps( output_dict )
 
 if __name__=='__main__':
 

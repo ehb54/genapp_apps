@@ -41,11 +41,13 @@
                    },
                   {
                    "role"     : "input",
-                   "id"      : "dcdfile",
-                   "label"   : "trajectory file filename (dcd or pdb):",
+                   "id"      : "trajfile",
+                   #"label"   : "trajectory file filename (dcd or pdb):",
+                   "label"   : "trajectory file filename (cdrdbox file only):",
                    "type"     : "lrfile",
 		   "required" : "true",
-                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SAS",
+                   #"help"     : "name of DCD or PDB file with coordinates you wish to calculate SAS",
+                   "help"     : "name of CRDBOX file with coordinates you wish to calculate SAS",
                    "norow"    : "false"
                    },
 		  #{
@@ -60,7 +62,7 @@
                   # },
                   {
                    "role"    : "input",
-                   "id"      : "n_q",
+                   "id"      : "number_q_values",
                    "label"   : "number of q values:",
                    "type"    : "text",
                    "default" : "50",
@@ -70,7 +72,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "max_q",
+                   "id"      : "q_max",
                    "label"   : "maximum q value: ",
                    "type"    : "text",
                    "default" : "0.5",
@@ -79,12 +81,59 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "I0",
+                   "id"      : "I0_array",
                    "label"   : "I(0):",
                    "type"    : "text",
                    "default" : "1.0",
                    "help" : "experimentally determined value of I(0): usually determined by Guinier analysis",
                    "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "number_r_values",
+                   "label"   : "number of r values:",
+                   "type"    : "text",
+                   "default" : "50",
+                   "help" : "enter the number",
+                   "required" : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "num_cpu",
+                   "label"    : "Number of CPU threads",
+                   "type"     : "text",
+                   "default"  : "2",
+                   "required" : "true",
+                   "help" : "choose number of CPUs to allocate to job",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "num_gpu",
+                   "label"    : "Number of GPU threads",
+                   "type"     : "text",
+                   "default"  : "4",
+                   "required" : "true",
+                   "help" : "choose number of GPUs to allocate to job",
+                   "repeat"  : "advanced_input"
                    },
                   {
                    "role"    : "output",

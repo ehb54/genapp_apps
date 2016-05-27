@@ -1,5 +1,5 @@
 #!/share/apps/local/anaconda/bin/python
-import json,sys,os,shutil,time,math,locale
+import json,sys,os,shutil,time,math,locale,string
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
@@ -164,7 +164,7 @@ class Chi_square_filter_Drv():
 
                         self.flot_data = {
                                        "options": {
-                                                "xlabel"  : "Rg",
+                                                "xlabel"  : "Rg (Angstrom)",
                                                 "ylabel"  : "Chi-square",
 
                                                 "legend": {
@@ -418,7 +418,8 @@ class Chi_square_filter_Drv():
 	svariables['runname'] = (str(runname),'string')
 
 	svariables['saspath']   	= (str(saspath),'string')
-	svariables['sasintfile']	= (str(sasintfile),'string')
+	svariables['sasintfile']	= (str(string.strip(sasintfile," ")),'string')
+	#svariables['sasintfile']	= (str(sasintfile),'string')
 	svariables['io']        	= (str(io),'float')
 	svariables['number_of_weight_files'] = (str(number_of_weight_files),'int')
 	svariables['basis_string'] 	= (str(basis_string),'string')

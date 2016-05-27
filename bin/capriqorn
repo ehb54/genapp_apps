@@ -3,6 +3,7 @@ import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
+import sassie.calculate.capriqorn.capriqorn as capriqorn
 import sassie.interface.input_filter as input_filter
 #import sassie.interface.capriqorn_filter as capriqorn_filter
 #import sassie.calculate.sascalc_md as sascalc_md
@@ -87,20 +88,22 @@ class Capriqorn_Driver():
 	output_dict = {}
 
 	if not json_flag:
-
+		
         	#### BEGIN USER EDIT
         	#### BEGIN USER EDIT
         	#### BEGIN USER EDIT
 
-        	runname='run_0'
-        	dcdpath='./'
-		dcdfile='ubq.dcd'
-		pdbpath='./'
-		pdbfile='ubq.pdb'
-	#	xon = '0'
-		maxqmag='2.0'
-		nq='10'
-		i0='1.0'
+		runname = 'run_0'
+		pdbfile = 'protein.pdb'
+		trajfile = 'protein.crdbox'
+
+		#number_contrast_points = "1"
+		#D2O_percentage_array = "100.0" #,0.0"
+		I0_array = "22.0" #,1.0"
+
+		number_q_values='21'
+		q_max='0.2'
+		number_r_values='51'
 
         	#### END USER EDIT
         	#### END USER EDIT
@@ -113,13 +116,14 @@ class Capriqorn_Driver():
         	path = base_directory.replace('\/','/') + "/"
 
 		os.chdir(path)
+		core_path = os.path.join(path,runname,'capriqorn','yaml')
 		pdbpath = path
 		dcdpath = path
 		
         	pdbfile = json_variables['pdbfile'][0]
 		#head, pdbfile = os.path.split(temp_pdbfile[0])
 
-        	dcdfile = json_variables['dcdfile'][0]
+        	trajfile = json_variables['trajfile'][0]
 		#head, dcdfile = os.path.split(temp_dcdfile[0])
 
                # source_list_box = json_variables['source_list_box']
@@ -128,10 +132,10 @@ class Capriqorn_Driver():
                # elif(source_list_box == 'c2'):
                #         xon = '1' # xray
 
-		
-		maxqmag = json_variables['max_q']
-		nq = json_variables['n_q']
-		i0 = json_variables['I0']
+		q_max = json_variables['q_max']
+		number_q_values = json_variables['number_q_values']
+		number_r_values = json_variables['number_r_values']
+		I0_array = json_variables['I0_array']
  
 		try:
 			pRDF = json_variables['pRDF']
@@ -159,17 +163,15 @@ class Capriqorn_Driver():
 
 	variables={}
 
-	variables['runname'] = (str(runname),'string')
-
- 	variables['dcdpath']		= (str(dcdpath),'string')
- 	variables['dcdfile']		= (str(dcdfile),'string')
- 	variables['pdbpath']		= (str(pdbpath),'string')
+	variables['runname'] 		= (str(runname),'string')
  	variables['pdbfile']		= (str(pdbfile),'string')
-	#variables['xon']		= (str(xon),'int')
- 	variables['max_q_mag']		= (str(maxqmag),'float')
- 	variables['N_q']		= (str(nq),'int')
- 	variables['I0']		= (str(i0),'float')
-	#
+ 	variables['trajfile']		= (str(trajfile),'string')
+ 	variables['I0_array']		= (str(I0_array),'float')
+ 	variables['q_max']		= (str(q_max),'float')
+ 	variables['number_q_values']	= (str(number_q_values),'int')
+ 	variables['number_r_values']	= (str(number_r_values),'int')
+ 	variables['core_path']		= (str(core_path),'string')
+	
 	error = []
 
  	error,variables=input_filter.type_check_and_convert(variables)
@@ -194,12 +196,13 @@ class Capriqorn_Driver():
 				json.dump("\nvariables\n",outfile)
 				json.dump(variables,outfile)
 		
-			total_string = "MODULE UNDER CURRENT DEVELOPMENT: NOT RUNNING YET (PRE-ALPHA)"
-#			txtQueue=multiprocessing.JoinableQueue()
-#			process=multiprocessing.Process(target=sascalc.sascalc,args=(variables,txtQueue))
-#			process.start()
+			total_string = "MODULE UNDER ACTIVE DEVELOPMENT: NOT FOR GENERAL USE (PRE-ALPHA)"
+			txtQueue=multiprocessing.JoinableQueue()
+			capriqorn_instance = capriqorn.capriqorn()
+			process=multiprocessing.Process(target=capriqorn_instance.main,args=(variables,txtQueue))
+			process.start()
 
-#                        total_string = self.background_job(process,txtQueue,json_variables)
+                        total_string = self.background_job(process,txtQueue,json_variables)
 
 	#		output_dict['sasoutput2'] = total_string
 
