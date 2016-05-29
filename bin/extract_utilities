@@ -57,7 +57,7 @@ class Extract_Utilities_Driver():
                         text_split=string.split(this_text)
                         if(text_split[0]=='STATUS'):
                                 value = locale.atof(text_split[1])
-                                svalue = str(100*value)
+                                svalue = str(round(100*value,2))
                                 socket_dict['progress_output'] = value
                                 socket_dict['_progress'] = value
                                 socket_dict['progress_html'] = '<center>'+svalue+'</center>'
