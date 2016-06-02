@@ -323,7 +323,6 @@ HeaderFile.write('#include "' + os.path.join(InputDir, 'Models', ModelPath, 'Mod
 HeaderFile.close()
 
 
-
 #### Parameters ##############################################################
 #param_id = 'param_choice_file_' + model_list + '_checkbox'
 #parameter_list = json_variables[ param_id]
@@ -438,15 +437,40 @@ except:
 #Compilerflags = ['-O3', '-lm']
 #PathtoHeader = json_variables['_base_directory'] + '/ModelLocation.h'
 
-
-
-#Abspath0 =  os.path.abspath(os.path.dirname('Includes0.h')) + '/Includes0.h'
 Abspath0 =  os.path.join(InputDir, "Includes0.h")
-Abspath1 =  os.path.abspath(os.path.dirname('ModelLocation.h')) + '/ModelLocation.h'
-#Abspath2 =  os.path.abspath(os.path.dirname('Includes2.h')) + '/Includes2.h'
 Abspath2 =  os.path.join(InputDir, "Includes2.h")
 
-Compilerflags = ['-O3', '-lm', '-include', Abspath0, '-include', Abspath1, '-include', Abspath2]
+shutil.copy(Abspath0, json_variables['_base_directory'])
+shutil.copy(Abspath2, json_variables['_base_directory'])
+
+
+# Process Inputs0.h
+filedata0 = None
+with open('Includes0.h', 'r') as file0 :
+  filedata0 = file0.read()
+
+filedata0 = filedata0.replace('PATH', InputDir)
+
+with open('Includes0.h', 'w') as file0:
+  file0.write(filedata0)
+
+# Process Inputs2.h
+filedata2 = None
+with open('Includes2.h', 'r') as file2 :
+  filedata2 = file2.read()
+
+filedata2 = filedata2.replace('PATH', InputDir)
+
+with open('Includes2.h', 'w') as file2:
+  file2.write(filedata2)
+
+######################################################
+
+New_Abspath0 =  os.path.abspath(os.path.dirname('Includes0.h')) + '/Includes0.h'
+Abspath1 =  os.path.abspath(os.path.dirname('ModelLocation.h')) + '/ModelLocation.h'
+New_Abspath2 =  os.path.abspath(os.path.dirname('Includes2.h')) + '/Includes2.h'
+
+Compilerflags = ['-O3', '-lm', '-include', New_Abspath0, '-include', Abspath1, '-include', New_Abspath2]
 
 SourceFileLocation = os.path.join(InputDir, "WillItFit.c")
 ExecutableFileLocation = os.path.join("./WillItFit.com")

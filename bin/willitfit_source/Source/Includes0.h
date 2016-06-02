@@ -11,20 +11,20 @@
 #include <time.h>
 #include <string.h>
 
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Auxillary/Parallelisation.h"
+#include "PATH/Auxillary/Parallelisation.h"
 
 // Include supporting headers
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Auxillary/Structs.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Auxillary/Allocation.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Auxillary/AuxillaryFunctions.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Auxillary/IncludeUserDefined.h"
+#include "PATH/Auxillary/Structs.h"
+#include "PATH/Auxillary/Allocation.h"
+#include "PATH/Auxillary/AuxillaryFunctions.h"
+#include "PATH/Auxillary/IncludeUserDefined.h"
 
 // Include mathematical headers
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Formfactors/FormfactorDebye.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Formfactors/FormfactorHalfBelt.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Formfactors/FormfactorSphere.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Formfactors/FormfactorCylinder.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Formfactors/FormfactorCylinderDisplaced.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Formfactors/FormfactorHammouda.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Formfactors/FormfactorEllipticCylinderWithEllipsoidalEndcaps.h"
-#include "/share/apps/genapp/willitfit/bin/willitfit_source/Source/Formfactors/FormfactorRodWithoutEndcaps.h"
+#include "PATH/Formfactors/FormfactorDebye.h"
+#include "PATH/Formfactors/FormfactorHalfBelt.h"
+#include "PATH/Formfactors/FormfactorSphere.h"
+#include "PATH/Formfactors/FormfactorCylinder.h"
+#include "PATH/Formfactors/FormfactorCylinderDisplaced.h"
+#include "PATH/Formfactors/FormfactorHammouda.h"
+#include "PATH/Formfactors/FormfactorEllipticCylinderWithEllipsoidalEndcaps.h"
+#include "PATH/Formfactors/FormfactorRodWithoutEndcaps.h"
