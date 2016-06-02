@@ -96,7 +96,8 @@
   "button_hover_g_color_hex"  : "E4FFFA",
   "header1_color"             : "228,255,250",
   "header2_color"             : "228,255,250",
-  "header3_color"             : "228,255,250",
+#  "header3_color"             : "228,255,250",
+  "header3_color"             : "43,29,14",
   "header4_color"             : "228,255,250",
   "help_background_color_rgb" : "0,0,75",
   "help_text_color_rgb"       : "240,240,210"
