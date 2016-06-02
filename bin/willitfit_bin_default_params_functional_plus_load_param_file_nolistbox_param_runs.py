@@ -475,11 +475,16 @@ Compilerflags = ['-O3', '-lm', '-include', New_Abspath0, '-include', Abspath1, '
 SourceFileLocation = os.path.join(InputDir, "WillItFit.c")
 ExecutableFileLocation = os.path.join("./WillItFit.com")
 
-CompilerArguments = ["/usr/bin/gcc", SourceFileLocation, "-o", ExecutableFileLocation] + Compilerflags
-#print CompilerArguments
-#exit()
+CompilerPath = "/usr/bin/gcc"
+CompilerArguments = [CompilerPath, SourceFileLocation, "-o", ExecutableFileLocation] + Compilerflags
 
 Compilationresult = subprocess.call(CompilerArguments)
+
+if Compilationresult != 0:
+    output_res['error'] = "The compilation of WillItFit failed. \nThe system tried to use " + CompilerPath + " with the following arguments: \n" + Compilerflags[0] + " " + Compilerflags[1] + ". \nContact the developers."
+    print json.dumps( output_res )
+    exit()
+
 
 #######################################################
 
