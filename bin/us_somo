@@ -2,4 +2,9 @@
 
 export ULTRASCAN=/src/ultrascan
 
+if [ ! -x /src/ultrascan/bin64/us_saxs_cmds_t ]; then
+   echo '{"error":"US-SOMO executable not found or not executable, please ask the website maintainers to set this up correctly."}'
+   exit
+fi
+
 /src/ultrascan/bin64/us_saxs_cmds_t json "$@"
