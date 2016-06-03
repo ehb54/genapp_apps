@@ -1,10 +1,19 @@
-#!/bin/sh
+#!/bin/sh -x
 
 export ULTRASCAN=/src/ultrascan
 
-if [ ! -x /src/ultrascan/bin64/us_saxs_cmds_t ]; then
+EXE="$ULTRASCAN/bin64/us_saxs_cmds_t"
+
+if [ ! -x $EXE ]; then
    echo '{"error":"US-SOMO executable not found or not executable, please ask the website maintainers to set this up correctly."}'
    exit
 fi
 
-/src/ultrascan/bin64/us_saxs_cmds_t json "$@"
+LDD=`ldd $EXE | grep -i 'not found'`;
+
+if [ -z $LDD ]; then 
+   exec $EXE json "$@"
+fi
+  
+echo '{"error":"US-SOMO executable misssing needed libraries, please ask the website maintainers to set this up correctly."}'
+
