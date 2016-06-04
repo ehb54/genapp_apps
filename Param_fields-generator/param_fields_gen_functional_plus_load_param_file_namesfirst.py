@@ -142,7 +142,7 @@ for ModelPath in ModelList:
 #############################################################
 
     Param_ids = Param_ids[:-1]
-    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"LOAD FILE: ", \n "type":"lrfile", \n "setinputfromfile":"whitespaceseparated_reverselogic", \n "setinputfromfileids":"' + Param_ids + '",  \n "repeat":"model_list_box:' + ModelPath[1]  + '"\n},\n'
+    print '{\n "role":"input", \n "id":"param_choice_file_' + ModelPath[1] +'", \n "label":"LOAD FILE: ", \n "type":"lrfile", \n "setinputfromfile":"whitespaceseparated_reverselogic", \n "setinputfromfileids":"' + Param_ids + '",  \n "repeat":"model_list_box:' + ModelPath[1]  + '", \n "help":"Load parameters from file"\n},\n'
     print out_str
     
 
