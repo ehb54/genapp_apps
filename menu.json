@@ -17,33 +17,6 @@
                 }
             ]
         }
-        ,{ 
-            "id"      : "numericalaspects_menu",
-            "label"   : "Numerical Aspects",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "numericalaspects",
-            "modules" : [ 
-                { 
-                    "id"    : "numericalaspects",
-                    "label" : "Numerical Aspects",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-        ,{
-            "id"      : "nes_menu",
-            "label"   : "What&apos;s An NES?",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "nes",
-            "modules" : [
-                {
-                    "id"    : "nes",
-                    "label" : "What's An NES?",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-#
 	 ,{ 
             "id"      : "importance_menu",
             "label"   : "The Importance of VIV",
@@ -58,59 +31,18 @@
             ]
         }
         ,{ 
-            "id"       : "theodorevonkarman_menu",
-            "label"    : "Theodore von Karman",
-            "icon"     : "pngs/noicon.png",
-            "autorun"  : "theodorevonkarman",
+            "id"      : "numericalaspects_menu",
+            "label"   : "Numerical Aspects",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "numericalaspects",
             "modules" : [ 
-                {
-                    "id"    : "theodorevonkarman",
-                    "label" : "Theodore von Karman",
+                { 
+                    "id"    : "numericalaspects",
+                    "label" : "Numerical Aspects",
 		    "nobutton" : "true"
                 }
             ]
         }
-	,{
-            "id"      : "about_us_menu", 
-            "label"   : "About Us",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "about_us",
-            "modules" : [
-                {
-                    "id"    : "about_us", 
-                    "label" : "About Us",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-
-        ,{ 
-            "id"      : "Acknowledgements_menu",
-            "label"   : "Acknowledgements",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "acknowledgements",
-            "modules" : [ 
-                {
-                    "id"    : "Acknowledgements",
-                    "label" : "Acknowledgements",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-	,{
-            "id"      : "disclaimer_menu",
-            "label"   : "Official Disclaimer",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "disclaimer",
-            "modules" : [
-                {
-                    "id"    : "disclaimer",
-                    "label" : "Official Disclaimer",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-#
         ,{ 
             "id"      : "simulate",
             "label"   : "Simulate",
@@ -137,6 +69,75 @@
                 }
             ]
         }
+
+#        ,{
+#            "id"      : "nes_menu",
+#            "label"   : "What&apos;s An NES?",
+#            "icon"    : "pngs/noicon.png",
+#            "autorun" : "nes",
+#            "modules" : [
+#                {
+#                    "id"    : "nes",
+#                    "label" : "What's An NES?",
+#		    "nobutton" : "true"
+#                }
+#            ]
+#        }
+#
+        ,{ 
+            "id"       : "theodorevonkarman_menu",
+            "label"    : "Theodore von K&aacute;rm&aacute;n",
+            "icon"     : "pngs/noicon.png",
+            "autorun"  : "theodorevonkarman",
+            "modules" : [ 
+                {
+                    "id"    : "theodorevonkarman",
+                    "label" : "Theodore von Karman",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+	,{
+            "id"      : "about_us_menu", 
+            "label"   : "About Us",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "about_us",
+            "modules" : [
+                {
+                    "id"    : "about_us", 
+                    "label" : "About Us",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+        ,{ 
+            "id"      : "Acknowledgements_menu",
+            "label"   : "Acknowledgments",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "Acknowledgements",
+            "modules" : [ 
+                {
+                    "id"    : "Acknowledgements",
+                    "label" : "Acknowledgements",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+	,{
+            "id"      : "disclaimer_menu",
+            "label"   : "Official Disclaimer",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "disclaimer",
+            "modules" : [
+                {
+                    "id"    : "disclaimer",
+                    "label" : "Official Disclaimer",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+#
 	,{
             "id"         : "admin",
             "restricted" : "admin",
