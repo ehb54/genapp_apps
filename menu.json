@@ -7,8 +7,8 @@
             "icon"    : "pngs/noicon.png",
             "autorun" : "welcome",
             "startup" : "true",
-            "nohidemenu" : "true",
-            "help" : "test welcome help",
+#            "nohidemenu" : "true",
+#            "help" : "test welcome help",
             "modules" : [ 
                 { 
                     "id"    : "welcome",
@@ -46,7 +46,7 @@
         ,{ 
             "id"      : "simulate",
             "label"   : "Simulate",
-            "icon"    : "pngs/simulate.png",
+            "icon"    : "pngs/noicon.png",
             "autorun" : "flowinducedvibration",
             "modules" : [ 
                 { 

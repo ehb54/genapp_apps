@@ -13,6 +13,7 @@
     ,"cachedelete"    : "admin"
     ,"hideifnotlogon" : "true"
     ,"backgroundimage" : "pngs/vortex2a.jpg"
+    ,"center"         : "true"
 
     ,"fields"   : [
                   {

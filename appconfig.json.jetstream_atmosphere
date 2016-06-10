@@ -1,0 +1,28 @@
+{
+   "mail"     : {
+                "admin"    : "emre@biochem.uthscsa.edu"
+                ,"feedback" : "emre@biochem.uthscsa.edu,mjbanks2@illinois.edu"
+                ,"from"     : "149.165.169.58"
+               },
+   "resources" : {
+      "local" : ""
+   },
+   "resourcedefault" : "local",
+   "messaging" : {
+      "tcpport" : 37780,
+      "udpport" : 37779,
+      "tcphostip" : "127.0.0.1",
+      "udphostip" : "127.0.0.1",
+      "zmqport" : 37778,
+      "zmqhostip" : "127.0.0.1",
+      "wssport" : 443,
+      "wsport" : 37777
+   },
+   "hostip" : "149.165.169.58",
+   "lockdir" : "/opt/genapp/etc",
+   "restricted" : {
+      "admin"     : [ "emre", "spamidig" ]
+   },
+   "submitpolicy" : "login",
+   "hostname" : "149.165.169.58"
+}
