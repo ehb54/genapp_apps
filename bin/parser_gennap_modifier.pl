@@ -173,7 +173,8 @@ while (my $line = <$fh>) {
 	    {
 		$line_copy =~ s/#T_CBR//;
 		chomp $line_copy;
-		$line_copy =~ s/\s*$/$1/; # remove whitespace from both ends
+		#$line_copy =~ s/\s*$/$1/; # remove whitespace from both ends
+		$line_copy =~ s/\s+$//;
 
 		my $id_cbr;
 			
@@ -359,7 +360,8 @@ while (my $line = <$fh>) {
 			else # THE REST
 			{
 			    #chomp $line_copy;
-			    $line_copy =~ s/\s*$/$1/; # remove whitespace from both ends
+			    #$line_copy =~ s/\s*$/$1/; # remove whitespace from both ends
+			    $line_copy =~ s/\s+$//;
 			    print OUT "$line_copy\n";
 			}
 		    }
