@@ -1,0 +1,29 @@
+{
+  "mail"     : {
+                 "admin"    : "alexsav.science@gmail.com"
+                ,"feedback" : "alexsav.science@gmail.com"
+                ,"from"     : "alexsav.science@gmail.com"
+
+               }
+
+  ,"hostip"   : "192.168.56.101"
+  ,"hostname" : "192.168.56.101"
+  ,"messaging" : {
+                  "wsport"   : 8080
+                  ,"zmqhostip" : "127.0.0.1"
+                  ,"zmqport" : 37778
+                  ,"udphostip" : "127.0.0.1"
+                  ,"udpport" : 37779
+                 }
+  ,"resources" : {
+                  "local"     : ""
+                 }
+
+  ,"restricted" : {
+      "admin"     : ["alexey"]
+  }
+ 
+  ,"resourcedefault" : "local"
+    ,"submitpolicy"    : "login"
+}
+

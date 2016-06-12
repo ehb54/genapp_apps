@@ -1,0 +1,118 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "param_test",
+    "label"    : "Calculate",
+    "help"     : "help for Bead Modeller",
+    "center"   : "true",
+    "fields"   : [
+               {
+	            "role"       : "input"
+	            ,"id"         : "projectname"
+	            ,"label"      : "Project name"
+	            ,"type"       : "text"
+	            ,"required"   : "true"
+	            ,"help"       : "Enter a project name"
+	            ,"specifiedproject" : "Run_"
+	        },
+################################################################
+	       { 
+		   "role"     : "input",  
+		   "id"       : "toppar_label",
+		   "label"    : "TOPOLOGY AND PARAMETERS GENERATION",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },
+
+                  {
+                   "role"     : "input",
+                   "id"       : "pdb_location",
+                   "label"    : "Input PDB file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : "help"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "first_model",
+                   "label"    : "Process only 1st model",
+		   "checked"  : "true",  
+                   "type"     : "checkbox",
+	           "help"     : "the first model in the list of PDB models will be processed"
+                   },
+#####################################################################
+	       { 
+		   "role"     : "input",  
+		   "id"       : "mdinput_label",
+		   "label"    : "MD/MM INPUT",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },
+                { 
+                     "role"     : "input",  
+                     "id"       : "mm_md_options",
+                     "label"    : "Minimize structure?",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "true",
+                     "repeater" : "yes",
+		     "help"     : "help"
+		 },
+	
+
+#####################################################################################################
+                  {
+                   "role"  : "output",
+                   "id"    : "outputpdb",
+                   "label" : "PDB: ",
+                   "type"  : "file"
+                   },	
+                 {
+                   "role"  : "output",
+                   "id"    : "outputcrd",
+                   "label" : "CRD: ",
+                   "type"  : "file"
+                   },	
+                 {
+                   "role"  : "output",
+                   "id"    : "outputpsf",
+                   "label" : "PSF: ",
+                   "type"  : "file"
+                   },	
+                {
+                   "role"  : "output",
+                   "id"    : "outputxplorpsf",
+                   "label" : "XPLOR PSF: ",
+                   "type"  : "file"
+                   },	
+
+	           {
+                   "role"  : "output",
+                   "id"    : "outputmin",
+                   "label" : "Minimization Results: ",
+                   "type"  : "file",
+		   "multiple": "true"    
+                   },
+
+	         {
+                   "role"  : "output",
+                   "id"    : "outputpdb_view",
+                   "label" : "Atomistic Model (right click for options): ", 
+                   "type"  : "atomicstructure",
+		   "jsmoladd" : "hide HOH;spin on",
+		   "width"     : 450,
+	           "height"    : 450
+		   # "norow" : "true"
+		   #"repeat" : "show_atomistic_model"
+		     
+                   }
+	
+
+	         ],
+# the executable will take inputs in order and produce output
+    "executable" : "parammd.py",
+    "submitpolicy" : "all"    
+}
