@@ -3,7 +3,7 @@
     "moduleid" : "param_test",
     "label"    : "Calculate",
     "help"     : "help for Bead Modeller",
-    "center"   : "true",
+    #"center"   : "true",
     "fields"   : [
                {
 	            "role"       : "input"
