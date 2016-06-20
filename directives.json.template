@@ -5,7 +5,7 @@
 
 # "demo" below could be replaced, but you should probably also then replace "demo" in the paths below
 # the application name should not contain any special characters
-  "application"               : "REPLACE_WITH_DIRNAME",
+  "application"               : "demo",
 
   "footer"                    : "Test footer",
   "footersize"                : "50px",
@@ -16,20 +16,20 @@
 
   "executable_path"           :
                                 {
-                                 "html5" : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin",
-                                 "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin",
-                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin",
-                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin",
-                                 "java"  : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/bin"
+                                 "html5" : "/__app_parent_directory__/demo/bin",
+                                 "qt3"   : "/__app_parent_directory__/demo/bin",
+                                 "qt4"   : "/__app_parent_directory__/demo/bin",
+                                 "qt5"   : "/__app_parent_directory__/demo/bin",
+                                 "java"  : "/__app_parent_directory__/demo/bin"
                                 },
 
   "docroot"                   :
                                 {
-                                 "html5" : "/REPLACE_WITH_YOUR_WEBROOT",
-                                 "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/tmp",
-                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/tmp",
-                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/tmp",
-                                 "java"  : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/tmp"
+                                 "html5" : "/__webroot__",
+                                 "qt3"   : "/__app_parent_directory__/demo/tmp",
+                                 "qt4"   : "/__app_parent_directory__/demo/tmp",
+                                 "qt5"   : "/__app_parent_directory__/demo/tmp",
+                                 "java"  : "/__app_parent_directory__/demo/tmp"
                                 },
 # these are helper editor and pdb viewer applications and can be changed
   "helper"                    : {
@@ -158,7 +158,7 @@
 #  ,"usewss"                  : "true"
 
 # the following are currently only meaningful for "html5" language
-  ,"appconfig"                 : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/REPLACE_WITH_DIRNAME/appconfig.json"
+  ,"appconfig"                 : "/__app_parent_directory__/demo/appconfig.json"
 # if you have a 64 bit mongo system "html5", uncomment this
 #  ,"mongojournal"               : "true"
 
