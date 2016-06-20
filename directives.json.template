@@ -16,20 +16,20 @@
 
   "executable_path"           :
                                 {
-                                 "html5" : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin",
-                                 "java"  : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/bin"
+                                 "html5" : "__app_parent_directory__/genapptest/bin",
+                                 "qt3"   : "__app_parent_directory__/genapptest/bin",
+                                 "qt4"   : "__app_parent_directory__/genapptest/bin",
+                                 "qt5"   : "__app_parent_directory__/genapptest/bin",
+                                 "java"  : "__app_parent_directory__/genapptest/bin"
                                 },
 
   "docroot"                   :
                                 {
-                                 "html5" : "/REPLACE_WITH_YOUR_WEBROOT",
-                                 "qt3"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp",
-                                 "qt4"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp",
-                                 "qt5"   : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp",
-                                 "java"  : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/tmp"
+                                 "html5" : "__webroot__",
+                                 "qt3"   : "__app_parent_directory__/tmp",
+                                 "qt4"   : "__app_parent_directory__/tmp",
+                                 "qt5"   : "__app_parent_directory__/tmp",
+                                 "java"  : "__app_parent_directory__/tmp"
                                 },
 # these are helper editor and pdb viewer applications and can be changed
   "helper"                    : {
@@ -158,7 +158,7 @@
 #  ,"usewss"                  : "true"
 
 # the following are currently only meaningful for "html5" language
-  ,"appconfig"                 : "/REPLACE_WITH_YOUR_HOME_DIRECTORY/genapptest/appconfig.json"
+  ,"appconfig"                 : "__app_parent_directory__/genapptest/appconfig.json"
 # if you have a 64 bit mongo system "html5", uncomment this
 #  ,"mongojournal"               : "true"
 
