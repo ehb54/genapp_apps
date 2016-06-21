@@ -1,0 +1,175 @@
+# this is a project directives file
+# comments are ok but must start the line in this JSON
+{
+  "title"                     : "Vortex Shedding",
+
+# the application name should not contain any special characters
+  "application"               : "vortexshedding",
+
+# uncomment and add text if you want a footer
+#  "footer"                    : "Test footer",
+#  "footersize"                : "50px",
+
+  "version"                   : "0.1",
+# choose your target languages to generate currently from [ "html5", "qt3", "qt4", "qt5" ]
+  "languages"                 : [ "html5" ],
+
+  "executable_path"           :
+                                {
+                                 "html5" : "__app_parent_directory__/vortexshedding/bin",
+                                 "qt3"   : "__app_parent_directory__/vortexshedding/bin",
+                                 "qt4"   : "__app_parent_directory__/vortexshedding/bin",
+                                 "qt5"   : "__app_parent_directory__/vortexshedding/bin",
+                                 "java"  : "__app_parent_directory__/vortexshedding/bin"
+                                },
+
+  "docroot"                   :
+                                {
+                                 "html5" : "__webroot__",
+                                 "qt3"   : "__app_parent_directory__/vortexshedding/tmp",
+                                 "qt4"   : "__app_parent_directory__/vortexshedding/tmp",
+                                 "qt5"   : "__app_parent_directory__/vortexshedding/tmp",
+                                 "java"  : "__app_parent_directory__/vortexshedding/tmp"
+                                },
+# these are helper editor and pdb viewer applications and can be changed
+  "helper"                    : {
+                                 "txt" :"vi",
+                                 "pdb" :"rasmol"
+                                },
+# only uncomment this to have a "docs" tab in html5 which hyperlinks to your self created docs directory 
+#  "docsbaseurl"               : "docs",
+
+# global hover help texts
+  "help"                      : {
+                               "user_config" : "Settings Manager: use change projects and settings"
+                               ,"register"    : "Click me to register"
+                               ,"jobs"        : "Job Manager: use to monitor running and finished jobs"
+                               ,"files"       : "File Manager: use to download and remove files"
+                               ,"feedback"    : "Press to provide feedback to Google Groups page"
+                               ,"docs"        : "Press to open a new web page with SASSIE documentation"
+                               ,"login"       : "Press to login"
+                               ,"logoff"      : "Press to logoff"
+                               ,"help"        : "Toggle to turn help on/off"
+                               ,"project"     : "Name of current project: use Settings Manager to change"
+                               ,"menu"        : "Toggle this icon to open and close the main menu"
+#                               ,"submit"      : "this is help for the submit button"
+#                               ,"reset"       : "this is help for the reset to default values button"
+#                               ,"apptitle"    : "this is application help"
+                                },
+
+  "textarea"                 : {
+      # an optional label
+      #"label"           : ""
+      # the standard label defaults apply e.g.
+	  #,"default"        : "header2"
+      # where the label will be placed in relation to the textarea
+      #,"verticalalign"  : "top"
+      "verticalalign"  : "top"
+      # number of rows, if not set the textarea will autosize
+      # ,"rows"           : "20"
+      # number of columns
+      ,"cols"           : "80"
+      # and of course help
+      #,"help"           : ""
+      },
+
+
+# "blue" colors
+  "text_color_rgb"            : "0,0,0",
+  "error_color_rgb"           : "255,0,0",
+  "background_color_rgb"      : "255,255,255",
+  "select_color_rgb"          : "200,128,0",
+  "button_color_rgb"          : "228,255,250",
+  "button_color_hex"          : "E4FFFA",
+  "button_g_color_rgb"        : "128,170,150",
+  "button_g_color_hex"        : "80AA06",
+  "button_hover_color_rgb"    : "255,255,255",
+  "button_hover_color_hex"    : "FFFFFF",
+  "button_hover_g_color_rgb"  : "228,255,250",
+  "button_hover_g_color_hex"  : "E4FFFA",
+  "header1_color"             : "228,255,250",
+  "header2_color"             : "228,255,250",
+  "header3_color"             : "228,255,250",
+  "header4_color"             : "228,255,250",
+  "help_background_color_rgb" : "0,0,75",
+  "help_text_color_rgb"       : "240,240,210"
+
+# paper colors (useful for screenshots for publications)
+#  "text_color_rgb"            : "0,0,0",
+#  "error_color_rgb"           : "255,0,0",
+#  "background_color_rgb"      : "255,255,255",
+#  "select_color_rgb"          : "200,128,0",
+#  "button_color_rgb"          : "192,192,255",
+#  "button_color_hex"          : "C0C0FF",
+#  "button_g_color_rgb"        : "255,255,255",
+#  "button_g_color_hex"        : "FFFFFF",
+#  "button_hover_color_rgb"    : "192,192,192",
+#  "button_hover_color_hex"    : "C0C0C0",
+#  "button_hover_g_color_rgb"  : "255,255,255",
+#  "button_hover_g_color_hex"  : "FFFFFF",
+#  "header1_color"             : "0,0,128",
+#  "header2_color"             : "0,0,128",
+#  "header3_color"             : "0,0,128",
+#  "header4_color"             : "0,0,128",
+#  "help_background_color_rgb" : "230,230,230",
+#  "help_text_color_rgb"       : "0,0,0"
+
+# debugging controls
+
+  ,"debug"                   : {
+#         ,"jobmonitor"        : "true"
+#         ,"pid"               : "true"
+#         ,"cancel"            : "true"
+#         ,"license"           : "true"
+#         ,"help"              : "true"
+#         ,"_tree"             : "true"
+#         ,"valuen"            : "true"
+#        ,"valuenx"            : "true"
+#        ,"sync"               : "true"
+#        ,"spec"               : "true"
+#        ,"fp"                 : "true"
+#        ,"plottics"           : "true"
+#        ,"plottwod"           : "true"
+#        ,"data"               : "true"
+#        ,"textarea"           : "true"
+#        ,"values"             : "true"
+#        ,"repeat"             : "true"
+#        ,"repeathtml"         : "true"
+#        ,"hide"               : "true"
+#        ,"repeatdeps"         : "true"
+#        ,"repeatdepsobj"      : "true"
+#        ,"repeatlb"           : "true"
+#        ,"repeatcb"           : "true"
+#        ,"repeatinit"         : "true"
+#        ,"pull"               : "true"
+#        ,"ws"                 : "true"
+#        ,"msg"                : "true"
+#        ,"job"                : "true"
+#        ,"fc"                 : "true"
+#        ,"jc"                 : "true"
+#        ,"project"            : "true"
+#        ,"basemylog"          : "true"
+#        ,"event"              : "true"
+#        ,"altfile"            : "true"
+#        ,"valid"              : "true"
+#        ,"jsmol"              : "true"
+   }
+
+# only uncomment if you have configured secure web sockets in your webserver
+#  ,"usewss"                  : "true"
+
+# the following are currently only meaningful for "html5" language
+  ,"appconfig"                 : "__app_parent_directory__/vortexshedding/appconfig.json"
+
+# if you have a 32 bit mongo system "html5", comment this
+  ,"mongojournal"               : "true"
+
+# optionally define a log directory for "html5" language
+  ,"logdirectory"               : "_log"
+
+# optionally enable "captcha"
+  ,"enablecaptcha"               : "true"
+
+# optionally use a splash screen (login or register)"
+#  ,"usesplash"               : "true"
+}
