@@ -3,7 +3,6 @@
 {
   "title"                     : "SOME TITLE",
 
-# "demo" below could be replaced, but you should probably also then replace "demo" in the paths below
 # the application name should not contain any special characters
   "application"               : "demo",
 
@@ -159,9 +158,10 @@
 
 # the following are currently only meaningful for "html5" language
   ,"appconfig"                 : "__app_parent_directory__/demo/appconfig.json"
-# if you have a 64 bit mongo system "html5", uncomment this
-#  ,"mongojournal"               : "true"
+
+# if you have a 32 bit mongo system "html5", comment this
+  ,"mongojournal"               : "true"
 
 # optionally define a log directory for "html5" language
-#  ,"logdirectory"               : "_log"
+  ,"logdirectory"               : "_log"
 }
