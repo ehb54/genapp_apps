@@ -43,6 +43,9 @@ for li in range(Num_of_lines):
         
 Num_of_lines_new = len(ParametersArr_new)    
 atom_number = 0
+Residue_reset = 0
+Divider = 0
+f = open('temp.pdb','w+')  # temporary .pdb
 
 for li in range(Num_of_lines_new):
     
@@ -86,19 +89,30 @@ for li in range(Num_of_lines_new):
         new = list(LineArr[2])
         new[-1] = "'"
         LineArr[2] = ''.join(new)
-    #################################################   
+    #################################################
 
+    # Atom number
     if len(LineArr[1]) > len(str(atom_number)):
-        LineArr[1] = str(atom_number) + ' ' * (len(LineArr[1]) - len(str(atom_number)))
+        LineArr[1] = ' ' * (len(LineArr[1]) - len(str(atom_number))) + str(atom_number)
     else:
         LineArr[1] = str(atom_number)
 
-    
-    for i in range(Counts):
-        print LineArr[i] + ' ' * (Spaces[i] - 1),
+    # Residue number (reset after TER - provided DNA chains/segments follow each other)  
+    current_residue_number = int(LineArr[5]) - Residue_reset
+    if current_residue_number <= 0:
+        current_residue_number = int(LineArr[5])
+
+    if len(LineArr[5]) > len(str(current_residue_number)):
+        LineArr[5] = ' ' * (len(LineArr[5]) - len(str(current_residue_number))) + str(current_residue_number)
     else:
-        print
-    
+        LineArr[5] = str(current_residue_number)
+
+    # Print
+    for i in range(Counts):
+        print >> f, LineArr[i] + ' ' * (Spaces[i] - 1),
+    else:
+        print >> f
+
     next = li + 1
     if next < Num_of_lines_new:
         
@@ -106,7 +120,33 @@ for li in range(Num_of_lines_new):
         del LineArr_next[-1]
         
         if LineArr_next[4] != LineArr[4]:
-            print 'TER'
-                        
+            atom_number = 0
+            Residue_reset = int(LineArr[5])
+            Divider = next
+            print >> f, 'TER'
     else:
-        print 'TER'
+        print >> f, 'TER'
+        
+f.close()
+##########################################################
+
+file_temp = open('temp.pdb', 'rU')
+#TempArr = file_temp.readlines()
+TempArr = file_temp.read().splitlines()
+file_temp.close()
+
+NumLinesTemp = len(TempArr)    
+
+dnaa = open('dnaa.pdb', 'w+')
+dnab = open('dnab.pdb', 'w+')
+
+for li in range(NumLinesTemp):
+    if li < Divider:
+        print >> dnaa, TempArr[li]
+    else:
+        if 'TER' in TempArr[li]:
+            continue
+        print >> dnab, TempArr[li]
+
+dnaa.close()
+dnab.close()

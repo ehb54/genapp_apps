@@ -68,8 +68,19 @@ shutil.copytree(TopparLocation, os.path.join(json_variables['_base_directory'],'
 shutil.copy(TopparLocationStr, json_variables['_base_directory'])
 
 
+#### PDB transformations #########################################
+
+ScriptPdbParsing = InitialDirectoryStr + '/script_toppar/format_pdb.py'
+
+ProcessPdb = []
+ProcessPdb.append(ScriptPdbParsing)
+ProcessPdb.append(PdbStr)
+
+subprocess.Popen(ProcessPdb)
+
+
 ##################################################################
-ScriptLocation = InitialDirectoryStr + '/script_toppar/write_pdb_crd_psf.inp'
+ScriptLocation = InitialDirectoryStr + '/script_toppar/pdbreader_general_na.inp'
 ExecutableFileLocation = InitialDirectoryStr + '/c36a6_svn132/exec/gnu/charmm'
 
 ProcessToCall = []
