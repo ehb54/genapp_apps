@@ -216,7 +216,8 @@ outputmin_arr_files = []
 outputmin_arr_files.append(str(base_dir) + "/" + 'namd_dna_whole_min' + ".coor")
 outputmin_arr_files.append(str(base_dir) + "/" + 'namd_dna_whole_min' + ".vel")
 
-output_res[ 'outputmin' ] = outputmin_arr_files
+if 'mm_md_options' in json_variables:
+    output_res[ 'outputmin' ] = outputmin_arr_files
 
 output_res[ 'outputpdb_view' ] = str(outpdb)
 #output_res[ 'logfile' ] = str()
