@@ -171,6 +171,11 @@
                           "label" : "SasCalc",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }, 
+                         {
+                          "id"    : "torsion_angle_monte_carlo",
+                          "label" : "Torsion Angle Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
                          { 
                           "id"    : "docking",
                           "label" : "Docking ",
@@ -181,14 +186,23 @@
             }
            ,{
             "id"         : "alpha",
-#            "group"   : "alpha",
             "restricted"   : "alpha",
             "label"   : "Alpha",
             "icon"    : "pngs/alpha.png",
             "modules" : [
+                         { 
+                          "id"    : "capriqorn",
+                          "label" : "Capriqorn",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "prody",
+                          "label" : "Prody ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
                          {
-                          "id"    : "testalpha",
-                          "label" : "testalpha"
+                          "id"    : "sascalc_md",
+                          "label" : "SasCalc-PBC"
                          }
                         ]
             }
