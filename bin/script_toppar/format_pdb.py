@@ -24,7 +24,6 @@ file_par.close()
 Num_of_lines = len(ParametersArr)    
 ParametersArr_new = []
 
-#for line in ParametersArr:
 for li in range(Num_of_lines):
     #if li == 0 or li == Num_of_lines - 1:
     #    continue
@@ -41,7 +40,21 @@ for li in range(Num_of_lines):
     ParametersArr_new.append(ParametersArr[li])
 #######################################################
         
-Num_of_lines_new = len(ParametersArr_new)    
+Num_of_lines_new = len(ParametersArr_new)  
+
+half_molecule = 0
+LastLineArr = re.split(r'[\s]*', ParametersArr_new[-1])
+
+found_chainId_Lett = re.match(r'[a-zA-Z]+', str(LastLineArr[4]))
+found_resNum_Int5  = re.match(r'[0-9]+', str(LastLineArr[5]))
+found_resnum_Int4  = re.match(r'[0-9]+', str(LastLineArr[4]))
+
+if found_resNum_Int5 and found_chainId_Lett:
+    half_molecule = int(LastLineArr[5])/2
+else:
+    if found_resnum_Int4:
+        half_molecule = int(LastLineArr[4])/2
+
 atom_number = 0
 Residue_reset = 0
 Divider = 0
@@ -98,14 +111,30 @@ for li in range(Num_of_lines_new):
         LineArr[1] = str(atom_number)
 
     # Residue number (reset after TER - provided DNA chains/segments follow each other)  
-    current_residue_number = int(LineArr[5]) - Residue_reset
-    if current_residue_number <= 0:
-        current_residue_number = int(LineArr[5])
 
-    if len(LineArr[5]) > len(str(current_residue_number)):
-        LineArr[5] = ' ' * (len(LineArr[5]) - len(str(current_residue_number))) + str(current_residue_number)
-    else:
-        LineArr[5] = str(current_residue_number)
+    if found_resNum_Int5 and found_chainId_Lett:
+        current_residue_number = int(LineArr[5]) - Residue_reset
+        
+        if current_residue_number <= 0:
+            current_residue_number = int(LineArr[5])
+            
+        if len(LineArr[5]) > len(str(current_residue_number)):
+            LineArr[5] = ' ' * (len(LineArr[5]) - len(str(current_residue_number))) + str(current_residue_number)
+        else:
+            LineArr[5] = str(current_residue_number)
+
+    else: 
+        if found_resnum_Int4:
+            current_residue_number = int(LineArr[4]) - Residue_reset
+            
+            if current_residue_number <= 0:
+                current_residue_number = int(LineArr[4])
+                
+            if len(LineArr[4]) > len(str(current_residue_number)):
+                LineArr[4] = ' ' * (len(LineArr[4]) - len(str(current_residue_number))) + str(current_residue_number)
+            else:
+                LineArr[4] = str(current_residue_number)
+
 
     # Print
     for i in range(Counts):
@@ -113,20 +142,36 @@ for li in range(Num_of_lines_new):
     else:
         print >> f
 
+    # Chain Divider    
     next = li + 1
-    if next < Num_of_lines_new:
-        
-        LineArr_next = re.split(r'[\s]*', ParametersArr_new[next])
-        del LineArr_next[-1]
-        
-        if LineArr_next[4] != LineArr[4]:
-            atom_number = 0
-            Residue_reset = int(LineArr[5])
-            Divider = next
+    
+    if found_resNum_Int5 and found_chainId_Lett:
+        if next < Num_of_lines_new:
+            LineArr_next = re.split(r'[\s]*', ParametersArr_new[next])
+            del LineArr_next[-1]
+            
+            if LineArr_next[4] != LineArr[4]:
+                atom_number = 0
+                Residue_reset = int(LineArr[5])
+                Divider = next
+                print >> f, 'TER'
+        else:
             print >> f, 'TER'
+
     else:
-        print >> f, 'TER'
-        
+        if found_resnum_Int4:
+            if next < Num_of_lines_new:
+                LineArr_next = re.split(r'[\s]*', ParametersArr_new[next])
+                del LineArr_next[-1]
+                
+                if int(LineArr[4]) == half_molecule and int(LineArr_next[4]) == int(LineArr[4]) + 1:
+                    atom_number = 0
+                    Residue_reset = int(LineArr[4])
+                    Divider = next
+                    print >> f, 'TER'
+            else:
+                print >> f, 'TER'
+            
 f.close()
 ##########################################################
 
