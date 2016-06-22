@@ -179,18 +179,19 @@
 #,
                         ]
             }
-#           ,{
-#            "id"         : "alpha",
+           ,{
+            "id"         : "alpha",
 #            "group"   : "alpha",
-#            "label"   : "Alpha",
-#            "icon"    : "pngs/alpha.png",
-#            "modules" : [
-#                         {
-#                          "id"    : "testalpha",
-#                          "label" : "testalpha"
-#                         }
-#                        ]
-#            }
+            "restricted"   : "alpha",
+            "label"   : "Alpha",
+            "icon"    : "pngs/alpha.png",
+            "modules" : [
+                         {
+                          "id"    : "testalpha",
+                          "label" : "testalpha"
+                         }
+                        ]
+            }
            ,{
             "id"      : "graveyard",
             "group"   : "graveyard",
