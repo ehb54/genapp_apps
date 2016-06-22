@@ -16,7 +16,7 @@
  -0.1000E-02   p012 DT
    1000.0000   p013 IOCOMM
   0.000000     p014 IOTIME
-  1000.000     p015 IOSTEP
+  100.0000     p015 IOSTEP
    0.00000     p016 PSSOLVER: 0=default
    0.00000     p017 
   0.500000E-01 p018 GRID < 0 --> # cells on screen

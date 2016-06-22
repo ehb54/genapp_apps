@@ -5,6 +5,7 @@
     "noreset"        : "true",
     "nosubmit"       : "true",
     "nooutputhr"     : "true",
+#    "backgroundimage" : "pngs/bg5.png",
     "fields"   : [
                   {
                    "role"       : "input",

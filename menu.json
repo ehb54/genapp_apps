@@ -43,6 +43,20 @@
                 }
             ]
         }
+,{ 
+            "id"      : "setting_menu",
+            "label"   : "Setting Up the Problem",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "setting",
+            "modules" : [ 
+                { 
+                    "id"    : "setting",
+                    "label" : "setting",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
         ,{ 
             "id"      : "simulate",
             "label"   : "Simulate",

@@ -11,6 +11,8 @@
     ,"submit_label" : "Refresh"
     ,"autosubmit"   : "true"
     ,"nojobcontrol" : "on"
+    ,"center"       : "true"
+    ,"backgroundimage" : "pngs/compbg.png"
     ,"fields"   : [
         {
             "role"     : "input"

@@ -10,45 +10,45 @@
     ,"cache"          : "public"
 # cachefound can be "notify", "askrecompute" or commented out (no notification)
     ,"cachefound"     : "askrecompute"
-    ,"cachedelete"    : "admin"
+    ,"cachedelete"    : "cache"
     ,"hideifnotlogon" : "true"
-    ,"backgroundimage" : "pngs/vortex2a.jpg"
+    ,"backgroundimage" : "pngs/compbg.png"
     ,"center"         : "true"
 
     ,"fields"   : [
                   {
                    "role"       : "input",
                    "id"         : "re",
-                   "label"      : "Reynolds number",
+                   "label"      : "Re = ",
                    "type"       : "float",
                    "default"    : 60.0,
                    "min"        : 20.0,
                    "max"        : 150.0,
                    "required"   : "true",
-                   "specifiedproject" : "re"
+                   "specifiedproject" : "Re_"
                    },
-#                   {
-#                   "role"       : "input",
-#                   "id"         : "NES1",
-#                   "label"      : "NES1",
-#                   "type"       : "float",
-#                  "default"    : 60.0,
-#                   "min"        : 20.0,
-#                   "max"        : 100.0,
-#                   "required"   : "false",
-#                   "specifiedproject" : "NES1"
-#                   },
-#
+                   {
+                   "role"       : "input",
+                   "id"         : "M",
+                   "label"      : "m* = ",
+                   "type"       : "float",
+#                   "type"       : "hidden",
+                  "default"    : 10.0,
+                   "min"        : 10.0,
+                   "max"        : 10.0,
+                   "required"   : "false",
+                   "specifiedproject" : "_m_"
+                   },
 		   {
                    "role"    : "input",
                    "id"      : "fnstar",
-                   "label"   : "Inverse Spring Constant",
+                   "label"   : "1/k* = ",
                    "type"    : "float",
                    "default" : 0.2,
                    "min"     : 0.05,
                    "max"     : 0.5,
                    "required" : "true",
-                   "specifiedproject" : "fns"
+                   "specifiedproject" : "_k_"
                    },
                   {
                    "role"    : "input",
@@ -60,7 +60,7 @@
                    "min"     : 0.2,
                    "max"     : 5,
                    "required" : "true",
-                   "specifiedproject" : "aa"
+                   "specifiedproject" : "_aa_"
                    },
 #                  {
 #                   "role"    : "input",

@@ -10509,8 +10509,12 @@ EOT
 
         sendmsg( "Submitting job to Comet\n", 0.05 );
         print "cmd is:\n$cmd\n" if $debug;
+        open DBG, ">>/tmp/runlogalpha";
+        print DBG "$cmd\n";
         my $results = `$cmd 2>&1`;
         print "results:\n$results\n" if $debug;
+        print DBG $results;
+        close DBG;
         ( my $jobid_submitted )            = $results =~ /\nSubmitted batch job (\d+)\n/;
         ( my $jobid_cluster_script )       = $results =~ /\nJOBID_FROM_CLUSTER_SCRIPT= (\d+)\n/;
         ( my $scratchdir_cluster_script )  = $results =~ /\nSCRATCHDIR_FROM_CLUSTER_SCRIPT= (.+)\n/;
