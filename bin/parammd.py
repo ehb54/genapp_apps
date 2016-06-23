@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import os
+import glob
 import re
 import shutil
 import sys
@@ -46,6 +47,14 @@ pdb_location = json_variables['pdb_location']
 PdbStr = pdb_location[0]
 Pdbfilename = os.path.basename(PdbStr)
 
+
+## Clean Up ######################################################
+for CleanUp in glob.glob('./*.*'):
+    print CleanUp
+    #exit()
+    if not CleanUp.endswith(Pdbfilename):    
+        os.remove(CleanUp)
+
 ## UDP messaging ##################################################
 UDP_IP = json_variables['_udphost']
 UDP_PORT = json_variables['_udpport']
@@ -60,36 +69,90 @@ try:
 except:
     pass
 
-
 TopparLocation = InitialDirectoryStr + '/script_toppar/toppar'
 TopparLocationStr = InitialDirectoryStr + '/script_toppar/toppar.str'
 
 shutil.copytree(TopparLocation, os.path.join(json_variables['_base_directory'],'toppar'))
 shutil.copy(TopparLocationStr, json_variables['_base_directory'])
 
+#### PDB upload ##################################################
+
+
+file_pdb = open(PdbStr, 'rU')
+PdbLines = file_pdb.readlines()
+file_pdb.close()
+
+NumLinesPdb = len(PdbLines)  
+DnaList = ['C','G','A','T','DC','DG','DA','DT','CYT','GUA','ADE','THY']
+ProteinList = ['ALA','CYS','ASP','GLU','PHE','GLY','HIS','ILE','LYS','LEU','MET','HSD','HSE','HSP','ASN','PRO','GLN','ARG','SER','THR','SEC','VAL','TRP','TYR']
+
+CaseStudy = ''
+ResidueList = []
+
+for li in range(NumLinesPdb):
+    LineArr = re.split(r'[\s]*', PdbLines[li])
+    del LineArr[-1]
+        
+    if LineArr[0] != 'ATOM':
+        continue
+        
+    if LineArr[2].startswith('H'):
+        continue
+        
+    ResidueList.append(str(LineArr[3]))
+       
+if any(word in ResidueList for word in DnaList):
+    CaseStudy = 'dna' 
+elif any(word in ResidueList for word in ProteinList):
+    CaseStudy = 'protein' 
+elif any(word in ResidueList for word in DnaList):
+    if any(word in ResidueList for word in ProteinList):
+        CaseStudy = 'nucleoprotein'
+
+#print CaseStudy
+#exit()
 
 #### PDB transformations #########################################
 
-ScriptPdbParsing = InitialDirectoryStr + '/script_toppar/format_pdb.py'
-
-ProcessPdb = []
-ProcessPdb.append(ScriptPdbParsing)
-ProcessPdb.append(PdbStr)
-
-subprocess.Popen(ProcessPdb)
-
-
-##################################################################
-ScriptLocation = InitialDirectoryStr + '/script_toppar/pdbreader_general_na.inp'
-ExecutableFileLocation = InitialDirectoryStr + '/c36a6_svn132/exec/gnu/charmm'
-
 ProcessToCall = []
-ProcessToCall.append(ExecutableFileLocation)
-ProcessToCall.append('-i')
-ProcessToCall.append(ScriptLocation)
 
-#print ProcessToCall
-#exit()
+if CaseStudy == 'dna':
+    ScriptPdbParsingDna = InitialDirectoryStr + '/script_toppar/format_pdb_dna.py'
+    
+    ProcessPdbDna = []
+    ProcessPdbDna.append(ScriptPdbParsingDna)
+    ProcessPdbDna.append(PdbStr)
+    subprocess.Popen(ProcessPdbDna)
+
+    # Form Charmm prepper process ########################
+    ScriptLocation = InitialDirectoryStr + '/script_toppar/pdbreader_general_na.inp'
+    ExecutableFileLocation = InitialDirectoryStr + '/c36a6_svn132/exec/gnu/charmm'
+    
+    ProcessToCall.append(ExecutableFileLocation)
+    ProcessToCall.append('-i')
+    ProcessToCall.append(ScriptLocation)
+    
+elif CaseStudy == 'protein':
+    ScriptPdbParsingProtein = InitialDirectoryStr + '/script_toppar/format_pdb_protein.py'
+    
+    ProcessPdbProtein = []
+    ProcessPdbProtein.append(ScriptPdbParsingProtein)
+    ProcessPdbProtein.append(PdbStr)
+    subprocess.Popen(ProcessPdbProtein)
+       
+    # Form Charmm prepper process ########################
+    ScriptLocation = InitialDirectoryStr + '/script_toppar/pdbreader_general_protein.inp'
+    ExecutableFileLocation = InitialDirectoryStr + '/c36a6_svn132/exec/gnu/charmm'
+    
+    ProcessToCall.append(ExecutableFileLocation)
+    ProcessToCall.append('-i')
+    ProcessToCall.append(ScriptLocation)
+
+else:
+    print "Molecules other than DNA, proteins, or their complexes are not currently supported!"
+    exit()
+
+
 
 ## RUN ##########################################################
 socket_dict["_textarea"] = 'Starting Calculations...\n\n'
