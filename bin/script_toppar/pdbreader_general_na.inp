@@ -9,7 +9,7 @@ DIMENS CHSIZE 2000000
 stream toppar.str
 
 ! Read DNAA
-open read card unit 10 name dnaa.pdb
+open read card unit 10 name dna1.pdb
 read sequence pdb unit 10
 generate DNAA setup warn first 5TER last 3TER
 
@@ -30,15 +30,15 @@ autogenerate angles dihedrals
 incr k by 1
 if k .le. @nres goto DNAAdeop
 
-open read form unit 10 name dnaa.pdb
+open read form unit 10 name dna1.pdb
 read coor pdb unit 10
 
-!open read card unit 10 name dnaa.pdb
+!open read card unit 10 name dna1.pdb
 !read coor pdb  unit 10 resid
 
 
 ! Read DNAB
-open read card unit 10 name dnab.pdb
+open read card unit 10 name dna2.pdb
 read sequence pdb unit 10
 generate DNAB setup warn first 5TER last 3TER
 
@@ -59,10 +59,10 @@ autogenerate angles dihedrals
 incr k by 1
 if k .le. @nres goto DNABdeop
 
-open read form unit 10 name dnab.pdb
+open read form unit 10 name dna2.pdb
 read coor pdb unit 10 append
 
-!open read card unit 10 name dnab.pdb
+!open read card unit 10 name dna2.pdb
 !read coor pdb  unit 10 resid
 
 

@@ -107,11 +107,14 @@ for li in range(Num_of_lines_new):
     # Atom number
     if len(LineArr[1]) > len(str(atom_number)):
         LineArr[1] = ' ' * (len(LineArr[1]) - len(str(atom_number))) + str(atom_number)
+    elif len(LineArr[1]) < len(str(atom_number)):
+        Spaces[0] -= len(str(atom_number)) - len(LineArr[1])
+        LineArr[1] = str(atom_number)
     else:
         LineArr[1] = str(atom_number)
 
     # Residue number (reset after TER - provided DNA chains/segments follow each other)  
-
+   
     if found_resNum_Int5 and found_chainId_Lett:
         current_residue_number = int(LineArr[5]) - Residue_reset
         
@@ -120,6 +123,9 @@ for li in range(Num_of_lines_new):
             
         if len(LineArr[5]) > len(str(current_residue_number)):
             LineArr[5] = ' ' * (len(LineArr[5]) - len(str(current_residue_number))) + str(current_residue_number)
+        elif len(LineArr[5]) < len(str(current_residue_number)):
+            Spaces[4] -= len(str(current_residue_number)) - len(LineArr[5])
+            LineArr[5] = str(current_residue_number)
         else:
             LineArr[5] = str(current_residue_number)
 
@@ -132,9 +138,11 @@ for li in range(Num_of_lines_new):
                 
             if len(LineArr[4]) > len(str(current_residue_number)):
                 LineArr[4] = ' ' * (len(LineArr[4]) - len(str(current_residue_number))) + str(current_residue_number)
+            elif len(LineArr[4]) < len(str(current_residue_number)):
+                Spaces[3] -= len(str(current_residue_number)) - len(LineArr[4])
+                LineArr[4] = str(current_residue_number)
             else:
                 LineArr[4] = str(current_residue_number)
-
 
     # Print
     for i in range(Counts):
@@ -152,11 +160,11 @@ for li in range(Num_of_lines_new):
             
             if LineArr_next[4] != LineArr[4]:
                 atom_number = 0
-                Residue_reset = int(LineArr[5])
+                Residue_reset = int(LineArr_next[5]) - 1 #int(LineArr[5])
                 Divider = next
                 print >> f, 'TER'
-        else:
-            print >> f, 'TER'
+        #else:
+        #    print >> f, 'TER'
 
     else:
         if found_resnum_Int4:
@@ -169,8 +177,8 @@ for li in range(Num_of_lines_new):
                     Residue_reset = int(LineArr[4])
                     Divider = next
                     print >> f, 'TER'
-            else:
-                print >> f, 'TER'
+            #else:
+            #    print >> f, 'TER'
             
 f.close()
 ##########################################################
@@ -182,16 +190,15 @@ file_temp.close()
 
 NumLinesTemp = len(TempArr)    
 
-dnaa = open('dnaa.pdb', 'w+')
-dnab = open('dnab.pdb', 'w+')
-
+num = 1
+filename = 'dna' + str(num) + '.pdb'
+tf = open(filename, 'w+')
 for li in range(NumLinesTemp):
-    if li < Divider:
-        print >> dnaa, TempArr[li]
-    else:
-        if 'TER' in TempArr[li]:
-            continue
-        print >> dnab, TempArr[li]
+    if 'TER' in TempArr[li]:
+        num += 1
+        filename = 'dna' + str(num) + '.pdb'
+        tf = open(filename, 'w+')
+        continue
 
-dnaa.close()
-dnab.close()
+    print >> tf, TempArr[li]
+
