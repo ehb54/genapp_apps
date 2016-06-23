@@ -66,6 +66,8 @@ for li in range(Num_of_lines_new):
     #################################################
 
     # Needed Aliases
+    if LineArr[3] == 'HIS':
+        LineArr[3] = 'HSD'
 
     #################################################
     # Atom number
