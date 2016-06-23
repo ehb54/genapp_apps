@@ -10,6 +10,7 @@ import multiprocessing,time,string,socket
 
 import sassie.simulate.prody.prody_anm as prody_anm
 import sassie.interface.input_filter as input_filter
+import sassie.interface.prody_filter as prody_filter
 
 class PRODY():
 
@@ -169,7 +170,7 @@ class PRODY():
 		return
 	else:
 		error = []
-##		error=prody_anm.check_prody_anm(self.variables,no_file_check="true")
+                error = prody_filter.check_prody(self.variables)
 
 		if(len(error) != 0):
 			self.message_box(error,'warning.png')
