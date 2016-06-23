@@ -102,8 +102,8 @@
             "icon"    : "pngs/calculate.png",
             "modules" : [ 
                          #{ 
-                          #"id"    : "sascalc_md",
-                          #"label" : "SasCalc-MD",
+                          #"id"    : "sascalc_pbc",
+                          #"label" : "SasCalc-PBC",
                           #"views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          #},
                          { 
@@ -201,7 +201,7 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          {
-                          "id"    : "sascalc_md",
+                          "id"    : "sascalc_pbc",
                           "label" : "SasCalc-PBC"
                          }
                         ]

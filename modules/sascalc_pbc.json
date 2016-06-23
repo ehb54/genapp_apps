@@ -1,12 +1,12 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "sascalc_md",
-    "label"    : "SasCalc-MD",
+    "moduleid" : "sascalc_pbc",
+    "label"    : "SasCalc-PBC",
     "fields"   : [
                    {
                    "role"       : "input",
                    "id"       : "module_header",
-                   "label"    : "SasCalc-MD",
+                   "label"    : "SasCalc-PBC",
                    "type"     : "label",
                    "default"  : "header4",
                    "prehline"  : "true",
@@ -15,7 +15,7 @@
                    {
                    "role"       : "input",
                    "id"       : "message",
-                   "label"    : "Module under development (ALPHA): due Summer 2015",
+                   "label"    : "Module under development (ALPHA): due Fall 2016",
                    "type"     : "label",
                    "default"  : "header3",
                    "prehline"  : "true",
@@ -28,7 +28,7 @@
                    "type"       : "text",
                    "default"    : "run_0",
                    "required"   : "true",
-                   "help"     : "results will be placed in a folder called sascalc_md/ in the directory name you enter here"
+                   "help"     : "results will be placed in a folder called sascalc_pbc/ in the directory name you enter here"
                    },
                   {
                    "role"     : "input",
@@ -102,5 +102,5 @@
                    }
                   ],
 # the executable will take inputs in json and produce output in json
-    "executable" : "sascalc_md"
+    "executable" : "sascalc_pbc"
 }

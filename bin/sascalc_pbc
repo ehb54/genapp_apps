@@ -5,11 +5,11 @@ import multiprocessing,time,string,socket
 
 import sassie.interface.input_filter as input_filter
 import sassie.interface.sascalc_filter as sascalc_filter
-#import sassie.calculate.sascalc_md as sascalc_md
+#import sassie.calculate.sascalc_pbc as sascalc_pbc
 
-class Sascald_md_Driver():
+class Sascald_pbc_Driver():
 
-   module = 'sascalc_md'
+   module = 'sascalc_pbc'
 
    def message_box(self,text,icon):
 
@@ -204,7 +204,7 @@ class Sascald_md_Driver():
 	#		output_dict['sasoutput2'] = total_string
 
 			'''
-			flot_data = self.get_data_from_disk(runname+"/sascalc_md/"+outfile+".txt",5)
+			flot_data = self.get_data_from_disk(runname+"/sascalc_pbc/"+outfile+".txt",5)
 
 			if(isinstance(flot_data, basestring)):
 				print 'error reading data'
@@ -226,7 +226,7 @@ if __name__=='__main__':
 	#json_flag = False
 
 	if (len(sys.argv) < 1):
-		print "\{\"error\":\"sascalc_md called with no arguments\"\}\n";
+		print "\{\"error\":\"sascalc_pbc called with no arguments\"\}\n";
 # 		print 'exiting now'
 
 	elif len(sys.argv) > 1:
@@ -234,7 +234,7 @@ if __name__=='__main__':
                 if(json_flag):
                         argv_io_string = StringIO(sys.argv[1])
                         json_variables = json.load(argv_io_string)
-		a=Sascald_md_Driver()
+		a=Sascald_pbc_Driver()
                 a.run_me(json_flag,json_variables,sys.argv[1])
 
 
