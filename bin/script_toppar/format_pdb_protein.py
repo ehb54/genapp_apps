@@ -168,3 +168,5 @@ for li in range(NumLinesTemp):
         continue
 
     print >> tf, TempArr[li]
+
+print num
