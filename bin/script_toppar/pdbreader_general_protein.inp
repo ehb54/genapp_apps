@@ -8,13 +8,20 @@ DIMENS CHSIZE 2000000 MAXRES 1000000
 ! Read topology and parameter files
 stream toppar.str
 
-! Read PROA
-open read card unit 10 name pro1.pdb
-read sequence pdb unit 10
-generate PROA setup warn first NTER last CTER
+set nseg = NUMSEG
 
-open read form unit 10 name pro1.pdb
-read coor pdb  unit 10 
+set k = 1
+label Segloop
+! Read PROA
+open read card unit 10 name pro@k.pdb
+read sequence pdb unit 10
+generate PRO@k setup warn first NTER last CTER
+
+open read form unit 10 name pro@k.pdb
+read coor pdb  unit 10 append
+
+incr k by 1
+if k .le. @nseg goto Segloop
 
 autogenerate angles dihedrals
 

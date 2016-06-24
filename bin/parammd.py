@@ -122,7 +122,8 @@ if CaseStudy == 'dna':
     ProcessPdbDna = []
     ProcessPdbDna.append(ScriptPdbParsingDna)
     ProcessPdbDna.append(PdbStr)
-    subprocess.Popen(ProcessPdbDna)
+    p1 = subprocess.Popen(ProcessPdbDna)
+    p1.wait()
 
     # Form Charmm prepper process ########################
     ScriptLocation = InitialDirectoryStr + '/script_toppar/pdbreader_general_na.inp'
@@ -138,15 +139,27 @@ elif CaseStudy == 'protein':
     ProcessPdbProtein = []
     ProcessPdbProtein.append(ScriptPdbParsingProtein)
     ProcessPdbProtein.append(PdbStr)
-    subprocess.Popen(ProcessPdbProtein)
-       
+    p1 = subprocess.Popen(ProcessPdbProtein)
+    p1.wait()
+    
+    numseg = len(glob.glob('pro*.pdb'))
+    
     # Form Charmm prepper process ########################
     ScriptLocation = InitialDirectoryStr + '/script_toppar/pdbreader_general_protein.inp'
+    
+    # Edit pdbreader_charmm template - number of chains####
+    filedata0 = None
+    with open(ScriptLocation, 'r') as file0:
+        filedata0 = file0.read()
+    filedata0 = filedata0.replace('NUMSEG', str(numseg))
+    with open('charmm_prot.inp', 'w') as file0:
+        file0.write(filedata0)
+    
     ExecutableFileLocation = InitialDirectoryStr + '/c36a6_svn132/exec/gnu/charmm'
     
     ProcessToCall.append(ExecutableFileLocation)
     ProcessToCall.append('-i')
-    ProcessToCall.append(ScriptLocation)
+    ProcessToCall.append('charmm_prot.inp')
 
 else:
     print "Molecules other than DNA, proteins, or their complexes are not currently supported!"
