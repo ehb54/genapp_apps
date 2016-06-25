@@ -175,11 +175,6 @@
                           "id"    : "torsion_angle_monte_carlo",
                           "label" : "Torsion Angle Monte Carlo",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "docking",
-                          "label" : "Docking ",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
 #,
                         ]
@@ -203,6 +198,11 @@
                          {
                           "id"    : "sascalc_pbc",
                           "label" : "SasCalc-PBC"
+                         },
+                         { 
+                          "id"    : "docking",
+                          "label" : "Docking ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
             }
