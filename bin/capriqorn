@@ -5,8 +5,7 @@ import multiprocessing,time,string,socket
 
 import sassie.calculate.capriqorn.capriqorn as capriqorn
 import sassie.interface.input_filter as input_filter
-#import sassie.interface.capriqorn_filter as capriqorn_filter
-#import sassie.calculate.sascalc_md as sascalc_md
+import sassie.interface.capriqorn_filter as capriqorn_filter
 
 class Capriqorn_Driver():
 
@@ -183,15 +182,20 @@ class Capriqorn_Driver():
  	error,variables=input_filter.type_check_and_convert(svariables)
 
 	if(len(error)>0):
-		output_dict['error'] = 'Error in input variables'	
-		output_dict['sasoutput1'] = 'run failed'
-		return
+                self.message_box(error,'skull.png')
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
 	else:
-#		error=capriqorn_filter.check_capriqorn(self.variables)
-               	if(len(error) > 0):
-			output_dict['error'] = 'Error in capriqorn filter'
-			output_dict['sasoutput1'] = 'run failed'
-			return
+                error=capriqorn_filter.check_capriqorn(variables)
+                if(len(error) > 0):
+                    self.message_box(error,'warning.png')
+                    output_dict['error'] = 'Error in capriqorn variables'
+                    output_dict['sasoutput2'] = 'run failed'
+                    print json.dumps( output_dict )
+                    return
+
 		else:
 			runname=variables['runname'][0]
 
