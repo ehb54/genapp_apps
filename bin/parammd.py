@@ -171,7 +171,7 @@ else:
 
 ## RUN CHARMM ##########################################################
 socket_dict["_textarea"] = 'Starting Calculations...\n\n'
-#socket_dict["progress_output"] =  str(0.0)
+socket_dict["progress_output"] =  str(0.0)
 #socket_dict["progress_text"] =  'Fitting Progress: 0%'
 if socket_dict:
     doc_string = json.dumps(socket_dict)
@@ -209,14 +209,11 @@ while True:
     elif Process.poll() is not None:  
         break
 
-Process.wait()
+#Process.wait()
 os.close(slave)
 os.close(master)
 
-
 socket_dict["_textarea"] = '\n Parameterization Finished...\n\n'
-#socket_dict["progress_output"] =  str(0.0)
-#socket_dict["progress_text"] =  'Fitting Progress: 0%'
 if socket_dict:
     doc_string = json.dumps(socket_dict)
     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -258,8 +255,8 @@ if 'mm_md_options' in json_variables:
    
     ## RUN ##########################################################
     socket_dict["_textarea"] = 'Starting Minimization...\n\n'
-    #socket_dict["progress_output"] =  str(0.0)
-    #socket_dict["progress_text"] =  'Fitting Progress: 0%'
+    socket_dict["progress_output"] =  str(0.0)
+    socket_dict["progress_text"] =  'Minimization Progress: 0%'
     if socket_dict:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -280,13 +277,13 @@ if 'mm_md_options' in json_variables:
             if not output:
                 break
             if output:
-                if "Progress" not in output: 
-                    socket_dict["_textarea"] = output#.strip()
-                else:
+                socket_dict["_textarea"] = output#.strip()
+                if "ENERGY:" in output:
                     OutArr = re.split(r'[\s]*', output)
-                    del OutArr[-1]
-                    #socket_dict['progress_output'] = OutArr[-1]
-                    #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
+                    if OutArr[0] == 'ENERGY:':
+                        socket_dict['progress_output'] = float(OutArr[1])/float(numsteps)
+                        socket_dict['progress_text'] = 'Minimization Progress: ' + str(int ((float(OutArr[1])/float(numsteps))*100.0) ) + '%'
+                        
                 if socket_dict:
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -328,5 +325,8 @@ if 'mm_md_options' in json_variables:
 
 output_res[ 'outputpdb_view' ] = str(outpdb)
 #output_res[ 'logfile' ] = str()
+
+output_res[ 'progress_output' ] = str(1.0)
+output_res[ 'progress_text' ] = 'Minimization Progress: 100%' 
 
 print json.dumps( output_res )
