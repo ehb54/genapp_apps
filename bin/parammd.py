@@ -143,7 +143,10 @@ elif CaseStudy == 'protein':
     p1.wait()
     
     numseg = len(glob.glob('pro*.pdb'))
-    
+
+    # TER PATCHES TO INCLUDE
+    # DISULFIDE PATCH TO INCLUDE
+
     # Form Charmm prepper process ########################
     ScriptLocation = InitialDirectoryStr + '/script_toppar/pdbreader_general_protein.inp'
     
@@ -166,8 +169,7 @@ else:
     exit()
 
 
-
-## RUN ##########################################################
+## RUN CHARMM ##########################################################
 socket_dict["_textarea"] = 'Starting Calculations...\n\n'
 #socket_dict["progress_output"] =  str(0.0)
 #socket_dict["progress_text"] =  'Fitting Progress: 0%'
@@ -212,8 +214,6 @@ os.close(slave)
 os.close(master)
 
 
-
-
 socket_dict["_textarea"] = '\n Parameterization Finished...\n\n'
 #socket_dict["progress_output"] =  str(0.0)
 #socket_dict["progress_text"] =  'Fitting Progress: 0%'
@@ -224,18 +224,38 @@ if socket_dict:
 ########### NAMD Inputs (minimisation for now)  ################################################
 if 'mm_md_options' in json_variables:
     ScriptLocation_namdmin  = InitialDirectoryStr + '/namd_templates/namd_template_whole_min.in'
-    shutil.copy(ScriptLocation_namdmin, json_variables['_base_directory'])
-
     ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
-
     ProcessToCallNamdMin = []
-    ProcessToCallNamdMin.append(ExecutableFileLocationNamd)
-    #ProcessToCallNamdMin.append('<')
-    ProcessToCallNamdMin.append('namd_template_whole_min.in')
 
-    print ProcessToCallNamdMin
-    #exit()
+    numsteps = json_variables['mm_min_num_steps']
 
+    if CaseStudy == 'dna':
+        # Edit pdbreader_charmm template - number of chains####
+        filedata0 = None
+        with open(ScriptLocation_namdmin, 'r') as file0:
+            filedata0 = file0.read()
+        filedata0 = filedata0.replace('PAR_BIOMOL', 'par_all36_na_for_namd.prm')
+        filedata0 = filedata0.replace('NUM_STEPS', str(numsteps))
+        with open('namd_dna_min.inp', 'w') as file0:
+            file0.write(filedata0)
+                
+        ProcessToCallNamdMin.append(ExecutableFileLocationNamd)
+        ProcessToCallNamdMin.append('namd_dna_min.inp')
+
+    if CaseStudy == 'protein':
+        # Edit pdbreader_charmm template - number of chains####
+        filedata0 = None
+        with open(ScriptLocation_namdmin, 'r') as file0:
+            filedata0 = file0.read()
+        filedata0 = filedata0.replace('PAR_BIOMOL', 'par_all36_prot_for_namd.prm')
+        filedata0 = filedata0.replace('NUM_STEPS', str(numsteps))
+        with open('namd_prot_min.inp', 'w') as file0:
+            file0.write(filedata0)
+
+        ProcessToCallNamdMin.append(ExecutableFileLocationNamd)
+        ProcessToCallNamdMin.append('namd_prot_min.inp')
+    
+   
     ## RUN ##########################################################
     socket_dict["_textarea"] = 'Starting Minimization...\n\n'
     #socket_dict["progress_output"] =  str(0.0)

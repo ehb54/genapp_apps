@@ -25,6 +25,8 @@ if k .le. @nseg goto Segloop
 
 autogenerate angles dihedrals
 
+
+
 !Print heavy atoms with unknown coordinates
 coor print sele ( .not. INIT ) .and. ( .not. hydrogen ) end
 

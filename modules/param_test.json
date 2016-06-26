@@ -61,9 +61,37 @@
                      "repeater" : "yes",
 		     "help"     : "help"
 		 },
+
+                { 
+                     "role"     : "input",  
+                     "id"       : "mm_min_num_steps",
+                     "label"    : "Number of Steps",
+                     "type"     : "integer",  
+                     "default"  : 1000,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "mm_md_options",
+		     "help"     : "help"
+		 },	    
 	
 
 #####################################################################################################
+                 {
+		     "role"    : "output",
+		     "id"      : "progress_output",
+		     "label"   : "Progress: ",
+		     "type"    : "progress",
+		     "max"     : 1.0
+		 },	
+                {
+		   "role"    : "output",
+                   "id"      : "progress_text",
+                   "label"   : "Calculation Report: ",
+		   "type"    : "textarea",
+                   #"append"  : "on",
+                   "cols"    : 40
+                  },
+
                   {
                    "role"  : "output",
                    "id"    : "outputpdb",

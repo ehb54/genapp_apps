@@ -23,8 +23,6 @@ mergeCrossterms yes
 structure step1_pdbreader.xplor.psf
 
 temperature 0
-#velocities namd_template_wat_min.vel
-#always_need_to_specify_temperature_or_velocity_file
 
 ########################################
 #Multiple_timestep_parameters #
@@ -51,7 +49,9 @@ minimization on #Turn_efficient_energy_minimization_ON
 minTinyStep 1.0e-6
 minBabyStep 1.0e-2
 minLineGoal 1.0e-4
-numsteps 1000
+
+numsteps NUM_STEPS
+
 timestep 1.0 #timestep_1_fs
 stepspercycle 10
 
