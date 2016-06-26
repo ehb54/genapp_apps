@@ -12,8 +12,11 @@ seed 12345
 #force_field
 paraTypeCharmm on 
 
-parameters  toppar/par_all36_na_for_namd.prm
+#parameters  toppar/par_all36_na_for_namd.prm
+
+parameters  toppar/PAR_BIOMOL
 parameters  toppar/toppar_water_ions_for_namd.str
+
 
 mergeCrossterms yes
 
