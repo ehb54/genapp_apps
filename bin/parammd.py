@@ -88,6 +88,9 @@ ProteinList = ['ALA','CYS','ASP','GLU','PHE','GLY','HIS','ILE','LYS','LEU','MET'
 
 CaseStudy = ''
 ResidueList = []
+Coordinates_x = []
+Coordinates_y = []
+Coordinates_z = []
 
 for li in range(NumLinesPdb):
     LineArr = re.split(r'[\s]*', PdbLines[li])
@@ -100,6 +103,22 @@ for li in range(NumLinesPdb):
         continue
         
     ResidueList.append(str(LineArr[3]))
+
+    found_chainId_Lett = re.match(r'[a-zA-Z]+', str(LineArr[4]))
+    found_resNum_Int5  = re.match(r'[0-9]+', str(LineArr[5]))
+    found_resnum_Int4  = re.match(r'[0-9]+', str(LineArr[4]))
+    
+    if found_resNum_Int5 and found_chainId_Lett:
+        Coordinates_x.append(float(LineArr[6]))
+        Coordinates_y.append(float(LineArr[7])) 
+        Coordinates_z.append(float(LineArr[8]))
+        
+    else:
+        if found_resnum_Int4:
+            Coordinates_x.append(float(LineArr[5]))
+            Coordinates_y.append(float(LineArr[6])) 
+            Coordinates_z.append(float(LineArr[7]))        
+    
        
 if any(word in ResidueList for word in DnaList):
     CaseStudy = 'dna' 
@@ -110,6 +129,36 @@ elif any(word in ResidueList for word in DnaList):
         CaseStudy = 'nucleoprotein'
 
 #print CaseStudy
+#exit()
+
+## Determine MINMAX of the molecule #############################
+Max_x =  max(Coordinates_x)
+Min_x =  min(Coordinates_x)
+Max_y =  max(Coordinates_y)
+Min_y =  min(Coordinates_y)
+Max_z =  max(Coordinates_z)
+Min_z =  min(Coordinates_z)
+
+Diff_x = Max_x - Min_x
+Diff_y = Max_y - Min_y
+Diff_z = Max_z - Min_z
+
+if 'mm_md_options' in json_variables:
+    molsize_x = json_variables['size_x']
+    molsize_y = json_variables['size_y']
+    molsize_z = json_variables['size_z']
+
+    if float(molsize_x) < Diff_x:
+        print "Error: X_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        exit()
+    if float(molsize_y) < Diff_y:
+        print "Error: Y_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        exit()
+    if float(molsize_z) < Diff_z:
+        print "Error: Z_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        exit()
+
+#print "", Diff_x, " ", Diff_y, " ", Diff_z
 #exit()
 
 #### PDB transformations #########################################
@@ -205,7 +254,7 @@ while True:
             if socket_dict:
                 doc_string = json.dumps(socket_dict)
                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                #time.sleep(0.01)
+                time.sleep(0.002)
     elif Process.poll() is not None:  
         break
 
@@ -226,6 +275,7 @@ if 'mm_md_options' in json_variables:
 
     numsteps = json_variables['mm_min_num_steps']
 
+      
     if CaseStudy == 'dna':
         # Edit pdbreader_charmm template - number of chains####
         filedata0 = None
@@ -233,6 +283,11 @@ if 'mm_md_options' in json_variables:
             filedata0 = file0.read()
         filedata0 = filedata0.replace('PAR_BIOMOL', 'par_all36_na_for_namd.prm')
         filedata0 = filedata0.replace('NUM_STEPS', str(numsteps))
+
+        filedata0 = filedata0.replace('CELL_X', str(molsize_x))
+        filedata0 = filedata0.replace('CELL_Y', str(molsize_y))
+        filedata0 = filedata0.replace('CELL_Z', str(molsize_z))
+
         with open('namd_dna_min.inp', 'w') as file0:
             file0.write(filedata0)
                 
@@ -246,6 +301,11 @@ if 'mm_md_options' in json_variables:
             filedata0 = file0.read()
         filedata0 = filedata0.replace('PAR_BIOMOL', 'par_all36_prot_for_namd.prm')
         filedata0 = filedata0.replace('NUM_STEPS', str(numsteps))
+
+        filedata0 = filedata0.replace('CELL_X', str(molsize_x))
+        filedata0 = filedata0.replace('CELL_Y', str(molsize_y))
+        filedata0 = filedata0.replace('CELL_Z', str(molsize_z))
+
         with open('namd_prot_min.inp', 'w') as file0:
             file0.write(filedata0)
 
@@ -253,7 +313,7 @@ if 'mm_md_options' in json_variables:
         ProcessToCallNamdMin.append('namd_prot_min.inp')
     
    
-    ## RUN ##########################################################
+    ## RUN NAMD ##########################################################
     socket_dict["_textarea"] = 'Starting Minimization...\n\n'
     socket_dict["progress_output"] =  str(0.0)
     socket_dict["progress_text"] =  'Minimization Progress: 0%'
@@ -268,9 +328,6 @@ if 'mm_md_options' in json_variables:
     stdout_namdmin = os.fdopen(master_namdmin, 'r', 0)
         
     while True:
-        #output = Process.stdout.readline()
-        #signal.signal(signal.SIGTERM, functools.partial(handler,Process.pid))
-        
         ready, _, _ = select.select([master_namdmin], [], [], timeout)
         if ready:
             output = stdout_namdmin.readline()
@@ -287,7 +344,7 @@ if 'mm_md_options' in json_variables:
                 if socket_dict:
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                    #time.sleep(0.01)
+                    #time.sleep(0.001)
         elif ProcessNamdmin.poll() is not None:  
             break
                                 
@@ -295,8 +352,6 @@ if 'mm_md_options' in json_variables:
     os.close(master_namdmin)
                                 
     socket_dict["_textarea"] = '\n Minimization Finished...\n\n'
-    #socket_dict["progress_output"] =  str(0.0)
-    #socket_dict["progress_text"] =  'Fitting Progress: 0%'
     if socket_dict:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))

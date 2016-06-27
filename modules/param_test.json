@@ -57,7 +57,7 @@
                      "label"    : "Minimize structure?",
                      "type"     : "checkbox",  
                      "checked"  : "false",
-		     "required" : "true",
+		     "required" : "false",
                      "repeater" : "yes",
 		     "help"     : "help"
 		 },
@@ -74,6 +74,40 @@
 		     "help"     : "help"
 		 },	    
 	
+                { 
+                     "role"     : "input",  
+                     "id"       : "size_x",
+                     "label"    : "Periodic Cell Size, X:",
+                     "type"     : "float",  
+                     "default"  : 50,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "mm_md_options",
+		     "help"     : "help"
+		 },	    
+                { 
+                     "role"     : "input",  
+                     "id"       : "size_y",
+                     "label"    : "Periodic Cell Size, Y:",
+                     "type"     : "float",  
+                     "default"  : 50,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "mm_md_options",
+		     "help"     : "help"
+		 },	    
+                { 
+                     "role"     : "input",  
+                     "id"       : "size_z",
+                     "label"    : "Periodic Cell Size, Z:",
+                     "type"     : "float",  
+                     "default"  : 50,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "mm_md_options",
+		     "help"     : "help"
+		 },	    
+
 
 #####################################################################################################
                  {

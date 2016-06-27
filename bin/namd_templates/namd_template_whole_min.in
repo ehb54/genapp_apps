@@ -72,9 +72,9 @@ pairlistdist 14.0 #I_need_at_least_1.5_between_cutoff_and_pairlist
 ########################################
 
 #periodic_cell
-cellBasisVector1     50.0   0      0
-cellBasisVector2     0      50.0   0 
-cellBasisVector3     0      0      50.0
+cellBasisVector1     CELL_X   0      0
+cellBasisVector2     0      CELL_Y   0 
+cellBasisVector3     0      0      CELL_Z
 cellOrigin 0 0 0 
 wrapWater on #This_is_for_energy_minimization
 #wrapAll on #This_is_for_Molecular_Dynamicd
@@ -89,9 +89,9 @@ PME no
 PMETolerance 0.000001
 PMEInterpOrder 4
 #4_means_cube
-PMEGridSizeX  50
-PMEGridSizeY  50	
-PMEGridSizeZ  50
+PMEGridSizeX  CELL_X
+PMEGridSizeY  CELL_Y	
+PMEGridSizeZ  CELL_Z
 
 ########################################
 #Output_section #
