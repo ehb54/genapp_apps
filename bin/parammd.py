@@ -17,6 +17,8 @@ import atexit
 import signal
 import functools
 
+from itertools import groupby
+
 
 from StringIO import StringIO
 #from math import exp, expm1, log10, log, log1p
@@ -109,9 +111,45 @@ for li in range(NumLinesPdb):
     found_resnum_Int4  = re.match(r'[0-9]+', str(LineArr[4]))
     
     if found_resNum_Int5 and found_chainId_Lett:
-        Coordinates_x.append(float(LineArr[6]))
-        Coordinates_y.append(float(LineArr[7])) 
-        Coordinates_z.append(float(LineArr[8]))
+        Dots_6 = [(len(list(cpart))) for c,cpart in groupby(LineArr[6]) if c == '.']
+        Counts_6 = len(Dots_6)
+        Dots_7 = [(len(list(cpart))) for c,cpart in groupby(LineArr[7]) if c == '.']
+        Counts_7 = len(Dots_7)
+        if Counts_6 == 1 and Counts_7 == 2:
+            Coordinates_x.append(float(LineArr[6]))
+
+            i = 0
+            cutindex = 0
+            while i < len(str(LineArr[7])):
+                if str(LineArr[7])[i] == '.':
+                    cutindex = i+4
+                    break
+                i += 1
+            #print LineArr, str(LineArr[7])[:cutindex], str(LineArr[7])[cutindex:-1]
+            pos_y = str(LineArr[7])[:cutindex]
+            pos_z = str(LineArr[7])[cutindex:-1]
+            Coordinates_y.append(float(pos_y))
+            Coordinates_z.append(float(pos_z))
+
+        elif Counts_6 == 2 and Counts_7 == 1:
+            i = 0
+            cutindex = 0
+            while i < len(str(LineArr[6])):
+                if str(LineArr[6])[i] == '.':
+                    cutindex = i+4
+                    break
+                i += 1
+            #print LineArr, str(LineArr[7])[:cutindex], str(LineArr[7])[cutindex:-1]
+            pos_x = str(LineArr[6])[:cutindex]
+            pos_y = str(LineArr[6])[cutindex:-1]
+            
+            Coordinates_x.append(float(pos_x))
+            Coordinates_y.append(float(pos_y))
+            Coordinates_z.append(float(LineArr[8]))
+        else:    
+            Coordinates_x.append(float(LineArr[6]))
+            Coordinates_y.append(float(LineArr[7])) 
+            Coordinates_z.append(float(LineArr[8]))
         
     else:
         if found_resnum_Int4:
@@ -254,7 +292,7 @@ while True:
             if socket_dict:
                 doc_string = json.dumps(socket_dict)
                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                time.sleep(0.002)
+                #time.sleep(0.002)
     elif Process.poll() is not None:  
         break
 
