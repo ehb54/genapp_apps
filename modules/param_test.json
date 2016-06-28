@@ -33,14 +33,74 @@
                    "required" : "true",
 		   "help"     : "help"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "first_model",
-                   "label"    : "Process only 1st model",
-		   "checked"  : "true",  
-                   "type"     : "checkbox",
-	           "help"     : "the first model in the list of PDB models will be processed"
-                   },
+ 
+                { 
+                     "role"     : "input",  
+                     "id"       : "add_waterbox",
+                     "label"    : "Add Solvation Box?",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "false",
+                     "repeater" : "yes",
+		     "help"     : "help"
+		 },
+                { 
+                     "role"     : "input",  
+                     "id"       : "size_x",
+                     "label"    : "Periodic Cell Size, X:",
+                     "type"     : "float",  
+                     "default"  : 50,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "add_waterbox",
+		     "help"     : "help"
+		 },	    
+                { 
+                     "role"     : "input",  
+                     "id"       : "size_y",
+                     "label"    : "Periodic Cell Size, Y:",
+                     "type"     : "float",  
+                     "default"  : 50,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "add_waterbox",
+		     "help"     : "help"
+		 },	    
+                { 
+                     "role"     : "input",  
+                     "id"       : "size_z",
+                     "label"    : "Periodic Cell Size, Z:",
+                     "type"     : "float",  
+                     "default"  : 50,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "add_waterbox",
+		     "help"     : "help"
+		 },	    
+
+                { 
+                     "role"     : "input",  
+                     "id"       : "add_ions",
+                     "label"    : "Add Ions?",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "false",
+		     "repeat"   : "add_waterbox",
+                     "repeater" : "yes",
+		     "help"     : "help"
+		 },
+                { 
+                     "role"     : "input",  
+                     "id"       : "ion_conc",
+                     "label"    : "Ionic Concentration (M):",
+                     "type"     : "float",  
+                     "default"  : 0.15,
+		     "min"      : 0, 
+		     "required" : "true",
+                     "repeat"   : "add_ions",
+		     "help"     : "help"
+		 },	    
+
 #####################################################################
 	       { 
 		   "role"     : "input",  
@@ -74,40 +134,7 @@
 		     "help"     : "help"
 		 },	    
 	
-                { 
-                     "role"     : "input",  
-                     "id"       : "size_x",
-                     "label"    : "Periodic Cell Size, X:",
-                     "type"     : "float",  
-                     "default"  : 50,
-		     "min"      : 1, 
-		     "required" : "true",
-                     "repeat"   : "mm_md_options",
-		     "help"     : "help"
-		 },	    
-                { 
-                     "role"     : "input",  
-                     "id"       : "size_y",
-                     "label"    : "Periodic Cell Size, Y:",
-                     "type"     : "float",  
-                     "default"  : 50,
-		     "min"      : 1, 
-		     "required" : "true",
-                     "repeat"   : "mm_md_options",
-		     "help"     : "help"
-		 },	    
-                { 
-                     "role"     : "input",  
-                     "id"       : "size_z",
-                     "label"    : "Periodic Cell Size, Z:",
-                     "type"     : "float",  
-                     "default"  : 50,
-		     "min"      : 1, 
-		     "required" : "true",
-                     "repeat"   : "mm_md_options",
-		     "help"     : "help"
-		 },	    
-
+ 
 
 #####################################################################################################
                  {
