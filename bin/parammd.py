@@ -659,7 +659,13 @@ if 'mm_md_options' in json_variables:
 
 #################################################################
 base_dir = json_variables[ '_base_directory' ]
-output_basename = 'step1_pdbreader'
+
+output_basename = ''
+
+if 'add_waterbox' in json_variables:
+    output_basename = 'step2_solvator'
+else:
+    output_basename = 'step1_pdbreader'
 
 outpdb = str(base_dir) + "/" + output_basename + ".pdb"
 outcrd = str(base_dir) + "/" + output_basename + ".crd"
