@@ -217,7 +217,7 @@ class Capriqorn_Driver():
 	#		output_dict['sasoutput2'] = total_string
 
 			'''
-			flot_data = self.get_data_from_disk(runname+"/sascalc_md/"+outfile+".txt",5)
+			flot_data = self.get_data_from_disk(runname+"/sascalc_pbc/"+outfile+".txt",5)
 
 			if(isinstance(flot_data, basestring)):
 				print 'error reading data'
