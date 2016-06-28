@@ -295,11 +295,11 @@ while True:
             if socket_dict:
                 doc_string = json.dumps(socket_dict)
                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                #time.sleep(0.002)
+                time.sleep(0.002)
     elif Process.poll() is not None:  
         break
 
-#Process.wait()
+Process.wait()
 os.close(slave)
 os.close(master)
 
@@ -366,10 +366,11 @@ if 'add_waterbox' in json_variables:
                 if socket_dict:
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                    #time.sleep(0.002)
+                    time.sleep(0.002)
         elif ProcessWaterbox.poll() is not None:  
             break
 
+    ProcessWaterbox.wait()
     os.close(slave_waterbox)
     os.close(master_waterbox)
 
@@ -421,14 +422,15 @@ if 'add_waterbox' in json_variables:
                     if socket_dict:
                         doc_string = json.dumps(socket_dict)
                         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                        #time.sleep(0.002)
+                        time.sleep(0.002)
             elif ProcessSolvsys.poll() is not None:  
                 break
 
+        ProcessSolvsys.wait()
         os.close(slave_solvsys)
         os.close(master_solvsys)
 
-        socket_dict["_textarea"] = '\n Ions Have Been Added...\n\n'
+        socket_dict["_textarea"] = '\n Solvated System Generated...\n\n'
         if socket_dict:
             doc_string = json.dumps(socket_dict)
             sock.sendto(doc_string,(UDP_IP,UDP_PORT))   
@@ -491,10 +493,11 @@ if 'add_ions' in json_variables:
                 if socket_dict:
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                    #time.sleep(0.002)
+                    time.sleep(0.002)
         elif ProcessAddions.poll() is not None:  
             break
 
+    ProcessAddions.wait()
     os.close(slave_addions)
     os.close(master_addions)
 
@@ -544,14 +547,15 @@ if 'add_ions' in json_variables:
                 if socket_dict:
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                    #time.sleep(0.002)
+                    time.sleep(0.002)
         elif ProcessSolvsysions.poll() is not None:  
             break
 
+    ProcessSolvsysions.wait()
     os.close(slave_solvsysions)
     os.close(master_solvsysions)
 
-    socket_dict["_textarea"] = '\n Ions Have Been Added...\n\n'
+    socket_dict["_textarea"] = '\n Solvated System Generated...\n\n'
     if socket_dict:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))   
@@ -644,10 +648,11 @@ if 'mm_md_options' in json_variables:
                 if socket_dict:
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                    #time.sleep(0.001)
+                    #time.sleep(0.002)
         elif ProcessNamdmin.poll() is not None:  
             break
-                                
+                  
+    ProcessNamdmin.wait()
     os.close(slave_namdmin)
     os.close(master_namdmin)
                                 
