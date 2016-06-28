@@ -61,7 +61,7 @@ endif
 ! nneg   : number of negative ions
 !
 
-calc conc   = 1 
+calc conc   = IONCONC
 calc ionvol = @sysvol - @molvol
 calc val    = 1
 

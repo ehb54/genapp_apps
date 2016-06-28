@@ -8,9 +8,9 @@ DIMENS CHSIZE 2000000 MAXRES 1000000
 ! Read topology and parameter files
 stream toppar.str
 
-calc Xinit = 25 !from user' input
-calc Yinit = 25
-calc Zinit = 50
+calc Xinit = CELL_X !from user' input
+calc Yinit = CELL_Y
+calc Zinit = CELL_Z
 calc Rinit = 0
 
 calc xcen = 0.0
