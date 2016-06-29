@@ -21,14 +21,14 @@
 	            "required"   : "true",
 	            "help"       : ""
                  },
-                {
-                   "role"     : "input",
-                   "id"       : "pdb_location",
-                   "label"    : "Location of the RD PDB file ",
-                   "type"     : "lrfile",
-                   "required" : "true",
-		   "help"     : ""
-                   },
+                #{
+                #   "role"     : "input",
+                #   "id"       : "pdb_location",
+                #   "label"    : "Location of the RD PDB file ",
+                #   "type"     : "lrfile",
+                #   "required" : "true",
+		#   "help"     : ""
+                #   },
                {
                    "role"     : "input",
                    "id"       : "sas_data_location",
@@ -626,6 +626,39 @@
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
+
+############## RIGID DOMAIMS #####################################################################
+	        { 
+		  "role"     : "input",  
+		  "id"       : "rigid_domains",
+		  "label"    : "Rigid Domains",
+		  "type"     : "label",
+		  "prehline" : "true",
+		  "posthline": "true",
+		  "default"  : ""
+		},
+
+	        { 
+		  "role"     : "input",  
+		  "id"       : "num_rigid_domains",
+		  "label"    : "Number of Rigid Domains: ",
+		  "type"     : "integer",
+		  "repeater" : "true",   
+		  "required" : "true",
+		  "default"  : 4
+		},
+
+               {
+                  "role"     : "input",
+                  "id"       : "pdb_location",
+                  "label"    : "Location of the RD PDB file ",
+                  "type"     : "lrfile",
+                  "required" : "true",
+		  "repeat"   : "num_rigid_domains", 
+	          "help"     : ""
+                  },     
+
+
                  { 
                      "role"     : "input",  
                      "id"       : "geom_center_vect",
@@ -634,6 +667,7 @@
                      "checked"  : "true",
 		     "required" : "true",
                      "repeater" : "yes",
+		     "repeat"   : "num_rigid_domains", 
 		     "help"     : ""
 		 },
                  { 
@@ -835,6 +869,7 @@
                      "checked"  : "true",
 		     "required" : "true",
                      "repeater" : "yes",
+		     "repeat"   : "num_rigid_domains", 
 		     "help"     : ""
 		 },
                  { 
@@ -1028,6 +1063,8 @@
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
+#### END RIGID DOMAINS ###############################################################################
+
 		        { 
 			  "role"     : "input",  
 			  "id"       : "experiments",

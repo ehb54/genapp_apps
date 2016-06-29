@@ -65,7 +65,7 @@
  Number of Independent States .........:1       #TAG
 ---------------------------------------------------------- State
  Number of MC State's Configurations ..:1       #TAG		   
- Number of Sites ......................:1                                                        [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+ Number of Sites ......................:1       #NUMRD                                                 [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
  Number of Flexible Linkers ...........:0                  Sequence of RDs and FLs in the pdb ...: 1
  Number of Hierarchic Aggregates ......:1       #TAG   
  Write the Aggregate Section In Order of Decreasing Symmetry
