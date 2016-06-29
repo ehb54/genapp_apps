@@ -111,7 +111,7 @@
                    }
                   ,{
                    "role"     : "input",
-                   "id"       : "cbfile3cb",
+                   "id"       : "cbfile3cbx",
                    "label"    : "How about yet another remote file",
                    "type"     : "checkbox",
                    "repeater" : "true"
@@ -121,7 +121,7 @@
                    "id"       : "rfile3cb",
                    "label"    : "Choose a CB remote file",
                    "type"     : "rfile",
-                   "repeat"   : "cbfile3cb",
+                   "repeat"   : "cbfile3cbx",
                    "help"     : "Choose a CB remote file is for a CB repeat remote file"
                    }
                   ,{
