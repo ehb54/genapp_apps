@@ -84,6 +84,7 @@ while (my $line = <$fh>) {
 
     if ($line_copy =~ m/#RDREP/)
     {
+	$line_copy =~ s/#RDREP//;
 	chomp $line_copy;
 	push (@rdlines, $line_copy);
 	next;
@@ -102,14 +103,36 @@ while (my $line = <$fh>) {
    
     if ($line_copy =~ m/Rigid Domain/)
     {
-	my $size = $$ref{'num_rigid_domains'}->{pdb_location};
-	my $length = scalar( @{ $size } );
-	for ( my $j = 0; $j < $length; $j++)
+	my $hashrd = $$ref{'num_rigid_domains'}->{pdb_location};
+	my $length = scalar( @{ $hashrd } );
+	for ( my $k = 0; $k < $length; $k++)
 	{
 	    print OUT $line_copy;
-	    for (my $i = 0; $i < @rdlines; $i++)
+	    #print "Var: " . $$ref{'num_rigid_domains'}->{pdb_location}[0][0]; 
+	    #exit;
+	    my @temp_rdlines = @rdlines;
+	    for (my $i = 0; $i < @temp_rdlines; $i++)
 	    {
-		print OUT $rdlines[$i] ."\n";
+		if ($temp_rdlines[$i] =~ m/#TAG/)
+		{
+		    $temp_rdlines[$i] =~ s/#TAG//;
+		    chomp $temp_rdlines[$i];
+		    
+		    my $id = (split(/[:]/, $temp_rdlines[$i]))[0];
+		    my $id_key = $id;
+		    $id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+		    $id_key =~ tr/ /_/;             # replace whitespace with underscore
+		    $id_key =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
+		    $id_key =~ s/_$//;              # remove underscore at the end 
+		    $id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
+		    
+		    print OUT $id.":". $$ref{'num_rigid_domains'}->{pdb_location}[0][$k] ."\n";  ## DOES NOT WORK!!!!!
+		}
+		else
+		{
+		    $temp_rdlines[$i] =~ s/\s+$//;
+		    print OUT $temp_rdlines[$i] ."\n";
+		}
 	    }
 	}
     }

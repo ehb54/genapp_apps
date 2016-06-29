@@ -218,14 +218,14 @@
  First Derivative Effectors #19 .......:
  First Derivative Effectors #20 .......:
 *************************** Rigid Domain                
-    RD PDB File Name (without .pdb) ...:1PL7/1PL7_A     #RDREP
+    RD PDB File Name (without .pdb) ...:1PL7/1PL7_A     #RDREP#TAG
                                        [		#RDREP
-    Geom. Center Vect.: modulus (ang.) :    26.005          0.0000           10.00          2.0000        -1    #RDREP 
-                        alpha   (deg) .:   -92.221         -180.00          180.00          90.000         1	#RDREP 
-                        cos(beta) .....:  -0.60943         -1.0000          1.0000         0.50000         1	#RDREP
-    Rotation Angles:    alpha_a (deg) .:   -134.86         -180.00          180.00          90.000         1	#RDREP 
-                        cos(beta_a) ...:   0.35934E-002    -1.0000          1.0000         0.50000         1	#RDREP 
-                        gamma_a (deg) .:    149.80         -180.00          180.00          90.000         1	#RDREP
+    Geom. Center Vect.: modulus (ang.) :    26.005          0.0000           10.00          2.0000        -1    #RDREP#T_CBR 	 
+                        alpha   (deg) .:   -92.221         -180.00          180.00          90.000         1	#RDREP#T_CBR 	
+                        cos(beta) .....:  -0.60943         -1.0000          1.0000         0.50000         1	#RDREP#T_CBR#END
+    Rotation Angles:    alpha_a (deg) .:   -134.86         -180.00          180.00          90.000         1	#RDREP#T_CBR 	
+                        cos(beta_a) ...:   0.35934E-002    -1.0000          1.0000         0.50000         1	#RDREP#T_CBR 	
+                        gamma_a (deg) .:    149.80         -180.00          180.00          90.000         1	#RDREP#T_CBR#END
 ***************** Amino acid Constraints
  AA |RD|SS|POL| Atom|Coord.vector r_i |     Condition     |Val,Name,Vec.u_d |Fact.Val.|Method|   K    |Name  |Flag
     |FL|  |   |     |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0   
