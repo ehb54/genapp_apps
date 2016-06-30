@@ -139,31 +139,8 @@ print "
 	            \"required\"   : \"true\",
 	            \"help\"       : \"\"
                  },
-                {
-                   \"role\"     : \"input\",
-                   \"id\"       : \"pdb_location\",
-                   \"label\"    : \"Location of the RD PDB file \",
-                   \"type\"     : \"lrfile\",
-                   \"required\" : \"true\",
-		   \"help\"     : \"\"
-                   },
-               {
-                   \"role\"     : \"input\",
-                   \"id\"       : \"sas_data_location\",
-                   \"label\"    : \"Experimental Scattering Curve \",
-                   \"type\"     : \"lrfile\",
-                   \"required\" : \"true\",
-		   \"help\"     : \"\"
-                   },
-
-              {
-                   \"role\"     : \"input\",
-                   \"id\"       : \"sym_group_location\",
-                   \"label\"    : \"Symmetry Group Information  \",
-                   \"type\"     : \"lrfile\",
-                   \"required\" : \"true\",
-		   \"help\"     : \"\"
-                   },
+ 
+ 
       ";
 
 for my $key ( sort keys %data ) 
@@ -230,6 +207,21 @@ for my $key ( sort keys %data )
 	{
 	    $repeater = "yes";
 	}
+
+	my $repline = "\#";
+	if ($label_key eq 'Geom Center Vect')
+	{
+	    print "\n";
+	    open(my $fh, '<', 'rd_repeater.json') or die "Can't read file '$file' [$!]\n";
+	    while (my $line = <$fh>) {
+		print $line;
+	    }
+	}
+	if ($label_key eq 'Geom Center Vect' or $label_key eq 'Rotation Angles')
+	{
+	    $repline = " \"repeat\" : \"num_rigid_domains\", ";
+	}
+	
 	print "
                  { 
                      \"role\"     : \"input\",  
@@ -239,6 +231,7 @@ for my $key ( sort keys %data )
                      \"checked\"  : \"$check_value\",
 		     \"required\" : \"true\",
                      \"repeater\" : \"$repeater\",
+                   $repline
 		     \"help\"     : \"\"
 		 }," ;   
 		 #;
@@ -299,7 +292,7 @@ for my $key ( sort keys %data )
                      \"type\"     : \"text\",  
                      \"default\"  : \"$val\",
  		     \"required\" : \"true\",
-                     \"size\"     : \"6\",
+                     \"size\"     : 4,
                      \"repeat\"   : \"$id_key\",
                      \"norow\"    : \"true\",
  		     \"help\"     : \"\"	
@@ -318,7 +311,7 @@ for my $key ( sort keys %data )
                                 \"type\"     : \"text\",  
                                 \"default\"  : \"$id\",
  		                \"required\" : \"true\",
-                                \"size\"     : \"10\",
+                                \"size\"     : 5,
                                 \"repeat\"   : \"$id_key\",
                                 \"norow\"    : \"true\",
                                 \"readonly\" : \"true\",
@@ -330,9 +323,11 @@ for my $key ( sort keys %data )
 		    for ( my $i = 0; $i < @array1; $i++)
 		    {
 			my $norow_stat = "true";
-			if ($i == @array1 - 1)
+			my $sizetext = 4;
+			if ($array_ids[$i] eq 'Flag')
 			{
 			    $norow_stat = "false";
+			    $sizetext = 2; 
 			}
 			print "
 		                { 
@@ -342,7 +337,7 @@ for my $key ( sort keys %data )
                                   \"type\"     : \"text\",  
                                   \"default\"  : \"$array1[$i]\",
  		                  \"required\" : \"true\",
-                                  \"size\"     : \"6\",
+                                  \"size\"     : $sizetext,
                                   \#\"repeat\"   : \"$id_key$id_key:$id\",
                                   \"repeat\"   : \"$id_key\",
                                   \"norow\"    : \"$norow_stat\",
@@ -403,7 +398,7 @@ for my $key ( sort keys %data )
                                   \"type\"     : \"text\",  
                                   \"default\"  : \"$array1[$i]\",
  		                  \"required\" : \"true\",
-                                  \"size\"     : \"6\",
+                                  \"size\"     : 4,
                                   \"repeat\"   : \"$id_key\",
                                   \"norow\"    : \"true\",
  		                  \"help\"     : \"\"	
@@ -418,7 +413,8 @@ for my $key ( sort keys %data )
 		     \"role\"     : \"input\",  
                      \"id\"       : \"$id_key\",
                      \"label\"    : \"$label_key\",
-                     \"type\"     : \"text\",  
+                     \"type\"     : \"text\", 
+                     \"size\"     : 4,
                      \"default\"  : \"$value[0]\",
  		     \"required\" : \"true\",
  		     \"help\"     : \"\"	
