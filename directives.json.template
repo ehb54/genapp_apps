@@ -58,10 +58,10 @@
                                 },
 
   "textarea"                 : {
-      "label"           : "Report:"
-      ,"default"        : "header3"
-      ,"verticalalign"  : "top"
-      ,"cols"           : "110"
+#      "label"           : "Report:"
+#      ,"default"        : "header3"
+#      ,"verticalalign"  : "top"
+      "cols"           : "110"
 # define rows to stop autosize
       ,"rows"           : "10"
       ,"help"           : "general textarea help"
@@ -71,8 +71,9 @@
 
 "style" : {
         "sidebarwidth"        : "280px"
-        ,"sidebartextalign"   : "left"
-        ,"sidebarleftpadding" : "10px"
+        ,"rightmargin"        : "15px"
+        ,"menutextalign"      : "left"
+        ,"sidebarleftpadding" : "15px"
         ,"backgroundimage"    : "Univ_Copenhagen11.jpg"
     },
 
@@ -95,13 +96,12 @@
   "button_hover_color_hex"    : "FFFFFF",
   "button_hover_g_color_rgb"  : "228,255,250",
   "button_hover_g_color_hex"  : "E4FFFA",
-  "header1_color"             : "228,255,250",
-  "header2_color"             : "228,255,250",
-#  "header3_color"             : "228,255,250",
+  "header1_color"             : "43,29,14",
+  "header2_color"             : "43,29,14",
   "header3_color"             : "43,29,14",
-  "header4_color"             : "228,255,250",
-  "help_background_color_rgb" : "0,0,75",
-  "help_text_color_rgb"       : "240,240,210"
+  "header4_color"             : "43,29,14",
+  "help_background_color_rgb" : "240,240,210",
+  "help_text_color_rgb"       : "0,0,75"
 
 # paper colors (useful for screenshots for publications)
 #  "text_color_rgb"            : "0,0,0",
@@ -165,7 +165,11 @@
    }
 
 #  uncomment to enable "captcha" human validation upon registration
-#  ,"enablecaptcha"                  : "true"
+  ,"enablecaptcha"                  : "true"
+  ,"register" : {
+        "verifyemail"             : "true"
+   }
+
 
 # only uncomment if you have configured secure web sockets in your webserver
 #  ,"usewss"                  : "true"

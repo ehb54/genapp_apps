@@ -9,7 +9,7 @@
             "icon"    : "pngs/noicon.png",
             "autorun" : "welcome",
             "startup" : "true",
-            "nohidemenu" : "true",
+#            "nohidemenu" : "true",
             "help" : "test welcome help",
             "modules" : [ 
                 { 

@@ -4,6 +4,7 @@
     "label"    : "Calculate",
     "help"     : "help for WillItFit Calculations",
     "backgroundimage" : "Nanodisc-new.png",
+    "center"   : "true",
     "fields"   : [
 
  ############### Location of Data #####################################

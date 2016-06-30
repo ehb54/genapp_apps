@@ -5,6 +5,7 @@
     "noreset"        : "true",
     "nosubmit"       : "true",
     "nooutputhr"     : "true",
+    "center"         : "true",
     "fields"   : [
                   {
                    "role"       : "input",
