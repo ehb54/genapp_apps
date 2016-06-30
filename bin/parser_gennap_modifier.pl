@@ -8,14 +8,34 @@ use File::Copy;
 use FindBin '$Bin';
 use File::Path;
 
-#use strict;
-#use warnings;
+###############
+
+sub Process_tag_rd {
+    
+    my $temp_rdlines = $_[0];
+    my $k = $_[1];
+    $temp_rdlines =~ s/#TAG//;
+    chomp $temp_rdlines;
+    
+    my $id = (split(/[:]/, $temp_rdlines))[0];
+    my $id_key = $id;
+    $id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+    $id_key =~ tr/ /_/;             # replace whitespace with underscore
+    $id_key =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
+    $id_key =~ s/_$//;              # remove underscore at the end 
+    $id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
+    
+    my $pdbfilename = basename($$ref{'num_rigid_domains'}->{pdb_location}[$k][0]);
+    $pdbfilename =~ s{\.[^.]+$}{};  # removes extension;
+    print OUT $id.":". $pdbfilename ."\n"; 
+
+}
+
+
+
 
 my $file = "$Bin/quaS004_test_tags_nested_repeaters.dat";
 #my $file = "$Bin/quaS004_test_tags.dat";
-
-#print "The script is located in $Bin_path.\n";
-#exit();
 
 if ( !@ARGV )
 {
@@ -39,12 +59,12 @@ $p = $$ref{ "_base_directory" };
 #$pdbfilename = basename($pathtopdb);
 #$pdbfilename =~ s{\.[^.]+$}{}; # removes extension 
 
-$pathtosas = ${ $$ref{ "sas_data_location" } }[0];
-$sasfilename = basename($pathtosas);
-#$sasfilename =~ s{\.[^.]+$}{}; # removes extension 
+#$pathtosas = ${ $$ref{ "sas_data_location" } }[0];
+#$sasfilename = basename($pathtosas);
+##$sasfilename =~ s{\.[^.]+$}{}; # removes extension 
 
-$pathtosym = ${ $$ref{ "sym_group_location" } }[0];
-$symfilename = basename($pathtosym);
+##$pathtosym = ${ $$ref{ "sym_group_location" } }[0];
+##$symfilename = basename($pathtosym);
 #$symfilename =~ s{\.[^.]+$}{}; # removes extension 
 $familyname = substr($symfilename, 0, 4);
 
@@ -100,7 +120,6 @@ open(my $fh, '<', $temp_input_file) or die "Can't read file '$file' [$!]\n";
 while (my $line = <$fh>) {
     my $line_copy = $line;
 
-   
     if ($line_copy =~ m/Rigid Domain/)
     {
 	my $hashrd = $$ref{'num_rigid_domains'}->{pdb_location};
@@ -108,25 +127,12 @@ while (my $line = <$fh>) {
 	for ( my $k = 0; $k < $length; $k++)
 	{
 	    print OUT $line_copy;
-	    #print "Var: " . $$ref{'num_rigid_domains'}->{pdb_location}[0][0]; 
-	    #exit;
 	    my @temp_rdlines = @rdlines;
 	    for (my $i = 0; $i < @temp_rdlines; $i++)
 	    {
 		if ($temp_rdlines[$i] =~ m/#TAG/)
 		{
-		    $temp_rdlines[$i] =~ s/#TAG//;
-		    chomp $temp_rdlines[$i];
-		    
-		    my $id = (split(/[:]/, $temp_rdlines[$i]))[0];
-		    my $id_key = $id;
-		    $id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
-		    $id_key =~ tr/ /_/;             # replace whitespace with underscore
-		    $id_key =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
-		    $id_key =~ s/_$//;              # remove underscore at the end 
-		    $id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
-		    
-		    print OUT $id.":". $$ref{'num_rigid_domains'}->{pdb_location}[0][$k] ."\n";  ## DOES NOT WORK!!!!!
+		    Process_tag_rd($temp_rdlines[$i], $k);
 		}
 		else
 		{
@@ -140,11 +146,11 @@ while (my $line = <$fh>) {
     # PROCESS SIMPLE FIELDS && COMPLEXER FIELDS OF SEVERAL VALUES  
     elsif ($line_copy =~ m/#TAG/ && $line_copy!~ m/%%%%/)
     {
-	$line =~ s/#TAG//;
-	chomp $line;
+	$line_copy =~ s/#TAG//;
+	chomp $line_copy;
 	
-	my $id = (split(/[:]/, $line))[0];
-	my $dval = (split(/[:]/, $line))[-1];
+	my $id = (split(/[:]/, $line_copy))[0];
+	my $dval = (split(/[:]/, $line_copy))[-1];
 	
 	my $id_key = $id;
 	$id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
@@ -192,9 +198,7 @@ while (my $line = <$fh>) {
 	{
 	    my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
 	    
-	    my $tag_temp = "$array_ids[0]$id_key";
-	    
-	    if (exists $ref->{$tag_temp})
+	    if (exists $ref->{$id_key})
 	    {
 		print OUT "$id:";
 		for ( my $j = 0; $j < @array1; $j++)
@@ -203,18 +207,17 @@ while (my $line = <$fh>) {
 		    
 		    if ($j != @array1 -1)
 		    {
-			my $len = (16 - length($$ref{$tag}))/2.0; 
+			my $len = (16 - length($$ref{$id_key}{$tag}))/2.0; 
 			print OUT " " x $len;
-			print OUT $$ref{$tag};
+			print OUT $$ref{$id_key}{$tag};
 			print OUT " " x $len;			
 		    }
 		    else
 		    {
-			my $len = (5 - length($$ref{$tag}))/2.0; 
+			my $len = (5 - length($$ref{$id_key}{$tag}))/2.0; 
 			print OUT " " x $len;
-			print OUT " " . $$ref{$tag};
+			print OUT " " . $$ref{$id_key}{$tag};
 		    }
-		    
 		}
 		print OUT "\n";
 	    }
@@ -280,41 +283,32 @@ while (my $line = <$fh>) {
 		
 		if (@array1 == 1)
 		{
-		    print OUT "$id_cbr:$dval_cbr_1:$$ref{$id}\n";
+		    print OUT "$id_cbr:$dval_cbr_1:$$ref{$id_key}{$id}\n";
 		}
 		else
 		{
 		    my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
 		    
-		    my $tag_temp = "$array_ids[0]$id$id_key";
-		    
-		    if (exists $ref->{$tag_temp})
+		    print OUT "$id_cbr:$dval_cbr_1:";
+		    for ( my $j = 0; $j < @array1; $j++)
 		    {
-			print OUT "$id_cbr:$dval_cbr_1:";
-			for ( my $j = 0; $j < @array1; $j++)
+			my $tag = "$array_ids[$j]$id$id_key";
+			if ($j != @array1 -1)
 			{
-			    my $tag = "$array_ids[$j]$id$id_key";
-			    if ($j != @array1 -1)
-			    {
-				my $len = (16 - length($$ref{$tag}))/2.0; 
-				print OUT " " x $len;
-				print OUT $$ref{$tag};
-				print OUT " " x $len;			
-			    }
-			    else
-			    {
-				my $len = (5 - length($$ref{$tag}))/2.0; 
-				print OUT " " x $len;
-				print OUT " " . $$ref{$tag};
-			    }
-			    
+			    my $len = (16 - length($$ref{$id_key}{$tag}))/2.0; 
+			    print OUT " " x $len;
+			    print OUT $$ref{$id_key}{$tag};
+			    print OUT " " x $len;
 			}
-			print OUT "\n";
+			else
+			{
+			    my $len = (5 - length($$ref{$id_key}{$tag}))/2.0; 
+			    print OUT " " x $len;
+			    print OUT " " . $$ref{$id_key}{$tag};
+			}
+			
 		    }
-		    else
-		    {
-			print OUT $line_copy . "\n"; 
-		    }
+		    print OUT "\n";
 		}
 	    }
 	}
@@ -351,55 +345,45 @@ while (my $line = <$fh>) {
 		
 		if (@array1 == 1)
 		{
-		    print OUT "$dval_cbr_11:$$ref{$id}\n";
+		    print OUT "$dval_cbr_11:$$ref{$tag_id_key}{$id}\n";
 		}
 		else
 		{
 		    my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
 		    
-		    my $tag_temp = "$array_ids[0]$id$tag_id_key";
-		    
-		    if (exists $ref->{$tag_temp})
+		    print OUT "$dval_cbr_11:";
+		    for ( my $j = 0; $j < @array1; $j++)
 		    {
-			print OUT "$dval_cbr_11:";
-			for ( my $j = 0; $j < @array1; $j++)
+			my $tag = "$array_ids[$j]$id$tag_id_key";
+			if ($j != @array1 -1)
 			{
-			    my $tag = "$array_ids[$j]$id$tag_id_key";
-			    if ($j != @array1 -1)
-			    {
-				my $len = (16 - length($$ref{$tag}))/2.0; 
-				print OUT " " x $len;
-				print OUT $$ref{$tag};
-				print OUT " " x $len;			
-			    }
-			    else
-			    {
-				my $len = (5 - length($$ref{$tag}))/2.0; 
-				print OUT " " x $len;
-				print OUT " " . $$ref{$tag};
-			    }
+			    my $len = (16 - length($$ref{$tag_id_key}{$tag}))/2.0; 
+			    print OUT " " x $len;
+			    print OUT $$ref{$tag_id_key}{$tag};
+			    print OUT " " x $len;			
 			}
-			print OUT "\n";
+			else
+			{
+			    my $len = (5 - length($$ref{$tag_id_key}{$tag}))/2.0; 
+			    print OUT " " x $len;
+			    print OUT " " . $$ref{$tag_id_key}{$tag};
+			}
 		    }
-		    else
-		    {
-			chomp $line_copy;
-			print OUT $line_copy . "\n"; # To CORRECT!!
-		    }
+		    print OUT "\n";
 		}
 	    }
 	}
     }
     # END PROCESS LISTBOXES ##################
-    elsif ($line_copy =~ m/#EXPSAS/)
-    {
-	$line_copy =~ s/#EXPSAS//;
-	chomp $line_copy;
-	my $id_exp = (split(/[:]/, $line))[0];
-	#my $dval = (split(/[:]/, $line))[-1];
-	
-	print OUT "$id_exp:$sasfilename\n";
-    }
+    #elsif ($line_copy =~ m/#EXPSAS/)
+    #{
+    #	$line_copy =~ s/#EXPSAS//;
+    #	chomp $line_copy;
+    #	my $id_exp = (split(/[:]/, $line))[0];
+    #	#my $dval = (split(/[:]/, $line))[-1];
+    #	
+    #	print OUT "$id_exp:$sasfilename\n";
+    #}
     elsif ($line_copy =~ m/#NUMRD/)
     {
 	$line_copy =~ s/#NUMRD//;
@@ -413,15 +397,15 @@ while (my $line = <$fh>) {
 	print OUT $id_exp.":". $length."\n";
     }
     
-    elsif($line_copy =~ m/#SYM/)
-    {
-	$line_copy =~ s/#SYM//;
-	chomp $line_copy;
-	my $id_exp = (split(/[:]/, $line))[0];
-	#my $dval = (split(/[:]/, $line))[-1];
-	
-	print OUT "$id_exp:$familyname\n";
-    }
+   # elsif($line_copy =~ m/#SYM/)
+   # {
+   #	$line_copy =~ s/#SYM//;
+   #	chomp $line_copy;
+   #	my $id_exp = (split(/[:]/, $line))[0];
+   #	#my $dval = (split(/[:]/, $line))[-1];
+   #	
+   #	print OUT "$id_exp:$familyname\n";
+   # }
     else # THE REST
     {
 	#chomp $line_copy;

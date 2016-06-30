@@ -1,0 +1,33 @@
+############## RIGID DOMAIMS #####################################################################
+	        { 
+		  "role"     : "input",  
+		  "id"       : "rigid_domains",
+		  "label"    : "Rigid Domains",
+		  "type"     : "label",
+		  "prehline" : "true",
+		  "posthline": "true",
+		  "default"  : ""
+		},
+
+	        { 
+		  "role"     : "input",  
+		  "id"       : "num_rigid_domains",
+		  "label"    : "Number of Rigid Domains: ",
+		  "type"     : "integer",
+		  "repeater" : "true",   
+		  "required" : "true",
+		  "default"  : 1,
+		  "min"      : 1  
+		},
+
+               {
+                  "role"     : "input",
+                  "id"       : "pdb_location",
+                  "label"    : "Location of the RD PDB file ",
+                  "type"     : "lrfile",
+                  "required" : "true",
+		  "repeat"   : "num_rigid_domains", 
+	          "help"     : ""
+                  },     
+
+

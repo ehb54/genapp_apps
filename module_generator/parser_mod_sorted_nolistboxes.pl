@@ -119,6 +119,7 @@ print "\# this is a module file, any module specific info belongs here
    \"moduleid\" : \"quafit_test\",
    \"label\"    : \"QuaFit\",
    \"help\"     : \"help_module\",
+   \"extendedjsoninputtags\" : \"true\",
    \"fields\"   : [";
 
 print "
@@ -139,9 +140,7 @@ print "
 	            \"required\"   : \"true\",
 	            \"help\"       : \"\"
                  },
- 
- 
-      ";
+       ";
 
 for my $key ( sort keys %data ) 
 {
@@ -208,6 +207,7 @@ for my $key ( sort keys %data )
 	    $repeater = "yes";
 	}
 
+	## IF RIGID DOMAIN BLOCK ###################################
 	my $repline = "\#";
 	if ($label_key eq 'Geom Center Vect')
 	{
