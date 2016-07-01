@@ -31,6 +31,150 @@ sub Process_tag_rd {
 
 }
 
+sub Process_t_cbr_rd { 
+
+    my $line_copy = $_[0];
+    my $k = $_[1];
+
+    $line_copy =~ s/#T_CBR//;
+    chomp $line_copy;
+    #$line_copy =~ s/\s*$/$1/; # remove whitespace from both ends
+    $line_copy =~ s/\s+$//;
+    
+    my $id_cbr;
+    
+    my @matches = $line_copy =~ /:/g;   #Check for lines with more than 1 :'s
+    my $count = @matches;
+    if ($count > 1)
+    {
+	$id_cbr = (split(/[:]/, $line_copy))[0];
+	$dval_cbr_1 = (split(/[:]/, $line_copy))[1];
+	$dval_cbr_2 = (split(/[:]/, $line_copy))[-1];
+	
+	my $id_key = $id_cbr;
+	$id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+	$id_key =~ tr/ /_/;             # replace whitespace with underscore
+	$id_key =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
+	$id_key =~ s/_$//;              # remove underscore at the end 
+	$id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase
+	
+	$tag_id_key = $id_key;
+	
+	if (!(exists $$ref{'num_rigid_domains'}->{$id_key}[$k]))   # Checkboxes!!
+	{
+	    print OUT $line_copy . "\n";
+	}
+	else 
+	{
+	    my $id = $dval_cbr_1;
+	    $id =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+	    $id =~ tr/ /_/;             # replace whitespace with underscore
+	    $id =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
+	    $id =~ s/_$//;              # remove underscore at the end 
+	    $id =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
+	    
+	    my $val = $dval_cbr_2;
+	    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+	    my @array1 = split /\s+/,$val;
+	    
+	    if (@array1 == 1)
+	    {
+		print OUT "$id_cbr:$dval_cbr_1:$$ref{'num_rigid_domains'}->{$id_key}[$k]{$id}\n";
+	    }
+	    else
+	    {
+		my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
+		
+		print OUT "$id_cbr:$dval_cbr_1:";
+		for ( my $j = 0; $j < @array1; $j++)
+		{
+		    my $tag = "$array_ids[$j]$id$id_key";
+		    
+		    #print $id_key . "  " . $tag . "  " .$$ref{$id_key}{$tag};
+		    #exit; 
+		    
+		    if ($j != @array1 -1)
+		    {
+			my $len = (16 - length($$ref{'num_rigid_domains'}->{$id_key}[$k]{$tag}))/2.0; 
+			print OUT " " x $len;
+			print OUT $$ref{'num_rigid_domains'}->{$id_key}[$k]{$tag};
+			print OUT " " x $len;
+		    }
+		    else
+		    {
+			my $len = (5 - length($$ref{'num_rigid_domains'}->{$id_key}[$k]{$tag}))/2.0; 
+			print OUT " " x $len;
+			print OUT " " . $$ref{'num_rigid_domains'}->{$id_key}[$k]{$tag};
+		    }
+		    
+		}
+		print OUT "\n";
+	    }
+	}
+    }
+    else 
+    {
+	if ( $line_copy =~ m/#END/ )
+	{
+	    $line_copy =~ s/#END//;
+	    $line_copy =~ s/\s+$//; # remove whitespace from the end
+	    #chomp $line_copy;
+	}
+	
+	my $dval_cbr_11 = (split(/[:]/, $line_copy))[0];
+	my $dval_cbr_22 = (split(/[:]/, $line_copy))[-1];
+	
+	
+	if (!(exists $$ref{'num_rigid_domains'}->{$tag_id_key}[$k]))   # Checkboxes!!
+	{
+	    chomp $line_copy;
+	    print OUT $line_copy . "\n";
+	}
+	else 
+	{
+	    my $id = $dval_cbr_11;
+	    $id =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+	    $id =~ tr/ /_/;             # replace whitespace with underscore
+	    $id =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
+	    $id =~ s/_$//;              # remove underscore at the end 
+	    $id =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
+	    
+	    my $val = $dval_cbr_22;
+	    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+	    my @array1 = split /\s+/,$val;
+	    
+	    if (@array1 == 1)
+	    {
+		print OUT "$dval_cbr_11:$$ref{'num_rigid_domains'}->{$tag_id_key}[$k]{$id}\n";
+	    }
+	    else
+	    {
+		my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
+		
+		print OUT "$dval_cbr_11:";
+		for ( my $j = 0; $j < @array1; $j++)
+		{
+		    my $tag = "$array_ids[$j]$id$tag_id_key";
+		    if ($j != @array1 -1)
+		    {
+			my $len = (16 - length($$ref{'num_rigid_domains'}->{$tag_id_key}[$k]{$tag}))/2.0; 
+			print OUT " " x $len;
+			print OUT $$ref{'num_rigid_domains'}->{$tag_id_key}[$k]{$tag};
+			print OUT " " x $len;			
+		    }
+		    else
+		    {
+			my $len = (5 - length($$ref{'num_rigid_domains'}->{$tag_id_key}[$k]{$tag}))/2.0; 
+			print OUT " " x $len;
+			print OUT " " . $$ref{'num_rigid_domains'}->{$tag_id_key}[$k]{$tag};
+		    }
+		}
+		print OUT "\n";
+	    }
+	}
+    }
+}
+
 
 
 
@@ -124,6 +268,9 @@ while (my $line = <$fh>) {
     {
 	my $hashrd = $$ref{'num_rigid_domains'}->{pdb_location};
 	my $length = scalar( @{ $hashrd } );
+
+	#print "VAR: " .$$ref{'num_rigid_domains'}->{geom_center_vect}[0]{Startingmodulus_anggeom_center_vect};
+	#exit;
 	for ( my $k = 0; $k < $length; $k++)
 	{
 	    print OUT $line_copy;
@@ -133,6 +280,10 @@ while (my $line = <$fh>) {
 		if ($temp_rdlines[$i] =~ m/#TAG/)
 		{
 		    Process_tag_rd($temp_rdlines[$i], $k);
+		}
+		elsif ($temp_rdlines[$i] =~ m/#T_CBR/)
+		{
+		    Process_t_cbr_rd($temp_rdlines[$i], $k);
 		}
 		else
 		{
@@ -293,6 +444,10 @@ while (my $line = <$fh>) {
 		    for ( my $j = 0; $j < @array1; $j++)
 		    {
 			my $tag = "$array_ids[$j]$id$id_key";
+
+			#print $id_key . "  " . $tag . "  " .$$ref{$id_key}{$tag};
+			#exit; 
+
 			if ($j != @array1 -1)
 			{
 			    my $len = (16 - length($$ref{$id_key}{$tag}))/2.0; 
