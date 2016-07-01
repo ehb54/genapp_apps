@@ -79,7 +79,7 @@
         }
         ,{
             "role"       : "input"
-            ,"id"         : "dmaxfixed"
+            ,"id"         : "alphafixed"
             ,"label"      : "Fix Dmax"
             ,"type"       : "checkbox"
             ,"help"       : "Fix the Lagrange multiplier"
