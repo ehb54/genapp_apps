@@ -4,6 +4,7 @@
     ,"executable"   : "ift"
     ,"submitpolicy" : "all"
 #    ,"uniquedir" : "true"
+    ,"center" : "true"
     ,"fields"   : [
         {
             "role"       : "input"
@@ -11,10 +12,10 @@
             ,"type"      : "label"
             ,"colspan"   : 3
             ,"default"   : "header3"
-            ,"label"     : "Ift"
+            ,"label"     : "BayesApp"
             ,"prehline"  : "true"
             ,"posthline" : "true"
-            ,"help"      : "For more details see J. Appl. Cryst. (2013) 46, 1884"
+            ,"help"      : "put citations here"
         }
         ,{
             "role"       : "input"
@@ -42,7 +43,6 @@
             ,"type"       : "float"
             ,"min"        : 0.05
             ,"max"        : 1.0
-            ,"default"    : 0.25
             ,"help"       : "Qptionally Enter q max in inverse Angstroms"
         }
         ,{
@@ -53,11 +53,12 @@
             ,"min"        : 1
             ,"max"        : 1e4
             ,"help"       : "Optionally enter Dmax in Angstroms"
+            ,"norow"      : "true"
         }
         ,{
             "role"       : "input"
             ,"id"         : "dmaxfixed"
-            ,"label"      : "Fix Dmax"
+            ,"label"      : "Fix"
             ,"type"       : "checkbox"
             ,"help"       : "Fix the defined Dmax"
         }
@@ -67,7 +68,6 @@
             ,"label"      : "Eta"
             ,"type"       : "float"
             ,"help"       : "Optionally enter Eta"
-            ,"norow"      : "true"
         }
         ,{
             "role"       : "input"
@@ -80,7 +80,7 @@
         ,{
             "role"       : "input"
             ,"id"         : "alphafixed"
-            ,"label"      : "Fix Dmax"
+            ,"label"      : "Fix"
             ,"type"       : "checkbox"
             ,"help"       : "Fix the Lagrange multiplier"
         }
@@ -104,6 +104,7 @@
             ,"id"         : "fitratio"
             ,"label"      : "Fit axial ratio method"
             ,"type"       : "listbox"
+            ,"repeat"     : "nondilute"
             ,"values"     : "No concentration effects~noconceffects~Moment~moment~No~no~Evidence~evidence"
             ,"help"       : "Optionally enter the method" 
         }
@@ -119,7 +120,7 @@
         ,{
             "role"       : "input"
             ,"id"         : "estimateratiofixed"
-            ,"label"      : "Fix the estimated axial ratio"
+            ,"label"      : "Fix"
             ,"type"       : "checkbox"
             ,"repeat"     : "nondilute"
             ,"help"       : "Fix the estimated axial ratio"

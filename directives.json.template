@@ -73,7 +73,7 @@
         "sidebarwidth"        : "280px"
         ,"sidebartextalign"   : "left"
         ,"sidebarleftpadding" : "10px"
-        ,"backgroundimage"    : "Univ_Copenhagen11.jpg"
+#        ,"backgroundimage"    : "Univ_Copenhagen11.jpg"
     },
 
 
@@ -179,6 +179,6 @@
 # optionally define a log directory for "html5" language
   ,"logdirectory"               : "_log"
 
-    , "usesplash" : "true"
+#    , "usesplash" : "true"
 
 }
