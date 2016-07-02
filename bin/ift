@@ -107,34 +107,38 @@ $res = {};
 # setup inputdata
 
 my $inputfile;
+{
 # l1
-$inputfile .= $$ref{ 'datafile' }[0] . "\n";
+    my $datafile = $$ref{ 'datafile' }[0];
+    $datafile =~ s/^.*\/([^\/]+)$/$1/;
+    $inputfile .= $datafile . "\n";
 # l2
-$inputfile .= $$ref{ 'qmax' } . "\n";
+    $inputfile .= $$ref{ 'qmax' } . "\n";
 # l3
-$inputfile .= $$ref{ 'qmin' } . "\n";
+    $inputfile .= $$ref{ 'qmin' } . "\n";
 # l4
-$inputfile .= ( $$ref{ 'dmaxfixed' } ? "f" : "" ) . $$ref{ 'dmax' } . "\n";
+    $inputfile .= ( $$ref{ 'dmaxfixed' } ? "f" : "" ) . $$ref{ 'dmax' } . "\n";
 # l5
-$inputfile .= $$ref{ 'eta' } . "\n";
+    $inputfile .= $$ref{ 'eta' } . "\n";
 # l6
-$inputfile .= ( $$ref{ 'alphafixed' } ? "f" : "" ) . $$ref{ 'alpha' } . "\n";
+    $inputfile .= ( $$ref{ 'alphafixed' } ? "f" : "" ) . $$ref{ 'alpha' } . "\n";
 # l7
-$inputfile .= $$ref{ 'smearing' } . "\n";
+    $inputfile .= $$ref{ 'smearing' } . "\n";
 # l8
-$inputfile .= ( $$ref{ 'estimateratiofixed' } ? "f" : "" ) . $$ref{ 'estimateratio' } . "\n";
+    $inputfile .= ( $$ref{ 'estimateratiofixed' } ? "f" : "" ) . $$ref{ 'estimateratio' } . "\n";
 # l9
-$inputfile .= $$ref{ 'fitratio' } . "\n";
+    $inputfile .= $$ref{ 'fitratio' } . "\n";
 # l10
-$inputfile .= $$ref{ 'prpoints' } . "\n";
+    $inputfile .= $$ref{ 'prpoints' } . "\n";
 # l11
-$inputfile .= $$ref{ 'noextracalc' } . "\n";
+    $inputfile .= $$ref{ 'noextracalc' } . "\n";
 # l12
-$inputfile .= $$ref{ 'transform' } . "\n";
+    $inputfile .= $$ref{ 'transform' } . "\n";
 # l13
-$inputfile .= ( $$ref{ 'fitbackground' } ? "y" : "n" ) . "\n";
+    $inputfile .= ( $$ref{ 'fitbackground' } ? "y" : "n" ) . "\n";
 # l14
-$inputfile .= ( $$ref{ 'smallplot' } ? "S" : "L" ) . "\n";
+    $inputfile .= ( $$ref{ 'smallplot' } ? "S" : "L" ) . "\n";
+}
 
 open OUT, ">inputfile.d";
 print OUT $inputfile;
