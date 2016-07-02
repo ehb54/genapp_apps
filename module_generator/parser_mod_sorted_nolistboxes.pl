@@ -221,7 +221,7 @@ for my $key ( sort keys %data )
 	{
 	    $repline = " \"repeat\" : \"num_rigid_domains\", ";
 	}
-	
+
 	print "
                  { 
                      \"role\"     : \"input\",  
@@ -351,6 +351,26 @@ for my $key ( sort keys %data )
     }
     else
     {
+	# IF EXPERIMENTAL DATA BLOCK ###################################
+	my $repline = "\#";
+	#if ($label_key eq 'Experimental Scattering Curve')
+	if ($label_key eq 'Concentration (g/l)')
+	{
+	    #print "H!!!";
+	    #exit;
+	    print "\n";
+	    open(my $fh, '<', 'exp_repeater.json') or die "Can't read file '$file' [$!]\n";
+	    while (my $line = <$fh>) {
+		print $line;
+	    }
+	}
+	#if ($label_key eq 'Experimental Scattering Curve' or $label_key eq 'Concentration (g/l)' or $label_key eq 'XRays (10) / Neutrons (x_D2O) Flag' or $label_key eq 'Scatt Dens Solv (1012 cm Angs3)' or $label_key eq 'Minimum Q In Data File (Angs1)' or $label_key eq 'Maximum Q In Data File (Angs1)' or $label_key eq 'Parameter K for Poissonian Errors' or $label_key eq 'Number of Lines To Skip In Data File' or $label_key eq 'Num of QPoints To Average' or $label_key eq 'Maximum Distance for p(r) Calculation' or $label_key eq 'Scaling Factor (if 0 Is Optimized)' or $label_key eq 'Flag Background' or $label_key eq 'Family Number (Same Scaling Factor)')
+	if ($label_key eq 'Concentration (g/l)' or $label_key eq 'XRays (10) / Neutrons (x_D2O) Flag' or $label_key eq 'Scatt Dens Solv (1012 cm Angs3)' or $label_key eq 'Minimum Q In Data File (Angs1)' or $label_key eq 'Maximum Q In Data File (Angs1)' or $label_key eq 'Parameter K for Poissonian Errors' or $label_key eq 'Number of Lines To Skip In Data File' or $label_key eq 'Num of QPoints To Average' or $label_key eq 'Maximum Distance for p(r) Calculation' or $label_key eq 'Scaling Factor (if 0 Is Optimized)' or $label_key eq 'Flag Background' or $label_key eq 'Family Number (Same Scaling Factor)')
+	{
+	    $repline = " \"repeat\" : \"num_exp\", ";
+	}	
+	
+	
 	if ($value[0] eq "")
 	{
 	    print "
@@ -384,7 +404,7 @@ for my $key ( sort keys %data )
                      \"checked\"  : \"true\",
  		     \"required\" : \"true\",
                      \"repeater\" : \"yes\",  
- 		     \"help\"     : \"\"	
+                     \"help\"     : \"\"	
  		 },"    
 		 ;
 		
@@ -408,6 +428,7 @@ for my $key ( sort keys %data )
 	    }
 	    else
 	    {
+	       
 		print "
 		   { 
 		     \"role\"     : \"input\",  
@@ -417,6 +438,7 @@ for my $key ( sort keys %data )
                      \"size\"     : 4,
                      \"default\"  : \"$value[0]\",
  		     \"required\" : \"true\",
+                   $repline
  		     \"help\"     : \"\"	
  		 },"    
 		 ;

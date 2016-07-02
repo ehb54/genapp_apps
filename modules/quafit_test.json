@@ -22,9 +22,7 @@
 	            "required"   : "true",
 	            "help"       : ""
                  },
- 
- 
-      
+       
 		        { 
 			  "role"     : "input",  
 			  "id"       : "optimization_parameters",
@@ -40,8 +38,9 @@
                      "label"    : "Number of Cycles per SubRun",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "1",
+                     "default"  : "3",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -50,8 +49,9 @@
                      "label"    : "Maximum Number of SubRun",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "2",
+                     "default"  : "10",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -60,8 +60,9 @@
                      "label"    : "Hypothetical Final H(X)",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "0.1",
+                     "default"  : "0.02",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -72,6 +73,7 @@
                      "size"     : 4,
                      "default"  : "7",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -82,6 +84,7 @@
                      "size"     : 4,
                      "default"  : "7",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -90,8 +93,9 @@
                      "label"    : "Maximum Q of A[lm](Q)",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "0.4",
+                     "default"  : "0.3",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
                  { 
@@ -122,8 +126,9 @@
                      "label"    : "Exponent alpha of powerlaw error fu",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "0.",
+                     "default"  : "0.8",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -134,6 +139,7 @@
                      "size"     : 4,
                      "default"  : "2.0",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -142,8 +148,9 @@
                      "label"    : "icolumn3",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "1",
+                     "default"  : "0",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -154,6 +161,7 @@
                      "size"     : 4,
                      "default"  : "1.0",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -164,6 +172,7 @@
                      "size"     : 4,
                      "default"  : "1.0",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		        { 
@@ -183,6 +192,7 @@
                      "size"     : 4,
                      "default"  : "1",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -193,6 +203,7 @@
                      "size"     : 4,
                      "default"  : "1",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -203,6 +214,7 @@
                      "size"     : 4,
                      "default"  : "1",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
 		   { 
@@ -211,8 +223,9 @@
                      "label"    : "Point Group Symmetry",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "D2",
+                     "default"  : "C1",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
                  { 
@@ -240,8 +253,8 @@
  		 },
 		   { 
 		     "role"     : "input",  
-                     "id"       : "gamma",
-                     "label"    : "gamma",
+                     "id"       : "alpha",
+                     "label"    : "alpha",
                      "type"     : "text",  
                      "default"  : "0.0000",
  		     "required" : "true",
@@ -252,8 +265,8 @@
  		 },
 		   { 
 		     "role"     : "input",  
-                     "id"       : "alpha",
-                     "label"    : "alpha",
+                     "id"       : "gamma",
+                     "label"    : "gamma",
                      "type"     : "text",  
                      "default"  : "0.0000",
  		     "required" : "true",
@@ -270,6 +283,7 @@
                      "size"     : 4,
                      "default"  : "1",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
                  { 
@@ -283,85 +297,6 @@
                    #
 		     "help"     : ""
 		 },
-		              { 
-		                "role"     : "input",  
-                                "id"       : "alpha_degscrew_axis_orientation",
-                                #"label"    : "alpha_deg",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "alpha_deg",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "screw_axis_orientation",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startingalpha_degscrew_axis_orientation",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "default"  : "0.00000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Loweralpha_degscrew_axis_orientation",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "default"  : "0.0000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Upperalpha_degscrew_axis_orientation",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "default"  : "360.0000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplingalpha_degscrew_axis_orientation",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "default"  : "20.0000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flagalpha_degscrew_axis_orientation",
-                                  "label"    : "Flag",
-                                  "type"     : "text",  
-                                  "default"  : "0",
- 		                  "required" : "true",
-                                  "size"     : 2,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
 		              { 
 		                "role"     : "input",  
                                 "id"       : "cosbetascrew_axis_orientation",
@@ -441,6 +376,85 @@
                                   "norow"    : "false",
  		                  "help"     : ""	
  		             },
+		              { 
+		                "role"     : "input",  
+                                "id"       : "alpha_degscrew_axis_orientation",
+                                #"label"    : "alpha_deg",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "alpha_deg",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "screw_axis_orientation",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startingalpha_degscrew_axis_orientation",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "default"  : "0.00000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Loweralpha_degscrew_axis_orientation",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "default"  : "0.0000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Upperalpha_degscrew_axis_orientation",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "default"  : "360.0000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplingalpha_degscrew_axis_orientation",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "default"  : "20.0000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flagalpha_degscrew_axis_orientation",
+                                  "label"    : "Flag",
+                                  "type"     : "text",  
+                                  "default"  : "0",
+ 		                  "required" : "true",
+                                  "size"     : 2,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "false",
+ 		                  "help"     : ""	
+ 		             },
 		   { 
 		     "role"     : "input",  
                      "id"       : "rotation_along_screw_axis_deg",
@@ -449,7 +463,7 @@
                      "checked"  : "true",
  		     "required" : "true",
                      "repeater" : "yes",  
- 		     "help"     : ""	
+                     "help"     : ""	
  		 },
 		                { 
 		                  "role"     : "input",  
@@ -480,7 +494,7 @@
                                   "id"       : "Upperrotation_along_screw_axis_deg",
                                   "label"    : "Upper",
                                   "type"     : "text",  
-                                  "default"  : "180.000",
+                                  "default"  : "120.000",
  		                  "required" : "true",
                                   "size"     : 4,
                                   "repeat"   : "rotation_along_screw_axis_deg",
@@ -519,7 +533,7 @@
                      "checked"  : "true",
  		     "required" : "true",
                      "repeater" : "yes",  
- 		     "help"     : ""	
+                     "help"     : ""	
  		 },
 		                { 
 		                  "role"     : "input",  
@@ -550,7 +564,7 @@
                                   "id"       : "Upperscrew_translation_along_z_ang",
                                   "label"    : "Upper",
                                   "type"     : "text",  
-                                  "default"  : "300.000",
+                                  "default"  : "100.000",
  		                  "required" : "true",
                                   "size"     : 4,
                                   "repeat"   : "screw_translation_along_z_ang",
@@ -589,7 +603,7 @@
                      "checked"  : "true",
  		     "required" : "true",
                      "repeater" : "yes",  
- 		     "help"     : ""	
+                     "help"     : ""	
  		 },
 		                { 
 		                  "role"     : "input",  
@@ -644,14 +658,14 @@
                                   "id"       : "Flagrelative_mass_density_hydr_shell___",
                                   "label"    : "Flag",
                                   "type"     : "text",  
-                                  "default"  : "1",
+                                  "default"  : "0",
  		                  "required" : "true",
                                   "size"     : 4,
                                   "repeat"   : "relative_mass_density_hydr_shell___",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
-############## RIGID DOMAIMS #####################################################################
+############## RIGID DOMAINS #####################################################################
 	        { 
 		  "role"     : "input",  
 		  "id"       : "rigid_domains",
@@ -698,85 +712,6 @@
 		 },
 		              { 
 		                "role"     : "input",  
-                                "id"       : "modulus_anggeom_center_vect",
-                                #"label"    : "modulus_ang",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "modulus_ang",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "geom_center_vect",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startingmodulus_anggeom_center_vect",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "default"  : "26.005",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Lowermodulus_anggeom_center_vect",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "default"  : "0.0000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Uppermodulus_anggeom_center_vect",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "default"  : "10.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplingmodulus_anggeom_center_vect",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "default"  : "2.0000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flagmodulus_anggeom_center_vect",
-                                  "label"    : "Flag",
-                                  "type"     : "text",  
-                                  "default"  : "-1",
- 		                  "required" : "true",
-                                  "size"     : 2,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
-		              { 
-		                "role"     : "input",  
                                 "id"       : "alpha___deggeom_center_vect",
                                 #"label"    : "alpha___deg",
                                 "label"    : "",
@@ -794,7 +729,7 @@
                                   "id"       : "Startingalpha___deggeom_center_vect",
                                   "label"    : "Starting",
                                   "type"     : "text",  
-                                  "default"  : "-92.221",
+                                  "default"  : "-64.799",
  		                  "required" : "true",
                                   "size"     : 4,
                                   #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
@@ -846,7 +781,7 @@
                                   "id"       : "Flagalpha___deggeom_center_vect",
                                   "label"    : "Flag",
                                   "type"     : "text",  
-                                  "default"  : "1",
+                                  "default"  : "0",
  		                  "required" : "true",
                                   "size"     : 2,
                                   #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
@@ -873,7 +808,7 @@
                                   "id"       : "Startingcosbetageom_center_vect",
                                   "label"    : "Starting",
                                   "type"     : "text",  
-                                  "default"  : "-0.60943",
+                                  "default"  : "0.85824",
  		                  "required" : "true",
                                   "size"     : 4,
                                   #"repeat"   : "geom_center_vectgeom_center_vect:cosbeta",
@@ -925,10 +860,89 @@
                                   "id"       : "Flagcosbetageom_center_vect",
                                   "label"    : "Flag",
                                   "type"     : "text",  
-                                  "default"  : "1",
+                                  "default"  : "0",
  		                  "required" : "true",
                                   "size"     : 2,
                                   #"repeat"   : "geom_center_vectgeom_center_vect:cosbeta",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "false",
+ 		                  "help"     : ""	
+ 		             },
+		              { 
+		                "role"     : "input",  
+                                "id"       : "modulus_anggeom_center_vect",
+                                #"label"    : "modulus_ang",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "modulus_ang",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "geom_center_vect",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startingmodulus_anggeom_center_vect",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "default"  : "11.299",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Lowermodulus_anggeom_center_vect",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "default"  : "0.0000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Uppermodulus_anggeom_center_vect",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "default"  : "105.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplingmodulus_anggeom_center_vect",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "default"  : "2.0000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flagmodulus_anggeom_center_vect",
+                                  "label"    : "Flag",
+                                  "type"     : "text",  
+                                  "default"  : "0",
+ 		                  "required" : "true",
+                                  "size"     : 2,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "false",
  		                  "help"     : ""	
@@ -944,85 +958,6 @@
                     "repeat" : "num_rigid_domains", 
 		     "help"     : ""
 		 },
-		              { 
-		                "role"     : "input",  
-                                "id"       : "gamma_a_degrotation_angles",
-                                #"label"    : "gamma_a_deg",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "gamma_a_deg",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "rotation_angles",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startinggamma_a_degrotation_angles",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "default"  : "149.80",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Lowergamma_a_degrotation_angles",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "default"  : "-180.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Uppergamma_a_degrotation_angles",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "default"  : "180.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplinggamma_a_degrotation_angles",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "default"  : "90.000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flaggamma_a_degrotation_angles",
-                                  "label"    : "Flag",
-                                  "type"     : "text",  
-                                  "default"  : "1",
- 		                  "required" : "true",
-                                  "size"     : 2,
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
 		              { 
 		                "role"     : "input",  
                                 "id"       : "cosbeta_arotation_angles",
@@ -1042,7 +977,7 @@
                                   "id"       : "Startingcosbeta_arotation_angles",
                                   "label"    : "Starting",
                                   "type"     : "text",  
-                                  "default"  : "0.35934E-002",
+                                  "default"  : "0.99356",
  		                  "required" : "true",
                                   "size"     : 4,
                                   #"repeat"   : "rotation_anglesrotation_angles:cosbeta_a",
@@ -1094,10 +1029,89 @@
                                   "id"       : "Flagcosbeta_arotation_angles",
                                   "label"    : "Flag",
                                   "type"     : "text",  
-                                  "default"  : "1",
+                                  "default"  : "0",
  		                  "required" : "true",
                                   "size"     : 2,
                                   #"repeat"   : "rotation_anglesrotation_angles:cosbeta_a",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "false",
+ 		                  "help"     : ""	
+ 		             },
+		              { 
+		                "role"     : "input",  
+                                "id"       : "gamma_a_degrotation_angles",
+                                #"label"    : "gamma_a_deg",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "gamma_a_deg",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "rotation_angles",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startinggamma_a_degrotation_angles",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "default"  : "-1.6726",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Lowergamma_a_degrotation_angles",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "default"  : "-180.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Uppergamma_a_degrotation_angles",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "default"  : "180.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplinggamma_a_degrotation_angles",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "default"  : "90.000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flaggamma_a_degrotation_angles",
+                                  "label"    : "Flag",
+                                  "type"     : "text",  
+                                  "default"  : "0",
+ 		                  "required" : "true",
+                                  "size"     : 2,
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "false",
  		                  "help"     : ""	
@@ -1121,7 +1135,7 @@
                                   "id"       : "Startingalpha_a_degrotation_angles",
                                   "label"    : "Starting",
                                   "type"     : "text",  
-                                  "default"  : "-134.86",
+                                  "default"  : "-134.26",
  		                  "required" : "true",
                                   "size"     : 4,
                                   #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
@@ -1173,7 +1187,7 @@
                                   "id"       : "Flagalpha_a_degrotation_angles",
                                   "label"    : "Flag",
                                   "type"     : "text",  
-                                  "default"  : "1",
+                                  "default"  : "0",
  		                  "required" : "true",
                                   "size"     : 2,
                                   #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
@@ -1181,25 +1195,92 @@
                                   "norow"    : "false",
  		                  "help"     : ""	
  		             },
-		        { 
-			  "role"     : "input",  
-			  "id"       : "experiments",
-			  "label"    : "EXPERIMENTS",
-			  "type"     : "label",
-			  "prehline" : "true",
-			  "posthline": "true",
-			  "default"  : ""
-			},
 		   { 
 		     "role"     : "input",  
-                     "id"       : "number_of_experiment",
-                     "label"    : "Number of Experiment",
+                     "id"       : "primary_structure_from_n_to_cterm",
+                     "label"    : "Primary structure from N to Cterm",
+                     "type"     : "text", 
+                     "size"     : 4,
+                     "default"  : "MGSSHHHHHHSS",
+ 		     "required" : "true",
+                   #
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "rd__attached_to_the_linkers_nterm",
+                     "label"    : "RD  attached to the linkers Nterm",
+                     "type"     : "text", 
+                     "size"     : 4,
+                     "default"  : "0",
+ 		     "required" : "true",
+                   #
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "aa__of_the_pdb_of_the_previous_rd",
+                     "label"    : "AA  of the PDB of the previous RD",
+                     "type"     : "text", 
+                     "size"     : 4,
+                     "default"  : "0",
+ 		     "required" : "true",
+                   #
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "rd__attached_to_the_linkers_cterm",
+                     "label"    : "RD  attached to the linkers Cterm",
                      "type"     : "text", 
                      "size"     : 4,
                      "default"  : "1",
  		     "required" : "true",
+                   #
  		     "help"     : ""	
  		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "flag_for_phi_psi_and_chi_variations",
+                     "label"    : "Flag for phi psi and chi variations",
+                     "type"     : "text", 
+                     "size"     : 4,
+                     "default"  : "2",
+ 		     "required" : "true",
+                   #
+ 		     "help"     : ""	
+ 		 },
+############## EXPERIMENTS #####################################################################
+	        { 
+		  "role"     : "input",  
+		  "id"       : "experiments",
+		  "label"    : "EXPERIMENTS",
+		  "type"     : "label",
+		  "prehline" : "true",
+		  "posthline": "true",
+		  "default"  : ""
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "num_exp",
+		  "label"    : "Experiments: ",
+		  "type"     : "integer",
+		  "repeater" : "true",   
+		  "required" : "true",
+		  "default"  : 1,
+		  "min"      : 1  
+		},
+
+               {
+                  "role"     : "input",
+                  "id"       : "exp_location",
+                  "label"    : "Location of the SAS curve: ",
+                  "type"     : "lrfile",
+                  "required" : "true",
+		  "repeat"   : "num_exp", 
+	          "help"     : ""
+                  },     
+
 		   { 
 		     "role"     : "input",  
                      "id"       : "concentration_gl",
@@ -1208,6 +1289,7 @@
                      "size"     : 4,
                      "default"  : "3.0",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1218,6 +1300,7 @@
                      "size"     : 4,
                      "default"  : "-1.0",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1228,6 +1311,7 @@
                      "size"     : 4,
                      "default"  : "0.09369",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1238,6 +1322,7 @@
                      "size"     : 4,
                      "default"  : "0.0",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1246,8 +1331,9 @@
                      "label"    : "Maximum Q In Data File (Angs1)",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "0.4",
+                     "default"  : "0.28",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1256,8 +1342,9 @@
                      "label"    : "Parameter K for Poissonian Errors",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "0.0",
+                     "default"  : "0.025",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1268,6 +1355,7 @@
                      "size"     : 4,
                      "default"  : "0",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1276,8 +1364,9 @@
                      "label"    : "Num of QPoints To Average",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "1",
+                     "default"  : "2",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1286,8 +1375,9 @@
                      "label"    : "Maximum Distance for p(r) Calculation",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "90.",
+                     "default"  : "90.0",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 		   { 
@@ -1296,8 +1386,9 @@
                      "label"    : "Scaling Factor (if 0 Is Optimized)",
                      "type"     : "text", 
                      "size"     : 4,
-                     "default"  : "0.",
+                     "default"  : "0.0",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
                  { 
@@ -1308,7 +1399,7 @@
                      "checked"  : "true",
 		     "required" : "true",
                      "repeater" : "no",
-                   #
+                    "repeat" : "num_exp", 
 		     "help"     : ""
 		 },
 		   { 
@@ -1319,6 +1410,7 @@
                      "size"     : 4,
                      "default"  : "1",
  		     "required" : "true",
+                    "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
 	         # { 

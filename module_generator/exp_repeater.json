@@ -1,0 +1,30 @@
+############## EXPERIMENTS #####################################################################
+	        { 
+		  "role"     : "input",  
+		  "id"       : "experiments",
+		  "label"    : "EXPERIMENTS",
+		  "type"     : "label",
+		  "prehline" : "true",
+		  "posthline": "true",
+		  "default"  : ""
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "num_exp",
+		  "label"    : "Experiments: ",
+		  "type"     : "integer",
+		  "repeater" : "true",   
+		  "required" : "true",
+		  "default"  : 1,
+		  "min"      : 1  
+		},
+
+               {
+                  "role"     : "input",
+                  "id"       : "exp_location",
+                  "label"    : "Location of the SAS curve: ",
+                  "type"     : "lrfile",
+                  "required" : "true",
+		  "repeat"   : "num_exp", 
+	          "help"     : ""
+                  },     
