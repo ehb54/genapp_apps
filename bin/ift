@@ -77,7 +77,7 @@ if ( $enable_msg ) {
         my $text = $_[0];
         my $prog = $_[1];
         print "sendmsg: $prog $text\n" if $debug;
-
+ 
         if ( length( $text ) || length( $prog ) ) {
             my $msg  = {};
             $$msg{ "_uuid" } = $$ref{ "_uuid" };
@@ -103,6 +103,47 @@ sub formatinput {
 
 $res = {};
 
+
+# setup inputdata
+
+my $inputfile;
+# l1
+$inputfile .= $$ref{ 'datafile' }[0] . "\n";
+# l2
+$inputfile .= $$ref{ 'qmax' } . "\n";
+# l3
+$inputfile .= $$ref{ 'qmin' } . "\n";
+# l4
+$inputfile .= ( $$ref{ 'dmaxfixed' } ? "f" : "" ) . $$ref{ 'dmax' } . "\n";
+# l5
+$inputfile .= $$ref{ 'eta' } . "\n";
+# l6
+$inputfile .= ( $$ref{ 'alphafixed' } ? "f" : "" ) . $$ref{ 'alpha' } . "\n";
+# l7
+$inputfile .= $$ref{ 'smearing' } . "\n";
+# l8
+$inputfile .= ( $$ref{ 'estimateratiofixed' } ? "f" : "" ) . $$ref{ 'estimateratio' } . "\n";
+# l9
+$inputfile .= $$ref{ 'fitratio' } . "\n";
+# l10
+$inputfile .= $$ref{ 'prpoints' } . "\n";
+# l11
+$inputfile .= $$ref{ 'noextracalc' } . "\n";
+# l12
+$inputfile .= $$ref{ 'transform' } . "\n";
+# l13
+$inputfile .= ( $$ref{ 'fitbackground' } ? "y" : "n" ) . "\n";
+# l14
+$inputfile .= ( $$ref{ 'smallplot' } ? "S" : "L" ) . "\n";
+
+open OUT, ">inputfile.d";
+print OUT $inputfile;
+close OUT;
+
+$cmd = "${0}ci < inputfile.d\n";
+
+$$res{ 'cmd results' } = `$cmd`;
+
 # assemble output
 
 $$res{ "note" } = "ift executable";
@@ -120,6 +161,10 @@ if ( length( $save_in_log ) ) {
     print OUT Dumper($ref);
     print OUT "--- output ---\n";
     print OUT Dumper($res);
+    print OUT "-"x20 . "\n";
+    print OUT $inputfile;
+    print OUT "-"x20 . "\n";
+    print OUT $cmd;
     print OUT "-"x20 . "\n";
     close OUT;
 }
