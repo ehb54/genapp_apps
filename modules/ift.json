@@ -282,7 +282,14 @@
             ,"id"         : "fig2"
             ,"label"      : ""
             ,"type"       : "image"
-            ,"width"      : "95%"
+            ,"width"      : "80%"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "fig4"
+            ,"label"      : ""
+            ,"type"       : "image"
+            ,"width"      : "80%"
         }
     ]
 }

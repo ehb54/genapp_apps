@@ -239,6 +239,7 @@ close $fh;
 cp " . $files{ 'fit' } . " fit.d
 cp gx_" . $files{ 'pr' } . " gx.d
 cp gs_" . $files{ 'pr' } . " gs.d
+cp " . $files{ 'pr' } . " estimate.d
 ";
     `$cmd 2>&1 > /dev/null`;
 }
@@ -255,6 +256,7 @@ ${0}_gnuplot426 plot5.pl 2>&1 > plot5.out
     `$cmd`;
 
     $$res{ "fig2" } = $$ref{ '_base_directory' } . '/fig2.gif';
+    $$res{ "fig4" } = $$ref{ '_base_directory' } . '/fig4.gif';
 }
 
 
@@ -262,7 +264,7 @@ ${0}_gnuplot426 plot5.pl 2>&1 > plot5.out
 
 # assemble output
 
-$$res{ "note" } = "ift executable";
+# $$res{ "note" } = "ift executable";
 
 if ( length( $save_in_log ) ) {
     my $rc = eval {
