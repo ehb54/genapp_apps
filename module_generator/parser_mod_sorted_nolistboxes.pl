@@ -221,6 +221,16 @@ for my $key ( sort keys %data )
 	{
 	    $repline = " \"repeat\" : \"num_rigid_domains\", ";
 	}
+	## Part fo EXPERIMENT block ####################### 
+	if ($label_key eq 'Flag Background')
+	{
+	    $repline = " \"repeat\" : \"num_exp\", ";
+	}
+	## Part fo AGGREGATE block ####################### 
+	if ($label_key eq 'Point Group Reference System' or $label_key eq 'Screw Polymerization Number' or $label_key eq 'Screw Axis Orientation' or $label_key eq 'Rotation along Screw Axis (deg)' or $label_key eq 'Screw Translation along z (Ang)' or $label_key eq 'Relative mass density hydr shell')
+	{
+	    $repline = " \"repeat\" : \"num_ags\", ";
+	}
 
 	print "
                  { 
@@ -351,20 +361,32 @@ for my $key ( sort keys %data )
     }
     else
     {
-	# IF EXPERIMENTAL DATA BLOCK ###################################
+	# IF AGGREGATES BLOCK ###################################
 	my $repline = "\#";
-	#if ($label_key eq 'Experimental Scattering Curve')
+	if ($label_key eq 'Point Group Symmetry')
+	{
+	    print "\n";
+	    open(my $fh, '<', 'agg_repeater.json') or die "Can't read file '$file' [$!]\n";
+	    while (my $line = <$fh>) {
+		print $line;
+	    }
+	}
+	if ($label_key eq 'Point Group Symmetry' or $label_key eq 'Point Group Reference System' or $label_key eq 'Screw Polymerization Number' or $label_key eq 'Screw Axis Orientation' or $label_key eq 'Rotation along Screw Axis (deg)' or $label_key eq 'Screw Translation along z (Ang)' or $label_key eq 'Relative mass density hydr shell')
+	{
+	    $repline = " \"repeat\" : \"num_ags\", ";
+	}	
+
+
+	# IF EXPERIMENTAL DATA BLOCK ###################################
+	#my $repline = "\#";
 	if ($label_key eq 'Concentration (g/l)')
 	{
-	    #print "H!!!";
-	    #exit;
 	    print "\n";
 	    open(my $fh, '<', 'exp_repeater.json') or die "Can't read file '$file' [$!]\n";
 	    while (my $line = <$fh>) {
 		print $line;
 	    }
 	}
-	#if ($label_key eq 'Experimental Scattering Curve' or $label_key eq 'Concentration (g/l)' or $label_key eq 'XRays (10) / Neutrons (x_D2O) Flag' or $label_key eq 'Scatt Dens Solv (1012 cm Angs3)' or $label_key eq 'Minimum Q In Data File (Angs1)' or $label_key eq 'Maximum Q In Data File (Angs1)' or $label_key eq 'Parameter K for Poissonian Errors' or $label_key eq 'Number of Lines To Skip In Data File' or $label_key eq 'Num of QPoints To Average' or $label_key eq 'Maximum Distance for p(r) Calculation' or $label_key eq 'Scaling Factor (if 0 Is Optimized)' or $label_key eq 'Flag Background' or $label_key eq 'Family Number (Same Scaling Factor)')
 	if ($label_key eq 'Concentration (g/l)' or $label_key eq 'XRays (10) / Neutrons (x_D2O) Flag' or $label_key eq 'Scatt Dens Solv (1012 cm Angs3)' or $label_key eq 'Minimum Q In Data File (Angs1)' or $label_key eq 'Maximum Q In Data File (Angs1)' or $label_key eq 'Parameter K for Poissonian Errors' or $label_key eq 'Number of Lines To Skip In Data File' or $label_key eq 'Num of QPoints To Average' or $label_key eq 'Maximum Distance for p(r) Calculation' or $label_key eq 'Scaling Factor (if 0 Is Optimized)' or $label_key eq 'Flag Background' or $label_key eq 'Family Number (Same Scaling Factor)')
 	{
 	    $repline = " \"repeat\" : \"num_exp\", ";
@@ -387,6 +409,14 @@ for my $key ( sort keys %data )
 	}
 	else
 	{
+	    ## Part of AGGREGATE block #######################################
+	    #my $repline = "\#";
+	    if ($label_key eq 'Point Group Symmetry' or $label_key eq 'Point Group Reference System' or $label_key eq 'Screw Polymerization Number' or $label_key eq 'Screw Axis Orientation' or $label_key eq 'Rotation along Screw Axis (deg)' or $label_key eq 'Screw Translation along z (Ang)' or $label_key eq 'Relative mass density hydr shell')
+	    {
+		$repline = " \"repeat\" : \"num_ags\", ";
+	    }
+	    
+	    
 	    my $val = $value[0];
 	    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
 	    
@@ -403,7 +433,8 @@ for my $key ( sort keys %data )
                      \"type\"     : \"checkbox\",  
                      \"checked\"  : \"true\",
  		     \"required\" : \"true\",
-                     \"repeater\" : \"yes\",  
+                     \"repeater\" : \"yes\", 
+                    $repline
                      \"help\"     : \"\"	
  		 },"    
 		 ;

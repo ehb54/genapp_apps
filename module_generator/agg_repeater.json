@@ -1,0 +1,22 @@
+############## AGGREGATES #####################################################################
+	        { 
+		  "role"     : "input",  
+		  "id"       : "aggregates",
+		  "label"    : "Hierarchic Aggregates",
+		  "type"     : "label",
+		  "prehline" : "true",
+		  "posthline": "true",
+		  "default"  : ""
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "num_ags",
+		  "label"    : "Number of Hierarchic Aggregates: ",
+		  "type"     : "integer",
+		  "repeater" : "true",   
+		  "required" : "true",
+		  "default"  : 1,
+		  "min"      : 1  
+		},
+
+ 

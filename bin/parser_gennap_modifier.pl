@@ -94,35 +94,37 @@ sub Process_tag_reps {
     {
 	my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
 	
-	if (exists $$ref{$repeatername}->{$id_key}[$k])
+	#if (!exists ($$ref{$repeatername}->{$id_key}[$k]))
+	if ($$ref{$repeatername}->{$id_key}[$k] == null)
+	{
+	    $line_copy =~ s/#TAG//;
+	    chomp $line_copy;
+	    print OUT $line_copy . "\n"; 
+	}
+	else
 	{
 	    print OUT "$id:";
 	    for ( my $j = 0; $j < @array1; $j++)
 	    {
 		my $tag = "$array_ids[$j]$id_key";
-		
+				
 		if ($j != @array1 -1)
 		{
 		    my $len = (16 - length($$ref{$repeatername}->{$id_key}[$k]{$tag}))/2.0; 
 		    print OUT " " x $len;
-		    print OUT $$ref{$repeatername}->{$id_key}[$k];
+		    print OUT $$ref{$repeatername}->{$id_key}[$k]{$tag};
 		    print OUT " " x $len;			
 		}
 		else
 		{
 		    my $len = (5 - length($$ref{$repeatername}->{$id_key}[$k]{$tag}))/2.0; 
 		    print OUT " " x $len;
-		    print OUT " " . $$ref{$repeatername}->{$id_key}[$k];
+		    print OUT " " . $$ref{$repeatername}->{$id_key}[$k]{$tag};
 		}
 	    }
 	    print OUT "\n";
 	}
-	else
-	{
-	    $line_copy =~ s/#TAG//;
-	    chomp $line_copy;
-	    print OUT $line_copy . "\n"; 
-	}
+	
     }   
 }
 
@@ -157,10 +159,11 @@ sub Process_t_cbr_reps {
 	
 	$tag_id_key = $id_key;
 	
-	#print $$ref{$repeatername}->{$id_key};
+	#print $id_key ."  " . $$ref{$repeatername}->{$id_key}{1}{alpha};
 	#exit;
 
-	if (!(exists $$ref{$repeatername}->{$id_key}[$k]))   # Checkboxes!!
+	#if (!(exists $$ref{$repeatername}->{$id_key}[$k]))   # Checkboxes!!
+	if ($$ref{$repeatername}->{$id_key}[$k] == null)   # Checkboxes!!
 	{
 	    print OUT $line_copy . "\n";
 	}
@@ -225,7 +228,8 @@ sub Process_t_cbr_reps {
 	my $dval_cbr_22 = (split(/[:]/, $line_copy))[-1];
 	
 	
-	if (!(exists $$ref{$repeatername}->{$tag_id_key}[$k]))   # Checkboxes!!
+	#if (!(exists $$ref{$repeatername}->{$tag_id_key}[$k]))   # Checkboxes!!
+	if ($$ref{$repeatername}->{$tag_id_key}[$k] == null) 
 	{
 	    chomp $line_copy;
 	    print OUT $line_copy . "\n";
@@ -339,14 +343,20 @@ my $temp_input_file = 'qua_temp.dat';
 open OUT_TEMP, ">$temp_input_file";
 
 my $tag_id_key;
-my @rdlines;
-my @explines;
+my @aglines, @rdlines, @explines;
 
 ## File transformation ###########################
 open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
 while (my $line = <$fh>) {
     my $line_copy = $line;
 
+    if ($line_copy =~ m/#AGREP/)
+    {
+	$line_copy =~ s/#AGREP//;
+	chomp $line_copy;
+	push (@aglines, $line_copy);
+	next;
+    }
     if ($line_copy =~ m/#RDREP/)
     {
 	$line_copy =~ s/#RDREP//;
@@ -373,7 +383,38 @@ open(my $fh, '<', $temp_input_file) or die "Can't read file '$file' [$!]\n";
 while (my $line = <$fh>) {
     my $line_copy = $line;
 
-    if ($line_copy =~ m/Rigid Domain/)
+    if ($line_copy =~ m/Aggregate  #AGBEGIN/)
+    {
+	$line_copy =~ s/#AGBEGIN//;
+	
+	my $hashrd = $$ref{'num_ags'}->{point_group_symmetry};
+	my $length = scalar( @{ $hashrd } );
+
+	#print "VAR: " .$$ref{'num_rigid_domains'}->{geom_center_vect}[0]{Startingmodulus_anggeom_center_vect};
+	#exit;
+	for ( my $k = 0; $k < $length; $k++)
+	{
+	    print OUT $line_copy;
+	    my @temp_rdlines = @aglines;
+	    for (my $i = 0; $i < @temp_rdlines; $i++)
+	    {
+		if ($temp_rdlines[$i] =~ m/#TAG/)
+		{
+		    Process_tag_reps($temp_rdlines[$i], $k, 'num_ags');
+		}
+		elsif ($temp_rdlines[$i] =~ m/#T_CBR/)
+		{
+		    Process_t_cbr_reps($temp_rdlines[$i], $k, 'num_ags');
+		}
+		else
+		{
+		    $temp_rdlines[$i] =~ s/\s+$//;
+		    print OUT $temp_rdlines[$i] ."\n";
+		}
+	    }
+	}
+    }
+    elsif ($line_copy =~ m/Rigid Domain/)
     {
 	my $hashrd = $$ref{'num_rigid_domains'}->{pdb_location};
 	my $length = scalar( @{ $hashrd } );
@@ -681,15 +722,18 @@ while (my $line = <$fh>) {
 	}
     }
     # END PROCESS LISTBOXES ##################
-    #elsif ($line_copy =~ m/#EXPSAS/)
-    #{
-    #	$line_copy =~ s/#EXPSAS//;
-    #	chomp $line_copy;
-    #	my $id_exp = (split(/[:]/, $line))[0];
-    #	#my $dval = (split(/[:]/, $line))[-1];
-    #	
-    #	print OUT "$id_exp:$sasfilename\n";
-    #}
+    elsif ($line_copy =~ m/#NUMAG/)
+    {
+	$line_copy =~ s/#NUMAG//;
+	chomp $line_copy;
+	my $id_exp = (split(/[:]/, $line))[0];
+	#my $dval = (split(/[:]/, $line))[-1];
+	
+	#print OUT "$id_exp:$pdbfilename\n";
+	my $size = $$ref{'num_ags'}->{point_group_symmetry};
+	my $length = scalar( @{ $size } );
+	print OUT $id_exp.":". $length."\n";
+    }
     elsif ($line_copy =~ m/#NUMRD/)
     {
 	$line_copy =~ s/#NUMRD//;
