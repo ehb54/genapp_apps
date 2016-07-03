@@ -5,6 +5,7 @@
     ,"submitpolicy" : "all"
 #    ,"uniquedir" : "true"
 #    ,"center" : "true"
+    ,"centeroutput" : "true"
     ,"fields"   : [
         {
             "role"       : "input"
@@ -165,6 +166,109 @@
             ,"type"       : "checkbox"
             ,"repeat"     : "nondilute"
             ,"help"       : "Fix the estimated axial ratio"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "hroutput"
+            ,"label"      : "<hr>"
+            ,"type"       : "label"
+            ,"colspan"    : 2
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "pr"
+            ,"label"      : "P(r)"
+            ,"type"       : "file"
+            ,"help"       : "The produced P(r) file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "fitofdata"
+            ,"label"      : "Fit of data"
+            ,"type"       : "file"
+            ,"help"       : "The fit of the data"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "dataused"
+            ,"label"      : "Data used"
+            ,"type"       : "file"
+            ,"help"       : "The data used"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "rgi0dmax"
+            ,"label"      : "Rg, I(0) and Dmax"
+            ,"type"       : "file"
+            ,"help"       : "The Rg, I(0) and Dmax in a file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "parameters"
+            ,"label"      : "Parameters"
+            ,"type"       : "file"
+            ,"help"       : "The parameters file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "hroutput2"
+            ,"label"      : "<hr>"
+            ,"type"       : "label"
+            ,"colspan"    : 2
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "Rg"
+            ,"label"      : "Rg [Angstrom]"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "axratio"
+            ,"label"      : "Axial ratio"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "minusK"
+            ,"label"      : "-K"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "chi2"
+            ,"label"      : "chi^2"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "logalpha"
+            ,"label"      : "log(alpha)"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "etaout"
+            ,"label"      : "Eta"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "dmaxout"
+            ,"label"      : "Dmax"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "I0"
+            ,"label"      : "I(0)"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "evidence"
+            ,"label"      : "Evidence"
+            ,"type"       : "text"
         }
     ]
 }

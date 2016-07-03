@@ -6,7 +6,7 @@
 $save_in_log = "/tmp/ift.log";
 
 # uncomment below to enable messaging
-# $enable_msg = 1;
+$enable_msg = 1;
 
 ## end user defines
 
@@ -107,9 +107,10 @@ $res = {};
 # setup inputdata
 
 my $inputfile;
+my $datafile;
 {
 # l1
-    my $datafile = $$ref{ 'datafile' }[0];
+    $datafile = $$ref{ 'datafile' }[0];
     $datafile =~ s/^.*\/([^\/]+)$/$1/;
     $inputfile .= $datafile . "\n";
 # l2
@@ -146,7 +147,89 @@ close OUT;
 
 $cmd = "${0}ci < inputfile.d\n";
 
-$$res{ 'cmd results' } = `$cmd`;
+sendmsg( "Starting $cmd\n", 0 );
+
+open my $fh, '-|', $cmd;
+
+my @l;
+
+while ( my $l = <$fh> ) {
+    if ( $l !~ /=>/ ) {
+        sendmsg( "$l" );
+        push @l, $l;
+    }
+}
+
+close $fh;
+
+{
+    my @f;
+    my $f;
+
+    @f = grep /p_1\(r\) in/, @l;
+    if ( @f ) {
+        $f = $f[ 0 ];
+        $f =~ s/^.*:\s*(\S+)\s*$/$1/;
+        $$res{ "pr" } = $$ref{ '_base_directory' } . '/' . $f;
+    }
+
+    @f = grep /Fit of data in/, @l;
+    if ( @f ) {
+        $f = $f[ 0 ];
+        $f =~ s/^.*:\s*(\S+)\s*$/$1/;
+        $$res{ "fitofdata" } = $$ref{ '_base_directory' } . '/' . $f;
+    }
+
+    @f = grep /Data used in/, @l;
+    if ( @f ) {
+        $f = $f[ 0 ];
+        $f =~ s/^.*:\s*(\S+)\s*$/$1/;
+        $$res{ "dataused" } = $$ref{ '_base_directory' } . '/' . $f;
+    }
+
+    @f = grep /Rg, I\(0\) and Dmax in/, @l;
+    if ( @f ) {
+        $f = $f[ 0 ];
+        $f =~ s/^.*:\s*(\S+)\s*$/$1/;
+        $$res{ "rgi0dmax" } = $$ref{ '_base_directory' } . '/' . $f;
+
+        open my $fh, $f;
+        my @l = <$fh>;
+        close my $fh;
+        shift @l while @l && $l[ 0 ] !~ /^\s*Rg/;
+        shift @l;
+
+        my @h = (
+            "Rg",
+            "axratio",
+            "minusK",
+            "chi2",
+            "logalpha",
+            "etaout",
+            "dmaxout",
+            "I0",
+            "evidence" );
+
+        grep s/^\s+//, @l;
+        grep s/\s+$//, @l;
+
+        my @v = split /\s+/, $l[ 0 ];
+        my @e = split /\s+/, $l[ 1 ];
+
+        for ( my $i = 0; $i < @h; ++$i ) {
+            $$res{ $h[ $i ] } = $v[ $i ] . " ± " . $e[ $i ];
+        }
+    }
+
+    @f = grep /Parameters in/, @l;
+    if ( @f ) {
+        $f = $f[ 0 ];
+        $f =~ s/^.*:\s*(\S+)\s*$/$1/;
+        $$res{ "parameters" } = $$ref{ '_base_directory' } . '/' . $f;
+    }
+}
+
+# $$res{ 'cmd results' } = `$cmd`;
 
 # assemble output
 
