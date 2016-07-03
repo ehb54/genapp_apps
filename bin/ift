@@ -8,6 +8,8 @@ $save_in_log = "/tmp/ift.log";
 # uncomment below to enable messaging
 $enable_msg = 1;
 
+# $debug++;
+
 ## end user defines
 
 {
@@ -163,6 +165,7 @@ while ( my $l = <$fh> ) {
 
 close $fh;
 
+my $dmax;
 {
     my @f;
     my $f;
@@ -221,6 +224,7 @@ close $fh;
 
         for ( my $i = 0; $i < @h; ++$i ) {
             $$res{ $h[ $i ] } = $v[ $i ] . " ± " . $e[ $i ];
+            $dmax = $v[ $i ] if $h[ $i ] eq 'dmaxout';
         }
     }
 
@@ -234,14 +238,100 @@ close $fh;
 
 # copy files for plotting
 {
+    $$res{ 'debug' } = "<p>dmax $dmax</p>" if $debug;
     my $cmd = 
         "cp in_" . $files{ 'pr' } . " data.d
 cp " . $files{ 'fit' } . " fit.d
-cp gx_" . $files{ 'pr' } . " gx.d
-cp gs_" . $files{ 'pr' } . " gs.d
-cp " . $files{ 'pr' } . " estimate.d
 ";
+
+# cp gx_" . $files{ 'pr' } . " gx.d
+# cp gs_" . $files{ 'pr' } . " gs.d
+# cp " . $files{ 'pr' } . " estimate.d
+# ";
+
     `$cmd 2>&1 > /dev/null`;
+
+    my @from = (
+        "gx_" . $files{ 'pr' },
+        "gs_" . $files{ 'pr' },
+        $files{ 'pr' }
+        );
+
+    my @to = (
+        "gx.d",
+        "gs.d",
+        "estimate.d"
+        );
+    
+    
+    for ( my $i = 0; $i < @from; ++$i ) {
+        open my $fh, $from[ $i ];
+        my @l = <$fh>;
+        close @l;
+        my @w;
+        $$res{ 'debug' } .= "<p>f " . $from[$i] . "</p>" if $debug;
+        for ( my $j = 0; $j < @l; ++$j ) {
+            my $t = $l[ $j ];
+            $t =~ s/^\s*//;
+            $t =~ s/\s+.*//g;
+
+            $$res{ 'debug' } .= "<p>t $t</p>" if $debug;
+            if ( $t <= $dmax * 1.1 ) {
+                $$res{ 'debug' } .= "<p>push $l[$j]</p>" if $debug;
+                push @w, $l[ $j ];
+            } else {
+                last;
+            }
+        }
+
+        open $fh, ">" . $to[ $i ];
+        print $fh join '', @w;
+        close $fh;
+    }
+
+    {
+        open my $fh, "plot4.pl";
+        my @l = <$fh>;
+        close @l;
+
+        for ( $i = 0; $i < @l; ++$i ) {
+            my $l = $l[ $i ];
+            if ( $l =~ / set xrange \[0:/ ) {
+                $l[ $i ] = " set xrange [0:" . ( $dmax * 1.1 ) . "]\n";
+            }
+            if ( $l =~ / set xtics / ) {
+                my $xtics = ( $dmax * 1.1 ) / 10;
+                $$res{ 'debug' } .= "<p>xtics $xtics</p>" if $debug;
+                if ( $xtics < 1 ) {
+                    $xtics = 1;
+                } else {
+                    if ( $xtics < 5 ) {
+                        $xtics = 5;
+                    } else {
+                        if ( $xtics < 10 ) {
+                            $xtics = 10;
+                        } else {
+                            if ( $xtics < 25 ) {
+                                $xtics = 25;
+                            } else {
+                                if ( $xtics < 50 ) {
+                                    $xtics = 50;
+                                } else {
+                                    $$res{ 'debug' } .= "<p>xtics fixed compute</p>"  if $debug;
+                                    $xtics = 10 * int( $xtics / 10 );
+                                }
+                            }
+                        }
+                    }
+                }
+                $$res{ 'debug' } .= "<p>xtics final $xtics</p>" if $debug;
+                $l[ $i ] = " set xtics $xtics\n";
+            }
+        }
+        open my $fh, ">plot4b.pl";
+        print $fh join '', @l;
+        close $fh;
+    }
 }
 
 # run plot scripts
@@ -250,7 +340,7 @@ cp " . $files{ 'pr' } . " estimate.d
 "${0}_gnuplot426 plot1.pl 2>&1 > plot1.out
 ${0}_gnuplot426 plot2.pl 2>&1 > plot2.out
 ${0}_gnuplot426 plot3.pl 2>&1 > plot3.out
-${0}_gnuplot426 plot4.pl 2>&1 > plot4.out
+${0}_gnuplot426 plot4b.pl 2>&1 > plot4.out
 ${0}_gnuplot426 plot5.pl 2>&1 > plot5.out
 ";
     `$cmd`;
