@@ -107,12 +107,13 @@ $res = {};
 # setup inputdata
 
 my $inputfile;
-my $datafile;
+my %files;
+
 {
 # l1
-    $datafile = $$ref{ 'datafile' }[0];
-    $datafile =~ s/^.*\/([^\/]+)$/$1/;
-    $inputfile .= $datafile . "\n";
+    $files{'data'} = $$ref{ 'datafile' }[0];
+    $files{'data'} =~ s/^.*\/([^\/]+)$/$1/;
+    $inputfile .= $files{'data'} . "\n";
 # l2
     $inputfile .= $$ref{ 'qmax' } . "\n";
 # l3
@@ -145,7 +146,7 @@ open OUT, ">inputfile.d";
 print OUT $inputfile;
 close OUT;
 
-$cmd = "${0}ci < inputfile.d\n";
+my $cmd = "${0}ci < inputfile.d\n";
 
 sendmsg( "Starting $cmd\n", 0 );
 
@@ -170,6 +171,7 @@ close $fh;
     if ( @f ) {
         $f = $f[ 0 ];
         $f =~ s/^.*:\s*(\S+)\s*$/$1/;
+        $files{ "pr" } = $f;
         $$res{ "pr" } = $$ref{ '_base_directory' } . '/' . $f;
     }
 
@@ -177,6 +179,7 @@ close $fh;
     if ( @f ) {
         $f = $f[ 0 ];
         $f =~ s/^.*:\s*(\S+)\s*$/$1/;
+        $files{ "fit" } = $f;
         $$res{ "fitofdata" } = $$ref{ '_base_directory' } . '/' . $f;
     }
 
@@ -228,6 +231,32 @@ close $fh;
         $$res{ "parameters" } = $$ref{ '_base_directory' } . '/' . $f;
     }
 }
+
+# copy files for plotting
+{
+    my $cmd = 
+        "cp in_" . $files{ 'pr' } . " data.d
+cp " . $files{ 'fit' } . " fit.d
+cp gx_" . $files{ 'pr' } . " gx.d
+cp gs_" . $files{ 'pr' } . " gs.d
+";
+    `$cmd 2>&1 > /dev/null`;
+}
+
+# run plot scripts
+{
+    my $cmd = 
+"${0}_gnuplot426 plot1.pl 2>&1 > plot1.out
+${0}_gnuplot426 plot2.pl 2>&1 > plot2.out
+${0}_gnuplot426 plot3.pl 2>&1 > plot3.out
+${0}_gnuplot426 plot4.pl 2>&1 > plot4.out
+${0}_gnuplot426 plot5.pl 2>&1 > plot5.out
+";
+    `$cmd`;
+
+    $$res{ "fig2" } = $$ref{ '_base_directory' } . '/fig2.gif';
+}
+
 
 # $$res{ 'cmd results' } = `$cmd`;
 

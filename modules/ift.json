@@ -270,5 +270,19 @@
             ,"label"      : "Evidence"
             ,"type"       : "text"
         }
+        ,{
+            "role"       : "output"
+            ,"id"         : "hroutput3"
+            ,"label"      : "<hr>"
+            ,"type"       : "label"
+            ,"colspan"    : 2
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "fig2"
+            ,"label"      : ""
+            ,"type"       : "image"
+            ,"width"      : "95%"
+        }
     ]
 }
