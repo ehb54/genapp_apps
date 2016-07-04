@@ -148,22 +148,39 @@ open OUT, ">inputfile.d";
 print OUT $inputfile;
 close OUT;
 
-my $cmd = "${0}ci < inputfile.d\n";
-
-sendmsg( "Starting $cmd\n", 0 );
-
-open my $fh, '-|', $cmd;
-
 my @l;
 
-while ( my $l = <$fh> ) {
-    if ( $l !~ /=>/ ) {
-        sendmsg( "$l" );
-        push @l, $l;
-    }
-}
+{
+    my $cmd = "${0}ci < inputfile.d\n";
 
-close $fh;
+    sendmsg( "Starting $cmd\n", 0 );
+
+    open my $fh, '-|', $cmd;
+
+
+    my @msgs;
+
+    my $count = 25;
+    my $linespermsg = 67;
+
+    while ( my $l = <$fh> ) {
+        if ( $l !~ /=>/ ) {
+            $count++;
+            push @msgs, $l;
+            push @l, $l;
+        }
+
+        if ( $count > $linespermsg ) {
+            $count = 0;
+            sendmsg( ( join '', @msgs ) );
+            undef @msgs;
+        }
+    }
+
+    close $fh;
+
+    sendmsg( ( join '', @msgs ) ) if @msgs;
+}
 
 my $dmax;
 {
@@ -197,7 +214,7 @@ my $dmax;
     if ( @f ) {
         $f = $f[ 0 ];
         $f =~ s/^.*:\s*(\S+)\s*$/$1/;
-        $$res{ "rgi0dmax" } = $$ref{ '_base_directory' } . '/' . $f;
+        # $$res{ "rgi0dmax" } = $$ref{ '_base_directory' } . '/' . $f;
 
         open my $fh, $f;
         my @l = <$fh>;
@@ -235,6 +252,8 @@ my $dmax;
         $$res{ "parameters" } = $$ref{ '_base_directory' } . '/' . $f;
     }
 }
+
+my $dmaxmultcut = 1.3;
 
 # copy files for plotting
 {
@@ -276,7 +295,7 @@ cp " . $files{ 'fit' } . " fit.d
             $t =~ s/\s+.*//g;
 
             $$res{ 'debug' } .= "<p>t $t</p>" if $debug;
-            if ( $t <= $dmax * 1.1 ) {
+            if ( $t <= $dmax * $dmaxmultcut ) {
                 $$res{ 'debug' } .= "<p>push $l[$j]</p>" if $debug;
                 push @w, $l[ $j ];
             } else {
@@ -297,10 +316,10 @@ cp " . $files{ 'fit' } . " fit.d
         for ( $i = 0; $i < @l; ++$i ) {
             my $l = $l[ $i ];
             if ( $l =~ / set xrange \[0:/ ) {
-                $l[ $i ] = " set xrange [0:" . ( $dmax * 1.1 ) . "]\n";
+                $l[ $i ] = " set xrange [0:" . ( $dmax * $dmaxmultcut) . "]\n";
             }
             if ( $l =~ / set xtics / ) {
-                my $xtics = ( $dmax * 1.1 ) / 10;
+                my $xtics = ( $dmax * $dmaxmultcut ) / 10;
                 $$res{ 'debug' } .= "<p>xtics $xtics</p>" if $debug;
                 if ( $xtics < 1 ) {
                     $xtics = 1;
@@ -342,13 +361,27 @@ ${0}_gnuplot426 plot2.pl 2>&1 > plot2.out
 ${0}_gnuplot426 plot3.pl 2>&1 > plot3.out
 ${0}_gnuplot426 plot4b.pl 2>&1 > plot4.out
 ${0}_gnuplot426 plot5.pl 2>&1 > plot5.out
+mv fig2.gif iq.gif
+mv fig4.gif pr.gif
 ";
     `$cmd`;
 
-    $$res{ "fig2" } = $$ref{ '_base_directory' } . '/fig2.gif';
-    $$res{ "fig4" } = $$ref{ '_base_directory' } . '/fig4.gif';
+    $$res{ "iqfig" } = $$ref{ '_base_directory' } . '/iq.gif';
+    $$res{ "prfig" } = $$ref{ '_base_directory' } . '/pr.gif';
 }
 
+# package results
+{
+    my $f = $files{ 'data' };
+    $f =~ s/\.dat$//i;
+    my $cmd =
+"zip Result_$f.zip data.d fit.d estimate.d parameters.d pr.gif iq.gif 2>&1
+tar zcf Result_$f.tar.gz data.d fit.d estimate.d parameters.d pr.gif iq.gif 2>&1
+";
+    `$cmd`;
+    $$res{ "zip" } = $$ref{ '_base_directory' } . "/Result_$f.zip";
+    $$res{ "tgz" } = $$ref{ '_base_directory' } . "/Result_$f.tar.gz";
+}
 
 # $$res{ 'cmd results' } = `$cmd`;
 

@@ -195,19 +195,33 @@
             ,"type"       : "file"
             ,"help"       : "The data used"
         }
-        ,{
-            "role"       : "output"
-            ,"id"         : "rgi0dmax"
-            ,"label"      : "Rg, I(0) and Dmax"
-            ,"type"       : "file"
-            ,"help"       : "The Rg, I(0) and Dmax in a file"
-        }
+#        ,{
+#            "role"       : "output"
+#            ,"id"         : "rgi0dmax"
+#            ,"label"      : "Rg, I(0) and Dmax"
+#            ,"type"       : "file"
+#            ,"help"       : "The Rg, I(0) and Dmax in a file"
+#        }
         ,{
             "role"       : "output"
             ,"id"         : "parameters"
             ,"label"      : "Parameters"
             ,"type"       : "file"
             ,"help"       : "The parameters file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "zip"
+            ,"label"      : "Results zipped"
+            ,"type"       : "file"
+            ,"help"       : "Results packaged in a zip file"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "tgz"
+            ,"label"      : "Results tar gzipped"
+            ,"type"       : "file"
+            ,"help"       : "Results packaged as a gzipped tar file"
         }
         ,{
             "role"       : "output"
@@ -279,14 +293,14 @@
         }
         ,{
             "role"       : "output"
-            ,"id"         : "fig2"
+            ,"id"         : "prfig"
             ,"label"      : ""
             ,"type"       : "image"
             ,"width"      : "80%"
         }
         ,{
             "role"       : "output"
-            ,"id"         : "fig4"
+            ,"id"         : "iqfig"
             ,"label"      : ""
             ,"type"       : "image"
             ,"width"      : "80%"
