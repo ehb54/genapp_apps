@@ -65,8 +65,8 @@
  Number of Independent States .........:1        #TAG
 ---------------------------------------------------------- State
  Number of MC State's Configurations ..:1        #TAG
- Number of Sites ......................:12       #NUMRD                                           [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
- Number of Flexible Linkers ...........:14                 Sequence of RDs and FLs in the pdb ...: 13  1   14  2   15  3   16  4   17  5   18  6   19  20  7   21  8   22  9   23  10  24  11  25  12 26
+ Number of Sites ......................:12                                                       [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|     #NUMRD
+ Number of Flexible Linkers ...........:14                 Sequence of RDs and FLs in the pdb ...: 13  1   14  2   15  3   16  4   17  5   18  6   19  20  7   21  8   22  9   23  10  24  11  25  12 26               #NUMFL 
  Number of Hierarchic Aggregates ......:1        #NUMAG
  Write the Aggregate Section In Order of Decreasing Symmetry
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Aggregate  #AGBEGIN  
@@ -226,7 +226,7 @@
     Rotation Angles:    alpha_a (deg) .:   -134.26         -180.00          180.00          90.000         0   #RDREP#T_CBR
                         cos(beta_a) ...:   0.99356         -1.0000          1.0000         0.50000         0   #RDREP#T_CBR
                         gamma_a (deg) .:   -1.6726         -180.00          180.00          90.000         0   #RDREP#T_CBR#END
-********************************* Linker
+********************************* Linker     #LINKERBEGIN
  Primary structure from N- to C-term ..:MGSSHHHHHHSS              #LREP#TAG
  RD # attached to the linker's N-term .:         0		  #LREP#TAG
  AA # of the PDB of the previous RD ...:         0		  #LREP#TAG

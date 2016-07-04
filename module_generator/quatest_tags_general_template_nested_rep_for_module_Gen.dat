@@ -66,7 +66,7 @@
 ---------------------------------------------------------- State
  Number of MC State's Configurations ..:1        #TAG
  Number of Sites ......................:12       #NUMRD                                           [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
- Number of Flexible Linkers ...........:14                 Sequence of RDs and FLs in the pdb ...: 13  1   14  2   15  3   16  4   17  5   18  6   19  20  7   21  8   22  9   23  10  24  11  25  12 26
+ Number of Flexible Linkers ...........:14                 Sequence of RDs and FLs in the pdb ...: 13  1   14  2   15  3   16  4   17  5   18  6   19  20  7   21  8   22  9   23  10  24  11  25  12 26               #NUMFL
  Number of Hierarchic Aggregates ......:1        #NUMAG
  Write the Aggregate Section In Order of Decreasing Symmetry
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Aggregate
@@ -234,9 +234,9 @@
  AA # of the PDB of the previous RD ...:        23		  #Commented for now	
  Flag for phi, psi and chi variations .:         2		  #TAG
                                        [---------------|---------------|---------------| ...                 
- Starting values of phi angles ........:    
- Starting values of psi angles ........:
- Starting values of chi angles ........:
+ Starting values of phi angles ........:                          
+ Starting values of psi angles ........:                          
+ Starting values of chi angles ........:                         
 ***************** Amino acid Constraints
  AA |RD|SS|POL| Atom|Coord.vector r_i |     Condition     |Val,Name,Vec.u_d |Fact.Val.|Method|   K    |Name  |Flag
     |FL|  |   |     |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0   

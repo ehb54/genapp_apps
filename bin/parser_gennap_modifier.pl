@@ -343,7 +343,7 @@ my $temp_input_file = 'qua_temp.dat';
 open OUT_TEMP, ">$temp_input_file";
 
 my $tag_id_key;
-my @aglines, @rdlines, @explines;
+my @aglines, @rdlines, @explines, @fllines;
 
 ## File transformation ###########################
 open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
@@ -355,6 +355,13 @@ while (my $line = <$fh>) {
 	$line_copy =~ s/#AGREP//;
 	chomp $line_copy;
 	push (@aglines, $line_copy);
+	next;
+    }
+    if ($line_copy =~ m/#LREP/)
+    {
+	$line_copy =~ s/#LREP//;
+	chomp $line_copy;
+	push (@fllines, $line_copy);
 	next;
     }
     if ($line_copy =~ m/#RDREP/)
@@ -390,8 +397,6 @@ while (my $line = <$fh>) {
 	my $hashrd = $$ref{'num_ags'}->{point_group_symmetry};
 	my $length = scalar( @{ $hashrd } );
 
-	#print "VAR: " .$$ref{'num_rigid_domains'}->{geom_center_vect}[0]{Startingmodulus_anggeom_center_vect};
-	#exit;
 	for ( my $k = 0; $k < $length; $k++)
 	{
 	    print OUT $line_copy;
@@ -414,6 +419,37 @@ while (my $line = <$fh>) {
 	    }
 	}
     }
+    
+    elsif ($line_copy =~ m/Linker     #LINKERBEGIN/)
+    {
+	$line_copy =~ s/#LINKERBEGIN//;
+	
+	my $hashrd = $$ref{'num_flinkers'}->{primary_structure_from_n_to_cterm};
+	my $length = scalar( @{ $hashrd } );
+
+	for ( my $k = 0; $k < $length; $k++)
+	{
+	    print OUT $line_copy;
+	    my @temp_rdlines = @fllines;
+	    for (my $i = 0; $i < @temp_rdlines; $i++)
+	    {
+		if ($temp_rdlines[$i] =~ m/#TAG/)
+		{
+		    Process_tag_reps($temp_rdlines[$i], $k, 'num_flinkers');
+		}
+		#elsif ($temp_rdlines[$i] =~ m/#T_CBR/)
+		#{
+		#    Process_t_cbr_reps($temp_rdlines[$i], $k, 'num_ags');
+		#}
+		else
+		{
+		    $temp_rdlines[$i] =~ s/\s+$//;
+		    print OUT $temp_rdlines[$i] ."\n";
+		}
+	    }
+	}
+    }
+
     elsif ($line_copy =~ m/Rigid Domain/)
     {
 	my $hashrd = $$ref{'num_rigid_domains'}->{pdb_location};
@@ -734,6 +770,20 @@ while (my $line = <$fh>) {
 	my $length = scalar( @{ $size } );
 	print OUT $id_exp.":". $length."\n";
     }
+    elsif ($line_copy =~ m/#NUMFL/)
+    {
+	$line_copy =~ s/#NUMFL//;
+	chomp $line_copy;
+	my $id_exp = (split(/[:]/, $line))[0];
+	my $dval = (split(/[:]/, $line))[1];
+	#print $dval;
+	#exit;
+	
+	#print OUT "$id_exp:$pdbfilename\n";
+	my $size = $$ref{'num_flinkers'}->{primary_structure_from_n_to_cterm};
+	my $length = scalar( @{ $size } );
+	print OUT $id_exp.":". $length."\n";
+    }
     elsif ($line_copy =~ m/#NUMRD/)
     {
 	$line_copy =~ s/#NUMRD//;
@@ -758,8 +808,6 @@ while (my $line = <$fh>) {
    # }
     else # THE REST
     {
-	#chomp $line_copy;
-	#$line_copy =~ s/\s*$/$1/; # remove whitespace from both ends
 	$line_copy =~ s/\s+$//;
 	print OUT "$line_copy\n";
     }
