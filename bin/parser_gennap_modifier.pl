@@ -437,6 +437,15 @@ while (my $line = <$fh>) {
 		{
 		    Process_tag_reps($temp_rdlines[$i], $k, 'num_flinkers');
 		}
+		elsif ($temp_rdlines[$i] =~ m/#AACTERMFL/)
+		{
+		    $temp_rdlines[$i] =~ s/#AACTERMFL//;
+		    chomp $temp_rdlines[$i];
+		    my $id_exp = (split(/[:]/, $temp_rdlines[$i]))[0];
+		    
+		    print OUT $id_exp.":". $$ref{'num_flinkers'}->{aa__of_the_pdb_of_the_previous_rd_cterm}[$k] ."\n";
+		    
+		}
 		#elsif ($temp_rdlines[$i] =~ m/#T_CBR/)
 		#{
 		#    Process_t_cbr_reps($temp_rdlines[$i], $k, 'num_ags');

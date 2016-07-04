@@ -386,6 +386,14 @@ for my $key ( sort keys %data )
 		print $line;
 	    }
 	}
+	if ($label_key eq 'Flag for phi psi and chi variations')
+	{
+	    print "\n";
+	    open(my $fh, '<', 'fl_repeater_aacterm.json') or die "Can't read file '$file' [$!]\n";
+	    while (my $line = <$fh>) {
+		print $line;
+	    }
+	}	
 	if ($label_key eq 'Primary structure from N to Cterm' or $label_key eq 'RD  attached to the linkers Nterm' or $label_key eq 'AA  of the PDB of the previous RD' or $label_key eq 'RD  attached to the linkers Cterm' or $label_key eq 'Flag for phi psi and chi variations' or $label_key eq 'Starting values of phi angles' or $label_key eq 'Starting values of psi angles' or $label_key eq 'Starting values of chi angles') 
 	{
 	    $repline = " \"repeat\" : \"num_flinkers\", ";

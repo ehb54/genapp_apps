@@ -231,7 +231,7 @@
  RD # attached to the linker's N-term .:         0		  #LREP#TAG
  AA # of the PDB of the previous RD ...:         0		  #LREP#TAG
  RD # attached to the linker's C-term .:         1		  #LREP#TAG
- AA # of the PDB of the previous RD ...:        23		  #LREP#TAG	
+ AA # of the PDB of the previous RD ...:        23		  #LREP#AACTERMFL	
  Flag for phi, psi and chi variations .:         2		  #LREP#TAG
                                        [---------------|---------------|---------------| ...   #LREP              
  Starting values of phi angles ........:    						       #LREP
