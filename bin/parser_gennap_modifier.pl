@@ -775,14 +775,15 @@ while (my $line = <$fh>) {
 	$line_copy =~ s/#NUMFL//;
 	chomp $line_copy;
 	my $id_exp = (split(/[:]/, $line))[0];
-	my $dval = (split(/[:]/, $line))[1];
-	#print $dval;
-	#exit;
-	
+	#my $dval = (split(/[:]/, $line))[1];
+
 	#print OUT "$id_exp:$pdbfilename\n";
 	my $size = $$ref{'num_flinkers'}->{primary_structure_from_n_to_cterm};
 	my $length = scalar( @{ $size } );
-	print OUT $id_exp.":". $length."\n";
+	
+	$line_copy =~ s/#NFLS/$length/ig;
+	print OUT $line_copy . "\n";
+        #print OUT $id_exp.":". $length."\n";
     }
     elsif ($line_copy =~ m/#NUMRD/)
     {
