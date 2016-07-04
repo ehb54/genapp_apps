@@ -775,13 +775,28 @@ while (my $line = <$fh>) {
 	$line_copy =~ s/#NUMFL//;
 	chomp $line_copy;
 	my $id_exp = (split(/[:]/, $line))[0];
-	#my $dval = (split(/[:]/, $line))[1];
 
-	#print OUT "$id_exp:$pdbfilename\n";
 	my $size = $$ref{'num_flinkers'}->{primary_structure_from_n_to_cterm};
 	my $length = scalar( @{ $size } );
 	
-	$line_copy =~ s/#NFLS/$length/ig;
+	if ($length)
+	{
+	    $line_copy =~ s/#L/$length/ig;
+	}
+	else
+	{
+	    $line_copy =~ s/#L/0/ig;
+	}
+	if (exists $$ref{'seq_rd_fl_checkbox'}->{seq_rd_fl_pdb})
+	{
+	    my $seq = $$ref{'seq_rd_fl_checkbox'}->{seq_rd_fl_pdb};
+	    $line_copy =~ s/#SEQ/$seq/ig;
+	}
+	else
+	{
+	    $line_copy =~ s/#SEQ//ig;
+	}
+		
 	print OUT $line_copy . "\n";
         #print OUT $id_exp.":". $length."\n";
     }
@@ -792,10 +807,12 @@ while (my $line = <$fh>) {
 	my $id_exp = (split(/[:]/, $line))[0];
 	#my $dval = (split(/[:]/, $line))[-1];
 	
-	#print OUT "$id_exp:$pdbfilename\n";
 	my $size = $$ref{'num_rigid_domains'}->{pdb_location};
 	my $length = scalar( @{ $size } );
-	print OUT $id_exp.":". $length."\n";
+
+	$line_copy =~ s/#NRD/$length/ig;
+	print OUT $line_copy . "\n";
+	#print OUT $id_exp.":". $length."\n";
     }
     
    # elsif($line_copy =~ m/#SYM/)
