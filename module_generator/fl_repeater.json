@@ -1,0 +1,41 @@
+############## FLEXIBLE LINKERS #####################################################################
+	        { 
+		  "role"     : "input",  
+		  "id"       : "flinkers",
+		  "label"    : "Flexible Linkers",
+		  "type"     : "label",
+		  "prehline" : "true",
+		  "posthline": "true",
+		  "default"  : ""
+		},
+                 { 
+                     "role"     : "input",  
+                     "id"       : "seq_rd_fl_checkbox",
+                     "label"    : "Sequence of RD and FLs in pdb?",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "false",
+                     "repeater" : "no",
+ 		     "help"     : ""
+		 },
+               { 
+		  "role"     : "input",  
+		  "id"       : "seq_rd_fl_pdb",
+		  "label"    : "",
+		  "type"     : "text",
+		  "repeat"   : "seq_rd_fl_checkbox", 
+		  "required" : "false"
+	       },
+               { 
+		  "role"     : "input",  
+		  "id"       : "num_flinkers",
+		  "label"    : "Number of Flexible Linkers: ",
+		  "type"     : "integer",
+		  "repeater" : "true",   
+		  "required" : "true",
+		  "default"  : 1,
+		  "min"      : 0  
+		},
+
+
+ 
