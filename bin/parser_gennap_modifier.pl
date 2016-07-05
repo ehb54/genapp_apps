@@ -274,7 +274,7 @@ sub Process_t_cbr_reps {
 }
 
 
-
+### MAIN PROGRAM ###################################################
 my $file = "$Bin/quatest_tags_general_template_nested_rep.dat";
 #my $file = "$Bin/quaS004_test_tags_nested_repeaters.dat";
 #my $file = "$Bin/quaS004_test_tags.dat";
@@ -296,26 +296,15 @@ $res = {};
 $p = $$ref{ "_base_directory" };
 
 ## Dir for project's files (usualy PDB base name, first 4 letters) ############
-
-#$pathtopdb = ${ $$ref{ "pdb_location" } }[0];
-#$pdbfilename = basename($pathtopdb);
-#$pdbfilename =~ s{\.[^.]+$}{}; # removes extension 
-
-#$pathtosas = ${ $$ref{ "sas_data_location" } }[0];
-#$sasfilename = basename($pathtosas);
-##$sasfilename =~ s{\.[^.]+$}{}; # removes extension 
-
-##$pathtosym = ${ $$ref{ "sym_group_location" } }[0];
-##$symfilename = basename($pathtosym);
-#$symfilename =~ s{\.[^.]+$}{}; # removes extension 
-$familyname = substr($symfilename, 0, 4);
+my $pdbfilename_rd = basename($$ref{'num_rigid_domains'}->{pdb_location}[0][0]);
+$pdbfilename_rd =~ s{\.[^.]+$}{};  # removes extension;
 
 open OUT_code, ">$p/code.usr";
 print OUT_code $$ref{ "codenumber" };
 close OUT_code;
 
 
-$newdir =join "_", "Results", $pdbfilename;
+$newdir =join "_", "Results", $pdbfilename_rd;
 if ( -e $newdir) {
     rmtree $newdir;
     if(-e $newdir) 
