@@ -1,0 +1,159 @@
+############## AMINO ACID CONSTRAINTS #####################################################################
+	        { 
+		  "role"     : "input",  
+		  "id"       : "aaconst",
+		  "label"    : "Amino Acid Constraints",
+		  "type"     : "label",
+		  "prehline" : "true",
+		  "posthline": "true",
+		  "default"  : ""
+		},
+               { 
+                   "role"     : "input",  
+                   "id"       : "num_aaconst",
+                   "label"    : "Number of Amino Acid Constraints: ",
+                   "type"     : "integer",  
+                   "required" : "yes",
+                   "repeater" : "yes",
+		   "default"  : 0,
+		   "min"      : 0,
+ 	           "help"     : ""
+	       },
+                { 
+		  "role"     : "input",  
+		  "id"       : "aa_number",
+		  "label"    : "AA Number",
+		  "type"     : "text",
+		  "size"     : 3,
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+
+               { 
+		  "role"     : "input",  
+		  "id"       : "rdfl_number",
+		  "label"    : "RD or FL Number",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "sym_number",
+		  "label"    : "Symmetry Operation Number",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+                { 
+		  "role"     : "input",  
+		  "id"       : "screw_axis_number",
+		  "label"    : "Screw-Axis Polymerization Number",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "atom_code",
+		  "label"    : "Pdb Atom Code",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "coor_vect",
+		  "label"    : "Coordinate Vector, r_ij",
+		  "type"     : "listbox",
+		  "values"   : "x~x~y~y~z~z~r~r~a~a~b~b~rc~rc~ac~ac",
+ 		  #"repeater" : "true",
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "condition",
+		  "label"    : "Condition",
+		  "type"     : "listbox",
+		  "values"   : "=~eq~>~more~>=~more_eq~<~less~<=~less_eq~max~max~min~min",
+ 		  #"repeater" : "true",
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "val_name_vect",
+		  "label"    : "Value, Name, Vector, u_d",
+		  "type"     : "listbox",
+		  "values"   : "value~value~name~name~x~x~y~y~z~z~r~r~a~a~b~b~rc~rc~ac~ac",
+ 		  "repeater" : "true",
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+              { 
+		  "role"     : "input",  
+		  "id"       : "val_name_vect_value",
+		  "label"    : "Value: ",
+		  "type"     : "text",
+		  "required" : "true",
+		  "repeat"   : "val_name_vect:value"  
+		},
+              { 
+		  "role"     : "input",  
+		  "id"       : "val_name_vect_name",
+		  "label"    : "Name: ",
+		  "type"     : "text",
+		  "required" : "true",
+		  "repeat"   : "val_name_vect:name"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "fact_value",
+		  "label"    : "Factor Value",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "false",
+		  "repeat"   : "num_aaconst"  
+	       },
+               { 
+		  "role"     : "input",  
+		  "id"       : "method",
+		  "label"    : "Method",
+		  "type"     : "listbox",
+		  "values"   : "st~st~el~el",
+ 		  #"repeater" : "true",
+		  "required" : "true",
+		  "repeat"   : "num_aaconst"  
+		},
+              { 
+		  "role"     : "input",  
+		  "id"       : "k",
+		  "label"    : "K",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "false",
+		  "repeat"   : "num_aaconst"  
+	       },
+              { 
+		  "role"     : "input",  
+		  "id"       : "name",
+		  "label"    : "Name",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "false",
+		  "repeat"   : "num_aaconst"  
+	       },
+              { 
+		  "role"     : "input",  
+		  "id"       : "flag",
+		  "label"    : "Flag",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "yes",
+		  "repeat"   : "num_aaconst"  
+	       },

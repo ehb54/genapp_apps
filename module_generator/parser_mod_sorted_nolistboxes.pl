@@ -414,6 +414,11 @@ for my $key ( sort keys %data )
 	if ($label_key eq 'Concentration (g/l)')
 	{
 	    print "\n";
+	    open(my $fh, '<', 'aa_constraints.json') or die "Can't read file '$file' [$!]\n";
+	    while (my $line = <$fh>) {
+		print $line;
+	    }
+	    print "\n";
 	    open(my $fh, '<', 'exp_repeater.json') or die "Can't read file '$file' [$!]\n";
 	    while (my $line = <$fh>) {
 		print $line;
