@@ -11,7 +11,7 @@
                { 
 		  "role"     : "input",  
 		  "id"       : "num_exp",
-		  "label"    : "Experiments: ",
+		  "label"    : "Number of Experiments: ",
 		  "type"     : "integer",
 		  "repeater" : "true",   
 		  "required" : "true",

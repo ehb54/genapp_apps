@@ -124,7 +124,6 @@ sub Process_tag_reps {
 	    }
 	    print OUT "\n";
 	}
-	
     }   
 }
 
@@ -193,9 +192,6 @@ sub Process_t_cbr_reps {
 		{
 		    my $tag = "$array_ids[$j]$id$id_key";
 		    
-		    #print "VAR: " . $id_key . "  " . $tag . "  ";
-		    #exit; 
-		    
 		    if ($j != @array1 -1)
 		    {
 			my $len = (16 - length($$ref{$repeatername}->{$id_key}[$k]{$tag}))/2.0; 
@@ -209,7 +205,6 @@ sub Process_t_cbr_reps {
 			print OUT " " x $len;
 			print OUT " " . $$ref{$repeatername}->{$id_key}[$k]{$tag};
 		    }
-		    
 		}
 		print OUT "\n";
 	    }
@@ -226,7 +221,6 @@ sub Process_t_cbr_reps {
 	
 	my $dval_cbr_11 = (split(/[:]/, $line_copy))[0];
 	my $dval_cbr_22 = (split(/[:]/, $line_copy))[-1];
-	
 	
 	#if (!(exists $$ref{$repeatername}->{$tag_id_key}[$k]))   # Checkboxes!!
 	if ($$ref{$repeatername}->{$tag_id_key}[$k] == null) 
@@ -444,12 +438,7 @@ while (my $line = <$fh>) {
 		    my $id_exp = (split(/[:]/, $temp_rdlines[$i]))[0];
 		    
 		    print OUT $id_exp.":". $$ref{'num_flinkers'}->{aa__of_the_pdb_of_the_previous_rd_cterm}[$k] ."\n";
-		    
 		}
-		#elsif ($temp_rdlines[$i] =~ m/#T_CBR/)
-		#{
-		#    Process_t_cbr_reps($temp_rdlines[$i], $k, 'num_ags');
-		#}
 		else
 		{
 		    $temp_rdlines[$i] =~ s/\s+$//;
@@ -823,16 +812,40 @@ while (my $line = <$fh>) {
 	print OUT $line_copy . "\n";
 	#print OUT $id_exp.":". $length."\n";
     }
-    
-   # elsif($line_copy =~ m/#SYM/)
-   # {
-   #	$line_copy =~ s/#SYM//;
-   #	chomp $line_copy;
-   #	my $id_exp = (split(/[:]/, $line))[0];
-   #	#my $dval = (split(/[:]/, $line))[-1];
-   #	
-   #	print OUT "$id_exp:$familyname\n";
-   # }
+    elsif ($line_copy =~ m/#STONE_FLAG/)
+    {
+	$line_copy =~ s/#STONE_FLAG//;
+	chomp $line_copy;
+	my $id_exp = (split(/[:]/, $line))[0];
+	
+	if (exists $$ref{'stone_exp_flag'}->{stone_exp_name})
+	{
+	    print OUT $id_exp.":0\n";
+	}
+	else
+	{
+	    print OUT $id_exp.":1\n";
+	}
+    }
+    elsif ($line_copy =~ m/#STONE_NAME/)
+    {
+	$line_copy =~ s/#STONE_NAME//;
+	chomp $line_copy;
+	my $id_exp = (split(/[:]/, $line))[0];
+	
+	if (exists $$ref{'stone_exp_flag'}->{stone_exp_name})
+	{
+	    my $symfilename = basename($$ref{'stone_exp_flag'}->{stone_exp_name}[0]);
+	    $symfilename =~ s{\.[^.]+$}{}; # removes extension 1
+	    my $familyname = substr($symfilename, 0, 4);
+
+	    print OUT $id_exp.":". $familyname . "\n";
+	}
+	else
+	{
+	    print OUT $line_copy . "\n";
+	}
+    }
     else # THE REST
     {
 	$line_copy =~ s/\s+$//;

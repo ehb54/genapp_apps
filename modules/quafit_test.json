@@ -98,17 +98,30 @@
                    #
  		     "help"     : ""	
  		 },
-                 { 
-                     "role"     : "input",  
-                     "id"       : "stone_exp_contact_dist_flag",
-                     "label"    : "Stone Exp Contact Dist Flag",
-                     "type"     : "checkbox",  
-                     "checked"  : "false",
-		     "required" : "true",
-                     "repeater" : "no",
-                   #
-		     "help"     : ""
-		 },
+############## STONE EXP #####################################################################
+              { 
+                  "role"     : "input",  
+                  "id"       : "stone_exp_flag",
+                  "label"    : "Stone Exp Contact Dist Flag",
+                  "type"     : "checkbox",  
+                  "checked"  : "true",
+	          "required" : "false",
+                  "repeater" : "yes",
+ 	          "help"     : ""
+	      },
+               { 
+		  "role"     : "input",  
+		  "id"       : "stone_exp_name",
+		  "label"    : "Stone Exp Contact Dist Family Name:",
+		  "type"     : "lrfile",
+		  "repeat"   : "stone_exp_flag",
+		  "required" : "true"
+	       },
+ 
+
+
+ 
+
                  { 
                      "role"     : "input",  
                      "id"       : "optimisation_free_fraction",
@@ -253,8 +266,8 @@
 		 },
 		   { 
 		     "role"     : "input",  
-                     "id"       : "alpha",
-                     "label"    : "alpha",
+                     "id"       : "gamma",
+                     "label"    : "gamma",
                      "type"     : "text",  
                      "default"  : "0.0000",
  		     "required" : "true",
@@ -277,8 +290,8 @@
  		 },
 		   { 
 		     "role"     : "input",  
-                     "id"       : "gamma",
-                     "label"    : "gamma",
+                     "id"       : "alpha",
+                     "label"    : "alpha",
                      "type"     : "text",  
                      "default"  : "0.0000",
  		     "required" : "true",
@@ -727,6 +740,85 @@
 		 },
 		              { 
 		                "role"     : "input",  
+                                "id"       : "alpha___deggeom_center_vect",
+                                #"label"    : "alpha___deg",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "alpha___deg",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "geom_center_vect",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startingalpha___deggeom_center_vect",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "default"  : "-64.799",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Loweralpha___deggeom_center_vect",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "default"  : "-180.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Upperalpha___deggeom_center_vect",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "default"  : "180.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplingalpha___deggeom_center_vect",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "default"  : "90.000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flagalpha___deggeom_center_vect",
+                                  "label"    : "Flag",
+                                  "type"     : "text",  
+                                  "default"  : "0",
+ 		                  "required" : "true",
+                                  "size"     : 2,
+                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
+                                  "repeat"   : "geom_center_vect",
+                                  "norow"    : "false",
+ 		                  "help"     : ""	
+ 		             },
+		              { 
+		                "role"     : "input",  
                                 "id"       : "modulus_anggeom_center_vect",
                                 #"label"    : "modulus_ang",
                                 "label"    : "",
@@ -883,85 +975,6 @@
                                   "norow"    : "false",
  		                  "help"     : ""	
  		             },
-		              { 
-		                "role"     : "input",  
-                                "id"       : "alpha___deggeom_center_vect",
-                                #"label"    : "alpha___deg",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "alpha___deg",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "geom_center_vect",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startingalpha___deggeom_center_vect",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "default"  : "-64.799",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Loweralpha___deggeom_center_vect",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "default"  : "-180.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Upperalpha___deggeom_center_vect",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "default"  : "180.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplingalpha___deggeom_center_vect",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "default"  : "90.000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flagalpha___deggeom_center_vect",
-                                  "label"    : "Flag",
-                                  "type"     : "text",  
-                                  "default"  : "0",
- 		                  "required" : "true",
-                                  "size"     : 2,
-                                  #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
-                                  "repeat"   : "geom_center_vect",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
                  { 
                      "role"     : "input",  
                      "id"       : "rotation_angles",
@@ -973,85 +986,6 @@
                     "repeat" : "num_rigid_domains", 
 		     "help"     : ""
 		 },
-		              { 
-		                "role"     : "input",  
-                                "id"       : "alpha_a_degrotation_angles",
-                                #"label"    : "alpha_a_deg",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "alpha_a_deg",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "rotation_angles",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startingalpha_a_degrotation_angles",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "default"  : "-134.26",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Loweralpha_a_degrotation_angles",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "default"  : "-180.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Upperalpha_a_degrotation_angles",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "default"  : "180.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplingalpha_a_degrotation_angles",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "default"  : "90.000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flagalpha_a_degrotation_angles",
-                                  "label"    : "Flag",
-                                  "type"     : "text",  
-                                  "default"  : "0",
- 		                  "required" : "true",
-                                  "size"     : 2,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
 		              { 
 		                "role"     : "input",  
                                 "id"       : "cosbeta_arotation_angles",
@@ -1210,6 +1144,85 @@
                                   "norow"    : "false",
  		                  "help"     : ""	
  		             },
+		              { 
+		                "role"     : "input",  
+                                "id"       : "alpha_a_degrotation_angles",
+                                #"label"    : "alpha_a_deg",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "alpha_a_deg",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "rotation_angles",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startingalpha_a_degrotation_angles",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "default"  : "-134.26",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Loweralpha_a_degrotation_angles",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "default"  : "-180.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Upperalpha_a_degrotation_angles",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "default"  : "180.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplingalpha_a_degrotation_angles",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "default"  : "90.000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flagalpha_a_degrotation_angles",
+                                  "label"    : "Flag",
+                                  "type"     : "text",  
+                                  "default"  : "0",
+ 		                  "required" : "true",
+                                  "size"     : 2,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "false",
+ 		                  "help"     : ""	
+ 		             },
 ############## FLEXIBLE LINKERS #####################################################################
 	        { 
 		  "role"     : "input",  
@@ -1303,7 +1316,7 @@
                      "label"    : "AA  of the PDB of the previous RD",
                      "type"     : "text", 
                      "size"     : 6,
-                     "default"  : "0",
+                     "default"  : "10",
  		     "required" : "true",
                     "repeat" : "num_flinkers", 
  		     "help"     : ""	
@@ -1333,7 +1346,7 @@
                { 
 		  "role"     : "input",  
 		  "id"       : "num_exp",
-		  "label"    : "Experiments: ",
+		  "label"    : "Number of Experiments: ",
 		  "type"     : "integer",
 		  "repeater" : "true",   
 		  "required" : "true",

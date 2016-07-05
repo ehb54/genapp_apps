@@ -1,0 +1,23 @@
+############## STONE EXP #####################################################################
+              { 
+                  "role"     : "input",  
+                  "id"       : "stone_exp_flag",
+                  "label"    : "Stone Exp Contact Dist Flag",
+                  "type"     : "checkbox",  
+                  "checked"  : "true",
+	          "required" : "false",
+                  "repeater" : "yes",
+ 	          "help"     : ""
+	      },
+               { 
+		  "role"     : "input",  
+		  "id"       : "stone_exp_name",
+		  "label"    : "Stone Exp Contact Dist Family Name:",
+		  "type"     : "lrfile",
+		  "repeat"   : "stone_exp_flag",
+		  "required" : "true"
+	       },
+ 
+
+
+ 

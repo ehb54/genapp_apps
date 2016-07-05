@@ -25,8 +25,8 @@
  Number of Points for 3D Plots ........: 31
  Reference Temperature (Celsius) ......:0.0
  Reference Pressure (bar) .............:1.0
- Stone Exp. Contact Dist. Family Name .:invariants/rot_inv_    #SYM
- Stone Exp. Contact Dist. Flag (1/0) ..:0        #TAG
+ Stone Exp. Contact Dist. Family Name .:invariants/rot_inv_    #STONE_NAME
+ Stone Exp. Contact Dist. Flag (1/0) ..:0        #STONE_FLAG
  A[l,m] Calculation Flag (1/0) ........:1
  Dummy Atom Shell Determination .......:1
  Read HETATM atoms in PDB file (1/0) ..:0

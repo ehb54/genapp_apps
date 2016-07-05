@@ -207,6 +207,16 @@ for my $key ( sort keys %data )
 	    $repeater = "yes";
 	}
 
+	# IF STONE EXP BLOCK ####################################
+	if ($label_key eq 'Optimisation free fraction')
+	{
+	    print "\n";
+	    open(my $fh, '<', 'stone_exp.json') or die "Can't read file '$file' [$!]\n";
+	    while (my $line = <$fh>) {
+		print $line;
+	    }
+	}
+
 	## IF RIGID DOMAIN BLOCK ###################################
 	my $repline = "\#";
 	if ($label_key eq 'Geom Center Vect')
@@ -437,8 +447,7 @@ for my $key ( sort keys %data )
 	    {
 		$repline = " \"repeat\" : \"num_ags\", ";
 	    }
-	    
-	    
+	   	    
 	    my $val = $value[0];
 	    $val =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
 	    
