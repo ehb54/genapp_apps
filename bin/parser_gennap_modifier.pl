@@ -17,6 +17,7 @@ sub Process_pdb_reps {
     my $k = $_[1];
     my $repeatername = $_[2];
     my $pdb_location = $_[3];
+    my $ext = $_[4];
     
     $temp_rdlines =~ s/#PDB//;
     chomp $temp_rdlines;
@@ -30,7 +31,10 @@ sub Process_pdb_reps {
     $id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase 
     
     my $pdbfilename = basename($$ref{$repeatername}->{$pdb_location}[$k][0]);
-    $pdbfilename =~ s{\.[^.]+$}{};  # removes extension;
+    if ($ext)
+    {
+	$pdbfilename =~ s{\.[^.]+$}{};  # removes extension;
+    }
     print OUT $id.":". $pdbfilename ."\n";
 }	
 
@@ -687,7 +691,7 @@ while (my $line = <$fh>) {
 		}
 		elsif ($temp_rdlines[$i] =~ m/#PDB/)
 		{
-		    Process_pdb_reps($temp_rdlines[$i], $k, 'num_rigid_domains', 'pdb_location');
+		    Process_pdb_reps($temp_rdlines[$i], $k, 'num_rigid_domains', 'pdb_location', 1);
 		}
 		else
 		{
