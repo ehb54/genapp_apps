@@ -68,7 +68,7 @@
                { 
 		  "role"     : "input",  
 		  "id"       : "coor_vect",
-		  "label"    : "Coordinate Vector, r_ij",
+		  "label"    : "Coordinate Vector, R_i",
 		  "type"     : "listbox",
 		  "values"   : "x~x~y~y~z~z~r~r~a~a~b~b~rc~rc~ac~ac",
  		  #"repeater" : "true",
@@ -88,7 +88,7 @@
                { 
 		  "role"     : "input",  
 		  "id"       : "val_name_vect",
-		  "label"    : "Value, Name, Vector, u_d",
+		  "label"    : "Value, Name, Vector, U_d",
 		  "type"     : "listbox",
 		  "values"   : "value~value~name~name~x~x~y~y~z~z~r~r~a~a~b~b~rc~rc~ac~ac",
  		  "repeater" : "true",

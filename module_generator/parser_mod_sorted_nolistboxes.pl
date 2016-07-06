@@ -409,12 +409,17 @@ for my $key ( sort keys %data )
 	    $repline = " \"repeat\" : \"num_flinkers\", ";
 	}	
 
-	# IF EXPERIMENTAL DATA BLOCK ###################################
+	# IF EXPERIMENTAL/AA_CONSTRAINTS/PAIR_AA_CONSTRAINTS DATA BLOCK ###################################
 	#my $repline = "\#";
 	if ($label_key eq 'Concentration (g/l)')
 	{
 	    print "\n";
 	    open(my $fh, '<', 'aa_constraints.json') or die "Can't read file '$file' [$!]\n";
+	    while (my $line = <$fh>) {
+		print $line;
+	    }
+	    print "\n";
+	    open(my $fh, '<', 'pair_aa_constraints.json') or die "Can't read file '$file' [$!]\n";
 	    while (my $line = <$fh>) {
 		print $line;
 	    }

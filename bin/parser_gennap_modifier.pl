@@ -127,6 +127,126 @@ sub Process_aasyntax_reps {
     print OUT "\n";
 }	
 
+sub Process_aapairsyntax_reps {
+
+    my $temp_rdlines = $_[0];
+    my $k = $_[1];
+    my $repeatername = $_[2];
+       
+    $temp_rdlines =~ s/#SYNTAXAAPAIR//;
+    chomp $temp_rdlines;
+
+    my $id_key = 'aa_number_i';
+    my $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(5 - $len);			
+
+    $id_key = 'rdfl_number_i';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(3 - $len);
+
+    $id_key = 'sym_number_i';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(3 - $len);
+
+    $id_key = 'screw_axis_number_i';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(4 - $len);
+        
+    $id_key = 'atom_code_i';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(7 - $len);
+
+    $id_key = 'aa_number_j';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(5 - $len);			
+
+    $id_key = 'rdfl_number_j';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(3 - $len);
+
+    $id_key = 'sym_number_j';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(3 - $len);
+
+    $id_key = 'screw_axis_number_j';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(4 - $len);
+        
+    $id_key = 'atom_code_j';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(7 - $len);
+
+
+
+    $id_key = 'coor_vect_pair';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(18 - $len);
+
+    $id_key = 'condition_pair';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(20 - $len);
+    
+    my $id_key_upper_level = 'val_name_vect_pair';
+    if (exists $$ref{$repeatername}->{$id_key_upper_level}[$k]{value}{val_name_vect_value_pair})
+    {
+	$len = length($$ref{$repeatername}->{$id_key_upper_level}[$k]{value}{val_name_vect_value_pair});
+	print OUT $$ref{$repeatername}->{$id_key_upper_level}[$k]{value}{val_name_vect_value_pair};
+	print OUT " " x ceil(18 - $len);
+    }
+    elsif (exists $$ref{$repeatername}->{$id_key_upper_level}[$k]{name}{val_name_vect_name_pair})
+    {
+	$len = length($$ref{$repeatername}->{$id_key_upper_level}[$k]{name}{val_name_vect_name_pair});
+	print OUT $$ref{$repeatername}->{$id_key_upper_level}[$k]{name}{val_name_vect_name_pair};
+	print OUT " " x ceil(18 - $len);
+    }
+    else
+    {
+	$len = length($$ref{$repeatername}->{$id_key_upper_level}[$k]);
+	print OUT $$ref{$repeatername}->{$id_key_upper_level}[$k];
+	print OUT " " x ceil(18 - $len);
+    }
+    
+    $id_key = 'fact_value_pair';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(10 - $len);
+
+    $id_key = 'method_pair';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(7 - $len);
+
+    $id_key = 'k_pair';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(9 - $len);
+
+    $id_key = 'name_pair';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(7 - $len);
+
+    $id_key = 'flag_pair';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(4 - $len);
+
+    print OUT "\n";
+
+}
+
 sub Process_tag_reps {
     
     my $line_copy = $_[0];
@@ -419,7 +539,7 @@ my $temp_input_file = 'qua_temp.dat';
 open OUT_TEMP, ">$temp_input_file";
 
 my $tag_id_key;
-my @aglines, @rdlines, @explines, @fllines, @aaconstlines;
+my @aglines, @rdlines, @explines, @fllines, @aaconstlines, @aapairconstlines;
 
 ## File transformation ###########################
 open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
@@ -452,6 +572,13 @@ while (my $line = <$fh>) {
 	$line_copy =~ s/#AACONST//;
 	chomp $line_copy;
 	push (@aaconstlines, $line_copy);
+	next;
+    }  	
+    if ($line_copy =~ m/#AAPAIRCONST/)
+    {
+	$line_copy =~ s/#AAPAIRCONST//;
+	chomp $line_copy;
+	push (@aapairconstlines, $line_copy);
 	next;
     }  	
     if ($line_copy =~ m/#EXPREP/)
@@ -595,6 +722,32 @@ while (my $line = <$fh>) {
 	    }
 	}
     }
+    elsif ($line_copy =~ m/#AAPAIRBEGIN/)
+    {
+	$line_copy =~ s/#AAPAIRBEGIN//;
+	print OUT $line_copy;
+
+	my $hashrd = $$ref{'num_pair_aaconst'}->{aa_number_i};
+	my $length = scalar( @{ $hashrd } );
+	
+	for ( my $k = 0; $k < $length; $k++)
+	{
+	    my @temp_rdlines = @aapairconstlines;
+	    for (my $i = 0; $i < @temp_rdlines; $i++)
+	    {
+		if ($temp_rdlines[$i] =~ m/#SYNTAXAAPAIR/)
+		{
+		    Process_aapairsyntax_reps($temp_rdlines[$i], $k, 'num_pair_aaconst');
+		}
+		else
+		{
+		    $temp_rdlines[$i] =~ s/\s+$//;
+		    print OUT $temp_rdlines[$i] ."\n";
+		}
+	    }
+	}
+    }
+
     elsif ($line_copy =~ m/Number of Experiments/)
     {
 	my $hashrd = $$ref{'num_exp'}->{exp_location};

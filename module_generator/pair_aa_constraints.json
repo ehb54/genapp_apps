@@ -1,0 +1,207 @@
+############## AMINO ACID CONSTRAINTS #####################################################################
+	        { 
+		  "role"     : "input",  
+		  "id"       : "pair_aaconst",
+		  "label"    : "Pair of Amino Acid Constraints",
+		  "type"     : "label",
+		  "prehline" : "true",
+		  "posthline": "true",
+		  "default"  : ""
+		},
+               { 
+                   "role"     : "input",  
+                   "id"       : "num_pair_aaconst",
+                   "label"    : "Number of Pairs of Amino Acid Constraints: ",
+                   "type"     : "integer",  
+                   "required" : "yes",
+                   "repeater" : "yes",
+		   "default"  : 0,
+		   "min"      : 0,
+ 	           "help"     : ""
+	       },
+                { 
+		  "role"     : "input",  
+		  "id"       : "aa_number_i",
+		  "label"    : "AA Number, i",
+		  "type"     : "text",
+		  "size"     : 3,
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+
+               { 
+		  "role"     : "input",  
+		  "id"       : "rdfl_number_i",
+		  "label"    : "RD or FL Number, i",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "sym_number_i",
+		  "label"    : "Symmetry Operation Number, i",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+                { 
+		  "role"     : "input",  
+		  "id"       : "screw_axis_number_i",
+		  "label"    : "Screw-Axis Polymerization Number, i",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "atom_code_i",
+		  "label"    : "Pdb Atom Code, i",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+
+               { 
+		  "role"     : "input",  
+		  "id"       : "aa_number_j",
+		  "label"    : "AA Number, j",
+		  "type"     : "text",
+		  "size"     : 3,
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+
+               { 
+		  "role"     : "input",  
+		  "id"       : "rdfl_number_j",
+		  "label"    : "RD or FL Number, j",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "sym_number_j",
+		  "label"    : "Symmetry Operation Number, j",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+                { 
+		  "role"     : "input",  
+		  "id"       : "screw_axis_number_j",
+		  "label"    : "Screw-Axis Polymerization Number, j",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "atom_code_j",
+		  "label"    : "Pdb Atom Code, j",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+
+               { 
+		  "role"     : "input",  
+		  "id"       : "coor_vect_pair",
+		  "label"    : "Coordinate Vector, R_ij",
+		  "type"     : "listbox",
+		  "values"   : "x~x~y~y~z~z~r~r~a~a~b~b~rc~rc~ac~ac",
+ 		  #"repeater" : "true",
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "condition_pair",
+		  "label"    : "Condition",
+		  "type"     : "listbox",
+		  "values"   : "=~=~>~>~>=~>=~<~<~<=~<=~max~max~min~min",
+ 		  #"repeater" : "true",
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "val_name_vect_pair",
+		  "label"    : "Value, Name, Vector, U_dd",
+		  "type"     : "listbox",
+		  "values"   : "value~value~name~name~x~x~y~y~z~z~r~r~a~a~b~b~rc~rc~ac~ac",
+ 		  "repeater" : "true",
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+              { 
+		  "role"     : "input",  
+		  "id"       : "val_name_vect_value_pair",
+		  "label"    : "Value: ",
+		  "type"     : "text",
+		  "required" : "true",
+		  "repeat"   : "val_name_vect_pair:value"  
+		},
+              { 
+		  "role"     : "input",  
+		  "id"       : "val_name_vect_name_pair",
+		  "label"    : "Name: ",
+		  "type"     : "text",
+		  "required" : "true",
+		  "repeat"   : "val_name_vect_pair:name"  
+		},
+               { 
+		  "role"     : "input",  
+		  "id"       : "fact_value_pair",
+		  "label"    : "Factor Value",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "no",
+		  "repeat"   : "num_pair_aaconst"  
+	       },
+               { 
+		  "role"     : "input",  
+		  "id"       : "method_pair",
+		  "label"    : "Method",
+		  "type"     : "listbox",
+		  "values"   : "st~st~el~el",
+ 		  #"repeater" : "true",
+		  "required" : "true",
+		  "repeat"   : "num_pair_aaconst"  
+		},
+              { 
+		  "role"     : "input",  
+		  "id"       : "k_pair",
+		  "label"    : "K",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "false",
+		  "repeat"   : "num_pair_aaconst"  
+	       },
+              { 
+		  "role"     : "input",  
+		  "id"       : "name_pair",
+		  "label"    : "Name",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "false",
+		  "repeat"   : "num_pair_aaconst"  
+	       },
+              { 
+		  "role"     : "input",  
+		  "id"       : "flag_pair",
+		  "label"    : "Flag",
+		  "type"     : "text",
+		  "size"     : 3, 
+		  "required" : "yes",
+		  "repeat"   : "num_pair_aaconst"  
+	       },
