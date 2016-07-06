@@ -2,9 +2,9 @@
                                                                                 
  OPTIMIZATION PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  #TAG
 
- Number of Cycles per Sub-Run .........:3       #TAG
- Maximum Number of Sub-Run ............:10      #TAG
- Hypothetical Final H(X) ..............:0.02    #TAG
+ Number of Cycles per Sub-Run .........:1       #TAG
+ Maximum Number of Sub-Run ............:2      #TAG
+ Hypothetical Final H(X) ..............:0.1    #TAG
  Constant Value of T* (if not 0.0) ....:0.0
  Iterations Number for Error Analysis .: 0
  Maximum Rank L for [A^i][l,m](Q) .....:7       #TAG
@@ -48,7 +48,7 @@
  Two-states comparison flag (1/0) .....:0
  Factor H starting ....................:2.0      #TAG  
  Maximum Displ. in comparison (Angs.) .:300.0
- icolumn3 .............................:0        #TAG
+ icolumn3 .............................:1        #TAG
  iconfr_rot ...........................:0
  qinputscale ..........................:1.0      #TAG
  sinputscale ..........................:1.0      #TAG
@@ -70,7 +70,7 @@
  Number of Hierarchic Aggregates ......:1        #NUMAG
  Write the Aggregate Section In Order of Decreasing Symmetry
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Aggregate
- Point Group Symmetry .................:C1       #TAG
+ Point Group Symmetry .................:D2       #TAG
  Point Group Reference System ..: alpha:    0.0000     #T_CBR 
                            (deg)  beta :    0.0000     #T_CBR 
                                   gamma:    0.0000     #T_CBR#END 
@@ -78,7 +78,7 @@
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]
  Screw Axis Orientation: alpha (deg) ..:   0.00000          0.0000        360.0000         20.0000         0   #T_CBR 
                          cos(beta) ....:   1.0000          -1.0000          1.0000          0.5000         0   #T_CBR#END 
- Rotation along Screw Axis (deg) ......:   0.99018          0.0000         120.000          64.250         0   #TAG
+ Rotation along Screw Axis (deg) ......:   0.99018          0.0000         180.000          64.250         0   #TAG
  Screw Translation along z (Ang.) .....:   141.133          5.0000         100.000          40.531         0   #TAG
  Contraction factor gamma .............:      1.0
  Effective Aver. Atomic Radius (Angs.) :     1.62
@@ -220,12 +220,12 @@
 *************************** Rigid Domain
     RD PDB File Name (without .pdb) ...:pdb/pdb_RD_1    #UNITSTR
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]  
-    Geom. Center Vect.: modulus (ang.) :    11.299          0.0000          105.00          2.0000         0   #T_CBR
-                        alpha   (deg) .:   -64.799         -180.00          180.00          90.000         0   #T_CBR
-                        cos(beta) .....:   0.85824         -1.0000          1.0000         0.50000         0   #T_CBR#END
-    Rotation Angles:    alpha_a (deg) .:   -134.26         -180.00          180.00          90.000         0   #T_CBR
-                        cos(beta_a) ...:   0.99356         -1.0000          1.0000         0.50000         0   #T_CBR
-                        gamma_a (deg) .:   -1.6726         -180.00          180.00          90.000         0   #T_CBR#END
+    Geom. Center Vect.: modulus (ang.) :    26.005          0.0000           10.00          2.0000        -1   #T_CBR
+                        alpha   (deg) .:   -92.221         -180.00          180.00          90.000         1   #T_CBR
+                        cos(beta) .....:  -0.60943         -1.0000          1.0000         0.50000         1   #T_CBR#END
+    Rotation Angles:    alpha_a (deg) .:   -134.86         -180.00          180.00          90.000         1   #T_CBR
+                        cos(beta_a) ...:   0.35934E-002    -1.0000          1.0000         0.50000         1   #T_CBR
+                        gamma_a (deg) .:    149.80         -180.00          180.00          90.000         1   #T_CBR#END
 ********************************* Linker
  Primary structure from N- to C-term ..:MGSSHHHHHHSS              #TAG
  RD # attached to the linker's N-term .:         0		  #TAG
