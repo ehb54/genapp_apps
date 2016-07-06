@@ -239,10 +239,8 @@
  Starting values of chi angles ........:						       #LREP
 ***************** Amino acid Constraints
  AA |RD|SS|POL| Atom|Coord.vector r_i |     Condition     |Val,Name,Vec.u_d |Fact.Val.|Method|   K    |Name  |Flag
-    |FL|  |   |     |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0   
-524  1  1  1    CA      rc                     >            10.0                1.0     el      10.0           0    #AACONST
-250  2  1  1    CA      rc                     >             0.                         el      10.0   ppp     0
-78   1  1  1    CA      rc                     >=           ppp                         el      10.0           0
+    |FL|  |   |     |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0   #AABEGIN
+524  1  1  1    CA      rc                     >            10.0                1.0     el      10.0   ppp     0    #AACONST#SYNTAXAA
 ******** Pairs of Amino acid Constraints
 i:AA|RD|SS|POL|i:Atom|j:AA|RD|SS|POL|j:Atom|Coord.vector r_ij|     Condition     |Val,Name,Vec.u_dd|Fact.Val.|Method|   K    |Name  |Flag
     |FL|  |   |      |    |FL|  |   |      |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0

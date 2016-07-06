@@ -80,7 +80,7 @@
 		  "id"       : "condition",
 		  "label"    : "Condition",
 		  "type"     : "listbox",
-		  "values"   : "=~eq~>~more~>=~more_eq~<~less~<=~less_eq~max~max~min~min",
+		  "values"   : "=~=~>~>~>=~>=~<~<~<=~<=~max~max~min~min",
  		  #"repeater" : "true",
 		  "required" : "true",
 		  "repeat"   : "num_aaconst"  
@@ -117,7 +117,7 @@
 		  "label"    : "Factor Value",
 		  "type"     : "text",
 		  "size"     : 3, 
-		  "required" : "false",
+		  "required" : "no",
 		  "repeat"   : "num_aaconst"  
 	       },
                { 

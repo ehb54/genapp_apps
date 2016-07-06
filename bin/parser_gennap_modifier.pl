@@ -7,6 +7,7 @@ use File::Basename;
 use File::Copy;
 use FindBin '$Bin';
 use File::Path;
+use POSIX;
 
 ###########################################################
 
@@ -33,6 +34,98 @@ sub Process_pdb_reps {
     print OUT $id.":". $pdbfilename ."\n";
 }	
 
+sub Process_aasyntax_reps {
+
+    my $temp_rdlines = $_[0];
+    my $k = $_[1];
+    my $repeatername = $_[2];
+       
+    $temp_rdlines =~ s/#SYNTAXAA//;
+    chomp $temp_rdlines;
+    
+    my $id_key = 'aa_number';
+    my $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(5 - $len);			
+
+    $id_key = 'rdfl_number';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(3 - $len);
+
+    $id_key = 'sym_number';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(3 - $len);
+
+    $id_key = 'screw_axis_number';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(4 - $len);
+        
+    $id_key = 'atom_code';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(6 - $len);
+
+    $id_key = 'coor_vect';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(18 - $len);
+
+    $id_key = 'condition';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(20 - $len);
+    
+    my $id_key_upper_level = 'val_name_vect';
+    if (exists $$ref{$repeatername}->{$id_key_upper_level}[$k]{value}{val_name_vect_value})
+    {
+	$len = length($$ref{$repeatername}->{$id_key_upper_level}[$k]{value}{val_name_vect_value});
+	print OUT $$ref{$repeatername}->{$id_key_upper_level}[$k]{value}{val_name_vect_value};
+	print OUT " " x ceil(18 - $len);
+    }
+    elsif (exists $$ref{$repeatername}->{$id_key_upper_level}[$k]{name}{val_name_vect_name})
+    {
+	$len = length($$ref{$repeatername}->{$id_key_upper_level}[$k]{name}{val_name_vect_name});
+	print OUT $$ref{$repeatername}->{$id_key_upper_level}[$k]{name}{val_name_vect_name};
+	print OUT " " x ceil(18 - $len);
+    }
+    else
+    {
+	$len = length($$ref{$repeatername}->{$id_key_upper_level}[$k]);
+	print OUT $$ref{$repeatername}->{$id_key_upper_level}[$k];
+	print OUT " " x ceil(18 - $len);
+    }
+    
+    $id_key = 'fact_value';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(10 - $len);
+
+    $id_key = 'method';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(7 - $len);
+
+    $id_key = 'k';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(9 - $len);
+
+    $id_key = 'name';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(7 - $len);
+
+    $id_key = 'flag';
+    $len = length($$ref{$repeatername}->{$id_key}[$k]); 
+    print OUT $$ref{$repeatername}->{$id_key}[$k];
+    print OUT " " x ceil(4 - $len);
+
+
+    print OUT "\n";
+}	
 
 sub Process_tag_reps {
     
@@ -326,7 +419,7 @@ my $temp_input_file = 'qua_temp.dat';
 open OUT_TEMP, ">$temp_input_file";
 
 my $tag_id_key;
-my @aglines, @rdlines, @explines, @fllines;
+my @aglines, @rdlines, @explines, @fllines, @aaconstlines;
 
 ## File transformation ###########################
 open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
@@ -354,6 +447,13 @@ while (my $line = <$fh>) {
 	push (@rdlines, $line_copy);
 	next;
     }
+    if ($line_copy =~ m/#AACONST/)
+    {
+	$line_copy =~ s/#AACONST//;
+	chomp $line_copy;
+	push (@aaconstlines, $line_copy);
+	next;
+    }  	
     if ($line_copy =~ m/#EXPREP/)
     {
 	$line_copy =~ s/#EXPREP//;
@@ -461,6 +561,31 @@ while (my $line = <$fh>) {
 		elsif ($temp_rdlines[$i] =~ m/#PDB/)
 		{
 		    Process_pdb_reps($temp_rdlines[$i], $k, 'num_rigid_domains', 'pdb_location');
+		}
+		else
+		{
+		    $temp_rdlines[$i] =~ s/\s+$//;
+		    print OUT $temp_rdlines[$i] ."\n";
+		}
+	    }
+	}
+    }
+    elsif ($line_copy =~ m/#AABEGIN/)
+    {
+	$line_copy =~ s/#AABEGIN//;
+	print OUT $line_copy;
+
+	my $hashrd = $$ref{'num_aaconst'}->{aa_number};
+	my $length = scalar( @{ $hashrd } );
+	
+	for ( my $k = 0; $k < $length; $k++)
+	{
+	    my @temp_rdlines = @aaconstlines;
+	    for (my $i = 0; $i < @temp_rdlines; $i++)
+	    {
+		if ($temp_rdlines[$i] =~ m/#SYNTAXAA/)
+		{
+		    Process_aasyntax_reps($temp_rdlines[$i], $k, 'num_aaconst');
 		}
 		else
 		{
