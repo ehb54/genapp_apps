@@ -62,7 +62,7 @@
 
  STRUCTURE OF STATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     #TAG
                                                                                
- Number of Independent States .........:1        #TAG
+ Number of Independent States .........:1        #NUMST
 ---------------------------------------------------------- State
  Number of MC State's Configurations ..:1        #TAG
  Number of Sites ......................:12       #NUMRD                                           [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|

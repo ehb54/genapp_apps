@@ -371,8 +371,24 @@ for my $key ( sort keys %data )
     }
     else
     {
-	# IF AGGREGATES BLOCK ###################################
+	
+	# IF STATES BLOCK ###################################
 	my $repline = "\#";
+	if ($label_key eq 'Number of MC States Configurations')
+	{
+	    print "\n";
+	    open(my $fh, '<', 'states_repeater.json') or die "Can't read file '$file' [$!]\n";
+	    while (my $line = <$fh>) {
+		print $line;
+	    }
+	}
+	if ($label_key eq 'Number of MC States Configurations')
+	{
+	    $repline = " \"repeat\" : \"num_states\", ";
+	}	
+
+	# IF AGGREGATES BLOCK ###################################
+	#my $repline = "\#";
 	if ($label_key eq 'Point Group Symmetry')
 	{
 	    print "\n";

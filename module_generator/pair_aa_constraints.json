@@ -2,10 +2,11 @@
 	        { 
 		  "role"     : "input",  
 		  "id"       : "pair_aaconst",
-		  "label"    : "Pair of Amino Acid Constraints",
+		  "label"    : "PAIR OF AMINO ACID CONSTRAINTS",
 		  "type"     : "label",
 		  "prehline" : "true",
 		  "posthline": "true",
+		  "repeat"   : "num_states",  
 		  "default"  : ""
 		},
                { 
@@ -17,6 +18,7 @@
                    "repeater" : "yes",
 		   "default"  : 0,
 		   "min"      : 0,
+		   "repeat"   : "num_states",  
  	           "help"     : ""
 	       },
                 { 

@@ -1,0 +1,13 @@
+############## INDEPENDENT STATES #####################################################################
+               { 
+		  "role"     : "input",  
+		  "id"       : "num_states",
+		  "label"    : "Number of Independent States: ",
+		  "type"     : "integer",
+		  "repeater" : "true",   
+		  "required" : "true",
+		  "default"  : 1,
+		  "min"      : 1  
+		},
+
+ 

@@ -2,10 +2,11 @@
 	        { 
 		  "role"     : "input",  
 		  "id"       : "aggregates",
-		  "label"    : "Hierarchic Aggregates",
+		  "label"    : "HIERARCHIC AGGREGATES",
 		  "type"     : "label",
 		  "prehline" : "true",
 		  "posthline": "true",
+		  "repeat"   : "num_states", 
 		  "default"  : ""
 		},
                { 
@@ -15,6 +16,7 @@
 		  "type"     : "integer",
 		  "repeater" : "true",   
 		  "required" : "true",
+		  "repeat"   : "num_states", 
 		  "default"  : 1,
 		  "min"      : 1  
 		},

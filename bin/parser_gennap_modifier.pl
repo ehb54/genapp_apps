@@ -543,12 +543,20 @@ my $temp_input_file = 'qua_temp.dat';
 open OUT_TEMP, ">$temp_input_file";
 
 my $tag_id_key;
-my @aglines, @rdlines, @explines, @fllines, @aaconstlines, @aapairconstlines;
+my @stlines, @aglines, @rdlines, @explines, @fllines, @aaconstlines, @aapairconstlines;
 
 ## File transformation ###########################
 open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
 while (my $line = <$fh>) {
     my $line_copy = $line;
+
+    if ($line_copy =~ m/#STATES/)
+    {
+	$line_copy =~ s/#STATES//;
+	chomp $line_copy;
+	push (@stlines, $line_copy);
+	next;
+    } 
 
     if ($line_copy =~ m/#AGREP/)
     {
@@ -603,6 +611,9 @@ close OUT_TEMP;
 open(my $fh, '<', $temp_input_file) or die "Can't read file '$file' [$!]\n";
 while (my $line = <$fh>) {
     my $line_copy = $line;
+
+    
+    
 
     if ($line_copy =~ m/Aggregate  #AGBEGIN/)
     {
@@ -1027,6 +1038,19 @@ while (my $line = <$fh>) {
 	}
     }
     # END PROCESS LISTBOXES ##################
+    elsif ($line_copy =~ m/#NUMST/)
+    {
+	$line_copy =~ s/#NUMST//;
+	chomp $line_copy;
+	my $id_exp = (split(/[:]/, $line))[0];
+	#my $dval = (split(/[:]/, $line))[-1];
+	
+	#print OUT "$id_exp:$pdbfilename\n";
+	my $size = $$ref{'num_states'}->{number_of_mc_states_configurations};
+	my $length = scalar( @{ $size } );
+	print OUT $id_exp.":". $length."\n";
+    }
+
     elsif ($line_copy =~ m/#NUMAG/)
     {
 	$line_copy =~ s/#NUMAG//;

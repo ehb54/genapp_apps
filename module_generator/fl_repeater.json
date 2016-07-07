@@ -2,10 +2,11 @@
 	        { 
 		  "role"     : "input",  
 		  "id"       : "flinkers",
-		  "label"    : "Flexible Linkers",
+		  "label"    : "FLEXIBLE LINKERS",
 		  "type"     : "label",
 		  "prehline" : "true",
 		  "posthline": "true",
+		  "repeat"   : "num_states",  
 		  "default"  : ""
 		},
                  { 
@@ -16,6 +17,7 @@
                      "checked"  : "false",
 		     "required" : "false",
                      "repeater" : "no",
+		     "repeat"   : "num_states", 
  		     "help"     : ""
 		 },
                { 
@@ -33,6 +35,7 @@
 		  "type"     : "integer",
 		  "repeater" : "true",   
 		  "required" : "true",
+		  "repeat"   : "num_states", 
 		  "default"  : 0,
 		  "min"      : 0  
 		},

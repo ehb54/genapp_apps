@@ -197,17 +197,20 @@
 			  "posthline": "true",
 			  "default"  : ""
 			},
-		   { 
-		     "role"     : "input",  
-                     "id"       : "number_of_independent_states",
-                     "label"    : "Number of Independent States",
-                     "type"     : "text", 
-                     "size"     : 6,
-                     "default"  : "1",
- 		     "required" : "true",
-                   #
- 		     "help"     : ""	
- 		 },
+############## INDEPENDENT STATES #####################################################################
+               { 
+		  "role"     : "input",  
+		  "id"       : "num_states",
+		  "label"    : "Number of Independent States: ",
+		  "type"     : "integer",
+		  "repeater" : "true",   
+		  "required" : "true",
+		  "default"  : 1,
+		  "min"      : 1  
+		},
+
+ 
+
 		   { 
 		     "role"     : "input",  
                      "id"       : "number_of_mc_states_configurations",
@@ -216,17 +219,18 @@
                      "size"     : 6,
                      "default"  : "1",
  		     "required" : "true",
-                   #
+                    "repeat" : "num_states", 
  		     "help"     : ""	
  		 },
 ############## AGGREGATES #####################################################################
 	        { 
 		  "role"     : "input",  
 		  "id"       : "aggregates",
-		  "label"    : "Hierarchic Aggregates",
+		  "label"    : "HIERARCHIC AGGREGATES",
 		  "type"     : "label",
 		  "prehline" : "true",
 		  "posthline": "true",
+		  "repeat"   : "num_states", 
 		  "default"  : ""
 		},
                { 
@@ -236,6 +240,7 @@
 		  "type"     : "integer",
 		  "repeater" : "true",   
 		  "required" : "true",
+		  "repeat"   : "num_states", 
 		  "default"  : 1,
 		  "min"      : 1  
 		},
@@ -266,18 +271,6 @@
 		 },
 		   { 
 		     "role"     : "input",  
-                     "id"       : "alpha",
-                     "label"    : "alpha",
-                     "type"     : "text",  
-                     "default"  : "0.0000",
- 		     "required" : "true",
-                     "size"     : 4,
-                     "repeat"   : "point_group_reference_system",
-                     "norow"    : "true",
- 		     "help"     : ""	
- 		 },
-		   { 
-		     "role"     : "input",  
                      "id"       : "deg__beta",
                      "label"    : "deg__beta",
                      "type"     : "text",  
@@ -292,6 +285,18 @@
 		     "role"     : "input",  
                      "id"       : "gamma",
                      "label"    : "gamma",
+                     "type"     : "text",  
+                     "default"  : "0.0000",
+ 		     "required" : "true",
+                     "size"     : 4,
+                     "repeat"   : "point_group_reference_system",
+                     "norow"    : "true",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
+                     "id"       : "alpha",
+                     "label"    : "alpha",
                      "type"     : "text",  
                      "default"  : "0.0000",
  		     "required" : "true",
@@ -322,85 +327,6 @@
                     "repeat" : "num_ags", 
 		     "help"     : ""
 		 },
-		              { 
-		                "role"     : "input",  
-                                "id"       : "cosbetascrew_axis_orientation",
-                                #"label"    : "cosbeta",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "cosbeta",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "screw_axis_orientation",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startingcosbetascrew_axis_orientation",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "default"  : "1.0000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Lowercosbetascrew_axis_orientation",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "default"  : "-1.0000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Uppercosbetascrew_axis_orientation",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "default"  : "1.0000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplingcosbetascrew_axis_orientation",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "default"  : "0.5000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flagcosbetascrew_axis_orientation",
-                                  "label"    : "Flag",
-                                  "type"     : "text",  
-                                  "default"  : "0",
- 		                  "required" : "true",
-                                  "size"     : 2,
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
 		              { 
 		                "role"     : "input",  
                                 "id"       : "alpha_degscrew_axis_orientation",
@@ -476,6 +402,85 @@
  		                  "required" : "true",
                                   "size"     : 2,
                                   #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "false",
+ 		                  "help"     : ""	
+ 		             },
+		              { 
+		                "role"     : "input",  
+                                "id"       : "cosbetascrew_axis_orientation",
+                                #"label"    : "cosbeta",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "cosbeta",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "screw_axis_orientation",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startingcosbetascrew_axis_orientation",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "default"  : "1.0000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Lowercosbetascrew_axis_orientation",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "default"  : "-1.0000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Uppercosbetascrew_axis_orientation",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "default"  : "1.0000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplingcosbetascrew_axis_orientation",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "default"  : "0.5000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flagcosbetascrew_axis_orientation",
+                                  "label"    : "Flag",
+                                  "type"     : "text",  
+                                  "default"  : "0",
+ 		                  "required" : "true",
+                                  "size"     : 2,
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
                                   "repeat"   : "screw_axis_orientation",
                                   "norow"    : "false",
  		                  "help"     : ""	
@@ -697,10 +702,11 @@
 	        { 
 		  "role"     : "input",  
 		  "id"       : "rigid_domains",
-		  "label"    : "Rigid Domains",
+		  "label"    : "RIGID DOMAINS",
 		  "type"     : "label",
 		  "prehline" : "true",
 		  "posthline": "true",
+		  "repeat"   : "num_states",  
 		  "default"  : ""
 		},
 
@@ -711,6 +717,7 @@
 		  "type"     : "integer",
 		  "repeater" : "true",   
 		  "required" : "true",
+		  "repeat"   : "num_states",    
 		  "default"  : 1,
 		  "min"      : 1  
 		},
@@ -988,6 +995,85 @@
 		 },
 		              { 
 		                "role"     : "input",  
+                                "id"       : "alpha_a_degrotation_angles",
+                                #"label"    : "alpha_a_deg",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "alpha_a_deg",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "rotation_angles",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startingalpha_a_degrotation_angles",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "default"  : "-134.86",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Loweralpha_a_degrotation_angles",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "default"  : "-180.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Upperalpha_a_degrotation_angles",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "default"  : "180.00",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplingalpha_a_degrotation_angles",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "default"  : "90.000",
+ 		                  "required" : "true",
+                                  "size"     : 4,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flagalpha_a_degrotation_angles",
+                                  "label"    : "Flag",
+                                  "type"     : "text",  
+                                  "default"  : "1",
+ 		                  "required" : "true",
+                                  "size"     : 2,
+                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "false",
+ 		                  "help"     : ""	
+ 		             },
+		              { 
+		                "role"     : "input",  
                                 "id"       : "cosbeta_arotation_angles",
                                 #"label"    : "cosbeta_a",
                                 "label"    : "",
@@ -1144,93 +1230,15 @@
                                   "norow"    : "false",
  		                  "help"     : ""	
  		             },
-		              { 
-		                "role"     : "input",  
-                                "id"       : "alpha_a_degrotation_angles",
-                                #"label"    : "alpha_a_deg",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "alpha_a_deg",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "rotation_angles",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startingalpha_a_degrotation_angles",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "default"  : "-134.86",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Loweralpha_a_degrotation_angles",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "default"  : "-180.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Upperalpha_a_degrotation_angles",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "default"  : "180.00",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplingalpha_a_degrotation_angles",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "default"  : "90.000",
- 		                  "required" : "true",
-                                  "size"     : 4,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flagalpha_a_degrotation_angles",
-                                  "label"    : "Flag",
-                                  "type"     : "text",  
-                                  "default"  : "1",
- 		                  "required" : "true",
-                                  "size"     : 2,
-                                  #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
 ############## FLEXIBLE LINKERS #####################################################################
 	        { 
 		  "role"     : "input",  
 		  "id"       : "flinkers",
-		  "label"    : "Flexible Linkers",
+		  "label"    : "FLEXIBLE LINKERS",
 		  "type"     : "label",
 		  "prehline" : "true",
 		  "posthline": "true",
+		  "repeat"   : "num_states",  
 		  "default"  : ""
 		},
                  { 
@@ -1241,6 +1249,7 @@
                      "checked"  : "false",
 		     "required" : "false",
                      "repeater" : "no",
+		     "repeat"   : "num_states", 
  		     "help"     : ""
 		 },
                { 
@@ -1258,6 +1267,7 @@
 		  "type"     : "integer",
 		  "repeater" : "true",   
 		  "required" : "true",
+		  "repeat"   : "num_states", 
 		  "default"  : 0,
 		  "min"      : 0  
 		},
@@ -1337,10 +1347,11 @@
 	        { 
 		  "role"     : "input",  
 		  "id"       : "aaconst",
-		  "label"    : "Amino Acid Constraints",
+		  "label"    : "AMINO ACID CONSTRAINTS",
 		  "type"     : "label",
 		  "prehline" : "true",
 		  "posthline": "true",
+		  "repeat"   : "num_states",  
 		  "default"  : ""
 		},
                { 
@@ -1352,6 +1363,7 @@
                    "repeater" : "yes",
 		   "default"  : 0,
 		   "min"      : 0,
+		   "repeat"   : "num_states",
  	           "help"     : ""
 	       },
                 { 
@@ -1497,10 +1509,11 @@
 	        { 
 		  "role"     : "input",  
 		  "id"       : "pair_aaconst",
-		  "label"    : "Pair of Amino Acid Constraints",
+		  "label"    : "PAIR OF AMINO ACID CONSTRAINTS",
 		  "type"     : "label",
 		  "prehline" : "true",
 		  "posthline": "true",
+		  "repeat"   : "num_states",  
 		  "default"  : ""
 		},
                { 
@@ -1512,6 +1525,7 @@
                    "repeater" : "yes",
 		   "default"  : 0,
 		   "min"      : 0,
+		   "repeat"   : "num_states",  
  	           "help"     : ""
 	       },
                 { 
