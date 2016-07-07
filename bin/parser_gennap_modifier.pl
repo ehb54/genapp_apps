@@ -1327,6 +1327,8 @@ while (my $line = <$fh>) {
 
 close OUT;
 
+#exit;
+
 ####################################################
 
 # setup up the socket handle once:

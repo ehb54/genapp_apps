@@ -344,20 +344,27 @@ for my $key ( sort keys %data )
 		    {
 			my $norow_stat = "true";
 			my $sizetext = 4;
+			my $type = "text";
+			my $value = "\#";
+			my $default = "\"default\":\"$array1[$i]\"";
 			if ($array_ids[$i] eq 'Flag')
 			{
 			    $norow_stat = "false";
 			    $sizetext = 2; 
+			    $type = "listbox";
+			    $value = "\"values\":\"-1~-1~0~0~1~1~2~2\"";
+			    #$default = "\"default\": \"zero\"";
 			}
 			print "
 		                { 
 		                  \"role\"     : \"input\",  
                                   \"id\"       : \"$array_ids[$i]$id$id_key\",
                                   \"label\"    : \"$array_ids[$i]\",
-                                  \"type\"     : \"text\",  
-                                  \"default\"  : \"$array1[$i]\",
- 		                  \"required\" : \"true\",
+                                  \"type\"     : \"$type\",  
+                                  \"required\" : \"true\",
                                   \"size\"     : $sizetext,
+                                  $value,
+                                  $default,
                                   \#\"repeat\"   : \"$id_key$id_key:$id\",
                                   \"repeat\"   : \"$id_key\",
                                   \"norow\"    : \"$norow_stat\",
@@ -497,22 +504,38 @@ for my $key ( sort keys %data )
 		 ;
 		
 		for ( my $i = 0; $i < @array1; $i++)
+		{
+		   
+		    my $norow_stat = "true";
+		    my $sizetext = 4;
+		    my $type = "text";
+		    my $value = "\#";
+		    my $default = "\"default\":\"$array1[$i]\"";
+ 
+		    if ($array_ids[$i] eq 'Flag')
 		    {
-			print "
+			$norow_stat = "false";
+			$sizetext = 2; 
+			$type = "listbox";
+			$value = "\"values\":\"-1~-1~0~0~1~1~2~2\"";
+			#$default = "\"default\": \"zero\"";
+		    }
+		    print "
 		                { 
 		                  \"role\"     : \"input\",  
                                   \"id\"       : \"$array_ids[$i]$id_key\",
                                   \"label\"    : \"$array_ids[$i]\",
-                                  \"type\"     : \"text\",  
-                                  \"default\"  : \"$array1[$i]\",
- 		                  \"required\" : \"true\",
-                                  \"size\"     : 4,
+                                  \"type\"     : \"$type\",
+                                  $value,
+                                  \"required\" : \"true\",
+                                  \"size\"     : $sizetext,
+                                  $default,
                                   \"repeat\"   : \"$id_key\",
                                   \"norow\"    : \"true\",
  		                  \"help\"     : \"\"	
  		             },"    
 			     ;			
-		    }
+		}
 	    }
 	    else
 	    {
