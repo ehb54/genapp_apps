@@ -1503,7 +1503,91 @@ close OUT;
 
 ####################################################
 
+# setup up the socket handle once:
+my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => $$ref{ "_udpport" }, PeerAddr => $$ref{ "_udphost" } );
+$msg = {};
+$$msg{ "_uuid" } = $$ref{ "_uuid" };
+
+##############################################
+
+open my $command, "$Bin/quafit_source/quafit |";
+open my $output, "> output";
+open OUT_log, ">$p/logfile.txt";
+
+$$msg{ "_textarea" } = "Starting Calculations...\n\n";
+$sock->send( encode_json( $msg ) );
+while (<$command>)
+{
+    my $outputline = "$output $_";
+    if ($outputline =~ m/GLOB/)
+    {
+	$outputline =~ s/^\S+\s*//;
+    }
+    print OUT_log $outputline;
+    $$msg{ "_textarea" } = $outputline;
+    $sock->send( encode_json( $msg ) );
+}
+
+close OUT_log; 
+close $command;
+close $output;
+
+$$msg{ "_textarea" } = "\nCalculations Finished! \n";
+$sock->send( encode_json( $msg ) );
+
+##################################################### 
+
+my $mask1 = join "", "*", $$ref{ "codenumber" }, "*.cst";
+my $mask2 = join "", "*", $$ref{ "codenumber" }, "*.csw"; 
+unlink glob($mask1);
+unlink glob($mask2);
+
+my $old_loc = join "", "$p/qua", $$ref{ "codenumber" }, "*.*";
+my $arc_dir = $newdir;
+
+for my $file (glob $old_loc) {
+    move ($file, $arc_dir) or die $!;
+}
+
+my $archive_name = join "", "results_run_", $$ref{"projectname"}, "_", $pdbfilename, ".tar.gz";
+system("tar", "czf", "$archive_name", "$newdir");
+
+#$$res{ "outputfile" } = join "", $p, "/", $newdir, "/", "qua", $$ref{ "codenumber" }, ".dat";
+$$res{ "logfile" } = "$p/logfile.txt";
+$$res{ "results" } = "$p/$archive_name";
+
+
+my $num_subruns_length = length( $$ref{"maximum_number_of_subrun"} );
+my $num_subruns_formatted;
+
+if ($num_subruns_length == 1)
+{
+    $num_subruns_formatted = join "", 0, 0, $$ref{"maximum_number_of_subrun"};
+}
+else {
+    if ($num_subruns_length == 2)
+    {
+	$num_subruns_formatted = join "", 0, $$ref{"maximum_number_of_subrun"};
+    }
+    else {
+	if ($num_subruns_length == 3)  ## Number of SubRuns must be between 0 and 999 ??
+	{
+	    $num_subruns_formatted = $$ref{"maximum_number_of_subrun"};
+	}
+    }
+}
+
+my $pdbpartname = join "", "qua", $$ref{ "codenumber" }, $num_subruns_formatted;
+#print $pdbpartname;
+opendir(DIR, $newdir) || die "Cannot open $data_dir\n";
+@files = grep { /^${pdbpartname}_[0-9]{9}\.pdb$/ } readdir(DIR);
+closedir(DIR);
+
+@files = reverse sort @files;
+$$res{ "quaternary_pdb" } = join "", $p, "/", $newdir, "/",  @files[0];
+
 print encode_json( $res ). "\n" ;
+
 
 
 
