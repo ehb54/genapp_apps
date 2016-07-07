@@ -64,12 +64,12 @@
                                                                                
  Number of Independent States .........:1        #NUMST
 ---------------------------------------------------------- State   #STBEGIN  
- Number of MC State's Configurations ..:1        #STATES#TAG
+ Number of MC State's Configurations ..:#NMC       #STATES#NUMMC
  Number of Sites ......................:#NRD                                                          [---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|  #STATES#NUMRD
  Number of Flexible Linkers ...........:#L                 Sequence of RDs and FLs in the pdb ...: #SEQ      #STATES#NUMFL
  Number of Hierarchic Aggregates ......:1        #STATES#NUMAG
  Write the Aggregate Section In Order of Decreasing Symmetry  #STATES
- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Aggregate  #AGBEGIN  
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Aggregate  #AGREP 
  Point Group Symmetry .................:D2             #AGREP#TAG
  Point Group Reference System ..: alpha:    0.0000     #AGREP#T_CBR 
                            (deg)  beta :    0.0000     #AGREP#T_CBR 
@@ -217,7 +217,7 @@
  First Derivative Effectors #18 .......:    #AGREP
  First Derivative Effectors #19 .......:    #AGREP
  First Derivative Effectors #20 .......:    #AGREP
-*************************** Rigid Domain
+*************************** Rigid Domain                #RDREP
     RD PDB File Name (without .pdb) ...:pdb/pdb_RD_1    #RDREP#PDB
                                        [---Starting----|-----Lower-----|-----Upper-----|---Sampling----|Flag]  #RDREP
     Geom. Center Vect.: modulus (ang.) :    26.005          0.0000           10.00          2.0000        -1   #RDREP#T_CBR
@@ -226,7 +226,7 @@
     Rotation Angles:    alpha_a (deg) .:   -134.86         -180.00          180.00          90.000         1   #RDREP#T_CBR
                         cos(beta_a) ...:   0.35934E-002    -1.0000          1.0000         0.50000         1   #RDREP#T_CBR
                         gamma_a (deg) .:    149.80         -180.00          180.00          90.000         1   #RDREP#T_CBR#END
-********************************* Linker     #LINKERBEGIN
+********************************* Linker                          #LREP
  Primary structure from N- to C-term ..:MMGSSHHHHHHSSGLVPRGSHMG   #LREP#TAG
  RD # attached to the linker's N-term .:         0		  #LREP#TAG
  AA # of the PDB of the previous RD ...:         0		  #LREP#TAG
