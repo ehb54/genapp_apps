@@ -43,6 +43,33 @@ sub Process_pdb_reps {
     print OUT $id.":". $pdbfilename ."\n";
 }	
 
+sub Process_pdb_reps_exp {
+    
+    my $temp_rdlines = $_[0];	   
+    my $k = $_[1]; 
+    my $repeatername = $_[2]; 
+    my $pdb_location = $_[3]; 
+    my $ext = $_[4];
+
+    $temp_rdlines =~ s/#PDB//;
+    chomp $temp_rdlines;
+    
+    my $id = (split(/[:]/, $temp_rdlines))[0];
+    my $id_key = $id;
+    $id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+    $id_key =~ tr/ /_/;             # replace whitespace with underscore
+    $id_key =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
+    $id_key =~ s/_$//;              # remove underscore at the end
+    $id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase 
+    
+    my $pdbfilename = basename($$ref{$repeatername}->{$pdb_location}[$k][0]); 
+    if ($ext)
+    {
+	$pdbfilename =~ s{\.[^.]+$}{};  # removes extension;
+    }
+    print OUT $id.":". $pdbfilename ."\n";
+}	
+
 sub Process_aasyntax_reps {
 
     my $temp_rdlines = $_[0];
@@ -349,6 +376,101 @@ sub Process_tag_reps {
 	}
     }   
 }
+
+
+sub Process_tag_reps_exp {
+    
+    my $line_copy = $_[0];
+    my $k = $_[1];
+    my $repeatername = $_[2];
+
+    $line_copy =~ s/#TAG//;
+    chomp $line_copy;
+    
+    my $id = (split(/[:]/, $line_copy))[0];
+    my $dval = (split(/[:]/, $line_copy))[-1];
+    
+    my $id_key = $id;
+    $id_key =~ s/^\s*(.*?)\s*$/$1/; # remove whitespace from both ends
+    $id_key =~ tr/ /_/;             # replace whitespace with underscore
+    $id_key =~ tr/a-zA-Z0-9_//cd;   # retain only alphanumeric and underscore
+    $id_key =~ s/_$//;              # remove underscore at the end 
+    $id_key =~ tr/A-Z/a-z/;         # replace uppercase to lowercase  
+    
+    $dval =~ s/\s+$//;
+    $dval =~ s/^\s*(.*?)\s*$/$1/;   # remove whitespace from both ends
+    
+    my @array1 = split /\s+/,$dval;
+    
+    if (@array1 == 1)
+    {
+	my $label_key = $id; # label
+	$label_key =~ tr/a-zA-Z0-9_(\/)[] //cd; 
+	$label_key =~ s/^\s*(.*?)\s*$/$1/;
+	if ( $label_key =~ m/(1\/0)/ )
+	{
+	    $id_key =~ s/_10//ig;
+	    if ($dval == 0 && !(exists $$ref{$repeatername}->{$id_key}[$k]))   # Checkboxes!!
+	    {
+		$line_copy =~ s/#TAG//;
+		chomp $line_copy;
+		$line_copy =~ s/\s+$//;
+		print OUT $line_copy ."\n";
+	    }
+	    if ($dval == 1 && !(exists $$ref{$repeatername}->{$id_key}[$k]))   # Checkboxes!!
+	    {
+		print OUT "$id:0\n"; 
+	    }
+	    if ($$ref{$repeatername}->{$id_key}[$k] eq "on")
+	    {
+		$$ref{$repeatername}->{$id_key}[$k] = "1";
+		print OUT "$id:$$ref{$repeatername}->{$id_key}[$k]\n";
+	    }
+	}
+	else
+	{
+	    #print "VAR: " . $id .":". $$ref{$repeatername}->{$id_key};
+	    #exit;
+	    print OUT "$id:$$ref{$repeatername}->{$id_key}[$k]\n";
+	}
+    }
+    else
+    {
+	my @array_ids = ('Starting', 'Lower', 'Upper', 'Sampling', 'Flag' );
+	
+	#if (!exists ($$ref{$repeatername}->{$id_key}[$k]))
+	if ($$ref{$repeatername}->{$id_key}[$k] == null)
+	{
+	    $line_copy =~ s/#TAG//;
+	    chomp $line_copy;
+	    print OUT $line_copy . "\n"; 
+	}
+	else
+	{
+	    print OUT "$id:";
+	    for ( my $g = 0; $g < @array1; $g++)
+	    {
+		my $tag = "$array_ids[$g]$id_key";
+				
+		if ($g != @array1 -1)
+		{
+		    my $len = (16 - length($$ref{$repeatername}->{$id_key}[$k]{$tag}))/2.0; 
+		    print OUT " " x $len;
+		    print OUT $$ref{$repeatername}->{$id_key}[$k]{$tag};
+		    print OUT " " x $len;			
+		}
+		else
+		{
+		    my $len = (5 - length($$ref{$repeatername}->{$id_key}[$k]{$tag}))/2.0; 
+		    print OUT " " x $len;
+		    print OUT " " . $$ref{$repeatername}->{$id_key}[$k]{$tag};
+		}
+	    }
+	    print OUT "\n";
+	}
+    }   
+}
+
 
 
 sub Process_t_cbr_reps { 
@@ -978,35 +1100,31 @@ while (my $line = <$fh>) {
 
     elsif ($line_copy =~ m/Number of Experiments/)
     {
-	my $hashrd = $$ref{'num_exp'}->{exp_location};
-	my $length = scalar( @{ $hashrd } );
+	my $hash_exp = $$ref{'num_exp'}->{exp_location};
+	my $length_exp = scalar( @{ $hash_exp } );
 
 	my $label = (split(/[:]/, $line_copy))[0];
-	print OUT $label .":". $length . "\n";
+	print OUT $label .":". $length_exp . "\n";
 	
 	#print "VAR: " .$$ref{'num_rigid_domains'}->{geom_center_vect}[0]{Startingmodulus_anggeom_center_vect};
 	#exit;
-	for ( my $k = 0; $k < $length; $k++)
+	for ( my $k = 0; $k < $length_exp; $k++)
 	{
-	    my @temp_rdlines = @explines;
-	    for (my $i = 0; $i < @temp_rdlines; $i++)
+	    my @temp_explines = @explines;
+	    for (my $i = 0; $i < @temp_explines; $i++)
 	    {
-		if ($temp_rdlines[$i] =~ m/#TAG/)
+		if ($temp_explines[$i] =~ m/#TAG/)
 		{
-		    Process_tag_reps($temp_rdlines[$i], $k, 'num_exp');
+		    Process_tag_reps_exp($temp_explines[$i], $k, 'num_exp');
 		}
-		#elsif ($temp_rdlines[$i] =~ m/#T_CBR/)
-		#{
-		#    Process_t_cbr_reps($temp_rdlines[$i], $k, 'num_exp');
-		#}
-		#elsif ($temp_rdlines[$i] =~ m/#PDB/)
-		#{
-		#    Process_pdb_reps($temp_rdlines[$i], $k, 'num_exp', 'exp_location');
-		#}
+		elsif ($temp_explines[$i] =~ m/#PDB/)
+		{
+		    Process_pdb_reps_exp($temp_explines[$i], $k, 'num_exp', 'exp_location');
+		}
 		else
 		{
-		    $temp_rdlines[$i] =~ s/\s+$//;
-		    print OUT $temp_rdlines[$i] ."\n";
+		    $temp_explines[$i] =~ s/\s+$//;
+		    print OUT $temp_explines[$i] ."\n";
 		}
 	    }
 	}
