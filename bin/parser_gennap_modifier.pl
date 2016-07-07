@@ -431,8 +431,6 @@ sub Process_tag_reps_exp {
 	}
 	else
 	{
-	    #print "VAR: " . $id .":". $$ref{$repeatername}->{$id_key};
-	    #exit;
 	    print OUT "$id:$$ref{$repeatername}->{$id_key}[$k]\n";
 	}
     }
@@ -472,8 +470,6 @@ sub Process_tag_reps_exp {
 	}
     }   
 }
-
-
 
 sub Process_t_cbr_reps { 
 
@@ -670,10 +666,8 @@ mkdir $newdir, oct("777");
 
 ################################################################################
 
-
 #print " VAR:  " . $$ref{'num_states'}->{num_rigid_domains}[1]{geom_center_vect}[1]{Startingmodulus_anggeom_center_vect};
 #exit;
-
 
 ###############################################################################
 
@@ -1000,176 +994,10 @@ while (my $line = <$fh>) {
 		    }
 		}
 	    }
-
-
-
-
-	    
-	}
-	
-    }
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-    elsif ($line_copy =~ m/Aggregate  #AGBEGIN/)
-    {
-	$line_copy =~ s/#AGBEGIN//;
-	
-	my $hashrd = $$ref{'num_ags'}->{point_group_symmetry};
-	my $length = scalar( @{ $hashrd } );
-
-	for ( my $k = 0; $k < $length; $k++)
-	{
-	    print OUT $line_copy;
-	    my @temp_rdlines = @aglines;
-	    for (my $i = 0; $i < @temp_rdlines; $i++)
-	    {
-		if ($temp_rdlines[$i] =~ m/#TAG/)
-		{
-		    Process_tag_reps($temp_rdlines[$i], $k, 'num_ags');
-		}
-		#elsif ($temp_rdlines[$i] =~ m/#T_CBR/)
-		#{
-		#    Process_t_cbr_reps($temp_rdlines[$i], $k, 'num_ags');
-		#}
-		else
-		{
-		    $temp_rdlines[$i] =~ s/\s+$//;
-		    print OUT $temp_rdlines[$i] ."\n";
-		}
-	    }
 	}
     }
     
-    elsif ($line_copy =~ m/Linker     #LINKERBEGIN/)
-    {
-	$line_copy =~ s/#LINKERBEGIN//;
-	
-	my $hashrd = $$ref{'num_flinkers'}->{primary_structure_from_n_to_cterm};
-	my $length = scalar( @{ $hashrd } );
-
-	for ( my $k = 0; $k < $length; $k++)
-	{
-	    print OUT $line_copy;
-	    my @temp_rdlines = @fllines;
-	    for (my $i = 0; $i < @temp_rdlines; $i++)
-	    {
-		if ($temp_rdlines[$i] =~ m/#TAG/)
-		{
-		    Process_tag_reps($temp_rdlines[$i], $k, 'num_flinkers');
-		}
-		elsif ($temp_rdlines[$i] =~ m/#AACTERMFL/)
-		{
-		    $temp_rdlines[$i] =~ s/#AACTERMFL//;
-		    chomp $temp_rdlines[$i];
-		    my $id_exp = (split(/[:]/, $temp_rdlines[$i]))[0];
-		    
-		    print OUT $id_exp.":". $$ref{'num_flinkers'}->{aa__of_the_pdb_of_the_previous_rd_cterm}[$k] ."\n";
-		}
-		else
-		{
-		    $temp_rdlines[$i] =~ s/\s+$//;
-		    print OUT $temp_rdlines[$i] ."\n";
-		}
-	    }
-	}
-    }
-
-    elsif ($line_copy =~ m/Rigid Domain/)
-    {
-	my $hashrd = $$ref{'num_rigid_domains'}->{pdb_location};
-	my $length = scalar( @{ $hashrd } );
-
-	#print "VAR: " .$$ref{'num_rigid_domains'}->{geom_center_vect}[0]{Startingmodulus_anggeom_center_vect};
-	#exit;
-	for ( my $k = 0; $k < $length; $k++)
-	{
-	    print OUT $line_copy;
-	    my @temp_rdlines = @rdlines;
-	    for (my $i = 0; $i < @temp_rdlines; $i++)
-	    {
-		if ($temp_rdlines[$i] =~ m/#TAG/)
-		{
-		    Process_tag_reps($temp_rdlines[$i], $k, 'num_rigid_domains');
-		}
-		#elsif ($temp_rdlines[$i] =~ m/#T_CBR/)
-		#{
-		#    Process_t_cbr_reps($temp_rdlines[$i], $k, 'num_rigid_domains');
-		#}
-		#elsif ($temp_rdlines[$i] =~ m/#PDB/)
-		#{
-		#    Process_pdb_reps($temp_rdlines[$i], $k, 'num_rigid_domains', 'pdb_location', 1);
-		#}
-		else
-		{
-		    $temp_rdlines[$i] =~ s/\s+$//;
-		    print OUT $temp_rdlines[$i] ."\n";
-		}
-	    }
-	}
-    }
-    elsif ($line_copy =~ m/#AABEGIN/)
-    {
-	$line_copy =~ s/#AABEGIN//;
-	print OUT $line_copy;
-
-	my $hashrd = $$ref{'num_aaconst'}->{aa_number};
-	my $length = scalar( @{ $hashrd } );
-	
-	for ( my $k = 0; $k < $length; $k++)
-	{
-	    my @temp_rdlines = @aaconstlines;
-	    for (my $i = 0; $i < @temp_rdlines; $i++)
-	    {
-		if ($temp_rdlines[$i] =~ m/#SYNTAXAA/)
-		{
-		    Process_aasyntax_reps($temp_rdlines[$i], $k, 'num_aaconst');
-		}
-		else
-		{
-		    $temp_rdlines[$i] =~ s/\s+$//;
-		    print OUT $temp_rdlines[$i] ."\n";
-		}
-	    }
-	}
-    }
-    elsif ($line_copy =~ m/#AAPAIRBEGIN/)
-    {
-	$line_copy =~ s/#AAPAIRBEGIN//;
-	print OUT $line_copy;
-
-	my $hashrd = $$ref{'num_pair_aaconst'}->{aa_number_i};
-	my $length = scalar( @{ $hashrd } );
-	
-	for ( my $k = 0; $k < $length; $k++)
-	{
-	    my @temp_rdlines = @aapairconstlines;
-	    for (my $i = 0; $i < @temp_rdlines; $i++)
-	    {
-		if ($temp_rdlines[$i] =~ m/#SYNTAXAAPAIR/)
-		{
-		    Process_aapairsyntax_reps($temp_rdlines[$i], $k, 'num_pair_aaconst');
-		}
-		else
-		{
-		    $temp_rdlines[$i] =~ s/\s+$//;
-		    print OUT $temp_rdlines[$i] ."\n";
-		}
-	    }
-	}
-    }
-
+    # EXPERIMENTS ##############################################################
     elsif ($line_copy =~ m/Number of Experiments/)
     {
 	my $hash_exp = $$ref{'num_exp'}->{exp_location};
@@ -1453,8 +1281,6 @@ while (my $line = <$fh>) {
 	my $length = scalar( @{ $size } );
 	print OUT $id_exp.":". $length."\n";
     }
-
-
 
     elsif ($line_copy =~ m/#STONE_FLAG/)
     {
