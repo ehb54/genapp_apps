@@ -237,14 +237,14 @@
  Starting values of phi angles ........:    						       #LREP
  Starting values of psi angles ........:						       #LREP
  Starting values of chi angles ........:						       #LREP
-***************** Amino acid Constraints
- AA |RD|SS|POL| Atom|Coord.vector r_i |     Condition     |Val,Name,Vec.u_d |Fact.Val.|Method|   K    |Name  |Flag
-    |FL|  |   |     |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0   #AABEGIN
+***************** Amino acid Constraints                                                                            #AACODEF
+ AA |RD|SS|POL| Atom|Coord.vector r_i |     Condition     |Val,Name,Vec.u_d |Fact.Val.|Method|   K    |Name  |Flag  #AACODEF
+    |FL|  |   |     |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0   #AACODEF
 524  1  1  1    CA      rc                     >            10.0                1.0     el      10.0   ppp     0    #AACONST#SYNTAXAA
-******** Pairs of Amino acid Constraints
-i:AA|RD|SS|POL|i:Atom|j:AA|RD|SS|POL|j:Atom|Coord.vector r_ij|     Condition     |Val,Name,Vec.u_dd|Fact.Val.|Method|   K    |Name  |Flag
-    |FL|  |   |      |    |FL|  |   |      |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0    #AAPAIRBEGIN
-381   1  1   1   CA    293  2  1   1    CA           r                    >                 20.                  el      1.0            0   #AAPAIRCONST#SYNTAXAAPAIR
+******** Pairs of Amino acid Constraints                                                                                                   #AAPAIRCODEF
+i:AA|RD|SS|POL|i:Atom|j:AA|RD|SS|POL|j:Atom|Coord.vector r_ij|     Condition     |Val,Name,Vec.u_dd|Fact.Val.|Method|   K    |Name  |Flag  #AAPAIRCODEF
+    |FL|  |   |      |    |FL|  |   |      |x,y,z,r,a,b,rc,ac|=,>,>=,<,<=,max,min|x,y,z,r,a,b,rc,ac|         |st,el |        |      |1/0   #AAPAIRCODEF
+381   1  1   1   CA    293  2  1   1    CA           r                    >                 20.                  el      1.0            0  #AAPAIRCONST#SYNTAXAAPAIR
                                                                                                             
 SCHEME OF THE EQULIBRIA BETWEEN AGGREGATES Ai-Aj[1/0] %%%%%%%%%%%%%%%%%%%%%%
                                                                                
