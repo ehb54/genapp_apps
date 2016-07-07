@@ -719,7 +719,31 @@ while (my $line = <$fh>) {
 		    print OUT $temp_lines[$i] ."\n";
 		}
 	    }
+	    # AGGREGATES #################################
+	    my $hash_ag = $$ref{'num_states'}->{'num_ags'}[$j]{point_group_symmetry};
+	    my $length_ag = scalar( @{ $hash_ag } );
 	    
+	    for ( my $k = 0; $k < $length_ag; $k++)
+	    {
+		#print OUT $line_copy;
+		my @temp_aglines = @aglines;
+		for (my $i = 0; $i < @temp_aglines; $i++)
+		{
+		    if ($temp_aglines[$i] =~ m/#TAG/)
+		    {
+			Process_tag_reps($temp_aglines[$i], $j, $k, 'num_ags');
+		    }
+		    elsif ($temp_aglines[$i] =~ m/#T_CBR/)
+		    {
+		        Process_t_cbr_reps($temp_aglines[$i], $j, $k, 'num_ags');
+		    }
+		    else
+		    {
+			$temp_aglines[$i] =~ s/\s+$//;
+			print OUT $temp_aglines[$i] ."\n";
+		    }
+		}
+	    }
 	    # RIGID DOMAINS  ############################
 	    my $hash_rd = $$ref{'num_states'}->{num_rigid_domains}[$j]{pdb_location};
 	    my $length_rd = scalar( @{ $hash_rd } );
