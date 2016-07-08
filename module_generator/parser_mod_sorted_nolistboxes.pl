@@ -304,6 +304,12 @@ for my $key ( sort keys %data )
 		
 		if ( $role_counter == 1 )
 		{
+		    my $pattern = "\#";
+		    if ($id eq 'deg__beta' or $id eq 'alpha' or $id eq 'gamma')
+		    {
+			$pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		    }
+
 		    print "
 		   { 
 		     \"role\"     : \"input\",  
@@ -315,6 +321,7 @@ for my $key ( sort keys %data )
                      \"size\"     : 4,
                      \"repeat\"   : \"$id_key\",
                      \"norow\"    : \"true\",
+                     $pattern,
  		     \"help\"     : \"\"	
  		 },"    
 		 ;
@@ -343,10 +350,11 @@ for my $key ( sort keys %data )
 		    for ( my $i = 0; $i < @array1; $i++)
 		    {
 			my $norow_stat = "true";
-			my $sizetext = 4;
+			my $sizetext = 2;
 			my $type = "text";
 			my $value = "\#";
 			my $default = "\"default\":\"$array1[$i]\"";
+			my $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 			if ($array_ids[$i] eq 'Flag')
 			{
 			    $norow_stat = "false";
@@ -354,6 +362,7 @@ for my $key ( sort keys %data )
 			    $type = "listbox";
 			    $value = "\"values\":\"-1~-1~0~0~1~1~2~2\"";
 			    #$default = "\"default\": \"zero\"";
+			    $pattern = "\#";
 			}
 			print "
 		                { 
@@ -368,6 +377,7 @@ for my $key ( sort keys %data )
                                   \#\"repeat\"   : \"$id_key$id_key:$id\",
                                   \"repeat\"   : \"$id_key\",
                                   \"norow\"    : \"$norow_stat\",
+                                  $pattern, 
  		                  \"help\"     : \"\"	
  		             },"    
 			     ;			
@@ -507,10 +517,11 @@ for my $key ( sort keys %data )
 		{
 		   
 		    my $norow_stat = "true";
-		    my $sizetext = 4;
+		    my $sizetext = 2;
 		    my $type = "text";
 		    my $value = "\#";
 		    my $default = "\"default\":\"$array1[$i]\"";
+		    my $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
  
 		    if ($array_ids[$i] eq 'Flag')
 		    {
@@ -519,6 +530,7 @@ for my $key ( sort keys %data )
 			$type = "listbox";
 			$value = "\"values\":\"-1~-1~0~0~1~1~2~2\"";
 			#$default = "\"default\": \"zero\"";
+			$pattern = "\#";
 		    }
 		    print "
 		                { 
@@ -531,6 +543,7 @@ for my $key ( sort keys %data )
                                   \"size\"     : $sizetext,
                                   $default,
                                   \"repeat\"   : \"$id_key\",
+                                  $pattern,
                                   \"norow\"    : \"true\",
  		                  \"help\"     : \"\"	
  		             },"    
@@ -548,6 +561,16 @@ for my $key ( sort keys %data )
 		    $value = "\"values\":\"0~0~1~1~2~2\"";
 		    #$default = "\"default\":\"2\"";
 		}
+		my $pattern = "\#";
+		if ($lanel_key eq 'deg__beta' or $label_key eq 'alpha' or $label_key eq 'gamma')
+		{
+		    $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		}
+		if ($label_key eq 'Screw Polymerization Number')
+		{
+		    $pattern = "\"pattern\":\"^(0|[1-9][0-9]*)\$\"";   # Regex for Zero OR positive integers with no leading Zero
+		}
+
 		print "
 		   { 
 		     \"role\"     : \"input\",  
@@ -558,6 +581,7 @@ for my $key ( sort keys %data )
                      \"size\"     : 6,
                      $default,
  		     \"required\" : \"true\",
+                     $pattern,
                      $repline
  		     \"help\"     : \"\"	
  		 },"    

@@ -41,6 +41,7 @@
                      "size"     : 6,
                      "default":"1",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -53,6 +54,7 @@
                      "size"     : 6,
                      "default":"2",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -65,6 +67,7 @@
                      "size"     : 6,
                      "default":"0.1",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -77,6 +80,7 @@
                      "size"     : 6,
                      "default":"7",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -89,6 +93,7 @@
                      "size"     : 6,
                      "default":"7",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -101,6 +106,7 @@
                      "size"     : 6,
                      "default":"0.3",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -148,6 +154,7 @@
                      "size"     : 6,
                      "default":"0.8",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -160,6 +167,7 @@
                      "size"     : 6,
                      "default":"2.0",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -172,6 +180,7 @@
                      "size"     : 6,
                      "default":"1",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -184,6 +193,7 @@
                      "size"     : 6,
                      "default":"1.0",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -196,6 +206,7 @@
                      "size"     : 6,
                      "default":"1.0",
  		     "required" : "true",
+                     #,
                      #
  		     "help"     : ""	
  		 },
@@ -231,6 +242,7 @@
                      "size"     : 6,
                      "default":"1",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_states", 
  		     "help"     : ""	
  		 },
@@ -268,6 +280,7 @@
                      "size"     : 6,
                      "default":"D2",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_ags", 
  		     "help"     : ""	
  		 },
@@ -284,6 +297,19 @@
 		 },
 		   { 
 		     "role"     : "input",  
+                     "id"       : "alpha",
+                     "label"    : "alpha",
+                     "type"     : "text",  
+                     "default"  : "0.0000",
+ 		     "required" : "true",
+                     "size"     : 4,
+                     "repeat"   : "point_group_reference_system",
+                     "norow"    : "true",
+                     "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
+ 		     "help"     : ""	
+ 		 },
+		   { 
+		     "role"     : "input",  
                      "id"       : "deg__beta",
                      "label"    : "deg__beta",
                      "type"     : "text",  
@@ -292,6 +318,7 @@
                      "size"     : 4,
                      "repeat"   : "point_group_reference_system",
                      "norow"    : "true",
+                     "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
  		     "help"     : ""	
  		 },
 		   { 
@@ -304,18 +331,7 @@
                      "size"     : 4,
                      "repeat"   : "point_group_reference_system",
                      "norow"    : "true",
- 		     "help"     : ""	
- 		 },
-		   { 
-		     "role"     : "input",  
-                     "id"       : "alpha",
-                     "label"    : "alpha",
-                     "type"     : "text",  
-                     "default"  : "0.0000",
- 		     "required" : "true",
-                     "size"     : 4,
-                     "repeat"   : "point_group_reference_system",
-                     "norow"    : "true",
+                     "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
  		     "help"     : ""	
  		 },
 		   { 
@@ -327,6 +343,7 @@
                      "size"     : 6,
                      "default":"1",
  		     "required" : "true",
+                     "pattern":"^(0|[1-9][0-9]*)$",
                       "repeat" : "num_ags", 
  		     "help"     : ""	
  		 },
@@ -341,90 +358,6 @@
                     "repeat" : "num_ags", 
 		     "help"     : ""
 		 },
-		              { 
-		                "role"     : "input",  
-                                "id"       : "cosbetascrew_axis_orientation",
-                                #"label"    : "cosbeta",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "cosbeta",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "screw_axis_orientation",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startingcosbetascrew_axis_orientation",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "required" : "true",
-                                  "size"     : 4,
-                                  #,
-                                  "default":"1.0000",
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Lowercosbetascrew_axis_orientation",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "required" : "true",
-                                  "size"     : 4,
-                                  #,
-                                  "default":"-1.0000",
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Uppercosbetascrew_axis_orientation",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "required" : "true",
-                                  "size"     : 4,
-                                  #,
-                                  "default":"1.0000",
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplingcosbetascrew_axis_orientation",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "required" : "true",
-                                  "size"     : 4,
-                                  #,
-                                  "default":"0.5000",
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flagcosbetascrew_axis_orientation",
-                                  "label"    : "Flag",
-                                  "type"     : "listbox",  
-                                  "required" : "true",
-                                  "size"     : 2,
-                                  "values":"-1~-1~0~0~1~1~2~2",
-                                  "default":"0",
-                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
-                                  "repeat"   : "screw_axis_orientation",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
 		              { 
 		                "role"     : "input",  
                                 "id"       : "alpha_degscrew_axis_orientation",
@@ -445,12 +378,13 @@
                                   "label"    : "Starting",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"0.00000",
                                   #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
                                   "repeat"   : "screw_axis_orientation",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -459,12 +393,13 @@
                                   "label"    : "Lower",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"0.0000",
                                   #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
                                   "repeat"   : "screw_axis_orientation",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -473,12 +408,13 @@
                                   "label"    : "Upper",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"360.0000",
                                   #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
                                   "repeat"   : "screw_axis_orientation",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -487,12 +423,13 @@
                                   "label"    : "Sampling",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"20.0000",
                                   #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
                                   "repeat"   : "screw_axis_orientation",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -507,6 +444,96 @@
                                   #"repeat"   : "screw_axis_orientationscrew_axis_orientation:alpha_deg",
                                   "repeat"   : "screw_axis_orientation",
                                   "norow"    : "false",
+                                  #, 
+ 		                  "help"     : ""	
+ 		             },
+		              { 
+		                "role"     : "input",  
+                                "id"       : "cosbetascrew_axis_orientation",
+                                #"label"    : "cosbeta",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "cosbeta",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "screw_axis_orientation",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startingcosbetascrew_axis_orientation",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  #,
+                                  "default":"1.0000",
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Lowercosbetascrew_axis_orientation",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  #,
+                                  "default":"-1.0000",
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Uppercosbetascrew_axis_orientation",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  #,
+                                  "default":"1.0000",
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplingcosbetascrew_axis_orientation",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  #,
+                                  "default":"0.5000",
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flagcosbetascrew_axis_orientation",
+                                  "label"    : "Flag",
+                                  "type"     : "listbox",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  "values":"-1~-1~0~0~1~1~2~2",
+                                  "default":"0",
+                                  #"repeat"   : "screw_axis_orientationscrew_axis_orientation:cosbeta",
+                                  "repeat"   : "screw_axis_orientation",
+                                  "norow"    : "false",
+                                  #, 
  		                  "help"     : ""	
  		             },
 		   { 
@@ -527,9 +554,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"0.99018",
                                   "repeat"   : "rotation_along_screw_axis_deg",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -540,9 +568,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"0.0000",
                                   "repeat"   : "rotation_along_screw_axis_deg",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -553,9 +582,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"180.000",
                                   "repeat"   : "rotation_along_screw_axis_deg",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -566,9 +596,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"64.250",
                                   "repeat"   : "rotation_along_screw_axis_deg",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -582,6 +613,7 @@
                                   "size"     : 2,
                                   "default":"0",
                                   "repeat"   : "rotation_along_screw_axis_deg",
+                                  #,
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -603,9 +635,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"141.133",
                                   "repeat"   : "screw_translation_along_z_ang",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -616,9 +649,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"5.0000",
                                   "repeat"   : "screw_translation_along_z_ang",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -629,9 +663,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"100.000",
                                   "repeat"   : "screw_translation_along_z_ang",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -642,9 +677,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"40.531",
                                   "repeat"   : "screw_translation_along_z_ang",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -658,6 +694,7 @@
                                   "size"     : 2,
                                   "default":"0",
                                   "repeat"   : "screw_translation_along_z_ang",
+                                  #,
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -679,9 +716,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"1.05",
                                   "repeat"   : "relative_mass_density_hydr_shell___",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -692,9 +730,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"1.0",
                                   "repeat"   : "relative_mass_density_hydr_shell___",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -705,9 +744,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"1.07",
                                   "repeat"   : "relative_mass_density_hydr_shell___",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -718,9 +758,10 @@
                                   "type"     : "text",
                                   #,
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   "default":"0.5",
                                   "repeat"   : "relative_mass_density_hydr_shell___",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$",
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -734,6 +775,7 @@
                                   "size"     : 2,
                                   "default":"0",
                                   "repeat"   : "relative_mass_density_hydr_shell___",
+                                  #,
                                   "norow"    : "true",
  		                  "help"     : ""	
  		             },
@@ -804,12 +846,13 @@
                                   "label"    : "Starting",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"-0.60943",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:cosbeta",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -818,12 +861,13 @@
                                   "label"    : "Lower",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"-1.0000",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:cosbeta",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -832,12 +876,13 @@
                                   "label"    : "Upper",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"1.0000",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:cosbeta",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -846,12 +891,13 @@
                                   "label"    : "Sampling",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"0.50000",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:cosbeta",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -866,6 +912,7 @@
                                   #"repeat"   : "geom_center_vectgeom_center_vect:cosbeta",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "false",
+                                  #, 
  		                  "help"     : ""	
  		             },
 		              { 
@@ -888,12 +935,13 @@
                                   "label"    : "Starting",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"26.005",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -902,12 +950,13 @@
                                   "label"    : "Lower",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"0.0000",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -916,12 +965,13 @@
                                   "label"    : "Upper",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"10.00",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -930,12 +980,13 @@
                                   "label"    : "Sampling",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"2.0000",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -950,6 +1001,7 @@
                                   #"repeat"   : "geom_center_vectgeom_center_vect:modulus_ang",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "false",
+                                  #, 
  		                  "help"     : ""	
  		             },
 		              { 
@@ -972,12 +1024,13 @@
                                   "label"    : "Starting",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"-92.221",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -986,12 +1039,13 @@
                                   "label"    : "Lower",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"-180.00",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1000,12 +1054,13 @@
                                   "label"    : "Upper",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"180.00",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1014,12 +1069,13 @@
                                   "label"    : "Sampling",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"90.000",
                                   #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1034,6 +1090,7 @@
                                   #"repeat"   : "geom_center_vectgeom_center_vect:alpha___deg",
                                   "repeat"   : "geom_center_vect",
                                   "norow"    : "false",
+                                  #, 
  		                  "help"     : ""	
  		             },
                  { 
@@ -1047,90 +1104,6 @@
                     "repeat" : "num_rigid_domains", 
 		     "help"     : ""
 		 },
-		              { 
-		                "role"     : "input",  
-                                "id"       : "gamma_a_degrotation_angles",
-                                #"label"    : "gamma_a_deg",
-                                "label"    : "",
-                                "type"     : "text",  
-                                "default"  : "gamma_a_deg",
- 		                "required" : "true",
-                                "size"     : 5,
-                                "repeat"   : "rotation_angles",
-                                "norow"    : "true",
-                                "readonly" : "true",
- 		                "help"     : ""	
- 		           },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Startinggamma_a_degrotation_angles",
-                                  "label"    : "Starting",
-                                  "type"     : "text",  
-                                  "required" : "true",
-                                  "size"     : 4,
-                                  #,
-                                  "default":"149.80",
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Lowergamma_a_degrotation_angles",
-                                  "label"    : "Lower",
-                                  "type"     : "text",  
-                                  "required" : "true",
-                                  "size"     : 4,
-                                  #,
-                                  "default":"-180.00",
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Uppergamma_a_degrotation_angles",
-                                  "label"    : "Upper",
-                                  "type"     : "text",  
-                                  "required" : "true",
-                                  "size"     : 4,
-                                  #,
-                                  "default":"180.00",
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Samplinggamma_a_degrotation_angles",
-                                  "label"    : "Sampling",
-                                  "type"     : "text",  
-                                  "required" : "true",
-                                  "size"     : 4,
-                                  #,
-                                  "default":"90.000",
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "true",
- 		                  "help"     : ""	
- 		             },
-		                { 
-		                  "role"     : "input",  
-                                  "id"       : "Flaggamma_a_degrotation_angles",
-                                  "label"    : "Flag",
-                                  "type"     : "listbox",  
-                                  "required" : "true",
-                                  "size"     : 2,
-                                  "values":"-1~-1~0~0~1~1~2~2",
-                                  "default":"1",
-                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
-                                  "repeat"   : "rotation_angles",
-                                  "norow"    : "false",
- 		                  "help"     : ""	
- 		             },
 		              { 
 		                "role"     : "input",  
                                 "id"       : "cosbeta_arotation_angles",
@@ -1151,12 +1124,13 @@
                                   "label"    : "Starting",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"0.35934E-002",
                                   #"repeat"   : "rotation_anglesrotation_angles:cosbeta_a",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1165,12 +1139,13 @@
                                   "label"    : "Lower",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"-1.0000",
                                   #"repeat"   : "rotation_anglesrotation_angles:cosbeta_a",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1179,12 +1154,13 @@
                                   "label"    : "Upper",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"1.0000",
                                   #"repeat"   : "rotation_anglesrotation_angles:cosbeta_a",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1193,12 +1169,13 @@
                                   "label"    : "Sampling",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"0.50000",
                                   #"repeat"   : "rotation_anglesrotation_angles:cosbeta_a",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1213,6 +1190,7 @@
                                   #"repeat"   : "rotation_anglesrotation_angles:cosbeta_a",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "false",
+                                  #, 
  		                  "help"     : ""	
  		             },
 		              { 
@@ -1235,12 +1213,13 @@
                                   "label"    : "Starting",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"-134.86",
                                   #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1249,12 +1228,13 @@
                                   "label"    : "Lower",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"-180.00",
                                   #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1263,12 +1243,13 @@
                                   "label"    : "Upper",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"180.00",
                                   #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1277,12 +1258,13 @@
                                   "label"    : "Sampling",
                                   "type"     : "text",  
                                   "required" : "true",
-                                  "size"     : 4,
+                                  "size"     : 2,
                                   #,
                                   "default":"90.000",
                                   #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
  		                  "help"     : ""	
  		             },
 		                { 
@@ -1297,6 +1279,96 @@
                                   #"repeat"   : "rotation_anglesrotation_angles:alpha_a_deg",
                                   "repeat"   : "rotation_angles",
                                   "norow"    : "false",
+                                  #, 
+ 		                  "help"     : ""	
+ 		             },
+		              { 
+		                "role"     : "input",  
+                                "id"       : "gamma_a_degrotation_angles",
+                                #"label"    : "gamma_a_deg",
+                                "label"    : "",
+                                "type"     : "text",  
+                                "default"  : "gamma_a_deg",
+ 		                "required" : "true",
+                                "size"     : 5,
+                                "repeat"   : "rotation_angles",
+                                "norow"    : "true",
+                                "readonly" : "true",
+ 		                "help"     : ""	
+ 		           },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Startinggamma_a_degrotation_angles",
+                                  "label"    : "Starting",
+                                  "type"     : "text",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  #,
+                                  "default":"149.80",
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Lowergamma_a_degrotation_angles",
+                                  "label"    : "Lower",
+                                  "type"     : "text",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  #,
+                                  "default":"-180.00",
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Uppergamma_a_degrotation_angles",
+                                  "label"    : "Upper",
+                                  "type"     : "text",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  #,
+                                  "default":"180.00",
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Samplinggamma_a_degrotation_angles",
+                                  "label"    : "Sampling",
+                                  "type"     : "text",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  #,
+                                  "default":"90.000",
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "true",
+                                  "pattern":"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$", 
+ 		                  "help"     : ""	
+ 		             },
+		                { 
+		                  "role"     : "input",  
+                                  "id"       : "Flaggamma_a_degrotation_angles",
+                                  "label"    : "Flag",
+                                  "type"     : "listbox",  
+                                  "required" : "true",
+                                  "size"     : 2,
+                                  "values":"-1~-1~0~0~1~1~2~2",
+                                  "default":"1",
+                                  #"repeat"   : "rotation_anglesrotation_angles:gamma_a_deg",
+                                  "repeat"   : "rotation_angles",
+                                  "norow"    : "false",
+                                  #, 
  		                  "help"     : ""	
  		             },
 ############## FLEXIBLE LINKERS #####################################################################
@@ -1353,6 +1425,7 @@
                      "size"     : 6,
                      "default":"MGSSHHHHHHSS",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_flinkers", 
  		     "help"     : ""	
  		 },
@@ -1365,6 +1438,7 @@
                      "size"     : 6,
                      "default":"0",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_flinkers", 
  		     "help"     : ""	
  		 },
@@ -1377,6 +1451,7 @@
                      "size"     : 6,
                      "default":"0",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_flinkers", 
  		     "help"     : ""	
  		 },
@@ -1389,6 +1464,7 @@
                      "size"     : 6,
                      "default":"1",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_flinkers", 
  		     "help"     : ""	
  		 },
@@ -1414,6 +1490,7 @@
                      "size"     : 6,
                      "default":"2",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_flinkers", 
  		     "help"     : ""	
  		 },
@@ -1831,6 +1908,7 @@
                      "size"     : 6,
                      "default":"3.0",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1843,6 +1921,7 @@
                      "size"     : 6,
                      "default":"-1.0",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1855,6 +1934,7 @@
                      "size"     : 6,
                      "default":"0.09369",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1867,6 +1947,7 @@
                      "size"     : 6,
                      "default":"0.0",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1879,6 +1960,7 @@
                      "size"     : 6,
                      "default":"0.28",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1891,6 +1973,7 @@
                      "size"     : 6,
                      "default":"0.025",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1903,6 +1986,7 @@
                      "size"     : 6,
                      "default":"0",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1915,6 +1999,7 @@
                      "size"     : 6,
                      "default":"2",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1927,6 +2012,7 @@
                      "size"     : 6,
                      "default":"90.0",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1939,6 +2025,7 @@
                      "size"     : 6,
                      "default":"0.0",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
@@ -1962,6 +2049,7 @@
                      "size"     : 6,
                      "default":"1",
  		     "required" : "true",
+                     #,
                       "repeat" : "num_exp", 
  		     "help"     : ""	
  		 },
