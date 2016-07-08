@@ -539,17 +539,26 @@ for my $key ( sort keys %data )
 	    }
 	    else
 	    {
-	       
+		my $value = "\#";
+		my $type = "text";
+		my $default = "\"default\":\"$value[0]\"";
+		if ($label_key eq 'Flag for phi psi and chi variations')
+		{
+		    $type = "listbox";
+		    $value = "\"values\":\"0~0~1~1~2~2\"";
+		    #$default = "\"default\":\"2\"";
+		}
 		print "
 		   { 
 		     \"role\"     : \"input\",  
                      \"id\"       : \"$id_key\",
                      \"label\"    : \"$label_key\",
-                     \"type\"     : \"text\", 
+                     \"type\"     : \"$type\",
+                     $value,
                      \"size\"     : 6,
-                     \"default\"  : \"$value[0]\",
+                     $default,
  		     \"required\" : \"true\",
-                   $repline
+                     $repline
  		     \"help\"     : \"\"	
  		 },"    
 		 ;

@@ -154,7 +154,8 @@
 		  "role"     : "input",  
 		  "id"       : "flag",
 		  "label"    : "Flag",
-		  "type"     : "text",
+		  "type"     : "listbox",
+		  "values"   : "0~0~1~1",
 		  "size"     : 3, 
 		  "required" : "yes",
 		  "repeat"   : "num_aaconst"  
