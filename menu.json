@@ -65,8 +65,7 @@
             "id"      : "qualfitmodeller",
             "label"   : "Calculations",
             "icon"    : "pngs/analyze.png",
-            "help"    : "qualfit help text",
-	    "autorun" : "quafit_test",
+            "autorun" : "quafit_test",
             "modules" : [ 
                          { 
                           "id"    : "quafit_test",

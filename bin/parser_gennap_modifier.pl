@@ -362,16 +362,25 @@ sub Process_tag_reps {
 				
 		if ($g != @array1 -1)
 		{
-		    my $len = (16 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
-		    print OUT " " x $len;
+		    #my $len = (16 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
+		    #print OUT " " x $len;
+		    #print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+		    #print OUT " " x $len;
+		    
+		    my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
 		    print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
-		    print OUT " " x $len;			
+		    print OUT " " x ceil(16 - $len);
+			
 		}
 		else
 		{
-		    my $len = (5 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
-		    print OUT " " x $len;
-		    print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+		    #my $len = (5 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
+		    #print OUT " " x $len;
+		    #print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+
+		    my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
+		    print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+		    print OUT " " x ceil(5 - $len);
 		}
 	    }
 	    print OUT "\n";
@@ -540,16 +549,25 @@ sub Process_t_cbr_reps {
 		    
 		    if ($g != @array1 -1)
 		    {
-			my $len = (16 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
-			print OUT " " x $len;
+			#my $len = (16 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
+			#print OUT " " x $len;
+			#print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+			#print OUT " " x $len;
+			
+			my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
 			print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
-			print OUT " " x $len;
+			print OUT " " x ceil(16 - $len);
+
 		    }
 		    else
 		    {
-			my $len = (5 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
-			print OUT " " x $len;
-			print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+			#my $len = (5 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
+			#print OUT " " x $len;
+			#print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+
+			my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
+			print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+			print OUT " " x ceil(5 - $len);
 		    }
 		}
 		print OUT "\n";
@@ -601,16 +619,25 @@ sub Process_t_cbr_reps {
 		    my $tag = "$array_ids[$g]$id$tag_id_key";
 		    if ($g != @array1 -1)
 		    {
-			my $len = (16 - length($$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag}))/2.0; 
-			print OUT " " x $len;
+			#my $len = (16 - length($$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag}))/2.0; 
+			#print OUT " " x $len;
+			#print OUT $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
+			#print OUT " " x $len;	
+			
+			my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag}); 
 			print OUT $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
-			print OUT " " x $len;			
+			print OUT " " x ceil(16 - $len);
+		
 		    }
 		    else
 		    {
-			my $len = (5 - length($$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag}))/2.0; 
-			print OUT " " x $len;
-			print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
+			#my $len = (5 - length($$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag}))/2.0; 
+			#print OUT " " x $len;
+			#print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
+
+			my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag}); 
+			print OUT $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
+			print OUT " " x ceil(5 - $len);
 		    }
 		}
 		print OUT "\n";
@@ -1095,16 +1122,24 @@ while (my $line = <$fh>) {
 		    
 		    if ($j != @array1 -1)
 		    {
-			my $len = (16 - length($$ref{$id_key}{$tag}))/2.0; 
-			print OUT " " x $len;
+			#my $len = (16 - length($$ref{$id_key}{$tag}))/2.0; 
+			#print OUT " " x $len;
+			#print OUT $$ref{$id_key}{$tag};
+			#print OUT " " x $len;	
+
+			my $len = length($$ref{$id_key}{$tag}); 
 			print OUT $$ref{$id_key}{$tag};
-			print OUT " " x $len;			
+			print OUT " " x ceil(16 - $len);
 		    }
 		    else
 		    {
-			my $len = (5 - length($$ref{$id_key}{$tag}))/2.0; 
-			print OUT " " x $len;
-			print OUT " " . $$ref{$id_key}{$tag};
+			#my $len = (5 - length($$ref{$id_key}{$tag}))/2.0; 
+			#print OUT " " x $len;
+			#print OUT " " . $$ref{$id_key}{$tag};
+
+			my $len = length($$ref{$id_key}{$tag}); 
+			print OUT $$ref{$id_key}{$tag};
+			print OUT " " x ceil(5 - $len);
 		    }
 		}
 		print OUT "\n";
@@ -1189,16 +1224,24 @@ while (my $line = <$fh>) {
 
 			if ($j != @array1 -1)
 			{
-			    my $len = (16 - length($$ref{$id_key}{$tag}))/2.0; 
-			    print OUT " " x $len;
+			    #my $len = (16 - length($$ref{$id_key}{$tag}))/2.0; 
+			    #print OUT " " x $len;
+			    #print OUT $$ref{$id_key}{$tag};
+			    #print OUT " " x $len;
+
+			    my $len = length($$ref{$id_key}{$tag}); 
 			    print OUT $$ref{$id_key}{$tag};
-			    print OUT " " x $len;
+			    print OUT " " x ceil(16 - $len);
 			}
 			else
 			{
-			    my $len = (5 - length($$ref{$id_key}{$tag}))/2.0; 
-			    print OUT " " x $len;
-			    print OUT " " . $$ref{$id_key}{$tag};
+			    #my $len = (5 - length($$ref{$id_key}{$tag}))/2.0; 
+			    #print OUT " " x $len;
+			    #print OUT " " . $$ref{$id_key}{$tag};
+			    
+			    my $len = length($$ref{$id_key}{$tag}); 
+			    print OUT $$ref{$id_key}{$tag};
+			    print OUT " " x ceil(5 - $len);
 			}
 			
 		    }
@@ -1251,16 +1294,24 @@ while (my $line = <$fh>) {
 			my $tag = "$array_ids[$j]$id$tag_id_key";
 			if ($j != @array1 -1)
 			{
-			    my $len = (16 - length($$ref{$tag_id_key}{$tag}))/2.0; 
-			    print OUT " " x $len;
+			    #my $len = (16 - length($$ref{$tag_id_key}{$tag}))/2.0; 
+			    #print OUT " " x $len;
+			    #print OUT $$ref{$tag_id_key}{$tag};
+			    #print OUT " " x $len;	
+
+			    my $len = length($$ref{$tag_id_key}{$tag}); 
 			    print OUT $$ref{$tag_id_key}{$tag};
-			    print OUT " " x $len;			
+			    print OUT " " x ceil(16 - $len);
 			}
 			else
 			{
-			    my $len = (5 - length($$ref{$tag_id_key}{$tag}))/2.0; 
-			    print OUT " " x $len;
-			    print OUT " " . $$ref{$tag_id_key}{$tag};
+			    #my $len = (5 - length($$ref{$tag_id_key}{$tag}))/2.0; 
+			    #print OUT " " x $len;
+			    #print OUT " " . $$ref{$tag_id_key}{$tag};
+
+			    my $len = length($$ref{$tag_id_key}{$tag}); 
+			    print OUT $$ref{$tag_id_key}{$tag};
+			    print OUT " " x ceil(16 - $len);
 			}
 		    }
 		    print OUT "\n";
@@ -1327,7 +1378,7 @@ while (my $line = <$fh>) {
 
 close OUT;
 
-exit;
+#exit;
 
 ####################################################
 
