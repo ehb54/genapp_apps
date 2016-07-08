@@ -307,7 +307,7 @@ for my $key ( sort keys %data )
 		    my $pattern = "\#";
 		    if ($id eq 'deg__beta' or $id eq 'alpha' or $id eq 'gamma')
 		    {
-			$pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+			$pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 		    }
 
 		    print "
@@ -354,7 +354,8 @@ for my $key ( sort keys %data )
 			my $type = "text";
 			my $value = "\#";
 			my $default = "\"default\":\"$array1[$i]\"";
-			my $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+			my $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+			#my $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 			if ($array_ids[$i] eq 'Flag')
 			{
 			    $norow_stat = "false";
@@ -521,7 +522,8 @@ for my $key ( sort keys %data )
 		    my $type = "text";
 		    my $value = "\#";
 		    my $default = "\"default\":\"$array1[$i]\"";
-		    my $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		    my $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		    #my $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
  
 		    if ($array_ids[$i] eq 'Flag')
 		    {
@@ -564,11 +566,12 @@ for my $key ( sort keys %data )
 		my $pattern = "\#";
 		if ($lanel_key eq 'deg__beta' or $label_key eq 'alpha' or $label_key eq 'gamma')
 		{
-		    $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		    $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		    #$pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 		}
 		if ($label_key eq 'Screw Polymerization Number')
 		{
-		    $pattern = "\"pattern\":\"^(0|[1-9][0-9]*)\$\"";   # Regex for Zero OR positive integers with no leading Zero
+		    $pattern = "\"pattern\":\"^((0)|([1-9][0-9]*))\$\"";   # Regex for Zero OR positive integers with no leading Zero
 		}
 
 		print "
