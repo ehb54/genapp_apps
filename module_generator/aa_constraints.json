@@ -115,7 +115,7 @@
 		  "size"     : 3,
 		  "repeat"   : "val_name_vect:value",
 		  "default"  : "10.0",
-		  "pattern"  : "^(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?$"
+		  "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"
 		},
               { 
 		  "role"     : "input",  
@@ -136,7 +136,7 @@
 		  "required" : "no",
 		  "repeat"   : "num_aaconst",
 		  "default"  : "1.0",
-		  "pattern"  : "^(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?$"
+		  "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"
 	       },
                { 
 		  "role"     : "input",  
@@ -157,7 +157,7 @@
 		  "required" : "false",
 		  "repeat"   : "num_aaconst",
 		  "default"  : "12.0",
-		  "pattern"  : "^(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?$"
+		  "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"
 	       },
               { 
 		  "role"     : "input",  
@@ -173,7 +173,8 @@
 		  "id"       : "flag",
 		  "label"    : "Flag",
 		  "type"     : "listbox",
-		  "values"   : "0~0~1~1",
+		  "values"   : "0~zero~1~one",
+		  "default"  : "zero",
 		  "size"     : 3, 
 		  "required" : "yes",
 		  "repeat"   : "num_aaconst"  

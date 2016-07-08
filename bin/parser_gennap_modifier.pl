@@ -156,8 +156,29 @@ sub Process_aasyntax_reps {
     print OUT " " x ceil(7 - $len);
 
     $id_key = 'flag';
-    $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]); 
-    print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k];
+    my $choice = $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k];
+    if ($choice eq 'minusone')
+    {
+	$choice = '-1';
+    }
+    if ($choice eq 'zero')
+    {
+	$choice = '0';
+    }
+    if ($choice eq 'one')
+    {
+	$choice = '1';
+    }	
+    if ($choice eq 'one')
+    {
+	$choice = '1';
+    }	
+    if ($choice eq 'two')
+    {
+	$choice = '2';
+    }	
+    $len = length($choice); 
+    print OUT $choice;
     print OUT " " x ceil(4 - $len);
 
 
@@ -277,8 +298,29 @@ sub Process_aapairsyntax_reps {
     print OUT " " x ceil(7 - $len);
 
     $id_key = 'flag_pair';
-    $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]); 
-    print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k];
+    my $choice = $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k];
+    if ($choice eq 'minusone')
+    {
+	$choice = '-1';
+    }
+    if ($choice eq 'zero')
+    {
+	$choice = '0';
+    }
+    if ($choice eq 'one')
+    {
+	$choice = '1';
+    }	
+    if ($choice eq 'one')
+    {
+	$choice = '1';
+    }	
+    if ($choice eq 'two')
+    {
+	$choice = '2';
+    }	
+    $len = length($choice); 
+    print OUT $choice;
     print OUT " " x ceil(4 - $len);
 
     print OUT "\n";
@@ -337,9 +379,36 @@ sub Process_tag_reps {
 	}
 	else
 	{
-	    #print "VAR: " . $id .":". $$ref{$repeatername}->{$id_key};
-	    #exit;
-	    print OUT "$id:$$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]\n";
+	    if ($id_key eq 'flag_for_phi_psi_and_chi_variations')
+	    {
+		my $choice = $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k];
+		if ($choice eq 'minusone')
+		{
+		    $choice = '-1';
+		}
+		if ($choice eq 'zero')
+		{
+		    $choice = '0';
+		}
+		if ($choice eq 'one')
+		{
+		    $choice = '1';
+		}	
+		if ($choice eq 'one')
+		{
+		    $choice = '1';
+		}	
+		if ($choice eq 'two')
+		{
+		    $choice = '2';
+		}
+		
+		print OUT "$id:$choice\n";
+	    }
+	    else
+	    {
+		print OUT "$id:$$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]\n";
+	    }
 	}
     }
     else
@@ -377,9 +446,33 @@ sub Process_tag_reps {
 		    #my $len = (5 - length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}))/2.0; 
 		    #print OUT " " x $len;
 		    #print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+		    
+		    my $choice = $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+		    if ($choice eq 'minusone')
+		    {
+			$choice = '-1';
+		    }
+		    if ($choice eq 'zero')
+		    {
+			$choice = '0';
+		    }
+		    if ($choice eq 'one')
+		    {
+			$choice = '1';
+		    }	
+		    if ($choice eq 'one')
+		    {
+			$choice = '1';
+		    }	
+		    if ($choice eq 'two')
+		    {
+			$choice = '2';
+		    }	
 
-		    my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
-		    print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+		    #my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
+		    #print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+		    my $len = length($choice);
+		    print OUT $choice;
 		    print OUT " " x ceil(5 - $len);
 		}
 	    }
@@ -511,8 +604,6 @@ sub Process_t_cbr_reps {
 	
 	$tag_id_key = $id_key;
 	
-	
-
 	#if (!(exists $$ref{$repeatername}->{$id_key}[$k]))   # Checkboxes!!
 	if ($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k] == null)   # Checkboxes!!
 	{
@@ -565,9 +656,37 @@ sub Process_t_cbr_reps {
 			#print OUT " " x $len;
 			#print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
 
-			my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
-			print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+			my $choice = $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+			if ($choice eq 'minusone')
+			{
+			    $choice = '-1';
+			}
+			if ($choice eq 'zero')
+			{
+			    $choice = '0';
+			}
+			if ($choice eq 'one')
+			{
+			    $choice = '1';
+			}	
+			if ($choice eq 'one')
+			{
+			    $choice = '1';
+			}
+			if ($choice eq 'two')
+			{
+			    $choice = '2';
+			}
+			
+			#my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
+			#print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+			my $len = length($choice);
+			print OUT $choice;
 			print OUT " " x ceil(5 - $len);
+
+			#my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag}); 
+			#print OUT $$ref{'num_states'}->{$repeatername}[$j]{$id_key}[$k]{$tag};
+			#print OUT " " x ceil(5 - $len);
 		    }
 		}
 		print OUT "\n";
@@ -635,9 +754,36 @@ sub Process_t_cbr_reps {
 			#print OUT " " x $len;
 			#print OUT " " . $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
 
-			my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag}); 
-			print OUT $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
+			my $choice = $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
+			if ($choice eq 'minusone')
+			{
+			    $choice = '-1';
+			}
+			if ($choice eq 'zero')
+			{
+			    $choice = '0';
+			}
+			if ($choice eq 'one')
+			{
+			    $choice = '1';
+			}	
+			if ($choice eq 'one')
+			{
+			    $choice = '1';
+			}
+			if ($choice eq 'two')
+			{
+			    $choice = '2';
+			}
+			
+			my $len = length($choice);
+			print OUT $choice;
 			print OUT " " x ceil(5 - $len);
+
+
+			#my $len = length($$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag}); 
+			#print OUT $$ref{'num_states'}->{$repeatername}[$j]{$tag_id_key}[$k]{$tag};
+			#print OUT " " x ceil(5 - $len);
 		    }
 		}
 		print OUT "\n";
@@ -1378,7 +1524,7 @@ while (my $line = <$fh>) {
 
 close OUT;
 
-#exit;
+exit;
 
 ####################################################
 

@@ -120,6 +120,7 @@ print "\# this is a module file, any module specific info belongs here
    \"label\"    : \"QuaFit\",
    \"help\"     : \"help_module\",
    \"extendedjsoninputtags\" : \"true\",
+   \"nowrap\"   : \"true\",
    \"fields\"   : [";
 
 print "
@@ -305,9 +306,11 @@ for my $key ( sort keys %data )
 		if ( $role_counter == 1 )
 		{
 		    my $pattern = "\#";
+		    my $sizetext = 4;
 		    if ($id eq 'deg__beta' or $id eq 'alpha' or $id eq 'gamma')
 		    {
-			$pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+			$pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+			$sizetext = 2;
 		    }
 
 		    print "
@@ -318,7 +321,7 @@ for my $key ( sort keys %data )
                      \"type\"     : \"text\",  
                      \"default\"  : \"$val\",
  		     \"required\" : \"true\",
-                     \"size\"     : 4,
+                     \"size\"     : $sizetext,
                      \"repeat\"   : \"$id_key\",
                      \"norow\"    : \"true\",
                      $pattern,
@@ -354,15 +357,15 @@ for my $key ( sort keys %data )
 			my $type = "text";
 			my $value = "\#";
 			my $default = "\"default\":\"$array1[$i]\"";
-			my $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+			my $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 			#my $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 			if ($array_ids[$i] eq 'Flag')
 			{
 			    $norow_stat = "false";
 			    $sizetext = 2; 
 			    $type = "listbox";
-			    $value = "\"values\":\"-1~-1~0~0~1~1~2~2\"";
-			    #$default = "\"default\": \"zero\"";
+			    $value = "\"values\":\"-1~minusone~0~zero~1~one~2~two\"";
+			    $default = "\"default\": \"zero\"";
 			    $pattern = "\#";
 			}
 			print "
@@ -522,7 +525,7 @@ for my $key ( sort keys %data )
 		    my $type = "text";
 		    my $value = "\#";
 		    my $default = "\"default\":\"$array1[$i]\"";
-		    my $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		    my $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 		    #my $pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
  
 		    if ($array_ids[$i] eq 'Flag')
@@ -530,8 +533,8 @@ for my $key ( sort keys %data )
 			$norow_stat = "false";
 			$sizetext = 2; 
 			$type = "listbox";
-			$value = "\"values\":\"-1~-1~0~0~1~1~2~2\"";
-			#$default = "\"default\": \"zero\"";
+			$value = "\"values\":\"-1~minusone~0~zero~1~one~2~two\"";
+			$default = "\"default\": \"zero\"";
 			$pattern = "\#";
 		    }
 		    print "
@@ -560,14 +563,16 @@ for my $key ( sort keys %data )
 		if ($label_key eq 'Flag for phi psi and chi variations')
 		{
 		    $type = "listbox";
-		    $value = "\"values\":\"0~0~1~1~2~2\"";
-		    #$default = "\"default\":\"2\"";
+		    $value = "\"values\":\"0~zero~1~one~2~two\"";
+		    $default = "\"default\":\"two\"";
 		}
 		my $pattern = "\#";
-		if ($lanel_key eq 'deg__beta' or $label_key eq 'alpha' or $label_key eq 'gamma')
+		my $sizetext = 6;
+		if ($label_key eq 'deg__beta' or $label_key eq 'alpha' or $label_key eq 'gamma')
 		{
-		    $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		    $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 		    #$pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
+		    $sizetext = 2;
 		}
 		if ($label_key eq 'Screw Polymerization Number')
 		{
@@ -581,7 +586,7 @@ for my $key ( sort keys %data )
                      \"label\"    : \"$label_key\",
                      \"type\"     : \"$type\",
                      $value,
-                     \"size\"     : 6,
+                     \"size\"     : $sizetext,
                      $default,
  		     \"required\" : \"true\",
                      $pattern,
