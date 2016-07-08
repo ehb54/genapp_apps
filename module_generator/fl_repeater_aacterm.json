@@ -2,10 +2,9 @@
 		   { 
 		     "role"     : "input",  
                      "id"       : "aa__of_the_pdb_of_the_previous_rd_cterm",
-                     "label"    : "AA  of the PDB of the previous RD",
-                     "type"     : "text", 
-                     "size"     : 6,
-                     "default"  : "10",
+                     "label"    : "AA  of the PDB of the previous RD, C-term",
+                     "type"     : "integer", 
+                     "default"  : 23,
  		     "required" : "true",
                     "repeat" : "num_flinkers", 
  		     "help"     : ""	

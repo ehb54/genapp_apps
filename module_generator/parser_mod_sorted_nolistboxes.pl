@@ -578,6 +578,24 @@ for my $key ( sort keys %data )
 		{
 		    $pattern = "\"pattern\":\"^((0)|([1-9][0-9]*))\$\"";   # Regex for Zero OR positive integers with no leading Zero
 		}
+		
+		if ($label_key eq 'RD  attached to the linkers Nterm' or $label_key eq 'AA  of the PDB of the previous RD' or $label_key eq 'RD  attached to the linkers Cterm') 
+		{	
+		    if ($label_key eq 'AA  of the PDB of the previous RD')
+		    {
+			$label_key = 'AA  of the PDB of the previous RD, N-term'
+		    }
+		    $type = 'integer';
+		}
+		if ($label_key eq 'Primary structure from N to Cterm')
+		{
+		    $sizetext = 11;
+		}
+		if ($label_key eq 'Number of MC States Configurations' or $label_key eq 'Screw Polymerization Number')
+		{
+		    $type = 'integer';
+		}
+		
 
 		print "
 		   { 
