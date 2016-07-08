@@ -117,9 +117,9 @@ my %files;
     $files{'data'} =~ s/^.*\/([^\/]+)$/$1/;
     $inputfile .= $files{'data'} . "\n";
 # l2
-    $inputfile .= $$ref{ 'qmax' } . "\n";
-# l3
     $inputfile .= $$ref{ 'qmin' } . "\n";
+# l3
+    $inputfile .= $$ref{ 'qmax' } . "\n";
 # l4
     $inputfile .= ( $$ref{ 'dmaxfixed' } ? "f" : "" ) . $$ref{ 'dmax' } . "\n";
 # l5

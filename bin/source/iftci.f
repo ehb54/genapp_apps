@@ -121,7 +121,7 @@ c     Initialization
 c********************************************************************
       PI=acos(-1.)
 c max cpu time in seconds
-      cpumax=90
+      cpumax=900
       nof=0
       itetot=0
       itetotmax=8000000
@@ -544,7 +544,7 @@ c
       if(ntot.gt.100) ntot=100
       if(ntot.lt.20)   ntot=20
 
-      if((etaest.gt.0).and.(ntot.gt.80)) cpumax=90
+      if((etaest.gt.0).and.(ntot.gt.80)) cpumax=900
 
 c      WRITE(6,133)
 c  133 FORMAT(1X,'Enter relative precision         (0.1-0.001)    => ',$)
@@ -621,7 +621,7 @@ c      endif
       stop
       endif
       if(etaest.eq.0.and.answerm.eq.'M') then
-      cpumax=99
+      cpumax=999
       answer='E'
 c ratio is fitted by evidence
       nfit=4
