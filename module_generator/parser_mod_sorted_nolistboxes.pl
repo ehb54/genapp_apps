@@ -568,16 +568,17 @@ for my $key ( sort keys %data )
 		}
 		my $pattern = "\#";
 		my $sizetext = 6;
+		my $min = "\#";
 		if ($label_key eq 'deg__beta' or $label_key eq 'alpha' or $label_key eq 'gamma')
 		{
 		    $pattern = "\"pattern\":\"^([-+])?(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 		    #$pattern = "\"pattern\":\"^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?\$\"";
 		    $sizetext = 2;
 		}
-		if ($label_key eq 'Screw Polymerization Number')
-		{
-		    $pattern = "\"pattern\":\"^((0)|([1-9][0-9]*))\$\"";   # Regex for Zero OR positive integers with no leading Zero
-		}
+		#if ($label_key eq 'Screw Polymerization Number')
+		#{
+		#    $pattern = "\"pattern\":\"^((0)|([1-9][0-9]*))\$\"";   # Regex for Zero OR positive integers with no leading Zero
+		#}
 		
 		if ($label_key eq 'RD  attached to the linkers Nterm' or $label_key eq 'AA  of the PDB of the previous RD' or $label_key eq 'RD  attached to the linkers Cterm') 
 		{	
@@ -594,6 +595,7 @@ for my $key ( sort keys %data )
 		if ($label_key eq 'Number of MC States Configurations' or $label_key eq 'Screw Polymerization Number')
 		{
 		    $type = 'integer';
+		    $min = "\"min\": 1";
 		}
 		
 
@@ -607,6 +609,7 @@ for my $key ( sort keys %data )
                      \"size\"     : $sizetext,
                      $default,
  		     \"required\" : \"true\",
+                     $min,
                      $pattern,
                      $repline
  		     \"help\"     : \"\"	
