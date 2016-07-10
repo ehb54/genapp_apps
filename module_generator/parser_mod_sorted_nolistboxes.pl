@@ -139,6 +139,7 @@ print "
 	            \"label\"      : \"Code Number\",
 	            \"type\"       : \"text\",
 	            \"required\"   : \"true\",
+		    \"pattern\"    : \"[a-zA-Z0-9]{4,4}\",
 	            \"help\"       : \"\"
                  },
        ";
