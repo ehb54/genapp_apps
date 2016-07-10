@@ -446,12 +446,15 @@ if 'add_ions' in json_variables:
     shutil.copy(CrystalImageLocationStr, json_variables['_base_directory'])
 
     ionic_conc = json_variables['ion_conc']
+    ionic_type = json_variables['ion_type']
+    
 
     # Edit pdbreader_charmm template####
     filedata0 = None
     with open(ScriptLocationIons, 'r') as file0:
         filedata0 = file0.read()
     filedata0 = filedata0.replace('IONCONC', str(ionic_conc))
+    filedata0 = filedata0.replace('COUNTERION', str(ionic_type))
 
     with open('charmm_addions.inp', 'w') as file0:
         file0.write(filedata0)

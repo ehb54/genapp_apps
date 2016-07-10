@@ -91,6 +91,17 @@
 		 },
                 { 
                      "role"     : "input",  
+                     "id"       : "ion_type",
+                     "label"    : "Ion Type:",
+                     "type"     : "listbox",
+		     "values"   : "NaCl~SOD~KCl~POT",
+                     "default"  : "SOD",
+		     "required" : "true",
+                     "repeat"   : "add_ions",
+		     "help"     : "help"
+		 },	    	
+                { 
+                     "role"     : "input",  
                      "id"       : "ion_conc",
                      "label"    : "Ionic Concentration (M):",
                      "type"     : "float",  
