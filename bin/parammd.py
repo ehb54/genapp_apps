@@ -27,6 +27,26 @@ from subprocess import Popen, PIPE, STDOUT
 if (len(sys.argv) < 1):
     print "\{\"error\":\"module called with no arguments\"\}\n";
 
+##############################################################################
+def message_box(text,icon):
+    
+    _message = {}
+    _message['icon'] = icon
+    _message['text'] = text
+    
+    UDP_IP = json_variables['_udphost']
+    UDP_PORT = json_variables['_udpport']
+    sock = socket.socket(socket.AF_INET, # Internet
+                         socket.SOCK_DGRAM) # UDP
+    
+    socket_dict={}
+    socket_dict['_uuid'] = json_variables['_uuid']
+    socket_dict['_message'] = _message
+
+    doc_string = json.dumps(socket_dict)
+    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+    
+    return
 
 #### MAIN ####################################################################
 
@@ -187,13 +207,19 @@ if 'add_waterbox' in json_variables:
     molsize_z = json_variables['size_z']
 
     if float(molsize_x) < Diff_x:
-        print "Error: X_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        error_str = "Error: X_component of the periodic box is less than moleclular size! \n Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        #print "Error: X_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        message_box(error_str,'warning.png')
         exit()
     if float(molsize_y) < Diff_y:
-        print "Error: Y_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        error_str = "Error: Y_component of the periodic box is less than moleclular size! \n Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        message_box(error_str,'warning.png')
+        #print "Error: Y_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
         exit()
     if float(molsize_z) < Diff_z:
-        print "Error: Z_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        error_str = "Error: Z_component of the periodic box is less than moleclular size! \n Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        message_box(error_str,'warning.png')
+        #print "Error: Z_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
         exit()
 
 
