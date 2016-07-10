@@ -592,11 +592,22 @@ for my $key ( sort keys %data )
 		{
 		    $sizetext = 11;
 		}
-		if ($label_key eq 'Number of MC States Configurations' or $label_key eq 'Screw Polymerization Number')
+		if ($label_key eq 'Number of MC States Configurations' or $label_key eq 'Screw Polymerization Number' or $label_key eq 'Number of Cycles per SubRun' or $label_key eq 'Maximum Number of SubRun')
 		{
 		    $type = 'integer';
 		    $min = "\"min\": 1";
 		}
+		if ($label_key eq 'Maximum Rank L for [Ai][lm](Q)' or $label_key eq 'Maximum Rank L for [Ai]S[lm](Q)')
+		{
+		    $type = 'integer';
+		    $min = "\"min\": 0";
+		}    
+		if ($label_key eq 'Hypothetical Final H(X)' or $label_key eq 'Maximum Q of A[lm](Q)')
+		{
+		    $type = 'float';
+		    $min = "\"min\": 0.0";
+		}    
+
 		
 
 		print "
