@@ -602,13 +602,38 @@ for my $key ( sort keys %data )
 		    $type = 'integer';
 		    $min = "\"min\": 0";
 		}    
-		if ($label_key eq 'Hypothetical Final H(X)' or $label_key eq 'Maximum Q of A[lm](Q)')
+		if ($label_key eq 'Hypothetical Final H(X)' or $label_key eq 'Maximum Q of A[lm](Q)' or $label_key eq 'Exponent alpha of powerlaw error fu' or $label_key eq 'Factor H starting' or $label_key eq 'qinputscale' or $label_key eq 'sinputscale')
 		{
 		    $type = 'float';
 		    $min = "\"min\": 0.0";
 		}    
-
+		if ($label_key eq 'icolumn3')
+		{
+		    $type = "listbox";
+		    $value = "\"values\":\"0~zero~1~one\"";
+		    $default = "\"default\": \"one\"";
+		}
 		
+		if ($label_key eq 'Concentration (g/l)' or $label_key eq 'Scatt Dens Solv (1012 cm Angs3)' or $label_key eq 'Minimum Q In Data File (Angs1)' or $label_key eq 'Maximum Q In Data File (Angs1)' or $label_key eq 'Parameter K for Poissonian Errors' or $label_key eq 'Maximum Distance for p(r) Calculation' or $label_key eq 'Scaling Factor (if 0 Is Optimized)')
+		{
+		    $type = 'float';
+		    $min = "\"min\": 0.0";
+		}    
+		if ($label_key eq 'XRays (10) / Neutrons (x_D2O) Flag')
+		{
+		   $type = 'float';
+		   $min = "\"min\": -1.0"; 
+		}
+		if ($label_key eq 'Number of Lines To Skip In Data File')
+		{
+		    $type = 'integer';
+		    $min = "\"min\": 0";
+		}
+		if ($label_key eq 'Num of QPoints To Average' or $label_key eq 'Family Number (Same Scaling Factor)')
+		{
+		    $type = 'integer';
+		    $min = "\"min\": 1";
+		}
 
 		print "
 		   { 

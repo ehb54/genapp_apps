@@ -1252,7 +1252,23 @@ while (my $line = <$fh>) {
 	    }
 	    else
 	    {
-		print OUT "$id:$$ref{$id_key}\n";
+		if($id_key eq 'icolumn3')
+		{
+		    my $choice = $$ref{$id_key};
+		    if ($choice eq 'zero')
+		    {
+			$choice = 0;
+		    }
+		    if ($choice eq 'one')
+		    {
+			$choice = 1;
+		    }
+		    print OUT "$id:$choice\n";
+		}
+		else
+		{
+		    print OUT "$id:$$ref{$id_key}\n";
+		}
 	    }
 	}
 	else
@@ -1524,7 +1540,7 @@ while (my $line = <$fh>) {
 
 close OUT;
 
-#exit;
+exit;
 
 ####################################################
 
