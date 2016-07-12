@@ -201,31 +201,34 @@ Diff_x = Max_x - Min_x
 Diff_y = Max_y - Min_y
 Diff_z = Max_z - Min_z
 
+
 if 'add_waterbox' in json_variables:
     molsize_x = json_variables['size_x']
     molsize_y = json_variables['size_y']
     molsize_z = json_variables['size_z']
 
     if float(molsize_x) < Diff_x:
-        error_str = "Error: X_component of the periodic box is less than moleclular size! \n Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
-        #print "Error: X_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        #error_str = "Error: X_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {"+str(Diff_x)+", "+str(Diff_y)+", "+str(Diff_z)+"}..."
+        error_str = "<p> Error: X_component of the periodic box is less than moleclular size! </p> <p> Size of the molecule is: {X, Y, Z} => {"+str(Diff_x)+", "+str(Diff_y)+", "+str(Diff_z)+"}... </p>"
         message_box(error_str,'warning.png')
         exit()
     if float(molsize_y) < Diff_y:
-        error_str = "Error: Y_component of the periodic box is less than moleclular size! \n Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        error_str = "<p> Error: Y_component of the periodic box is less than moleclular size! </p> <p> Size of the molecule is: {X, Y, Z} => {"+str(Diff_x)+", "+str(Diff_y)+", "+str(Diff_z)+"}... </p>"
         message_box(error_str,'warning.png')
-        #print "Error: Y_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
         exit()
     if float(molsize_z) < Diff_z:
-        error_str = "Error: Z_component of the periodic box is less than moleclular size! \n Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
+        error_str = "<p> Error: Z_component of the periodic box is less than moleclular size! </p> <p> Size of the molecule is: {X, Y, Z} => {"+str(Diff_x)+", "+str(Diff_y)+", "+str(Diff_z)+"}... </p>"
         message_box(error_str,'warning.png')
-        #print "Error: Z_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {", Diff_x, ", ",Diff_y, ", ",Diff_z, "}..."
         exit()
 
 
 default_pbsize = 50
-#print "", Diff_x, " ", Diff_y, " ", Diff_z
-#exit()
+
+if 'add_ions' not in json_variables:
+    if 'md_options' in json_variables:
+        warning_str = "<p> Error:  </p> System needs to be solvated and ions have to be added before MD simulation run! <p> </p>"
+        message_box(warning_str,'warning.png')
+        exit()
 
 #### PDB transformations #########################################
 
@@ -321,7 +324,7 @@ while True:
             if socket_dict:
                 doc_string = json.dumps(socket_dict)
                 sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                time.sleep(0.002)
+                time.sleep(0.005)
     elif Process.poll() is not None:  
         break
 
@@ -364,41 +367,42 @@ if 'add_waterbox' in json_variables:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
+        ProcessWaterbox = subprocess.Popen(ProcessToCallWaterbox)
+ 
+#    master_waterbox, slave_waterbox = pty.openpty()
+#    ProcessWaterbox = subprocess.Popen(ProcessToCallWaterbox,stdout=slave_waterbox,stdin=PIPE,bufsize=0,close_fds=True)
 
-    master_waterbox, slave_waterbox = pty.openpty()
-    ProcessWaterbox = subprocess.Popen(ProcessToCallWaterbox,stdout=slave_waterbox,stdin=PIPE,bufsize=0,close_fds=True)
-
-    stdout_waterbox = os.fdopen(master_waterbox, 'r', 0)
+#    stdout_waterbox = os.fdopen(master_waterbox, 'r', 0)
     #timeout = .04 # seconds
 
 
-    while True:
-        #output = Process.stdout.readline()
-        #signal.signal(signal.SIGTERM, functools.partial(handler,Process.pid))
-
-        ready, _, _ = select.select([master_waterbox], [], [], timeout)
-        if ready:
-            output = stdout_waterbox.readline()
-            if not output:
-                break
-            if output:
-                if "Progress" not in output: 
-                    socket_dict["_textarea"] = output#.strip()
-                else:
-                    OutArr = re.split(r'[\s]*', output)
-                    del OutArr[-1]
-                    #socket_dict['progress_output'] = OutArr[-1]
-                    #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
-                if socket_dict:
-                    doc_string = json.dumps(socket_dict)
-                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                    time.sleep(0.002)
-        elif ProcessWaterbox.poll() is not None:  
-            break
+#    while True:
+#        #output = Process.stdout.readline()
+#        #signal.signal(signal.SIGTERM, functools.partial(handler,Process.pid))
+#
+#        ready, _, _ = select.select([master_waterbox], [], [], timeout)
+#        if ready:
+#            output = stdout_waterbox.readline()
+#            if not output:
+#                break
+#            if output:
+#                if "Progress" not in output: 
+#                    socket_dict["_textarea"] = output#.strip()
+#                else:
+#                    OutArr = re.split(r'[\s]*', output)
+#                    del OutArr[-1]
+#                    #socket_dict['progress_output'] = OutArr[-1]
+#                    #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
+#                if socket_dict:
+#                    doc_string = json.dumps(socket_dict)
+#                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+#                    time.sleep(0.002)
+#        elif ProcessWaterbox.poll() is not None:  
+#            break
 
     ProcessWaterbox.wait()
-    os.close(slave_waterbox)
-    os.close(master_waterbox)
+ #   os.close(slave_waterbox)
+ #   os.close(master_waterbox)
 
     socket_dict["_textarea"] = '\n Waterbox Added...\n\n'
     if socket_dict:
@@ -424,37 +428,38 @@ if 'add_waterbox' in json_variables:
             doc_string = json.dumps(socket_dict)
             sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
+        ProcessSolvsys = subprocess.Popen(ProcessToCallSolvsys)
 
-        master_solvsys, slave_solvsys = pty.openpty()
-        ProcessSolvsys = subprocess.Popen(ProcessToCallSolvsys,stdout=slave_solvsys,stdin=PIPE,bufsize=0,close_fds=True)
+#        master_solvsys, slave_solvsys = pty.openpty()
+#        ProcessSolvsys = subprocess.Popen(ProcessToCallSolvsys,stdout=slave_solvsys,stdin=PIPE,bufsize=0,close_fds=True)
 
-        stdout_solvsys = os.fdopen(master_solvsys, 'r', 0)
+#        stdout_solvsys = os.fdopen(master_solvsys, 'r', 0)
         #timeout = .04 # seconds
 
-        while True:
-            ready, _, _ = select.select([master_solvsys], [], [], timeout)
-            if ready:
-                output = stdout_solvsys.readline()
-                if not output:
-                    break
-                if output:
-                    if "Progress" not in output: 
-                        socket_dict["_textarea"] = output#.strip()
-                    else:
-                        OutArr = re.split(r'[\s]*', output)
-                        del OutArr[-1]
-                        #socket_dict['progress_output'] = OutArr[-1]
-                        #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
-                    if socket_dict:
-                        doc_string = json.dumps(socket_dict)
-                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                        time.sleep(0.002)
-            elif ProcessSolvsys.poll() is not None:  
-                break
+#        while True:
+#            ready, _, _ = select.select([master_solvsys], [], [], timeout)
+#            if ready:
+#                output = stdout_solvsys.readline()
+#                if not output:
+#                    break
+#                if output:
+#                    if "Progress" not in output: 
+#                        socket_dict["_textarea"] = output#.strip()
+#                    else:
+#                        OutArr = re.split(r'[\s]*', output)
+#                        del OutArr[-1]
+#                        #socket_dict['progress_output'] = OutArr[-1]
+#                        #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
+#                    if socket_dict:
+#                        doc_string = json.dumps(socket_dict)
+#                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+#                        time.sleep(0.002)
+#            elif ProcessSolvsys.poll() is not None:  
+#                break
 
         ProcessSolvsys.wait()
-        os.close(slave_solvsys)
-        os.close(master_solvsys)
+#        os.close(slave_solvsys)
+#        os.close(master_solvsys)
 
         socket_dict["_textarea"] = '\n Solvated System Generated...\n\n'
         if socket_dict:
@@ -497,38 +502,41 @@ if 'add_ions' in json_variables:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
+    ProcessAddions = subprocess.Popen(ProcessToCallAddions)
 
-    master_addions, slave_addions = pty.openpty()
-    ProcessAddions = subprocess.Popen(ProcessToCallAddions,stdout=slave_addions,stdin=PIPE,bufsize=0,close_fds=True)
+#    master_addions, slave_addions = pty.openpty()
+#    ProcessAddions = subprocess.Popen(ProcessToCallAddions,stdout=slave_addions,stdin=PIPE,bufsize=0,close_fds=True)
 
-    stdout_addions = os.fdopen(master_addions, 'r', 0)
+
+
+#    stdout_addions = os.fdopen(master_addions, 'r', 0)
     #timeout = .04 # seconds
 
 
-    while True:
-        ready, _, _ = select.select([master_addions], [], [], timeout)
-        if ready:
-            output = stdout_addions.readline()
-            if not output:
-                break
-            if output:
-                if "Progress" not in output: 
-                    socket_dict["_textarea"] = output#.strip()
-                else:
-                    OutArr = re.split(r'[\s]*', output)
-                    del OutArr[-1]
-                    #socket_dict['progress_output'] = OutArr[-1]
-                    #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
-                if socket_dict:
-                    doc_string = json.dumps(socket_dict)
-                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                    time.sleep(0.002)
-        elif ProcessAddions.poll() is not None:  
-            break
+#    while True:
+#        ready, _, _ = select.select([master_addions], [], [], timeout)
+#        if ready:
+#            output = stdout_addions.readline()
+#            if not output:
+#                break
+#            if output:
+#                if "Progress" not in output: 
+#                    socket_dict["_textarea"] = output#.strip()
+#                else:
+#                    OutArr = re.split(r'[\s]*', output)
+#                    del OutArr[-1]
+#                    #socket_dict['progress_output'] = OutArr[-1]
+#                    #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
+#                if socket_dict:
+#                    doc_string = json.dumps(socket_dict)
+#                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+#                    time.sleep(0.002)
+#        elif ProcessAddions.poll() is not None:  
+#            break
 
     ProcessAddions.wait()
-    os.close(slave_addions)
-    os.close(master_addions)
+ #   os.close(slave_addions)
+ #   os.close(master_addions)
 
     socket_dict["_textarea"] = '\n Ions Have Been Added...\n\n'
     if socket_dict:
@@ -552,52 +560,63 @@ if 'add_ions' in json_variables:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
+    ProcessSolvsysions = subprocess.Popen(ProcessToCallSolvsysions)
 
-    master_solvsysions, slave_solvsysions = pty.openpty()
-    ProcessSolvsysions = subprocess.Popen(ProcessToCallSolvsysions,stdout=slave_solvsysions,stdin=PIPE,bufsize=0,close_fds=True)
+#    master_solvsysions, slave_solvsysions = pty.openpty()
+#    ProcessSolvsysions = subprocess.Popen(ProcessToCallSolvsysions,stdout=slave_solvsysions,stdin=PIPE,bufsize=0,close_fds=True)
 
-    stdout_solvsysions = os.fdopen(master_solvsysions, 'r', 0)
+#    stdout_solvsysions = os.fdopen(master_solvsysions, 'r', 0)
     #timeout = .04 # seconds
 
-    while True:
-        ready, _, _ = select.select([master_solvsysions], [], [], timeout)
-        if ready:
-            output = stdout_solvsysions.readline()
-            if not output:
-                break
-            if output:
-                if "Progress" not in output: 
-                    socket_dict["_textarea"] = output#.strip()
-                else:
-                    OutArr = re.split(r'[\s]*', output)
-                    del OutArr[-1]
-                    #socket_dict['progress_output'] = OutArr[-1]
-                    #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
-                if socket_dict:
-                    doc_string = json.dumps(socket_dict)
-                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                    time.sleep(0.002)
-        elif ProcessSolvsysions.poll() is not None:  
-            break
+#    while True:
+#        ready, _, _ = select.select([master_solvsysions], [], [], timeout)
+#        if ready:
+#            output = stdout_solvsysions.readline()
+#            if not output:
+#                break
+#            if output:
+#                if "Progress" not in output: 
+#                    socket_dict["_textarea"] = output#.strip()
+#                else:
+#                    OutArr = re.split(r'[\s]*', output)
+#                    del OutArr[-1]
+#                    #socket_dict['progress_output'] = OutArr[-1]
+#                    #socket_dict['progress_text'] = 'Fitting Progress: ' + str(int(float(OutArr[-1])*100.0)) + '%'
+#                if socket_dict:
+#                    doc_string = json.dumps(socket_dict)
+#                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+#                    time.sleep(0.002)
+#        elif ProcessSolvsysions.poll() is not None:  
+#            break
 
     ProcessSolvsysions.wait()
-    os.close(slave_solvsysions)
-    os.close(master_solvsysions)
+#    os.close(slave_solvsysions)
+#    os.close(master_solvsysions)
 
     socket_dict["_textarea"] = '\n Solvated System Generated...\n\n'
     if socket_dict:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))   
 
-
+################################################################################################
 ########### NAMD Inputs (minimisation for now)  ################################################
-if 'mm_md_options' in json_variables:
+ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
+
+if 'min_options' in json_variables:
     ScriptLocation_namdmin  = InitialDirectoryStr + '/namd_templates/namd_template_whole_min.in'
-    ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
+    #ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
     ProcessToCallNamdMin = []
 
     numsteps = json_variables['mm_min_num_steps']
+    coor_min = ''
+    psf_min = ''
 
+    if 'add_waterbox' in json_variables:
+        coor_min = 'step2_solvator.pdb'
+        psf_min =  'step2_solvator.xplor.psf'
+    else:
+        coor_min = 'step1_pdbreader.pdb'
+        psf_min =  'step1_pdbreader.xplor.psf'
       
     if CaseStudy == 'dna':
         # Edit pdbreader_charmm template - number of chains####
@@ -606,7 +625,9 @@ if 'mm_md_options' in json_variables:
             filedata0 = file0.read()
         filedata0 = filedata0.replace('PAR_BIOMOL', 'par_all36_na_for_namd.prm')
         filedata0 = filedata0.replace('NUM_STEPS', str(numsteps))
-
+        filedata0 = filedata0.replace('COOR_MIN', str(coor_min))
+        filedata0 = filedata0.replace('PSF_MIN', str(psf_min))
+        
         if 'add_waterbox' in json_variables:
             filedata0 = filedata0.replace('CELL_X', str(molsize_x))
             filedata0 = filedata0.replace('CELL_Y', str(molsize_y))
@@ -629,6 +650,8 @@ if 'mm_md_options' in json_variables:
             filedata0 = file0.read()
         filedata0 = filedata0.replace('PAR_BIOMOL', 'par_all36_prot_for_namd.prm')
         filedata0 = filedata0.replace('NUM_STEPS', str(numsteps))
+        filedata0 = filedata0.replace('COOR_MIN', str(coor_min))
+        filedata0 = filedata0.replace('PSF_MIN', str(psf_min))
         
         if 'add_waterbox' in json_variables:
             filedata0 = filedata0.replace('CELL_X', str(molsize_x))
@@ -685,26 +708,156 @@ if 'mm_md_options' in json_variables:
     os.close(slave_namdmin)
     os.close(master_namdmin)
                                 
-    socket_dict["_textarea"] = '\n Minimization Finished...\n\n'
+    socket_dict["_textarea"] = '\nMinimization Finished...\n\n'
     if socket_dict:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+
+########## MD ##################################################################
+if 'md_options' in json_variables:
+    ScriptLocation_namdmd  = InitialDirectoryStr + '/namd_templates/namd_template_equil.in'
+    #ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
+    ProcessToCallNamdMd = []
+
+    numsteps_md = json_variables['md_num_steps']
+    temperature = json_variables['temperature']
+    pressure = json_variables['pressure']
+    output_frequency = json_variables['output_frequency']
+    
+    coor_md = ''
+    psf_md = 'step2_solvator.xplor.psf'
+
+    if 'min_options' in json_variables: 
+        coor_md = 'namd_out_whole_min.coor'
+    else:
+        coor_md = 'step2_solvator.pdb'
+
+    if CaseStudy == 'dna':
+        # Edit pdbreader_charmm template - number of chains####
+        filedata0 = None
+        with open(ScriptLocation_namdmd, 'r') as file0:
+            filedata0 = file0.read()
+        filedata0 = filedata0.replace('PAR_BIOMOL', 'par_all36_na_for_namd.prm')
+        filedata0 = filedata0.replace('STPEPSMD', str(numsteps_md))
+        filedata0 = filedata0.replace('COOR_MD', str(coor_md))
+        filedata0 = filedata0.replace('PSF_MD', str(psf_md))
+        filedata0 = filedata0.replace('TEMP', str(temperature))
+        filedata0 = filedata0.replace('PRESSURE', str(pressure))
+        filedata0 = filedata0.replace('OUTFREQ', str(output_frequency))
+        
+        if 'add_waterbox' in json_variables:
+            filedata0 = filedata0.replace('CELL_X', str(molsize_x))
+            filedata0 = filedata0.replace('CELL_Y', str(molsize_y))
+            filedata0 = filedata0.replace('CELL_Z', str(molsize_z))
+        else:
+            filedata0 = filedata0.replace('CELL_X', str(default_pbsize))
+            filedata0 = filedata0.replace('CELL_Y', str(default_pbsize))
+            filedata0 = filedata0.replace('CELL_Z', str(default_pbsize))
+
+        with open('namd_dna_md.inp', 'w') as file0:
+            file0.write(filedata0)
+                
+        ProcessToCallNamdMd.append(ExecutableFileLocationNamd)
+        ProcessToCallNamdMd.append('namd_dna_md.inp')
+
+    if CaseStudy == 'protein':
+        # Edit pdbreader_charmm template - number of chains####
+        filedata0 = None
+        with open(ScriptLocation_namdmd, 'r') as file0:
+            filedata0 = file0.read()
+        filedata0 = filedata0.replace('PAR_BIOMOL', 'par_all36_prot_for_namd.prm')
+        filedata0 = filedata0.replace('STPEPSMD', str(numsteps_md))
+        filedata0 = filedata0.replace('COOR_MD', str(coor_md))
+        filedata0 = filedata0.replace('PSF_MD', str(psf_md))
+        filedata0 = filedata0.replace('TEMP', str(temperature))
+        filedata0 = filedata0.replace('PRESSURE', str(pressure))
+        filedata0 = filedata0.replace('OUTFREQ', str(output_frequency)) 
+        
+        if 'add_waterbox' in json_variables:
+            filedata0 = filedata0.replace('CELL_X', str(molsize_x))
+            filedata0 = filedata0.replace('CELL_Y', str(molsize_y))
+            filedata0 = filedata0.replace('CELL_Z', str(molsize_z))
+        else:
+            filedata0 = filedata0.replace('CELL_X', str(default_pbsize))
+            filedata0 = filedata0.replace('CELL_Y', str(default_pbsize))
+            filedata0 = filedata0.replace('CELL_Z', str(default_pbsize))
+
+        with open('namd_prot_md.inp', 'w') as file0:
+            file0.write(filedata0)
+
+        ProcessToCallNamdMd.append(ExecutableFileLocationNamd)
+        ProcessToCallNamdMd.append('namd_prot_md.inp')
+    
+    ## RUN NAMD MD  ##########################################################
+    socket_dict["_textarea"] = 'Starting MD Simulation...\n\n'
+    socket_dict["progress_output"] =  str(0.0)
+    socket_dict["progress_text"] =  'MD Simulation Progress: 0%'
+    if socket_dict:
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+        
+        
+    master_namdmd, slave_namdmd = pty.openpty()
+    ProcessNamdmd = subprocess.Popen(ProcessToCallNamdMd,stdout=slave_namdmd,stdin=PIPE,bufsize=0,close_fds=True)
+        
+    stdout_namdmd = os.fdopen(master_namdmd, 'r', 0)
+        
+    while True:
+        ready, _, _ = select.select([master_namdmd], [], [], timeout)
+        if ready:
+            output = stdout_namdmd.readline()
+            if not output:
+                break
+            if output:
+                socket_dict["_textarea"] = output#.strip()
+                if "ENERGY:" in output:
+                    OutArr = re.split(r'[\s]*', output)
+                    if OutArr[0] == 'ENERGY:':
+                        socket_dict['progress_output'] = float(OutArr[1])/float(numsteps_md)
+                        socket_dict['progress_text'] = 'MD Simulation Progress: ' + str(int ((float(OutArr[1])/float(numsteps_md))*100.0) ) + '%'
+                        
+                if socket_dict:
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    #time.sleep(0.002)
+        elif ProcessNamdmd.poll() is not None:  
+            break
+                  
+    ProcessNamdmd.wait()
+    os.close(slave_namdmd)
+    os.close(master_namdmd)
+                                
+    socket_dict["_textarea"] = '\nMD Simulation Completed...\n\n'
+    if socket_dict:
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+
 
 
 #################################################################
 base_dir = json_variables[ '_base_directory' ]
 
 output_basename = ''
+outpdb_view = ''
 
 if 'add_waterbox' in json_variables:
     output_basename = 'step2_solvator'
+    outpdb_view = output_basename
+    if 'min_options' in json_variables:
+        shutil.copy('namd_out_whole_min.coor', 'namd_out_whole_min.pdb')
+        outpdb_view = 'namd_out_whole_min'
 else:
     output_basename = 'step1_pdbreader'
+    outpdb_view = output_basename
 
 outpdb = str(base_dir) + "/" + output_basename + ".pdb"
 outcrd = str(base_dir) + "/" + output_basename + ".crd"
 outpsf = str(base_dir) + "/" + output_basename + ".psf"
 outxplorpsf = str(base_dir) + "/" + output_basename + ".xplor.psf"
+
+outpdb_atomic_view = str(base_dir) + "/" + outpdb_view + ".pdb"
 
 output_res[ 'outputpdb' ] = str(outpdb)
 output_res[ 'outputcrd' ] = str(outcrd)
@@ -712,14 +865,24 @@ output_res[ 'outputpsf' ] = str(outpsf)
 output_res[ 'outputxplorpsf' ] = str(outxplorpsf)
 
 outputmin_arr_files = []
-outputmin_arr_files.append(str(base_dir) + "/" + 'namd_dna_whole_min' + ".coor")
-outputmin_arr_files.append(str(base_dir) + "/" + 'namd_dna_whole_min' + ".vel")
+outputmin_arr_files.append(str(base_dir) + "/" + 'namd_out_whole_min' + ".coor")
+#outputmin_arr_files.append(str(base_dir) + "/" + 'namd_out_whole_min' + ".vel")
 
-if 'mm_md_options' in json_variables:
+
+outputmd_arr_files = []
+outputmd_arr_files.append(str(base_dir) + "/" + "namd_equil.dcd")
+outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.vel")
+outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.coor")
+outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.xsc")
+outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.xst")
+
+if 'md_options' in json_variables:
+    output_res[ 'outputmd' ] = outputmd_arr_files
+ 
+if 'min_options' in json_variables:
     output_res[ 'outputmin' ] = outputmin_arr_files
 
-output_res[ 'outputpdb_view' ] = str(outpdb)
-#output_res[ 'logfile' ] = str()
+output_res[ 'outputpdb_view' ] = str(outpdb_atomic_view)
 
 output_res[ 'progress_output' ] = str(1.0)
 output_res[ 'progress_text' ] = 'Minimization Progress: 100%' 

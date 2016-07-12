@@ -18,7 +18,7 @@
 	       { 
 		   "role"     : "input",  
 		   "id"       : "toppar_label",
-		   "label"    : "TOPOLOGY AND PARAMETERS GENERATION",
+		   "label"    : "TOPOLOGY GENERATION AND PARAMETERIZATION",
 		   "type"     : "label",
 		   "prehline" : "true",
 		   "posthline": "true",
@@ -49,7 +49,7 @@
                      "id"       : "size_x",
                      "label"    : "Periodic Cell Size, X:",
                      "type"     : "float",  
-                     "default"  : 50,
+                     "default"  : 40,
 		     "min"      : 1, 
 		     "required" : "true",
                      "repeat"   : "add_waterbox",
@@ -60,7 +60,7 @@
                      "id"       : "size_y",
                      "label"    : "Periodic Cell Size, Y:",
                      "type"     : "float",  
-                     "default"  : 50,
+                     "default"  : 40,
 		     "min"      : 1, 
 		     "required" : "true",
                      "repeat"   : "add_waterbox",
@@ -71,7 +71,7 @@
                      "id"       : "size_z",
                      "label"    : "Periodic Cell Size, Z:",
                      "type"     : "float",  
-                     "default"  : 50,
+                     "default"  : 40,
 		     "min"      : 1, 
 		     "required" : "true",
                      "repeat"   : "add_waterbox",
@@ -105,14 +105,14 @@
                      "id"       : "ion_conc",
                      "label"    : "Ionic Concentration (M):",
                      "type"     : "float",  
-                     "default"  : 0.15,
+                     "default"  : 0.3,
 		     "min"      : 0, 
 		     "required" : "true",
                      "repeat"   : "add_ions",
 		     "help"     : "help"
 		 },	    
 
-#####################################################################
+#######################################################################################
 	       { 
 		   "role"     : "input",  
 		   "id"       : "mdinput_label",
@@ -124,15 +124,14 @@
 	       },
                 { 
                      "role"     : "input",  
-                     "id"       : "mm_md_options",
-                     "label"    : "Minimize structure?",
+                     "id"       : "min_options",
+                     "label"    : "Minimize structure before MD?",
                      "type"     : "checkbox",  
                      "checked"  : "false",
 		     "required" : "false",
                      "repeater" : "yes",
 		     "help"     : "help"
 		 },
-
                 { 
                      "role"     : "input",  
                      "id"       : "mm_min_num_steps",
@@ -141,11 +140,64 @@
                      "default"  : 1000,
 		     "min"      : 1, 
 		     "required" : "true",
-                     "repeat"   : "mm_md_options",
+                     "repeat"   : "min_options",
 		     "help"     : "help"
-		 },	    
+		 },
+               { 
+                     "role"     : "input",  
+                     "id"       : "md_options",
+                     "label"    : "Run MD?",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "false",
+                     "repeater" : "yes",
+		     "help"     : "help"
+		 },	
 	
- 
+               { 
+                     "role"     : "input",  
+                     "id"       : "md_num_steps",
+                     "label"    : "Number of Steps",
+                     "type"     : "integer",  
+                     "default"  : 1000,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "md_options",
+		     "help"     : "help"
+		 },
+              { 
+                     "role"     : "input",  
+                     "id"       : "temperature",
+                     "label"    : "Temperature (K)",
+                     "type"     : "float",  
+                     "default"  : 298,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "md_options",
+		     "help"     : "help"
+		 },
+                { 
+                     "role"     : "input",  
+                     "id"       : "pressure",
+                     "label"    : "Pressure (Bar)",
+                     "type"     : "float",  
+                     "default"  : 1.01325,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "md_options",
+		     "help"     : "help"
+		 },
+                { 
+                     "role"     : "input",  
+                     "id"       : "output_frequency",
+                     "label"    : "Output Frequency (steps)",
+                     "type"     : "integer",  
+                     "default"  : 10,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "md_options",
+		     "help"     : "help"
+		 },
 
 #####################################################################################################
                  {
@@ -196,7 +248,13 @@
                    "type"  : "file",
 		   "multiple": "true"    
                    },
-
+	           {
+                   "role"  : "output",
+                   "id"    : "outputmd",
+                   "label" : "MD Simulation Results: ",
+                   "type"  : "file",
+		   "multiple": "true"    
+                   },
 	         {
                    "role"  : "output",
                    "id"    : "outputpdb_view",
@@ -209,7 +267,6 @@
 		   #"repeat" : "show_atomistic_model"
 		     
                    }
-	
 
 	         ],
 # the executable will take inputs in order and produce output

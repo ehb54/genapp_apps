@@ -5,7 +5,7 @@
 ########################################
 
 #initial_configuration
-coordinates step1_pdbreader.pdb
+coordinates COOR_MIN
 #This_is_PDB_after_h2o_ion_minimization
 seed 12345
 
@@ -20,7 +20,7 @@ parameters  toppar/toppar_water_ions_for_namd.str
 
 mergeCrossterms yes
 
-structure step1_pdbreader.xplor.psf
+structure PSF_MIN
 
 temperature 0
 
@@ -97,7 +97,7 @@ PMEGridSizeZ  CELL_Z
 #Output_section #
 ########################################
 
-outputname	namd_dna_whole_min
+outputname	namd_out_whole_min
 binaryoutput 	no #default_is_binary
 outputEnergies 	100
 outputTiming 	100
