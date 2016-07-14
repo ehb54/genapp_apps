@@ -2,8 +2,9 @@
 {
     "moduleid" : "param_test",
     "label"    : "Calculate",
-    "help"     : "help for Bead Modeller",
+    #"help"     : "help for Bead Modeller",
     #"center"   : "true",
+    #"centeroutput" : "true",
     "fields"   : [
                {
 	            "role"       : "input"
@@ -192,12 +193,33 @@
                      "id"       : "output_frequency",
                      "label"    : "Output Frequency (steps)",
                      "type"     : "integer",  
-                     "default"  : 10,
+                     "default"  : 100,
 		     "min"      : 1, 
 		     "required" : "true",
                      "repeat"   : "md_options",
 		     "help"     : "help"
 		 },
+               { 
+                     "role"     : "input",  
+                     "id"       : "movie_show",
+                     "label"    : "Show Trajectory Movie?",
+                     "type"     : "checkbox",  
+                     "checked"  : "true",
+		     "required" : "false",
+                     "repeat"   : "md_options",
+		     "repeater" : "yes",
+		     "help"     : "help"
+		 },	
+               { 
+                     "role"     : "input",  
+                     "id"       : "movie_choice",
+                     "label"    : "",
+                     "type"     : "listbox",  
+                     "values"   : "with solvent~withsolvent~no solvent~nosolvent",
+		     "default"  : "withsolvent",
+                     "repeat"   : "movie_show",
+		     "help"     : "help"
+		 },		
 
 #####################################################################################################
                  {

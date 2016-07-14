@@ -873,7 +873,6 @@ outputmin_arr_files = []
 outputmin_arr_files.append(str(base_dir) + "/" + 'namd_out_whole_min' + ".coor")
 #outputmin_arr_files.append(str(base_dir) + "/" + 'namd_out_whole_min' + ".vel")
 
-
 outputmd_arr_files = []
 outputmd_arr_files.append(str(base_dir) + "/" + "namd_equil.dcd")
 outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.vel")
@@ -892,15 +891,36 @@ output_res[ 'outputpdb_view' ] = str(outpdb_atomic_view)
 
 ### SHOW VIDEO #########################################################
 
-ScriptLocationMovie = InitialDirectoryStr + '/vmd_script/pov_to_png.sh'
-ScriptLocationVMD = InitialDirectoryStr + '/vmd_script/vmd_movie_maker.tcl'
-shutil.copy(ScriptLocationVMD, json_variables['_base_directory'])
+if 'movie_show' in json_variables:
+    socket_dict["_textarea"] = '\nGenerating Movie of the Simulation Trajectory...\n\n'
+    if socket_dict:
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+    
+    ScriptLocationMovie = ''
+    ScriptLocationVMD = ''
 
-ProcessVideo = []
-ProcessVideo.append(ScriptLocationMovie)
-ProcessCreateMovie = subprocess.Popen(ProcessVideo)
+    if json_variables[ 'movie_choice' ] == 'withsolvent':    
+        ScriptLocationMovie = InitialDirectoryStr + '/vmd_script/pov_to_png_with_solvent.sh'
+        ScriptLocationVMD = InitialDirectoryStr + '/vmd_script/vmd_movie_maker.tcl'
+        shutil.copy(ScriptLocationVMD, json_variables['_base_directory'])
+    if json_variables[ 'movie_choice' ] == 'nosolvent':    
+        ScriptLocationMovie = InitialDirectoryStr + '/vmd_script/pov_to_png_no_solvent.sh'
+        ScriptLocationVMD = InitialDirectoryStr + '/vmd_script/vmd_movie_maker.tcl'
+        ScriptLocationStripWater = InitialDirectoryStr + '/vmd_script/vmd_strip_water.tcl'
+        shutil.copy(ScriptLocationVMD, json_variables['_base_directory'])
+        shutil.copy(ScriptLocationStripWater, json_variables['_base_directory'])
+        
+    ProcessVideo = []
+    ProcessVideo.append(ScriptLocationMovie)
+    ProcessCreateMovie = subprocess.Popen(ProcessVideo)
+    
+    socket_dict["_textarea"] = '\nMovie Generated...\n\n'
+    if socket_dict:
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
-output_res[ 'vid' ] = str(base_dir) + "/" + "out_proc"
+    output_res[ 'vid' ] = str(base_dir) + "/" + "out_proc"
 
 #ffmpeg -y -i spr_ell.mp4 -c:v libvpx -crf 18 -b:v 1M spr_ell_proc.webm > /dev/null 2>&1
 #ffmpeg -y -i spr_ell.mp4 -c:v libx264 -preset slow -pix_fmt yuv420p -b:v 1M -profile:v baseline -level 3.0 -c:a copy spr_ell_proc.mp4 > /dev/null 2>&1

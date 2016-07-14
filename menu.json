@@ -63,7 +63,7 @@
             "id"      : "willitfit",
             "label"   : "Parametrize",
             "icon"    : "pngs/simulate.png",
-            "help"    : "help text",
+            #"help"    : "help text",
 	    "autorun" : "param_test",
             "modules" : [ 
                          { 
