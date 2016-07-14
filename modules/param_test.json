@@ -135,7 +135,7 @@
                 { 
                      "role"     : "input",  
                      "id"       : "mm_min_num_steps",
-                     "label"    : "Number of Steps",
+                     "label"    : "Number of Minimization Steps",
                      "type"     : "integer",  
                      "default"  : 1000,
 		     "min"      : 1, 
@@ -157,7 +157,7 @@
                { 
                      "role"     : "input",  
                      "id"       : "md_num_steps",
-                     "label"    : "Number of Steps",
+                     "label"    : "Number of Simulation Steps",
                      "type"     : "integer",  
                      "default"  : 1000,
 		     "min"      : 1, 
@@ -266,7 +266,15 @@
 		   # "norow" : "true"
 		   #"repeat" : "show_atomistic_model"
 		     
-                   }
+                   },
+                 {
+                   "role"       : "output",
+                   "id"         : "vid",
+		   "type"       : "video",
+		   "label"      : "Video",
+		   "width"      : 450
+		   #"height"    : 450   
+                 }	
 
 	         ],
 # the executable will take inputs in order and produce output

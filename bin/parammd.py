@@ -713,6 +713,10 @@ if 'min_options' in json_variables:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
+    
+    output_res[ 'progress_output' ] = str(1.0)
+    output_res[ 'progress_text' ] = 'Minimization Progress: 100%' 
+
 
 ########## MD ##################################################################
 if 'md_options' in json_variables:
@@ -833,8 +837,9 @@ if 'md_options' in json_variables:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
-
-
+        
+    output_res[ 'progress_output' ] = str(1.0)
+    output_res[ 'progress_text' ] = 'MD Simulation Progress: 100%' 
 
 #################################################################
 base_dir = json_variables[ '_base_directory' ]
@@ -884,7 +889,20 @@ if 'min_options' in json_variables:
 
 output_res[ 'outputpdb_view' ] = str(outpdb_atomic_view)
 
-output_res[ 'progress_output' ] = str(1.0)
-output_res[ 'progress_text' ] = 'Minimization Progress: 100%' 
+
+### SHOW VIDEO #########################################################
+
+ScriptLocationMovie = InitialDirectoryStr + '/vmd_script/pov_to_png.sh'
+ScriptLocationVMD = InitialDirectoryStr + '/vmd_script/vmd_movie_maker.tcl'
+shutil.copy(ScriptLocationVMD, json_variables['_base_directory'])
+
+ProcessVideo = []
+ProcessVideo.append(ScriptLocationMovie)
+ProcessCreateMovie = subprocess.Popen(ProcessVideo)
+
+output_res[ 'vid' ] = str(base_dir) + "/" + "out_proc"
+
+#ffmpeg -y -i spr_ell.mp4 -c:v libvpx -crf 18 -b:v 1M spr_ell_proc.webm > /dev/null 2>&1
+#ffmpeg -y -i spr_ell.mp4 -c:v libx264 -preset slow -pix_fmt yuv420p -b:v 1M -profile:v baseline -level 3.0 -c:a copy spr_ell_proc.mp4 > /dev/null 2>&1
 
 print json.dumps( output_res )
