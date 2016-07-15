@@ -910,9 +910,11 @@ if 'movie_show' in json_variables:
         ScriptLocationStripWater = InitialDirectoryStr + '/vmd_script/vmd_strip_water.tcl'
         shutil.copy(ScriptLocationVMD, json_variables['_base_directory'])
         shutil.copy(ScriptLocationStripWater, json_variables['_base_directory'])
-        
+    
+    moviename = "out_proc_" + json_variables['_uuid']     
     ProcessVideo = []
     ProcessVideo.append(ScriptLocationMovie)
+    ProcessVideo.append(moviename)
     ProcessCreateMovie = subprocess.Popen(ProcessVideo)
     
     socket_dict["_textarea"] = '\nMovie Generated...\n\n'
@@ -920,7 +922,11 @@ if 'movie_show' in json_variables:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
-    output_res[ 'vid' ] = str(base_dir) + "/" + "out_proc"
+    
+    
+    
+    output_res[ 'vid' ] = str(base_dir) + "/" + moviename
+    #output_res[ 'vid' ] = str(base_dir) + "/" + "out_proc"
 
 #ffmpeg -y -i spr_ell.mp4 -c:v libvpx -crf 18 -b:v 1M spr_ell_proc.webm > /dev/null 2>&1
 #ffmpeg -y -i spr_ell.mp4 -c:v libx264 -preset slow -pix_fmt yuv420p -b:v 1M -profile:v baseline -level 3.0 -c:a copy spr_ell_proc.mp4 > /dev/null 2>&1
