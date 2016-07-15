@@ -687,6 +687,18 @@ print "
 	             \"type\"     : \"file\"  
 	          }, 
 
+	           {
+                   \"role\"  : \"output\",
+                   \"id\"    : \"fit_plot\",
+                   \"label\" : \"Fit Plot:\",
+                   \"type\"  : \"plot2d\",
+		   \"height\": \"400px\",
+		   \"width\" : \"600px\",
+		   \"pan\"   : \"true\",
+		   \"zoom\"  : \"true\",
+		   \"hover\" : \"true\"
+                   },
+
 	         {
                    \"role\"  : \"output\",
                    \"id\"    : \"quaternary_pdb\",
