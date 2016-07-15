@@ -839,6 +839,8 @@ mkdir $newdir, oct("777");
 
 ################################################################################
 
+#print encode_json ($flot_data);
+#exit;
 #print " VAR:  " . $$ref{'num_states'}->{num_rigid_domains}[1]{geom_center_vect}[1]{Startingmodulus_anggeom_center_vect};
 #exit;
 
@@ -1536,20 +1538,20 @@ while (my $line = <$fh>) {
     }
 }
 
-####################################################
+#############################################################
 
 close OUT;
 
 #exit;
 
-####################################################
+##############################################################
 
 # setup up the socket handle once:
 my $sock = IO::Socket::INET->new( Proto => 'udp', PeerPort => $$ref{ "_udpport" }, PeerAddr => $$ref{ "_udphost" } );
 $msg = {};
 $$msg{ "_uuid" } = $$ref{ "_uuid" };
 
-##############################################
+##############################################################
 
 open my $command, "$Bin/quafit_source/quafit |";
 open my $output, "> output";
@@ -1576,7 +1578,8 @@ close $output;
 $$msg{ "_textarea" } = "\nCalculations Finished! \n";
 $sock->send( encode_json( $msg ) );
 
-##################################################### 
+
+###########################################################
 
 my $mask1 = join "", "*", $$ref{ "codenumber" }, "*.cst";
 my $mask2 = join "", "*", $$ref{ "codenumber" }, "*.csw"; 
@@ -1596,7 +1599,6 @@ system("tar", "czf", "$archive_name", "$newdir");
 #$$res{ "outputfile" } = join "", $p, "/", $newdir, "/", "qua", $$ref{ "codenumber" }, ".dat";
 $$res{ "logfile" } = "$p/logfile.txt";
 $$res{ "results" } = "$p/$archive_name";
-
 
 my $num_subruns_length = length( $$ref{"maximum_number_of_subrun"} );
 my $num_subruns_formatted;
@@ -1618,6 +1620,90 @@ else {
     }
 }
 
+
+######### PLOT ############################################
+my $fitpartname = join "", "qua", $$ref{ "codenumber" }, $num_subruns_formatted;
+opendir(DIR, $newdir) || die "Cannot open $data_dir\n";
+@filesfit = grep { /^${fitpartname}_[0-9]{2}\.fit$/ } readdir(DIR);
+closedir(DIR);
+
+@filesfit = reverse sort @filesfit;
+
+my $fit_file = join "", $p, "/", $newdir, "/",  @filesfit[0];
+my $linecount = 0;
+
+my @q, @expcurve, @fitcurve;
+my @expplot, @fitplot;
+
+open(my $fh, '<', $fit_file) or die "Can't read file '$fit_file' [$!]\n";
+while (my $line = <$fh>) {
+    ++$linecount;
+    if ($linecount == 1)
+    {
+	next;
+    }
+    
+    $line =~ s/^\s*(.*?)\s*$/$1/;  # remove whitespace from both ends
+    my @array = split /\s+/,$line;
+    #print "Var: " . $array[0] . " " .  $array[-1];
+    #exit;
+    
+    push (@q, $array[0]);
+    push (@expcurve, $array[1]);
+    push (@fitcurve, $array[3]);
+    
+    push (@expplot, [$array[0], $array[1]] );
+    push (@fitplot, [$array[0], $array[3]] );
+}
+
+#@qsort = reverse sort @q;
+my $minx = $qsort[0];
+my $maxx = $qsort[-1];
+
+#@expcurvesort = reverse sort @expcurve;
+my $miny = $expcurve[-1];
+my $maxy = $expcurve[0];
+
+#print "MIN: " . $miny . " MAX: " . $maxy;
+#exit;
+
+my $flot_data = {};
+#$$flot_data{"options"}{"xscale"} = "log";
+$$flot_data{"options"}{"yscale"} = "log";
+$$flot_data{"options"}{"xlabel"} = "q (1/A)";
+$$flot_data{"options"}{"ylabel"} = "I (q)";
+$$flot_data{"options"}{"xmin"} = $minx;
+$$flot_data{"options"}{"xmax"} = $maxx;
+$$flot_data{"options"}{"ymin"} = $miny;
+$$flot_data{"options"}{"ymax"} = $maxy;
+$$flot_data{"options"}{"legend"}{"backgroundOpacity"} = 0.35;
+$$flot_data{"options"}{"legend"}{"labelBoxBorderColor"} = "black";
+$$flot_data{"options"}{"legend"}{"position"} = "ne";
+$$flot_data{"options"}{"legend"}{"margin"} = [-120, 0];
+
+my $data_exp = {};
+$$data_exp{"points"}{ "show" } =  "true";
+$$data_exp{"points"}{ "radius" } =  2;
+$$data_exp{"label"} = "Experiment";
+$$data_exp{"data"} = [ @expplot ];
+
+my $data_fit = {};
+$$data_fit{"lines"}{"show"} =  "true";
+$$data_fit{"lines"}{"lineWidth"} =  4;
+$$data_fit{"label"} = "Fit";
+$$data_fit{"data"} = [ @fitplot ];
+
+$$flot_data{"data"} = [ $data_exp, $data_fit ];
+
+#$$flot_data{"data"} = [ [ @expplot ], [ @fitplot ] ];
+
+$$res{ "fit_plot" } = $flot_data;
+
+
+#$$res{ "fit_plot" } = %flot_data;
+
+
+############################################################
 my $pdbpartname = join "", "qua", $$ref{ "codenumber" }, $num_subruns_formatted;
 #print $pdbpartname;
 opendir(DIR, $newdir) || die "Cannot open $data_dir\n";
@@ -1626,6 +1712,7 @@ closedir(DIR);
 
 @files = reverse sort @files;
 $$res{ "quaternary_pdb" } = join "", $p, "/", $newdir, "/",  @files[0];
+
 
 print encode_json( $res ). "\n" ;
 
