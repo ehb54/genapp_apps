@@ -366,6 +366,10 @@ for my $key ( sort keys %data )
 			    $sizetext = 2; 
 			    $type = "listbox";
 			    $value = "\"values\":\"-1~minusone~0~zero~1~one~2~two\"";
+			    if ( $label_key eq 'Screw Axis Orientation')
+			    {
+				$value = "\"values\":\"0~zero~1~one~2~two\"";
+			    }
 			    $default = "\"default\": \"zero\"";
 			    $pattern = "\#";
 			}
@@ -535,6 +539,11 @@ for my $key ( sort keys %data )
 			$sizetext = 2; 
 			$type = "listbox";
 			$value = "\"values\":\"-1~minusone~0~zero~1~one~2~two\"";
+			$value = "\"values\":\"-1~minusone~0~zero~1~one~2~two\"";
+			if ( $label_key eq 'Rotation along Screw Axis (deg)' or $label_key eq 'Screw Translation along z (Ang)' or $label_key eq 'Relative mass density hydr shell')
+			{
+			    $value = "\"values\":\"0~zero~1~one~2~two\"";
+			}
 			$default = "\"default\": \"zero\"";
 			$pattern = "\#";
 		    }

@@ -1679,7 +1679,7 @@ $$flot_data{"options"}{"ymax"} = $maxy;
 $$flot_data{"options"}{"legend"}{"backgroundOpacity"} = 0.35;
 $$flot_data{"options"}{"legend"}{"labelBoxBorderColor"} = "black";
 $$flot_data{"options"}{"legend"}{"position"} = "ne";
-$$flot_data{"options"}{"legend"}{"margin"} = [-120, 0];
+$$flot_data{"options"}{"legend"}{"margin"} = [-120, 40];
 
 my $data_exp = {};
 $$data_exp{"points"}{ "show" } =  "true";
