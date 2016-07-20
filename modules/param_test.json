@@ -107,7 +107,7 @@
                      "id"       : "ion_conc",
                      "label"    : "Ionic Concentration (M):",
                      "type"     : "float",  
-                     "default"  : 0.3,
+                     "default"  : 0.5,
 		     "min"      : 0, 
 		     "required" : "true",
                      "repeat"   : "add_ions",
@@ -203,7 +203,7 @@
                { 
                      "role"     : "input",  
                      "id"       : "movie_show",
-                     "label"    : "Show Trajectory Movie?",
+                     "label"    : "Generate Trajectory Movie?",
                      "type"     : "checkbox",  
                      "checked"  : "true",
 		     "required" : "false",
@@ -221,6 +221,26 @@
                      "repeat"   : "movie_show",
 		     "help"     : "help"
 		 },		
+#######################################################################################
+	       { 
+		   "role"     : "input",  
+		   "id"       : "analysis_label",
+		   "label"    : "TRAJECTORY ANALYSIS",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },
+               { 
+                     "role"     : "input",  
+                     "id"       : "analysis_options_temperature",
+                     "label"    : "Show Temperature Plot?",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "false",
+                     "help"     : "help"
+		 },	
+
 
 #####################################################################################################
                  {
@@ -294,10 +314,22 @@
                    "role"       : "output",
                    "id"         : "vid",
 		   "type"       : "video",
-		   "label"      : "Video",
-		   "width"      : 450
+		   "label"      : "Trajectory Movie",
+		   "width"      : 400
 		   #"height"    : 450   
-                 }	
+                 },	
+
+	           {
+                   "role"  : "output",
+                   "id"    : "temperature_plot",
+                   "label" : "Temperature Evolution Plot:",
+                   "type"  : "plot2d",
+		   "height": "220px",
+		   "width" : "450px",
+		   "pan"   : "true",
+		   "zoom"  : "true",
+		   "hover" : "true"
+                   }
 
 	         ],
 # the executable will take inputs in order and produce output

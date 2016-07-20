@@ -806,7 +806,11 @@ if 'md_options' in json_variables:
     ProcessNamdmd = subprocess.Popen(ProcessToCallNamdMd,stdout=slave_namdmd,stdin=PIPE,bufsize=0,close_fds=True)
         
     stdout_namdmd = os.fdopen(master_namdmd, 'r', 0)
-        
+    namdmd_log = open('namdmd_log.out','w')
+    time_temperature_array = []
+    time_array = []
+    temperature_array = []
+
     while True:
         ready, _, _ = select.select([master_namdmd], [], [], timeout)
         if ready:
@@ -815,12 +819,18 @@ if 'md_options' in json_variables:
                 break
             if output:
                 socket_dict["_textarea"] = output#.strip()
+                print >> namdmd_log, output.rstrip()
+                
                 if "ENERGY:" in output:
                     OutArr = re.split(r'[\s]*', output)
                     if OutArr[0] == 'ENERGY:':
                         socket_dict['progress_output'] = float(OutArr[1])/float(numsteps_md)
                         socket_dict['progress_text'] = 'MD Simulation Progress: ' + str(int ((float(OutArr[1])/float(numsteps_md))*100.0) ) + '%'
-                        
+                        # TEMPERATURE
+                        time_temperature_array.append([float(OutArr[1]),float(OutArr[12])])
+                        time_array.append(float(OutArr[1]))
+                        temperature_array.append(float(OutArr[12]))
+
                 if socket_dict:
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -879,6 +889,7 @@ outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.vel")
 outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.coor")
 outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.xsc")
 outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.xst")
+outputmd_arr_files.append(str(base_dir) + "/" + "namdmd_log.out")
 
 if 'md_options' in json_variables:
     output_res[ 'outputmd' ] = outputmd_arr_files
@@ -917,18 +928,62 @@ if 'movie_show' in json_variables:
     ProcessVideo.append(moviename)
     ProcessCreateMovie = subprocess.Popen(ProcessVideo)
     
+    
+
     socket_dict["_textarea"] = '\nMovie Generated...\n\n'
     if socket_dict:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
-    
-    
-    
+      
     output_res[ 'vid' ] = str(base_dir) + "/" + moviename
     #output_res[ 'vid' ] = str(base_dir) + "/" + "out_proc"
 
 #ffmpeg -y -i spr_ell.mp4 -c:v libvpx -crf 18 -b:v 1M spr_ell_proc.webm > /dev/null 2>&1
 #ffmpeg -y -i spr_ell.mp4 -c:v libx264 -preset slow -pix_fmt yuv420p -b:v 1M -profile:v baseline -level 3.0 -c:a copy spr_ell_proc.mp4 > /dev/null 2>&1
+
+#### OUTPUT PLOTS #################################################
+
+if 'analysis_options_temperature' in json_variables:
+    
+    min_x = min(time_array)
+    min_y = min(temperature_array)
+    max_x = max(time_array)
+    max_y = max(temperature_array)
+
+    flot_data = {
+        "options": 
+        {
+            #"xscale" : "log",
+            #"yscale" : "log",
+            "xmin"   : min_x,
+            "xmax"   : max_x,
+            "ymin"   : min_y,
+            "ymax"   : max_y,
+            "xlabel" : "Time, steps",
+            "ylabel" : "T, K",
+            "legend" : 
+            {
+                "backgroundOpacity"   : 0.2,
+                "labelBoxBorderColor" : "black",
+                "position"            : "ne",
+                "margin"              : [0, -22]
+            },
+        },
+        "data": [ ]
+    }
+    
+    data_label = "Temperature"
+    current_set_data = {
+        "points"  : { "show" : "true" },
+        "lines"  :  { "show" : "true" },
+        "label"  : data_label,
+        "data"   : time_temperature_array
+    }
+    flot_data['data'].append(current_set_data)
+    
+    output_res[ 'temperature_plot' ] = flot_data
+
+##################################################################
 
 print json.dumps( output_res )
