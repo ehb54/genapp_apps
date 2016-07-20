@@ -5,6 +5,7 @@
     #"help"     : "help for Bead Modeller",
     #"center"   : "true",
     #"centeroutput" : "true",
+    #"notify"    : "alexsav.science@gmail.com",
     "fields"   : [
                {
 	            "role"       : "input"

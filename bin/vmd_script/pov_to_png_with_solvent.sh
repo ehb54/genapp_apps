@@ -4,6 +4,10 @@
 
 for file in snap.*.pov
 do
+    echo "camera {orthographic" >>  $file
+    echo "location <0, 0, -1.5>" >> $file
+    echo "rotate <90,0,0> " >> $file
+    echo "}" >>  $file
     /usr/local/bin/povray -d -H420 -W420 $file > /dev/null
     rm $file
 done
