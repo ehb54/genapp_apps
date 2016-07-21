@@ -231,16 +231,36 @@
 		   "posthline": "true",
 		   "default"  : ""
 	       },
-               { 
+              { 
                      "role"     : "input",  
-                     "id"       : "analysis_options_temperature",
-                     "label"    : "Show Temperature Plot?",
+                     "id"       : "analysis_options_evolutions",
+                     "label"    : "Evolution of Macroscopic Parameters",
                      "type"     : "checkbox",  
                      "checked"  : "false",
 		     "required" : "false",
+		     "repeater" : "yes",
+                     "help"     : "help"
+		 },		
+               { 
+                     "role"     : "input",  
+                     "id"       : "analysis_options_evolutions_temperature",
+                     "label"    : "Generate Temperature Plot?",
+                     "type"     : "checkbox",  
+                     "checked"  : "true",
+		     "required" : "false",
+		     "repeat"   : "analysis_options_evolutions",
                      "help"     : "help"
 		 },	
-
+               { 
+                     "role"     : "input",  
+                     "id"       : "analysis_options_evolutions_totenergy",
+                     "label"    : "Generate Total Enegry Plot?",
+                     "type"     : "checkbox",  
+                     "checked"  : "true",
+		     "required" : "false",
+		     "repeat"   : "analysis_options_evolutions",
+                     "help"     : "help"
+		 },	
 
 #####################################################################################################
                  {
@@ -298,6 +318,15 @@
                    "type"  : "file",
 		   "multiple": "true"    
                    },
+                  
+	           {
+                   "role"  : "output",
+                   "id"    : "outputanalysis",
+                   "label" : "Analysis Results: ",
+                   "type"  : "file",
+		   "multiple": "true"    
+                   },
+	
 	         {
                    "role"  : "output",
                    "id"    : "outputpdb_view",
@@ -329,8 +358,18 @@
 		   "pan"   : "true",
 		   "zoom"  : "true",
 		   "hover" : "true"
+                   },
+	           {
+                   "role"  : "output",
+                   "id"    : "totenergy_plot",
+                   "label" : "Total Energy Evolution Plot:",
+                   "type"  : "plot2d",
+		   "height": "220px",
+		   "width" : "450px",
+		   "pan"   : "true",
+		   "zoom"  : "true",
+		   "hover" : "true"
                    }
-
 	         ],
 # the executable will take inputs in order and produce output
     "executable" : "parammd.py",

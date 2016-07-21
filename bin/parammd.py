@@ -230,6 +230,13 @@ if 'add_ions' not in json_variables:
         message_box(warning_str,'warning.png')
         exit()
 
+if 'md_options' not in json_variables:
+    if 'analysis_options_evolutions' in json_variables:
+        warning_str = "<p> Error:  </p> MD simulation has to be run before Trajectory Analysis! <p> </p>"
+        message_box(warning_str,'warning.png')
+        exit()
+
+
 #### PDB transformations #########################################
 
 ProcessToCall = []
@@ -807,9 +814,15 @@ if 'md_options' in json_variables:
         
     stdout_namdmd = os.fdopen(master_namdmd, 'r', 0)
     namdmd_log = open('namdmd_log.out','w')
+    temp_plot  = open('temperature_plot.dat','w')
+    totenergy_plot  = open('totalenergy_plot.dat','w')
     time_temperature_array = []
     time_array = []
     temperature_array = []
+    totenergy_array = []
+    time_totenergy_array = []
+
+    error_string_md = ''
 
     while True:
         ready, _, _ = select.select([master_namdmd], [], [], timeout)
@@ -830,7 +843,18 @@ if 'md_options' in json_variables:
                         time_temperature_array.append([float(OutArr[1]),float(OutArr[12])])
                         time_array.append(float(OutArr[1]))
                         temperature_array.append(float(OutArr[12]))
-
+                        temperature_string = str(float(OutArr[1])) + "\t" + str(float(OutArr[12]))
+                        print >> temp_plot, temperature_string
+                        # TOT_ENERGY
+                        time_totenergy_array.append([float(OutArr[1]),float(OutArr[11])])
+                        totenergy_array.append(float(OutArr[11]))
+                        totenergy_string = str(float(OutArr[1])) + "\t" + str(float(OutArr[11]))
+                        print >> totenergy_plot, totenergy_string
+               
+                if "ERROR:" in output:
+                    socket_dict["_textarea"] = output#.strip()
+                    error_string_md += "<p>" + output + "</p>"
+                    
                 if socket_dict:
                     doc_string = json.dumps(socket_dict)
                     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -850,6 +874,77 @@ if 'md_options' in json_variables:
         
     output_res[ 'progress_output' ] = str(1.0)
     output_res[ 'progress_text' ] = 'MD Simulation Progress: 100%' 
+
+    if error_string_md:
+        warning_str = "<p> Error:  </p> MD simulation terminated with the following error(s): <p> </p>" + error_string_md + "<p> Exiting... </p>"
+        message_box(warning_str,'warning.png')
+        output_res[ 'error' ] = 'MD simulation crashed. See the log file...'
+        base_dir = json_variables[ '_base_directory' ]
+
+        output_basename = ''
+        outpdb_view = ''
+        
+        if 'add_waterbox' in json_variables:
+            output_basename = 'step2_solvator'
+            outpdb_view = output_basename
+            if 'min_options' in json_variables:
+                shutil.copy('namd_out_whole_min.coor', 'namd_out_whole_min.pdb')
+                outpdb_view = 'namd_out_whole_min'
+        else:
+            output_basename = 'step1_pdbreader'
+            outpdb_view = output_basename
+
+        outpdb = str(base_dir) + "/" + output_basename + ".pdb"
+        outcrd = str(base_dir) + "/" + output_basename + ".crd"
+        outpsf = str(base_dir) + "/" + output_basename + ".psf"
+        outxplorpsf = str(base_dir) + "/" + output_basename + ".xplor.psf"
+        
+        outpdb_atomic_view = str(base_dir) + "/" + outpdb_view + ".pdb"
+        
+        output_res[ 'outputpdb' ] = str(outpdb)
+        output_res[ 'outputcrd' ] = str(outcrd)
+        output_res[ 'outputpsf' ] = str(outpsf)
+        output_res[ 'outputxplorpsf' ] = str(outxplorpsf)
+        
+        outputmin_arr_files = []
+        outputmin_arr_files.append(str(base_dir) + "/" + 'namd_out_whole_min' + ".coor")
+        #outputmin_arr_files.append(str(base_dir) + "/" + 'namd_out_whole_min' + ".vel")
+
+        outputmd_arr_files = []
+        
+        dcd_path =  str(base_dir) + "/" + "namd_equil.dcd"
+        vel_path =  str(base_dir) + "/" + "namd_out_equil.restart.vel"
+        coor_path = str(base_dir) + "/" + "namd_out_equil.restart.coor"
+        xsc_path =  str(base_dir) + "/" + "namd_out_equil.restart.xsc"
+        xst_path =  str(base_dir) + "/" + "namd_out_equil.xst"
+
+        if os.path.exists(dcd_path):
+            outputmd_arr_files.append(dcd_path)
+        if os.path.exists(vel_path):
+            outputmd_arr_files.append(vel_path)
+        if os.path.exists(coor_path):
+            outputmd_arr_files.append(coor_path)
+        if os.path.exists(xsc_path):
+            outputmd_arr_files.append(xsc_path)
+        if os.path.exists(xst_path):
+            outputmd_arr_files.append(xst_path)
+        #outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.vel")
+        #outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.coor")
+        #outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.xsc")
+        #outputmd_arr_files.append(str(base_dir) + "/" + "namd_out_equil.xst")
+        outputmd_arr_files.append(str(base_dir) + "/" + "namdmd_log.out")
+
+        if 'md_options' in json_variables:
+            output_res[ 'outputmd' ] = outputmd_arr_files
+ 
+        if 'min_options' in json_variables:
+            output_res[ 'outputmin' ] = outputmin_arr_files
+
+        output_res[ 'outputpdb_view' ] = str(outpdb_atomic_view)
+
+        print json.dumps( output_res )
+        exit()
+
 
 #################################################################
 base_dir = json_variables[ '_base_directory' ]
@@ -943,7 +1038,7 @@ if 'movie_show' in json_variables:
                 break
             if output:
                 socket_dict["_textarea"] = output#.strip()
-                                
+                #socket_dict["_textarea"] = ""
                 if "Processing file" in output:
                     OutArr = re.split(r'[\s]*', output)
                     socket_dict['progress_output'] = float(OutArr[3])/float(OutArr[5])
@@ -971,15 +1066,15 @@ if 'movie_show' in json_variables:
     output_res[ 'vid' ] = str(base_dir) + "/" + moviename
     
 #### OUTPUT PLOTS #################################################
-
-if 'analysis_options_temperature' in json_variables:
+#### TEMPERATURE PLOT #######################################################
+if 'analysis_options_evolutions_temperature' in json_variables:
     
     min_x = min(time_array)
     min_y = min(temperature_array)
     max_x = max(time_array)
     max_y = max(temperature_array)
 
-    flot_data = {
+    flot_data_temperature = {
         "options": 
         {
             #"xscale" : "log",
@@ -989,7 +1084,7 @@ if 'analysis_options_temperature' in json_variables:
             "ymin"   : min_y,
             "ymax"   : max_y,
             "xlabel" : "Time, steps",
-            "ylabel" : "T, K",
+            "ylabel" : "T(K)",
             "legend" : 
             {
                 "backgroundOpacity"   : 0.2,
@@ -1001,16 +1096,65 @@ if 'analysis_options_temperature' in json_variables:
         "data": [ ]
     }
     
-    data_label = "Temperature"
-    current_set_data = {
+    data_label_temperature = "Temperature"
+    current_set_data_temperature = {
         "points"  : { "show" : "true" },
         "lines"  :  { "show" : "true" },
-        "label"  : data_label,
+        "label"  : data_label_temperature,
         "data"   : time_temperature_array
     }
-    flot_data['data'].append(current_set_data)
+    flot_data_temperature['data'].append(current_set_data_temperature)
     
-    output_res[ 'temperature_plot' ] = flot_data
+    output_res[ 'temperature_plot' ] = flot_data_temperature
+
+## ENERGY PLOT #######################################################
+if 'analysis_options_evolutions_totenergy' in json_variables:
+    
+    min_x = min(time_array)
+    min_y = min(totenergy_array)
+    max_x = max(time_array)
+    max_y = max(totenergy_array)
+
+    flot_data_totenergy = {
+        "options": 
+        {
+            #"xscale" : "log",
+            #"yscale" : "log",
+            "xmin"   : min_x,
+            "xmax"   : max_x,
+            "ymin"   : min_y,
+            "ymax"   : max_y,
+            "xlabel" : "Time, steps",
+            "ylabel" : "Energy (kcal/mol)",
+            "legend" : 
+            {
+                "backgroundOpacity"   : 0.2,
+                "labelBoxBorderColor" : "black",
+                "position"            : "ne",
+                "margin"              : [0, -22]
+            },
+        },
+        "data": [ ]
+    }
+    
+    data_label_totenergy = "Total Energy"
+    current_set_data_totenergy = {
+        "points"  : { "show" : "true" },
+        "lines"  :  { "show" : "true" },
+        "label"  : data_label_totenergy,
+        "data"   : time_totenergy_array
+    }
+    flot_data_totenergy['data'].append(current_set_data_totenergy)
+    
+    output_res[ 'totenergy_plot' ] = flot_data_totenergy
+
+### Analysis Plots results ######################################
+
+outputanalysis_arr_files = []
+outputanalysis_arr_files.append(str(base_dir) + "/" + "temperature_plot.dat")
+outputanalysis_arr_files.append(str(base_dir) + "/" + "totalenergy_plot.dat")
+
+output_res[ 'outputanalysis' ] = outputanalysis_arr_files
 
 ##################################################################
 
