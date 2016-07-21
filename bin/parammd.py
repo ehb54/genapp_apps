@@ -903,7 +903,10 @@ output_res[ 'outputpdb_view' ] = str(outpdb_atomic_view)
 ### SHOW VIDEO #########################################################
 
 if 'movie_show' in json_variables:
-    socket_dict["_textarea"] = '\nGenerating Movie of the Simulation Trajectory...\n\n'
+    socket_dict["_textarea"] = '\nGenerating Movie for the Simulation Trajectory...\n\n'
+    socket_dict["progress_output"] =  str(0.0)
+    socket_dict["progress_text"] =  'Movie Generation Progress: 0%'
+    
     if socket_dict:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -926,22 +929,47 @@ if 'movie_show' in json_variables:
     ProcessVideo = []
     ProcessVideo.append(ScriptLocationMovie)
     ProcessVideo.append(moviename)
-    ProcessCreateMovie = subprocess.Popen(ProcessVideo)
+
+    master_povproc, slave_povproc = pty.openpty()
+    ProcessCreateMovie = subprocess.Popen(ProcessVideo,stdout=slave_povproc,stdin=PIPE,bufsize=0,close_fds=True)
     
-    
+    stdout_povproc = os.fdopen(master_povproc, 'r', 0)
+       
+    while True:
+        ready, _, _ = select.select([master_povproc], [], [], timeout)
+        if ready:
+            output = stdout_povproc.readline()
+            if not output:
+                break
+            if output:
+                socket_dict["_textarea"] = output#.strip()
+                                
+                if "Processing file" in output:
+                    OutArr = re.split(r'[\s]*', output)
+                    socket_dict['progress_output'] = float(OutArr[3])/float(OutArr[5])
+                    socket_dict['progress_text'] = 'Movie Generation Progress: ' + str(int ((float(OutArr[3])/float(OutArr[5]))*100.0) ) + '%'
+                    
+                if socket_dict:
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    #time.sleep(0.002)
+        elif ProcessCreateMovie.poll() is not None:  
+            break
+                  
+    ProcessCreateMovie.wait()
+    os.close(slave_povproc)
+    os.close(master_povproc)
 
     socket_dict["_textarea"] = '\nMovie Generated...\n\n'
     if socket_dict:
         doc_string = json.dumps(socket_dict)
         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
-      
+    output_res[ 'progress_output' ] = str(1.0)
+    output_res[ 'progress_text' ] = 'Movie Generation Progress: 100%' 
+    
     output_res[ 'vid' ] = str(base_dir) + "/" + moviename
-    #output_res[ 'vid' ] = str(base_dir) + "/" + "out_proc"
-
-#ffmpeg -y -i spr_ell.mp4 -c:v libvpx -crf 18 -b:v 1M spr_ell_proc.webm > /dev/null 2>&1
-#ffmpeg -y -i spr_ell.mp4 -c:v libx264 -preset slow -pix_fmt yuv420p -b:v 1M -profile:v baseline -level 3.0 -c:a copy spr_ell_proc.mp4 > /dev/null 2>&1
-
+    
 #### OUTPUT PLOTS #################################################
 
 if 'analysis_options_temperature' in json_variables:

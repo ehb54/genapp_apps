@@ -4,8 +4,12 @@
 
 /usr/local/bin/vmd -dispdev none -psf step1_pdbreader.xplor.psf -e vmd_movie_maker.tcl -args namd_equil.nowat.dcd > /dev/null
 
+numfiles=$(ls -l snap.*.pov | wc -l)
+count=1
+
 for file in snap.*.pov
 do
+    echo "Processing file $file: $count of $numfiles"
     echo "camera {orthographic" >>  $file
     echo "location <0, 0, -1.7>" >> $file
     echo "rotate <90,0,0> " >> $file
@@ -14,6 +18,7 @@ do
 
     /usr/local/bin/povray -d -H420 -W420 $file > /dev/null
     rm $file
+    count=$((count+1))
 done
 
 
