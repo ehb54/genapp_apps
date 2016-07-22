@@ -1023,8 +1023,9 @@ if 'movie_show' in json_variables:
     moviename = "out_proc_" + json_variables['_uuid']     
     ProcessVideo = []
     ProcessVideo.append(ScriptLocationMovie)
+    ProcessVideo.append(str(float(output_frequency)*0.002))
     ProcessVideo.append(moviename)
-
+    
     master_povproc, slave_povproc = pty.openpty()
     ProcessCreateMovie = subprocess.Popen(ProcessVideo,stdout=slave_povproc,stdin=PIPE,bufsize=0,close_fds=True)
     
