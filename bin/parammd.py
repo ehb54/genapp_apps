@@ -16,6 +16,8 @@ import select
 import atexit
 import signal
 import functools
+import itertools
+import math
 
 from itertools import groupby
 
@@ -113,6 +115,7 @@ ResidueList = []
 Coordinates_x = []
 Coordinates_y = []
 Coordinates_z = []
+#Coordinates_sulfur = {}
 
 for li in range(NumLinesPdb):
     LineArr = re.split(r'[\s]*', PdbLines[li])
@@ -151,6 +154,11 @@ for li in range(NumLinesPdb):
             Coordinates_y.append(float(pos_y))
             Coordinates_z.append(float(pos_z))
 
+            #if LineArr[2] == 'SG':
+            #    sulfur_key   = str(LineArr[5]) 
+            #    sulfur_value = str(float(LineArr[6]))) + "," + str(pos_y) + "," + str(pos_z)
+            #    Coordinates_sulfur[ sulfur_key ] = sulfur_value 
+           
         elif Counts_6 == 2 and Counts_7 == 1:
             i = 0
             cutindex = 0
@@ -271,7 +279,106 @@ elif CaseStudy == 'protein':
     numseg = len(glob.glob('pro*.pdb'))
 
     # TER PATCHES TO INCLUDE
-    # DISULFIDE PATCH TO INCLUDE
+    # DISULFIDE PATCH  ###############################################################################
+    Sulfur_array = []
+    #Sulfur_info = {}
+
+    path_protchains = 'pro*.pdb'
+    for fname in glob.glob(path_protchains):
+        file_pdb = open(fname, 'rU')
+        PdbLines = file_pdb.readlines()
+        file_pdb.close()
+        
+        NumLinesPdb = len(PdbLines)
+        for li in range(NumLinesPdb):
+            LineArr = re.split(r'[\s]*', PdbLines[li])
+            del LineArr[-1]
+            
+            if LineArr[2] != 'SG':
+                continue
+                
+            Sulfur_info = {}    
+            Sulfur_info[ 'chain' ]  = os.path.splitext(fname)[0]
+            
+            found_chainId_Lett = re.match(r'[a-zA-Z]+', str(LineArr[4]))
+            found_resNum_Int5  = re.match(r'[0-9]+', str(LineArr[5]))
+            found_resnum_Int4  = re.match(r'[0-9]+', str(LineArr[4]))
+            
+            if found_resNum_Int5 and found_chainId_Lett:
+                Sulfur_info[ 'resnumber' ]  = str(LineArr[5])
+                
+                Dots_6 = [(len(list(cpart))) for c,cpart in groupby(LineArr[6]) if c == '.']
+                Counts_6 = len(Dots_6)
+                Dots_7 = [(len(list(cpart))) for c,cpart in groupby(LineArr[7]) if c == '.']
+                Counts_7 = len(Dots_7)
+                if Counts_6 == 1 and Counts_7 == 2:
+                    Sulfur_info[ 'x' ] = float(LineArr[6])
+                    
+                    i = 0
+                    cutindex = 0
+                    while i < len(str(LineArr[7])):
+                        if str(LineArr[7])[i] == '.':
+                            cutindex = i+4
+                            break
+                        i += 1
+                    #print LineArr, str(LineArr[7])[:cutindex], str(LineArr[7])[cutindex:-1]
+                    pos_y = str(LineArr[7])[:cutindex]
+                    pos_z = str(LineArr[7])[cutindex:-1]
+                    Sulfur_info[ 'y' ] = float(pos_y)
+                    Sulfur_info[ 'z' ] = float(pos_z)
+                    
+                elif Counts_6 == 2 and Counts_7 == 1:
+                    i = 0
+                    cutindex = 0
+                    while i < len(str(LineArr[6])):
+                        if str(LineArr[6])[i] == '.':
+                            cutindex = i+4
+                            break
+                        i += 1
+                    #print LineArr, str(LineArr[7])[:cutindex], str(LineArr[7])[cutindex:-1]
+                    pos_x = str(LineArr[6])[:cutindex]
+                    pos_y = str(LineArr[6])[cutindex:-1]
+                    
+                    Sulfur_info[ 'x' ] = float(pos_x) 
+                    Sulfur_info[ 'y' ] = float(pos_y) 
+                    Sulfur_info[ 'z' ] = float(LineArr[8])
+                else:    
+                    Sulfur_info[ 'x' ] = float(LineArr[6]) 
+                    Sulfur_info[ 'y' ] = float(LineArr[7]) 
+                    Sulfur_info[ 'z' ] = float(LineArr[8])
+                    
+            else:
+                if found_resnum_Int4:
+                    Sulfur_info[ 'x' ] = float(LineArr[5]) 
+                    Sulfur_info[ 'y' ] = float(LineArr[6]) 
+                    Sulfur_info[ 'z' ] = float(LineArr[7])
+                    
+            Sulfur_array.append(Sulfur_info)
+        
+    ### Cycle over array of Hashes ##################################
+    f_disu = open('disu_bonds_list.txt','w')
+    DisuArr = []
+    for i in range(1,len(Sulfur_array)):
+        for j in range(i+1,len(Sulfur_array)):
+            
+            x1 = Sulfur_array[i]['x']
+            y1 = Sulfur_array[i]['y']
+            z1 = Sulfur_array[i]['z']
+            x2 = Sulfur_array[j]['x']
+            y2 = Sulfur_array[j]['y']
+            z2 = Sulfur_array[j]['z']
+
+            distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2)
+            
+            if distance <= 2.09: 
+                string_disu = 'patch disu' + "\t" + str(Sulfur_array[i]['chain']) + "\t" + str(Sulfur_array[i]['resnumber']) + "\t" + str(Sulfur_array[j]['chain']) + "\t" + str(Sulfur_array[j]['resnumber']) + "\t" + 'setup warn'
+                print >> f_disu, string_disu
+                DisuArr.append(string_disu)
+
+    #exit()
+        
+    
+    ####################################################################################################################
 
     # Form Charmm prepper process ########################
     ScriptLocation = InitialDirectoryStr + '/script_toppar/pdbreader_general_protein.inp'
@@ -283,12 +390,24 @@ elif CaseStudy == 'protein':
     filedata0 = filedata0.replace('NUMSEG', str(numseg))
     with open('charmm_prot.inp', 'w') as file0:
         file0.write(filedata0)
-    
+    file0.close()
+
+    #DISU###
+    output = open('charmm_prot_disu.inp', 'w')
+    for line in open('charmm_prot.inp'):
+        if '!Disulfide bonds' in line:
+            output.write(line)
+            for i in range(len(DisuArr)):
+                output.write(DisuArr[i])
+                output.write("\n")
+        else:
+            output.write(line)
+
     #ExecutableFileLocation = InitialDirectoryStr + '/c36a6_svn132/exec/gnu/charmm'
     
     ProcessToCall.append(ExecutableFileLocation)
     ProcessToCall.append('-i')
-    ProcessToCall.append('charmm_prot.inp')
+    ProcessToCall.append('charmm_prot_disu.inp')
 
 else:
     print "Molecules other than DNA, proteins, or their complexes are not currently supported!"

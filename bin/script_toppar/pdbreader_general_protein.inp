@@ -23,6 +23,9 @@ read coor pdb  unit 10 append
 incr k by 1
 if k .le. @nseg goto Segloop
 
+
+!Disulfide bonds
+
 autogenerate angles dihedrals
 
 
