@@ -1270,9 +1270,12 @@ if 'analysis_options_evolutions_totenergy' in json_variables:
 
 ### Analysis Plots results ######################################
 
+
 outputanalysis_arr_files = []
-outputanalysis_arr_files.append(str(base_dir) + "/" + "temperature_plot.dat")
-outputanalysis_arr_files.append(str(base_dir) + "/" + "totalenergy_plot.dat")
+if 'temperature_plot' in json_variables:
+    outputanalysis_arr_files.append(str(base_dir) + "/" + "temperature_plot.dat")
+if 'totenergy_plot' in json_variables:
+    outputanalysis_arr_files.append(str(base_dir) + "/" + "totalenergy_plot.dat")
 
 output_res[ 'outputanalysis' ] = outputanalysis_arr_files
 
