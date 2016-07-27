@@ -18,7 +18,6 @@
       "wssport" : 80,
       "wsport" : 37777
    },
-   "hostip" : "149.165.169.58",
    "lockdir" : "/opt/genapp/etc",
    "restricted" : {
       "admin"     : [ "emre", "spamidig" ]
@@ -34,6 +33,7 @@
                     }
                   },
    "submitpolicy" : "login",
-   "hostname" : "149.165.169.58",
-   "groups" : { "login" : { "label" : "Login" } }
+   "groups" : { "login" : { "label" : "Login" } },
+   "hostname" : "js-172-198.jetstream-cloud.org",
+   "hostip" : "149.165.172.198"
 }
