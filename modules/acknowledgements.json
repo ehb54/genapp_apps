@@ -1,0 +1,18 @@
+#le, any module specific info belongs here
+{
+    "moduleid"       : "Acknowledgements",
+    "label"          : "Acknowledgements",
+    "noreset"        : "true",
+    "nosubmit"       : "true",
+    "nooutputhr"     : "true",
+    "center"         : "true",
+    "fields"   : [
+                  {
+                   "role"       : "input",
+                   "id"         : "text1",
+                   "type"       : "html",
+                   "value"      : "__< Acknowledgements.docx"
+                   }
+    ]
+}
+

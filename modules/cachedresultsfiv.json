@@ -1,0 +1,36 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "cachedresultsfiv"
+    ,"submitpolicy" : "all"
+    ,"label"    : "Available Results"
+    ,"resource" : "local"
+    ,"noreset"  : "true"
+    ,"executable"   : "cached_results"
+    ,"docrootexecutable"  : "ajax/sys_config/cached_results.php"
+    ,"uniquedir" : "on"
+    ,"submit_label" : "Refresh"
+    ,"autosubmit"   : "true"
+    ,"nojobcontrol" : "on"
+    ,"center"       : "true"
+    ,"backgroundimage" : "pngs/compbg.png"
+    ,"fields"   : [
+        {
+            "role"     : "input"
+            ,"id"       : "label1"
+            ,"label"    : "Available Results"
+            ,"type"     : "label"
+        }
+        ,{
+            "role"     : "input"
+            ,"id"       : "module"
+            ,"type"     : "hidden"
+            ,"default"  : "flowinducedvibration"
+        }
+        ,{
+            "role"     : "output"
+            ,"label"    : ""
+            ,"id"       : "outhtml"
+            ,"type"     : "html"
+        }
+    ]
+}

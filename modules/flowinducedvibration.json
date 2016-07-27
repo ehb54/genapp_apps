@@ -6,28 +6,56 @@
 # the executable will take inputs in json and produce output in json
     ,"executable"   : "flowinducedvibration"
     ,"submitpolicy" : "login"
+# cache can be "public" or "private"
+    ,"cache"          : "public"
+# cachefound can be "notify", "askrecompute" or commented out (no notification)
+    ,"cachefound"     : "askrecompute"
+    ,"cachedelete"    : "admin"
+    ,"hideifnotlogon" : "true"
+    ,"backgroundimage" : "pngs/compbg.png"
+    ,"center"         : "true"
+    ,"jobweight"      : 1
+
     ,"fields"   : [
                   {
                    "role"       : "input",
-                   "id"         : "re",
-                   "label"      : "Reynolds Number",
-                   "type"       : "float",
-                   "default"    : 50.0,
-                   "min"        : 35.0,
-                   "max"        : 100.0,
-                   "required"   : "true",
-                   "specifiedproject" : "re"
+                   "id"         : "text1",
+                   "type"       : "html",
+                   "value"      : "__< range.docx"
                    },
-                  {
+		   {
+                   "role"       : "input",
+                   "id"         : "re",
+                   "label"      : "Re = ",
+                   "type"       : "float",
+                   "default"    : 60.0,
+                   "min"        : 20.0,
+                   "max"        : 150.0,
+                   "required"   : "true",
+                   "specifiedproject" : "Re_"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"         : "M",
+                   "label"      : "m* = ",
+                   "type"       : "float",
+#                   "type"       : "hidden",
+                  "default"    : 10.0,
+                   "min"        : 10.0,
+                   "max"        : 10.0,
+                   "required"   : "false",
+                   "specifiedproject" : "_m_"
+                   },
+		   {
                    "role"    : "input",
                    "id"      : "fnstar",
-                   "label"   : "Inverse Spring Constant",
+                   "label"   : "1/k* = ",
                    "type"    : "float",
                    "default" : 0.2,
                    "min"     : 0.05,
                    "max"     : 0.5,
                    "required" : "true",
-                   "specifiedproject" : "fns"
+                   "specifiedproject" : "_k_"
                    },
                   {
                    "role"    : "input",
@@ -39,8 +67,19 @@
                    "min"     : 0.2,
                    "max"     : 5,
                    "required" : "true",
-                   "specifiedproject" : "aa"
+                   "specifiedproject" : "_aa_"
                    },
+#                  {
+#                   "role"    : "input",
+#                   "id"      : "aa",
+#                   "label"   : "Aspect Ratio",
+#                   "type"    : "float",
+#                   "default" : 1,
+#                   "min"     : 0.2,
+#                   "max"     : 5,
+#                   "required" : "true",
+#                   "specifiedproject" : "aa"
+#                   },
                    {
                    "role"  : "output",
                    "id"    : "note",
