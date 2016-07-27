@@ -15,7 +15,7 @@ my $maxruntime = "02:00";
 
 $queue_polling_seconds  = 10;
 $sleep_after_complete   = 15;
-$max_retries_for_output = 5;
+$max_retries_for_output = 7;
 
 my @getresults = ( 
     'session.log',

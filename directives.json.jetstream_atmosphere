@@ -2,7 +2,9 @@
 # comments are ok but must start the line in this JSON
 {
   "title"                     : "Vortex Shedding - Alpha",
-
+"register" : {
+        "verifyemail"             : "true"
+    },
 # "genapptest" below could be replaced, but you should probably also then replace "genapptest" in the paths below
 # the application name should not contain any special characters
   "application"               : "vortexsheddingalpha",
@@ -80,10 +82,10 @@
   "button_hover_color_hex"    : "FFFFFF",
   "button_hover_g_color_rgb"  : "228,255,250",
   "button_hover_g_color_hex"  : "E4FFFA",
-  "header1_color"             : "228,255,250",
-  "header2_color"             : "228,255,250",
-  "header3_color"             : "228,255,250",
-  "header4_color"             : "228,255,250",
+  "header1_color"             : "255,255,255",
+  "header2_color"             : "0,0,0",
+  "header3_color"             : "0,0,0",
+  "header4_color"             : "0,0,0",
   "help_background_color_rgb" : "0,0,75",
   "help_text_color_rgb"       : "240,240,210",
   "link_unvisited_color_rgb"  : "0,0,75",
@@ -152,6 +154,7 @@
 
 # only uncomment if you have configured secure web sockets in your webserver
 #  ,"usewss"                  : "true"
+  ,"usews"                  : "true"
 
 # the following are currently only meaningful for "html5" language
   ,"appconfig"                 : "/opt/genapp/vortexsheddingalpha/appconfig.json"
@@ -168,9 +171,36 @@
 #  ,"usesplash"               : "true"
 
   ,"style" : {
-     "sidebarwidth"        : "280px"
-     ,"sidebartextalign"   : "left"
-     ,"sidebarleftpadding" : "10px"
-#     ,"backgroundimage"    : "pngs/testbg.jpg"
+# fix the sidebar (menu) width
+        "sidebarwidth"         : "240px"
+# specify a right margin
+        ,"rightmargin"         : "240px"
+# alignment of the menu text
+        ,"sidebartextalign"    : "left"
+# extra space between the left edge and the menu text
+        ,"sidebarleftpadding"  : "10px"
+# top of the sidebar
+        ,"sidebartop"          : "0px"
+# height of the sidebar
+        ,"sidebarheight"       : "100%"
+# sidebar a background color  (in r,g,b format)
+        ,"sidebarbackgroundcolor" : "0,128,255"
+# alignment of the menu text
+        ,"menutextalign"    : "left"
+# extra space between the right of the text and the edge of the menu box
+# note: this will be *inside* the color box
+        ,"sidebarrightpadding" : "10px"
+# extra space between outside of menu box
+        ,"sidebarrightmargin"  : "70px"
+# specify a global background image
+#       ,"backgroundimage"     : "pngs/testbg.png"
+# force the menu to always show
+        ,"nomenuhide"          : "true"
+# give the menu text a color other than the default text color (in r,g,b format)
+        ,"menutextcolor"       : "0,0,0"
+# give the menu a title
+        ,"menutitle"           : "Main Menu"
+# fix menu position
+        ,"menupositionfixed"   : "true"
   }
 }

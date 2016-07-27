@@ -30,19 +30,6 @@
                 }
             ]
         }
-        ,{ 
-            "id"      : "numericalaspects_menu",
-            "label"   : "Numerical Aspects",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "numericalaspects",
-            "modules" : [ 
-                { 
-                    "id"    : "numericalaspects",
-                    "label" : "Numerical Aspects",
-		    "nobutton" : "true"
-                }
-            ]
-        }
 ,{ 
             "id"      : "setting_menu",
             "label"   : "Setting Up the Problem",
@@ -56,10 +43,23 @@
                 }
             ]
         }
-
+,{ 
+            "id"      : "numericalaspects_menu",
+            "label"   : "Numerical Aspects",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "numericalaspects",
+            "modules" : [ 
+                { 
+                    "id"    : "numericalaspects",
+                    "label" : "Numerical Aspects",
+		    "nobutton" : "true"
+                }
+            ]
+        }
         ,{ 
             "id"      : "simulate",
             "label"   : "Simulate",
+	    "group"   : "login",
             "icon"    : "pngs/noicon.png",
             "autorun" : "flowinducedvibration",
             "modules" : [ 

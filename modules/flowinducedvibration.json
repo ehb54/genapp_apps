@@ -14,6 +14,7 @@
     ,"hideifnotlogon" : "true"
     ,"backgroundimage" : "pngs/compbg.png"
     ,"center"         : "true"
+    ,"jobweight"      : 1
 
     ,"fields"   : [
                   {

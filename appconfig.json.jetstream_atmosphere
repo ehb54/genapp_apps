@@ -15,14 +15,25 @@
       "udphostip" : "127.0.0.1",
       "zmqport" : 37778,
       "zmqhostip" : "127.0.0.1",
-      "wssport" : 443,
+      "wssport" : 80,
       "wsport" : 37777
    },
    "hostip" : "149.165.169.58",
    "lockdir" : "/opt/genapp/etc",
    "restricted" : {
       "admin"     : [ "emre", "spamidig" ]
+      ,"cache"     : [ "emre" ]
    },
+   "joblimits"  : {
+                   "default"   : 2,
+                   "restricted" : {
+                     "admin" : "unlimited"
+                    },
+                   "users" : {
+                     "sabuda" : "unlimited"
+                    }
+                  },
    "submitpolicy" : "login",
-   "hostname" : "149.165.169.58"
+   "hostname" : "149.165.169.58",
+   "groups" : { "login" : { "label" : "Login" } }
 }
