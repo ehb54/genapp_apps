@@ -78,7 +78,7 @@
 #
                   {
                    "role"     : "input",
-                   "id"       : "mol_out_label",
+                   "id"       : "mol_out_label_2",
                    "label"    : "Move Input Section (mol 2)",
                    "type"     : "label",
                    "default"  : " ",

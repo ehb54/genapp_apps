@@ -91,7 +91,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "nsteps",
+                   "id"      : "nsteps_1",
                    "label"   : "number of minimization steps",
                    "type"    : "text",
                    "default" : "100",
@@ -101,7 +101,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "mdsteps",
+                   "id"      : "mdsteps_1",
                    "label"   : "number md timesteps (1 step = 2 fs)",
                    "type"    : "text",
                    "default" : "10000",
@@ -111,7 +111,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "dielect",
+                   "id"      : "dielect_1",
                    "label"   : "solvent dielectric",
                    "type"    : "text",
                    "default" : "80.0",
@@ -121,7 +121,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "temperature",
+                   "id"      : "temperature_1",
                    "label"   : "temperature (K)",
                    "type"    : "text",
                    "default" : "300.0",
@@ -131,7 +131,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "nsteps",
+                   "id"      : "nsteps_2",
                    "label"   : "number of minimization steps",
                    "type"    : "text",
                    "default" : "100",
@@ -141,7 +141,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "mdsteps",
+                   "id"      : "mdsteps_2",
                    "label"   : "number md timesteps (1 step = 2 fs)",
                    "type"    : "text",
                    "default" : "10000",
@@ -151,7 +151,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "dielect",
+                   "id"      : "dielect_2",
                    "label"   : "solvent dielectric",
                    "type"    : "text",
                    "default" : "80.0",
@@ -161,7 +161,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "temperature",
+                   "id"      : "temperature_2",
                    "label"   : "temperature (K)",
                    "type"    : "text",
                    "default" : "300.0",
@@ -171,7 +171,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "nsteps",
+                   "id"      : "nsteps_3",
                    "label"   : "number of minimization steps",
                    "type"    : "text",
                    "default" : "100",

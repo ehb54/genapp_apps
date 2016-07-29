@@ -162,9 +162,15 @@ class Structure_minimization_Drv():
 		outfile = json_variables['outfile']
 		
 		try:
-			nsteps = json_variables['nsteps']
+                    nsteps = json_variables['nsteps_1']
 		except:
-			nsteps = 1
+                    try:
+                        nsteps = json_variables['nsteps_2']
+		    except:
+                        try:
+                            nsteps = json_variables['nsteps_3']
+                        except:
+			    nsteps = 1
 
 		if "austin_powers" in runname:
 			ncpu = runname[-2:]
@@ -208,14 +214,14 @@ class Structure_minimization_Drv():
 			temperature = '300.0'
                 elif(md_list_box == 'c2'):
                         md = '1' #  min / md
-			mdsteps = json_variables['mdsteps']
-			dielect = json_variables['dielect']
-			temperature = json_variables['temperature']
+			mdsteps = json_variables['mdsteps_1']
+			dielect = json_variables['dielect_1']
+			temperature = json_variables['temperature_1']
                 elif(md_list_box == 'c3'):
                         md = '2' #  min / md /min
-			mdsteps = json_variables['mdsteps']
-			dielect = json_variables['dielect']
-			temperature = json_variables['temperature']
+			mdsteps = json_variables['mdsteps_2']
+			dielect = json_variables['dielect_2']
+			temperature = json_variables['temperature_2']
 
                 elif(md_list_box == 'c4'):
                         use_external_input_file = "True"
