@@ -25,7 +25,7 @@ do
     echo "translate  0.75*z-1.1*x               //moving text to the place we want" >>  $file
 
     echo "}" >>  $file
-    /usr/local/bin/povray -d -H420 -W420 $file > /dev/null
+    /usr/bin/povray -d -H420 -W420 $file > /dev/null
     rm $file
     count=$((count+1))
 done
