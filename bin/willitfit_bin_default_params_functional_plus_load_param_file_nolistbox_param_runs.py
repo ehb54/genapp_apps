@@ -660,7 +660,7 @@ for i in range(NumberOfSets):
             #xData[i].append(xDataArr[j])
             #yData[i].append(yDataArr[j])
             #wData[i].append(wDataArr[j]) 
-            output_plot_data[i].append([xDataArr[j],yDataArr[j]])
+            output_plot_data[i].append([xDataArr[j],yDataArr[j],wDataArr[j]])
         
             
     xFitArr = GetData(FitArr[i])[0]
@@ -712,7 +712,16 @@ flot_data = {
 for i in range(NumberOfSets):
     data_label = "Data" + str(i+1)
     current_set_data = {
-        "points"  : { "show" : "true" },
+        "points"  : { "show"      : "true", 
+                      "radius"    : 2,
+                      "errorbars" : "y", 
+                      "yerr"      : { "lowerCap" : "-",
+                                      "upperCap" : "-", 
+                                      "show"     : "true", 
+                                      #"color"    : "red",
+                                      "radius"   : 3 
+                                  }
+                  },
         "label"  : data_label,
         "data"   : output_plot_data[i]
     }
