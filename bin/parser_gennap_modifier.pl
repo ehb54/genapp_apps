@@ -1652,7 +1652,15 @@ while (my $line = <$fh>) {
     push (@expcurve, $array[1]);
     push (@fitcurve, $array[3]);
     
-    push (@expplot, [$array[0], $array[1]] );
+    if ($$ref{ 'icolumn3' } eq 'one') 
+    {
+	push (@expplot, [$array[0], $array[1], $array[2] ] );
+    }
+    else
+    {
+	push (@expplot, [$array[0], $array[1]] );
+    }
+	
     push (@fitplot, [$array[0], $array[3]] );
 }
 
@@ -1684,6 +1692,16 @@ $$flot_data{"options"}{"legend"}{"margin"} = [-120, 40];
 my $data_exp = {};
 $$data_exp{"points"}{ "show" } =  "true";
 $$data_exp{"points"}{ "radius" } =  2;
+
+if ($$ref{ 'icolumn3' } eq 'one') 
+{
+    $$data_exp{"points"}{"errorbars"} = "y";
+    $$data_exp{"points"}{"yerr"}{"lowerCap"} = "-";
+    $$data_exp{"points"}{"yerr"}{"upperCap"} = "-";
+    $$data_exp{"points"}{"yerr"}{"show"} = "true";
+    $$data_exp{"points"}{"yerr"}{"radius"} = 3;
+}
+
 $$data_exp{"label"} = "Experiment";
 $$data_exp{"data"} = [ @expplot ];
 
