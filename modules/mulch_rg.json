@@ -1,0 +1,24 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "mulch_rg",
+    "label"    : "Rg",
+    "help"     : "help for Rg",
+    #"backgroundimage" : "Nanodisc-new.png",
+    "center"   : "true",
+    "fields"   : [
+		  { 
+		   "role"     : "input",  
+		   "id"       : "location_of_data_label",
+		   "label"    : "Input Rg",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	          }
+	
+	],
+# the executable will take inputs in order and produce output
+    "executable"   : "Rg",
+    "submitpolicy" : "all"
+}
+

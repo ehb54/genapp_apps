@@ -1,0 +1,126 @@
+# this is a project menu file
+{
+# "header" : "MULCh",
+ "menu" : [
+
+         { 
+            "id"      : "welcome_menu",
+            "label"   : "Welcome!",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "welcome",
+            "startup" : "true",
+#            "nohidemenu" : "true",
+            "help" : "test welcome help",
+            "modules" : [ 
+                { 
+                    "id"    : "welcome",
+                    "label" : "Welcome",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+	,{
+            "id"      : "about_mulch_menu", 
+            "label"   : "About Authors",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "aboutmulch",
+            "modules" : [
+                {
+                    "id"    : "aboutmulch", 
+                    "label" : "About Mulch",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+        ,{ 
+            "id"      : "Acknowledgements_menu",
+            "label"   : "Acknowledgements",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "acknowledgements",
+            "modules" : [ 
+                {
+                    "id"    : "acknowledgements",
+                    "label" : "Acknowledgements",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+	,{
+            "id"      : "disclaimer_menu",
+            "label"   : "Official Disclaimer",
+	    "icon"    : "pngs/gnu_disclaimer.png",
+            "autorun" : "disclaimer",
+            "modules" : [
+                {
+                    "id"    : "disclaimer",
+                    "label" : "Official Disclaimer",
+		    "nobutton" : "true"
+                }
+            ]
+        }
+
+        ,{ 
+            "id"      : "mulch",
+            "label"   : "Calculations",
+            "icon"    : "pngs/simulate.png",
+            "help"    : "mulch help text",
+	    "autorun" : "mulch_test",
+            "modules" : [ 
+                         { 
+                          "id"    : "mulch_contrast",
+                          "label" : "Contrast"
+			  #,"nobutton" : "true"
+                         },
+		         { 
+                          "id"    : "mulch_rg",
+                          "label" : "Rg"
+			  #,"nobutton" : "true"
+                         },
+		         { 
+                          "id"    : "mulch_compost",
+                          "label" : "Compost"
+			  #,"nobutton" : "true"
+                         }
+                        ]
+            }
+
+           ,{ 
+            "id"         : "admin",
+            "restricted" : "admin",
+            "label"      : "Admin",
+            "icon"       : "pngs/admin.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "jobmonitor",
+                          "label" : "Job monitor"
+                         }
+                         ,{ 
+                          "id"    : "jobintegritycheck",
+                          "label" : "Integrity check"
+                         }
+                         ,{ 
+                          "id"    : "sysuserslist",
+                          "label" : "Users"
+                         }
+		         ,{ 
+                          "id"    : "jobshistory_1",
+                          "label" : "Job history"
+                         }
+		
+                        ]
+            }
+
+          ,{
+              "id"      : "etc",
+              "modules" : [
+                           {
+			    "id"    : "sys_file_manager",
+			    "label" : "File manager"
+			    }
+                          ]
+	  }
+     
+    ]
+}

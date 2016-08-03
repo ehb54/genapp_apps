@@ -1,0 +1,20 @@
+#le, any module specific info belongs here
+{
+    "moduleid"       : "aboutmulch",
+    "label"          : "About Authors",
+    "noreset"        : "true",
+    "nosubmit"       : "true",
+    "nooutputhr"     : "true",
+    "center"         : "true",
+    #"backgroundimage" : "Univ_Copenhagen11.jpg",
+    "fields"   : [
+                  {
+                   "role"       : "input",
+                   "id"         : "text1",
+                   "type"       : "html"
+                  , "value"      : "__< aboutmulch_my.html"
+#                  , "value"      : "__< About WillItFit.docx"
+                   }
+    ]
+}
+

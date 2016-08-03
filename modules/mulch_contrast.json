@@ -1,0 +1,24 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "mulch_contrast",
+    "label"    : "Contrast",
+    "help"     : "help for Contrast",
+    #"backgroundimage" : "Nanodisc-new.png",
+    "center"   : "true",
+    "fields"   : [
+		  { 
+		   "role"     : "input",  
+		   "id"       : "location_of_data_label",
+		   "label"    : "Input Contrast",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	          }
+	
+	],
+# the executable will take inputs in order and produce output
+    "executable"   : "Contrast",
+    "submitpolicy" : "all"
+}
+
