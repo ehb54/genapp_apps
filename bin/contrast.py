@@ -95,9 +95,6 @@ f_in = open(ContrastStr)
 ProcessToCall = []
 ProcessToCall.append(ExecutableFileLocation)
 
-#print ProcessToCall
-#exit()
-
 ## RUN CHARMM ##########################################################
 #socket_dict["_textarea"] = 'Starting Contrast Calculations...\n\n'
 
@@ -111,39 +108,6 @@ Process.wait()
 f_out.close()
 f_in.close()
 
-#master, slave = pty.openpty()
-#Process = subprocess.Popen(ProcessToCall,stdout=slave,stdin=PIPE,bufsize=0,close_fds=True)
-#
-#stdout = os.fdopen(master, 'r', 0)
-#timeout = .04 # seconds
-
-
-#while True:
-#    #output = Process.stdout.readline()
-#    #signal.signal(signal.SIGTERM, functools.partial(handler,Process.pid))
-#
-#    ready, _, _ = select.select([master], [], [], timeout)
-#    if ready:
-#        output = stdout.readline()
-#        if not output:
-#            break
-#        if output:
-#            socket_dict["_textarea"] = output#.strip()
-#            if socket_dict:
-#                doc_string = json.dumps(socket_dict)
-#                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-#                time.sleep(0.005)
-#    elif Process.poll() is not None:  
-#        break
-#
-##Process.wait()
-#os.close(slave)
-#os.close(master)
-
-#socket_dict["_textarea"] = '\nContrast Calculations Finished...\n\n'
-#if socket_dict:
-#    doc_string = json.dumps(socket_dict)
-#    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
 ## END Contrast Calculations #########################################
 html_string = "'"

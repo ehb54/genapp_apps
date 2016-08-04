@@ -4,6 +4,7 @@
     "label"    : "Contrast",
     "help"     : "help for Contrast",
     #"backgroundimage" : "Nanodisc-new.png",
+    "extendedjsoninputtags" : "true",
     #"center"   : "true",
     "fields"   : [
                {
@@ -16,17 +17,8 @@
 	            ,"specifiedproject" : "Run_"
 	        },
 ################################################################
-		  { 
-		   "role"     : "input",  
-		   "id"       : "location_of_data_label",
-		   "label"    : "Input Contrast",
-		   "type"     : "label",
-		   "prehline" : "true",
-		   "posthline": "true",
-		   "default"  : ""
-	          },
-	
-                {
+
+	         {
                    "role"     : "input",
                    "id"       : "contrast_file",
                    "label"    : "Upload Contrast File",
@@ -34,7 +26,323 @@
                    "required" : "true",
 		   "help"     : ""
                    },
-##############################################################
+
+#### Contrast Points ###############################################
+		  { 
+		   "role"     : "input",  
+		   "id"       : "contrast_label",
+		   "label"    : "CONTRAST POINTS",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true"
+	          },	
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num",
+                   "label"    : "Number of Contrast Points:",
+                   "type"     : "integer",
+		   "repeater" : "true",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "max"      : 15  
+                  },
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_fdo2",
+                   "label"    : "f_DO2(0-1)",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "max"      : 1 ,
+		   "norow"    : "true",
+		   "size"     : 6,   
+		   "pattern"  : ""
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_sig_i_0",
+                   "label"    : "sigma[I(0)]",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "norow"    : "true",
+		   "size"     : 6,  
+		   "pattern"  : ""  
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_i_0",
+                   "label"    : "I(0)",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "norow"    : "true",
+		    "size"     : 6,   
+		   "pattern"  : ""  
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_prot_conc",
+                   "label"    : "Protein Conc.",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "size"     : 6, 
+		   "pattern"  : ""  
+		 },	
+
+### Dissolved Species #######################################	
+		  { 
+		   "role"     : "input",  
+		   "id"       : "dissspec_label",
+		   "label"    : "DISSOLVED SPECIES",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true"
+		  },
+	         {
+                   "role"     : "input",
+                   "id"       : "num_species_solv",
+                   "label"    : "Number of Dissolved Species in the Solvent",
+                   "type"     : "integer",
+		   "repeater" : "true",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "max"      : 6  
+                  },
+	         {
+                   "role"     : "input",
+                   "id"       : "num_species_solv_substance_type",
+                   "label"    : "Substance Type:",
+                   "type"     : "listbox",
+		   "repeat"   : "num_species_solv", 
+		   "repeater" : "yes", 
+		   "required" : "true",
+		   "values"   : "Protein~protein~DNA~dna~RNA~rna~Molecule~molecule",
+		   "default"  : "molecule"
+		     #,"norow"  : "true"
+		 },	
+	         {
+                   "role"     : "input",
+                   "id"       : "num_species_solv_formula",
+                   "label"    : "Formula:",
+                   "type"     : "textarea",
+		   "repeat"   : "num_species_solv", 
+		   "required" : "true",
+		   "norow"    : "true",
+		   "size"     : 8,
+		   "pattern"  : ""
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "num_species_solv_conc",
+                   "label"    : "Concentration:",
+                   "type"     : "text",
+		   "repeat"   : "num_species_solv", 
+		   "required" : "true",
+		   "norow"    : "true",
+		   "size"     : 5,  
+		   "pattern"  : ""  
+		 },	
+	         {
+                   "role"     : "input",
+                   "id"       : "num_species_solv_vol",
+                   "label"    : "Volume:",
+                   "type"     : "text",
+		   "repeat"   : "num_species_solv", 
+		   "required" : "true",
+		   "size"     : 5,   
+		   "default"  : "0.0",
+		   "pattern"  : ""  
+		 },
+
+###### Subunit Components 1 ##################################
+		  { 
+		   "role"     : "input",  
+		   "id"       : "unit1_label",
+		   "label"    : "SUBUNIT 1",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true"
+		  },	
+	         {
+                   "role"     : "input",
+                   "id"       : "deuter_level_1",
+                   "label"    : "Deuteration level (0-1)",
+                   "type"     : "text",
+		   "required" : "true",
+		   "size"     : 5,   
+		   "default"  : "0.0",
+		   "pattern"  : ""  
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "proton_frac_1",
+                   "label"    : "Fraction of acidic protons accessible by the solvent",
+                   "type"     : "text",
+		   "required" : "true",
+		   "size"     : 5,   
+		   "default"  : "0.0",
+		   "pattern"  : ""  
+		 },	
+
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_1",
+                   "label"    : "Number of Components in Subunit 1",
+                   "type"     : "integer",
+		   "repeater" : "true",   
+		   "required" : "true",
+		   "default"  : 1,
+		   "min"      : 1,
+		   "max"      : 6  
+                  },	
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_1_substance_type",
+                   "label"    : "Substance Type:",
+                   "type"     : "listbox",
+		   "repeat"   : "num_subunit_1", 
+		   "repeater" : "yes", 
+		   "required" : "true",
+		   "values"   : "Protein~protein~DNA~dna~RNA~rna~Molecule~molecule",
+		   "default"  : "molecule"
+		     #,"norow"  : "true"
+		 },	
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_1_formula",
+                   "label"    : "Formula:",
+                   "type"     : "textarea",
+		   "repeat"   : "num_subunit_1", 
+		   "required" : "true",
+		   "norow"    : "true",
+		   "size"     : 8,
+		   "pattern"  : ""
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_1_num_molecules",
+                   "label"    : "N_molecules:",
+                   "type"     : "text",
+		   "repeat"   : "num_subunit_1", 
+		   "required" : "true",
+		   "norow"    : "true",
+		   "size"     : 5,  
+		   "default"  : "1", 
+		   "pattern"  : ""  
+		 },	
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_1_vol",
+                   "label"    : "Volume:",
+                   "type"     : "text",
+		   "repeat"   : "num_subunit_1", 
+		   "required" : "true",
+		   "size"     : 5,   
+		   "default"  : "0.0",
+		   "pattern"  : ""  
+		 },
+
+###### Subunit Components 2 ##################################
+		  { 
+		   "role"     : "input",  
+		   "id"       : "unit2_label",
+		   "label"    : "SUBUNIT 2",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true"
+		  },	
+	         {
+                   "role"     : "input",
+                   "id"       : "deuter_level_2",
+                   "label"    : "Deuteration level (0-1)",
+                   "type"     : "text",
+		   "required" : "true",
+		   "size"     : 5,   
+		   "default"  : "0.0",
+		   "pattern"  : ""  
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "proton_frac_2",
+                   "label"    : "Fraction of acidic protons accessible by the solvent",
+                   "type"     : "text",
+		   "required" : "true",
+		   "size"     : 5,   
+		   "default"  : "0.0",
+		   "pattern"  : ""  
+		 },	
+
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_2",
+                   "label"    : "Number of Components in Subunit 2",
+                   "type"     : "integer",
+		   "repeater" : "true",   
+		   "required" : "true",
+		   "default"  : 1,
+		   "min"      : 1,
+		   "max"      : 6  
+                  },	
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_2_substance_type",
+                   "label"    : "Substance Type:",
+                   "type"     : "listbox",
+		   "repeat"   : "num_subunit_2", 
+		   "repeater" : "yes", 
+		   "required" : "true",
+		   "values"   : "Protein~protein~DNA~dna~RNA~rna~Molecule~molecule",
+		   "default"  : "molecule"
+		     #,"norow"  : "true"
+		 },	
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_2_formula",
+                   "label"    : "Formula:",
+                   "type"     : "textarea",
+		   "repeat"   : "num_subunit_2", 
+		   "required" : "true",
+		   "norow"    : "true",
+		   "size"     : 8,
+		   "pattern"  : ""
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_2_num_molecules",
+                   "label"    : "N_molecules:",
+                   "type"     : "text",
+		   "repeat"   : "num_subunit_2", 
+		   "required" : "true",
+		   "norow"    : "true",
+		   "size"     : 5,  
+		   "default"  : "1", 
+		   "pattern"  : ""  
+		 },	
+	         {
+                   "role"     : "input",
+                   "id"       : "num_subunit_2_vol",
+                   "label"    : "Volume:",
+                   "type"     : "text",
+		   "repeat"   : "num_subunit_2", 
+		   "required" : "true",
+		   "size"     : 5,   
+		   "default"  : "0.0",
+		   "pattern"  : ""  
+		 },
+
+###### OUTPUT ##################################################
                   {
                    "role"  : "output",
                    "id"    : "outputfile",

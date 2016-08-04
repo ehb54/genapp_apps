@@ -8,7 +8,7 @@
             "label"   : "Welcome!",
             "icon"    : "pngs/noicon.png",
             "autorun" : "welcome",
-            "startup" : "true",
+            #"startup" : "true",
 #            "nohidemenu" : "true",
             "help" : "test welcome help",
             "modules" : [ 
