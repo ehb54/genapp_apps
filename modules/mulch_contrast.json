@@ -4,8 +4,18 @@
     "label"    : "Contrast",
     "help"     : "help for Contrast",
     #"backgroundimage" : "Nanodisc-new.png",
-    "center"   : "true",
+    #"center"   : "true",
     "fields"   : [
+               {
+	            "role"        : "input"
+	            ,"id"         : "projectname"
+	            ,"label"      : "Project name"
+	            ,"type"       : "text"
+	            ,"required"   : "true"
+	            ,"help"       : "Enter a project name"
+	            ,"specifiedproject" : "Run_"
+	        },
+################################################################
 		  { 
 		   "role"     : "input",  
 		   "id"       : "location_of_data_label",
@@ -14,11 +24,41 @@
 		   "prehline" : "true",
 		   "posthline": "true",
 		   "default"  : ""
-	          }
+	          },
 	
+                {
+                   "role"     : "input",
+                   "id"       : "contrast_file",
+                   "label"    : "Upload Contrast File",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : ""
+                   },
+##############################################################
+                  {
+                   "role"  : "output",
+                   "id"    : "outputfile",
+                   "label" : "HTML:",
+                   "type"  : "file"
+                   },	
+                 {
+                   "role"  : "output",
+                   "id"    : "output_html_label",
+                   "label" : "OUTPUT HTML",
+		   "prehline" : "true",
+		   "posthline": "true",
+                   "type"  : "label"
+                   },	
+	
+                  {
+                   "role"  : "output",
+                   "id"    : "output_html",
+                   "label" : "",
+                   "type"  : "html"
+                   }	
 	],
 # the executable will take inputs in order and produce output
-    "executable"   : "Contrast",
+    "executable"   : "contrast.py",
     "submitpolicy" : "all"
 }
 
