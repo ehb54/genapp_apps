@@ -95,6 +95,25 @@ f_in = open(ContrastStr)
 ProcessToCall = []
 ProcessToCall.append(ExecutableFileLocation)
 
+### Creating Input #####################################################
+
+InputFile = open("Input.txt", "w")
+
+title_string = json_variables['title']
+print >> InputFile, title_string
+## contrast points
+## solv speceis
+
+print >> InputFile, json_variables['deuter_level_1']
+print >> InputFile, json_variables['proton_frac_1']
+
+num_subunit_1 = json_variables[ 'num_subunit_1' ]
+print >> InputFile, num_subunit_1
+
+for i in range(int(num_subunit_1)):
+    currstring = json_variables['num_subunit_1_num_molecules'][i] + '\t' + json_variables['num_subunit_1_substance_type'][i] + '\t' + json_variables['num_subunit_1_formula'][i] + '\t' + json_variables[ 'num_subunit_1_vol'][i]
+    print >>  InputFile, currstring
+    
 ## RUN CHARMM ##########################################################
 #socket_dict["_textarea"] = 'Starting Contrast Calculations...\n\n'
 
@@ -107,7 +126,6 @@ Process = subprocess.Popen(ProcessToCall, stdin=f_in, stdout=f_out)
 Process.wait()
 f_out.close()
 f_in.close()
-
 
 ## END Contrast Calculations #########################################
 html_string = "'"

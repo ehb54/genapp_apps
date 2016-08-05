@@ -67,6 +67,7 @@
             "icon"    : "pngs/simulate.png",
             "help"    : "mulch help text",
 	    "autorun" : "mulch_test",
+	    #"extendedjsoninputtags" : "true",
             "modules" : [ 
                          { 
                           "id"    : "mulch_contrast",
