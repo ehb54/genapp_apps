@@ -99,11 +99,27 @@ ProcessToCall.append(ExecutableFileLocation)
 
 InputFile = open("Input.txt", "w")
 
+#Title
 title_string = json_variables['title']
 print >> InputFile, title_string
-## contrast points
-## solv speceis
+## Contrast points
+num_contrast_points = json_variables['contrast_points_num'] 
+print >> InputFile, num_contrast_points
 
+for i in range(int(num_contrast_points)):
+    currstring = json_variables['contrast_points_num_fdo2'][i] + '\t' + json_variables['contrast_points_num_i_0'][i] + '\t' + json_variables['contrast_points_num_sig_i_0'][i] + '\t' + json_variables[ 'contrast_points_prot_conc'][i]
+    print >>  InputFile, currstring
+
+## Solv speceis
+num_spec_solv = json_variables['num_species_solv'] 
+print >> InputFile, num_spec_solv
+
+for i in range(int(num_spec_solv)):
+    currstring = json_variables['num_species_solv_conc'][i] + '\t' + json_variables['num_species_solv_substance_type'][i] + '\t' + json_variables['num_species_solv_formula'][i] + '\t' + json_variables[ 'num_species_solv_vol'][i]
+    print >>  InputFile, currstring
+
+
+## Subunit 1
 print >> InputFile, json_variables['deuter_level_1']
 print >> InputFile, json_variables['proton_frac_1']
 
@@ -113,6 +129,19 @@ print >> InputFile, num_subunit_1
 for i in range(int(num_subunit_1)):
     currstring = json_variables['num_subunit_1_num_molecules'][i] + '\t' + json_variables['num_subunit_1_substance_type'][i] + '\t' + json_variables['num_subunit_1_formula'][i] + '\t' + json_variables[ 'num_subunit_1_vol'][i]
     print >>  InputFile, currstring
+
+## Subunit 2
+print >> InputFile, json_variables['deuter_level_2']
+print >> InputFile, json_variables['proton_frac_2']
+
+num_subunit_2 = json_variables[ 'num_subunit_2' ]
+print >> InputFile, num_subunit_2
+
+for i in range(int(num_subunit_2)):
+    currstring = json_variables['num_subunit_2_num_molecules'][i] + '\t' + json_variables['num_subunit_2_substance_type'][i] + '\t' + json_variables['num_subunit_2_formula'][i] + '\t' + json_variables[ 'num_subunit_2_vol'][i]
+    print >>  InputFile, currstring
+
+InputFile.close()
     
 ## RUN CHARMM ##########################################################
 #socket_dict["_textarea"] = 'Starting Contrast Calculations...\n\n'
@@ -121,7 +150,10 @@ for i in range(int(num_subunit_1)):
 #    doc_string = json.dumps(socket_dict)
 #    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
-Process = subprocess.Popen(ProcessToCall, stdin=f_in, stdout=f_out)
+#Process = subprocess.Popen(ProcessToCall, stdin=f_in, stdout=f_out)
+
+Inp_to_proc = open("Input.txt")
+Process = subprocess.Popen(ProcessToCall, stdin=Inp_to_proc, stdout=f_out)
 
 Process.wait()
 f_out.close()

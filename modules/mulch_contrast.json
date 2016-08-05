@@ -4,7 +4,6 @@
     "label"    : "Contrast",
     "help"     : "help for Contrast",
     #"extendedjsoninputtags" : "true",
-    #"center"   : "true",
     "fields"   : [
                {
 	            "role"        : "input"
@@ -64,24 +63,9 @@
 		   "repeat"   : "contrast_points_num",   
 		   "required" : "true",
 		   "default"  : 0,
-		   "min"      : 0,
-		   "max"      : 1 ,
 		   "norow"    : "true",
 		   "size"     : 6,   
 		   "pattern"  : ""
-		 },
-	         {
-                   "role"     : "input",
-                   "id"       : "contrast_points_num_sig_i_0",
-                   "label"    : "&sigma;[I(0)]",
-                   "type"     : "text",
-		   "repeat"   : "contrast_points_num",   
-		   "required" : "true",
-		   "default"  : 0,
-		   "min"      : 0,
-		   "norow"    : "true",
-		   "size"     : 6,  
-		   "pattern"  : ""  
 		 },
 	         {
                    "role"     : "input",
@@ -96,6 +80,21 @@
 		    "size"     : 6,   
 		   "pattern"  : ""  
 		 },
+
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_sig_i_0",
+                   "label"    : "&sigma;[I(0)]",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "norow"    : "true",
+		   "size"     : 6,  
+		   "pattern"  : ""  
+		 },
+
 	         {
                    "role"     : "input",
                    "id"       : "contrast_points_prot_conc",
@@ -137,7 +136,7 @@
 		   "repeat"   : "num_species_solv", 
 		   "repeater" : "yes", 
 		   "required" : "true",
-		   "values"   : "Protein~protein~DNA~dna~RNA~rna~Molecule~molecule",
+		   "values"   : "Protein~P~DNA~D~RNA~R~Molecule~M",
 		   "default"  : "molecule"
 		     #,"norow"  : "true"
 		 },	
@@ -184,7 +183,7 @@
 		   "prehline" : "true",
 		   "posthline": "true"
 		  },	
-	         {
+	         { 
                    "role"     : "input",
                    "id"       : "deuter_level_1",
                    "label"    : "Deuteration level (0-1)",
@@ -224,7 +223,7 @@
 		   "repeat"   : "num_subunit_1", 
 		   "repeater" : "yes", 
 		   "required" : "true",
-		   "values"   : "Protein~protein~DNA~dna~RNA~rna~Molecule~molecule",
+		   "values"   : "Protein~P~DNA~D~RNA~R~Molecule~M",
 		   "default"  : "molecule"
 		     #,"norow"  : "true"
 		 },	
@@ -312,7 +311,7 @@
 		   "repeat"   : "num_subunit_2", 
 		   "repeater" : "yes", 
 		   "required" : "true",
-		   "values"   : "Protein~protein~DNA~dna~RNA~rna~Molecule~molecule",
+		   "values"   : "Protein~P~DNA~D~RNA~R~Molecule~M",
 		   "default"  : "molecule"
 		     #,"norow"  : "true"
 		 },	
