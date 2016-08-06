@@ -66,16 +66,16 @@ base_dir = json_variables[ '_base_directory' ]
 
 #####################################################
 
-contrast_location = json_variables['contrast_file']
-ContrastStr = contrast_location[0]
-Contrastfilename = os.path.basename(ContrastStr)
+#contrast_location = json_variables['contrast_file']
+#ContrastStr = contrast_location[0]
+#Contrastfilename = os.path.basename(ContrastStr)
 
 ## Clean Up ######################################################
 for CleanUp in glob.glob('./*.*'):
     print CleanUp
     #exit()
-    if not CleanUp.endswith(Contrastfilename):    
-        os.remove(CleanUp)
+    #if not CleanUp.endswith(Contrastfilename):    
+    os.remove(CleanUp)
 
 ## UDP messaging ##################################################
 UDP_IP = json_variables['_udphost']
@@ -90,7 +90,7 @@ socket_dict['_uuid'] = json_variables['_uuid']
 ExecutableFileLocation = InitialDirectoryStr + '/exe/Contrast'
 
 f_out = open("contrast_output.html", "w")
-f_in = open(ContrastStr)
+#f_in = open(ContrastStr)
 
 ProcessToCall = []
 ProcessToCall.append(ExecutableFileLocation)
@@ -120,8 +120,8 @@ for i in range(int(num_spec_solv)):
 
 
 ## Subunit 1
-print >> InputFile, json_variables['deuter_level_1']
 print >> InputFile, json_variables['proton_frac_1']
+print >> InputFile, json_variables['deuter_level_1']
 
 num_subunit_1 = json_variables[ 'num_subunit_1' ]
 print >> InputFile, num_subunit_1
@@ -131,8 +131,8 @@ for i in range(int(num_subunit_1)):
     print >>  InputFile, currstring
 
 ## Subunit 2
-print >> InputFile, json_variables['deuter_level_2']
 print >> InputFile, json_variables['proton_frac_2']
+print >> InputFile, json_variables['deuter_level_2']
 
 num_subunit_2 = json_variables[ 'num_subunit_2' ]
 print >> InputFile, num_subunit_2
@@ -157,7 +157,7 @@ Process = subprocess.Popen(ProcessToCall, stdin=Inp_to_proc, stdout=f_out)
 
 Process.wait()
 f_out.close()
-f_in.close()
+#f_in.close()
 
 ## END Contrast Calculations #########################################
 html_string = "'"

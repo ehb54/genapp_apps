@@ -22,7 +22,7 @@
                    "label"    : "Project Title",
                    "type"     : "text",
 		   "required" : "true",
-		   "size"     : 20,   
+		   "size"     : 50,   
 		   "pattern"  : ""
 		 },	
 ################################################################
@@ -32,6 +32,8 @@
                    "id"       : "contrast_file",
                    "label"    : "Upload Contrast File",
                    "type"     : "lrfile",
+		   "setinputfromfile":"whitespace_formulchcontrast",
+		   "setinputfromfileids":"title,contrast_points_num,num_species_solv,proton_frac_1,deuter_level_1,num_subunit_1,proton_frac_2,deuter_level_2,num_subunit_2", 
                    "help"     : ""
                    },
 
