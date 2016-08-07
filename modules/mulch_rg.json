@@ -4,21 +4,162 @@
     "label"    : "Rg",
     "help"     : "help for Rg",
     #"backgroundimage" : "Nanodisc-new.png",
-    "center"   : "true",
     "fields"   : [
+               {
+	            "role"        : "input"
+	            ,"id"         : "projectname"
+	            ,"label"      : "Project name"
+	            ,"type"       : "text"
+	            ,"required"   : "true"
+	            ,"help"       : "Enter a project name"
+	            ,"specifiedproject" : "Run_"
+	        },
+
+#### Project Title ###############################################
+	         {
+                   "role"     : "input",
+                   "id"       : "title",
+                   "label"    : "Project Title",
+                   "type"     : "text",
+		   "required" : "true",
+		   "size"     : 50,   
+		   "pattern"  : ""
+		 },	
+################################################################
+
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_file",
+                   "label"    : "Upload Rg FILE",
+                   "type"     : "lrfile",
+		   "setinputfromfile":"whitespace_formulchcontrast",
+		   "setinputfromfileids":"",
+                   "help"     : ""
+                   },
+
+#### Contrast Points ###############################################
 		  { 
 		   "role"     : "input",  
-		   "id"       : "location_of_data_label",
-		   "label"    : "Input Rg",
+		   "id"       : "contrast_label",
+		   "label"    : "CONTRAST POINTS",
 		   "type"     : "label",
 		   "prehline" : "true",
+		   "posthline": "true"
+	          },	
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num",
+                   "label"    : "Number of Contrast Points:",
+                   "type"     : "integer",
+		   "repeater" : "true",   
+		   "required" : "true",
+		   "default"  : 3,
+		   "min"      : 3,
+		   "max"      : 15  
+                  },
+
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_fdo2",
+                   "label"    : "<i>f</i><sub>D<sub>2</sub>O</sub>(0-1)",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "false",
+		   "norow"    : "true",
+		   "size"     : 4,   
+		   "pattern"  : "^((0([.][0-9]*)?)|(1([.]00)?))$"
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_r_g",
+                   "label"    : "<i>R<sub>g</sub></i>",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "norow"    : "true",
+		    "size"     : 4,   
+		   "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"  
+		 },
+
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_sig_r_g",
+                   "label"    : "<i>&sigma;</i>(<i>R<sub>g</sub></i>)",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "norow"    : "true",
+		   "size"     : 4,  
+		   "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"  
+		 },
+
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_delta_rho_1",
+                   "label"    : "<i>&Delta;&rho;</i><sub>1</sub>",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "norow"    : "true", 
+		   "default"  : 0,
+		   "min"      : 0,
+		   "size"     : 4, 
+		   "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"  
+		 },
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_delta_rho_2",
+                   "label"    : "<i>&Delta;&rho;</i><sub>2</sub>",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "norow"    : "true",  
+		   "default"  : 0,
+		   "min"      : 0,
+		   "size"     : 4, 
+		   "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"  
+		 },	
+	         {
+                   "role"     : "input",
+                   "id"       : "contrast_points_num_vol",
+                   "label"    : "Vol<sub>1</sub>/(Vol<sub>1</sub>+Vol<sub>2</sub>)",
+                   "type"     : "text",
+		   "repeat"   : "contrast_points_num",   
+		   "required" : "true",
+		   "default"  : 0,
+		   "min"      : 0,
+		   "size"     : 4, 
+		   "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"  
+		 },	
+####### OUTPUT ############################################################################
+                  {
+                   "role"  : "output",
+                   "id"    : "outputfile",
+                   "label" : "HTML:",
+                   "type"  : "file"
+                   },	
+                 {
+                   "role"  : "output",
+                   "id"    : "output_html_label",
+                   "label" : "OUTPUT HTML",
+		   "prehline" : "true",
 		   "posthline": "true",
-		   "default"  : ""
-	          }
+                   "type"  : "label"
+                   },	
 	
-	],
+                  {
+                   "role"  : "output",
+                   "id"    : "output_html",
+                   "label" : "",
+                   "type"  : "html"
+                   }
+          ],
 # the executable will take inputs in order and produce output
-    "executable"   : "Rg",
+    "executable"   : "rg.py",
     "submitpolicy" : "all"
 }
 

@@ -97,7 +97,7 @@ ProcessToCall.append(ExecutableFileLocation)
 
 ### Creating Input #####################################################
 
-InputFile = open("Input.txt", "w")
+InputFile = open("Input_contrast.txt", "w")
 
 #Title
 title_string = json_variables['title']
@@ -152,7 +152,7 @@ InputFile.close()
 
 #Process = subprocess.Popen(ProcessToCall, stdin=f_in, stdout=f_out)
 
-Inp_to_proc = open("Input.txt")
+Inp_to_proc = open("Input_contrast.txt")
 Process = subprocess.Popen(ProcessToCall, stdin=Inp_to_proc, stdout=f_out)
 
 Process.wait()
