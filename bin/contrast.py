@@ -160,7 +160,7 @@ f_out.close()
 #f_in.close()
 
 ## END Contrast Calculations #########################################
-html_string = "'"
+html_string = ""
 
 forhtml = open('contrast_output.html')
 htmllines = forhtml.readlines()

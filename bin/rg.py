@@ -107,7 +107,7 @@ num_contrast_points = json_variables['contrast_points_num']
 print >> InputFile, num_contrast_points
 
 for i in range(int(num_contrast_points)):
-    currstring = json_variables['contrast_points_num_fdo2'][i] + '\t' + json_variables['contrast_points_num_r_g'][i] + '\t' + json_variables['contrast_points_num_sig_r_g'][i] + '\t' + json_variables[ 'contrast_points_num_delta_rho_1'][i] + '\t' +  json_variables[ 'contrast_points_num_delta_rho_2' ][i] + json_variables[ 'contrast_points_num_vol' ][i]
+    currstring = json_variables['contrast_points_num_r_g'][i] + '\t' + json_variables['contrast_points_num_sig_r_g'][i] + '\t' + json_variables[ 'contrast_points_num_delta_rho_1'][i] + '\t' +  json_variables[ 'contrast_points_num_delta_rho_2' ][i] + '\t' + json_variables[ 'contrast_points_num_vol' ][i]
     print >>  InputFile, currstring
 
 InputFile.close()
@@ -129,7 +129,7 @@ f_out.close()
 #f_in.close()
 
 ## END Contrast Calculations #########################################
-html_string = "'"
+html_string = ""
 
 forhtml = open('rg_output.html')
 htmllines = forhtml.readlines()
