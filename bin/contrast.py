@@ -102,14 +102,18 @@ InputFile = open("Input_contrast.txt", "w")
 #Title
 title_string = json_variables['title']
 print >> InputFile, title_string
+
 ## Contrast points
-num_contrast_points = json_variables['contrast_points_num'] 
-print >> InputFile, num_contrast_points
+if 'contrast_check' in json_variables:
+    num_contrast_points = json_variables['contrast_points_num'] 
+    print >> InputFile, num_contrast_points
 
-for i in range(int(num_contrast_points)):
-    currstring = json_variables['contrast_points_num_fdo2'][i] + '\t' + json_variables['contrast_points_num_i_0'][i] + '\t' + json_variables['contrast_points_num_sig_i_0'][i] + '\t' + json_variables[ 'contrast_points_prot_conc'][i]
-    print >>  InputFile, currstring
-
+    for i in range(int(num_contrast_points)):
+        currstring = json_variables['contrast_points_num_fdo2'][i] + '\t' + json_variables['contrast_points_num_i_0'][i] + '\t' + json_variables['contrast_points_num_sig_i_0'][i] + '\t' + json_variables[ 'contrast_points_prot_conc'][i]
+        print >>  InputFile, currstring
+else:
+    print >> InputFile, 0
+        
 ## Solv speceis
 num_spec_solv = json_variables['num_species_solv'] 
 print >> InputFile, num_spec_solv
@@ -117,7 +121,6 @@ print >> InputFile, num_spec_solv
 for i in range(int(num_spec_solv)):
     currstring = json_variables['num_species_solv_conc'][i] + '\t' + json_variables['num_species_solv_substance_type'][i] + '\t' + json_variables['num_species_solv_formula'][i] + '\t' + json_variables[ 'num_species_solv_vol'][i]
     print >>  InputFile, currstring
-
 
 ## Subunit 1
 print >> InputFile, json_variables['proton_frac_1']
