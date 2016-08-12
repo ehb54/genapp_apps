@@ -63,7 +63,8 @@
                    "id"       : "contrast_points_num",
                    "label"    : "Number of Contrast Points:",
                    "type"     : "integer",
-		   "repeater" : "true",   
+		   "repeater" : "true",  
+		   "tableize" : "true", 
 		   "required" : "true",
 		   "default"  : 3,
 		   "min"      : 3,
@@ -73,7 +74,7 @@
 	         {
                    "role"     : "input",
                    "id"       : "contrast_points_num_fdo2",
-                   "label"    : "<i>f</i><sub>D<sub>2</sub>O</sub>(0-1)",
+                   "label"    : "<center><i>f</i><sub>D<sub>2</sub>O</sub>(0-1)</center>",
                    "type"     : "text",
 		   "repeat"   : "contrast_points_num",   
 		   "required" : "false",
@@ -84,7 +85,7 @@
 	         {
                    "role"     : "input",
                    "id"       : "contrast_points_num_refine_scale",
-                   "label"    : "Refine Scale",
+                   "label"    : "<center>Refine Scale</center>",
                    "type"     : "checkbox",
 		   "repeat"   : "contrast_points_num",   
 		   "checked"  : "true",
@@ -94,7 +95,7 @@
 	         {
                    "role"     : "input",
                    "id"       : "contrast_points_num_scale_value",
-                   "label"    : "Scale Value",
+                   "label"    : "<center>Scale Value</center>",
                    "type"     : "text",
 		   "repeat"   : "contrast_points_num",   
 		   "required" : "true",
@@ -118,7 +119,7 @@
 	         {
                    "role"     : "input",
                    "id"       : "contrast_points_num_contrast_data",
-                   "label"    : "Contrast Data",
+                   "label"    : "<center>Contrast Data</center>",
                    "type"     : "file",
 		   "repeat"   : "contrast_points_num",
 		   "required" : "true",  
@@ -127,7 +128,7 @@
 	         {
                    "role"     : "input",
                    "id"       : "contrast_points_num_delta_rho_1",
-                   "label"    : "<i>&Delta;&rho;</i><sub>1</sub>",
+                   "label"    : "<center><i>&Delta;&rho;</i><sub>1</sub></center>",
                    "type"     : "text",
 		   "repeat"   : "contrast_points_num",   
 		   "required" : "true",
@@ -140,7 +141,7 @@
 	         {
                    "role"     : "input",
                    "id"       : "contrast_points_num_delta_rho_2",
-                   "label"    : "<i>&Delta;&rho;</i><sub>2</sub>",
+                   "label"    : "<center><i>&Delta;&rho;</i><sub>2</sub></center>",
                    "type"     : "text",
 		   "repeat"   : "contrast_points_num",   
 		   "required" : "true",
@@ -153,7 +154,7 @@
 	         {
                    "role"     : "input",
                    "id"       : "contrast_points_num_vol",
-                   "label"    : "Vol<sub>1</sub>/(Vol<sub>1</sub>+Vol<sub>2</sub>)",
+                   "label"    : "<center>Vol<sub>1</sub>/(Vol<sub>1</sub>+Vol<sub>2</sub>)</center>",
                    "type"     : "text",
 		   "repeat"   : "contrast_points_num",   
 		   "required" : "true",
