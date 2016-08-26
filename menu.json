@@ -167,6 +167,11 @@
             "icon"    : "pngs/beta.png",
             "modules" : [
                          { 
+                          "id"    : "prody",
+                          "label" : "Prody ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
                           "id"    : "sascalc",
                           "label" : "SasCalc",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
@@ -188,11 +193,6 @@
                          { 
                           "id"    : "capriqorn",
                           "label" : "Capriqorn",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "prody",
-                          "label" : "Prody ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          {
