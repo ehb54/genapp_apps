@@ -135,6 +135,7 @@
                    "id"       : "num_species_solv",
                    "label"    : "Number of Dissolved Species in the Solvent",
                    "type"     : "integer",
+		   #"tableize" : "true",  
 		   "repeater" : "true",   
 		   "required" : "true",
 		   "default"  : 0,
@@ -147,8 +148,8 @@
                    "label"    : "Substance Type:",
                    "type"     : "listbox",
 		   "repeat"   : "num_species_solv", 
-		   "repeater" : "yes", 
 		   "required" : "true",
+		   #"norow"    : "true",  
 		   "values"   : "Protein~P~DNA~D~RNA~R~Molecule~M",
 		   "default"  : "molecule"
 		     #,"norow"  : "true"
@@ -234,7 +235,6 @@
                    "label"    : "Substance Type:",
                    "type"     : "listbox",
 		   "repeat"   : "num_subunit_1", 
-		   "repeater" : "yes", 
 		   "required" : "true",
 		   "values"   : "Protein~P~DNA~D~RNA~R~Molecule~M",
 		   "default"  : "molecule"
@@ -322,7 +322,6 @@
                    "label"    : "Substance Type:",
                    "type"     : "listbox",
 		   "repeat"   : "num_subunit_2", 
-		   "repeater" : "yes", 
 		   "required" : "true",
 		   "values"   : "Protein~P~DNA~D~RNA~R~Molecule~M",
 		   "default"  : "molecule"

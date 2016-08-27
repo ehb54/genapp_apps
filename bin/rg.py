@@ -103,7 +103,7 @@ InputFile = open("Input_rg.txt", "w")
 title_string = json_variables['title']
 print >> InputFile, title_string
 ## Contrast points
-num_contrast_points = json_variables['contrast_points_num'] 
+num_contrast_points = json_variables['contrast_points_num_rg'] 
 print >> InputFile, num_contrast_points
 
 for i in range(int(num_contrast_points)):

@@ -103,7 +103,7 @@ InputFile = open("Input_compost.txt", "w")
 title_string = json_variables['title']
 print >> InputFile, title_string
 ## Contrast points
-num_contrast_points = json_variables['contrast_points_num'] 
+num_contrast_points = json_variables['contrast_points_num_compost'] 
 print >> InputFile, num_contrast_points
 
 qr_limit = json_variables['upper_qr_limit'] 
