@@ -236,13 +236,28 @@
                    },
                   {
                    "role"     : "input",
+                   "id"       : "number_of_parameter_files",
+                   "label"    : "number of parameter files:",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "min"      : 0,
+                   "size"     : 4,
+                   "required" : "true",
+                   "help" : "enter the number of force-field paramater files to upload",
+                   "repeat" : "advanced_input",
+                   "repeater" : "true"
+
+                  },
+                  {
+                   "role"     : "input",
                    "id"      : "parmfile",
                    "label"   : "charmm parameter file",
                    "type"     : "lrfile",
-                   "required" : "false",
-	  	   "repeat" : "advanced_input",
+                   "required" : "true",
+	  	           "repeat" : "advanced_input",
                    "help"     : "name of PSF file with molecular topology",
-                   "norow"    : "false"
+                   "norow"    : "false",
+                   "repeat"    : "number_of_parameter_files"
                    },
                   {
                    "role"    : "input",
