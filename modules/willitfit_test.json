@@ -60,7 +60,7 @@
 	       { 
 		   "role"     : "input",  
 		   "id"       : "q_limits_label",
-		   "label"    : "Q-LIMITS",
+		   "label"    : "q-LIMITS",
 		   "type"     : "label",
 		   "prehline" : "true",
 		   "posthline": "true",
@@ -70,7 +70,7 @@
                   {
                    "role"     : "input",
                    "id"       : "qmin",
-                   "label"    : "QMin",
+                   "label"    : "q-min",
                    "type"     : "float",
                    "default"  : 0.0,
 		   "size"     : 6,   
@@ -80,7 +80,7 @@
                   {
                    "role"    : "input",
                    "id"      : "qmax",
-                   "label"   : "QMax",
+                   "label"   : "q-max",
                    "type"    : "float",
                    "default" : 1.0,
 		   "size"     : 6,   
@@ -26018,10 +26018,17 @@
                    {
                    "role"  : "output",
                    "id"    : "chi_sqr",
-                   "label" : "Chi_sqr: ",
+                   "label" : "Chi_sqr_reduced: ",
 		   "size"     : 6,
                    "type"  : "text"
                    },
+                  {
+                   "role"  : "output",
+                   "id"    : "res_arch",
+                   "label" : "Archived Results: ",
+                   "type"  : "file"
+                   },	
+
              
 	           {
                    "role"  : "output",

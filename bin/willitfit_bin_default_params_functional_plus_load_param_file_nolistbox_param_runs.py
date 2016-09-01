@@ -115,6 +115,10 @@ def PrintResultsToCardfileDirectory():
     except:
         pass
 
+    try:
+        shutil.copy('Results.wif', ResultsDirectory)
+    except:
+        pass
 
 ############# End of Copy Results ################################################
 ## Function for clearing directory of old data-files and parameter-files
@@ -694,14 +698,19 @@ flot_data = {
         "xmax"   : max_x,
         "ymin"   : min_y,
         "ymax"   : max_y,
-        "xlabel" : "q (1/A)",
-        "ylabel" : "I(q)",
+        "xlabel" : "q/[1/A]",
+        "ylabel" : "I(q)/[1/cm]",
         "legend" : 
         {
             "backgroundOpacity"   : 0.2,
-            "labelBoxBorderColor" : "black",
+            "labelBoxBorderColor" : "000000",
             "position"            : "ne",
             "margin"              : [-80, 0]
+        },
+        "grid"   :
+        {
+           # "show"                : "false",
+            "backgroundColor"     : "white"
         },
         
     },
@@ -737,13 +746,17 @@ for i in range(NumberOfSets):
     flot_data['data'].append(current_set_fit)
 
 
+## Making archive of results ##############################
+archive_name = 'archived_results.zip'
+subprocess.call(["zip","-r", archive_name, ResultsDirectory])
+
 ### OUTPUT JSON ###########################################
 
 outputfilesarr_data = []
 outputfilesarr_fit = []
 
 base_dir = json_variables[ '_base_directory' ]
-ResultsFileLocation = str(base_dir) + "/Results.wif"
+ResultsFileLocation = str(base_dir) + '/' + ResultsDirectory + "Results.wif"
 output_res[ 'outputfile_results' ] = str(ResultsFileLocation)
 
 for i in range(NumberOfSets):
@@ -764,6 +777,8 @@ if PrintCorrelationInt == 1:
     output_res[ 'outputfile_covariance' ] = str(base_dir) + '/' + ResultsDirectory + "CovarianceMatrix.dat"
 
 output_res[ 'chi_sqr' ] = Chisquare
+
+output_res[ 'res_arch' ] = str(base_dir) + '/' + archive_name
 output_res[ 'fit_plot' ] = flot_data
 
 output_res[ 'progress_output' ] = str(1.0)
