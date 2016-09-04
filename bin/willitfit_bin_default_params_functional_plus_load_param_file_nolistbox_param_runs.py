@@ -2,6 +2,7 @@
 
 import os
 import re
+import glob
 import shutil
 import sys
 import subprocess
@@ -127,6 +128,8 @@ def ClearOldData():
         shutil.rmtree('./.data/')
     except:
         pass
+
+
 
 ## End of Clear ####################
 def GetChisquare():
@@ -266,11 +269,19 @@ MinQStr = qmin
 MaxQStr = qmax
 
 Cardfilename = os.path.basename(DataStr)
+ResultsDirectory = './' + Cardfilename + '-results/'
+
 try:
-    ResultsDirectory = './' + Cardfilename + '-results/'
+    shutil.rmtree(ResultsDirectory)
+except:
+    pass
+
+try:
+    #ResultsDirectory = './' + Cardfilename + '-results/'
     os.mkdir(ResultsDirectory)
 except:
     pass
+
 
 if FittingRoutine == 7 or FittingRoutine == 8:
     try:
@@ -714,7 +725,8 @@ flot_data = {
         },
         "grid" : 
         {
-            "backgroundColor" : "#ffffff"
+            "backgroundColor" : "#ffffff",
+
         },
     },
     "data": [ ]
@@ -751,7 +763,7 @@ for i in range(NumberOfSets):
 
 ## Making archive of results ##############################
 archive_name = 'archived_results.zip'
-subprocess.call(["zip","-r", archive_name, ResultsDirectory])
+subprocess.call(["zip","-FS", "-r", archive_name, ResultsDirectory])
 
 ### OUTPUT JSON ###########################################
 
