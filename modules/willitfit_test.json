@@ -26039,6 +26039,7 @@
 		   "width" : "600px",
 		   "pan"   : "false",
 		   "zoom"  : "false",
+		   "backgroundcolor" : "white",    
 		   "selzoom" : "true", 
 		   "savetofile" : "true",   
 		   "hover" : "true"
