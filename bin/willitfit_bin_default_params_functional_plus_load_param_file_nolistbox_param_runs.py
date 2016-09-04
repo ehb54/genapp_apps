@@ -692,27 +692,30 @@ max_y = max(max_data_y)
 flot_data = {
     "options": 
     {
+        "title"  : "Data/Fit Plot",
         "xscale" : "log",
         "yscale" : "log",
         "xmin"   : min_x,
         "xmax"   : max_x,
         "ymin"   : min_y,
         "ymax"   : max_y,
-        "xlabel" : "q/[1/A]",
+        "xlabel" : "q/[1/&#8491;]",
         "ylabel" : "I(q)/[1/cm]",
-        "legend" : 
-        {
-            "backgroundOpacity"   : 0.2,
-            "labelBoxBorderColor" : "000000",
+        "legend" :
+        {            
             "position"            : "ne",
-            "margin"              : [-80, 0]
+            "margin"              : [5, 5],
+            "backgroundColor"     : "#DCDCDC",
+            "labelBoxBorderColor" : "#000000"
+            #"labelFormatter"      : "legendFormatter"
+            #"container"           : "true"
+            #"backgroundOpacity"   : 0
+                         
         },
-        "grid"   :
+        "grid" : 
         {
-           # "show"                : "false",
-            "backgroundColor"     : "white"
+            "backgroundColor" : "#ffffff"
         },
-        
     },
     "data": [ ]
 }

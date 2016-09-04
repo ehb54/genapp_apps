@@ -26037,9 +26037,12 @@
                    "type"  : "plot2d",
 		   "height": "400px",
 		   "width" : "600px",
-		   "pan"   : "true",
-		   "zoom"  : "true",
+		   "pan"   : "false",
+		   "zoom"  : "false",
+		   "selzoom" : "true", 
+		   "savetofile" : "true",   
 		   "hover" : "true"
+                   #"help"  : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"    
                    }
                   ],
 # the executable will take inputs in order and produce output
