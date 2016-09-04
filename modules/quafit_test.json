@@ -2161,9 +2161,12 @@
                    "type"  : "plot2d",
 		   "height": "400px",
 		   "width" : "600px",
-		   "pan"   : "true",
+		   #"pan"   : "true",
 		   "zoom"  : "true",
-		   "hover" : "true"
+		   "hover" : "true",
+		   "selzoom" : "true",    
+		   "backgroundcolor" : "white",    
+		   "savetofile" : "true"    
                    },
 
 	         {

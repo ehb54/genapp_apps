@@ -1678,16 +1678,21 @@ my $maxy = $expcurve[0];
 my $flot_data = {};
 #$$flot_data{"options"}{"xscale"} = "log";
 $$flot_data{"options"}{"yscale"} = "log";
-$$flot_data{"options"}{"xlabel"} = "q (1/A)";
+$$flot_data{"options"}{"xlabel"} = "q (1/&#8491;)";
 $$flot_data{"options"}{"ylabel"} = "I (q)";
 $$flot_data{"options"}{"xmin"} = $minx;
 $$flot_data{"options"}{"xmax"} = $maxx;
 $$flot_data{"options"}{"ymin"} = $miny;
 $$flot_data{"options"}{"ymax"} = $maxy;
-$$flot_data{"options"}{"legend"}{"backgroundOpacity"} = 0.35;
+
+#$$flot_data{"options"}{"grid"}{"backgroundColor"} = "#FFFFFF";
+
+
+#$$flot_data{"options"}{"legend"}{"backgroundOpacity"} = 0.35;
 $$flot_data{"options"}{"legend"}{"labelBoxBorderColor"} = "black";
+$$flot_data{"options"}{"legend"}{"backgroundColor"} = "blue";
 $$flot_data{"options"}{"legend"}{"position"} = "ne";
-$$flot_data{"options"}{"legend"}{"margin"} = [-120, 40];
+$$flot_data{"options"}{"legend"}{"margin"} = [5, 5];
 
 my $data_exp = {};
 $$data_exp{"points"}{ "show" } =  "true";
