@@ -117,13 +117,14 @@ dcd_path = ''
 vel_path = ''
 coor_path = ''
 xsc_path = ''
-xst_path =''
+xst_path = ''
 
 numsteps_md = ''
 
 with open(Scriptfilename) as f:
     for line in f:
-        if "outputname" in line:
+        #if "outputname" in line:
+        if line.startswith('outputname'):
             LineArr = re.split(r'[\s]*', line)
             
             vel_path =  str(base_dir) + "/" + LineArr[1] + ".vel"
@@ -131,10 +132,12 @@ with open(Scriptfilename) as f:
             xsc_path =  str(base_dir) + "/" + LineArr[1] + ".xsc"
             xst_path =  str(base_dir) + "/" + LineArr[1] + ".xst" 
             
-        if "DCDfile" in line:
+        #if "DCDfile" in line:
+        if line.startswith('DCDfile'):
             LineArr = re.split(r'[\s]*', line)
-            dcd_path = str(base_dir) + "/" + LineArr[1] + ".dcd"
-        if "numsteps" in line:
+            dcd_path = str(base_dir) + "/" + LineArr[1]
+        #if "numsteps" in line:
+        if line.startswith('numsteps'):
             LineArr = re.split(r'[\s]*', line)
             numsteps_md = LineArr[1]
 
