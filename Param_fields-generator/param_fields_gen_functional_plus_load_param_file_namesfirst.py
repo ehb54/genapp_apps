@@ -12,7 +12,9 @@ from StringIO import StringIO
 from math import exp, expm1, log10, log, log1p
 
 ###################################################################
-InputDir = '/home/alexey/WillItFit/Source'
+#InputDir = '/home/alexey/WillItFit/Source'
+InputDir = '/home/alexsav/WORK_Emre/WillIt_Fit/Source_WillItFit_original'
+
 ModelList = []
 
 ModelList.append(['AnisotropicCoreShellMicelles','anis_core_shell_micelles'])
@@ -101,7 +103,7 @@ for ModelPath in ModelList:
             if (Labels[fieldscurr] == 'Min: '): 
                 type = 'text'
                 NoRow = 'true'
-                Size = '3'
+                Size = '5'
                 Label_add = ''
                 readonly = 'false'
                 pattern = '^([-+])?[0-9]*([,.])?([0-9]+)?([eE][-+]?[0-9]+)?$'
@@ -121,7 +123,7 @@ for ModelPath in ModelList:
             if (Labels[fieldscurr] == 'Max: '): 
                 type = 'text'
                 NoRow = 'false'
-                Size = '3'
+                Size = '5'
                 Label_add = ''
                 readonly = 'false'
                 required = 'true'

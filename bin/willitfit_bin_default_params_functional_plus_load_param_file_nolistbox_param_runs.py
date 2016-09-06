@@ -16,6 +16,7 @@ import select
 import atexit
 import signal
 import functools
+import string
 
 
 from StringIO import StringIO
@@ -208,8 +209,33 @@ for i in range(len(data_set_location)):
 
 ###### LOGIC  #######################################
 
-DataStr = data_location[0]
+DataStr_init = data_location[0]
 #DataStr = 'Example.card'
+datafile = open(DataStr_init, 'rU')
+DataLines = datafile.readlines()
+datafile.close()
+
+CorrectedCorfile = 'Corr_' + os.path.basename(DataStr_init)
+DataStr_corr = open(CorrectedCorfile,'w')
+filename_base = ''
+str_temp = ''
+
+for li in range(len(DataLines)):
+    if '.rad' in DataLines[li]:
+        LineArr = re.split(r'[\s]*', DataLines[li])
+        if '/' in LineArr[0]:
+            LineArr_sp = re.split('/', LineArr[0])
+            filename_base = LineArr_sp[-1]
+        else:
+            filename_base = DataLines[li].rstrip()
+        print >> DataStr_corr, filename_base
+        continue
+
+    print >> DataStr_corr, DataLines[li].rstrip()
+
+DataStr_corr.close()
+DataStr = json_variables['_base_directory'] + '/' + CorrectedCorfile
+
 
 SamplesStr = sample_location[0]
 #SamplesStr = 'Example.dat'
@@ -700,12 +726,22 @@ max_y = max(max_data_y)
 
 #print "max_y: ", max_data_y
 
+xscale = ''
+yscale = ''
+
+if json_variables['plot_axis_scheme'] == 'log_log':
+    xscale = 'log'
+    yscale = 'log'
+if json_variables['plot_axis_scheme'] == 'log_lin':
+    xscale = 'log'
+    yscale = ''
+
 flot_data = {
     "options": 
     {
         "title"  : "Data/Fit Plot",
-        "xscale" : "log",
-        "yscale" : "log",
+        "xscale" : xscale,
+        "yscale" : yscale,
         "xmin"   : min_x,
         "xmax"   : max_x,
         "ymin"   : min_y,
