@@ -172,7 +172,6 @@ stdout_namdmd = os.fdopen(master_namdmd, 'r', 0)
 namdmd_log = open('namdmd_log.out','w')
 
 error_string_md = ''
-
 timeout = .04 # seconds
 
 
@@ -212,24 +211,45 @@ if socket_dict:
     doc_string = json.dumps(socket_dict)
     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
-    
 output_res[ 'progress_output' ] = str(1.0)
 output_res[ 'progress_text' ] = 'MD Simulation Progress: 100%' 
 
-
-
-#ProcessNamdmd = subprocess.Popen(ProcessToCallNamdMd)
-#ProcessNamdmd.wait()
 ####################################################
 
 outputmd_arr_files = []
 
 ResultsDirectory = './' + 'SimulationResults/'
+
+try:
+    shutil.rmtree(ResultsDirectory)
+except:
+    pass
+
 try:
     #ResultsDirectory = './' + Cardfilename + '-results/'
     os.mkdir(ResultsDirectory)
 except:
     pass
+
+
+if error_string_md:
+    warning_str = "<p> Error:  </p> MD simulation terminated with the following error(s): <p> </p>" + error_string_md + "<p> Exiting... </p>"
+    message_box(warning_str,'warning.png')
+    output_res[ 'error' ] = 'MD simulation crashed. See the log file...'
+        
+    coor_path_temp = os.path.basename(coor_path)
+    coor_path = str(base_dir) + "/" + os.path.splitext(coor_path_temp)[0] + '_restart.coor'
+
+    vel_path_temp = os.path.basename(vel_path)
+    vel_path = str(base_dir) + "/" + os.path.splitext(vel_path_temp)[0] + '_restart.vel'
+
+    xsc_path_temp = os.path.basename(xsc_path)
+    xsc_path = str(base_dir) + "/" + os.path.splitext(xsc_path_temp)[0] + '_restart.xsc'
+
+    xst_path_temp = os.path.basename(xst_path)
+    xst_path = str(base_dir) + "/" + os.path.splitext(xst_path_temp)[0] + '_restart.xst'
+    
+####################################################
 
 if os.path.exists(dcd_path):
     outputmd_arr_files.append(dcd_path)
@@ -259,16 +279,26 @@ if os.path.exists(xst_path):
         pass    
 
 namdlog = str(base_dir) + "/" + 'namdmd_log.out'
-outputmd_arr_files.append(namdlog)
+
+if os.path.exists(namdlog):
+    outputmd_arr_files.append(namdlog)
+    try:
+        shutil.copy(namdlog, ResultsDirectory)
+    except:
+        pass    
 
 output_res[ 'outputmd' ] = outputmd_arr_files
 
 ## Making archive of results ##############################
 
 archive_name = 'archived_results.zip'
-subprocess.call(["zip","-FS", "-r", archive_name, ResultsDirectory])
+if len(outputmd_arr_files):
+    subprocess.call(["zip","-FS", "-r", archive_name, ResultsDirectory])
 
-output_res[ 'archivedres' ] =  str(base_dir) + "/" + archive_name
+archive_name_path = str(base_dir) + "/" + archive_name
+
+if os.path.exists(archive_name_path):
+    output_res[ 'archivedres' ] = archive_name_path 
 
 #####################################################
 print json.dumps( output_res )

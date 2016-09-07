@@ -21,7 +21,7 @@
         }
 	,{
             "id"      : "about_namdrunner_menu", 
-            "label"   : "About Authors",
+            "label"   : "How to Use",
             "icon"    : "pngs/noicon.png",
             "autorun" : "aboutnamdrunner",
             "modules" : [

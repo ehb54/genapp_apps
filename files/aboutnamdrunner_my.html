@@ -1,0 +1,55 @@
+ <div style="width:800px;margin-left:100px">
+    <p><span style="font-weight:bold;font-size:20pt;font-family:'Times New Roman'">Instructions</span></p>
+
+    <p style="text-align:left;margin-bottom:0.000000pt;margin-top:0.000000pt"></p>
+    
+    <p style="font-size:16pt;font-family:'Times New Roman'">
+    <i>NAMDrunner</i> requires 4 input files:</p>
+
+    <p style="text-align:justify;margin-bottom:0.000000pt;margin-top:0.000000pt">
+    
+    <span style="font-size:16pt;font-family:'Times New Roman'">
+    
+	<p>
+	  <ul>
+	    <li> Coordinate File: </li> 
+	  </ul>
+	  A file containing initial coordinates;
+	  <br >in demo's <i>min/</i> and <i>md/</i> folders there are examples of step2_solvator.pdb and namd_out_whole_min.coor files, respectively;
+	  <br>(extension can be anything, but the file must be in .pdb format)
+	</p>
+	<p>
+	  <ul>
+	    <li>PSF file: </li>
+	  </ul>
+	  Protein Structure File in .xplor format
+	  <br> step2_solvator.xplor.psf - an example in <i>min/</i> and <i>md/</i> demo folders
+	</p>
+	<p>
+	  <ul>
+	    <li>Parameter file (.zip): </li>
+	  </ul>
+	    A single .zip archive which reflect the structure of the toppar directory used in Input NAMD Script
+	  E.g., if the <i>"parameters"</i> section in the input script looks like 
+    	  <br> --------------------------------------------
+	  <br> parameters  toppar/par_all36_prot_for_namd.prm
+	  <br> parameters  toppar/toppar_water_ions_for_namd.str
+	  <br> ---------------------------------------------
+	  <br> than a .zip parameter file should have the following structure:
+   	  <br> --------------------------------------------
+  	  <br> toppar/
+          <br> toppar/par_all36_prot_for_namd.prm
+          <br> toppar/toppar_water_ions_for_namd.str
+	  <br> --------------------------------------------
+	</p>
+	<p>
+	  <ul>
+	    <li> Input NAMD script: </li>
+	  </ul>
+	  Samples of minimization (namd_prot_min.inp) and MD run (namd_prot_md.inp) input scripts are, respectively, in
+	  <i>min/</i> and <i>md/</i> folders
+	</p>
+      
+    </span></p> 
+ 
+ </div>
