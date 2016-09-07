@@ -729,19 +729,12 @@ max_y = max(max_data_y)
 xscale = ''
 yscale = ''
 
-if json_variables['plot_axis_scheme'] == 'log_log':
-    xscale = 'log'
-    yscale = 'log'
-if json_variables['plot_axis_scheme'] == 'log_lin':
-    xscale = 'log'
-    yscale = ''
-
 flot_data = {
     "options": 
     {
         "title"  : "Data/Fit Plot",
-        "xscale" : xscale,
-        "yscale" : yscale,
+        "xscale" : "log",
+        "yscale" : "log",
         "xmin"   : min_x,
         "xmax"   : max_x,
         "ymin"   : min_y,

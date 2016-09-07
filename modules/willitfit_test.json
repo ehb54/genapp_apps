@@ -25959,28 +25959,6 @@
 		   "repeat"   : "include_res_effects"
                },	
 		
-################## Plot Options ##########################
-	       { 
-		   "role"     : "input",  
-		   "id"       : "plot_axis_scheme_label",
-		   "label"    : "PLOT OPTIONS",
-		   "type"     : "label",
-		   "prehline" : "true",
-		   "posthline": "true",
-		   "default"  : ""
-	       },	
-                {
-		    "role"    : "input",
-		    "id"      : "plot_axis_scheme",
-		    "label"   : "Axis Scales",
-		    "type"    : "listbox",
-		    "values"  : "Log-Log~log_log~Log-Lin~log_lin",
-		    "default" : "log_log",
-		    "help"     : "Select axis scaling scheme"
-		},
- 	
-
-
 ##################################################################
                  {
 		     "role"    : "output",
@@ -26056,7 +26034,8 @@
 		   "pan"   : "false",
 		   "zoom"  : "false",
 		   "backgroundcolor" : "white",    
-		   "selzoom" : "true", 
+		   "selzoom" : "true",
+		   "changescale" : "true",    
 		   "savetofile" : "true",   
 		   "hover" : "true"
                    #"help"  : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"    
