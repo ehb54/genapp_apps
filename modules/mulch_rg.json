@@ -112,14 +112,13 @@
 		 },
 
 
-
 #### Contrast Points ###############################################
 		  { 
 		   "role"     : "input",  
 		   "id"       : "contrast_label",
-		   "label"    : "",
+		   "label"    : "CONTRAST POINTS",
 		   "type"     : "label",
-		   #"prehline" : "true"
+		   "prehline" : "true",
 		   "posthline": "true"
 	          },	
 	         {
@@ -211,7 +210,7 @@
 		   "required" : "true",
 		   "default"  : 0,
 		   "min"      : 0,
-		   "size"     : 4, 
+		   "size"     : 6, 
 		   "calc"     : "vol_1/(vol_1 + vol_2)",  
 		   "pattern"  : "^(([1-9][0-9]*)|(0))?([.][0-9]+)?([eE][-+]?[0-9]+)?$"  
 		 },	
