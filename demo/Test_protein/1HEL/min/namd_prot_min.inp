@@ -1,0 +1,109 @@
+#whole_system_min
+
+########################################
+#Basic_parameters #
+########################################
+
+#initial_configuration
+coordinates step2_solvator.pdb
+#This_is_PDB_after_h2o_ion_minimization
+seed 12345
+
+#force_field
+paraTypeCharmm on 
+
+#parameters  toppar/par_all36_na_for_namd.prm
+
+parameters  toppar/par_all36_prot_for_namd.prm
+parameters  toppar/toppar_water_ions_for_namd.str
+
+
+mergeCrossterms yes
+
+structure step2_solvator.xplor.psf
+
+temperature 0
+
+########################################
+#Multiple_timestep_parameters #
+########################################
+
+MTSAlgorithm impulse
+#this_means_impulse/verletI
+fullElectFrequency 2 
+#number_of_timesteps_between_full_electrostatic_evaluation
+nonbondedFreq  2
+#number_of_timesteps_between_nonbonded_evaluation
+longSplitting c1
+
+########################################
+#Constrain_section #
+########################################
+#whole_system_minimization
+fixedAtoms off #There_are_no_fixed_atoms.
+
+########################################
+#Energy_minimization_protocol #
+########################################
+minimization on #Turn_efficient_energy_minimization_ON
+minTinyStep 1.0e-6
+minBabyStep 1.0e-2
+minLineGoal 1.0e-4
+
+numsteps 250
+
+timestep 1.0 #timestep_1_fs
+stepspercycle 10
+
+########################################
+#Approximation_section #
+########################################
+exclude scaled1-4
+1-4scaling 1.0
+dielectric 1.0
+cutoff 12.0 #no_PME_this_time
+switching on
+switchdist 10.0
+pairlistdist 14.0 #I_need_at_least_1.5_between_cutoff_and_pairlist
+                  #not_to_have_pairlist_margin_violation
+
+########################################
+#PBC_section #
+########################################
+
+#periodic_cell
+cellBasisVector1     40   0      0
+cellBasisVector2     0      40   0 
+cellBasisVector3     0      0      45
+cellOrigin 0 0 0 
+wrapWater on #This_is_for_energy_minimization
+#wrapAll on #This_is_for_Molecular_Dynamicd
+
+########################################
+#PME_section #
+########################################
+
+#full_electrostatics
+#PME yes #Use_Ewald_summation_for_full_electrostatics_calculation
+PME no
+PMETolerance 0.000001
+PMEInterpOrder 4
+#4_means_cube
+PMEGridSizeX  40
+PMEGridSizeY  40	
+PMEGridSizeZ  45
+
+########################################
+#Output_section #
+########################################
+
+outputname	namd_out_whole_min
+binaryoutput 	no #default_is_binary
+outputEnergies 	100
+outputTiming 	100
+restartname 	namd_dna_whole_min_restart
+restartfreq 	500 #This_should_be_the_same_as_DCDfreq
+binaryrestart 	no
+
+
+

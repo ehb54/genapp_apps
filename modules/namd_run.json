@@ -87,7 +87,14 @@
                    "label" : "MD Simulation Results: ",
                    "type"  : "file",
 		   "multiple": "true"    
-                  }
+                  },
+	           {
+                   "role"  : "output",
+                   "id"    : "archivedres",
+                   "label" : "Archived Results: ",
+                   "type"  : "file"
+		   }
+
 	         ],
 # the executable will take inputs in order and produce output
     "executable" : "namdrun.py",

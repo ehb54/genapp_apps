@@ -1,0 +1,155 @@
+#eq_npt
+
+########################################
+#Basic_parameters #
+########################################
+
+#initial_configuration
+
+#This_is_PDB_after_equilibration
+seed 12345
+
+#force_field
+structure step2_solvator.xplor.psf
+
+paraTypeCharmm on 
+parameters  toppar/par_all36_prot_for_namd.prm
+parameters  toppar/toppar_water_ions_for_namd.str
+mergeCrossterms yes
+
+temperature 298
+
+coordinates	namd_out_whole_min.coor
+
+#velocities 	namd_dna_eq_1.vel
+#extendedsystem	namd_dna_eq_1.xsc
+
+#always_need_to_specify_temperature_or_velocity_file
+
+#integrator_parameters #This_is_for_Molecular_Dynamics
+
+numsteps 100
+
+timestep 2.0 #timestep_2_fs
+firsttimestep 0
+stepspercycle 10 #number_of_steps_before_making_new_pairlist
+#frequency_to_update_non-bond-list_at_every_20fs
+#This_is_the_equivalent_to_INBFRQ
+
+########################################
+#SHAKE_algorithm #
+########################################
+
+rigidBonds all #SHAKE_H-bonds
+rigidTolerance 0.00001
+
+########################################
+#Multiple_timestep_parameters #
+########################################
+
+MTSAlgorithm impulse
+fullElectFrequency 2 #integration_timestep_2fs = 1 x (timestep 2.0)
+nonbondedFreq  1 #integration_timestep_2fs
+longSplitting c1
+
+#no_equivalent_function_to_fullElectFrequency_and_nonbondedFreq_in_CHARMM
+#CHARMM_integrates_electrostatic_force_and_VDW_force_at_every_timestep
+
+########################################
+#Constrain_section #
+########################################
+#HEAT_temp_reassignment
+#whole_system_minimization
+fixedAtoms off #There_are_no_fixed_atoms.
+#everything_is_free_to_move
+ 
+########################################
+#Equilibration_protocol #
+########################################
+
+#Temperature_coupling_parameters
+#this_is_for_equilibration
+#use_lighter_damping_now_that_system_is_equilibrated
+langevin on
+langevinTemp 298
+langevinDamping 1
+langevinHydrogen off
+
+#Langevin_piston_pressure_control
+LangevinPiston on
+LangevinPistonTarget 1.01325   #1.01325 #target_pressure_in_bar
+LangevinPistonPeriod 200 #oscillation_period_in_fs
+LangevinPistonDecay 100 #damping_time_scale_in_fs_smaller_than_PistonPeriod
+LangevinPistonTemp 298
+SurfaceTensionTarget 0.0
+
+useGroupPressure yes
+#useFlexibleCell yes
+#useConstantRatio yes #fix_ration_in_xy_plane
+#useConstantArea yes #fix_shape_in_xy_plane
+#useConstantRatio_and_useConstantArea_are_mutually_exclusive
+
+########################################
+#Approximation_section #
+########################################
+exclude scaled1-4
+1-4scaling 1.0
+dielectric 1.0
+cutoff 12.0 #This_is_for_VDW
+switching on
+switchdist 10.0
+pairlistdist 14.0 #I_need_at_least_1.5_between_cutoff_and_pairlist
+                  #not_to_have_pairlist_margin_violation
+
+########################################
+#PBC_section #
+########################################
+
+#periodic_cell
+cellBasisVector1    40   0   0
+cellBasisVector2     0   40   0 
+cellBasisVector3     0    0   45
+cellOrigin 0 0 0 
+
+#wrapWater on #This_is_for_energy_minimization
+wrapAll on #This_is_for_Molecular_Dynamics
+
+MARGIN 10.0
+
+########################################
+#PME_section #
+########################################
+
+#full_electrostatics
+#PME yes #Use_Ewald_summation_for_full_electrostatics_calculation
+PME no
+PMETolerance 0.000001
+PMEInterpOrder 4
+#4_means_cube
+PMEGridSizeX  40
+PMEGridSizeY  40	
+PMEGridSizeZ  45
+
+########################################
+#Output_section #
+########################################
+#output_params
+
+outputname	namd_out_equil
+DCDfile 	namd_equil.dcd 
+restartname 	namd_out_equil_restart
+
+outputEnergies 10 #display_every_1ps
+outputPressure 10 #display_every_1ps
+outputTiming   10 #display_every_1ps
+DCDfreq        10 #update_DCDfile_every_5ps
+restartfreq    10 #update_restart_file_every_5ps
+xstFreq        10
+
+binaryrestart  no
+binaryoutput   no #default_is_binary
+
+
+
+
+

@@ -127,6 +127,14 @@ with open(Scriptfilename) as f:
         if line.startswith('outputname'):
             LineArr = re.split(r'[\s]*', line)
             
+            #if '#' in LineArr[1]:
+            #    LineArr_sp = re.split('#', LineArr[1])
+            #    vel_path =  str(base_dir) + "/" + LineArr_sp[0] + ".vel"
+            #    coor_path = str(base_dir) + "/" + LineArr_sp[0] + ".coor"
+            #    xsc_path =  str(base_dir) + "/" + LineArr_sp[0] + ".xsc"
+            #    xst_path =  str(base_dir) + "/" + LineArr_sp[0] + ".xst"
+        
+            #else:
             vel_path =  str(base_dir) + "/" + LineArr[1] + ".vel"
             coor_path = str(base_dir) + "/" + LineArr[1] + ".coor"
             xsc_path =  str(base_dir) + "/" + LineArr[1] + ".xsc"
@@ -216,21 +224,51 @@ output_res[ 'progress_text' ] = 'MD Simulation Progress: 100%'
 
 outputmd_arr_files = []
 
+ResultsDirectory = './' + 'SimulationResults/'
+try:
+    #ResultsDirectory = './' + Cardfilename + '-results/'
+    os.mkdir(ResultsDirectory)
+except:
+    pass
+
 if os.path.exists(dcd_path):
     outputmd_arr_files.append(dcd_path)
 if os.path.exists(vel_path):
     outputmd_arr_files.append(vel_path)
+    try:
+        shutil.copy(vel_path, ResultsDirectory)
+    except:
+        pass
 if os.path.exists(coor_path):
     outputmd_arr_files.append(coor_path)
+    try:
+        shutil.copy(coor_path, ResultsDirectory)
+    except:
+        pass
 if os.path.exists(xsc_path):
     outputmd_arr_files.append(xsc_path)
+    try:
+        shutil.copy(xsc_path, ResultsDirectory)
+    except:
+        pass
 if os.path.exists(xst_path):
     outputmd_arr_files.append(xst_path)
+    try:
+        shutil.copy(xst_path, ResultsDirectory)
+    except:
+        pass    
 
 namdlog = str(base_dir) + "/" + 'namdmd_log.out'
 outputmd_arr_files.append(namdlog)
 
 output_res[ 'outputmd' ] = outputmd_arr_files
+
+## Making archive of results ##############################
+
+archive_name = 'archived_results.zip'
+subprocess.call(["zip","-FS", "-r", archive_name, ResultsDirectory])
+
+output_res[ 'archivedres' ] =  str(base_dir) + "/" + archive_name
 
 #####################################################
 print json.dumps( output_res )
