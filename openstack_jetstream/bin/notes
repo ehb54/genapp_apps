@@ -1,0 +1,24 @@
+# create security group
+
+. ~/openrc.sh
+
+nova secgroup-create global-ssh "ssh & icmp enabled"
+nova secgroup-add-rule global-ssh tcp 22 22 0.0.0.0/0
+nova secgroup-add-rule global-ssh icmp -1 -1 0.0.0.0/0
+
+nova secgroup-create global-http "ssh, http & icmp enabled"
+nova secgroup-add-rule global-http tcp 22 22 0.0.0.0/0
+nova secgroup-add-rule global-http tcp 80 80 0.0.0.0/0
+nova secgroup-add-rule global-http icmp -1 -1 0.0.0.0/0
+
+nova secgroup-create global-https "ssh, http, https & icmp enabled"
+nova secgroup-add-rule global-https tcp 22 22 0.0.0.0/0
+nova secgroup-add-rule global-https tcp 80 80 0.0.0.0/0
+nova secgroup-add-rule global-https tcp 443 443 0.0.0.0/0
+nova secgroup-add-rule global-https icmp -1 -1 0.0.0.0/0
+
+# other useful
+
+nova secgroup-list
+nova secgroup-delete XXX
+
