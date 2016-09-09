@@ -4,9 +4,9 @@ $notes =
 "usage          : $0 flavor image securitygroups ip name
 
 flavor         : m1.tiny m1.small ...
-image          : id (try $ glance image-list) [ atmosphere ubuntu 14.04 currently is d1126e09-9e87-4f88-914f-fa42ba256c68 ]
+image          : id (try \$ glance image-list) [ atmosphere ubuntu 14.04 currently is d1126e09-9e87-4f88-914f-fa42ba256c68 ]
 securitygroups : global-ssh global-http global-https
-ip             : ip defined in dashboard
+ip             : ip defined in dashboard ?
 name           : will be prepended with \${OS_PROJECT_NAME}-api-
 ";
 
