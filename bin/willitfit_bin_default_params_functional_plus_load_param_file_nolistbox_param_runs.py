@@ -744,8 +744,8 @@ flot_data = {
         "legend" :
         {            
             "position"            : "ne",
-            "margin"              : [5, 5],
-            "backgroundColor"     : "#DCDCDC",
+            "margin"              : [-65, -1],
+            "backgroundColor"     : "#d0d0c0",
             "labelBoxBorderColor" : "#000000"
             #"labelFormatter"      : "legendFormatter"
             #"container"           : "true"
@@ -755,7 +755,28 @@ flot_data = {
         "grid" : 
         {
             "backgroundColor" : "#ffffff",
-
+            "margin"    : 
+                              { 
+                                  "top"    : 0, 
+                                  "left"   : 0,
+                                  "bottom" : 0,
+                                  "right"  : 65
+                              }
+            #"borderWidth"    : 
+            #                  { 
+            #                      "top"    : 2, 
+            #                      "left"   : 2,
+            #                      "bottom" : 2,
+            #                      "right"  : 120
+            #                  },
+            #"borderColor"    : 
+            #                  {  
+            #                      "top"    : "gray", 
+            #                      "left"   : "gray",
+            #                      "bottom" : "gray",
+            #                      "right"  : "#ffffff"
+            #                  }
+ 
         },
     },
     "data": [ ]
