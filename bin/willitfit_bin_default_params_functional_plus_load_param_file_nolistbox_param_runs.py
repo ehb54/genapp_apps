@@ -744,7 +744,7 @@ flot_data = {
         "legend" :
         {            
             "position"            : "ne",
-            "margin"              : [-65, -1],
+            "margin"              : [-70, -1],
             "backgroundColor"     : "null",
             "labelBoxBorderColor" : "#000000",
             #"labelFormatter"      : "legendFormatter"
@@ -760,7 +760,7 @@ flot_data = {
                                   "top"    : 0, 
                                   "left"   : 0,
                                   "bottom" : 0,
-                                  "right"  : 65
+                                  "right"  : 70
                               }
             #"borderWidth"    : 
             #                  { 

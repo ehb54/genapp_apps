@@ -26036,7 +26036,8 @@
 		   "backgroundcolor" : "white",    
 		   "selzoom" : "true",
 		   "changescale" : "true",    
-		   "savetofile" : "true",   
+		   "savetofile" : "true", 
+		   "rotatedylabel" : "true",    
 		   "hover" : "true"
                    #"help"  : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"    
                    }
