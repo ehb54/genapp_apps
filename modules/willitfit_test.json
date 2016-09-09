@@ -26030,7 +26030,7 @@
                    "label" : "Fit Plot:",
                    "type"  : "plot2d",
 		   "height": "400px",
-		   "width" : "600px",
+		   "width" : "700px",
 		   "pan"   : "false",
 		   "zoom"  : "false",
 		   "backgroundcolor" : "white",    

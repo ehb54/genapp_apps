@@ -745,11 +745,11 @@ flot_data = {
         {            
             "position"            : "ne",
             "margin"              : [-65, -1],
-            "backgroundColor"     : "#d0d0c0",
-            "labelBoxBorderColor" : "#000000"
+            "backgroundColor"     : "null",
+            "labelBoxBorderColor" : "#000000",
             #"labelFormatter"      : "legendFormatter"
             #"container"           : "true"
-            #"backgroundOpacity"   : 0
+            #"backgroundOpacity"   : 1
                          
         },
         "grid" : 
