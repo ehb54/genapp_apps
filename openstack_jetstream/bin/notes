@@ -18,6 +18,12 @@ nova secgroup-add-rule global-https tcp 80 80 0.0.0.0/0
 nova secgroup-add-rule global-https tcp 443 443 0.0.0.0/0
 nova secgroup-add-rule global-https icmp -1 -1 0.0.0.0/0
 
+nova secgroup-create sshlocalall "ssh & icmp enabled, all local ports open"
+nova secgroup-add-rule sshlocalall tcp 22 22 0.0.0.0/0
+nova secgroup-add-rule sshlocalall tcp 1 65535 10.0.0.0/8
+nova secgroup-add-rule sshlocalall udp 1 65535 10.0.0.0/8
+nova secgroup-add-rule sshlocalall icmp -1 -1 0.0.0.0/0
+
 nova secgroup-create nfslocal "nfslocal"
 nova secgroup-add-rule nfslocal tcp 111 111 10.0.0.0/8
 nova secgroup-add-rule nfslocal udp 111 111 10.0.0.0/8

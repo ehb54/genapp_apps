@@ -175,6 +175,9 @@ do {
 } while( $any_booting );
 
 echo "all active\n";
+foreach ( $image as $v ) {
+    echo "$v $ip[$v]\n";
+}
 
 // provision ... (?)
 
