@@ -1,1 +1,1 @@
-emacs -nw $*
+env TERM=vt100 emacs -nw $*
