@@ -96,7 +96,7 @@ do {
         // probably should be chained to one nova list at the start of the loop
         $cmd = "nova show $v";
         $results = `$cmd`;
-        $resultsarray = split( "\n", $results );
+        $resultsarray = explode( "\n", $results );
         $status = array_values( preg_grep( "/ status  /", $resultsarray ) );
 
         echo "status: " . json_encode( $status, JSON_PRETTY_PRINT ) . "\n";
