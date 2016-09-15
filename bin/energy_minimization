@@ -267,7 +267,7 @@ class Structure_minimization_Drv():
                         else: 
                             parmfile = ''
                             for i in xrange(locale.atoi(number_of_parameter_files)):   
-                                parmfile += ',' + (str(json_variables['parmfile'][0][i]))
+                                parmfile += ',' + (str(json_variables['parmfile'][i][0]))
                             parmfile = parmfile[1:]
 		else:
 			#topfile = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
@@ -322,7 +322,7 @@ class Structure_minimization_Drv():
 		error=minimize_filter.check_minimize(self.variables,no_file_check="true")
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
-                        output_dict['error'] = 'Error in minimization variables'
+                        output_dict['error'] = 'Error in minimization variables'+str(error[0])
                         output_dict['sasoutput2'] = 'run failed'
                         print json.dumps( output_dict )
                         return

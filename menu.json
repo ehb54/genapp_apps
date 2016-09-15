@@ -43,12 +43,13 @@
                           "id"    : "pdbscan",
                           "label" : "PDB Scan",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "build_utilities",
-                          "label" : "Build Utilities",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
+#                         },
+#                         { 
+#                          "id"    : "build_utilities",
+#                          "label" : "Build Utilities",
+#                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+#                         }
 #                        },
 #                         { 
 #                          "id"    : "pdbrx",
