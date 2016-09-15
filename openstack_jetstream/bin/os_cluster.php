@@ -4,87 +4,19 @@ $notes =
     "\n" .
     "--------------------\n" .
     "\n" .
-    "usage: $argv[0] number of nodes\n" .
+    "usage: $argv[0] number-of-nodes uuid\n" .
     "starts nodes and returns ip addresses\n" .
     "\n";
 
-$appconfig = "__appconfig__";
-$appconfig = "appconfig.json";
 
-if ( !isset( $argv[ 1 ] ) ) {
+if ( !isset( $argv[ 1 ] ) ||
+     !isset( $argv[ 2 ] ) ) {
     echo $notes;
     exit;
 }
 
-if ( NULL == ( $json = json_decode( file_get_contents( $appconfig ) ) ) ) {
-    echo "error: appconfig could not be decoded\n";
-    exit;
-}
-   
-if ( !$json->resources ) {
-    echo "error: resources not defined in appconfig\n";
-    exit;
-}
-
-if ( !$json->resources->oscluster ) {
-    echo "error: resources:oscluster not defined in appconfig\n";
-    exit;
-}
-   
-if ( !$json->resources->oscluster->properties ) {
-    echo "error: resources:oscluster:properties not defined in appconfig\n";
-    exit;
-}
-
-// -------------------- set up OS env --------------------
-
-if ( !isset( $json->resources->oscluster->properties->domain ) ) {
-    echo "error: resources:oscluster:properties:domain not defined in appconfig\n";
-    exit;
-}
-
-putenv( "OS_TENANT_DOMAIN_NAME=" . $json->resources->oscluster->properties->domain );
-putenv( "OS_PROJECT_DOMAIN_NAME=" . $json->resources->oscluster->properties->domain );
-putenv( "OS_USER_DOMAIN_NAME=" . $json->resources->oscluster->properties->domain );
-
-if ( !isset( $json->resources->oscluster->properties->project ) ) {
-    echo "error: resources:oscluster:properties:project not defined in appconfig\n";
-    exit;
-}
-
-putenv( "OS_TENANT_NAME=" . $json->resources->oscluster->properties->project );
-putenv( "OS_PROJECT_NAME=" . $json->resources->oscluster->properties->project );
-
-$project = $json->resources->oscluster->properties->project;
-
-if ( !isset( $json->resources->oscluster->properties->user ) ) {
-    echo "error: resources:oscluster:properties:user not defined in appconfig\n";
-    exit;
-}
-
-putenv( "OS_USERNAME=" . $json->resources->oscluster->properties->user );
-
-if ( !isset( $json->resources->oscluster->properties->password ) ) {
-    echo "error: resources:oscluster:properties:password not defined in appconfig\n";
-    exit;
-}
-
-putenv( "OS_PASSWORD=" . $json->resources->oscluster->properties->password );
-
-if ( !isset( $json->resources->oscluster->properties->api_version ) ) {
-    echo "error: resources:oscluster:properties:api_version not defined in appconfig\n";
-    exit;
-}
-
-putenv( "OS_IDENTITY_API_VERSION=" . $json->resources->oscluster->properties->api_version );
-
-if ( !isset( $json->resources->oscluster->properties->auth_url ) ) {
-    echo "error: resources:oscluster:properties:auth_url not defined in appconfig\n";
-    exit;
-}
-
-putenv( "OS_AUTH_URL=" . $json->resources->oscluster->properties->auth_url );
-
+require "os_header.php";
+ 
 // -------------------- set up OS image info --------------------
 
 if ( !isset( $json->resources->oscluster->properties->flavor ) ) {
@@ -133,9 +65,10 @@ $images = [];
 // -------------------- boot instances --------------------
 
 for ( $i = 0; $i < $argv[ 1 ]; ++$i ) {
+    
     $name =  
-        $json->resources->oscluster->properties->project . 
-        "-run-" . bin2hex( openssl_random_pseudo_bytes ( 16, $cstrong ) );
+        $json->resources->oscluster->properties->project . "-run-" . $argv[ 2 ] . "-" . str_pad( $i, 3, "0", STR_PAD_LEFT );
+//        "-run-" . bin2hex( openssl_random_pseudo_bytes ( 16, $cstrong ) );
 
     $image[] = $name;
     $cmd = "nova boot $name --flavor $flavor --image $baseimage --key-name $key --security-groups $secgroup --nic net-name=${project}-api $userdata";
@@ -160,6 +93,7 @@ do {
             continue;
         }
         echo "checking $v\n";
+        // probably should be chained to one nova list at the start of the loop
         $cmd = "nova show $v";
         $results = `$cmd`;
         $resultsarray = split( "\n", $results );
@@ -208,17 +142,25 @@ do {
         }
         echo "checking for ssh $v $ip[$v]\n";
 
+
+        ob_start();
         if ( fsockopen( $ip[$v], 22, $errno, $errstr, .5 ) ) {
+            ob_end_clean();
             $issshopen[ $v ] = 1;
             print "$ip[$v] is open\n";
         } else {
+            ob_end_clean();
             $any_notopen = true;
             echo "$v still booting\n";
         }
+
     }
     sleep( 5 );
 } while( $any_notopen );
             
 echo "all ssh active\n";
+foreach ( $image as $v ) {
+    echo "$v $ip[$v]\n";
+}
 
 ?>
