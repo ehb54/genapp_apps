@@ -38,7 +38,7 @@ if ( !$json->resources->oscluster->properties ) {
 
 // -------------------- set up OS env --------------------
 
-if ( !$json->resources->oscluster->properties->domain ) {
+if ( !isset( $json->resources->oscluster->properties->domain ) ) {
     echo "error: resources:oscluster:properties:domain not defined in appconfig\n";
     exit;
 }
@@ -47,7 +47,7 @@ putenv( "OS_TENANT_DOMAIN_NAME=" . $json->resources->oscluster->properties->doma
 putenv( "OS_PROJECT_DOMAIN_NAME=" . $json->resources->oscluster->properties->domain );
 putenv( "OS_USER_DOMAIN_NAME=" . $json->resources->oscluster->properties->domain );
 
-if ( !$json->resources->oscluster->properties->project ) {
+if ( !isset( $json->resources->oscluster->properties->project ) ) {
     echo "error: resources:oscluster:properties:project not defined in appconfig\n";
     exit;
 }
@@ -57,28 +57,28 @@ putenv( "OS_PROJECT_NAME=" . $json->resources->oscluster->properties->project );
 
 $project = $json->resources->oscluster->properties->project;
 
-if ( !$json->resources->oscluster->properties->user ) {
+if ( !isset( $json->resources->oscluster->properties->user ) ) {
     echo "error: resources:oscluster:properties:user not defined in appconfig\n";
     exit;
 }
 
 putenv( "OS_USERNAME=" . $json->resources->oscluster->properties->user );
 
-if ( !$json->resources->oscluster->properties->password ) {
+if ( !isset( $json->resources->oscluster->properties->password ) ) {
     echo "error: resources:oscluster:properties:password not defined in appconfig\n";
     exit;
 }
 
 putenv( "OS_PASSWORD=" . $json->resources->oscluster->properties->password );
 
-if ( !$json->resources->oscluster->properties->api_version ) {
+if ( !isset( $json->resources->oscluster->properties->api_version ) ) {
     echo "error: resources:oscluster:properties:api_version not defined in appconfig\n";
     exit;
 }
 
 putenv( "OS_IDENTITY_API_VERSION=" . $json->resources->oscluster->properties->api_version );
 
-if ( !$json->resources->oscluster->properties->auth_url ) {
+if ( !isset( $json->resources->oscluster->properties->auth_url ) ) {
     echo "error: resources:oscluster:properties:auth_url not defined in appconfig\n";
     exit;
 }
@@ -87,33 +87,42 @@ putenv( "OS_AUTH_URL=" . $json->resources->oscluster->properties->auth_url );
 
 // -------------------- set up OS image info --------------------
 
-if ( !$json->resources->oscluster->properties->flavor ) {
+if ( !isset( $json->resources->oscluster->properties->flavor ) ) {
     echo "error: resources:oscluster:properties:flavor not defined in appconfig\n";
     exit;
 }
 
 $flavor = $json->resources->oscluster->properties->flavor;
 
-if ( !$json->resources->oscluster->properties->baseimage ) {
+if ( !isset( $json->resources->oscluster->properties->baseimage ) ) {
     echo "error: resources:oscluster:properties:baseimage not defined in appconfig\n";
     exit;
 }
 
 $baseimage = $json->resources->oscluster->properties->baseimage;
 
-if ( !$json->resources->oscluster->properties->key ) {
+if ( !isset( $json->resources->oscluster->properties->key ) ) {
     echo "error: resources:oscluster:properties:key not defined in appconfig\n";
     exit;
 }
 
 $key = $json->resources->oscluster->properties->key;
 
-if ( !$json->resources->oscluster->properties->secgroup ) {
+if ( !isset( $json->resources->oscluster->properties->secgroup ) ) {
     echo "error: resources:oscluster:properties:secgroup not defined in appconfig\n";
     exit;
 }
 
 $secgroup = $json->resources->oscluster->properties->secgroup;
+
+$userdata = "";
+if ( isset( $json->resources->oscluster->properties->user_data ) ) {
+    echo "userdata is set\n";
+    $tempfile = tempnam(sys_get_temp_dir(), "gat" );
+    file_put_contents( $tempfile, '#!/bin/bash' . "\n" . $json->resources->oscluster->properties->user_data . "\n" );
+    $userdata = "--user-data $tempfile";
+    echo "userdata $userdata\n";
+}
 
 echo `nova list`;
 
@@ -129,9 +138,13 @@ for ( $i = 0; $i < $argv[ 1 ]; ++$i ) {
         "-run-" . bin2hex( openssl_random_pseudo_bytes ( 16, $cstrong ) );
 
     $image[] = $name;
-    $cmd = "nova boot $name --flavor $flavor --image $baseimage --key-name $key --security-groups $secgroup --nic net-name=${project}-api";
+    $cmd = "nova boot $name --flavor $flavor --image $baseimage --key-name $key --security-groups $secgroup --nic net-name=${project}-api $userdata";
     print "$cmd\n";
     print `$cmd`;
+}
+
+if ( isset( $tempfile ) ) {
+    unlink( $tempfile );
 }
 
 // -------------------- wait to become active --------------------
@@ -179,7 +192,32 @@ foreach ( $image as $v ) {
     echo "$v $ip[$v]\n";
 }
 
-// provision ... (?)
+// -------------------- wait for ssh to open--------------------
 
+$issshopen = [];
+
+do {
+    $any_notopen = false;
+    foreach ( $image as $v ) {
+        if ( array_key_exists( $v, $isactive ) ) {
+            continue;
+        }
+        if ( !isset( $ip[$v] ) ) {
+            echo "error: $v has no ip address defined\n";
+            exit(-1);
+        }
+        echo "checking for ssh $v $ip[$v]\n";
+
+        if ( fsockopen( $ip[$v], 22, $errno, $errstr, .5 ) ) {
+            $issshopen[ $v ] = 1;
+            print "$ip[$v] is open\n";
+        } else {
+            $any_notopen = true;
+            echo "$v still booting\n";
+        }
+    }
+} while( $any_notopen );
+            
+echo "all ssh active\n";
 
 ?>
