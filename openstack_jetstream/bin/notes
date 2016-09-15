@@ -54,6 +54,8 @@ nova keypair-list
 neutron net-list
 
 
+# flavors
+ nova flavor-list
 
 ----
 

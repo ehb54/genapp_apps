@@ -199,7 +199,7 @@ $issshopen = [];
 do {
     $any_notopen = false;
     foreach ( $image as $v ) {
-        if ( array_key_exists( $v, $isactive ) ) {
+        if ( array_key_exists( $v, $issshopen ) ) {
             continue;
         }
         if ( !isset( $ip[$v] ) ) {
@@ -216,6 +216,7 @@ do {
             echo "$v still booting\n";
         }
     }
+    sleep( 5 );
 } while( $any_notopen );
             
 echo "all ssh active\n";
