@@ -1,0 +1,475 @@
+##!/share/apps/local/anaconda/bin/python
+import json,sys,os,glob,shutil,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.interface.input_filter as input_filter
+import sassie.interface.sascalc_filter as sascalc_filter
+import sassie.calculate.sascalc as sascalc
+
+class SasCalc_Driver():
+
+    module = 'sascalc'
+
+    def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+               socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+    def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+               socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+        while process.is_alive():
+            try:
+                if(first):
+                    socket_dict['progress_html'] = 0.01
+                    socket_dict['_progress'] = 0.01
+                    socket_dict['progress_html'] = '<center>starting job</center>'
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    first = False
+                this_text = txtQueue.get(True, timeout=0.1)
+                text_split=string.split(this_text)
+                if(text_split[0]=='STATUS'):
+                    value = locale.atof(text_split[1])
+                    svalue = str(round(100*value,2))
+                    socket_dict['progress_output'] = value
+                    socket_dict['_progress'] = value
+                    socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                    if "_textarea" in socket_dict:
+                        del socket_dict["_textarea"]
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                else:
+                    socket_dict["_textarea"] = this_text
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    total_string += this_text
+            except:
+                if not process.is_alive():
+                    return total_string
+            time.sleep(0.01)
+        else:
+            return total_string
+
+        return total_string
+
+    def read_file(self, flot_data, filename):
+        try:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+                for i in xrange(nl):
+                    lin = string.split(data_file[i])
+                    if(lin[0] != '#'):
+                        this_x = lin[0]
+                        this_y = lin[1]
+                        data.append([this_x,this_y])
+                this_data = {
+                                'lines' : { "show": "false" },
+                                #'points' : { "show" : "true", "radius" : "1" },
+                                'color' : 'red',
+                                'data': data
+                        }
+                flot_data["data"].append(this_data)
+                #data_file.close()
+        except:
+            flot_data = "error reading file and making plot"
+        return
+
+    def get_data_from_disk(self, flot_data, filename):
+        self.read_file(flot_data, filename)
+        return 
+
+    def run_me(self,json_flag,json_variables,input_string):
+
+        output_dict = {}
+
+        if not json_flag:
+
+            #### BEGIN USER EDIT
+            #### BEGIN USER EDIT
+            #### BEGIN USER EDIT
+
+            runname='run_0'
+            dcdpath='./'
+            dcdfile='ubq.dcd'
+            pdbpath='./'
+            pdbfile='ubq.pdb'
+            xon = 'neutron'
+
+            number_exH_regions = 1
+            exH_basis_string_array = []
+            exH_basis_string_array.append('all')
+            fraction_exH_array = '0.95' # multiple region seperated by comma
+
+            number_deuterated_regions = 1
+            deuterated_basis_string_array = []
+            deuterated_basis_string_array.append('all')
+            fraction_deuterated_array = '0.0' # multiple region seperated by comma
+
+            number_contrast_points = 1
+            D2O_percentage_array = '100.0' # multiple region seperated by comma
+            I0_array = '1.0'  # multiple region seperated by comma
+
+            number_q_values='51'
+            q_max='0.5'
+            number_r_values='51'
+            solvent_volume='20.0'
+            VDW_scaling_factor='0.77'
+            golden_vector_method_option='converge'
+            number_golden_vectors='35'
+            golden_vector_method_converge_tolerance='0.01'
+            #
+            pRDF = "off"
+            #
+            surfr='1.8'
+            surfd='2.5'
+            surfrou='-15.0'
+            surfeta='1.0'
+            surfn='90'
+            surfcoverage='0.3'
+            #
+            prdfpath='./'
+            prdffile='pRDF.txt'
+            prdfcubelength='0.5'
+            prdfcubecutoff='7.0'
+
+
+            #### END USER EDIT
+            #### END USER EDIT
+            #### END USER EDIT
+        else:
+            runname = json_variables['runname']
+            if "monica" in runname:
+                complex_amplitudes = True
+            else:
+                complex_amplitudes = False
+
+            base_directory = json_variables['_base_directory']
+
+            path = base_directory.replace('\/','/') + "/"
+            output_path = path
+
+            os.chdir(path)
+            pdbpath = path
+            dcdpath = path
+            
+            pdbfile = json_variables['pdbfile'][0]
+
+            dcdfile = json_variables['dcdfile'][0]
+
+            if 'xray_checkbox' in json_variables:
+                xray_flag = json_variables['xray_checkbox']
+            else:
+                xray_flag = False
+            if 'neutron_checkbox' in json_variables:
+                neutron_flag = json_variables['neutron_checkbox']
+            else:
+                neutron_flag = False
+            if(xray_flag and neutron_flag):
+                xon = 'neutron_and_xray'
+            elif(neutron_flag and not xray_flag):
+                xon = 'neutron'
+            elif(xray_flag and not neutron_flag):
+                xon = 'xray'
+            else:
+                xon = ''
+
+            if xon in ['neutron','neutron_and_xray']:
+
+                number_contrast_points = json_variables['number_contrast_points']
+                D2O_percentage_array = json_variables['D2O_percentage_array']
+                D2O_percentage_array = ','.join(D2O_percentage_array)
+                I0_array = json_variables['I0_array']
+                I0_array = ','.join(I0_array)
+
+                number_exH_regions = json_variables['number_exH_regions']
+                exH_basis_string_array = json_variables['exH_basis_string_array']
+                exH_basis_string_array = map(lambda x: str(x), exH_basis_string_array)
+                fraction_exH_array = json_variables['fraction_exH_array']
+                fraction_exH_array = ','.join(fraction_exH_array)
+
+                number_deuteration_regions = json_variables['number_deuteration_regions']
+                if int(number_deuteration_regions):
+                    deuterated_basis_string_array = json_variables['deuterated_basis_string_array']
+                    fraction_deuterated_array = json_variables['fraction_deuterated_array']
+                else:
+                    deuterated_basis_string_array = ['']
+                    fraction_deuterated_array = ['0.0']
+                deuterated_basis_string_array = map(lambda x: str(x), deuterated_basis_string_array)
+                fraction_deuterated_array = ','.join(fraction_deuterated_array)
+
+                if xon=='neutron':
+                    xray_number_contrast_points = '1'
+                    xray_D2O_percentage_array = '100.0'
+                    xray_I0_array = '1.0'
+
+            if xon in ['xray','neutron_and_xray']:
+
+                xray_number_contrast_points = json_variables['xray_number_contrast_points']
+                #xray_D2O_percentage_array = json_variables['xray_D2O_percentage_array']
+                #xray_D2O_percentage_array = ','.join(xray_D2O_percentage_array)
+                xray_I0_array = json_variables['xray_I0_array']
+                xray_I0_array = ','.join(xray_I0_array)
+                xray_D2O_percentage_array = xray_I0_array ## @NOTE to developers: temporarily hack
+
+                if xon=='xray':
+                    number_contrast_points = '1'
+                    D2O_percentage_array = '100.0'
+                    I0_array = '1.0'
+
+            if xon not in ['neutron','xray','neutron_and_xray']:
+                    number_contrast_points = '1'
+                    D2O_percentage_array = '100.0'
+                    I0_array = '1.0'
+                    xray_number_contrast_points = '1'
+                    xray_D2O_percentage_array = '100.0'
+                    xray_I0_array = '1.0'
+            
+            number_q_values = json_variables['number_q_values']
+            q_max = json_variables['q_max']
+            try:
+                number_r_values = json_variables['number_r_values']
+            except:
+                number_r_values = '51'
+
+            method_list_box = json_variables['method_list_box']
+            if method_list_box=='c1':
+                golden_vector_method_option = 'fixed'
+                number_golden_vectors = json_variables['number_golden_vectors']
+            elif method_list_box=='c2':
+                golden_vector_method_option = 'converge'
+                golden_vector_method_converge_tolerance = json_variables['golden_vector_method_converge_tolerance']
+ 
+            try:
+                solvent_volume = json_variables['solvent_volume']
+                VDW_scaling_factor = json_variables['VDW_scaling_factor']
+            except:
+                solvent_volume = '20.0'
+                VDW_scaling_factor = '0.77'
+
+            try:
+                pRDF = json_variables['pRDF']
+            except:
+                pRDF = 'off'
+
+            if(pRDF == "on"):
+                surfr = json_variables['r']
+                surfd = json_variables['d']
+                surfrou = json_variables['rou']
+                surfeta = json_variables['eta']
+                surfn = json_variables['grid_number']
+                surfcoverage = json_variables['coverage']
+                #
+                prdffile = json_variables['prdffile'][0]
+                head, temp_prdffile = os.path.split(prdffile)
+                prdfpath = head.replace('\/','/') + "/"
+                prdfcubelength = json_variables['prdfcubelength']
+                prdfcubecutoff = json_variables['prdfcubecutoff']
+ 
+            path = ''
+
+            UDP_IP = json_variables['_udphost']
+                
+
+        variables={}
+
+        variables['runname'] = (runname,'string')
+        variables['pdbfile'] = (pdbfile,'string')
+        variables['dcdfile'] = (dcdfile,'string')
+
+        variables['xon'] = (xon,'string')
+
+        variables['number_contrast_points'] = (number_contrast_points,'int')
+        variables['D2O_percentage_array'] = (D2O_percentage_array,'float_array')
+        variables['I0_array'] = (I0_array,'float_array')
+        #
+        variables['xray_number_contrast_points'] = (xray_number_contrast_points,'int')
+        variables['xray_D2O_percentage_array'] = (xray_D2O_percentage_array,'float_array')
+        variables['xray_I0_array'] = (xray_I0_array,'float_array')
+
+        if variables['xon'][0] in ['neutron','neutron_and_xray']:
+            variables['number_exH_regions'] = (number_exH_regions,'int')
+            variables['exH_basis_string_array'] = (exH_basis_string_array,'string')
+            variables['fraction_exH_array'] = (fraction_exH_array,'float_array')
+
+            variables['number_deuteration_regions'] = (number_deuteration_regions,'int')
+            variables['deuterated_basis_string_array'] = (deuterated_basis_string_array,'string')
+            variables['fraction_deuterated_array'] = (fraction_deuterated_array,'float_array')
+
+        variables['number_q_values'] = (number_q_values,'int')
+        variables['q_max'] = (q_max,'float')
+        variables['number_r_values'] = (number_r_values,'int')
+        variables['golden_vector_method_option'] = (golden_vector_method_option,'string')
+        if variables['golden_vector_method_option'][0] == 'fixed':
+            variables['number_golden_vectors'] = (number_golden_vectors,'int')
+        elif variables['golden_vector_method_option'][0] == 'converge':
+            variables['golden_vector_method_converge_tolerance'] = (golden_vector_method_converge_tolerance,'float')
+
+        variables['solvent_volume'] = (solvent_volume,'float')
+        variables['VDW_scaling_factor'] = (VDW_scaling_factor,'float')
+        variables['complex_amplitudes'] = (complex_amplitudes,'boolean')
+
+        if(pRDF == "on"):
+            variables['surf_r'] = (surfr,'float')
+            variables['surf_d'] = (surfd,'float')
+            variables['surf_rou'] = (surfrou,'float')
+            variables['surf_eta'] = (surfeta,'float')
+            variables['surf_N'] = (surfn,'int')
+            variables['surf_coverage'] = (surfcoverage,'float')
+            variables['prdfpath'] = (prdfpath,'string')
+            variables['prdffile'] = (prdffile,'string')
+            variables['cube_length'] = (prdfcubelength,'float')
+            variables['cube_cutoff'] = (prdfcubecutoff,'float')
+
+        #variables['directed_mc'] = (directed_mc,'string')
+        variables['directed_mc'] = ('0.0','string')
+
+
+        error = []
+
+        error,variables=input_filter.type_check_and_convert(variables)
+
+        if(len(error)>0):
+            self.message_box(error,'warning.png')
+            output_dict['error'] = 'Error in input variables'    
+            output_dict['sasoutput2'] = 'run failed'
+            return
+        else:
+            error=sascalc_filter.check_sascalc(variables)
+            if(len(error) > 0):
+                self.message_box(error,'warning.png')
+                output_dict['error'] = 'Error in sascalc filter'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+            else:
+                runname=variables['runname'][0]
+
+                if os.path.exists(runname+'/'+self.module):
+                    shutil.rmtree(runname+'/'+self.module)
+
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                    json.dump("\nvariables\n",outfile)
+                    json.dump(variables,outfile)
+
+                txtQueue=multiprocessing.JoinableQueue()
+                sascalc_object = sascalc.sascalc()
+                process=multiprocessing.Process(target=sascalc_object.main,args=(variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue,json_variables)
+
+                '''
+                # plot Iq
+                flot_data1 = {"options": {"xlabel":"Q (Angstrom^-1)", "ylabel":"I(Q)", "yscale":"log"}, "data": [] }
+                if variables['xon'][0] in ['neutron','neutron_and_xray']:
+                    folder_name = glob.glob(os.path.join(output_path,runname,'sascalc','neutron_D2Op_[0-9]*'))[0]
+                else:
+                    folder_name = os.path.join(output_path,runname,'sascalc','xray')
+                for filename in glob.glob(os.path.join(folder_name,runname+"_[0-9]*.iq")):
+                    self.get_data_from_disk(flot_data1, filename)
+                if(isinstance(flot_data1, basestring)):
+                    print 'error reading data'
+                    output_dict['plot_error'] = flot_data1
+                else:
+                    output_dict['plotout1'] = flot_data1
+
+                # plot Pr
+                flot_data2 = {"options": {"xlabel":"R (Angstrom)", "ylabel":"P(r)"}, "data": [] }
+                for filename in glob.glob(os.path.join(output_path,runname,'sascalc',runname+"_[0-9]*.pr")):
+                    self.get_data_from_disk(flot_data2, filename)
+                if(isinstance(flot_data2, basestring)):
+                    print 'error reading data'
+                    output_dict['plot_error'] = flot_data2
+                else:
+                    output_dict['plotout2'] = flot_data2
+
+                # plot real space convergence
+                flot_data3 = {"options": {"xlabel":"frame number", "ylabel":"number of occupied grids"}, "data": [] }
+                filename = os.path.join(output_path,runname,'sascalc',"number_of_occupied_grids_real_space.txt")
+                self.get_data_from_disk(flot_data3, filename)
+                if(isinstance(flot_data3, basestring)):
+                    print 'error reading data'
+                    output_dict['plot_error'] = flot_data3
+                else:
+                    output_dict['plotout3'] = flot_data3
+
+                # plot sas space convergence
+                flot_data4 = {"options": {"xlabel":"frame number", "ylabel":"number of occupied grids"}, "data": [] }
+                if variables['xon'][0] in ['neutron','neutron_and_xray']:
+                    folder_name = glob.glob(os.path.join(output_path,runname,'sascalc','neutron_D2Op_[0-9]*'))[0]
+                else:
+                    folder_name = os.path.join(output_path,runname,'sascalc','xray')
+                filename = os.path.join(folder_name, "number_of_occupied_grids_sas_space.txt")
+                self.get_data_from_disk(flot_data4, filename)
+                if(isinstance(flot_data4, basestring)):
+                    print 'error reading data'
+                    output_dict['plot_error'] = flot_data4
+                else:
+                    output_dict['plotout4'] = flot_data4
+                '''
+
+
+	        if total_string:
+	                output_dict['_empty_return'] = 1
+	                print json.dumps( output_dict )
+	        else:
+	                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+	                output_dict['error'] = error_string
+	#                output_dict['_empty_return'] = 1
+	                print json.dumps( output_dict )
+
+#            	if output_dict:
+#                	print json.dumps( output_dict )
+#            	else:
+#                	error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+#                	output_dict['error'] = error_string
+#                	print json.dumps( output_dict )
+
+        
+if __name__=='__main__':
+
+    json_flag = True
+    #json_flag = False
+
+    if (len(sys.argv) < 1):
+        print "\{\"error\":\"sascalc called with no arguments\"\}\n";
+#         print 'exiting now'
+
+    elif len(sys.argv) > 1:
+        json_variables = " "
+        if(json_flag):
+            argv_io_string = StringIO(sys.argv[1])
+            json_variables = json.load(argv_io_string)
+        a=SasCalc_Driver()
+        a.run_me(json_flag,json_variables,sys.argv[1])
+
+
