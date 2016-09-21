@@ -170,7 +170,7 @@ class Structure_minimization_Drv():
                         try:
                             nsteps = json_variables['nsteps_3']
                         except:
-			    nsteps = 1
+			    nsteps = 20
 
 		if "austin_powers" in runname:
 			ncpu = runname[-2:]
