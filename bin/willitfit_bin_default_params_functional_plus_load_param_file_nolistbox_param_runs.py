@@ -530,7 +530,7 @@ CompilerArguments = [CompilerPath, SourceFileLocation, "-o", ExecutableFileLocat
 Compilationresult = subprocess.call(CompilerArguments)
 
 if Compilationresult != 0:
-    output_res['error'] = "The compilation of WillItFit failed. \nThe system tried to use " + CompilerPath + " with the following arguments: \n" + Compilerflags[0] + " " + Compilerflags[1] + ". \nContact the developers."
+    output_res['error'] = "The compilation of WillItFit failed. \nThe system tried to use " + CompilerPath + " with the following arguments: \n" + Compilerflags[0] + " " + Compilerflags[1] +  " " + Compilerflags[2] +  " " + Compilerflags[3] + ". \nContact the developers."
     print json.dumps( output_res )
     exit()
 
