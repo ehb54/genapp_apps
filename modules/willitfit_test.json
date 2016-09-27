@@ -54,6 +54,14 @@
 		    "required" : "true",
 		    "help"     : "Select a set of .rad files containing experimental SAXS/SANS data"
 		},
+	       {
+                   "role"     : "input",
+                   "id"       : "pdb_file_location",
+                   "label"    : "Location of .pdb File",
+                   "type"     : "lrfile",
+                   "required" : "false",
+		   "help"     : "Provide a model .pdb-file (optional, needed for certain models only)"
+	       },	
 
 ############### Q limits #####################################
 
@@ -25949,15 +25957,8 @@
 		   "repeat"   : "include_res_effects",
 		   "help"     : "Supply a .res-file to implement the effects of instrumental resolution in a fit"    
                },	
-               {
-                   "role"     : "input",
-                   "id"       : "pdb_file_location",
-                   "label"    : "Location of .pdb File",
-                   "type"     : "lrfile",
-                   "required" : "true",
-		   "help"     : "Provide a model .pdb-file",
-		   "repeat"   : "include_res_effects"
-               },	
+
+
 		
 ##################################################################
                  {
@@ -26035,7 +26036,8 @@
 		   "zoom"  : "false",
 		   "backgroundcolor" : "white",    
 		   "selzoom" : "true",
-		   "changescale" : "true",    
+		   "changescalex" : "true",     
+		   "changescaley" : "true",    
 		   "savetofile" : "true", 
 		   "rotatedylabel" : "true",    
 		   "hover" : "true"

@@ -171,6 +171,8 @@ json_variables = json.load(argv_io_string)
 data_location = json_variables['data_location']
 sample_location = json_variables['sample_location']
 data_set_location = json_variables['data_set_location']
+pdb_location = json_variables['pdb_file_location']
+
 
 qmin = json_variables['qmin']
 qmax = json_variables['qmax']
@@ -239,7 +241,11 @@ DataStr = json_variables['_base_directory'] + '/' + CorrectedCorfile
 
 SamplesStr = sample_location[0]
 #SamplesStr = 'Example.dat'
+PDBStr = pdb_location[0]
+#PDBStr = json_variables['_base_directory'] + '/' + os.path.basename(pdb_location[0])
 
+#print "PDBpath: " + PDBStr
+#exit()
 
 if algoritnm_list == 'comp_model':
     FittingRoutine = 0
@@ -275,14 +281,11 @@ else:
 if 'include_res_effects' in json_variables:      
     NumberOfSteps = int(json_variables['number_of_steps'])
     resolution_location = json_variables['res_file_location']
-    pdb_location = json_variables['pdb_file_location']
     ResolutionFileName = resolution_location[0]
-    PDBStr = pdb_location[0]
 else:
     NumberOfSteps = 0
     ResolutionFileName = 'N/A'
-    PDBStr = 'N/A'
-
+   
 if 'print_covariance_matrix_lm' in json_variables:
     PrintCorrelationInt = 1
 else:
@@ -511,7 +514,7 @@ New_Abspath0 =  os.path.abspath(os.path.dirname('Includes0.h')) + '/Includes0.h'
 Abspath1 =  os.path.abspath(os.path.dirname('ModelLocation.h')) + '/ModelLocation.h'
 New_Abspath2 =  os.path.abspath(os.path.dirname('Includes2.h')) + '/Includes2.h'
 
-Compilerflags = ['-O3', '-lm', '-include', New_Abspath0, '-include', Abspath1, '-include', New_Abspath2]
+Compilerflags = ['-O3', '-lm', '-lgsl', '-lgslcblas', '-include', New_Abspath0, '-include', Abspath1, '-include', New_Abspath2]
 
 SourceFileLocation = os.path.join(InputDir, "WillItFit.c")
 ExecutableFileLocation = os.path.join("./WillItFit.com")

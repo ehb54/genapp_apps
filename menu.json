@@ -47,6 +47,19 @@
                 }
             ]
         }
+        ,{ 
+            "id"      : "demo_menu",
+            "label"   : "Demo",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "demo",
+            "modules" : [ 
+                {
+                    "id"    : "demo",
+                    "label" : "Demo",
+		    "nobutton" : "true"
+                }
+            ]
+        }
 	,{
             "id"      : "disclaimer_menu",
             "label"   : "Official Disclaimer",
