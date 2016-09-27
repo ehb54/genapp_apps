@@ -59,8 +59,7 @@
                    "id"       : "pdb_file_location",
                    "label"    : "Location of .pdb File",
                    "type"     : "lrfile",
-                   "required" : "false",
-		   "help"     : "Provide a model .pdb-file (optional, needed for certain models only)"
+                   "help"     : "Provide a model .pdb-file (optional, needed for certain models only)"
 	       },	
 
 ############### Q limits #####################################

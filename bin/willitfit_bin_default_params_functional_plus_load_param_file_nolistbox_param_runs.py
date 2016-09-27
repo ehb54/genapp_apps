@@ -171,7 +171,7 @@ json_variables = json.load(argv_io_string)
 data_location = json_variables['data_location']
 sample_location = json_variables['sample_location']
 data_set_location = json_variables['data_set_location']
-pdb_location = json_variables['pdb_file_location']
+
 
 
 qmin = json_variables['qmin']
@@ -241,7 +241,12 @@ DataStr = json_variables['_base_directory'] + '/' + CorrectedCorfile
 
 SamplesStr = sample_location[0]
 #SamplesStr = 'Example.dat'
-PDBStr = pdb_location[0]
+
+if 'pdb_file_location' in json_variables:
+    pdb_location = json_variables['pdb_file_location']
+    PDBStr = pdb_location[0]
+else:
+    PDBStr = 'N/A'
 #PDBStr = json_variables['_base_directory'] + '/' + os.path.basename(pdb_location[0])
 
 #print "PDBpath: " + PDBStr
