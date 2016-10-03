@@ -84,6 +84,18 @@ ScriptStr = script_location[0]
 Scriptfilename = os.path.basename(ScriptStr)
 
 
+if 'vel_location' in json_variables:
+    vel_location = json_variables['vel_location']
+    Velfilename = vel_location[0]
+else:
+    Velfilename = ''
+
+if 'box_location' in json_variables:
+    box_location = json_variables['box_location']
+    Boxfilename = box_location[0]
+else:
+    Boxfilename = ''
+
 ## Clean Up ######################################################
 for CleanUp in glob.glob('./*.*'):
     print CleanUp
@@ -92,7 +104,9 @@ for CleanUp in glob.glob('./*.*'):
         if not CleanUp.endswith(Psffilename):
             if not CleanUp.endswith(Scriptfilename):
                 if not CleanUp.endswith(Topparfilename):
-                    os.remove(CleanUp)
+                    if not CleanUp.endswith(Velfilename):
+                        if not CleanUp.endswith(Boxfilename):
+                            os.remove(CleanUp)
 
 ## UDP messaging ##################################################
 UDP_IP = json_variables['_udphost']

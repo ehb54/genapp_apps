@@ -35,6 +35,44 @@
                    "required" : "true",
 		   "help"     : "help"
                    },
+
+                  {
+                   "role"     : "input",
+                   "id"       : "check_vel",
+                   "label"    : "Submit velocity file?",
+                   "type"     : "checkbox",
+		   "checked"  : "false",
+		   "repeater" : "true",  
+                   "help"     : "help"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "vel_location",
+                   "label"    : "Velocity file",
+                   "type"     : "lrfile",
+		   "repeat"   : "check_vel",  
+                   "required" : "true",
+		   "help"     : "help"
+                   },	
+ 
+                  {
+                   "role"     : "input",
+                   "id"       : "check_box",
+                   "label"    : "Submit .XSC file?",
+                   "type"     : "checkbox",
+		   "checked"  : "false",
+		   "repeater" : "true",  
+                   "help"     : "help"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "box_location",
+                   "label"    : "XSC file",
+                   "type"     : "lrfile",
+		   "repeat"   : "check_box",  
+                   "required" : "true",
+		   "help"     : "help"
+                   },	
  
                  {
                    "role"     : "input",
@@ -63,6 +101,18 @@
 		   "help"     : "help"
                    },	
 
+                  {
+                   "role"     : "input",
+                   "id"       : "numproc",
+                   "label"    : "Number of Processors:",
+                   "type"     : "integer",
+		   "step"     : 6,
+		   "min"      : 6,
+		   "max"      : 24,
+		   "default"  : 6,   
+                   "required" : "true",
+                   "help"     : "help"
+                   },
 
 #####################################################################################################
                  {
