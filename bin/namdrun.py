@@ -66,23 +66,43 @@ argv_io_string = StringIO(sys.argv[1])
 json_variables = json.load(argv_io_string)
 
 #####################################################
+FNULL = open(os.devnull, 'w')
+
 
 coor_location = json_variables['coor_location']
 CoorStr = coor_location[0]
 Coorfilename = os.path.basename(CoorStr)
+PathArrCoor = re.split(json_variables['_logon'], CoorStr)
+CoorLink = '..' + PathArrCoor[-1]
+subprocess.call(["ln", "-sf", CoorLink, Coorfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+#exit()
+
 
 psf_location = json_variables['psf_location']
 PsfStr = psf_location[0]
 Psffilename = os.path.basename(PsfStr)
+PathArrPsf = re.split(json_variables['_logon'], PsfStr)
+PsfLink = '..' + PathArrPsf[-1]
+subprocess.call(["ln", "-sf", PsfLink, Psffilename], stdout=FNULL, stderr=subprocess.STDOUT)
+
+#exit()
 
 toppar_location = json_variables['toppar_location']
 TopparStr = toppar_location[0]
 Topparfilename = os.path.basename(TopparStr)
+PathArrToppar = re.split(json_variables['_logon'], TopparStr)
+TopparLink = '..' + PathArrToppar[-1]
+subprocess.call(["ln", "-sf", TopparLink, Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
 
 script_location = json_variables['script_location']
 ScriptStr = script_location[0]
 Scriptfilename = os.path.basename(ScriptStr)
+PathArrScript = re.split(json_variables['_logon'], ScriptStr)
+ScriptLink = '..' + PathArrScript[-1]
+subprocess.call(["ln", "-sf", ScriptLink, Scriptfilename], stdout=FNULL, stderr=subprocess.STDOUT)
 
+
+numproc = json_variables['numproc']
 
 if 'vel_location' in json_variables:
     vel_location = json_variables['vel_location']
@@ -97,16 +117,16 @@ else:
     Boxfilename = ''
 
 ## Clean Up ######################################################
-for CleanUp in glob.glob('./*.*'):
-    print CleanUp
-    #exit()
-    if not CleanUp.endswith(Coorfilename):
-        if not CleanUp.endswith(Psffilename):
-            if not CleanUp.endswith(Scriptfilename):
-                if not CleanUp.endswith(Topparfilename):
-                    if not CleanUp.endswith(Velfilename):
-                        if not CleanUp.endswith(Boxfilename):
-                            os.remove(CleanUp)
+#for CleanUp in glob.glob('./*.*'):
+#    print CleanUp
+#    #exit()
+#    if not CleanUp.endswith(Coorfilename):
+#        if not CleanUp.endswith(Psffilename):
+#            if not CleanUp.endswith(Scriptfilename):
+#                if not CleanUp.endswith(Topparfilename):
+#                    if not CleanUp.endswith(Velfilename):
+#                        if not CleanUp.endswith(Boxfilename):
+#                            os.remove(CleanUp)
 
 ## UDP messaging ##################################################
 UDP_IP = json_variables['_udphost']
@@ -120,7 +140,7 @@ socket_dict['_uuid'] = json_variables['_uuid']
 
 ## TOPPAR DIR ##################################################################################
 
-subprocess.call(["unzip", "-o", Topparfilename])
+subprocess.call(["unzip", Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
 
 ################################################################################################
 ## PARSE INPUT FILE #########################################################
@@ -138,6 +158,8 @@ numsteps_md = ''
 with open(Scriptfilename) as f:
     for line in f:
         #if "outputname" in line:
+        line = line.strip()
+        
         if line.startswith('outputname'):
             LineArr = re.split(r'[\s]*', line)
             
@@ -158,17 +180,34 @@ with open(Scriptfilename) as f:
         if line.startswith('DCDfile'):
             LineArr = re.split(r'[\s]*', line)
             dcd_path = str(base_dir) + "/" + LineArr[1]
-        #if "numsteps" in line:
         if line.startswith('numsteps'):
             LineArr = re.split(r'[\s]*', line)
             numsteps_md = LineArr[1]
-
+                    
 ########### NAMD Inputs (minimisation for now)  ################################################
-ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
+
+#subprocess.call(["/usr/bin/modulecmd","bash", "load", "/etc/modulefiles/mpi/openmpi-x86_64"])
+#rinitpath = InitialDirectoryStr + '/rinit.sh'
+#subprocess.call([rinitpath])
+
+#ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
+ExecutableFileLocationNamd = '/opt/genapp/Install/NAMD_CVS-2016-09-15_Source/Linux-x86_64-g++/namd2'
+
+#ips = json_variables['_clusteripsjoined']
 
 ProcessToCallNamdMd = []
+ProcessToCallNamdMd.append('mpirun')
+ProcessToCallNamdMd.append('-H')
+#ProcessToCallNamdMd.append(ips)
+ProcessToCallNamdMd.append('10.0.0.202')
+ProcessToCallNamdMd.append('-np')
+ProcessToCallNamdMd.append(numproc)
 ProcessToCallNamdMd.append(ExecutableFileLocationNamd)
 ProcessToCallNamdMd.append(Scriptfilename)
+
+
+#print ProcessToCallNamdMd
+#exit()
 
 ## RUN NAMD MD  ##########################################################
 socket_dict["_textarea"] = 'Starting MD Simulation...\n\n'
@@ -177,7 +216,6 @@ socket_dict["progress_text"] =  'MD Simulation Progress: 0%'
 if socket_dict:
     doc_string = json.dumps(socket_dict)
     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-    
     
 master_namdmd, slave_namdmd = pty.openpty()
 ProcessNamdmd = subprocess.Popen(ProcessToCallNamdMd,stdout=slave_namdmd,stdin=PIPE,bufsize=0,close_fds=True)
