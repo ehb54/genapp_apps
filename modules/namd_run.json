@@ -2,10 +2,13 @@
 {
     "moduleid" : "namd_run",
     "label"    : "Calculate",
+    "resource" : "oscluster",
+    "submitpolicy" : "login",
     #"help"     : "help for Bead Modeller",
     #"center"   : "true",
     #"centeroutput" : "true",
     #"notify"    : "alexsav.science@gmail.com",
+    "notify" : "email",
     "fields"   : [
                {
 	            "role"       : "input"
@@ -100,16 +103,15 @@
                    "required" : "true",
 		   "help"     : "help"
                    },	
-
                   {
                    "role"     : "input",
                    "id"       : "numproc",
-                   "label"    : "Number of Processors:",
+                   "label"    : "Number of Processors",
                    "type"     : "integer",
-		   "step"     : 6,
-		   "min"      : 6,
-		   "max"      : 24,
-		   "default"  : 6,   
+		   "step"     : 24,
+		   "min"      : 24,
+		   "max"      : 96,
+		   "default"  : 24,   
                    "required" : "true",
                    "help"     : "help"
                    },
@@ -147,6 +149,6 @@
 
 	         ],
 # the executable will take inputs in order and produce output
-    "executable" : "namdrun.py",
-    "submitpolicy" : "all"    
+    #"executable" : "namdrun.py",
+    "executable" : "rinit.sh"
 }
