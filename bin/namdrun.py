@@ -106,27 +106,37 @@ numproc = json_variables['numproc']
 
 if 'vel_location' in json_variables:
     vel_location = json_variables['vel_location']
-    Velfilename = vel_location[0]
+    VelStr = vel_location[0]
+    Velfilename = os.path.basename(VelStr)
+    PathArrVel = re.split(json_variables['_logon'], VelStr)
+    VelLink = '..' + PathArrVel[-1]
+    subprocess.call(["ln", "-sf", VelLink, Velfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+
 else:
-    Velfilename = ''
+    Velfilename = 'vel.temp'
 
 if 'box_location' in json_variables:
     box_location = json_variables['box_location']
-    Boxfilename = box_location[0]
+    BoxStr = box_location[0]
+    Boxfilename = os.path.basename(BoxStr)
+    PathArrBox = re.split(json_variables['_logon'], BoxStr)
+    BoxLink = '..' + PathArrBox[-1]
+    subprocess.call(["ln", "-sf", BoxLink, Boxfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+
 else:
-    Boxfilename = ''
+    Boxfilename = 'box.temp'
 
 ## Clean Up ######################################################
-#for CleanUp in glob.glob('./*.*'):
-#    print CleanUp
-#    #exit()
-#    if not CleanUp.endswith(Coorfilename):
-#        if not CleanUp.endswith(Psffilename):
-#            if not CleanUp.endswith(Scriptfilename):
-#                if not CleanUp.endswith(Topparfilename):
-#                    if not CleanUp.endswith(Velfilename):
-#                        if not CleanUp.endswith(Boxfilename):
-#                            os.remove(CleanUp)
+for CleanUp in glob.glob('./*.*'):
+    print CleanUp
+    #exit()
+    if not CleanUp.endswith(Coorfilename):
+        if not CleanUp.endswith(Psffilename):
+            if not CleanUp.endswith(Scriptfilename):
+                if not CleanUp.endswith(Topparfilename):
+                    if not CleanUp.endswith(Velfilename):
+                        if not CleanUp.endswith(Boxfilename):
+                            os.remove(CleanUp)
 
 ## UDP messaging ##################################################
 UDP_IP = json_variables['_udphost']
@@ -140,7 +150,7 @@ socket_dict['_uuid'] = json_variables['_uuid']
 
 ## TOPPAR DIR ##################################################################################
 
-subprocess.call(["unzip", Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+subprocess.call(["unzip", "-o", Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
 
 ################################################################################################
 ## PARSE INPUT FILE #########################################################
@@ -152,67 +162,38 @@ vel_path = ''
 coor_path = ''
 xsc_path = ''
 xst_path = ''
+vel_path_restart = ''
+coor_path_restart = ''
+xsc_path_restart = ''
 
-numsteps_md = ''
-
-with open(Scriptfilename) as f:
-    for line in f:
-        #if "outputname" in line:
-        line = line.strip()
-        
-        if line.startswith('outputname'):
-            LineArr = re.split(r'[\s]*', line)
-            
-            #if '#' in LineArr[1]:
-            #    LineArr_sp = re.split('#', LineArr[1])
-            #    vel_path =  str(base_dir) + "/" + LineArr_sp[0] + ".vel"
-            #    coor_path = str(base_dir) + "/" + LineArr_sp[0] + ".coor"
-            #    xsc_path =  str(base_dir) + "/" + LineArr_sp[0] + ".xsc"
-            #    xst_path =  str(base_dir) + "/" + LineArr_sp[0] + ".xst"
-        
-            #else:
-            vel_path =  str(base_dir) + "/" + LineArr[1] + ".vel"
-            coor_path = str(base_dir) + "/" + LineArr[1] + ".coor"
-            xsc_path =  str(base_dir) + "/" + LineArr[1] + ".xsc"
-            xst_path =  str(base_dir) + "/" + LineArr[1] + ".xst" 
-            
-        #if "DCDfile" in line:
-        if line.startswith('DCDfile'):
-            LineArr = re.split(r'[\s]*', line)
-            dcd_path = str(base_dir) + "/" + LineArr[1]
-        if line.startswith('numsteps'):
-            LineArr = re.split(r'[\s]*', line)
-            numsteps_md = LineArr[1]
-                    
 ########### NAMD Inputs (minimisation for now)  ################################################
 
-#subprocess.call(["/usr/bin/modulecmd","bash", "load", "/etc/modulefiles/mpi/openmpi-x86_64"])
-#rinitpath = InitialDirectoryStr + '/rinit.sh'
-#subprocess.call([rinitpath])
-
-#ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
-ExecutableFileLocationNamd = '/opt/genapp/Install/NAMD_CVS-2016-09-15_Source/Linux-x86_64-g++/namd2'
+ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
+#ExecutableFileLocationNamd = '/opt/genapp/Install/NAMD_source_openmpi_2.0.1_gcc-5.4.0/NAMD_CVS-2016-09-15_Source/Linux-x86_64-g++/namd2'
 
 #ips = json_variables['_clusteripsjoined']
 
+#hostfile = json_variables['_clusterhostfile']
+
 ProcessToCallNamdMd = []
-ProcessToCallNamdMd.append('mpirun')
-ProcessToCallNamdMd.append('-H')
-#ProcessToCallNamdMd.append(ips)
-ProcessToCallNamdMd.append('10.0.0.202')
-ProcessToCallNamdMd.append('-np')
-ProcessToCallNamdMd.append(numproc)
+#ProcessToCallNamdMd.append('mpirun')
+#ProcessToCallNamdMd.append('-hostfile')
+#ProcessToCallNamdMd.append(hostfile)
 ProcessToCallNamdMd.append(ExecutableFileLocationNamd)
 ProcessToCallNamdMd.append(Scriptfilename)
-
 
 #print ProcessToCallNamdMd
 #exit()
 
 ## RUN NAMD MD  ##########################################################
+ProgressText = 'Simulation Progress: '
+ProgressText_supl = ''
+steps_cumul = 0
+numsteps_md = ''
+
 socket_dict["_textarea"] = 'Starting MD Simulation...\n\n'
 socket_dict["progress_output"] =  str(0.0)
-socket_dict["progress_text"] =  'MD Simulation Progress: 0%'
+socket_dict["progress_text"] = ProgressText + '0%'
 if socket_dict:
     doc_string = json.dumps(socket_dict)
     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -237,11 +218,51 @@ while True:
             socket_dict["_textarea"] = output#.strip()
             print >> namdmd_log, output.rstrip()
             
+            if "Info: DCD FILENAME" in output:
+                dcdArr = re.split(r'[\s]*', output)
+                dcd_path = str(base_dir) + "/" + dcdArr[3]
+            
+            if "Info: XST FILENAME" in output:
+                xstArr = re.split(r'[\s]*', output)
+                xst_path = str(base_dir) + "/" + xstArr[3]
+            
+            if "Info: OUTPUT FILENAME" in output:
+                outArr = re.split(r'[\s]*', output)
+                vel_path = str(base_dir) + "/" + outArr[3] + ".vel"
+                coor_path = str(base_dir) + "/" + outArr[3] + ".coor"
+                xsc_path =  str(base_dir) + "/" + outArr[3] + ".xsc"
+            
+            if "Info: RESTART FILENAME" in output:
+                restartArr = re.split(r'[\s]*', output)
+                vel_path_restart = str(base_dir) + "/" + restartArr[3] + ".vel"
+                coor_path_restart = str(base_dir) + "/" + restartArr[3] + ".coor"
+                xsc_path_restart =  str(base_dir) + "/" + restartArr[3] + ".xsc"
+
+            if "Info: NUMBER OF STEPS" in output:
+                stepsArr = re.split(r'[\s]*', output)
+                numsteps_md = stepsArr[4]
+                steps_cumul += float(numsteps_md)
+            
+            if (all(x in output for x in ['for','steps','Minimizing','TCL'])):
+                stepsminArr = re.split(r'[\s]*', output)
+                numsteps_md = stepsminArr[3]
+                steps_cumul += float(numsteps_md)
+                ProgressText_supl = 'Minimization '
+                          
+            if (all(x in output for x in ['for','steps','Running','TCL'])):
+                stepsmdArr = re.split(r'[\s]*', output)
+                numsteps_md = stepsmdArr[3]
+                steps_cumul += float(numsteps_md)
+                ProgressText_supl = 'MD run '
+          
             if "ENERGY:" in output:
                 OutArr = re.split(r'[\s]*', output)
                 if OutArr[0] == 'ENERGY:':
-                    socket_dict['progress_output'] = float(OutArr[1])/float(numsteps_md)
-                    socket_dict['progress_text'] = 'MD Simulation Progress: ' + str(int ((float(OutArr[1])/float(numsteps_md))*100.0) ) + '%'
+                    socket_dict['progress_output'] = ( float(OutArr[1]) - (float(steps_cumul) - float(numsteps_md)) )/float(numsteps_md)
+                    socket_dict['progress_text'] = ProgressText + ProgressText_supl + str(int ( ((float(OutArr[1]) - (float(steps_cumul) - float(numsteps_md)) )/float(numsteps_md))*100.0) ) + '%'
+                    #socket_dict['progress_output'] = float(OutArr[1])/float(numsteps_md)
+                    #socket_dict['progress_text'] = ProgressText + ProgressText_supl + str(int ( ((float(OutArr[1]))/float(numsteps_md))*100.0) ) + '%'
+                        
                                
             if "ERROR:" in output:
                 socket_dict["_textarea"] = output#.strip()
@@ -264,7 +285,7 @@ if socket_dict:
     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
 output_res[ 'progress_output' ] = str(1.0)
-output_res[ 'progress_text' ] = 'MD Simulation Progress: 100%' 
+output_res[ 'progress_text' ] = ProgressText + '100%' 
 
 ####################################################
 
@@ -289,17 +310,20 @@ if error_string_md:
     message_box(warning_str,'warning.png')
     output_res[ 'error' ] = 'MD simulation crashed. See the log file...'
         
-    coor_path_temp = os.path.basename(coor_path)
-    coor_path = str(base_dir) + "/" + os.path.splitext(coor_path_temp)[0] + '_restart.coor'
+    #coor_path_temp = os.path.basename(coor_path)
+    #coor_path = str(base_dir) + "/" + os.path.splitext(coor_path_temp)[0] + '_restart.coor'
+    coor_path = coor_path_restart
 
-    vel_path_temp = os.path.basename(vel_path)
-    vel_path = str(base_dir) + "/" + os.path.splitext(vel_path_temp)[0] + '_restart.vel'
+    #vel_path_temp = os.path.basename(vel_path)
+    #vel_path = str(base_dir) + "/" + os.path.splitext(vel_path_temp)[0] + '_restart.vel'
+    vel_path = vel_path_restart
+    
+    #xsc_path_temp = os.path.basename(xsc_path)
+    #xsc_path = str(base_dir) + "/" + os.path.splitext(xsc_path_temp)[0] + '_restart.xsc'
+    xsc_path = xsc_path_restart
 
-    xsc_path_temp = os.path.basename(xsc_path)
-    xsc_path = str(base_dir) + "/" + os.path.splitext(xsc_path_temp)[0] + '_restart.xsc'
-
-    xst_path_temp = os.path.basename(xst_path)
-    xst_path = str(base_dir) + "/" + os.path.splitext(xst_path_temp)[0] + '_restart.xst'
+    #xst_path_temp = os.path.basename(xst_path)
+    #xst_path = str(base_dir) + "/" + os.path.splitext(xst_path_temp)[0] + '_restart.xst'
     
 ####################################################
 
