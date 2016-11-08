@@ -4,11 +4,27 @@
     <p style="text-align:left;margin-bottom:0.000000pt;margin-top:0.000000pt"></p>
     
     <p style="font-size:16pt;font-family:'Times New Roman'">
-    <i>NAMDrunner</i> requires 4 input files:</p>
+    <i>NAMDrunner</i> minimally requires 4 input files:</p>
 
     <p style="text-align:justify;margin-bottom:0.000000pt;margin-top:0.000000pt">
     
     <span style="font-size:16pt;font-family:'Times New Roman'">
+
+      <p>
+	<ul>
+	  <li> NAMD configuration script: </li>
+	</ul>
+	Here are, respectively, examples of minimization, MD run scripts, and also an example of a script specifying minimization with a consequtive MD equilobration run:   
+	<a href="demo/Test_protein/1HEL/min/namd_prot_min.inp" >namd_prot_min.inp</a>, <a href="demo/Test_protein/1HEL/md/namd_prot_md.inp" >namd_prot_md.inp</a>, <a href="demo/Test_protein/1HEL/minmd/minimizeandequilibrate.inp" >minimizeandequilibrate.inp</a> 
+      </p>
+      
+	<p>
+	  <ul>
+	    <li>PSF file: </li>
+	  </ul>
+	  Protein Structure File in .xplor format
+	  <br> Examples for MD and Minimization runs, respectively, are provided: <a href="demo/Test_protein/1HEL/md/step2_solvator.xplor.psf" >step2_solvator.xplor.psf</a> and <a href="demo/Test_protein/1HEL/min/step2_solvator_min.xplor.psf" >step2_solvator_min.xplor.psf</a>
+	</p>
     
 	<p>
 	  <ul>
@@ -18,13 +34,7 @@
 	  <br >in demo's <i>min/</i> and <i>md/</i> folders there are examples of <a href="demo/Test_protein/1HEL/min/step2_solvator.pdb" >step2_solvator.pdb</a> and <a href="demo/Test_protein/1HEL/md/namd_out_whole_min.coor"> namd_out_whole_min.coor</a> files, respectively;
 	  <br>(extension can be anything, but the file must be in .pdb format)
 	</p>
-	<p>
-	  <ul>
-	    <li>PSF file: </li>
-	  </ul>
-	  Protein Structure File in .xplor format
-	  <br> Examples for MD and Minimization runs, respectively, are provided: <a href="demo/Test_protein/1HEL/md/step2_solvator.xplor.psf" >step2_solvator.xplor.psf</a> and <a href="demo/Test_protein/1HEL/min/step2_solvator_min.xplor.psf" >step2_solvator_min.xplor.psf</a>
-	</p>
+
 	<p>
 	  <ul>
 	    <li>Parameter file (.zip): </li>
@@ -44,13 +54,22 @@
 	  <br> See example <a href="demo/Test_protein/1HEL/md/toppar.zip" >toppar.zip</a>
 	</p>
 	<p>
-	  <ul>
-	    <li> Input NAMD script: </li>
-	  </ul>
-	  Samples of minimization and MD run input scripts are, respectively, in
-	  <i>min/</i> and <i>md/</i> folders, <a href="demo/Test_protein/1HEL/min/namd_prot_min.inp" >namd_prot_min.inp</a>, <a href="demo/Test_protein/1HEL/md/namd_prot_md.inp" >namd_prot_md.inp</a>
+	  When uploading files manually, user can also upload an arbitrary number of additional files specified in NAMD configuration script, by using <i>'Number of additional files to upload'</i> field. These files may be exemplified by: binary velocity/coordinate files, velocity file, .xsc (cell dimensions) file, .pdb files specifying constraints etc.  
 	</p>
-      
+
+	<hr>
+
+      <p><span style="font-weight:bold;font-size:20pt;font-family:'Times New Roman'">How to upload files</span></p>
+
+	<p>
+	  NAMD configuration script is uploaded separately, using <i>'Input NAMD script'</i> field. 
+	  <br> There are 2 options for uploading all other files (PSF, coordinates, parameters and any additional files): 
+	  <ul>
+	    <li>manually, </li>
+	    <li>by uploading a single .zip archive which contains all needed files.</li>
+	  </ul> 
+	</p>
+
 	<hr>
 
 	 <p><span style="font-weight:bold;font-size:20pt;font-family:'Times New Roman'">Example sets of files</span></p>
@@ -62,15 +81,28 @@
 	    <li> <a href="demo/Test_protein/1HEL/md/toppar.zip" >toppar.zip</a> </li>
 	    <li> <a href="demo/Test_protein/1HEL/min/namd_prot_min.inp" >namd_prot_min.inp</a> </li>
 	</ul>
-	<p> MD simulation</p>
+	<p> MD simulation (not related to the above minimization files)</p>
 	<ul>
 	  <li> <a href="demo/Test_protein/1HEL/md/namd_out_whole_min.coor"> namd_out_whole_min.coor</a></li>
 	  <li> <a href="demo/Test_protein/1HEL/md/step2_solvator.xplor.psf" >step2_solvator.xplor.psf</a></li>
 	  <li> <a href="demo/Test_protein/1HEL/md/toppar.zip" >toppar.zip</a> </li>
 	  <li> <a href="demo/Test_protein/1HEL/md/namd_prot_md.inp" >namd_prot_md.inp</a></li>
-	  <li> <a href="demo/readme.txt" >readme.txt</a></li>
 	</ul>
 	
+	<p> Minimization followed by MD equilibration run</p>
+        <ul>
+          <li> <a href="demo/Test_protein/1HEL/minmd/step2_solvator.pdb"> step2_solvator.pdb</a></li>
+          <li> <a href="demo/Test_protein/1HEL/minmd/step2_solvator.xplor.psf" >step2_solvator.xplor.psf</a></li>
+          <li> <a href="demo/Test_protein/1HEL/minmd/toppar.zip" >toppar.zip</a> </li>
+          <li> <a href="demo/Test_protein/1HEL/minmd/minimizeandequilibrate.inp" >minimizeandequilibrate.inp</a></li>
+        </ul>
+
+	<p> MD run with the use of .vel and .xsc files (single archive)</p>
+        <ul>
+          <li> <a href="demo/Test_protein/1HEL/md_vel_xsc_archive/namd_prot_md.inp"> namd_prot_md.inp</a></li>
+          <li> <a href="demo/Test_protein/1HEL/md_vel_xsc_archive/entire_archive.zip" >entire_archive.zip</a></li>
+        </ul>
+
 	
     </span></p> 
 
