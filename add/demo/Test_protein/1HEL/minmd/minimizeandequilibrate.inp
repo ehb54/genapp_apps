@@ -1,0 +1,200 @@
+
+#############################################################
+## JOB DESCRIPTION                                         ##
+#############################################################
+
+# Run self assembling cellulose
+
+
+#############################################################
+## ADJUSTABLE PARAMETERS                                   ##
+#############################################################
+
+structure          step2_solvator.xplor.psf
+coordinates        step2_solvator.pdb
+
+set runnumber 0
+
+
+set outputname		run_$runnumber
+set inputname		run_[expr {$runnumber -1}]
+set temperature    300
+set runSteps       120
+
+# restart file :input in either inputname or cellBasis
+#  0 is new run, 1 is restart run, 2 is restart run from old files.
+set restartfoo 1
+if { $runnumber == 0 } {
+	set restartfoo -1
+} elseif { $runnumber == 1 } { 
+	set restartfoo 0
+} else {
+	set restartfoo 1
+}
+
+proc get_first_ts { xscfile } {
+
+	 set fd [open $xscfile r]
+	 gets $fd
+	 gets $fd
+	 gets $fd line
+	 set ts [lindex $line 0]
+	 close $fd
+	 return $ts
+
+}
+
+if { $restartfoo == -1} {
+	temperature         $temperature
+	set firsttime 0
+	firsttimestep 200
+	
+} elseif { $restartfoo == 0 } {
+
+	bincoordinates     ./$inputname.coor
+	binvelocities      ./$inputname.vel
+	extendedSystem     ./$inputname.xsc
+	 
+	set firsttime [get_first_ts ./$inputname.xsc]
+	firsttimestep 0
+ 
+} elseif { $restartfoo == 1 } {
+	
+	bincoordinates     ./$inputname.restart.coor
+	binvelocities      ./$inputname.restart.vel
+	extendedSystem     ./$inputname.restart.xsc
+	 
+	set firsttime [get_first_ts ./$inputname.restart.xsc]
+	firsttimestep $firsttime
+
+} elseif { $restartfoo == 2  } {
+	
+	bincoordinates     ./$inputname.restart.coor.old
+	binvelocities      ./$inputname.restart.vel.old
+	extendedSystem     ./$inputname.restart.xsc.old
+	 
+	set firsttime [ get_first_ts ./$inputname.restart.xsc.old ]
+	firsttimestep $firsttime
+
+}
+
+
+#############################################################
+## SIMULATION PARAMETERS                                   ##
+#############################################################
+
+# Input
+paraTypeCharmm      on
+parameters  toppar/par_all36_prot_for_namd.prm
+parameters  toppar/toppar_water_ions_for_namd.str
+
+
+# NOTE: Do not set the initial velocity temperature if you 
+# have also specified a .vel restart file!
+# temperature         $temperature
+ 
+
+# Periodic Boundary conditions
+# NOTE: Do not set the periodic cell basis if you have also 
+# specified an .xsc restart file!
+
+
+wrapWater           on
+wrapAll             on
+
+
+# Force-Field Parameters
+exclude             scaled1-4
+1-4scaling          1.0
+cutoff              12.
+switching           on
+switchdist          10.
+pairlistdist        14
+margin               3
+
+
+# Integrator Parameters
+rigidBonds all
+timestep            2.0
+nonbondedFreq       1
+fullElectFrequency  2  
+stepspercycle       20
+
+
+PME on
+PMEGridSpacing 1.2
+PMEInterpOrder 6
+
+#Constant Pressure Control
+LangevinPiston on
+LangevinPistonTarget 1.01325
+LangevinPistonPeriod 200
+LangevinPistonDecay 100
+LangevinPistonTemp $temperature
+useFlexibleCell yes
+useConstantRatio yes
+
+
+if { $restartfoo < 0 } { 
+	cellBasisVector1 40 0 0
+	cellBasisVector2 0 40 0
+	cellBasisVector3 0 0 45
+	cellOrigin 0 0 0
+}
+
+
+
+# Constant Temperature Control
+langevin            on    ;# do langevin dynamics
+langevinDamping     1     ;# damping coefficient (gamma) of 5/ps
+langevinTemp        $temperature
+langevinHydrogen    no    ;# don't couple langevin bath to hydrogens
+
+
+
+# Output
+outputName          $outputname
+restartname         $outputname.restart
+#dcdfile             $outputname.dcd
+#dcdfile		     DCD_test.dcd
+#veldcdfile          $outputname.veldcd
+#xstFile             $outputname.xst
+
+restartfreq         20
+dcdfreq             20
+xstFreq             20
+outputEnergies      20
+
+
+#############################################################
+## EXTRA PARAMETERS                                        ##
+#############################################################
+
+proc get_volume { xscfile } {
+
+	 set fd [open $xscfile r]
+	 gets $fd
+	 gets $fd
+	 gets $fd line
+	 set ts [lindex $line 1]
+	 close $fd
+	 return $ts
+
+}
+
+#############################################################
+## EXECUTION SCRIPT                                        ##
+#############################################################
+
+# Minimization
+if { $restartfoo <  0 } {
+	#minimize 1000
+	minimize 100
+	reinitvels          $temperature
+	run $runSteps
+} elseif { $runnumber == 1} {
+	reinitvels          $temperature
+	run $runSteps  ;
+} else {
+	run $runSteps  ;
+}
