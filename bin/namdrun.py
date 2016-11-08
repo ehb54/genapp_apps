@@ -68,31 +68,8 @@ json_variables = json.load(argv_io_string)
 #####################################################
 FNULL = open(os.devnull, 'w')
 
-
-coor_location = json_variables['coor_location']
-CoorStr = coor_location[0]
-Coorfilename = os.path.basename(CoorStr)
-PathArrCoor = re.split(json_variables['_logon'], CoorStr)
-CoorLink = '..' + PathArrCoor[-1]
-subprocess.call(["ln", "-sf", CoorLink, Coorfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+#print json.dumps( json_variables )
 #exit()
-
-
-psf_location = json_variables['psf_location']
-PsfStr = psf_location[0]
-Psffilename = os.path.basename(PsfStr)
-PathArrPsf = re.split(json_variables['_logon'], PsfStr)
-PsfLink = '..' + PathArrPsf[-1]
-subprocess.call(["ln", "-sf", PsfLink, Psffilename], stdout=FNULL, stderr=subprocess.STDOUT)
-
-#exit()
-
-toppar_location = json_variables['toppar_location']
-TopparStr = toppar_location[0]
-Topparfilename = os.path.basename(TopparStr)
-PathArrToppar = re.split(json_variables['_logon'], TopparStr)
-TopparLink = '..' + PathArrToppar[-1]
-subprocess.call(["ln", "-sf", TopparLink, Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
 
 script_location = json_variables['script_location']
 ScriptStr = script_location[0]
@@ -102,41 +79,66 @@ ScriptLink = '..' + PathArrScript[-1]
 subprocess.call(["ln", "-sf", ScriptLink, Scriptfilename], stdout=FNULL, stderr=subprocess.STDOUT)
 
 
+select_uploader = json_variables['select_uploader']
+
+
+if select_uploader == 'manually':
+    coor_location = json_variables['coor_location']
+    CoorStr = coor_location[0]
+    Coorfilename = os.path.basename(CoorStr)
+    PathArrCoor = re.split(json_variables['_logon'], CoorStr)
+    CoorLink = '..' + PathArrCoor[-1]
+    subprocess.call(["ln", "-sf", CoorLink, Coorfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+    #exit()
+
+    psf_location = json_variables['psf_location']
+    PsfStr = psf_location[0]
+    Psffilename = os.path.basename(PsfStr)
+    PathArrPsf = re.split(json_variables['_logon'], PsfStr)
+    PsfLink = '..' + PathArrPsf[-1]
+    subprocess.call(["ln", "-sf", PsfLink, Psffilename], stdout=FNULL, stderr=subprocess.STDOUT)
+    
+    #print "File: " + Psffilename
+    #exit()
+    
+    toppar_location = json_variables['toppar_location']
+    TopparStr = toppar_location[0]
+    Topparfilename = os.path.basename(TopparStr)
+    PathArrToppar = re.split(json_variables['_logon'], TopparStr)
+    TopparLink = '..' + PathArrToppar[-1]
+    subprocess.call(["ln", "-sf", TopparLink, Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+
+    ## TOPPAR DIR ##################################################################################
+    subprocess.call(["unzip", "-o", Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+
+
+if select_uploader == 'archive':
+    entirearchive_location = json_variables['entire_archive']
+    EntireArchiveStr = entirearchive_location[0]
+    EntireArchivefilename = os.path.basename(EntireArchiveStr)
+    PathArrEntireArchive = re.split(json_variables['_logon'], EntireArchiveStr)
+    EntireArchiveLink = '..' + PathArrEntireArchive[-1]
+    subprocess.call(["ln", "-sf", EntireArchiveLink, EntireArchivefilename], stdout=FNULL, stderr=subprocess.STDOUT)
+
+    ## Unzip #################################################################################
+    subprocess.call(["unzip", "-o", EntireArchivefilename], stdout=FNULL, stderr=subprocess.STDOUT)
+    #print "Archive selected!!"
+    #exit()
+    
 numproc = json_variables['numproc']
 
-if 'vel_location' in json_variables:
-    vel_location = json_variables['vel_location']
-    VelStr = vel_location[0]
-    Velfilename = os.path.basename(VelStr)
-    PathArrVel = re.split(json_variables['_logon'], VelStr)
-    VelLink = '..' + PathArrVel[-1]
-    subprocess.call(["ln", "-sf", VelLink, Velfilename], stdout=FNULL, stderr=subprocess.STDOUT)
-
-else:
-    Velfilename = 'vel.temp'
-
-if 'box_location' in json_variables:
-    box_location = json_variables['box_location']
-    BoxStr = box_location[0]
-    Boxfilename = os.path.basename(BoxStr)
-    PathArrBox = re.split(json_variables['_logon'], BoxStr)
-    BoxLink = '..' + PathArrBox[-1]
-    subprocess.call(["ln", "-sf", BoxLink, Boxfilename], stdout=FNULL, stderr=subprocess.STDOUT)
-
-else:
-    Boxfilename = 'box.temp'
 
 ## Clean Up ######################################################
-for CleanUp in glob.glob('./*.*'):
-    print CleanUp
-    #exit()
-    if not CleanUp.endswith(Coorfilename):
-        if not CleanUp.endswith(Psffilename):
-            if not CleanUp.endswith(Scriptfilename):
-                if not CleanUp.endswith(Topparfilename):
-                    if not CleanUp.endswith(Velfilename):
-                        if not CleanUp.endswith(Boxfilename):
-                            os.remove(CleanUp)
+#for CleanUp in glob.glob('./*.*'):                              # IF cleaning - do not forget to also exclude hostfile !!!   
+#    print CleanUp
+#    #exit()
+#    if not CleanUp.endswith(Coorfilename):
+#        if not CleanUp.endswith(Psffilename):
+#            if not CleanUp.endswith(Scriptfilename):
+#                if not CleanUp.endswith(Topparfilename):
+#                    if not CleanUp.endswith(Velfilename):
+#                        if not CleanUp.endswith(Boxfilename):
+#                            os.remove(CleanUp)
 
 ## UDP messaging ##################################################
 UDP_IP = json_variables['_udphost']
@@ -148,9 +150,6 @@ socket_dict={}
 socket_dict['_uuid'] = json_variables['_uuid']
 
 
-## TOPPAR DIR ##################################################################################
-
-subprocess.call(["unzip", "-o", Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
 
 ################################################################################################
 ## PARSE INPUT FILE #########################################################
