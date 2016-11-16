@@ -123,17 +123,29 @@
                    "label"   : "SAS type",
                    "type"    : "listbox",
                    "help"    : "pick the SAS calculator that generated data you wish to extract",
-                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
-		   "repeat"   : "sas_checkbox"
+                   "values"  : "sascalc~c1~xtal2sas~c2~cryson~c3~crysol~c4",
+		           "repeat"   : "sas_checkbox"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "sas_path",
+                   "id"       : "number_of_sas_paths",
+                   "label"    : "number of SAS data path(s)",
+                   "type"     : "integer",
+                   "default"     : "1",
+                   "min"     : "1",
+                   "help"  : "enter number of directories that contain data you wish to extract from",
+                   "required" : "true",
+		           "repeater": "true",
+		           "repeat"   : "sas_checkbox"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sas_paths",
                    "label"    : "SAS data path",
                    "type"     : "rpath",
                    "help"  : "enter directory that contain data you wish to extract from",
                    "required" : "true",
-		   "repeat"   : "sas_checkbox"
+		           "repeat"   : "number_of_sas_paths"
                    },
 
 ###

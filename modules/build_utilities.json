@@ -367,9 +367,9 @@
                   {
                    "role"    : "input",
                    "id"      : "fasta_utilities_checkbox",
-                   "label"   : "fasta utlities methods",
+                   "label"   : "fasta utilities methods",
                    "type"    : "checkbox",
-                   "help"    : "click to open fasta utlities selections",
+                   "help"    : "click to open fasta utilities selections",
 		           "repeater": "true",
 		           "checked" : "false"
                    },

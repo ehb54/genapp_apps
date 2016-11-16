@@ -103,7 +103,8 @@ class Extract_Utilities_Driver():
 		path = './'
 
 		sas_type = '1'
-		sas_path = 'run_0/xtal2sas'
+		number_of_sas_paths = '1'
+		sas_paths = 'run_0/xtal2sas'
 
         	#### END USER EDIT
         	#### END USER EDIT
@@ -147,15 +148,22 @@ class Extract_Utilities_Driver():
 
 			sas_option_list_box = json_variables['sas_type_list_box']
 			if(sas_option_list_box == 'c1'):
-				sas_type = '1'
+				sas_type = '0'
 			elif(sas_option_list_box == 'c2'):
-				sas_type = '2'
+				sas_type = '1'
 			elif(sas_option_list_box == 'c3'):
+				sas_type = '2'
+			elif(sas_option_list_box == 'c4'):
 				sas_type = '3'
+                        number_of_sas_paths = json_variables['number_of_sas_paths'][0]
+                        sas_paths = ''
+                        for i in xrange(int(number_of_sas_paths)):
+			    this_sas_path = json_variables['sas_paths'][i]
+                            sas_paths += str(this_sas_path[0]) + ','
+                        sas_paths = sas_paths[:-1]
 
-			sas_path = json_variables['sas_path'][0]
 		else:
-			sas_path = 'None'
+			sas_paths = 'None'
 			sas_type = '1'
 
 		path = ''
@@ -196,7 +204,7 @@ class Extract_Utilities_Driver():
 	svariables['extract_trajectory'] = (str(extract_trajectory),'boolean')  	# flag to extract structures
 	svariables['extract_sas'] = (str(extract_sas),'boolean')  	# flag to extract sas
 	svariables['sas_type']   = (str(sas_type),'int')
-	svariables['sas_path']   = (str(sas_path),'string')	
+	svariables['sas_paths']   = (str(sas_paths),'string')	
 
 	error,variables=input_filter.type_check_and_convert(svariables)
 
@@ -221,8 +229,10 @@ class Extract_Utilities_Driver():
 	
 		runname=variables['runname'][0]
 
-		if os.path.exists(runname+'/'+self.module):
-			shutil.rmtree(runname+'/'+self.module)
+		#if os.path.exists(runname+'/'+self.module):
+		#	shutil.rmtree(runname+'/'+self.module)
+		if not os.path.exists(runname+'/'+self.module):
+			os.makedirs(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
 	
