@@ -111,6 +111,17 @@ if select_uploader == 'manually':
     ## TOPPAR DIR ##################################################################################
     subprocess.call(["unzip", "-o", Topparfilename], stdout=FNULL, stderr=subprocess.STDOUT)
 
+    if int(json_variables['additional_files']) > 0:
+        for i in range(int(json_variables['additional_files'])):
+            AuxStr = json_variables['aux_file'][i][0] 
+            Auxfilename = os.path.basename(AuxStr)
+            PathArrAux = re.split(json_variables['_logon'], AuxStr)
+            AuxLink = '..' + PathArrAux[-1]
+            subprocess.call(["ln", "-sf", AuxLink, Auxfilename], stdout=FNULL, stderr=subprocess.STDOUT)
+            
+            #print "Aux Files: " + json_variables['aux_file'][i][0] 
+            #exit()
+
 
 if select_uploader == 'archive':
     entirearchive_location = json_variables['entire_archive']
