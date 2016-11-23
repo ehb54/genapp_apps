@@ -2,7 +2,7 @@
 {
     "moduleid" : "namd_run",
     "label"    : "Calculate",
-    #"resource" : "oscluster",
+    "resource" : "oscluster",
     "submitpolicy" : "login",
     #"help"     : "help for Bead Modeller",
     #"center"   : "true",
@@ -162,6 +162,6 @@
 
 	         ],
 # the executable will take inputs in order and produce output
-    "executable" : "namdrun.py"
-    #,"executable" : "rinit.sh"
+    #"executable" : "namdrun.py"
+    "executable" : "rinit.sh"
 }

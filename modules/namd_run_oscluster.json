@@ -1,0 +1,167 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "namd_run",
+    "label"    : "Calculate",
+    "resource" : "oscluster",
+    "submitpolicy" : "login",
+    #"help"     : "help for Bead Modeller",
+    #"center"   : "true",
+    #"centeroutput" : "true",
+    #"notify"    : "alexsav.science@gmail.com",
+    "notify" : "email",
+    "fields"   : [
+               {
+	            "role"       : "input"
+	            ,"id"         : "projectname"
+	            ,"label"      : "Project name"
+	            ,"type"       : "text"
+	            ,"required"   : "true"
+	            ,"help"       : "Enter a project name"
+	            ,"specifiedproject" : "Run_"
+	        },
+################################################################
+	       { 
+		   "role"     : "input",  
+		   "id"       : "toppar_label",
+		   "label"    : "TOPOLOGY AND INITIAL STRUCTURE",
+		   "type"     : "label",
+		   "prehline" : "true",
+		   "posthline": "true",
+		   "default"  : ""
+	       },
+
+                  {
+                   "role"     : "input",
+                   "id"       : "script_location",
+                   "label"    : "Input NAMD script",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : "Upload NAMD configuration file"
+                   },	
+	      {
+		  "role"     : "input",  
+		  "id"       : "select_uploader",
+		  "label"    : "How do you want to upload files?",
+		  "type"     : "listbox",
+		  "values"   : "Upload files manually~manually~Upload single archive~archive",
+		  "repeater" : "yes",
+		  "default"  : "manually",
+		  "help"     : "Choose how files specified in NAMD configuration script should be uploaded"
+	      },
+
+                {
+                   "role"     : "input",
+                   "id"       : "psf_location",
+                   "label"    : "PSF file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "repeat"   : "select_uploader:manually",    
+		   "help"     : "Upload protein structure file"
+                   },		
+	
+                  {
+                   "role"     : "input",
+                   "id"       : "coor_location",
+                   "label"    : "Coordinate file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "repeat"   : "select_uploader:manually",   
+		   "help"     : "Upload coordinate file"
+                   },
+
+                 {
+                   "role"     : "input",
+                   "id"       : "toppar_location",
+                   "label"    : "Parameter file (archive)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "repeat"   : "select_uploader:manually",  
+		   "help"     : "Upload a single .zip file contatining parameter files specified in NAMD configuration script"
+                   },	
+
+                  {
+                   "role"     : "input",
+                   "id"       : "additional_files",
+                   "label"    : "Number of additional files to upload",
+                   "type"     : "integer",
+                   "required" : "true",
+		   "repeater" : "yes", 
+		   "min"      : 0,
+		   "default"  : 0,   
+		   "repeat"   : "select_uploader:manually",     
+		   "help"     : "Include additional files such as velocity file, .xsc (cell dimensions) file, binary (coor and/or velocity) files etc."
+                   },		
+
+                  {
+                   "role"     : "input",
+                   "id"       : "aux_file",
+                   "label"    : "File",
+                   "type"     : "lrfile",
+		   "repeat"   : "additional_files",    
+                   "help"     : ""
+                   },
+
+                  {
+                   "role"     : "input",
+                   "id"       : "entire_archive",
+                   "label"    : "Select archive",
+                   "type"     : "lrfile",
+		   "repeat"   : "select_uploader:archive",    
+                   "help"     : "Upload a single .zip archive containing all files used by NAMD configuration script"
+                   },	
+                  {
+                   "role"     : "input",
+                   "id"       : "numproc",
+                   "label"    : "Number of Processors",
+                   "type"     : "integer",
+		   "step"     : 24,
+		   "min"      : 24,
+		   "max"      : 96,
+		   "default"  : 24,   
+                   "required" : "true",
+                   "help"     : "Select number of CPUs"
+                   },
+
+#####################################################################################################
+                 {
+		     "role"    : "output",
+		     "id"      : "progress_output",
+		     "label"   : "Progress: ",
+		     "type"    : "progress",
+		     "max"     : 1.0
+		 },	
+                {
+		   "role"    : "output",
+                   "id"      : "progress_text",
+                   "label"   : "Calculation Report: ",
+		   "type"    : "textarea",
+                   #"append"  : "on",
+                   "cols"    : 40
+                  },
+
+                {
+		   "role"    : "output",
+                   "id"      : "live_log",
+                   "label"   : "Live Log File:  ",
+		   "type"    : "html"
+                },	
+
+	           {
+                   "role"  : "output",
+                   "id"    : "outputmd",
+                   "label" : "MD Simulation Results: ",
+                   "type"  : "file",
+		   "multiple": "true"    
+                  },
+	           {
+                   "role"  : "output",
+                   "id"    : "archivedres",
+                   "label" : "Archived Results: ",
+                   "type"  : "file"
+		   }
+
+	         ],
+# the executable will take inputs in order and produce output
+    #"executable" : "namdrun.py"
+    "executable" : "rinit.sh"
+}
