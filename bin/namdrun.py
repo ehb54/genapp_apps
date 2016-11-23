@@ -204,6 +204,7 @@ numsteps_md = ''
 socket_dict["_textarea"] = 'Starting MD Simulation...\n\n'
 socket_dict["progress_output"] =  str(0.0)
 socket_dict["progress_text"] = ProgressText + '0%'
+
 if socket_dict:
     doc_string = json.dumps(socket_dict)
     sock.sendto(doc_string,(UDP_IP,UDP_PORT))
@@ -213,6 +214,16 @@ ProcessNamdmd = subprocess.Popen(ProcessToCallNamdMd,stdout=slave_namdmd,stdin=P
     
 stdout_namdmd = os.fdopen(master_namdmd, 'r', 0)
 namdmd_log = open('namdmd_log.out','w')
+path_to_live_log = str(base_dir) + "/" + 'namdmd_log.out'
+
+html_base = json_variables['_webroot']
+
+path_updated = path_to_live_log.replace(html_base, "")
+
+socket_dict['live_log'] =  "<a href=" + path_updated + " target='_blank'>" + "Live Output" + "</a>" 
+
+#print "file: " + path_to_live_log
+#exit()
 
 error_string_md = ''
 timeout = .04 # seconds
@@ -227,7 +238,10 @@ while True:
         if output:
             socket_dict["_textarea"] = output#.strip()
             print >> namdmd_log, output.rstrip()
+            namdmd_log.flush()
+
             
+
             if "Info: DCD FILENAME" in output:
                 dcdArr = re.split(r'[\s]*', output)
                 dcd_path = str(base_dir) + "/" + dcdArr[3]

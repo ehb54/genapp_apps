@@ -139,6 +139,13 @@
                    "cols"    : 40
                   },
 
+                {
+		   "role"    : "output",
+                   "id"      : "live_log",
+                   "label"   : "Live Log File:  ",
+		   "type"    : "html"
+                },	
+
 	           {
                    "role"  : "output",
                    "id"    : "outputmd",
