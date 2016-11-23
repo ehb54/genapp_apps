@@ -217,8 +217,13 @@ namdmd_log = open('namdmd_log.out','w')
 path_to_live_log = str(base_dir) + "/" + 'namdmd_log.out'
 
 html_base = json_variables['_webroot']
+#osroot = json_variables['_osroot']
+application = json_variables['_application']
 
 path_updated = path_to_live_log.replace(html_base, "")
+
+#print "Webroot: " + html_base + ", application: " + application +  ", pathupdated: " + path_updated
+#exit()
 
 socket_dict['live_log'] =  "<a href=" + path_updated + " target='_blank'>" + "Live Output" + "</a>" 
 

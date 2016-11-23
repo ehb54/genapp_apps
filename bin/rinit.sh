@@ -15,6 +15,6 @@ module load mpi/openmpi/2.0.1/gcc-5.4.0
 
 export PATH=$PATH:/usr/local/bin
 
-exec /opt/genapp/namdrunner/bin/namdrun.py "$@"
+exec /opt/genapp/namdrunner/bin/namdrun_oscluster.py "$@"
 
 #echo `printenv`
