@@ -1,0 +1,369 @@
+#!/share/apps/local/anacondaz/bin/python
+import json
+import sys
+import os
+import shutil
+import ast
+import locale
+from StringIO import StringIO
+import multiprocessing
+import time
+import string
+import socket
+
+import sassie.build.build_utilities.tool_methods as tool_methods
+import sassie.interface.input_filter as input_filter
+#import sassie.interface.build_utilities_filter as build_utilities_filter
+
+
+class Build_Utilities_Driver():
+
+    module = 'build_utilities'
+
+    def message_box(self, text, icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
+
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+
+        return
+
+    def background_job(self, process, txtQueue, json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
+
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+            try:
+                if(first):
+                    socket_dict['progress_html'] = 0.01
+                    socket_dict['_progress'] = 0.01
+                    socket_dict[
+                        'progress_html'] = '<center>starting job</center>'
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    first = False
+                this_text = txtQueue.get(True, timeout=0.1)
+                text_split = string.split(this_text)
+                if(text_split[0] == 'STATUS'):
+                    value = locale.atof(text_split[1])
+                    svalue = str(round(100 * value, 2))
+                    socket_dict['progress_output'] = value
+                    socket_dict['_progress'] = value
+                    socket_dict['progress_html'] = '<center>' + \
+                        svalue + '</center>'
+                    if "_textarea" in socket_dict:
+                        del socket_dict["_textarea"]
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                else:
+                    socket_dict["_textarea"] = this_text
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    total_string += this_text
+            except:
+                if not process.is_alive():
+                    return total_string
+
+            time.sleep(0.01)
+        else:
+            return total_string
+
+        return total_string
+
+    def run_me(self, json_flag, json_variables, input_string):
+
+        output_dict = {}
+
+        if not json_flag:
+
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+
+            runname = 'run_0'
+            pdb_utilities_flag = True
+            pdbfile = 'min3.pdb'
+
+            renumber_flag = True
+            renumber_output_filename = 'renumbered.pdb'
+            renumber_indices_flag = True
+            renumber_resids_flag = True
+
+            first_index = '7'
+            first_resid = '9'
+
+            pdb_constraints_flag = False
+            number_of_constraint_files = '1'
+            constraint_options = 'protein'
+            constraint_options = 'nucleic'
+            constraint_options = 'solute'
+            constraint_options = 'backbone'
+            constraint_options = 'heavy'
+            constraint_fields = 'occupancy'
+            constraint_fields = 'beta'
+            number_of_constraint_files = '2'
+
+            constraint_options = 'heavy, backbone'
+            constraint_fields = 'beta, beta'
+            constraint_resets = 'True, True'
+            constraint_filenames = 'constrain_heavy.pdb, constrain_backbone.pdb'
+
+            translation_rotation_flag = False
+            translation_rotation_output_filename = 'trans_rot.pdb'
+            pre_center_flag = False
+            translation_array = '0.0, 0.0, 0.0'
+            rotation_axes = 'pmi'
+            rotation_axes = 'cardinal'
+            rotation_order = 'xyz'
+            #rotation_order = 'xzy'
+            #rotation_order = 'yxz'
+            #rotation_order = 'yzx'
+            #rotation_order = 'zxy'
+            #rotation_order = 'zyx'
+            rotation_array = '0.0, 0.0, 0.0'
+
+            # i am working here
+
+            align_pmi_on_axis_flag = False
+            pmi_eigenvector = '3'
+            ''' values: x, y, z '''
+            alignment_vector_axis = 'z'
+            settle_on_plane = True
+            ''' values: x, y, z '''
+            plane = 'z'
+
+            # i stop working here
+
+            fasta_utilities_flag = False
+            fasta_input_option = 'file'
+            fasta_input_option = 'sequence'
+            fasta_input_sequence = 'RRAGMPSCYLK'
+            fasta_input_file = 'test_fasta.txt'
+
+            seed = '0, 123'  # set to '1,123' to set the seed or '0,123'
+
+            # END USER EDIT
+            # END USER EDIT
+            # END USER EDIT
+
+        else:
+            runname = json_variables['runname']
+
+            base_directory = json_variables['_base_directory']
+
+            path = base_directory.replace('\/', '/') + "/"
+
+            os.chdir(path)
+
+            extract_trajectory = False
+            extract_sas = False
+
+            try:
+                trajectory_checkbox = json_variables['trajectory_checkbox']
+            except:
+                trajectory_checkbox = 'off'
+            try:
+                sas_checkbox = json_variables['sas_checkbox']
+            except:
+                sas_checkbox = 'off'
+
+            if trajectory_checkbox == "on":
+
+                pdb_filename = json_variables['pdb_filename'][0]
+                trajectory_filename = json_variables['trajectory_filename'][0]
+
+                extract_trajectory = True
+
+                output_filename = json_variables['output_filename']
+            else:
+                pdb_filename = ''
+                trajectory_filename = ''
+                output_filename = ''
+
+            if sas_checkbox == "on":
+                extract_sas = True
+
+                sas_option_list_box = json_variables['sas_type_list_box']
+                if(sas_option_list_box == 'c1'):
+                    sas_type = '0'
+                elif(sas_option_list_box == 'c2'):
+                    sas_type = '1'
+                elif(sas_option_list_box == 'c3'):
+                    sas_type = '2'
+                elif(sas_option_list_box == 'c4'):
+                    sas_type = '3'
+                number_of_sas_paths = json_variables['number_of_sas_paths'][0]
+                sas_paths = ''
+                for i in xrange(int(number_of_sas_paths)):
+                    this_sas_path = json_variables['sas_paths'][i]
+                    sas_paths += str(this_sas_path[0]) + ','
+                sas_paths = sas_paths[:-1]
+
+            else:
+                sas_paths = 'None'
+                sas_type = '1'
+
+            path = ''
+
+            option_list_box = json_variables['option_list_box']
+            if(option_list_box == 'c1'):
+                option = 'single_frame'
+                value = json_variables['local_value_c1']
+            elif(option_list_box == 'c2'):
+                option = 'range'
+                value = json_variables['local_value_c2']
+            elif(option_list_box == 'c3'):
+                option = 'text_file'
+                temp_option = json_variables['local_value_c3']
+                #head, value = os.path.split(temp_option[0])
+                value = temp_option[0]
+            elif(option_list_box == 'c4'):
+                option = 'weight_file'
+                temp_option = json_variables['local_value_c4']
+                value = temp_option[0]
+            elif(option_list_box == 'c5'):
+                option = 'sampling_frequency'
+                value = json_variables['sampling_frequency']
+            elif(option_list_box == 'c6'):
+                option = 'all'
+                value = 1
+
+        svariables = {}
+
+        # prefix to name output files
+
+        svariables['runname'] = (str(runname), 'string')
+        
+            
+        svariables['pdb_utilities_flag'] = (pdb_utilities_flag, 'boolean')
+        svariables['pdbfile'] = (str(pdbfile), 'string')
+        
+        svariables['renumber_flag'] = (renumber_flag, 'boolean')        
+        svariables['renumber_output_filename'] = (renumber_output_filename,\
+                                                  'string')
+        svariables['renumber_indices_flag'] = (renumber_indices_flag, 'boolean')
+        svariables['first_index'] = (first_index, 'int')
+
+        svariables['renumber_resids_flag'] = (renumber_resids_flag, 'boolean')
+        svariables['first_resid'] = (first_resid, 'int')
+
+        svariables['pdb_constraints_flag'] = (pdb_constraints_flag, 'boolean')
+        svariables['number_of_constraint_files'] = (number_of_constraint_files, 'int')
+        svariables['constraint_options'] = (constraint_options, 'string')
+        svariables['constraint_filenames'] = (constraint_filenames, 'string')
+        svariables['constraint_fields'] = (constraint_fields, 'string')
+        svariables['constraint_resets'] = (constraint_resets, 'string')
+
+        svariables['translation_rotation_flag'] = (translation_rotation_flag, 'boolean')
+        svariables['translation_rotation_output_filename'] = (translation_rotation_output_filename, 'string')
+        svariables['pre_center_flag'] = (pre_center_flag, 'boolean')
+        svariables['translation_array'] = (translation_array, 'float_array')
+        svariables['rotation_axes'] = (rotation_axes, 'string')
+        svariables['rotation_order'] = (rotation_order, 'string')
+        svariables['rotation_array'] = (rotation_array, 'float_array')
+
+        svariables['align_pmi_on_axis_flag'] = (align_pmi_on_axis_flag, 'boolean')
+        svariables['pmi_eigenvector'] = (pmi_eigenvector, 'int')
+        svariables['alignment_vector_axis'] = (alignment_vector_axis, 'string')
+        svariables['settle_on_plane'] = (settle_on_plane, 'string')
+        svariables['plane'] = (plane, 'string')
+
+        svariables['fasta_utilities_flag'] = (fasta_utilities_flag, 'boolean')
+
+        svariables['fasta_input_option'] = (fasta_input_option, 'string')
+        svariables['fasta_input_sequence'] = (fasta_input_sequence, 'string')
+        svariables['seed'] = (seed, 'string')
+
+        error, variables = input_filter.type_check_and_convert(svariables)
+
+        if(len(error) > 0):
+
+            self.message_box(error, 'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+            output_dict['error'] = 'Error in input variables'
+            output_dict['sasoutput2'] = 'run failed'
+            print json.dumps(output_dict)
+            return
+        else:
+
+
+            #error = build_utilities_filter.check_build_utilities(variables)
+
+            if(len(error) != 0):
+                self.message_box(error, 'warning.png')
+                output_dict['error'] = 'Error in Build Utilities variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps(output_dict)
+                return
+
+            runname = variables['runname'][0]
+
+            # if os.path.exists(runname+'/'+self.module):
+            #	shutil.rmtree(runname+'/'+self.module)
+            if not os.path.exists(runname + '/' + self.module):
+                os.makedirs(runname + '/' + self.module)
+
+            txtQueue = multiprocessing.JoinableQueue()
+            
+            #print('\n\neverything worked fine to here\n\n')
+            #sys.exit()
+            build_utilities = tool_methods.build_utilities()
+            process = multiprocessing.Process(target=build_utilities.main, args=(variables, txtQueue))
+            process.start()
+
+            total_string = self.background_job(process, txtQueue, json_variables)
+
+        #	output_dict['sasoutput2'] = total_string
+
+        if total_string:
+            output_dict['_empty_return'] = 1
+            print json.dumps(output_dict)
+        else:
+            error_string = 'Exception encountered executing ' + self.module + \
+                ' program: please submit feedback and attach run log'
+            output_dict['error'] = error_string
+#                output_dict['_empty_return'] = 1
+            print json.dumps(output_dict)
+
+
+if __name__ == '__main__':
+
+    json_flag = True
+    json_flag = False
+
+    if (len(sys.argv) < 1):
+        print "\{\"error\":\"build utilities called with no arguments\"\}\n"
+        print 'exiting now'
+
+    elif len(sys.argv) > 1:
+        json_variables = " "
+        if(json_flag):
+            argv_io_string = StringIO(sys.argv[1])
+            json_variables = json.load(argv_io_string)
+            #json_variables = ast.literal_eval(argv_io_string)
+        a = Build_Utilities_Driver()
+        a.run_me(json_flag, json_variables, sys.argv[1])
