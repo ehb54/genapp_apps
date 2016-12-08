@@ -107,7 +107,7 @@ class Build_Utilities_Driver():
             pdb_utilities_flag = True
             pdbfile = 'min3.pdb'
 
-            renumber_flag = True
+            renumber_flag = False
             renumber_output_filename = 'renumbered.pdb'
             renumber_indices_flag = True
             renumber_resids_flag = True
@@ -117,6 +117,7 @@ class Build_Utilities_Driver():
 
             pdb_constraints_flag = False
             number_of_constraint_files = '1'
+            number_of_constraint_files = '2'
             constraint_options = 'protein'
             constraint_options = 'nucleic'
             constraint_options = 'solute'
@@ -124,17 +125,16 @@ class Build_Utilities_Driver():
             constraint_options = 'heavy'
             constraint_fields = 'occupancy'
             constraint_fields = 'beta'
-            number_of_constraint_files = '2'
 
             constraint_options = 'heavy, backbone'
             constraint_fields = 'beta, beta'
             constraint_resets = 'True, True'
             constraint_filenames = 'constrain_heavy.pdb, constrain_backbone.pdb'
 
-            translation_rotation_flag = False
+            translation_rotation_flag = True
             translation_rotation_output_filename = 'trans_rot.pdb'
             pre_center_flag = False
-            translation_array = '0.0, 0.0, 0.0'
+            translation_array = '1.0, 1.0, 1.0'
             rotation_axes = 'pmi'
             rotation_axes = 'cardinal'
             rotation_order = 'xyz'
