@@ -30,7 +30,7 @@ function post_processing( $json, $results ) {
 
     $log_lines = preg_split( "/\\r\\n|\\r|\\n/", $runlog );
 
-    $log_benchmark = preg_replace( '/^/', date( DATE_ATOM ) . ' ',  preg_grep( '/Benchmark/i', $log_lines ) );
+    $log_benchmark = preg_replace( '/^/', date( DATE_ATOM ) . ' ',  preg_grep( '/(benchmark|TIMING:)/i', $log_lines ) );
 
     file_put_contents( $log, implode( "\n", $log_benchmark ) . "\n",  FILE_APPEND );
 
