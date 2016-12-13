@@ -69,3 +69,13 @@ the namd jobs will startup an openstack cluster, each will mount the nfs and giv
 
 1-> start openstack genapp instance
 
+
+As for deleting the instance, I did:
+
+nova reset-state <instance id>
+nova delete <instance id>
+
+But I had to do it twice. It didn't want to let go for some reason. It didn't throw an error, though...so I can't even speculate on what happened.
+
+Thanks,
+J
