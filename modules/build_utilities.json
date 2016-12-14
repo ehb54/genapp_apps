@@ -48,22 +48,23 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "pdb_utilities_checkbox",
-                   "label"   : "pdb utlities methods",
-                   "type"    : "checkbox",
-                   "help"    : "click to open pdb utlities selections",
-		           "repeater": "true",
-		           "checked" : "false"
+                   "id"      : "build_utilities_listbox",
+                   "label"   : "choose utilility type",
+                   "type"    : "listbox",
+                   "values"  : "pdb utitilities~c1~fasta_utilities~c2",
+                   "default"    : "c1",
+                   "help"  : "check to select an option for pdb or fasta utilities",
+		           "repeater": "true"
                    },
                    {
                    "role"       : "input",
                    "id"       : "module_header_2",
-                   "label"    : "PDB Utilities",
+                   "label"    : "pdb Utilities",
                    "type"     : "label",
                    "default"  : "header5",
                    "prehline"  : "true",
                    "posthline"  : "true",
-                   "repeat"  : "pdb_utilities_checkbox"
+		           "repeat"  : "build_utilities_listbox:c1"
                    },
                    {
                    "role"       : "input",
@@ -73,27 +74,29 @@
                    "default"  : "header4",
                    "prehline"  : "false",
                    "posthline"  : "true",
-                   "repeat"  : "pdb_utilities_checkbox"
+		           "repeat"  : "build_utilities_listbox:c1"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "refpdb",
+                   "id"       : "input_pdbfile",
                    "label"   : "pdb file input",
                    "type"     : "lrfile",
                    "required" : "true",
-                   "help"     : "name of PDB file you wish to scan",
+                   "help"     : "name of pdb file you wish to scan",
                    "norow"    : "false",
-                   "repeat"  : "pdb_utilities_checkbox"
+		           "repeat"  : "build_utilities_listbox:c1"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "renumber_checkbox",
-                   "label"   : "renumber indices and/or residue numbers",
-                   "type"    : "checkbox",
-                   "help"    : "click to enter renumbering selections",
-		           "repeater": "true",
-		           "checked" : "false",
-                   "repeat"  : "pdb_utilities_checkbox"
+                   "id"      : "pdb_choices_listbox",
+                   "name"      : "pdb_choices_listbox",
+                   "label"   : "select pdb utility option",
+                   "type"    : "listbox",
+                   "values"  : "renumber indices/residues~c1~make constraint file(s)~c2~translate/rotate~c3~align on pmi~c4",
+#"default" : "c1",
+                   "help"    : "choose a function to perform",
+		           "repeat"  : "build_utilities_listbox:c1",
+                   "repeater": "true"
                    },
 ###
 ### IF RENUMBER INPUT
@@ -104,9 +107,18 @@
                    "label"    : "Renumber Input",
                    "type"     : "label",
                    "default"  : "header4",
-		           "repeat"   : "renumber_checkbox",
+		           "repeat"   : "pdb_choices_listbox:c1",
                    "prehline"  : "true",
                    "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "renumber_output_filename",
+                   "label"    : "output pdb file name",
+                   "type"     : "text",
+                   "default"  : "renumbered.pdb",
+                   "help"     : "name of output pdb file",
+                   "repeat"   : "pdb_choices_listbox:c1"
                    },
                   {
                    "role"    : "input",
@@ -115,12 +127,12 @@
                    "type"    : "checkbox",
                    "help"    : "click to renumber indices",
 		           "repeater": "true",
-		           "repeat"  : "renumber_checkbox",
+		           "repeat"  : "pdb_choices_listbox:c1",
 		           "checked" : "false"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "index_start",
+                   "id"       : "first_index",
                    "label"    : "enter index for first atom",
                    "type"     : "text",
                    "default"  : "1",
@@ -135,12 +147,12 @@
                    "type"    : "checkbox",
                    "help"    : "click to renumber residue numbers",
 		           "repeater": "true",
-		           "repeat"  : "renumber_checkbox",
+		           "repeat"  : "pdb_choices_listbox:c1",
 		           "checked" : "false"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "resid_start",
+                   "id"       : "first_resid",
                    "label"    : "enter index for first residue",
                    "type"     : "text",
                    "default"  : "1",
@@ -151,117 +163,86 @@
 ###
 ### END IF RENUMBER INPUT 
 ###
-                   {
-                   "role"       : "input",
-                   "id"       : "renumber_header",
-                   "label"    : "Renumber Input",
-                   "type"     : "label",
-                   "default"  : "header4",
-		           "repeat"   : "renumber_checkbox",
-                   "prehline"  : "true",
-                   "posthline"  : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "constraint_pdb_checkbox",
-                   "label"   : "create PDB file(s) for constaints",
-                   "type"    : "checkbox",
-                   "help"    : "click to enter create new constraint PDBs based on input selections",
-		           "repeater": "true",
-		           "checked" : "false",
-                   "repeat"  : "pdb_utilities_checkbox"
-                   },
 ###
-### IF CONSTRAINT PDBs INPUT
+### IF CONSTRAINT pdbs INPUT
 ###
                    {
                    "role"       : "input",
                    "id"       : "constraints_pdb_header",
-                   "label"    : "Constraints PDB Input",
+                   "label"    : "Constraints pdb Input",
                    "type"     : "label",
                    "default"  : "header4",
-		           "repeat"   : "constraint_pdb_checkbox",
+		           "repeat"   : "pdb_choices_listbox:c2",
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
 
                   {
                    "role"     : "input",
-                   "id"       : "number_constraint_pdb_files",
-                   "label"    : "number of constraint PDB files to create",
+                   "id"       : "number_of_constraint_files",
+                   "label"    : "number of constraint pdb files to create",
                    "type"     : "integer",
                    "default"  : 1,
                    "min"      : 1,
                    "size"     : 4,
                    "help"     : "number_of_constraint files to create",
-                   "repeat"   : "constraint_pdb_checkbox",
+                   "repeat"   : "pdb_choices_listbox:c2",
                    "repeater"  : "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "constraint_list_box",
-                   "name"      : "constraint_list_box",
+                   "id"      : "constraint_listbox",
+                   "name"      : "constraint_listbox",
                    "label"   : "select option",
                    "type"    : "listbox",
                    "values"  : "heavy atoms~c1~protein~c2~nucleic~c3~backbone~c4~solute~c5",
                    "default" : "c1",
-                   "help"    : "blah",
-                   "repeat"   : "number_constraint_pdb_files"
+                   "help"    : "choose a constraint atom type definition",
+                   "repeat"   : "number_of_constraint_files"
                    },
                   {
                    "role"     : "input",
                    "id"       : "constraint_pdb_files",
-                   "label"    : "name of constraint PDB file",
+                   "label"    : "name of constraint pdb file",
                    "type"     : "text",
                    "default"  : "constrained.pdb",
                    "help"     : "name of output pdb file",
-                   "repeat"   : "number_constraint_pdb_files"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "renumber_checkbox",
-                   "label"   : "renumber indices and/or residue numbers",
-                   "type"    : "checkbox",
-                   "help"    : "click to enter renumbering selections",
-		           "repeater": "true",
-		           "checked" : "false",
-                   "repeat"  : "pdb_utilities_checkbox"
+                   "repeat"   : "number_of_constraint_files"
                    },
 ###
-### END CONSTRAINT PDBs INPUT
+### END CONSTRAINT pdbs INPUT
 ###
 
 ###
-### IF MOVE/ROTATE PDBs INPUT
+### IF MOVE/ROTATE pdbs INPUT
 ###
-                  {
-                   "role"    : "input",
-                   "id"      : "move_rotate_checkbox",
-                   "label"   : "translate and/or rotate",
-                   "type"    : "checkbox",
-                   "help"    : "click to enter tranaslation and rotation options",
-		           "repeater": "true",
-		           "checked" : "false",
-                   "repeat"  : "pdb_utilities_checkbox"
-                   },
                    {
                    "role"       : "input",
                    "id"       : "move_rotate_heaader",
                    "label"    : "Translation / Rotation Input",
                    "type"     : "label",
                    "default"  : "header4",
-		           "repeat"   : "move_rotate_checkbox",
+		           "repeat"   : "pdb_choices_listbox:c3",
                    "prehline"  : "true",
                    "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "translation_rotation_output_filename",
+                   "label"    : "output pdb file name",
+                   "type"     : "text",
+                   "default"  : "transformed.pdb",
+                   "help"     : "name of output pdb file",
+		           "repeat"   : "pdb_choices_listbox:c3"
                    },
                   {
                    "role"    : "input",
                    "id"      : "center_checkbox",
                    "label"   : "pre-center coordinates at [0,0,0]",
                    "type"    : "checkbox",
-                   "help"    : "click to center coordinates to [0,0,0] prior to application of translation operations",
+                   "help"    : "click to center coordinates to [0,0,0] prior to application of translation/rotation operations",
 		           "checked" : "false",
-                   "repeat"  : "move_rotate_checkbox"
+		           "repeat"   : "pdb_choices_listbox:c3"
                    },
                   {
                    "role"     : "input",
@@ -270,9 +251,9 @@
                    "type"     : "text",
                    "size"     : "4",
                    "default"  : "0",
-                   "help"     : "enter value to translate center of mass (in angstroms) in x-direction",
+                   "help"     : "enter value to translate center of mass in x-direction (angstroms)",
                    "norow"     : "true",
-                   "repeat"   : "move_rotate_checkbox"
+		           "repeat"   : "pdb_choices_listbox:c3"
                    },
                   {
                    "role"     : "input",
@@ -281,9 +262,9 @@
                    "type"     : "text",
                    "size"     : "4",
                    "default"  : "0",
-                   "help"     : "enter value to translate center of mass (in angstroms) in y-direction",
+                   "help"     : "enter value to translate center of mass in y-direction (angstroms)",
                    "norow"     : "true",
-                   "repeat"   : "move_rotate_checkbox"
+		           "repeat"   : "pdb_choices_listbox:c3"
                    },
                   {
                    "role"     : "input",
@@ -292,64 +273,214 @@
                    "type"     : "text",
                    "size"     : "4",
                    "default"  : "0",
-                   "help"     : "enter value to translate center of mass (in angstroms) in z-direction",
-                   "repeat"   : "move_rotate_checkbox"
+                   "help"     : "enter value to translate center of mass in z-direction (angstroms)",
+		           "repeat"   : "pdb_choices_listbox:c3"
                    },
                   {
                    "role"    : "input",
                    "id"      : "rotation_axes_checkbox",
                    "label"   : "choose axes type for rotation",
                    "type"    : "listbox",
-                   "values"  : "cardinal axes~c1~principle moment axes~c2",
+                   "values"  : "none~c1~cardinal axes~c2~user vector~c3",
                    "default" : "c1",
                    "help"    : "choose axes type for rotation",
-                   "repeat"  : "move_rotate_checkbox"
+                   "repeat"   : "pdb_choices_listbox:c3",
+                   "repeater": "true"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "rotation_axes_order",
+                   "id"      : "rotation_axes_order_1",
                    "label"   : "choose order of rotation operations",
                    "type"    : "listbox",
                    "values"  : "xyz~c1~xzy~c2~yxz~c3~yzx~c4~zxy~c5~zyx~c6",
                    "default" : "c1",
-                   "help"    : "choose order of rotation operations",
-                   "repeat"  : "move_rotate_checkbox"
+                   "help"    : "choose order of rotation operations: xyz",
+                   "repeat"  : "rotation_axes_checkbox:c2"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "rotation_axes_order_2",
+                   "label"   : "choose order of rotation operations",
+                   "type"    : "listbox",
+                   "values"  : "xyz~c1~xzy~c2~yxz~c3~yzx~c4~zxy~c5~zyx~c6",
+                   "default" : "c1",
+                   "help"    : "choose order of rotation operations: xyz",
+                   "repeat"  : "rotation_axes_checkbox:c3"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "delta_theta_x",
+                   "id"       : "user_vector_1",
+                   "label"    : "user axis vector",
+                   "type"     : "text",
+                   "default"  : "[0.0, 0.0, 1.0]",
+                   "required" : "true",
+                   "help"     : "input three comma separated values within square brackets",
+                   "repeat"  : "rotation_axes_checkbox:c3"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "cardinal_theta_x",
                    "label"    : "theta x rotation",
                    "type"     : "text",
                    "size"     : "4",
                    "default"  : "0",
                    "help"     : "enter value to rotate theta x (degrees)",
                    "norow"     : "true",
-                   "repeat"   : "move_rotate_checkbox"
+                   "repeat"   : "rotation_axes_checkbox:c2"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "delta_theta_y",
+                   "id"       : "cardinal_theta_y",
                    "label"    : "theta y rotation",
                    "type"     : "text",
                    "size"     : "4",
                    "default"  : "0",
                    "help"     : "enter value to rotate theta y (degrees)",
                    "norow"     : "true",
-                   "repeat"   : "move_rotate_checkbox"
+                   "repeat"   : "rotation_axes_checkbox:c2"
                    },
                   {
                    "role"     : "input",
-                   "id"       : "delta_theta_z",
+                   "id"       : "cardinal_theta_z",
                    "label"    : "theta z rotation",
                    "type"     : "text",
                    "size"     : "4",
                    "default"  : "0",
                    "help"     : "enter value to rotate theta z (degrees)",
-                   "repeat"   : "move_rotate_checkbox"
+                   "repeat"   : "rotation_axes_checkbox:c2"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "user_vector_theta_x",
+                   "label"    : "theta x rotation",
+                   "type"     : "text",
+                   "size"     : "4",
+                   "default"  : "0",
+                   "help"     : "enter value to rotate theta x (degrees)",
+                   "norow"     : "true",
+                   "repeat"   : "rotation_axes_checkbox:c3"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "user_vector_theta_y",
+                   "label"    : "theta y rotation",
+                   "type"     : "text",
+                   "size"     : "4",
+                   "default"  : "0",
+                   "help"     : "enter value to rotate theta y (degrees)",
+                   "norow"     : "true",
+                   "repeat"   : "rotation_axes_checkbox:c3"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "user_vector_theta_z",
+                   "label"    : "theta z rotation",
+                   "type"     : "text",
+                   "size"     : "4",
+                   "default"  : "0",
+                   "help"     : "enter value to rotate theta z (degrees)",
+                   "repeat"   : "rotation_axes_checkbox:c3"
+                   },
+###
+### END MOVE/ROTATE pdbs INPUT
+###
+
+###
+### BEGIN pdb ALIGN PMI ON CARDINAL AXES
+###
+                   {
+                   "role"       : "input",
+                   "id"       : "align_pmi_heaader",
+                   "label"    : "Align PMI Input",
+                   "type"     : "label",
+                   "default"  : "header4",
+		           "repeat"   : "pdb_choices_listbox:c4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "align_pmi_output_filename",
+                   "label"    : "output pdb file name",
+                   "type"     : "text",
+                   "default"  : "aligned_pmi.pdb",
+                   "help"     : "name of output pdb file",
+                   "repeat"   : "pdb_choices_listbox:c4"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pmi_listbox",
+                   "label"   : "choose axis/axes",
+                   "type"    : "listbox",
+                   "values"  : "align single principle axis~c1~align pmi to cardinal axes~c2",
+                   "default" : "c1",
+                   "help"    : "choose principle axes for rotation",
+                   "repeat"  : "pdb_choices_listbox:c4",
+                   "repeater": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "pmi_eigenvector",
+                   "label"   : "choose pmi axis",
+                   "type"    : "listbox",
+                   "values"  : "I1~c1~I2~c2~I3~c3",
+                   "default" : "c1",
+                   "help"    : "choose principle axis for rotation: PMI sorted from largest to smallest",
+                   "repeat"  : "pmi_listbox:c1"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "alignment_vector",
+                   "label"   : "chose alignment vector to align to",
+                   "type"    : "listbox",
+                   "values"  : "x-axis~c1~y-axis~c2~z-axis~c3~user vector~c4",
+                   "default" : "c1",
+                   "help"    : "choose cardinal axis or user vector selection to enter desired alignment vector",
+                   "repeat"  : "pmi_listbox:c1",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "user_vector_2",
+                   "label"    : "alignment vector",
+                   "type"     : "text",
+                   "default"  : "[0.0, 0.0, 1.0]",
+                   "required" : "true",
+                   "help"     : "input three comma separated values within square brackets",
+                   "repeat"  : "alignment_vector:c4"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "surface_checkbox",
+                   "label"   : "select to move molecule to a surface plane",
+                   "type"    : "checkbox",
+                   "help"    : "enter options to move molecule to the plane perpendicular to alignment axis: only works for cardinal axes",
+		           "repeater": "true",
+		           "repeat"  : "pmi_listbox:c1",
+		           "checked" : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "surface_plane_cutoff",
+                   "label"    : "surface plane cutoff value",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "help"     : "input a value in angstroms along PMI alignment axis that all atoms must be greater than",
+                   "repeat"  : "surface_checkbox"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "invert_checkbox",
+                   "label"   : "rotate molecule 180 degrees prior to moving to surface",
+                   "type"    : "checkbox",
+                   "help"    : "select if you wish to rotate molecule 180 degrees along alignment axis: only works for cardinal axes",
+		           "repeat"  : "surface_checkbox",
+		           "checked" : "false"
                    },
 
 ###
-### END MOVE/ROTATE PDBs INPUT
+### END pdb ALIGN PMI ON CARDINAL AXES
 ###
 
 ###
@@ -362,16 +493,8 @@
                    "type"     : "label",
                    "default"  : "header4",
                    "prehline"  : "false",
+		           "repeat"  : "build_utilities_listbox:c2",
                    "posthline"  : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "fasta_utilities_checkbox",
-                   "label"   : "fasta utilities methods",
-                   "type"    : "checkbox",
-                   "help"    : "click to open fasta utilities selections",
-		           "repeater": "true",
-		           "checked" : "false"
                    },
                    {
                    "role"       : "input",
@@ -381,7 +504,16 @@
                    "default"  : "header5",
                    "prehline"  : "true",
                    "posthline"  : "true",
-                   "repeat"   : "fasta_utilities_checkbox"
+		           "repeat"  : "build_utilities_listbox:c2"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "fasta_output_filename",
+                   "label"    : "output pdb file name",
+                   "type"     : "text",
+                   "default"  : "sequence_from_fasta.pdb",
+                   "help"     : "name of output pdb file",
+		           "repeat"  : "build_utilities_listbox:c2"
                    },
                    {
                    "role"       : "input",
@@ -391,18 +523,18 @@
                    "default"  : "header4",
                    "prehline"  : "false",
                    "posthline"  : "true",
-                   "repeat"   : "fasta_utilities_checkbox"
+		           "repeat"  : "build_utilities_listbox:c2"
                    },
                   {
                    "role"    : "input",
-                   "id"      : "fasta_list_box",
-                   "name"    : "fasta_list_box",
+                   "id"      : "fasta_listbox",
+                   "name"    : "fasta_listbox",
                    "label"   : "select option",
                    "type"    : "listbox",
                    "values"  : "paste fasta sequence~c1~upload fasta file~c2",
                    "default" : "c1",
-                   "help"    : "blah",
-                   "repeat"   : "fasta_utilities_checkbox",
+                   "help"    : "choose fasta input type to create dummy sequence pdb file",
+		           "repeat"  : "build_utilities_listbox:c2",
                    "repeater" : "true"
                    },
                   {
@@ -411,7 +543,7 @@
                    "label"   : "FASTA sequence input",
                    "type"     : "textarea",
                    "required" : "true",
-                  "repeat"   : "fasta_list_box:c1",
+                  "repeat"   : "fasta_listbox:c1",
                    "help"     : "paste FASTA sequence in text area",
                    "norow"    : "false"
                    },
@@ -421,7 +553,7 @@
                    "label"   : "FASTA file input",
                    "type"     : "lrfile",
                    "required" : "true",
-                  "repeat"   : "fasta_list_box:c2",
+                  "repeat"   : "fasta_listbox:c2",
                    "help"     : "name of FASTA file you wish to scan",
                    "norow"    : "false"
                    },
@@ -439,13 +571,13 @@
 #                   },
 #                  {
 #                   "role"    : "input",
-#                   "id"      : "option_list_box",
-#                   "name"    : "option_list_box",
+#                   "id"      : "option_listbox",
+#                   "name"    : "option_listbox",
 #                   "label"   : "select option",
 #                   "type"    : "listbox",
 #                   "values"  : "single frame~c1~range~c2~text file~c3~weight file~c4~periodic~c5~all~c6",
 #                   "default" : "c1",
-#                   "help"    : "select either a frame to extract, a range of frames to extract, name of a text file with frame numbers, a weight file (either 1 or 0 to extract (1) or ignore (2)), a sampling frequency value (i.e. 2 --> keep each 2nd frame/data), or all to keep all frames/data (useful for PDB/DCD conversion)",
+#                   "help"    : "select either a frame to extract, a range of frames to extract, name of a text file with frame numbers, a weight file (either 1 or 0 to extract (1) or ignore (2)), a sampling frequency value (i.e. 2 --> keep each 2nd frame/data), or all to keep all frames/data (useful for pdb/DCD conversion)",
 #                   "repeater" : "true"
 #                   },
 #                  {
@@ -455,7 +587,7 @@
 #                   "type"     : "text",
 #                   "default"  : "1",
 #                   "help"     : "supply appropriate value",
-#                   "repeat"   : "option_list_box:c1"
+#                   "repeat"   : "option_listbox:c1"
 #                   },
 #                  {
 #                   "role"     : "input",
@@ -464,7 +596,7 @@
 #                   "type"     : "text",
 #                   "default"  : "3-22",
 #                   "help"     : "supply appropriate value",
-#                   "repeat"   : "option_list_box:c2"
+#                   "repeat"   : "option_listbox:c2"
 #                   },
 #                  {
 #                   "role"     : "input",
@@ -473,7 +605,7 @@
 #                   "type"     : "lrfile",
 #                   "required" : "false",
 #                   "help"     : "supply appropriate value: file lists desired frames",
-#                   "repeat" : "option_list_box:c3",
+#                   "repeat" : "option_listbox:c3",
 #                   "norow"    : "false"
 #                   },
 #                  {
@@ -483,7 +615,7 @@
 #                   "type"     : "lrfile",
 #                   "required" : "false",
 #                   "help"     : "supply appropriate value: file is list of weights",
-#                   "repeat" : "option_list_box:c4",
+#                   "repeat" : "option_listbox:c4",
 #                   "norow"    : "false"
 #                   },
 #                  {
@@ -493,7 +625,7 @@
 #                   "type"     : "text",
 #                   "default"  : "2",
 #                   "help"     : "supply appropriate value: must be less than the number of frames and/or data sets: 2 --> sample every 2nd frame/data, 3 --> sample every 3rd frame/data, etc.",
-#                   "repeat"   : "option_list_box:c5",
+#                   "repeat"   : "option_listbox:c5",
 #                   "norow"    : "false"
 #                   },
                    {
