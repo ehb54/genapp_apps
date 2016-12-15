@@ -156,6 +156,45 @@
                    "required" : "true",
 		   "help"    : "advanced overlap selection for molecule 2"
                    },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "zflag_check_box",
+                   "name"    : "zflag_check_box",
+                   "label"    : "check box to use Z coordinate filter",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help" : "check box to discard all accepted structures with any atomic coordinates (in the z-axis) less than the Z cutoff value below",
+                   "repeater"  : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zcutoff",
+                   "label"    : "Z cutoff (angstroms)",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "help" : "discard all accepted structures with any atomic coordinates (in the z-axis) less than this value",
+                   "repeat"  : "zflag_check_box"
+                   },
                   {
                    "role"    : "output",
                    "id"      : "progress_output",

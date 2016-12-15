@@ -63,7 +63,7 @@
                    "name"    : "reduced_x2_list_box",
                    "label"   : "chi-square type",
                    "type"    : "listbox",
-                   "values"  : "reduced chi-square~c1~chi-square~c2~Pearson chi-square~c3",
+                   "values"  : "reduced chi-square~c1~chi-square~c2~Pearson chi-square~c3~R-factor~c4",
                    "default" : "c1",
                    "help" : "choose statistical fit method"
                    },

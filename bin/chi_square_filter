@@ -376,6 +376,8 @@ class Chi_square_filter_Drv():
                         reduced_x2 = '0' # chi-square
                 elif(reduced_x2_list_box == 'c3'):
                         reduced_x2 = '2' # Pearson's chi-square
+                elif(reduced_x2_list_box == 'c4'):
+                        reduced_x2 = '3' # R-Factor
 
 		try:
 		#if True:

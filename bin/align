@@ -104,6 +104,8 @@ class Align_Drv():
 		highres2 = '350'
 		ebasis1 = 'None'
 		ebasis2 = 'None'
+		zflag = 'False'
+		zcutoff = '0.0'
 		
 		path = ''
 
@@ -122,7 +124,6 @@ class Align_Drv():
         	ebasis2 = json_variables['ebasis2']
         	ofile = json_variables['ofile']
 
-
                 base_directory = json_variables['_base_directory']
 
                 path = base_directory.replace('\/','/') + "/"
@@ -139,6 +140,26 @@ class Align_Drv():
 
 		path = ''
 
+
+		try:
+                	advanced_input = json_variables['advanced_input']
+                except:
+                        advanced_input = 'off'
+		
+		if(advanced_input == "on"):
+
+                	try:
+                                zflag_check_box = json_variables['zflag_check_box']
+                        except:
+                                zflag_check_box = "off"
+
+                if(zflag_check_box == 'off'):
+                        zflag = "False"
+                        zcutoff = '0'
+                elif(zflag_check_box == 'on'):
+                        zflag = "True"
+                        zcutoff = json_variables['zcutoff']
+			
 	output_dict = {}
 
 	svariables={} 
@@ -157,6 +178,9 @@ class Align_Drv():
 	svariables['highres2']=(str(highres2),'int')
 	svariables['ebasis1']=(str(ebasis1),'string')
 	svariables['ebasis2']=(str(ebasis2),'string')
+	
+	svariables['zflag']=(zflag,'boolean')
+	svariables['zcutoff']=(zcutoff,'float')
 
 	error = []
 	error,self.variables=input_filter.type_check_and_convert(svariables)
