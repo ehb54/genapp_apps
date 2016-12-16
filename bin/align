@@ -140,6 +140,8 @@ class Align_Drv():
 
 		path = ''
 
+                zflag = "False"
+                zcutoff = '0'
 
 		try:
                 	advanced_input = json_variables['advanced_input']
@@ -153,13 +155,13 @@ class Align_Drv():
                         except:
                                 zflag_check_box = "off"
 
-                if(zflag_check_box == 'off'):
-                        zflag = "False"
-                        zcutoff = '0'
-                elif(zflag_check_box == 'on'):
-                        zflag = "True"
-                        zcutoff = json_variables['zcutoff']
-			
+			try:
+                		if(zflag_check_box == 'on'):
+                        		zflag = "True"
+                        		zcutoff = json_variables['zcutoff']
+			except:
+				pass
+	
 	output_dict = {}
 
 	svariables={} 
