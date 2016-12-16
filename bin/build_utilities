@@ -179,11 +179,52 @@ class Build_Utilities_Driver():
 
             os.chdir(path)
 
-            build_utilities_listbox =json_variables['build_utilities_listbox'][0]
+            build_utilities_listbox = json_variables['build_utilities_listbox']
 
             pdb_utilities_flag = False
             fasta_utilities_flag = False
             renumber_flag = False
+
+            input_pdbfile =  'None'
+            renumber_output_filename = 'None'
+        
+            renumber_indices_flag = False
+            first_index = '1'
+
+            renumber_resids_flag = False
+            first_resid = '1'
+
+            pdb_constraints_flag = False
+            number_of_constraint_files = '1'
+            constraint_options = 'None'
+            constraint_filenames = 'None'
+            constraint_fields = 'None'
+            constraint_resets = 'None'
+
+            translation_rotation_flag = False
+            translation_rotation_output_filename = 'None'
+            pre_center_flag = False
+            translation_array = '0.0, 0.0, 0.0'
+            rotation_axes = 'None'
+            rotation_order = 'None'
+            rotation_array = '0.0, 0.0, 0.0'
+
+            align_pmi_on_axis_flag = False
+            align_pmi_on_cardinal_axes_flag = False
+            align_pmi_output_filename = 'None'
+            pmi_eigenvector = '1'
+            alignment_vector_axis = 'None'
+            user_vector_2 = '0.0,0.0,0.0'
+            settle_on_surface_flag = False
+            surface_plane = 'None'
+            invert_along_axis_flag = False
+
+            fasta_utilities_flag = False
+            fasta_output_filename = 'None'
+            fasta_input_sequence = 'None'
+            fasta_input_option = 'None'
+
+            seed = '0, 123'  # set to '1,123' to set the seed or '0,123'
 
             if(build_utilities_listbox == 'c1'):
                 pdb_utilities_flag = True
@@ -194,7 +235,12 @@ class Build_Utilities_Driver():
 
                 input_pdbfile = json_variables['input_pdbfile'][0]
 
-                pdb_choices_listbox = json_variables['pdb_choices_listbox'][0]
+                pdb_choices_listbox = json_variables['pdb_choices_listbox']
+
+                renumber_flag = False
+                pdb_constraints_flag = False
+                translation_rotation_flag = False
+                align_pmi_flag = False
 
                 if(pdb_choices_listbox == 'c1'):
                    renumber_flag = True
@@ -206,20 +252,25 @@ class Build_Utilities_Driver():
                    align_pmi_flag = True
 
                 if renumber_flag:
-                    renumber_output_filename =
-                    json_variables['renumber_output_filename'][0]
+                    renumber_indices_flag = False
+                    renumber_resids_flag = False
 
-                    renumber_index_checkbox =
-                    json_variables['renumber_index_checkbox'][0]
+                    renumber_output_filename =json_variables['renumber_output_filename']
+                    try:
+                        renumber_index_checkbox =json_variables['renumber_index_checkbox']
 
-                    if(renumber_index_checkbox == 'on'):
-                        first_index = json_variables['first_index'][0]
-                        
-                    renumber_resid_checkbox =
-                    json_variables['renumber_resid_checkbox'][0]
+                        if(renumber_index_checkbox == 'on'):
+                            renumber_indices_flag = True
+                            first_index = json_variables['first_index'][0]
+                    except:
+                        pass
+                    try:
+                        renumber_resid_checkbox =json_variables['renumber_resid_checkbox']
 
-                    if(renumber_resid_checkbox == 'on'):
-                        first_resid = json_variables['first_resid'][0]
+                        if(renumber_resid_checkbox == 'on'):
+                            first_resid = json_variables['first_resid'][0]
+                    except:
+                        pass
 
                 elif pdb_constraints_flag:
 
@@ -228,13 +279,11 @@ class Build_Utilities_Driver():
                     constraint_filenames = ''
                     constraint_resets = ''
 
-                    number_of_constraint_files =
-                    json_varibles['number_of_constraint_files'][0]
-            
+                    number_of_constraint_files =json_varibles['number_of_constraint_files'][0]
+
                     for i in xrange(int(number_of_constraint_files)):
 
-                            constraint_listbox =
-                            json_variables['constraint_listbox'][i]
+                            constraint_listbox =json_variables['constraint_listbox'][i]
 
                             if(constraint_listbox == 'c1'):
                                 constraint_options += 'heavy,'
@@ -247,20 +296,19 @@ class Build_Utilities_Driver():
                             elif(constraint_listbox == 'c5'):
                                 constraint_options += 'solute,'
 
-                            constraint_pdb_file =
-                            json_variables['constraint_pdb_files'][i]
+                            constraint_pdb_file =json_variables['constraint_pdb_files'][i]
+
                             constraint_filenames += constraint_pdb_file + ','
 
-                            constraint_field_listbox =
-                            json_variables['constraint_field_options'][i]
+                            constraint_field_listbox =json_variables['constraint_field_options'][i]
 
                             if(constraint_field_listbox == 'c1'):
                                 constraint_fields += 'occupancy,'
                             elif(constraint_field_listbox == 'c2'):
                                 constraint_fields += 'beta,'
-                
-                            reset_checkbox =
-                            json_variables['reset_checkbox'][i]
+
+                            reset_checkbox =json_variables['reset_checkbox'][i]
+
                             if(reset_checkbox == 'on'):
                                 constraint_resets += 'True,'
                             elif(reset_checkbox == 'off'):
@@ -273,10 +321,9 @@ class Build_Utilities_Driver():
 
                 elif translation_rotation_flag:
 
-                    translation_rotation_output_filename =
-                    json_variables['translation_rotation_output_filename'][0]
+                    translation_rotation_output_filename =json_variables['translation_rotation_output_filename']
 
-                    center_checkbox = json_variables['center_checkbox'][0]
+                    center_checkbox = json_variables['center_checkbox']
                     if(center_checkbox == 'on'):
                         pre_center_flag = True
                     elif(center_checkbox == 'off'):
@@ -286,15 +333,14 @@ class Build_Utilities_Driver():
                     delta_y = json_variables['delta_y'][0]
                     delta_z = json_variables['delta_z'][0]
 
-                    rotation_axes_checkbox =
-                    json_variables['rotation_axes_checkbox'][0]
+                    rotation_axes_listbox=json_variables['rotation_axes_listbox']
 
                     if(rotation_axes_listbox == 'c1'):
                         rotation_flag = False
                     elif(rotation_axes_listbox == 'c2'):
                         rotation_flag = True
-                        rotation_axes_order_1 =
-                        json_variables['rotation_axes_order_1'][0]
+                        rotation_axes_order_1 =json_variables['rotation_axes_order_1'][0]
+
                         if(rotation_axes_order_1 == 'c1'):
                             rotation_axes_order = 'xyz'
                         elif(rotation_axes_order_1 == 'c2'):
@@ -307,16 +353,13 @@ class Build_Utilities_Driver():
                             rotation_axes_order = 'zxy'
                         elif(rotation_axes_order_1 == 'c6'):
                             rotation_axes_order = 'zyx'
-                        cardinal_theta_x =
-                        json_variables['cardinal_theta_x'][0]
-                        cardinal_theta_y =
-                        json_variables['cardinal_theta_y'][0]
-                        cardinal_theta_z =
-                        json_variables['cardinal_theta_z'][0]
-                        
+                        cardinal_theta_x =json_variables['cardinal_theta_x'][0]
+                        cardinal_theta_y =json_variables['cardinal_theta_y'][0]
+                        cardinal_theta_z =json_variables['cardinal_theta_z'][0]
+
                     elif(rotation_axes_listbox == 'c3'):
                         rotation_flag = True
-                        json_variables['rotation_axes_order_2'][0]
+                        rotation_axes_order_2 = json_variables['rotation_axes_order_2'][0]
                         if(rotation_axes_order_2 == 'c1'):
                             rotation_axes_order = 'xyz'
                         elif(rotation_axes_order_2 == 'c2'):
@@ -330,22 +373,61 @@ class Build_Utilities_Driver():
                         elif(rotation_axes_order_2 == 'c6'):
                             rotation_axes_order = 'zyx'
                         user_vector_1 = json_variables['user_vector_1'][0]
-                        
-                        user_vector_theta_x =
-                        json_variables['user_vector_theta_x'][0]
-                        user_vector_theta_y =
-                        json_variables['user_vector_theta_y'][0]
-                        user_vector_theta_z =
-                        json_variables['user_vector_theta_z'][0]
 
+                        user_vector_theta_x =json_variables['user_vector_theta_x'][0]
+                        user_vector_theta_y =json_variables['user_vector_theta_y'][0]
+                        user_vector_theta_z =json_variables['user_vector_theta_z'][0]
 
+                elif align_pmi_flag:
+                    
+                    align_pmi_on_axis_flag = False
+                    align_pmi_on_cardinal_axes_flag = False
 
+                    align_pmi_output_filename =json_variables['align_pmi_output_filename']
+                    
+                    pmi_listbox = json_variables['pmi_listbox']
+                    if(pmi_listbox == 'c1'):
+                        align_pmi_on_axis_flag = True
+                        pmi_eigenvector = json_variables['pmi_eigenvector'][0]
+                        if(pmi_eigenvector == 'c1'):
+                            pmi_eigenvector = '1'
+                        elif(pmi_eigenvector == 'c2'):
+                            pmi_eigenvector = '2'
+                        elif(pmi_eigenvector == 'c3'):
+                            pmi_eigenvector = '3'
+
+                    alignment_vector = json_variables['alignment_vector'][0]
+                    if(alignment_vector == 'c1'):
+                        alignment_vector_axis = 'x'
+                    elif(alignment_vector == 'c2'):
+                        alignment_vector_axis = 'y'
+                    elif(alignment_vector == 'c3'):
+                        alignment_vector_axis = 'z'
+                    elif(alignment_vector == 'c4'):
+                        alignment_vector_axis = 'user_vector_2'
+                        user_vector_2 = json_variables['user_vector_2'][0]
+
+                    settle_on_surface_flag = False
+                    invert_along_axis_flag = False
+                    surface_checkbox = json_variables['surface_checkbox']
+                    if(surface_checkbox == 'on'):
+                        settle_on_surface_flag = True
+                        ''' should surface_plane be an input value? '''
+                        surface_plane = 'z'
+                        surface_plane_cutoff =json_variables['surface_plane_cutoff'][0]
+
+                        invert_checkbox = json_variables['invert_checkbox']
+                        if(invert_checkbox == 'on'):
+                            invert_along_axis_flag = True
+
+                    elif(pmi_listbox == 'c2'):
+                        align_pmi_on_cardinal_axes_flag = True
 
             elif fasta_utilities_flag:
 
-                fasta_output_filename =json_variables['fasta_output_filename'][0]
+                fasta_output_filename =json_variables['fasta_output_filename']
 
-                fasta_listbox = json_variables['fasta_listbox'][0]
+                fasta_listbox = json_variables['fasta_listbox']
 
                 if(fasta_listbox == 'c1'):
                     fasta_text_area = json_variables['fasta_text_area'][0]
@@ -361,11 +443,10 @@ class Build_Utilities_Driver():
         # prefix to name output files
 
         svariables['runname'] = (str(runname), 'string')
-        
-            
+
         svariables['pdb_utilities_flag'] = (pdb_utilities_flag, 'boolean')
         svariables['input_pdbfile'] = (str(input_pdbfile), 'string')
-        
+
         svariables['renumber_flag'] = (renumber_flag, 'boolean')        
         svariables['renumber_output_filename'] = (renumber_output_filename,\
                                                   'string')
@@ -415,10 +496,10 @@ class Build_Utilities_Driver():
 
             output_dict['error'] = 'Error in input variables'
             output_dict['sasoutput2'] = 'run failed'
+            output_dict['error'] = error
             print json.dumps(output_dict)
             return
         else:
-
 
             #error = build_utilities_filter.check_build_utilities(variables)
 
@@ -462,7 +543,7 @@ class Build_Utilities_Driver():
 if __name__ == '__main__':
 
     json_flag = True
-    json_flag = False
+    #json_flag = False
 
     if (len(sys.argv) < 1):
         print "\{\"error\":\"build utilities called with no arguments\"\}\n"
