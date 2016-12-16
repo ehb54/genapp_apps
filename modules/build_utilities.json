@@ -201,6 +201,26 @@
                    "repeat"   : "number_of_constraint_files"
                    },
                   {
+                   "role"    : "input",
+                   "id"      : "constraint_field_listbox",
+                   "name"      : "constraint_field_listbox",
+                   "label"   : "select field to hold value",
+                   "type"    : "listbox",
+                   "values"  : "occupancy~c1~beta~c2",
+                   "default" : "c1",
+                   "help"    : "choose a pdb column / field to hold value",
+                   "repeat"   : "number_of_constraint_files"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "reset_checkbox",
+                   "label"   : "reset all values to zero",
+                   "type"    : "checkbox",
+                   "help"    : "click to reset all values to 0.00 prior to assignment of constraint flag",
+		           "checked" : "true",
+		           "repeat"   : "number_of_constraint_files"
+                   },
+                  {
                    "role"     : "input",
                    "id"       : "constraint_pdb_files",
                    "label"    : "name of constraint pdb file",
