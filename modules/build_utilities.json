@@ -298,7 +298,7 @@
                    },
                   {
                    "role"    : "input",
-                   "id"      : "rotation_axes_checkbox",
+                   "id"      : "rotation_axes_listbox",
                    "label"   : "choose axes type for rotation",
                    "type"    : "listbox",
                    "values"  : "none~c1~cardinal axes~c2~user vector~c3",
@@ -315,7 +315,7 @@
                    "values"  : "xyz~c1~xzy~c2~yxz~c3~yzx~c4~zxy~c5~zyx~c6",
                    "default" : "c1",
                    "help"    : "choose order of rotation operations: xyz",
-                   "repeat"  : "rotation_axes_checkbox:c2"
+                   "repeat"  : "rotation_axes_listbox:c2"
                    },
                   {
                    "role"    : "input",
@@ -325,17 +325,17 @@
                    "values"  : "xyz~c1~xzy~c2~yxz~c3~yzx~c4~zxy~c5~zyx~c6",
                    "default" : "c1",
                    "help"    : "choose order of rotation operations: xyz",
-                   "repeat"  : "rotation_axes_checkbox:c3"
+                   "repeat"  : "rotation_axes_listbox:c3"
                    },
                   {
                    "role"     : "input",
                    "id"       : "user_vector_1",
                    "label"    : "user axis vector",
                    "type"     : "text",
-                   "default"  : "[0.0, 0.0, 1.0]",
+                   "default"  : "0.0, 0.0, 1.0",
                    "required" : "true",
-                   "help"     : "input three comma separated values within square brackets",
-                   "repeat"  : "rotation_axes_checkbox:c3"
+                   "help"     : "input three comma separated values",
+                   "repeat"  : "rotation_axes_listbox:c3"
                    },
                   {
                    "role"     : "input",
@@ -346,7 +346,7 @@
                    "default"  : "0",
                    "help"     : "enter value to rotate theta x (degrees)",
                    "norow"     : "true",
-                   "repeat"   : "rotation_axes_checkbox:c2"
+                   "repeat"   : "rotation_axes_listbox:c2"
                    },
                   {
                    "role"     : "input",
@@ -357,7 +357,7 @@
                    "default"  : "0",
                    "help"     : "enter value to rotate theta y (degrees)",
                    "norow"     : "true",
-                   "repeat"   : "rotation_axes_checkbox:c2"
+                   "repeat"   : "rotation_axes_listbox:c2"
                    },
                   {
                    "role"     : "input",
@@ -367,7 +367,7 @@
                    "size"     : "4",
                    "default"  : "0",
                    "help"     : "enter value to rotate theta z (degrees)",
-                   "repeat"   : "rotation_axes_checkbox:c2"
+                   "repeat"   : "rotation_axes_listbox:c2"
                    },
                   {
                    "role"     : "input",
@@ -378,7 +378,7 @@
                    "default"  : "0",
                    "help"     : "enter value to rotate theta x (degrees)",
                    "norow"     : "true",
-                   "repeat"   : "rotation_axes_checkbox:c3"
+                   "repeat"   : "rotation_axes_listbox:c3"
                    },
                   {
                    "role"     : "input",
@@ -389,7 +389,7 @@
                    "default"  : "0",
                    "help"     : "enter value to rotate theta y (degrees)",
                    "norow"     : "true",
-                   "repeat"   : "rotation_axes_checkbox:c3"
+                   "repeat"   : "rotation_axes_listbox:c3"
                    },
                   {
                    "role"     : "input",
@@ -399,7 +399,7 @@
                    "size"     : "4",
                    "default"  : "0",
                    "help"     : "enter value to rotate theta z (degrees)",
-                   "repeat"   : "rotation_axes_checkbox:c3"
+                   "repeat"   : "rotation_axes_listbox:c3"
                    },
 ###
 ### END MOVE/ROTATE pdbs INPUT
@@ -464,9 +464,9 @@
                    "id"       : "user_vector_2",
                    "label"    : "alignment vector",
                    "type"     : "text",
-                   "default"  : "[0.0, 0.0, 1.0]",
+                   "default"  : "0.0, 0.0, 1.0",
                    "required" : "true",
-                   "help"     : "input three comma separated values within square brackets",
+                   "help"     : "input three comma separated values",
                    "repeat"  : "alignment_vector:c4"
                    },
                   {

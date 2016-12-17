@@ -135,15 +135,16 @@ class Build_Utilities_Driver():
             translation_rotation_output_filename = 'trans_rot.pdb'
             pre_center_flag = False
             translation_array = '1.0, 1.0, 1.0'
-            rotation_axes = 'pmi'
-            rotation_axes = 'cardinal'
-            rotation_order = 'xyz'
-            #rotation_order = 'xzy'
-            #rotation_order = 'yxz'
-            #rotation_order = 'yzx'
-            #rotation_order = 'zxy'
-            #rotation_order = 'zyx'
-            rotation_array = '0.0, 0.0, 0.0'
+            rotation_type = 'cardinal'
+            rotation_flag = False
+            rotation_axes_order = 'xyz'
+            #rotation_axes_order = 'xzy'
+            #rotation_axes_order = 'yxz'
+            #rotation_axes_order = 'yzx'
+            #rotation_axes_order = 'zxy'
+            #rotation_axes_order = 'zyx'
+            rotation_theta = '0.0, 0.0, 0.0'
+            user_vector_1 = '0.0, 0.0, 0.0'
 
             align_pmi_on_axis_flag = True
             align_pmi_on_cardinal_axes_flag = False
@@ -205,9 +206,11 @@ class Build_Utilities_Driver():
             translation_rotation_output_filename = 'None'
             pre_center_flag = False
             translation_array = '0.0, 0.0, 0.0'
-            rotation_axes = 'None'
-            rotation_order = 'None'
-            rotation_array = '0.0, 0.0, 0.0'
+            rotation_flag = False
+            rotation_type = 'None'
+            rotation_axes_order = 'None'
+            rotation_theta = '0.0, 0.0, 0.0'
+            user_vector_1 = '0.0, 0.0, 0.0'
 
             align_pmi_on_axis_flag = False
             align_pmi_on_cardinal_axes_flag = False
@@ -268,6 +271,7 @@ class Build_Utilities_Driver():
                         renumber_resid_checkbox =json_variables['renumber_resid_checkbox']
 
                         if(renumber_resid_checkbox == 'on'):
+                            renumber_resids_flag = True
                             first_resid = json_variables['first_resid'][0]
                     except:
                         pass
@@ -279,7 +283,7 @@ class Build_Utilities_Driver():
                     constraint_filenames = ''
                     constraint_resets = ''
 
-                    number_of_constraint_files =json_varibles['number_of_constraint_files'][0]
+                    number_of_constraint_files =json_variables['number_of_constraint_files'][0]
 
                     for i in xrange(int(number_of_constraint_files)):
 
@@ -300,7 +304,7 @@ class Build_Utilities_Driver():
 
                             constraint_filenames += constraint_pdb_file + ','
 
-                            constraint_field_listbox =json_variables['constraint_field_options'][i]
+                            constraint_field_listbox=json_variables['constraint_field_listbox'][i]
 
                             if(constraint_field_listbox == 'c1'):
                                 constraint_fields += 'occupancy,'
@@ -314,24 +318,27 @@ class Build_Utilities_Driver():
                             elif(reset_checkbox == 'off'):
                                 constraint_resets += 'False,'
 
-                    constaint_options = constraint_options[:-1]
-                    constaint_fields = constraint_fields[:-1]
-                    constaint_filenames = constraint_filenames[:-1]
-                    constaint_resets = constraint_resets[:-1]
+                    constraint_options = constraint_options[:-1]
+                    constraint_fields = constraint_fields[:-1]
+                    constraint_filenames = constraint_filenames[:-1]
+                    constraint_resets = constraint_resets[:-1]
 
                 elif translation_rotation_flag:
 
                     translation_rotation_output_filename =json_variables['translation_rotation_output_filename']
 
-                    center_checkbox = json_variables['center_checkbox']
-                    if(center_checkbox == 'on'):
-                        pre_center_flag = True
-                    elif(center_checkbox == 'off'):
+                    try:
+                        center_checkbox = json_variables['center_checkbox']
+                        if(center_checkbox == 'on'):
+                            pre_center_flag = True
+                    except:
                         pre_center_flag = False
 
-                    delta_x = json_variables['delta_x'][0]
-                    delta_y = json_variables['delta_y'][0]
-                    delta_z = json_variables['delta_z'][0]
+                    delta_x = json_variables['delta_x']
+                    delta_y = json_variables['delta_y']
+                    delta_z = json_variables['delta_z']
+
+                    translation_array = delta_x + ',' + delta_y + ',' + delta_z
 
                     rotation_axes_listbox=json_variables['rotation_axes_listbox']
 
@@ -339,7 +346,8 @@ class Build_Utilities_Driver():
                         rotation_flag = False
                     elif(rotation_axes_listbox == 'c2'):
                         rotation_flag = True
-                        rotation_axes_order_1 =json_variables['rotation_axes_order_1'][0]
+                        rotation_type = 'cardinal'
+                        rotation_axes_order_1 =json_variables['rotation_axes_order_1']
 
                         if(rotation_axes_order_1 == 'c1'):
                             rotation_axes_order = 'xyz'
@@ -353,13 +361,16 @@ class Build_Utilities_Driver():
                             rotation_axes_order = 'zxy'
                         elif(rotation_axes_order_1 == 'c6'):
                             rotation_axes_order = 'zyx'
-                        cardinal_theta_x =json_variables['cardinal_theta_x'][0]
-                        cardinal_theta_y =json_variables['cardinal_theta_y'][0]
-                        cardinal_theta_z =json_variables['cardinal_theta_z'][0]
+                        theta_x =json_variables['cardinal_theta_x']
+                        theta_y =json_variables['cardinal_theta_y']
+                        theta_z =json_variables['cardinal_theta_z']
+
+                        rotation_theta = theta_x + ',' + theta_y + ',' + theta_z
 
                     elif(rotation_axes_listbox == 'c3'):
                         rotation_flag = True
-                        rotation_axes_order_2 = json_variables['rotation_axes_order_2'][0]
+                        rotation_type = 'user_vector'
+                        rotation_axes_order_2 = json_variables['rotation_axes_order_2']
                         if(rotation_axes_order_2 == 'c1'):
                             rotation_axes_order = 'xyz'
                         elif(rotation_axes_order_2 == 'c2'):
@@ -372,11 +383,13 @@ class Build_Utilities_Driver():
                             rotation_axes_order = 'zxy'
                         elif(rotation_axes_order_2 == 'c6'):
                             rotation_axes_order = 'zyx'
-                        user_vector_1 = json_variables['user_vector_1'][0]
+                        user_vector_1 = json_variables['user_vector_1']
 
-                        user_vector_theta_x =json_variables['user_vector_theta_x'][0]
-                        user_vector_theta_y =json_variables['user_vector_theta_y'][0]
-                        user_vector_theta_z =json_variables['user_vector_theta_z'][0]
+                        theta_x =json_variables['user_vector_theta_x']
+                        theta_y =json_variables['user_vector_theta_y']
+                        theta_z =json_variables['user_vector_theta_z']
+
+                        rotation_theta = theta_x + ',' + theta_y + ',' + theta_z
 
                 elif align_pmi_flag:
                     
@@ -388,7 +401,7 @@ class Build_Utilities_Driver():
                     pmi_listbox = json_variables['pmi_listbox']
                     if(pmi_listbox == 'c1'):
                         align_pmi_on_axis_flag = True
-                        pmi_eigenvector = json_variables['pmi_eigenvector'][0]
+                        pmi_eigenvector = json_variables['pmi_eigenvector']
                         if(pmi_eigenvector == 'c1'):
                             pmi_eigenvector = '1'
                         elif(pmi_eigenvector == 'c2'):
@@ -396,29 +409,34 @@ class Build_Utilities_Driver():
                         elif(pmi_eigenvector == 'c3'):
                             pmi_eigenvector = '3'
 
-                    alignment_vector = json_variables['alignment_vector'][0]
-                    if(alignment_vector == 'c1'):
-                        alignment_vector_axis = 'x'
-                    elif(alignment_vector == 'c2'):
-                        alignment_vector_axis = 'y'
-                    elif(alignment_vector == 'c3'):
-                        alignment_vector_axis = 'z'
-                    elif(alignment_vector == 'c4'):
-                        alignment_vector_axis = 'user_vector_2'
-                        user_vector_2 = json_variables['user_vector_2'][0]
+                        alignment_vector = json_variables['alignment_vector']
+                        if(alignment_vector == 'c1'):
+                            alignment_vector_axis = 'x'
+                        elif(alignment_vector == 'c2'):
+                            alignment_vector_axis = 'y'
+                        elif(alignment_vector == 'c3'):
+                            alignment_vector_axis = 'z'
+                        elif(alignment_vector == 'c4'):
+                            alignment_vector_axis = 'user_vector_2'
+                            user_vector_2 = json_variables['user_vector_2']
 
-                    settle_on_surface_flag = False
-                    invert_along_axis_flag = False
-                    surface_checkbox = json_variables['surface_checkbox']
-                    if(surface_checkbox == 'on'):
-                        settle_on_surface_flag = True
-                        ''' should surface_plane be an input value? '''
-                        surface_plane = 'z'
-                        surface_plane_cutoff =json_variables['surface_plane_cutoff'][0]
-
-                        invert_checkbox = json_variables['invert_checkbox']
-                        if(invert_checkbox == 'on'):
-                            invert_along_axis_flag = True
+                        settle_on_surface_flag = False
+                        invert_along_axis_flag = False
+                        try:
+                            surface_checkbox = json_variables['surface_checkbox']
+                            if(surface_checkbox == 'on'):
+                                settle_on_surface_flag = True
+                                ''' should surface_plane be an input value? '''
+                                surface_plane = 'z'
+                                surface_plane_cutoff =json_variables['surface_plane_cutoff']
+                                try:
+                                    invert_checkbox = json_variables['invert_checkbox']
+                                    if(invert_checkbox == 'on'):
+                                        invert_along_axis_flag = True
+                                except:
+                                    pass
+                        except:
+                            pass
 
                     elif(pmi_listbox == 'c2'):
                         align_pmi_on_cardinal_axes_flag = True
@@ -467,9 +485,12 @@ class Build_Utilities_Driver():
         svariables['translation_rotation_output_filename'] = (translation_rotation_output_filename, 'string')
         svariables['pre_center_flag'] = (pre_center_flag, 'boolean')
         svariables['translation_array'] = (translation_array, 'float_array')
-        svariables['rotation_axes'] = (rotation_axes, 'string')
-        svariables['rotation_order'] = (rotation_order, 'string')
-        svariables['rotation_array'] = (rotation_array, 'float_array')
+        svariables['rotation_flag'] = (rotation_flag, 'boolean')
+        svariables['rotation_type'] = (rotation_type, 'string')
+        svariables['rotation_axes_order'] = (rotation_axes_order, 'string')
+        svariables['rotation_theta'] = (rotation_theta, 'float_array')
+        svariables['user_vector_1'] = (user_vector_1, 'float_array')
+
 
         svariables['align_pmi_on_axis_flag'] = (align_pmi_on_axis_flag, 'boolean')
         svariables['align_pmi_on_cardinal_axes_flag'] =(align_pmi_on_cardinal_axes_flag, 'boolean')
