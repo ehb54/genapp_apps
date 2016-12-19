@@ -11,7 +11,7 @@ import time
 import string
 import socket
 
-import sassie.build.build_utilities.tool_methods as tool_methods
+import sassie.build.build_utilities.build_utilities as build_utilities
 import sassie.interface.input_filter as input_filter
 #import sassie.interface.build_utilities_filter as build_utilities_filter
 
@@ -542,7 +542,7 @@ class Build_Utilities_Driver():
             
             #print('\n\neverything worked fine to here\n\n')
             #sys.exit()
-            build_utilities = tool_methods.build_utilities()
+            build_utilities = build_utilities.build_utilities()
             process = multiprocessing.Process(target=build_utilities.main, args=(variables, txtQueue))
             process.start()
 
