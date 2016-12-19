@@ -149,7 +149,7 @@ class Build_Utilities_Driver():
             align_pmi_on_axis_flag = True
             align_pmi_on_cardinal_axes_flag = False
             align_pmi_output_filename = 'aligned_on_pmi.pdb'
-            pmi_eigenvector = '3'
+            pmi_eigenvector = '2'
             ''' values: x, y, z '''
             alignment_vector_axis = 'z'
             user_vector_2 = 'None'
@@ -215,7 +215,7 @@ class Build_Utilities_Driver():
             align_pmi_on_axis_flag = False
             align_pmi_on_cardinal_axes_flag = False
             align_pmi_output_filename = 'None'
-            pmi_eigenvector = '1'
+            pmi_eigenvector = '2'
             alignment_vector_axis = 'None'
             user_vector_2 = '0.0,0.0,0.0'
             settle_on_surface_flag = False
@@ -403,11 +403,11 @@ class Build_Utilities_Driver():
                         align_pmi_on_axis_flag = True
                         pmi_eigenvector = json_variables['pmi_eigenvector']
                         if(pmi_eigenvector == 'c1'):
-                            pmi_eigenvector = '1'
+                            pmi_eigenvector = '0'
                         elif(pmi_eigenvector == 'c2'):
-                            pmi_eigenvector = '2'
+                            pmi_eigenvector = '1'
                         elif(pmi_eigenvector == 'c3'):
-                            pmi_eigenvector = '3'
+                            pmi_eigenvector = '2'
 
                         alignment_vector = json_variables['alignment_vector']
                         if(alignment_vector == 'c1'):
