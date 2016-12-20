@@ -535,6 +535,16 @@
                    "help"     : "name of output pdb file",
 		           "repeat"  : "build_utilities_listbox:c2"
                    },
+                  {
+                   "role"     : "input",
+                   "id"       : "fasta_moltype_listbox",
+                   "label"    : "select molecule type",
+                   "type"     : "listbox",
+                   "values"     : "protein~c1~nucleic acid~c2",
+                   "default"  : "c1",
+                   "help"  : "only protein and nucleic acid molecule types are supported",
+		   "repeat"  : "build_utilities_listbox:c2"
+                   },
                    {
                    "role"       : "input",
                    "id"       : "separator_2",
@@ -551,7 +561,7 @@
                    "name"    : "fasta_listbox",
                    "label"   : "select option",
                    "type"    : "listbox",
-                   "values"  : "paste fasta sequence~c1~upload fasta file~c2",
+                   "values"  : "enter fasta sequence~c1~upload fasta sequence file~c2",
                    "default" : "c1",
                    "help"    : "choose fasta input type to create dummy sequence pdb file",
 		           "repeat"  : "build_utilities_listbox:c2",
@@ -559,9 +569,9 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "fasta_text_area",
+                   "id"       : "fasta_input_sequence",
                    "label"   : "FASTA sequence input",
-                   "type"     : "textarea",
+                   "type"     : "text",
                    "required" : "true",
                   "repeat"   : "fasta_listbox:c1",
                    "help"     : "paste FASTA sequence in text area",
@@ -569,7 +579,7 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "fasta_file_upload",
+                   "id"       : "fasta_input_file",
                    "label"   : "FASTA file input",
                    "type"     : "lrfile",
                    "required" : "true",

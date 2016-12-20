@@ -167,7 +167,7 @@ class Chi_square_filter_Drv():
                         self.flot_data = {
                                        "options": {
                                                 "xlabel"  : "Rg (Angstrom)",
-                                                "ylabel"  : "Chi-square",
+                                                "ylabel"  : "Chi-square or R-Factor",
 
                                                 "legend": {
 # "position" can be "ne" or "nw" or "se" or "sw"

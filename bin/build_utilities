@@ -1,4 +1,5 @@
-#!/share/apps/local/anacondaz/bin/python
+#!/share/apps/local/anaconda/bin/python
+####!/share/apps/local/anacondaz/bin/python
 import json
 import sys
 import os
@@ -11,7 +12,7 @@ import time
 import string
 import socket
 
-import sassie.build.build_utilities.build_utilities as build_utilities
+import sassie.build.build_utilities.build_methods as build_methods
 import sassie.interface.input_filter as input_filter
 #import sassie.interface.build_utilities_filter as build_utilities_filter
 
@@ -164,6 +165,7 @@ class Build_Utilities_Driver():
             fasta_input_option = 'sequence'
             fasta_input_sequence = 'RRAGMPSCYLK'
             fasta_input_file = 'test_fasta.txt'
+            fasta_moltype = 'protein'
 
             seed = '0, 123'  # set to '1,123' to set the seed or '0,123'
 
@@ -225,7 +227,9 @@ class Build_Utilities_Driver():
             fasta_utilities_flag = False
             fasta_output_filename = 'None'
             fasta_input_sequence = 'None'
+            fasta_input_file = 'None'
             fasta_input_option = 'None'
+            fasta_moltype = 'None'
 
             seed = '0, 123'  # set to '1,123' to set the seed or '0,123'
 
@@ -445,13 +449,20 @@ class Build_Utilities_Driver():
 
                 fasta_output_filename =json_variables['fasta_output_filename']
 
+                fasta_moltype_listbox = json_variables['fasta_moltype_listbox']
+                if(fasta_moltype_listbox == 'c1'):
+                    fasta_moltype = 'protein'
+                elif(fasta_moltype_listbox == 'c2'):
+                    fasta_moltype = 'nucleic'
+
                 fasta_listbox = json_variables['fasta_listbox']
 
                 if(fasta_listbox == 'c1'):
-                    fasta_text_area = json_variables['fasta_text_area'][0]
+                    fasta_input_sequence = json_variables['fasta_input_sequence']
+                    fasta_input_option = 'sequence'
                 elif(fasta_listbox == 'c2'):
-                    fasta_file_upload = json_variables['fasta_file_upload'][0]
-
+                    fasta_input_file = json_variables['fasta_input_file'][0]
+                    fasta_input_option = 'file'
 
             path = ''
 
@@ -491,7 +502,6 @@ class Build_Utilities_Driver():
         svariables['rotation_theta'] = (rotation_theta, 'float_array')
         svariables['user_vector_1'] = (user_vector_1, 'float_array')
 
-
         svariables['align_pmi_on_axis_flag'] = (align_pmi_on_axis_flag, 'boolean')
         svariables['align_pmi_on_cardinal_axes_flag'] =(align_pmi_on_cardinal_axes_flag, 'boolean')
         svariables['align_pmi_output_filename'] =(align_pmi_output_filename, 'string')
@@ -505,7 +515,9 @@ class Build_Utilities_Driver():
         svariables['fasta_utilities_flag'] = (fasta_utilities_flag, 'boolean')
         svariables['fasta_output_filename'] = (fasta_output_filename, 'string')
         svariables['fasta_input_option'] = (fasta_input_option, 'string')
+        svariables['fasta_input_file'] = (fasta_input_file, 'string')
         svariables['fasta_input_sequence'] = (fasta_input_sequence, 'string')
+        svariables['fasta_moltype'] = (fasta_moltype, 'string')
         svariables['seed'] = (seed, 'string')
 
         error, variables = input_filter.type_check_and_convert(svariables)
@@ -542,7 +554,7 @@ class Build_Utilities_Driver():
             
             #print('\n\neverything worked fine to here\n\n')
             #sys.exit()
-            build_utilities = build_utilities.build_utilities()
+            build_utilities = build_methods.build_utilities()
             process = multiprocessing.Process(target=build_utilities.main, args=(variables, txtQueue))
             process.start()
 
