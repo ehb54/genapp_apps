@@ -100,6 +100,10 @@
                           "id"    : "jobshistory_1",
                           "label" : "Job history"
                          }
+		         ,{ 
+                          "id"    : "perf",
+                          "label" : "Performance testing"
+                         }
 		
                         ]
             }

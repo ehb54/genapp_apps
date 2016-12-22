@@ -32,6 +32,18 @@ function post_processing( $json, $results ) {
 
     $log_benchmark = preg_replace( '/^/', date( DATE_ATOM ) . ' ',  preg_grep( '/(benchmark|TIMING:)/i', $log_lines ) );
 
+    if ( $GLOBALS[ 'do_perf' ] ) {
+        $perffile = "$json->_base_directory/perftest.out";
+        if ( FALSE === ( $perflog = file_get_contents( $perffile ) ) ) {
+            fwrite( STDERR, "error reading $perffile\n" );
+            file_put_contents( $log, date( DATE_ATOM ) . " error reading $perffile\n", FILE_APPEND );
+        } else {
+            $perf_lines = preg_split( "/\\r\\n|\\r|\\n/", $perflog );
+            $log_perf = preg_replace( '/^/', date( DATE_ATOM ) . ' ',  $perf_lines );
+            file_put_contents( $log, implode( "\n", $log_perf ) . "\n",  FILE_APPEND );
+        }
+    }            
+
     file_put_contents( $log, implode( "\n", $log_benchmark ) . "\n",  FILE_APPEND );
 
     $cmd = "tail -40 $log |" . ' mail -s "[namdrunner][performance results]" emre@biochem.uthscsa.edu';
