@@ -1,0 +1,44 @@
+{
+  "mail"     : {
+                 "admin"    : "alexsav.science@gmail.com"
+                ,"feedback" : "alexsav.science@gmail.com"
+                ,"from"     : "alexsav.science@gmail.com"
+
+               }
+
+  ,"hostip"   : "127.0.0.1"
+  ,"hostname" : "localhost"
+  , "messaging" : {
+      "tcphostip" : "127.0.0.1",
+      "tcpport" : 37780,
+      "wssport" : 80,
+      "zmqhostip" : "127.0.0.1",
+      "wsport" : 37777,
+      "udpport" : 37779,
+      "zmqport" : 37778,
+      "udphostip" : "127.0.0.1"
+   }
+  ,"resources" : {
+                  "local"     : ""
+                 }
+
+
+  , "oauth2" : { 
+      "globus" : {
+	  "client_id"     : "d2540ad7-afe0-4ae2-9cdc-227142c7eb84" 
+	  ,"client_secret" : "REMOVED-CREDENTIAL"  
+      }
+      , "google" : {
+	  "client_id"     : "176270858920-tlar7hlsvdbo25a2jsdp80jb6p8aoump.apps.googleusercontent.com"
+	  ,"client_secret" : "REMOVED-CREDENTIAL"
+      }
+  }
+
+  ,"restricted" : {
+      "admin"     : ["alexey"]
+  }
+ 
+  ,"resourcedefault" : "local"
+  ,"submitpolicy"    : "login"
+}
+

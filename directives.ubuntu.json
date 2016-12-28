@@ -172,6 +172,10 @@
 # optionally define a log directory for "html5" language
   ,"logdirectory"               : "log"
 
-    , "usesplash" : "true"
-
+    ,"usesplash" : "true"
+    
+    ,"register" : {
+           "globuslogin"  : "true"
+          ,"googlelogin"  : "true"
+     }
 }
