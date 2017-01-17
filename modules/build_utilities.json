@@ -92,7 +92,7 @@
                    "name"      : "pdb_choices_listbox",
                    "label"   : "select pdb utility option",
                    "type"    : "listbox",
-                   "values"  : "renumber indices/residues~c1~make constraint file(s)~c2~translate/rotate~c3~align on pmi~c4",
+                   "values"  : "renumber indices/residues~c1~make constraint file(s)~c2~modify pdb fields~c3~translate/rotate~c4~align on pmi~c5",
 #"default" : "c1",
                    "help"    : "choose a function to perform",
 		           "repeat"  : "build_utilities_listbox:c1",
@@ -234,6 +234,72 @@
 ###
 
 ###
+### IF MODIFY FIELDS pdbs INPUT
+###
+
+                   {
+                   "role"       : "input",
+                   "id"       : "modify_fields",
+                   "label"    : "Modify pdb Values Input",
+                   "type"     : "label",
+                   "default"  : "header4",
+		           "repeat"   : "pdb_choices_listbox:c3",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_fields_to_modify",
+                   "label"    : "number of field modifications",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "min"      : 1,
+                   "size"     : 4,
+                   "help"     : "number of fields to modify based on selection",
+                   "repeat"   : "pdb_choices_listbox:c3",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "basis_string_array",
+                   "label"    : "selection",
+                   "type"     : "text",
+                   "default"  : "segname HC1 and (resid > 220 and resid < 226)",
+                   "size"     : 40,
+                   "required" : "true",
+                   "repeat"   : "number_of_fields_to_modify",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "new_field_value",
+                   "label"    : "new value",
+                   "type"     : "text",
+                   "default"  : "LINK",
+                   #"size"     : 40,
+                   "required" : "true",
+                   "repeat"   : "number_of_fields_to_modify",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "field_listbox",
+                   "label"   : "field to modify",
+                   "type"    : "listbox",
+                   "values"  : "record~c1~index~c2~name~c3~altloc~c4~resname~c5~chain~c6~resid~c7~icode~c8~xcoor~c9~ycoor~c10~zcoor~c11~occupany~c12~beta~c13~segname~c14~elemet~c15",
+                   "default" : "c1",
+                   "help"    : "standard pdb keywords that can be modifed are atom records",
+                   "repeat"   : "number_of_fields_to_modify",
+                   "repeater": "true",
+                   "norow"    : "true"
+                   },
+
+
+###
+### END MODIFY FIELDS pdbs INPUT
+###
+
+###
 ### IF MOVE/ROTATE pdbs INPUT
 ###
                    {
@@ -242,7 +308,7 @@
                    "label"    : "Translation / Rotation Input",
                    "type"     : "label",
                    "default"  : "header4",
-		           "repeat"   : "pdb_choices_listbox:c3",
+		           "repeat"   : "pdb_choices_listbox:c4",
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
@@ -253,7 +319,7 @@
                    "type"     : "text",
                    "default"  : "transformed.pdb",
                    "help"     : "name of output pdb file",
-		           "repeat"   : "pdb_choices_listbox:c3"
+		           "repeat"   : "pdb_choices_listbox:c4"
                    },
                   {
                    "role"    : "input",
@@ -262,7 +328,7 @@
                    "type"    : "checkbox",
                    "help"    : "click to center coordinates to [0,0,0] prior to application of translation/rotation operations",
 		           "checked" : "false",
-		           "repeat"   : "pdb_choices_listbox:c3"
+		           "repeat"   : "pdb_choices_listbox:c4"
                    },
                   {
                    "role"     : "input",
@@ -273,7 +339,7 @@
                    "default"  : "0",
                    "help"     : "enter value to translate center of mass in x-direction (angstroms)",
                    "norow"     : "true",
-		           "repeat"   : "pdb_choices_listbox:c3"
+		           "repeat"   : "pdb_choices_listbox:c4"
                    },
                   {
                    "role"     : "input",
@@ -284,7 +350,7 @@
                    "default"  : "0",
                    "help"     : "enter value to translate center of mass in y-direction (angstroms)",
                    "norow"     : "true",
-		           "repeat"   : "pdb_choices_listbox:c3"
+		           "repeat"   : "pdb_choices_listbox:c4"
                    },
                   {
                    "role"     : "input",
@@ -294,7 +360,7 @@
                    "size"     : "4",
                    "default"  : "0",
                    "help"     : "enter value to translate center of mass in z-direction (angstroms)",
-		           "repeat"   : "pdb_choices_listbox:c3"
+		           "repeat"   : "pdb_choices_listbox:c4"
                    },
                   {
                    "role"    : "input",
@@ -304,7 +370,7 @@
                    "values"  : "none~c1~cardinal axes~c2~user vector~c3",
                    "default" : "c1",
                    "help"    : "choose axes type for rotation",
-                   "repeat"   : "pdb_choices_listbox:c3",
+                   "repeat"   : "pdb_choices_listbox:c4",
                    "repeater": "true"
                    },
                   {
@@ -414,7 +480,7 @@
                    "label"    : "Align PMI Input",
                    "type"     : "label",
                    "default"  : "header4",
-		           "repeat"   : "pdb_choices_listbox:c4",
+		           "repeat"   : "pdb_choices_listbox:c5",
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
@@ -425,7 +491,7 @@
                    "type"     : "text",
                    "default"  : "aligned_pmi.pdb",
                    "help"     : "name of output pdb file",
-                   "repeat"   : "pdb_choices_listbox:c4"
+                   "repeat"   : "pdb_choices_listbox:c5"
                    },
                   {
                    "role"    : "input",
@@ -435,7 +501,7 @@
                    "values"  : "align single principle axis~c1~align pmi to cardinal axes~c2",
                    "default" : "c1",
                    "help"    : "choose principle axes for rotation",
-                   "repeat"  : "pdb_choices_listbox:c4",
+                   "repeat"  : "pdb_choices_listbox:c5",
                    "repeater": "true"
                    },
                   {
