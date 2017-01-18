@@ -64,12 +64,27 @@
             "label"   : "Run MD/MM",
             "icon"    : "pngs/simulate.png",
             #"help"    : "help text",
-	    "autorun" : "namd_run  ",
+	    "autorun" : "namd_run_local",
             "modules" : [ 
                          { 
-                          "id"    : "namd_run",
+                          "id"    : "namd_run_local",
                           "label" : "Param_m",
 			  "nobutton" : "true"
+                         }
+                        ]
+            }
+
+       ,{ 
+            "id"      : "utilities",
+            "label"   : "Utilities",
+            "icon"    : "pngs/tools.png",
+            #"help"    : "help text",
+	    #"autorun" : "namd_utils",
+            "modules" : [ 
+                         { 
+                          "id"    : "catdcd",
+                          "label" : "CatDcd"
+			  #,"nobutton" : "true"
                          }
                         ]
             }

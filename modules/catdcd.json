@@ -1,0 +1,123 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "catdcd",
+    "label"    : "CatDcd",
+    #"resource" : "oscluster",
+    "submitpolicy" : "login",
+    #"help"     : "help for Bead Modeller",
+    #"center"   : "true",
+    #"centeroutput" : "true",
+    #"notify"    : "alexsav.science@gmail.com",
+    #"notify" : "email",
+    "fields"   : [
+               {
+	            "role"       : "input"
+	            ,"id"         : "projectname"
+	            ,"label"      : "Project name"
+	            ,"type"       : "text"
+	            ,"required"   : "true"
+	            ,"help"       : "Enter a project name"
+	            ,"specifiedproject" : "Run_"
+	        },
+################################################################
+                 {
+                   "role"     : "input",
+                   "id"       : "file_to_process",
+                   "label"    : "Trajectory file to Process",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"     : "Upload trajectory file to process with CatDcd"
+                 },
+	
+                { 
+                     "role"     : "input",  
+                     "id"       : "outputname",
+                     "label"    : "Output filename of the trajectory",
+                     "type"     : "text",  
+		     "required" : "true",
+                     "help"     : "help"
+		 },	 		
+
+                { 
+                     "role"     : "input",  
+                     "id"       : "framesmanipulation",
+                     "label"    : "Manipulations with frames",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "false",
+                     "repeater" : "yes",
+		     "help"     : "Decimate trajectory frames based on frame increment in the [first-last] frame domain"
+		 },		   
+		   
+                { 
+                     "role"     : "input",  
+                     "id"       : "firstframe",
+                     "label"    : "Enter first frame:",
+                     "type"     : "integer",  
+                     "default"  : 0,
+		     "min"      : 0, 
+		     "required" : "true",
+                     "repeat"   : "framesmanipulation",
+		     "help"     : "help"
+		 },	    		   
+                { 
+                     "role"     : "input",  
+                     "id"       : "lastframe",
+                     "label"    : "Enter last frame:",
+                     "type"     : "integer",  
+                     "default"  : 1,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "framesmanipulation",
+		     "help"     : "help"
+		 },	 		   
+                { 
+                     "role"     : "input",  
+                     "id"       : "stride",
+                     "label"    : "Enter frame increment:",
+                     "type"     : "integer",  
+                     "default"  : 1,
+		     "min"      : 1, 
+		     "required" : "true",
+                     "repeat"   : "framesmanipulation",
+		     "help"     : "help"
+		 },	 
+
+                { 
+                     "role"     : "input",  
+                     "id"       : "systemmanipulation",
+                     "label"    : "Manipulations with system size",
+                     "type"     : "checkbox",  
+                     "checked"  : "false",
+		     "required" : "false",
+                     "repeater" : "yes",
+		     "help"     : "Take only the coordinates corresponding to the Index File and write them to the Output trajectory"
+		 },	
+
+                 {
+                   "role"     : "input",
+                   "id"       : "indexfile",
+                   "label"    : "Index File",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "repeat"   : "systemmanipulation",   
+		   "help"     : "Upload Index file"
+                 },
+	
+#####################################################################################################
+ 	        {
+                   "role"  : "output",
+                   "id"    : "outputtrajectory",
+                   "label" : "Resulting Trajectory File: ",
+                   "type"  : "file"
+		 },
+ 	        {
+                   "role"  : "output",
+                   "id"    : "logout",
+                   "label" : "Log File: ",
+                   "type"  : "file"
+		 }
+	
+    ],
+    "executable" : "namd_catdcd.py"
+}

@@ -1,6 +1,6 @@
 # this is a module file, any module specific info belongs here
 {
-    "moduleid" : "namd_run",
+    "moduleid" : "namd_run_local",
     "label"    : "Calculate",
     #"resource" : "oscluster",
     "submitpolicy" : "login",
