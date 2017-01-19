@@ -167,6 +167,11 @@
             "icon"    : "pngs/beta.png",
             "modules" : [
                          { 
+                          "id"    : "build_utilities",
+                          "label" : "Build Utilities",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
                           "id"    : "prody",
                           "label" : "Prody ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
@@ -202,11 +207,6 @@
                          { 
                           "id"    : "docking",
                           "label" : "Docking ",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "build_utilities",
-                          "label" : "Build Utilities",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]

@@ -49,9 +49,9 @@
                   {
                    "role"    : "input",
                    "id"      : "build_utilities_listbox",
-                   "label"   : "choose utilility type",
+                   "label"   : "choose utility type",
                    "type"    : "listbox",
-                   "values"  : "pdb utitilities~c1~fasta_utilities~c2",
+                   "values"  : "pdb utilities~c1~fasta_utilities~c2",
                    "default"    : "c1",
                    "help"  : "check to select an option for pdb or fasta utilities",
 		           "repeater": "true"
@@ -240,12 +240,21 @@
                    {
                    "role"       : "input",
                    "id"       : "modify_fields",
-                   "label"    : "Modify pdb Values Input",
+                   "label"    : "Modify pdb Fields Input",
                    "type"     : "label",
                    "default"  : "header4",
 		           "repeat"   : "pdb_choices_listbox:c3",
                    "prehline"  : "true",
                    "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "modify_fields_output_filename",
+                   "label"    : "output pdb file name",
+                   "type"     : "text",
+                   "default"  : "modified_fields.pdb",
+                   "help"     : "name of output pdb file",
+                   "repeat"   : "pdb_choices_listbox:c3"
                    },
                   {
                    "role"     : "input",
@@ -261,22 +270,13 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "basis_string_array",
+                   "id"       : "field_selections",
                    "label"    : "selection",
                    "type"     : "text",
-                   "default"  : "segname HC1 and (resid > 220 and resid < 226)",
+                   #"default"  : "segname HC1 and (resid > 220 and resid < 226)",
+                   "default"  : "index < 10",
                    "size"     : 40,
-                   "required" : "true",
-                   "repeat"   : "number_of_fields_to_modify",
-                   "norow"    : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "new_field_value",
-                   "label"    : "new value",
-                   "type"     : "text",
-                   "default"  : "LINK",
-                   #"size"     : 40,
+                   "help"     : "enter logical description to indentify parts of molecule to modify",
                    "required" : "true",
                    "repeat"   : "number_of_fields_to_modify",
                    "norow"    : "true"
@@ -286,11 +286,22 @@
                    "id"      : "field_listbox",
                    "label"   : "field to modify",
                    "type"    : "listbox",
-                   "values"  : "record~c1~index~c2~name~c3~altloc~c4~resname~c5~chain~c6~resid~c7~icode~c8~xcoor~c9~ycoor~c10~zcoor~c11~occupany~c12~beta~c13~segname~c14~elemet~c15",
-                   "default" : "c1",
-                   "help"    : "standard pdb keywords that can be modifed are atom records",
+                   "values"  : "record [6 : ascii]~c1~index [5 : integer]~c2~name [4 : ascii]~c3~altloc [1 : ascii]~c4~resname [4 : ascii]~c5~chain [1 : ascii]~c6~resid [4 : integer]~c7~icode [1 : ascii]~c8~x-coor [8 : float]~c9~y-coor [8 : float]~c10~z-coor [8 : float]~c11~occupancy [6 : float]~c12~beta [6 : float]~c13~segname [4 : ascii]~c14~element [2 : ascii]~c15~charge [2 : ascii]~c16",
+                   "default" : "c13",
+                   "help"    : "standard pdb keywords that can be modifed are listed: character length and data type presented in brackets",
                    "repeat"   : "number_of_fields_to_modify",
-                   "repeater": "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "field_values",
+                   "label"    : "new value",
+                   "type"     : "text",
+                   "default"  : "1.00",
+                   #"size"     : 40,
+                   "help"     : "enter value to replace the chosen field for all atoms that satisfy the provided selection: note that the new value must satisfy the length and character type for the chosen field",
+                   "required" : "true",
+                   "repeat"   : "number_of_fields_to_modify",
                    "norow"    : "true"
                    },
 
@@ -637,7 +648,7 @@
                    "role"     : "input",
                    "id"       : "fasta_input_sequence",
                    "label"   : "FASTA sequence input",
-                   "type"     : "text",
+                   "type"     : "textarea",
                    "required" : "true",
                   "repeat"   : "fasta_listbox:c1",
                    "help"     : "paste FASTA sequence in text area",

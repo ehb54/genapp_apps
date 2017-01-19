@@ -132,6 +132,13 @@ class Build_Utilities_Driver():
             constraint_resets = 'True, True'
             constraint_filenames = 'constrain_heavy.pdb, constrain_backbone.pdb'
 
+            modify_field_flag = False
+            modify_fields_output_filename = 'modified_fields.pdb'
+            number_of_fields_to_modify = '1'
+            field_selections = 'index < 10'
+            field_to_modify = 'chain'
+            field_values = 'X'
+
             translation_rotation_flag = False
             translation_rotation_output_filename = 'trans_rot.pdb'
             pre_center_flag = False
@@ -204,6 +211,13 @@ class Build_Utilities_Driver():
             constraint_fields = 'None'
             constraint_resets = 'None'
 
+            modify_fields_flag = False
+            modify_fields_output_filename = 'None'
+            number_of_fields_to_modify = '1'
+            field_selections = 'index < 10'
+            field_options = 'chain'
+            field_values = 'Z'
+            
             translation_rotation_flag = False
             translation_rotation_output_filename = 'None'
             pre_center_flag = False
@@ -246,6 +260,7 @@ class Build_Utilities_Driver():
 
                 renumber_flag = False
                 pdb_constraints_flag = False
+                modify_fields_flag = False
                 translation_rotation_flag = False
                 align_pmi_flag = False
 
@@ -254,8 +269,10 @@ class Build_Utilities_Driver():
                 elif(pdb_choices_listbox == 'c2'):
                    pdb_constraints_flag = True
                 elif(pdb_choices_listbox == 'c3'):
-                   translation_rotation_flag = True
+                   modify_fields_flag = True
                 elif(pdb_choices_listbox == 'c4'):
+                   translation_rotation_flag = True
+                elif(pdb_choices_listbox == 'c5'):
                    align_pmi_flag = True
 
                 if renumber_flag:
@@ -268,7 +285,7 @@ class Build_Utilities_Driver():
 
                         if(renumber_index_checkbox == 'on'):
                             renumber_indices_flag = True
-                            first_index = json_variables['first_index'][0]
+                            first_index = json_variables['first_index']
                     except:
                         pass
                     try:
@@ -276,7 +293,7 @@ class Build_Utilities_Driver():
 
                         if(renumber_resid_checkbox == 'on'):
                             renumber_resids_flag = True
-                            first_resid = json_variables['first_resid'][0]
+                            first_resid = json_variables['first_resid']
                     except:
                         pass
 
@@ -287,7 +304,7 @@ class Build_Utilities_Driver():
                     constraint_filenames = ''
                     constraint_resets = ''
 
-                    number_of_constraint_files =json_variables['number_of_constraint_files'][0]
+                    number_of_constraint_files =json_variables['number_of_constraint_files']
 
                     for i in xrange(int(number_of_constraint_files)):
 
@@ -326,6 +343,62 @@ class Build_Utilities_Driver():
                     constraint_fields = constraint_fields[:-1]
                     constraint_filenames = constraint_filenames[:-1]
                     constraint_resets = constraint_resets[:-1]
+
+                elif modify_fields_flag:
+
+                    modify_fields_output_filename = json_variables['modify_fields_output_filename']
+                    field_selections = ''
+                    field_options = ''
+                    field_values = ''
+                    
+                    number_of_fields_to_modify =json_variables['number_of_fields_to_modify']
+
+                    for i in xrange(int(number_of_fields_to_modify)):
+
+                            field_selection = json_variables['field_selections'][i]
+                            field_selections += field_selection + ','
+
+                            field_listbox =json_variables['field_listbox'][i]
+
+                            if(field_listbox == 'c1'):
+                                field_options += 'record,'
+                            elif(field_listbox == 'c2'):
+                                field_options += 'index,'
+                            elif(field_listbox == 'c3'):
+                                field_options += 'name,'
+                            elif(field_listbox == 'c4'):
+                                field_options += 'altloc,'
+                            elif(field_listbox == 'c5'):
+                                field_options += 'resname,'
+                            elif(field_listbox == 'c6'):
+                                field_options += 'chain,'
+                            elif(field_listbox == 'c7'):
+                                field_options += 'resid,'
+                            elif(field_listbox == 'c8'):
+                                field_options += 'icode,'
+                            elif(field_listbox == 'c9'):
+                                field_options += 'xcoor,'
+                            elif(field_listbox == 'c10'):
+                                field_options += 'ycoor,'
+                            elif(field_listbox == 'c11'):
+                                field_options += 'zcoor,'
+                            elif(field_listbox == 'c12'):
+                                field_options += 'occupancy,'
+                            elif(field_listbox == 'c13'):
+                                field_options += 'beta,'
+                            elif(field_listbox == 'c14'):
+                                field_options += 'segname,'
+                            elif(field_listbox == 'c15'):
+                                field_options += 'element,'
+                            elif(field_listbox == 'c16'):
+                                field_options += 'charge,'
+
+                            field_value = json_variables['field_values'][i]
+                            field_values += field_value + ','
+
+                    field_selections = field_selections[:-1]
+                    field_options = field_options[:-1]
+                    field_values = field_values[:-1]
 
                 elif translation_rotation_flag:
 
@@ -492,7 +565,15 @@ class Build_Utilities_Driver():
         svariables['constraint_fields'] = (constraint_fields, 'string')
         svariables['constraint_resets'] = (constraint_resets, 'string')
 
-        svariables['translation_rotation_flag'] = (translation_rotation_flag, 'boolean')
+        svariables['modify_fields_flag'] = (modify_fields_flag, 'boolean')
+        svariables['modify_fields_output_filename'] = (modify_fields_output_filename,\
+                                                  'string')
+        svariables['number_of_fields_to_modify'] = (number_of_fields_to_modify, 'int')
+        svariables['field_selections'] = (field_selections, 'string')
+        svariables['field_options'] = (field_options, 'string')
+        svariables['field_values'] = (field_values, 'string')
+        
+	svariables['translation_rotation_flag'] = (translation_rotation_flag, 'boolean')
         svariables['translation_rotation_output_filename'] = (translation_rotation_output_filename, 'string')
         svariables['pre_center_flag'] = (pre_center_flag, 'boolean')
         svariables['translation_array'] = (translation_array, 'float_array')
