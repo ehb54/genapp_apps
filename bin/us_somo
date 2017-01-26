@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export ULTRASCAN=/src/ultrascan
+export ULTRASCAN=/home/alexsav/WORK_Emre/ultrascan2alpha
 
 EXE="$ULTRASCAN/bin64/us_saxs_cmds_t"
 

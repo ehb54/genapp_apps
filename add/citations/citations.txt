@@ -1,0 +1,17 @@
+If you use US-SOMO bead modeller/hydrodynamic calculation module in your work, please cite:
+
+Main citations: 
+Brookes et al., Eur Biophys J 39:423-435, 2010;
+Rocco M and Byron O (2015). “Hydrodynamic modeling and its application in AUC”. In: Cole, J., Ed. “Analytical Ultracentrifugation”, Methods in Enzymology, Volume 562, Chapter 4, pp 81-108;
+or
+Brookes E and Rocco M (2016). “Calculation of hydrodynamic parameters - US-SOMO”. In: Arisaka, F., Laue, T., Stafford, W.F., and Uchiyama, S., Eds. “Analytical ultracentrifugation - Instrumentation, analysis and applications”. Springer, Chapter 10, pp. 169-194.
+
+In addition, if you use the SOMO + SMI method:
+Rai et al., Structure 13:723-734, 2005
+
+For the SOMO overlap + Zeno method:
+Rocco M. and Byron O, Eur Biophys J 44:417–431, 2015
+Mansfield ML and, Douglas JF, Phys Rev E Stat Nonlinear Soft Matter Phys 78:046712, 2008
+
+For the AtoB + SMI method:
+Byron O, Biophys J 72:408–415, 1997
