@@ -5,6 +5,7 @@
    "help"     : "help_module",
    "extendedjsoninputtags" : "true",
    "nowrap"   : "true",
+   "center"   : "true",
    "fields"   : [
                  { 
 		    "role"       : "input",
@@ -1987,7 +1988,7 @@
 		   { 
 		     "role"     : "input",  
                      "id"       : "xrays_10__neutrons_x_d2o_flag",
-                     "label"    : "XRays (10) / Neutrons (x_D2O) Flag",
+                     "label"    : "XRays (-1) / Neutrons (x_D2O) Flag",
                      "type"     : "float",
                      #,
                      "size"     : 6,
@@ -2165,7 +2166,9 @@
 		   "zoom"  : "true",
 		   "hover" : "true",
 		   "selzoom" : "true",    
-		   "backgroundcolor" : "white",    
+		   "backgroundcolor" : "white",
+		   "changescale" : "true",   
+		   "rotatedylabel" : "true",    
 		   "savetofile" : "true"    
                    },
 
