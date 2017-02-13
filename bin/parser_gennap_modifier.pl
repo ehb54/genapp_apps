@@ -971,8 +971,11 @@ while (my $line = <$fh>) {
 		    my $id_exp = (split(/[:]/, $temp_lines[$i]))[0];
 		    #my $dval = (split(/[:]/, $line))[-1];
 		    
-		    my $size = $$ref{'num_states'}->{num_rigid_domains}[$j]{pdb_location}[0];
-		    my $length = scalar( @{ $size } );
+		    #my $size = $$ref{'num_states'}->{num_rigid_domains}[$j]{pdb_location}[0];
+		    my $size = $$ref{'num_states'}->{num_rigid_domains}[$j]{pdb_location};
+                    #print "VAR:" . scalar ( @ {$size} );
+                    #exit;
+                    my $length = scalar( @{ $size } );
 		    
 		    $temp_lines[$i] =~ s/#NRD/$length/ig;
 		    print OUT $temp_lines[$i] . "\n";
