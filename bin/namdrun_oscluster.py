@@ -179,7 +179,8 @@ xsc_path_restart = ''
 ########### NAMD Inputs (minimisation for now)  ################################################
 
 #ExecutableFileLocationNamd = InitialDirectoryStr + '/namd_bin/NAMD_2.11_Linux-x86_64/namd2'
-ExecutableFileLocationNamd = '/opt/genapp/Install/NAMD_source_openmpi_2.0.1_gcc-5.4.0/NAMD_CVS-2016-09-15_Source/Linux-x86_64-g++/namd2'
+#ExecutableFileLocationNamd = '/opt/genapp/Install/NAMD_source_openmpi_2.0.1_gcc-5.4.0/NAMD_CVS-2016-09-15_Source/Linux-x86_64-g++/namd2'
+ExecutableFileLocationNamd = '/opt/genapp/Install/NAMD2017_2.12/NAMD_source_openmpi_2.0.1_gcc-5.4.0/Linux-x86_64-g++/namd2'
 
 #ips = json_variables['_clusteripsjoined']
 
@@ -216,13 +217,18 @@ namdmd_log = open('namdmd_log.out','w')
 path_to_live_log = str(base_dir) + "/" + 'namdmd_log.out'
 
 html_base  = json_variables['_osroot']
-application= json_variables['_application']
+#application= json_variables['_application']
 
-path_updated = path_to_live_log.replace(html_base, "")
-path_updated_1 = application + "/" + path_updated
+path_updated = path_to_live_log.replace(html_base + "/", "")
+#path_updated_1 = application + path_updated
+path_updated_1 =  path_updated
 
-socket_dict['live_log'] =  "<a href=" + path_updated_1 + " target='_blank'>" + "Live Output" + "</a>" 
+#print "Webroot: " + html_base + ", application: " + application +  ", pathupdated: " + path_updated + ", pathupdated_1: " + path_updated_1
+#exit()
 
+socket_dict['live_log'] =  "<a href=" + path_updated_1 + " target='_blank'>" + "Output Log File" + "</a>" 
+
+#socket_dict['live_log'] = path_updated_1
 
 
 error_string_md = ''
