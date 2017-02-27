@@ -88,7 +88,7 @@ subprocess.call(["ln", "-sf", FileLink, Filefilename], stdout=FNULL, stderr=subp
 
 output_filename = json_variables['outputname']
 
-ExecutableFileLocation = '/home/alexsav/bin/catdcd'
+ExecutableFileLocation = '/opt/genapp/Install/catdcd/LINUXAMD64/bin/catdcd4.0/catdcd'
 
 ProcessToCall = []
 #ProcessToCall.append('mpirun')
@@ -102,10 +102,15 @@ ProcessToCall.append(output_filename)
 if 'systemmanipulation' in json_variables:
     indexfile = json_variables['indexfile']
     IndexStr = indexfile[0]
-    Indexfilename = os.path.basename(IndexStr)
-    
+
+    IndexStrname = os.path.basename(IndexStr)
+    PathArrIndex = re.split(json_variables['_logon'], IndexStr)
+    IndexLink = '..' + PathArrIndex[-1]
+    subprocess.call(["ln", "-sf", IndexLink, IndexStrname], stdout=FNULL, stderr=subprocess.STDOUT)
+
+        
     ProcessToCall.append('-i')
-    ProcessToCall.append(Indexfilename)
+    ProcessToCall.append(IndexStrname)
 
 if 'framesmanipulation' in json_variables:
     first_frame = json_variables['firstframe']
@@ -119,12 +124,17 @@ if 'framesmanipulation' in json_variables:
     ProcessToCall.append('-stride')
     ProcessToCall.append(stride) 
 
-ProcessToCall.append(Filefilename)
+ProcessToCall.append(Filefilename) 
 
 if 'framesmanipulation' not in json_variables and 'systemmanipulation' not in json_variables:
     #if 'systemmanipulation' not in json_variables:
     error_str = "<p> ERROR: No modification was selected! </p> <p> Frames manipulation or System maniputlation must be selected. </p>"
-    message_box(error_str,'warning.png')
+    _message = {}
+    _message['icon'] = 'warning.png'
+    _message['text'] = error_str
+    output_res['_message'] = _message
+    print json.dumps( output_res )
+    #message_box(error_str,'warning.png')
     exit()
 
 #print ProcessToCall
