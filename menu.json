@@ -64,10 +64,10 @@
             "label"   : "Run MD/MM",
             "icon"    : "pngs/simulate.png",
             #"help"    : "help text",
-	    "autorun" : "namd_run_local",
+	    "autorun" : "namd_run",
             "modules" : [ 
                          { 
-                          "id"    : "namd_run_local",
+                          "id"    : "namd_run",
                           "label" : "Param_m",
 			  "nobutton" : "true"
                          }

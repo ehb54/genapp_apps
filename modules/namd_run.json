@@ -120,7 +120,18 @@
 		   "default"  : 24,   
                    "required" : "true",
                    "help"     : "Select number of CPUs"
-                   },
+                  },
+	
+	          {
+		   "role"     : "input",
+                   "id"       : "namdversion",
+                   "label"    : "NAMD version",
+                   "type"     : "listbox",
+		   "values"   : "NAMD 2.11~twooneone~NAMD 2.12~twoonetwo",
+                   "default"  : "twooneone",
+                   "required" : "true",
+                   "help"     : "Select NAMD version to use"
+		  },
 
 #####################################################################################################
                  {
