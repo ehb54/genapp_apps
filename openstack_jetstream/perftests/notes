@@ -1,0 +1,36 @@
+testrun:
+
+-> get uuid
+-> take _os_cmd file
+-> startup os_cluster_cli, make sure ok
+-> modify cluster info / ip's 
+  -> have to leave udp for now
+-> run job
+-> os_delete_cli
+-> extract results
+--> add summary to mongo?
+->  
+
+
+$test
+
+php os_perf_cli.php /home/ehb/demo/output/html5/results/users/emre/test3/_log/_oscmd_1888f270-baf9-11e6-b181-6d6fbda65ad3
+
+php os_perf_repeat.php /home/ehb/namdrunner/output/html5/results/users/emre/Run_perf_test_50k_96core/_log/_oscmd_569b5080-bb17-11e6-8835-89d8a42d842a 15 os_perf_namd_pp.php
+
+
+as user apache:
+old   nohup php os_perf_repeat.php /home/ehb/namdrunner/output/html5/results/users/emre/Run_perf_test_50k_96core/_log/_oscmd_569b5080-bb17-11e6-8835-89d8a42d842a 60 os_perf_namd_pp.php 2>&1 > perf_test.log &
+
+old   nohup php os_perf_repeat.php /home/ehb/namdrunner/output/html5/results/users/emre/Run_perf_test_50k_96core/_log/_oscmd_569b5080-bb17-11e6-8835-89d8a42d842a 10 os_perf_namd_pp.php 2>&1 > perf_test.log &
+
+
+single: php os_perf_cli.php /home/ehb/namdrunner/output/html5/results/users/emre/Run_perf_test_50k_96core/_log/_oscmd_569b5080-bb17-11e6-8835-89d8a42d842a /opt/genapp/namdrunner/bin/perf
+
+batch 60m:  nohup php os_perf_repeat.php /home/ehb/namdrunner/output/html5/results/users/emre/Run_perf_test_50k_96core/_log/_oscmd_569b5080-bb17-11e6-8835-89d8a42d842a 60 /opt/genapp/namdrunner/bin/perf os_perf_namd_pp.php 2>&1 >> perf_test.log &
+
+batch 15m:  nohup php os_perf_repeat.php /home/ehb/namdrunner/output/html5/results/users/emre/Run_perf_test_50k_96core/_log/_oscmd_569b5080-bb17-11e6-8835-89d8a42d842a 15 /opt/genapp/namdrunner/bin/perf os_perf_namd_pp.php 2>&1 >> perf_test.log &
+
+new way:
+as user apache 
+nohup php os_perf_repeat2.php tests.json 2>&1 >> perf_test2.log &

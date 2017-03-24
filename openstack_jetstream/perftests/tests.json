@@ -1,0 +1,802 @@
+{
+    "repeat" : 0
+    ,"oscmd" : "/home/ehb/namdrunner/output/html5/results/users/emre/Run_perf_test_50k_96core/_log/_oscmd_569b5080-bb17-11e6-8835-89d8a42d842a"
+    ,"postproc" : "os_perf_namd_pp.php"
+    ,"cacheemails" : "email_cache.txt"
+    ,"sendcacheemail" : "emre@biochem.uthscsa.edu"
+    ,"mailhdr" : "[namd/iu][performance results]"
+    ,"run" : [
+        {
+            "tag"   : "p24-h24-212o202gcc540"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202gcc540"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202gcc540"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202gcc540"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202gcc540"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202gcc540"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202gcc540"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202gcc540"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p24-h24-212o202gcc540-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202gcc540-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202gcc540-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202gcc540-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202gcc540-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202gcc540-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202gcc540-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202gcc540-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p24-h24-212o202gcc540-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202gcc540-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202gcc540-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202gcc540-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202gcc540-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202gcc540-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202gcc540-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202gcc540-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc540-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p24-h24-212o202gcc630"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202gcc630"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202gcc630"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202gcc630"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202gcc630"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202gcc630"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202gcc630"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202gcc630"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p24-h24-212o202gcc630-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202gcc630-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202gcc630-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202gcc630-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202gcc630-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202gcc630-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202gcc630-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202gcc630-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p24-h24-212o202gcc630-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202gcc630-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202gcc630-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202gcc630-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202gcc630-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202gcc630-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202gcc630-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202gcc630-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202gcc630-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p24-h24-212o202icc"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202icc"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202icc"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202icc"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202icc"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202icc"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202icc"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202icc"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p24-h24-212o202icc-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202icc-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202icc-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202icc-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202icc-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202icc-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202icc-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O2"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202icc-O2"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O2"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p24-h24-212o202icc-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p24-h44-212o202icc-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 1
+            }
+        }
+        ,{
+            "tag"   : "p48-h24-212o202icc-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p48-h44-212o202icc-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 2
+            }
+        }
+        ,{
+            "tag"   : "p72-h24-212o202icc-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p72-h44-212o202icc-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 3
+            }
+        }
+        ,{
+            "tag"   : "p96-h24-212o202icc-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O3"
+                ,"os_flavor"  : "m1.xlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+        ,{
+            "tag"   : "p96-h44-212o202icc-O3"
+            ,"prerun"  : "rm namdmd_log.out 2> /dev/null"
+            ,"modify" :
+            {
+                "namdversion" : "212o202icc-O3"
+                ,"os_flavor"  : "m1.xxlarge"
+                ,"os_ppn"     : 24
+                ,"os_nodes"   : 4
+            }
+        }
+    ]
+}
