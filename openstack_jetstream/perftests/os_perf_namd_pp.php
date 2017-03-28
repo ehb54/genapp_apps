@@ -4,7 +4,7 @@ date_default_timezone_set("UTC");
 
 # $testing = 1;
 
-function post_processing( $json, $results, $tag = NULL, $cacheemails = NULL ) {
+function post_processing( $json, $results, $tag = NULL, $cacheemails = NULL, $logprefix = "" ) {
 
     if ( isset( $tag ) ) {
         $tag = "$tag ";
@@ -14,10 +14,23 @@ function post_processing( $json, $results, $tag = NULL, $cacheemails = NULL ) {
 
     print "post_processing called\n";
     
-    if ( isset( $results->error ) )  {
-        $msg = "$tag '" . addslashes( json_encode( $results ) ) . "'";
+    $results_decoded = json_decode( $results );
+
+    if ( $results_decoded == NULL ) {
+        $msg = $tag . date( DATE_ATOM ) . "'{\"error\":\"results from command could not be json decoded\"}'\n--------\n$results--------\n";
         if ( isset( $cacheemails ) && $cacheemails ) {
-            file_put_contents( $cacheemails, $tag . ' ' . addslashes( json_encode( $results ) ) . "\n", FILE_APPEND );
+            file_put_contents( $cacheemails, "$msg\n", FILE_APPEND );
+        } else {
+            $cmd = 'echo $msg | mail -s "[namdrunner][performance results][ERROR]" emre@biochem.uthscsa.edu';
+            `$cmd`;
+        }
+        return;
+    }
+
+    if ( isset( $results_decoded->error ) )  {
+        $msg = $tag . date( DATE_ATOM ) . " '" . json_encode( $results ) . "'";
+        if ( isset( $cacheemails ) && $cacheemails ) {
+            file_put_contents( $cacheemails, "$msg\n", FILE_APPEND );
         } else {
             $cmd = 'echo $msg | mail -s "[namdrunner][performance results][ERROR]" emre@biochem.uthscsa.edu';
             `$cmd`;
@@ -31,7 +44,7 @@ function post_processing( $json, $results, $tag = NULL, $cacheemails = NULL ) {
     
     # print "runlog $runlogfile\n";
 
-    $log = "namd_perf.txt";
+    $log = "${logprefix}namd_perf.txt";
 
     if ( FALSE === ( $runlog = file_get_contents( $runlogfile ) ) ) {
         fwrite( STDERR, "error reading $runlogfile\n" );
