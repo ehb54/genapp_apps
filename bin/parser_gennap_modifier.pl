@@ -1182,7 +1182,8 @@ while (my $line = <$fh>) {
 	my $length_exp = scalar( @{ $hash_exp } );
 
 	my $label = (split(/[:]/, $line_copy))[0];
-	print OUT $label .":". $length_exp . "\n";
+        
+        print OUT $label .":". $length_exp . "\n";
 	
 	#print "VAR: " .$$ref{'num_rigid_domains'}->{geom_center_vect}[0]{Startingmodulus_anggeom_center_vect};
 	#exit;
@@ -1205,7 +1206,9 @@ while (my $line = <$fh>) {
 		    print OUT $temp_explines[$i] ."\n";
 		}
 	    }
-	}
+        }
+        #print "Exp: fininshed ";
+        #exit;        
     }
     
     
@@ -1525,9 +1528,12 @@ while (my $line = <$fh>) {
 	{
 	    my $symfilename = basename($$ref{'stone_exp_flag'}->{stone_exp_name}[0]);
 	    $symfilename =~ s{\.[^.]+$}{}; # removes extension 1
-	    my $familyname = substr($symfilename, 0, 4);
-
-	    print OUT $id_exp.":". $familyname . "\n";
+	    
+            #my $familyname = substr($symfilename, 0, 4);
+            #my @familynamearray = split('_', $symfilename);
+            my $lastone =  (split(/[_]/, $symfilename))[-1];
+            $symfilename =~ s/$lastone//;                  
+	    print OUT $id_exp.":". $symfilename . "\n";
 	}
 	else
 	{
@@ -1544,7 +1550,7 @@ while (my $line = <$fh>) {
 #############################################################
 
 close OUT;
-
+#print "File written: ";
 #exit;
 
 ##############################################################
