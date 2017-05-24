@@ -134,7 +134,9 @@
 		  "role"     : "input",  
 		  "id"       : "stone_exp_name",
 		  "label"    : "Stone Exp Contact Dist Family Name:",
-		  "type"     : "lrfile",
+		  "type"     : "file",
+                  "multiple" : "true",
+                  "array"    : "true", 
 		  "repeat"   : "stone_exp_flag",
 		  "required" : "true"
 	       },
@@ -2168,7 +2170,7 @@
 		   "selzoom" : "true",    
 		   "backgroundcolor" : "white",
 		   "changescale" : "true",   
-		   "rotatedylabel" : "true",    
+		   "rotatedylabel" : "false",    
 		   "savetofile" : "true"    
                    },
 
