@@ -1,0 +1,226 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,ast,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.tools.center as center
+import sassie.interface.input_filter as input_filter
+import sassie.interface.center_filter as center_filter
+
+class Center_Drv():
+
+   module = 'center'
+
+   def message_box(self,text,icon):
+
+	_message = {}
+	_message['icon'] = icon
+	_message['text'] = text
+
+	UDP_IP = json_variables['_udphost']
+	UDP_PORT = json_variables['_udpport']
+	sock = socket.socket(socket.AF_INET, # Internet
+		socket.SOCK_DGRAM) # UDP
+
+	socket_dict={}
+	socket_dict['_uuid'] = json_variables['_uuid']
+	socket_dict['_message'] = _message
+
+	doc_string = json.dumps(socket_dict)
+	sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+	return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+	total_string = ''
+
+	UDP_IP = json_variables['_udphost']
+	UDP_PORT = json_variables['_udpport']
+	sock = socket.socket(socket.AF_INET, # Internet
+		socket.SOCK_DGRAM) # UDP
+
+	socket_dict={}
+	socket_dict['_uuid'] = json_variables['_uuid']
+
+	first = True
+
+	while process.is_alive():
+		try:
+			if(first):
+				socket_dict['progress_html'] = 0.01
+				socket_dict['progress_html'] = '<center>starting job</center>'
+				doc_string = json.dumps(socket_dict)
+				sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+				first = False
+			this_text = txtQueue.get(True, timeout=0.1)
+			text_split=string.split(this_text)
+			if(text_split[0]=='STATUS'):
+				value = locale.atof(text_split[1])
+				svalue = str(100*value)
+				socket_dict['progress_output'] = value
+				socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+				doc_string = json.dumps(socket_dict)
+				sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+			else:
+				total_string += this_text
+		except:
+			if not process.is_alive():
+				
+                                #socket_dict['progress_html'] = '<center>100.0 : plotting results</center>'
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+				return total_string
+
+		time.sleep(0.01)
+	else:
+		return total_string
+
+	return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	infile ='c7.dcd'
+        	refpdb ='min3.pdb'
+        	ofile ='cen_c7.dcd'
+        	path='./'
+
+		UDP_IP = '127.0.0.1'
+		UDP_PORT = 5005
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+
+	#	output_dict['base_directory'] = json_variables['_base_directory']
+		#output_dict['logon'] = json_variables['_logon']
+	#	output_dict['project'] = json_variables['_project']
+
+		base_directory = json_variables['_base_directory']
+
+        	path = base_directory.replace('\/','/') + "/"
+
+		os.chdir(path)
+		pdb_path = path
+
+        	ofile = json_variables['ofile']
+	
+		if(json_variables['refpdb_list_box'] == "c1"):
+        		temp_refpdb = json_variables['refpdb']
+			head, refpdb = os.path.split(temp_refpdb[0])
+		elif(json_variables['refpdb_list_box'] == "c2"):
+        		refpdb = json_variables['refpdb_text']
+
+		if(json_variables['dcd_list_box'] == "c1"):
+        		temp_infile = json_variables['infile']
+			head, infile = os.path.split(temp_infile[0])
+		elif(json_variables['dcd_list_box'] == "c2"):
+        		infile = json_variables['infile_text']
+ 
+		path = ''
+
+		UDP_IP = json_variables['_udphost']
+		UDP_PORT = json_variables['_udpport']
+
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+	svariables['infile']  = (str(infile),'string')
+	svariables['refpdb']  = (str(refpdb),'string')
+	svariables['ofile']   = (str(ofile),'string')
+	svariables['path']    = (path,'string')
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+	if(len(error)>0):
+		
+   		self.message_box(error,'skull.png')
+#		warning.png, information.png, skull.png, toast.png
+
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput2'] = 'run failed'
+		print json.dumps( output_dict )
+		return
+	else:
+		error=center_filter.check_center(self.variables,no_file_check="true")
+
+		if(len(error) != 0):
+			self.message_box(error,'warning.png')
+			output_dict['error'] = 'Error in center variables'	
+			output_dict['sasoutput2'] = 'run failed'
+			print json.dumps( output_dict )
+			return
+	
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+		process=multiprocessing.Process(target=center.center,args=(self.variables,txtQueue))
+		process.start()
+
+		total_string = self.background_job(process,txtQueue,json_variables)
+
+		#output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+
+		#html = """<html>
+		#	<header><title>This is title</title></header>
+		#	<body>
+		#		Hello world
+		#	</body>
+		#	</html>"""
+		#output_dict['htmloutput'] = html
+
+		#output_dict['outputpdb'] = pdb_path+refpdb
+		#output_dict['outputpdb'] = pdb_path+'c.cube'
+
+	#except
+		#	print 'failed to send to socket'
+		#	sock_dict = {}
+		#	sock_dict['_uuid'] = json_variables['_uuid']
+		#	json.dumps(sock_dict)
+		#	print json.dumps( sock_dict )
+
+	try:
+		with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+			json.dump(output_dict,outfile)
+	except:
+		#output_dict['error_string'] = save_stdout
+		output_dict['error_string'] = 'you should work'
+
+#emre
+#        sys.stdout = save_stdout;
+#end emre
+	print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+			#json_variables = ast.literal_eval(argv_io_string)
+		a=Center_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

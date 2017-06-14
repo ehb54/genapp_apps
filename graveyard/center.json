@@ -1,0 +1,132 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "center",
+    "label"    : "Center",
+    "fields"   : [
+ 	           {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Center",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+		   "help"     : "results will be placed in a folder called center/ in the directory name you enter here"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "refpdb_list_box",
+                   "name"    : "refpdb_list_box",
+                   "label"   : "reference pdb",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use file on server~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "refpdb",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+		   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "refpdb_list_box:c1",
+		   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "refpdb_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+		   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "refpdb_list_box:c2",
+		   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcd_list_box",
+                   "name"    : "dcd_list_box",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"    : "listbox",
+                   "values"  : "upload file~c1~use file on server~c2",
+                   "default" : "c1",
+                   "help"    : "you can either upload a file from your machine or enter a file name that is in the current project directory",
+                   "repeater" : "true",
+		   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "infile",
+                   "label"   : " ",
+                   "type"    : "file",
+                   "required" : "true",
+		   "help"     : "name of DCD or PDB file with coordinates you wish to center",
+		   "repeat"   : "dcd_list_box:c1",
+		   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "infile_text",
+                   "label"   : "enter full path and file name ",
+                   "type"    : "text",
+                   "required" : "true",
+		   "help"     : "name of DCD or PDB file with coordinates you wish to center",
+		   "repeat"   : "dcd_list_box:c2",
+		   "norow" : "true"
+                   },
+                  {
+                   "role"    : "input", 
+                   "id"      : "ofile",
+                   "label"   : "output filename",
+                   "type"    : "text",
+		   "safefile" : "on",
+                   "default" : "centered_c2.dcd",
+                   "required" : "true",
+		   "help"     : "name of final PDB or DCD file centered coordinates"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+#                   {
+#                   "role"    : "output",
+#                   "id"    : "outputpdb",
+#                   "label" : "test pdb output",
+#                   "type"  : "atomicstructure",
+#                   "height" : "500",
+#                   "width" : "500"
+#                   },
+		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : "",
+                    "type"    : "textarea",
+                    "rows"    : 20,
+                    "cols"    : 80
+                   }
+                  ],
+# the executable will take inputs in json and produce outputs in json
+    "executable" : "center"
+}

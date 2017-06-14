@@ -1,0 +1,651 @@
+#!/share/apps/local/bin/python/bin/python
+import json
+import sys
+import os
+import shutil
+import locale
+from StringIO import StringIO
+import multiprocessing
+import time
+import string
+import socket
+
+import sassie.interface.input_filter as input_filter
+import sassie.tools.contrast_calculator as contrast_calculator
+import sassie.interface.contrast_calculator_filter as contrast_calculator_filter
+
+
+class Contrast_Drv():
+
+    module = 'constrast_calc'
+
+    def message_box(self, text, icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
+
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+
+        return
+
+    def background_job(self, process, txtQueue, json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
+
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+            try:
+                if(first):
+                    socket_dict['progress_html'] = 0.01
+                    socket_dict[
+                        'progress_html'] = '<center>starting job</center>'
+                    socket_dict['_progress'] = 0.01
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    first = False
+                this_text = txtQueue.get(True, timeout=0.1)
+                text_split = string.split(this_text)
+                if(text_split[0] == 'STATUS'):
+                    value = locale.atof(text_split[1])
+                    svalue = str(round(100 * value, 2))
+                    socket_dict['progress_output'] = value
+                    socket_dict['_progress'] = value
+                    socket_dict[
+                        'progress_html'] = '<center>' + svalue + '</center>'
+                    if "_textarea" in socket_dict:
+                        del socket_dict["_textarea"]
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                else:
+                    socket_dict["_textarea"] = this_text
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    total_string += this_text
+            except:
+                if not process.is_alive():
+
+                    return total_string
+
+            time.sleep(0.01)
+        else:
+            return total_string
+
+        return total_string
+
+    def read_file(self, filename, number_columns, this_pass, flot_labels, ftype):
+
+         # sasfile: q-value, goal, best, worst, average
+
+        value = 1
+
+        try:
+#	if True:
+            data = []
+            error = []
+            data_file = open(filename, 'r').readlines()
+            nl = len(data_file)
+#            print filename, nl
+
+            for i in xrange(nl):
+                lin = string.split(data_file[i])
+     #           print 'lin = ',lin
+                # sys.stdout.flush()
+
+                if(len(lin) > 0):
+     #               print 'lin[0] = ',lin[0] ; sys.stdout.flush()
+     #               print 'lin[0][0] = ',lin[0][0] ; sys.stdout.flush()
+# frac D2O, Protein SLD, DNA SLD, Complex SLD, Solvent SLD (10^10 cm^-2)
+# 0.00    1.867   3.463   3.085  -0.548
+                    if(lin[0][0] != "#" and ftype == "sld"):
+                        this_x = lin[0]
+                        if(this_pass == 1):
+                            this_y1 = lin[1]
+                            data.append([this_x, this_y1])
+                            this_legend = "protein"
+                            this_legend = flot_labels[0]
+                        elif(this_pass == 2):
+                            this_y1 = lin[2]
+                            data.append([this_x, this_y1])
+                            this_legend = "dna"
+                            this_legend = flot_labels[1]
+                        elif(this_pass == 3):
+                            this_y1 = lin[3]
+                            data.append([this_x, this_y1])
+                            this_legend = "complex"
+                            this_legend = flot_labels[2]
+                        elif(this_pass == 4):
+                            this_y1 = lin[4]
+                            data.append([this_x, this_y1])
+                            this_legend = "solvent"
+                            this_legend = flot_labels[3]
+
+                    elif(lin[0][0] != "#" and ftype == "contrast"):
+                        this_x = lin[0]
+                        if(this_pass == 1):
+                            this_y1 = lin[1]
+                            data.append([this_x, this_y1])
+                            this_legend = "protein"
+                            this_legend = flot_labels[0]
+                        elif(this_pass == 2):
+                            this_y1 = lin[2]
+                            data.append([this_x, this_y1])
+                            this_legend = "dna"
+                            this_legend = flot_labels[1]
+                        elif(this_pass == 3):
+                            this_y1 = lin[3]
+                            data.append([this_x, this_y1])
+                            this_legend = "complex"
+                            this_legend = flot_labels[2]
+
+                    elif(lin[0][0] != "#" and (ftype == "izero" or ftype == "sqrtizero")):
+                        this_x = lin[0]
+                        if(this_pass == 5):
+                            this_y1 = lin[number_columns - 1]
+                            data.append([this_x, this_y1])
+                        elif(this_pass == 6):
+                            this_y1 = lin[number_columns]
+                            data.append([this_x, this_y1])
+# print str(slist).replace("'","\"")
+            if(this_pass >= 5):
+
+                this_data = {
+                    'lines': {"show": "true", "lineWidth": 2},
+                    'color': 'yellow',
+                    'data': data
+                }
+                self.flot_data["data"].append(this_data)
+
+                            # tmp_d = {
+                            #		'color': 'yellow',
+                            #		'data': data
+                            #	}
+                            # self.flot_data.append(tmp_d)
+
+            elif(this_pass < 5):
+
+#			self.flot_data["options"] = {"xlabel" : "D2O Fraction",
+#						     "ylabel" : this_y_label,
+#						     "title"  : this_title}
+                this_data = {
+                    'lines': {"show": "true", "lineWidth": 2},
+                    #			'lines' : {lineWidth: 3},
+                    'label': this_legend,
+                    'data': data
+                }
+                self.flot_data["data"].append(this_data)
+
+                    #	tmp_d = {
+                    # 'lines' : {lineWidth: 3},
+                    #			'label': legend,
+                    #			'data': data
+                    #		}
+                    #	self.flot_data.append(tmp_d)
+                    # else:
+                    #	self.flot_data.append(data)
+#            print self.flot_data
+
+        except:
+            print 'ERROR READING DATA FILE'
+            print 'ERROR READING DATA FILE'
+            print 'ERROR READING DATA FILE'
+            self.flot_data = "error reading file and making plot : this_pass " + \
+                str(this_pass)
+
+        return value
+
+    def get_labels_from_disk(self, filename):
+
+        try:
+            # if True:
+            data = []
+            error = []
+            data_file = open(filename, 'r').readlines()
+            nl = len(data_file)
+            flot_labels = []
+            for i in xrange(nl):
+                if(data_file[i][:10] == '# frac D2O'):
+                    lin = string.split(data_file[i], ',')
+                    for j in xrange(len(lin)):
+                        if j > 0:
+                            this_string = lin[j].strip()  # .strip('\n')
+                            flot_labels.append(this_string)
+
+        except:
+            flot_labels = []
+
+        return flot_labels
+
+    def get_data_from_disk(self, filename, number_columns, flot_labels, ftype, this_title, this_x_label, this_y_label):
+
+            # dum_sld.txt --> plot1
+# frac D2O, Protein SLD, DNA SLD, Complex SLD, Solvent SLD (10^10 cm^-2)
+# 0.00	  1.867	  3.463	  3.085	 -0.548
+
+            # dum_contrast.txt --> plot2
+# frac D2O, Protein Contrast, DNA Contrast, Complex CONTRAST (10^10 cm^-2)
+# 0.00	  2.415	  4.011	  3.633
+
+            # dum_izero.txt --> plot3 and plot4
+# frac D2O, Protein Mw, DNA Mw, Complex Mw (kDa), I(0) (cm^-1), sqrtI(0)
+# 0.00	  69.307	 223.165	 292.472	  0.221	  0.470
+
+        self.flot_data = {
+            "options": {
+                "title": this_title,
+                "xlabel": this_x_label,
+                "ylabel": this_y_label,
+                "legend": {"show": "true",
+                           "backgroundOpacity": 0}
+            },
+            "data": []
+        }
+
+           # self.flot_data = []
+
+#        print 'ftype,number_columns: ', ftype, number_columns
+        if(ftype == "sld"):
+            if(number_columns == 3):                       # number_columns will be 3 or 4 for "sld"
+                for i in xrange(0,number_columns,2):       #don't read Complex column if there is only one component
+                    this_pass=i + 1
+#                    print 'this pass: ', this_pass
+                    value = self.read_file(
+                            filename, number_columns, this_pass, flot_labels, ftype)
+            else:
+                for i in xrange(number_columns):  
+                    this_pass = i + 1
+#                    print 'this_pass:', this_pass      
+                    value = self.read_file(
+                            filename, number_columns, this_pass, flot_labels, ftype)
+        elif(ftype == "contrast"):
+            if(number_columns == 2):        # number_columns will be 2 or 3 for "contrast"    
+                this_pass = 1               #don't read Complex column if there is only one component
+#                print 'this_pass:', this_pass
+                value = self.read_file(
+                    filename, number_columns, this_pass, flot_labels, ftype)
+            else:
+                 for i in xrange(number_columns):  
+                    this_pass = i + 1
+#                    print 'this_pass:', this_pass      
+                    value = self.read_file(
+                            filename, number_columns, this_pass, flot_labels, ftype)           
+        elif(ftype == "izero"):
+            this_pass = 5
+            value = self.read_file(
+                filename, number_columns, this_pass, flot_labels, ftype)
+        elif(ftype == "sqrtizero"):
+            this_pass = 6
+            value = self.read_file(
+                filename, number_columns, this_pass, flot_labels, ftype)
+
+        return
+
+    def run_me(self, json_flag, json_variables, input_string):
+
+        if not json_flag:
+
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+
+            runname = 'run_0'
+            inpath = './'
+            outfile = 'dum.txt'
+            numfile = '2'
+            solute_conc = "1.0"
+            d2ostep = "5"
+            numsolv = "1"
+            frExchHpro = "0.95"
+            frExchHnuc = "1.0"
+
+            seqfiles = ["input_and_testing_files/protein_sequence.txt",
+                        "input_and_testing_files/dna_sequence.txt"]
+            numunits = ["1", "1"]
+            fracdeut = ["0", "0"]
+            moltype = ["protein", "dna"]
+            isFasta = ["1", "1"]
+
+            ivariables = []
+            for i in xrange(locale.atoi(numfile)):
+                ivariables.append(
+                    [seqfiles[i], numunits[i], fracdeut[i], moltype[i], isFasta[i]])
+
+            solv_comp = ["NaCl"]
+            solv_conc = ["0.15"]
+
+            solv_variables = []
+            for i in xrange(locale.atoi(numsolv)):
+                solv_variables.append([solv_comp[i], solv_conc[i]])
+
+            number_of_chemicals = '2'
+            chemical_formula = ["(C3H4O3)12", "(C3H4O3)12"]
+            number_exchangeable_hydrogens = ["12", "5"]
+            fraction_exchangeable_hydrogens = ["0.95", "0.45"]
+            mass_density = ["1.1", "1.3"]
+
+            chemical_variables = []
+
+            for i in xrange(locale.atoi(number_of_chemicals)):
+                this_chemical_formula = chemical_formula[i]
+                this_number_exchangeable_hydrogens = number_exchangeable_hydrogens[
+                    i]
+                this_fraction_exchangeable_hydrogens = fraction_exchangeable_hydrogens[
+                    i]
+                this_mass_density = mass_density[i]
+            chemical_variables.append(
+                [this_chemical_formula, this_number_exchangeable_hydrogens, this_fraction_exchangeable_hydrogens, this_mass_density])
+
+            path = ''
+
+            # END USER EDIT
+            # END USER EDIT
+            # END USER EDIT
+        else:
+
+            runname = json_variables['runname']
+            inpath = ""
+            outfile = json_variables['outfile']
+            numfile = json_variables['numfile']
+            solute_conc = json_variables['solute_conc']
+            d2ostep = json_variables['d2ostep']
+            numsolv = json_variables['numsolv']
+            frExchHpro = json_variables['fexchp']
+            frExchHnuc = json_variables['fexchn']
+
+            base_directory = json_variables['_base_directory']
+
+            path = base_directory.replace('\/', '/') + "/"
+
+            os.chdir(path)
+            base_path = path
+            path = ''
+            try:
+                seqfiles = json_variables['seqfiles']
+                numunits = json_variables['numunits']
+                fracdeut = json_variables['fracdeut']
+                moltype = json_variables['moltype']
+            except:
+                seqfiles = []
+                numunits = []
+                fracdeut = []
+                moltype = []
+
+            ivariables = []
+            for i in xrange(locale.atoi(numfile)):
+
+                isFasta = json_variables['isFasta'][i]
+
+                if(isFasta == "c1"):
+                    fasta = "0"
+                elif(isFasta == "c2"):
+                    fasta = "1"
+
+                if(moltype[i] == "c1"):
+                    mtype = "dna"
+                elif(moltype[i] == "c2"):
+                    mtype = "rna"
+                elif(moltype[i] == "c3"):
+                    mtype = "protein"
+
+                seqfile = seqfiles[i][0]
+
+                this_seqfile = seqfile.replace('\/', '/')
+
+                ivariables.append(
+                    [this_seqfile, numunits[i], fracdeut[i], mtype, fasta])
+
+            solv_variables = []
+
+            if(int(numsolv) > 0):
+                solv_comp = json_variables['solv_comp']
+                solv_conc = json_variables['solv_conc']
+
+                error, solv_formula = input_filter.check_and_convert_formula(
+                    solv_comp)
+
+                if(len(error) > 0):
+                    print 'error = ', str(error)
+                    output_dict[
+                        'error'] = 'Error in check_and_convert formula for solvent variables'
+                    output_dict['error2'] = error[0]
+                    output_dict['sasoutput1'] = 'run failed'
+                    return
+
+                for i in xrange(locale.atoi(numsolv)):
+                    # solv_variables.append([solv_comp[i],solv_conc[i]])
+                    solv_variables.append([solv_formula[i], solv_conc[i]])
+
+            number_of_chemicals = 0
+            chemical_variables = []
+            try:
+                formula_array = json_variables['chemical_formula']
+
+                error, formulas = input_filter.check_and_convert_formula(
+                    formula_array)
+                if(len(error) > 0):
+                    print 'error = ', str(error)
+                    output_dict[
+                        'error'] = 'Error in check_and_convert formula for chemical variables'
+                    output_dict['error2'] = error[0]
+                    output_dict['sasoutput1'] = 'run failed'
+                    return
+
+                for i in xrange(locale.atoi(json_variables['number_of_chemicals'])):
+
+                    # this_chemical_formula =
+                    # json_variables['chemical_formula'][i]
+                    this_chemical_formula = formulas[i]
+                    this_number_exchangeable_hydrogens = json_variables[
+                        'number_exchangeable_hydrogens'][i]
+                    this_fraction_exchangeable_hydrogens = json_variables[
+                        'fraction_exchangeable_hydrogens'][i]
+                    this_mass_density = json_variables['mass_density'][i]
+                    chemical_variables.append(
+                        [this_chemical_formula, this_number_exchangeable_hydrogens, this_fraction_exchangeable_hydrogens, this_mass_density])
+                    number_of_chemicals += 1
+
+            except:
+                pass
+
+        output_dict = {}
+
+        svariables = {}
+
+        svariables['runname'] = (str(runname), 'string')
+        svariables['inpath'] = (str(inpath), 'string')
+        svariables['outfile'] = (str(outfile), 'string')
+        svariables['numfiles'] = (str(numfile), 'int')
+        svariables['solute_conc'] = (str(solute_conc), 'float')
+        svariables['d2ostep'] = (str(d2ostep), 'int')
+        svariables['numsolv'] = (str(numsolv), 'int')
+        svariables['fexchp'] = (str(frExchHpro), 'float')
+        svariables['fexchn'] = (str(frExchHnuc), 'float')
+        svariables['plotflag'] = (str('0'), 'int')
+        svariables['number_of_chemicals'] = (str(number_of_chemicals), 'int')
+
+        error = []
+
+        error, variables = input_filter.type_check_and_convert(svariables)
+
+        if(len(error) > 0):
+            print 'error = ', error
+            output_dict['error'] = 'Error in input_filter'
+            output_dict['error2'] = error[0]
+            output_dict['sasoutput1'] = 'run failed'
+
+        else:
+
+# NOTE: ivariables requires a path and it fails on a file existence check
+# but the file is there!
+
+            # error =
+            # contrast_calculator_filter.check_ivariables("./",ivariables)
+
+            # if(len(error) > 0):
+            #	print 'error = ',error
+            #	output_dict['error'] = 'Error in align_filter'
+            #	output_dict['error2'] = error[0]
+            #	output_dict['sasoutput1'] = 'run failed'
+            #	return
+
+            error = contrast_calculator_filter.check_contrast(variables)
+
+            if(len(error) > 0):
+                print 'error = ', error
+                output_dict['error'] = 'Error in check_contrast'
+                output_dict['error2'] = error[0]
+                output_dict['sasoutput1'] = 'run failed'
+                return
+
+            else:
+                runname = variables['runname'][0]
+
+                txtQueue = multiprocessing.JoinableQueue()
+                if os.path.exists(runname + '/' + self.module):
+                    shutil.rmtree(runname + '/' + self.module)
+
+                process = multiprocessing.Process(target=contrast_calculator.contrast, args=(
+                    variables, ivariables, solv_variables, chemical_variables, txtQueue))
+                process.start()
+
+                total_string = self.background_job(
+                    process, txtQueue, json_variables)
+
+#			output_dict['sasoutput2'] = total_string
+
+# Modification by S. Krueger
+# The "total_chem" may be greater than total number of components since it just depends on the number of files read + the number of chemical formulas, i.e., the protein component could be read in as two different subunit files.
+# Better to use the number of components, which can be deduced from the number of columns in the output.
+#                if(int(numfile) + int(number_of_chemicals) < 3):
+#                    total_chem = int(numfile) + int(number_of_chemicals)
+#                    izero = 0
+
+                flot_labels = self.get_labels_from_disk(
+                    runname + "/contrast_calculator/" + outfile + "_sld.txt")
+                print 'flot_labels_1 = ', flot_labels
+                if len(flot_labels) > 4:  # for two components, the number of columns will be 4; no plotting for more than 2 components
+                    print 'More than two components.  No plotting.'
+                    no_plot_string = 'Results are not plotted for complexes with more than 2 components.  This is normal behavior.'
+                    output_dict['No Plot'] = no_plot_string
+                else:
+                    number_columns = len(flot_labels)
+                    ftype = "sld"
+                    print 'Number of SLD columns: ', number_columns
+                    this_title = "Scattering Length Density (SLD) versus D2O Fraction"
+                    this_xlabel = "D2O Fraction"
+                    this_ylabel = "SLD"
+                    self.get_data_from_disk(runname + "/contrast_calculator/" +
+                                            outfile +
+                                            "_sld.txt", number_columns, flot_labels, ftype,
+                                            this_title, this_xlabel, this_ylabel)
+
+                    if(isinstance(self.flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = self.flot_data
+                    else:
+                        output_dict['plotout1'] = self.flot_data
+
+                    flot_labels = self.get_labels_from_disk(
+                        runname + "/contrast_calculator/" + outfile + "_contrast.txt")
+                    print 'flot_labels_2 = ', flot_labels
+                    number_columns = len(flot_labels)
+                    ftype = "contrast"
+                    print 'Number of CONTRAST columns: ', number_columns
+                    this_title = "Contrast versus D2O Fraction"
+                    this_xlabel = "D2O Fraction"
+                    this_ylabel = "Contrast"
+
+                    self.get_data_from_disk(runname + "/contrast_calculator/" +
+                                            outfile +
+                                            "_contrast.txt", number_columns, flot_labels, ftype,
+                                            this_title, this_xlabel, this_ylabel)
+
+                    if(isinstance(self.flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = self.flot_data
+                    else:
+                        output_dict['plotout2'] = self.flot_data
+
+                    flot_labels = self.get_labels_from_disk(
+                        runname + "/contrast_calculator/" + outfile + "_izero.txt")
+                    print 'flot_labels_3 = ', flot_labels
+                    number_columns = len(flot_labels)
+                    ftype = "izero"
+                    print 'Number of IZERO columns: ', number_columns
+                    this_title = "I(0) versus D2O Fraction"
+                    this_xlabel = "D2O Fraction"
+                    this_ylabel = "I(0)"
+
+                    self.get_data_from_disk(runname + "/contrast_calculator/" +
+                                            outfile +
+                                            "_izero.txt", number_columns, flot_labels, ftype,
+                                            this_title, this_xlabel, this_ylabel)
+
+                    if(isinstance(self.flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = self.flot_data
+                    else:
+                        output_dict['plotout3'] = self.flot_data
+
+#                    izero = 1
+
+                    ftype = "sqrtizero"
+                    this_title = "Sqrt[I(0)] versus D2O Fraction"
+                    this_xlabel = "D2O Fraction"
+                    this_ylabel = "Sqrt[I(0)]"
+
+                    self.get_data_from_disk(runname + "/contrast_calculator/" +
+                                            outfile +
+                                            "_izero.txt", number_columns, flot_labels, ftype,
+                                            this_title, this_xlabel, this_ylabel)
+
+                    if(isinstance(self.flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = self.flot_data
+                    else:
+                        output_dict['plotout4'] = self.flot_data
+
+        if output_dict:
+            print json.dumps(output_dict)
+        else:
+            error_string = 'Exception encountered executing ' + self.module + \
+                ' program: please submit feedback and attach run log'
+            output_dict['error'] = error_string
+            print json.dumps(output_dict)
+
+if __name__ == '__main__':
+
+    json_flag = True
+    # json_flag = False
+
+    if (len(sys.argv) < 1):
+        print "\{\"error\":\"contrast calculator called with no arguments\"\}\n"
+        print 'exiting now'
+
+    elif len(sys.argv) > 1:
+        json_variables = " "
+        if(json_flag):
+            argv_io_string = StringIO(sys.argv[1])
+            json_variables = json.load(argv_io_string)
+        a = Contrast_Drv()
+        a.run_me(json_flag, json_variables, sys.argv[1])

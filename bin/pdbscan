@@ -1,0 +1,215 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,ast,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.build.pdbscan as pdbscan
+import sassie.interface.input_filter as input_filter
+
+class PDBScan_Drv():
+
+   module = 'pdbscan'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+	first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(round(100*value,2))
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if "report" in socket_dict:
+                                        del socket_dict["report"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        elif(text_split[0]=='REPORT'):
+				#socket_dict['_textarea'] = text_split[1]	
+				total_string = text_split[1]
+				#print 'total_string (bj) = ',total_string
+                                #if socket_dict:
+                                #        doc_string = json.dumps(socket_dict)
+                                #        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                except:
+                        if not process.is_alive():
+
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	refpdb ='min3.pdb'
+        	path='./'
+
+		UDP_IP = '127.0.0.1'
+		UDP_PORT = 5005
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+
+		base_directory = json_variables['_base_directory']
+
+        	path = base_directory.replace('\/','/') + "/"
+
+		os.chdir(path)
+		pdb_path = path
+
+        	refpdb = json_variables['refpdb'][0]
+		head,pdbfilename= os.path.split(refpdb)
+		print 'refpdb = ',refpdb
+
+		path = ''
+
+		UDP_IP = json_variables['_udphost']
+		UDP_PORT = json_variables['_udpport']
+
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+	svariables['pdbfile']  = (str(refpdb),'string')
+	svariables['path']    = (path,'string')
+	svariables['outputfile']    = ('pdbscan_output.txt','string')
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+
+	else:
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+
+		#process=multiprocessing.Process(target=pdbscan.scan_pdb,args=(self.variables,txtQueue))
+		process=multiprocessing.Process(target=pdbscan.pdbscan,args=(self.variables,txtQueue))
+		process.start()
+
+		report_info = ''
+		total_string = self.background_job(process,txtQueue,json_variables)
+
+		#output_dict['sasoutput2'] = total_string
+	
+ 		output_dict['outputpdb'] = refpdb
+	
+#	try:
+#		report_flag = str(total_string)
+#		if report_flag == "header":
+#			html_base_name = pdbfilename+'_header_pdbscan_output.html'
+#		elif report_flag == "non_header":
+#			html_base_name = pdbfilename+'_no_header_pdbscan_output.html'
+#	except:
+#		html_base_name = pdbfilename+'_header_pdbscan_output.html'
+ 		
+	#html_base_name = pdbfilename+'header_pdbscan_output.html'
+
+	html_base_name = os.path.splitext(pdbfilename)[0] + '_pdbscan.html'
+
+	html_file = os.path.join(runname,self.module,html_base_name)
+
+	try:
+		output_dict['report_html'] = open(html_file).readlines()
+	except:
+		html_error = 'unable to read HTML report from '+html_file
+		output_dict['report_html'] = html_error
+
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"pdbscan called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+			#json_variables = ast.literal_eval(argv_io_string)
+		a=PDBScan_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

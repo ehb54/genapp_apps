@@ -1,0 +1,106 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "sascalc_pbc",
+    "label"    : "SasCalc-PBC",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "SasCalc-PBC",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "message",
+                   "label"    : "Module under development (ALPHA): due Fall 2016",
+                   "type"     : "label",
+                   "default"  : "header3",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called sascalc_pbc/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "dcdfile",
+                   "label"   : "trajectory file filename (dcd or pdb):",
+                   "type"     : "lrfile",
+		   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SAS",
+                   "norow"    : "false"
+                   },
+		  {
+                   "role"     : "input",
+                   "id"       : "source_list_box",
+                   "label"    : "neutrons or X-ray?",
+                   "type"     : "listbox",
+                   "values"   : "neutrons~c1~X_ray~c2",
+                   "default"  : "c1",
+                   "help"  : "choose a scattering type",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "n_q",
+                   "label"   : "number of q values:",
+                   "type"    : "text",
+                   "default" : "50",
+#                   "help" : "delta q = maximum q-value / (number q-values - 1)",
+                   "help" : "enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "max_q",
+                   "label"   : "maximum q value: ",
+                   "type"    : "text",
+                   "default" : "0.5",
+                   "help" : "(1/angstrom)",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "I0",
+                   "label"   : "I(0):",
+                   "type"    : "text",
+                   "default" : "1.0",
+                   "help" : "experimentally determined value of I(0): usually determined by Guinier analysis",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "sascalc_pbc"
+}

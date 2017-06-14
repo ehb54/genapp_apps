@@ -1,0 +1,293 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "sld_mol",
+    "label"    : "Scattering Length Density",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "SLD MOL",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "help"     : "results will be placed in a folder called sld/ in the directory name you enter here",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "dcdfile",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to calculate SLD profiles",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "expdatafile",
+                   "label"    : "experimental SLD data file name:",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help" : "data file : three columns : z, SLD(z), SLD(z) error",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "outputfile",
+                   "label"    : "output file name:",
+                   "type"     : "text",
+                   "default"  : "tmp_smoothdist.txt",
+                   "help"  : "name of output SLD data file calculated by module",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "general_section_header",
+                   "label"    : "General Parameters & Isotope Section",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true",
+                   "required" : "true"
+                   },
+		  {
+                   "role"     : "input",
+                   "id"       : "runtype_list_box",
+                   "label"    : "run type",
+                   "type"     : "listbox",
+                   "values"   : "average_structural_sld~c1~individual_sld~c2",
+                   "default"  : "c1",
+                   "help"  : "the average SLD (fast), or ensemble member SLD with fitting (slow)",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "bulksld",
+                   "label"    : "scattering length density of bulk:",
+                   "type"     : "text",
+                   "default"  : "-0.51E-6",
+                   "help"  : "bulk SLD of solvent",
+                   "required" : "true"
+                   },
+		          {
+                   "role"     : "input",
+                   "id"       : "source_list_box",
+                   "label"    : "neutrons or X-ray?",
+                   "type"     : "listbox",
+                   "values"   : "neutrons~c1~X_ray~c2",
+                   "default"  : "c1",
+                   "help"  : "choose a scattering type",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numdregions",
+                   "label"    : "number of deuterated regions:",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "help"  : "enter the number or regions that you wish to model as fully deuterated",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowres",
+                   "label"    : "first amino acid per region:",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "help"  : "enter the number of the first residue in each of the deuterated regions",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highres",
+                   "label"    : "last amino acid per region:",
+                   "type"     : "text",
+                   "default"  : "200",
+                   "help"  : "enter the number of the last residue in each of the deuterated regions",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dbin",
+                   "label"    : "bin width to decompose protein (angstroms):",
+                   "type"     : "text",
+                   "default"  : "0.2",
+                   "help"  : "user defined resolution of the SLD calculation",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "width",
+                   "label"    : "scattering length smoothing width (angstroms):",
+                   "type"     : "text",
+                   "default"  : "2.5",
+                   "help"  : "smoothing improves results",
+                   "required" : "true"
+                   },
+		  {
+                   "role"     : "input",
+                   "id"       : "fit_list_box",
+                   "label"    : "fit SLD?",
+                   "type"     : "listbox",
+                   "values"   : "no~c1~yes~c2",
+                   "default"  : "c1",
+                   "help"  : "fit to each SLD (average or ensemble members): time consuming",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sldoffset",
+                   "label"    : "experiment SLD offset correction (angstroms):",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "help"  : "required for imprecise data reduction",
+                   "required" : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "fitting_header5",
+                   "label"    : "z fitting anchor position (angstroms)",
+                   "type"     : "label",
+                   "help"     : "required to defined position of protein in SLD(z)",
+                   "prehline"  : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "z0",
+                   "label"    : "Initial Estimate",
+                   "type"     : "text",
+                   "default"  : "25.0",
+                   "help"  : "angstroms",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "zmin",
+                   "label"    : "Fit minimum",
+                   "type"     : "text",
+                   "default"  : "20.0",
+                   "help"  : "angstroms",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "zmax",
+                   "label"    : "Fit maximum",
+                   "type"     : "text",
+                   "default"  : "30.0",
+                   "help"  : "angstroms",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "fitting_header6",
+                   "label"    : "error evaluation range (angstroms)",
+                   "type"     : "label",
+                   "help"     : "user defined range to select region to calculate error",
+                   "prehline"  : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "dummy1",
+                   "label"    : "",
+                   "type"     : "label",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "dummy2",
+                   "label"    : "",
+                   "type"     : "label",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "zevalmin",
+                   "label"    : "Fit minimum",
+                   "type"     : "text",
+                   "default"  : "28.0",
+                   "help"  : "angstroms",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "zevalmax",
+                   "label"    : "Fit maximum",
+                   "type"     : "text",
+                   "default"  : "145.0",
+                   "help"  : "angstroms"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "fitting_header7",
+                   "label"    : "fractional surface coverage:",
+                   "type"     : "label",
+                   "prehline"  : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "A0",
+                   "label"    : "Initial Estimate",
+                   "type"     : "text",
+                   "default"  : "0.3",
+                   "help"  : "fractional surface coverage",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "Amin",
+                   "label"    : "Fit minimum",
+                   "type"     : "text",
+                   "default"  : "0.2",
+                   "help"  : "minimal fractional surface coverage",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "Amax",
+                   "label"    : "Fit maximum",
+                   "type"     : "text",
+                   "default"  : "0.4",
+                   "help"  : "maximal fractional surface coverage",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout1",
+                   "label"   : "experimental data and average structural sld",
+                   "type"    : "plot2d"
+                   }
+                  ],
+    "executable" : "sld_mol"
+}

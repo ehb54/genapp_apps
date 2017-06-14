@@ -1,0 +1,88 @@
+# this is a project directives file
+{
+  "title"                     : "SASSIE-web",
+  "application"               : "sassie2",
+  "version"                   : "",
+#  "languages"                 : [ "html5", "qt3", "qt4" ],
+  "languages"                 : [ "html5"],
+  "mongojournal" : "true",
+  "executable_path"           :
+                                {
+                                 "html5" : "/share/apps/genapp/sassie2/bin",
+                                 "qt3"   : "/home/curtisj/sassie2/bin",
+                                 "qt4"   : "/home/curtisj/sassie2/bin"
+                                }, 
+  "docroot"                   :
+                                {
+                                 "html5" : "/share/apps/genapp",
+                                 "qt3"   : "/tmp",
+                                 "qt4"   : "/tmp"
+                                },
+  "plot2d"                   : {
+                                 "precision" : 5
+                               }, 
+  "docsbaseurl"               : "docs",
+  "textarea"                 : {
+				# an optional label
+      				#"label"           : ""
+				# the standard label defaults apply e.g.
+      				#,"default"        : "header2"
+				# where the label will be placed in relation to the textarea
+      				#,"verticalalign"  : "top"
+      				"verticalalign"  : "top"
+				# number of rows, if not set the textarea will autosize
+      				,"rows"           : "20"
+				# number of columns
+      				,"cols"           : "80"
+				# and of course help
+      				#,"help"           : ""
+  				},
+  "help"                      : {
+                                 "user_config" : "Settings Manager: use change projects and settings"
+                                 ,"register"    : "Click me to register"
+                                 ,"jobs"        : "Job Manager: use to monitor running and finished jobs"
+                                 ,"files"       : "File Manager: use to download and remove files"
+                                 ,"feedback"    : "Press to provide feedback to Google Groups page"
+                                 ,"docs"        : "Press to open a new web page with SASSIE documentation"
+                                 ,"login"       : "Press to login"
+                                 ,"logoff"      : "Press to logoff"
+                                 ,"help"        : "Toggle to turn help on/off"
+                                 ,"project"     : "Name of current project: use Settings Manager to change"
+                                 ,"menu"        : "Toggle this icon to open and close the main menu"
+#                                 ,"submit"      : "this is help for the submit button"
+#                                 ,"reset"       : "this is help for the reset to default values button"
+                                }, 
+  "helper"                    : {
+                                 "txt" :"vi",
+                                 "pdb" :"rasmol"
+                                },
+
+
+  "footer"		      : "<center>Supported via CCP-SAS a joint EPSRC (EP/K039121/1) and NSF (CHE-1265821) grant</center>",
+  "footersize"                : "3rem",
+  "text_color_rgb"            : "220,210,210",
+  "error_color_rgb"           : "255,0,0",
+  "background_color_rgb"      : "0,0,95",
+  "select_color_rgb"          : "200,128,0",
+  "button_color_rgb"          : "228,255,250",
+  "button_color_hex"          : "E4FFFA",
+  "button_g_color_rgb"        : "128,170,150",
+  "button_g_color_hex"        : "80AA06",
+  "button_hover_color_rgb"    : "255,255,255",
+  "button_hover_color_hex"    : "FFFFFF",
+  "button_hover_g_color_rgb"  : "228,255,250",
+  "button_hover_g_color_hex"  : "E4FFFA",
+  "header1_color"             : "228,255,250",
+  "header2_color"             : "228,255,250",
+  "header3_color"             : "228,255,250",
+  "header4_color"             : "228,255,250",
+  "help_background_color_rgb" : "0,0,75",
+  "help_text_color_rgb"       : "240,240,210"
+
+  ,"enablecaptcha"             : "true"
+  ,"usesplash"                 : "true"
+  ,"splashdocs"                : "true"
+  ,"usewss"                    : "true"
+  ,"appconfig"                 : "/share/apps/genapp/sassie2/appconfig.json"
+  ,"logdirectory"              : "_logs"
+}

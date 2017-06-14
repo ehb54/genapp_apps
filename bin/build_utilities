@@ -1,0 +1,673 @@
+#!/share/apps/local/anaconda/bin/python
+####!/share/apps/local/anacondaz/bin/python
+import json
+import sys
+import os
+import shutil
+import ast
+import locale
+from StringIO import StringIO
+import multiprocessing
+import time
+import string
+import socket
+
+import sassie.build.build_utilities.build_methods as build_methods
+import sassie.interface.input_filter as input_filter
+#import sassie.interface.build_utilities_filter as build_utilities_filter
+
+
+class Build_Utilities_Driver():
+
+    module = 'build_utilities'
+
+    def message_box(self, text, icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
+
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+
+        return
+
+    def background_job(self, process, txtQueue, json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
+
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+            try:
+                if(first):
+                    socket_dict['progress_html'] = 0.01
+                    socket_dict['_progress'] = 0.01
+                    socket_dict[
+                        'progress_html'] = '<center>starting job</center>'
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    first = False
+                this_text = txtQueue.get(True, timeout=0.1)
+                text_split = string.split(this_text)
+                if(text_split[0] == 'STATUS'):
+                    value = locale.atof(text_split[1])
+                    svalue = str(round(100 * value, 2))
+                    socket_dict['progress_output'] = value
+                    socket_dict['_progress'] = value
+                    socket_dict['progress_html'] = '<center>' + \
+                        svalue + '</center>'
+                    if "_textarea" in socket_dict:
+                        del socket_dict["_textarea"]
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                else:
+                    socket_dict["_textarea"] = this_text
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    total_string += this_text
+            except:
+                if not process.is_alive():
+                    return total_string
+
+            time.sleep(0.01)
+        else:
+            return total_string
+
+        return total_string
+
+    def run_me(self, json_flag, json_variables, input_string):
+
+        output_dict = {}
+
+        if not json_flag:
+
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+
+            runname = 'run_0'
+            pdb_utilities_flag = True
+            input_pdbfile = 'min3.pdb'
+
+            renumber_flag = False
+            renumber_output_filename = 'renumbered.pdb'
+            renumber_indices_flag = True
+            renumber_resids_flag = True
+
+            first_index = '7'
+            first_resid = '9'
+
+            pdb_constraints_flag = False
+            number_of_constraint_files = '1'
+            number_of_constraint_files = '2'
+            constraint_options = 'protein'
+            constraint_options = 'nucleic'
+            constraint_options = 'solute'
+            constraint_options = 'backbone'
+            constraint_options = 'heavy'
+            constraint_fields = 'occupancy'
+            constraint_fields = 'beta'
+
+            constraint_options = 'heavy, backbone'
+            constraint_fields = 'beta, beta'
+            constraint_resets = 'True, True'
+            constraint_filenames = 'constrain_heavy.pdb, constrain_backbone.pdb'
+
+            modify_field_flag = False
+            modify_fields_output_filename = 'modified_fields.pdb'
+            number_of_fields_to_modify = '1'
+            field_selections = 'index < 10'
+            field_to_modify = 'chain'
+            field_values = 'X'
+
+            translation_rotation_flag = False
+            translation_rotation_output_filename = 'trans_rot.pdb'
+            pre_center_flag = False
+            translation_array = '1.0, 1.0, 1.0'
+            rotation_type = 'cardinal'
+            rotation_flag = False
+            rotation_axes_order = 'xyz'
+            #rotation_axes_order = 'xzy'
+            #rotation_axes_order = 'yxz'
+            #rotation_axes_order = 'yzx'
+            #rotation_axes_order = 'zxy'
+            #rotation_axes_order = 'zyx'
+            rotation_theta = '0.0, 0.0, 0.0'
+            user_vector_1 = '0.0, 0.0, 0.0'
+
+            align_pmi_on_axis_flag = True
+            align_pmi_on_cardinal_axes_flag = False
+            align_pmi_output_filename = 'aligned_on_pmi.pdb'
+            pmi_eigenvector = '2'
+            ''' values: x, y, z '''
+            alignment_vector_axis = 'z'
+            user_vector_2 = 'None'
+            settle_on_surface_flag = True
+            ''' values: x, y, z '''
+            surface_plane = 'z'
+            invert_along_axis_flag = 'z'
+
+            fasta_utilities_flag = False
+            fasta_output_filename = 'sequence_from_fasta.pdb'
+            fasta_input_option = 'file'
+            fasta_input_option = 'sequence'
+            fasta_input_sequence = 'RRAGMPSCYLK'
+            fasta_input_file = 'test_fasta.txt'
+            fasta_moltype = 'protein'
+
+            seed = '0, 123'  # set to '1,123' to set the seed or '0,123'
+
+            # END USER EDIT
+            # END USER EDIT
+            # END USER EDIT
+
+        else:
+            runname = json_variables['runname']
+
+            base_directory = json_variables['_base_directory']
+
+            path = base_directory.replace('\/', '/') + "/"
+
+            os.chdir(path)
+
+            build_utilities_listbox = json_variables['build_utilities_listbox']
+
+            pdb_utilities_flag = False
+            fasta_utilities_flag = False
+            renumber_flag = False
+
+            input_pdbfile =  'None'
+            renumber_output_filename = 'None'
+        
+            renumber_indices_flag = False
+            first_index = '1'
+
+            renumber_resids_flag = False
+            first_resid = '1'
+
+            pdb_constraints_flag = False
+            number_of_constraint_files = '1'
+            constraint_options = 'None'
+            constraint_filenames = 'None'
+            constraint_fields = 'None'
+            constraint_resets = 'None'
+
+            modify_fields_flag = False
+            modify_fields_output_filename = 'None'
+            number_of_fields_to_modify = '1'
+            field_selections = 'index < 10'
+            field_options = 'chain'
+            field_values = 'Z'
+            
+            translation_rotation_flag = False
+            translation_rotation_output_filename = 'None'
+            pre_center_flag = False
+            translation_array = '0.0, 0.0, 0.0'
+            rotation_flag = False
+            rotation_type = 'None'
+            rotation_axes_order = 'None'
+            rotation_theta = '0.0, 0.0, 0.0'
+            user_vector_1 = '0.0, 0.0, 0.0'
+
+            align_pmi_on_axis_flag = False
+            align_pmi_on_cardinal_axes_flag = False
+            align_pmi_output_filename = 'None'
+            pmi_eigenvector = '2'
+            alignment_vector_axis = 'None'
+            user_vector_2 = '0.0,0.0,0.0'
+            settle_on_surface_flag = False
+            surface_plane = 'None'
+            invert_along_axis_flag = False
+
+            fasta_utilities_flag = False
+            fasta_output_filename = 'None'
+            fasta_input_sequence = 'None'
+            fasta_input_file = 'None'
+            fasta_input_option = 'None'
+            fasta_moltype = 'None'
+
+            seed = '0, 123'  # set to '1,123' to set the seed or '0,123'
+
+            if(build_utilities_listbox == 'c1'):
+                pdb_utilities_flag = True
+            elif(build_utilities_listbox == 'c2'):
+                fasta_utilities_flag = True
+
+            if pdb_utilities_flag:
+
+                input_pdbfile = json_variables['input_pdbfile'][0]
+
+                pdb_choices_listbox = json_variables['pdb_choices_listbox']
+
+                renumber_flag = False
+                pdb_constraints_flag = False
+                modify_fields_flag = False
+                translation_rotation_flag = False
+                align_pmi_flag = False
+
+                if(pdb_choices_listbox == 'c1'):
+                   renumber_flag = True
+                elif(pdb_choices_listbox == 'c2'):
+                   pdb_constraints_flag = True
+                elif(pdb_choices_listbox == 'c3'):
+                   modify_fields_flag = True
+                elif(pdb_choices_listbox == 'c4'):
+                   translation_rotation_flag = True
+                elif(pdb_choices_listbox == 'c5'):
+                   align_pmi_flag = True
+
+                if renumber_flag:
+                    renumber_indices_flag = False
+                    renumber_resids_flag = False
+
+                    renumber_output_filename =json_variables['renumber_output_filename']
+                    try:
+                        renumber_index_checkbox =json_variables['renumber_index_checkbox']
+
+                        if(renumber_index_checkbox == 'on'):
+                            renumber_indices_flag = True
+                            first_index = json_variables['first_index']
+                    except:
+                        pass
+                    try:
+                        renumber_resid_checkbox =json_variables['renumber_resid_checkbox']
+
+                        if(renumber_resid_checkbox == 'on'):
+                            renumber_resids_flag = True
+                            first_resid = json_variables['first_resid']
+                    except:
+                        pass
+
+                elif pdb_constraints_flag:
+
+                    constraint_options = ''
+                    constraint_fields = ''
+                    constraint_filenames = ''
+                    constraint_resets = ''
+
+                    number_of_constraint_files =json_variables['number_of_constraint_files']
+
+                    for i in xrange(int(number_of_constraint_files)):
+
+                            constraint_listbox =json_variables['constraint_listbox'][i]
+
+                            if(constraint_listbox == 'c1'):
+                                constraint_options += 'heavy,'
+                            elif(constraint_listbox == 'c2'):
+                                constraint_options += 'protein,'
+                            elif(constraint_listbox == 'c3'):
+                                constraint_options += 'nucleic,'
+                            elif(constraint_listbox == 'c4'):
+                                constraint_options += 'backbone,'
+                            elif(constraint_listbox == 'c5'):
+                                constraint_options += 'solute,'
+
+                            constraint_pdb_file =json_variables['constraint_pdb_files'][i]
+
+                            constraint_filenames += constraint_pdb_file + ','
+
+                            constraint_field_listbox=json_variables['constraint_field_listbox'][i]
+
+                            if(constraint_field_listbox == 'c1'):
+                                constraint_fields += 'occupancy,'
+                            elif(constraint_field_listbox == 'c2'):
+                                constraint_fields += 'beta,'
+
+                            reset_checkbox =json_variables['reset_checkbox'][i]
+
+                            if(reset_checkbox == 'on'):
+                                constraint_resets += 'True,'
+                            elif(reset_checkbox == 'off'):
+                                constraint_resets += 'False,'
+
+                    constraint_options = constraint_options[:-1]
+                    constraint_fields = constraint_fields[:-1]
+                    constraint_filenames = constraint_filenames[:-1]
+                    constraint_resets = constraint_resets[:-1]
+
+                elif modify_fields_flag:
+
+                    modify_fields_output_filename = json_variables['modify_fields_output_filename']
+                    field_selections = ''
+                    field_options = ''
+                    field_values = ''
+                    
+                    number_of_fields_to_modify =json_variables['number_of_fields_to_modify']
+
+                    for i in xrange(int(number_of_fields_to_modify)):
+
+                            field_selection = json_variables['field_selections'][i]
+                            field_selections += field_selection + ','
+
+                            field_listbox =json_variables['field_listbox'][i]
+
+                            if(field_listbox == 'c1'):
+                                field_options += 'record,'
+                            elif(field_listbox == 'c2'):
+                                field_options += 'index,'
+                            elif(field_listbox == 'c3'):
+                                field_options += 'name,'
+                            elif(field_listbox == 'c4'):
+                                field_options += 'altloc,'
+                            elif(field_listbox == 'c5'):
+                                field_options += 'resname,'
+                            elif(field_listbox == 'c6'):
+                                field_options += 'chain,'
+                            elif(field_listbox == 'c7'):
+                                field_options += 'resid,'
+                            elif(field_listbox == 'c8'):
+                                field_options += 'icode,'
+                            elif(field_listbox == 'c9'):
+                                field_options += 'xcoor,'
+                            elif(field_listbox == 'c10'):
+                                field_options += 'ycoor,'
+                            elif(field_listbox == 'c11'):
+                                field_options += 'zcoor,'
+                            elif(field_listbox == 'c12'):
+                                field_options += 'occupancy,'
+                            elif(field_listbox == 'c13'):
+                                field_options += 'beta,'
+                            elif(field_listbox == 'c14'):
+                                field_options += 'segname,'
+                            elif(field_listbox == 'c15'):
+                                field_options += 'element,'
+                            elif(field_listbox == 'c16'):
+                                field_options += 'charge,'
+
+                            field_value = json_variables['field_values'][i]
+                            field_values += field_value + ','
+
+                    field_selections = field_selections[:-1]
+                    field_options = field_options[:-1]
+                    field_values = field_values[:-1]
+
+                elif translation_rotation_flag:
+
+                    translation_rotation_output_filename =json_variables['translation_rotation_output_filename']
+
+                    try:
+                        center_checkbox = json_variables['center_checkbox']
+                        if(center_checkbox == 'on'):
+                            pre_center_flag = True
+                    except:
+                        pre_center_flag = False
+
+                    delta_x = json_variables['delta_x']
+                    delta_y = json_variables['delta_y']
+                    delta_z = json_variables['delta_z']
+
+                    translation_array = delta_x + ',' + delta_y + ',' + delta_z
+
+                    rotation_axes_listbox=json_variables['rotation_axes_listbox']
+
+                    if(rotation_axes_listbox == 'c1'):
+                        rotation_flag = False
+                    elif(rotation_axes_listbox == 'c2'):
+                        rotation_flag = True
+                        rotation_type = 'cardinal'
+                        rotation_axes_order_1 =json_variables['rotation_axes_order_1']
+
+                        if(rotation_axes_order_1 == 'c1'):
+                            rotation_axes_order = 'xyz'
+                        elif(rotation_axes_order_1 == 'c2'):
+                            rotation_axes_order = 'xzy'
+                        elif(rotation_axes_order_1 == 'c3'):
+                            rotation_axes_order = 'yxz'
+                        elif(rotation_axes_order_1 == 'c4'):
+                            rotation_axes_order = 'yzx'
+                        elif(rotation_axes_order_1 == 'c5'):
+                            rotation_axes_order = 'zxy'
+                        elif(rotation_axes_order_1 == 'c6'):
+                            rotation_axes_order = 'zyx'
+                        theta_x =json_variables['cardinal_theta_x']
+                        theta_y =json_variables['cardinal_theta_y']
+                        theta_z =json_variables['cardinal_theta_z']
+
+                        rotation_theta = theta_x + ',' + theta_y + ',' + theta_z
+
+                    elif(rotation_axes_listbox == 'c3'):
+                        rotation_flag = True
+                        rotation_type = 'user_vector'
+                        rotation_axes_order_2 = json_variables['rotation_axes_order_2']
+                        if(rotation_axes_order_2 == 'c1'):
+                            rotation_axes_order = 'xyz'
+                        elif(rotation_axes_order_2 == 'c2'):
+                            rotation_axes_order = 'xzy'
+                        elif(rotation_axes_order_2 == 'c3'):
+                            rotation_axes_order = 'yxz'
+                        elif(rotation_axes_order_2 == 'c4'):
+                            rotation_axes_order = 'yzx'
+                        elif(rotation_axes_order_2 == 'c5'):
+                            rotation_axes_order = 'zxy'
+                        elif(rotation_axes_order_2 == 'c6'):
+                            rotation_axes_order = 'zyx'
+                        user_vector_1 = json_variables['user_vector_1']
+
+                        theta_x =json_variables['user_vector_theta_x']
+                        theta_y =json_variables['user_vector_theta_y']
+                        theta_z =json_variables['user_vector_theta_z']
+
+                        rotation_theta = theta_x + ',' + theta_y + ',' + theta_z
+
+                elif align_pmi_flag:
+                    
+                    align_pmi_on_axis_flag = False
+                    align_pmi_on_cardinal_axes_flag = False
+
+                    align_pmi_output_filename =json_variables['align_pmi_output_filename']
+                    
+                    pmi_listbox = json_variables['pmi_listbox']
+                    if(pmi_listbox == 'c1'):
+                        align_pmi_on_axis_flag = True
+                        pmi_eigenvector = json_variables['pmi_eigenvector']
+                        if(pmi_eigenvector == 'c1'):
+                            pmi_eigenvector = '0'
+                        elif(pmi_eigenvector == 'c2'):
+                            pmi_eigenvector = '1'
+                        elif(pmi_eigenvector == 'c3'):
+                            pmi_eigenvector = '2'
+
+                        alignment_vector = json_variables['alignment_vector']
+                        if(alignment_vector == 'c1'):
+                            alignment_vector_axis = 'x'
+                        elif(alignment_vector == 'c2'):
+                            alignment_vector_axis = 'y'
+                        elif(alignment_vector == 'c3'):
+                            alignment_vector_axis = 'z'
+                        elif(alignment_vector == 'c4'):
+                            alignment_vector_axis = 'user_vector_2'
+                            user_vector_2 = json_variables['user_vector_2']
+
+                        settle_on_surface_flag = False
+                        invert_along_axis_flag = False
+                        try:
+                            surface_checkbox = json_variables['surface_checkbox']
+                            if(surface_checkbox == 'on'):
+                                settle_on_surface_flag = True
+                                ''' should surface_plane be an input value? '''
+                                surface_plane = 'z'
+                                surface_plane_cutoff =json_variables['surface_plane_cutoff']
+                                try:
+                                    invert_checkbox = json_variables['invert_checkbox']
+                                    if(invert_checkbox == 'on'):
+                                        invert_along_axis_flag = True
+                                except:
+                                    pass
+                        except:
+                            pass
+
+                    elif(pmi_listbox == 'c2'):
+                        align_pmi_on_cardinal_axes_flag = True
+
+            elif fasta_utilities_flag:
+
+                fasta_output_filename =json_variables['fasta_output_filename']
+
+                fasta_moltype_listbox = json_variables['fasta_moltype_listbox']
+                if(fasta_moltype_listbox == 'c1'):
+                    fasta_moltype = 'protein'
+                elif(fasta_moltype_listbox == 'c2'):
+                    fasta_moltype = 'nucleic'
+
+                fasta_listbox = json_variables['fasta_listbox']
+
+                if(fasta_listbox == 'c1'):
+                    fasta_input_sequence = json_variables['fasta_input_sequence']
+                    fasta_input_option = 'sequence'
+                elif(fasta_listbox == 'c2'):
+                    fasta_input_file = json_variables['fasta_input_file'][0]
+                    fasta_input_option = 'file'
+
+            path = ''
+
+
+        svariables = {}
+
+        # prefix to name output files
+
+        svariables['runname'] = (str(runname), 'string')
+
+        svariables['pdb_utilities_flag'] = (pdb_utilities_flag, 'boolean')
+        svariables['input_pdbfile'] = (str(input_pdbfile), 'string')
+
+        svariables['renumber_flag'] = (renumber_flag, 'boolean')        
+        svariables['renumber_output_filename'] = (renumber_output_filename,\
+                                                  'string')
+        svariables['renumber_indices_flag'] = (renumber_indices_flag, 'boolean')
+        svariables['first_index'] = (first_index, 'int')
+
+        svariables['renumber_resids_flag'] = (renumber_resids_flag, 'boolean')
+        svariables['first_resid'] = (first_resid, 'int')
+
+        svariables['pdb_constraints_flag'] = (pdb_constraints_flag, 'boolean')
+        svariables['number_of_constraint_files'] = (number_of_constraint_files, 'int')
+        svariables['constraint_options'] = (constraint_options, 'string')
+        svariables['constraint_filenames'] = (constraint_filenames, 'string')
+        svariables['constraint_fields'] = (constraint_fields, 'string')
+        svariables['constraint_resets'] = (constraint_resets, 'string')
+
+        svariables['modify_fields_flag'] = (modify_fields_flag, 'boolean')
+        svariables['modify_fields_output_filename'] = (modify_fields_output_filename,\
+                                                  'string')
+        svariables['number_of_fields_to_modify'] = (number_of_fields_to_modify, 'int')
+        svariables['field_selections'] = (field_selections, 'string')
+        svariables['field_options'] = (field_options, 'string')
+        svariables['field_values'] = (field_values, 'string')
+        
+	svariables['translation_rotation_flag'] = (translation_rotation_flag, 'boolean')
+        svariables['translation_rotation_output_filename'] = (translation_rotation_output_filename, 'string')
+        svariables['pre_center_flag'] = (pre_center_flag, 'boolean')
+        svariables['translation_array'] = (translation_array, 'float_array')
+        svariables['rotation_flag'] = (rotation_flag, 'boolean')
+        svariables['rotation_type'] = (rotation_type, 'string')
+        svariables['rotation_axes_order'] = (rotation_axes_order, 'string')
+        svariables['rotation_theta'] = (rotation_theta, 'float_array')
+        svariables['user_vector_1'] = (user_vector_1, 'float_array')
+
+        svariables['align_pmi_on_axis_flag'] = (align_pmi_on_axis_flag, 'boolean')
+        svariables['align_pmi_on_cardinal_axes_flag'] =(align_pmi_on_cardinal_axes_flag, 'boolean')
+        svariables['align_pmi_output_filename'] =(align_pmi_output_filename, 'string')
+        svariables['pmi_eigenvector'] = (pmi_eigenvector, 'int')
+        svariables['alignment_vector_axis'] = (alignment_vector_axis, 'string')
+        svariables['user_vector_2'] = (user_vector_2, 'string')
+        svariables['settle_on_surface_flag'] = (settle_on_surface_flag,'boolean')
+        svariables['surface_plane'] = (surface_plane, 'string')
+        svariables['invert_along_axis_flag'] = (invert_along_axis_flag,'boolean')
+
+        svariables['fasta_utilities_flag'] = (fasta_utilities_flag, 'boolean')
+        svariables['fasta_output_filename'] = (fasta_output_filename, 'string')
+        svariables['fasta_input_option'] = (fasta_input_option, 'string')
+        svariables['fasta_input_file'] = (fasta_input_file, 'string')
+        svariables['fasta_input_sequence'] = (fasta_input_sequence, 'string')
+        svariables['fasta_moltype'] = (fasta_moltype, 'string')
+        svariables['seed'] = (seed, 'string')
+
+        error, variables = input_filter.type_check_and_convert(svariables)
+
+        if(len(error) > 0):
+
+            self.message_box(error, 'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+            output_dict['error'] = 'Error in input variables'
+            output_dict['sasoutput2'] = 'run failed'
+            output_dict['error'] = error
+            print json.dumps(output_dict)
+            return
+        else:
+
+            #error = build_utilities_filter.check_build_utilities(variables)
+
+            if(len(error) != 0):
+                self.message_box(error, 'warning.png')
+                output_dict['error'] = 'Error in Build Utilities variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps(output_dict)
+                return
+
+            runname = variables['runname'][0]
+
+            # if os.path.exists(runname+'/'+self.module):
+            #	shutil.rmtree(runname+'/'+self.module)
+            if not os.path.exists(runname + '/' + self.module):
+                os.makedirs(runname + '/' + self.module)
+
+            txtQueue = multiprocessing.JoinableQueue()
+            
+            #print('\n\neverything worked fine to here\n\n')
+            #sys.exit()
+            build_utilities = build_methods.build_utilities()
+            process = multiprocessing.Process(target=build_utilities.main, args=(variables, txtQueue))
+            process.start()
+
+            total_string = self.background_job(process, txtQueue, json_variables)
+
+        #	output_dict['sasoutput2'] = total_string
+
+        if total_string:
+            output_dict['_empty_return'] = 1
+            print json.dumps(output_dict)
+        else:
+            error_string = 'Exception encountered executing ' + self.module + \
+                ' program: please submit feedback and attach run log'
+            output_dict['error'] = error_string
+#                output_dict['_empty_return'] = 1
+            print json.dumps(output_dict)
+
+
+if __name__ == '__main__':
+
+    json_flag = True
+    #json_flag = False
+
+    if (len(sys.argv) < 1):
+        print "\{\"error\":\"build utilities called with no arguments\"\}\n"
+        print 'exiting now'
+
+    elif len(sys.argv) > 1:
+        json_variables = " "
+        if(json_flag):
+            argv_io_string = StringIO(sys.argv[1])
+            json_variables = json.load(argv_io_string)
+            #json_variables = ast.literal_eval(argv_io_string)
+        a = Build_Utilities_Driver()
+        a.run_me(json_flag, json_variables, sys.argv[1])

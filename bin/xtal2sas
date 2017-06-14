@@ -1,0 +1,284 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.calculate.gxtal2sas as gxtal2sas
+import sassie.interface.input_filter as input_filter
+import sassie.interface.xtal2sas_filter as xtal2sas_filter
+
+class Xtal2sas_Drv():
+
+   module = 'xtal2sas'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                socket_dict['_progress'] = 0.01
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(round(100*value,2))
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def remove_stale_files(self):
+
+	import glob
+
+	#filelist = ['*.crd','*_*.log','*.ans','*.crd','*.int','*.pr','*.iq']
+	filelist = ['*.crd','*.log','*.ans','*.crd','*.int','*.pr','*.iq']
+	directory = 'conflict_files'
+	if(not os.path.isdir(directory)):
+		os.system('mkdir -p '+directory)
+
+	stale_files=[]
+	mvst = 'mv -f '
+	for this_file in filelist:
+		local_list = [n for n in glob.glob(this_file) if os.path.isfile(n)]
+		for f in local_list:	
+			mvst += f+' '		
+			stale_files.append(f)
+
+	mvst += ' '+directory+'/'
+
+	if(len(stale_files)>0):
+		os.system(mvst)
+
+	return directory,stale_files
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+		dcdpath = './run_0/generate/'
+		dcdfile = 'run_0.dcd'
+		pdbpath = './run_0/generate/'
+		pdbfile = 'c2.pdb'
+		xtal2sasexe = '/share/apps/local/bin/xtal2sas.exe'
+		delcaipfiles = '1'
+		option = 'N'
+		numiq = '50'
+		qmax = '0.5'
+		iomax = '1.0'
+		numiter = '1'
+		pd2O = '100.0'
+		fhdexchange = '0.9'
+		numhits = '1000'
+		proteinhord = 'H'
+	
+		path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+		pdbpath = './'
+		dcdpath = './'
+
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                temp_pdbfile = json_variables['pdbfile'][0]
+                pdbpath, pdbfile = os.path.split(temp_pdbfile)
+
+                temp_dcdfile = json_variables['dcdfile'][0]
+                dcdpath, dcdfile = os.path.split(temp_dcdfile)
+
+                path = ''
+
+		numiq = json_variables['numiq']
+		qmax = json_variables['qmax']
+		iomax = json_variables['iomax']
+		numiter = json_variables['numiter']
+		pd2O = json_variables['pd2O']
+		fhdexchange = json_variables['fhdexchange']
+		numhits = json_variables['numhits']
+
+		delcaipfiles_list_box = json_variables['delcaipfiles_list_box']
+                if(delcaipfiles_list_box == 'c1'):
+                        delcaipfiles = '1' # YES
+                elif(delcaipfiles_list_box == 'c2'):
+                        delcaipfiles = '0' # NO
+
+		proteinhord_list_box = json_variables['proteinhord_list_box']
+                if(proteinhord_list_box == 'c1'):
+                        proteinhord = 'H' # H
+                elif(proteinhord_list_box == 'c2'):
+                        proteinhord = 'D' # D
+
+		path = ''
+
+	option = 'N'
+	xtal2sasexe = '/share/apps/local/bin/xtal2sas.exe'
+
+	svariables={}
+
+	svariables['runname']		= (str(runname),'string')
+	svariables['dcdpath']		= (str(dcdpath),'string')
+	svariables['dcdfile']		= (str(dcdfile),'string')
+ 	svariables['pdbpath']		= (str(pdbpath),'string')
+ 	svariables['pdbfile']		= (str(pdbfile),'string')
+ 	svariables['xtal2sasexe']	= (str(xtal2sasexe),'string')
+ 	svariables['delcaipfiles']	= (str(delcaipfiles),'int')
+ 	''' 
+                 NOTE: all external variables are left as strings
+                         and values are NOT filtered
+ 	'''
+ 	svariables['option']		= (str(option),'string')
+ 	svariables['numiq']		= (str(numiq),'string')
+ 	svariables['qmax']		= (str(qmax),'string')
+ 	svariables['iomax']		= (str(iomax),'string')
+ 	svariables['numiter']		= (str(numiter),'string')
+ 	svariables['pd2O']		= (str(pd2O),'string')
+ 	svariables['fhdexchange']	= (str(fhdexchange),'string')
+ 	svariables['numhits']		= (str(numhits),'string')
+ 	svariables['proteinhord']	= (str(proteinhord),'string')
+ 
+ 	svariables['path']    = (path,'string')
+
+
+	try:
+   		self.remove_stale_files()
+	except:
+                self.message_box(error,'skull.png')
+                output_dict['error'] = 'error when trying to move existing conflict files'
+                output_dict['sasoutput2'] = 'conflict file types: *.crd,*_*.log, *.ans, *.crd, *.int, *.pr, *.iq'
+                print json.dumps( output_dict )
+                return
+		
+ 	error,self.variables=input_filter.type_check_and_convert(svariables)
+	error = []
+
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=error=xtal2sas_filter.check_xtal2sas(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in xtal2sas variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+                if not os.path.exists(runname+'/sassie_log'):
+                        os.system('mkdir -p '+runname+'/sassie_log')
+
+		txtQueue=multiprocessing.JoinableQueue()
+
+                process=multiprocessing.Process(target=gxtal2sas.gxtal2sas,args=(self.variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue,json_variables)
+
+        if total_string:
+                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+#                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+#	json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Xtal2sas_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

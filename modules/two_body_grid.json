@@ -1,0 +1,360 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "two_body_grid",
+    "label"    : "Two-Body Grid",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Two-Body Grid",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "help"     : "results will be placed in a folder called two_body_grid/ in the directory name you enter here",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mol_1_label",
+                   "label"    : "Molecule 1 [reference structure]",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "refpdbfile",
+                   "label"   : "input pdb file (mol 1)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file for the reference structure",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mol_2_label",
+                   "label"    : "Molecule 2 [structure to move]",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "movepdbfile",
+                   "label"   : "input pdb file (mol 2)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file to be moved",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mol_out_label",
+                   "label"    : "Output",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dcdfile",
+                   "label"    : "output file name (dcd)",
+                   "type"     : "text",
+                   "default"  : "run_0.dcd",
+                   "help"     : "enter name of file that will contain coordinates for accepted structures",
+                   "required" : "true"
+                   },
+#
+                  {
+                   "role"     : "input",
+                   "id"       : "mol_out_label_2",
+                   "label"    : "Move Input Section (mol 2)",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "acceptIntial_list_box",
+                   "label"   : "accept supplied initial position",
+                   "type"    : "listbox",
+                   "values"  : "yes~c1~no~c2",
+                   "help"  : "select YES to set the center of mass of molecule 2 to a specific position",
+                   "default" : "c2"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "x0",
+                   "label"    : "initial position x,y,z (COM mol 2)",
+                   "type"     : "text",
+                   "default"  : "-20,-20,-20",
+                   "help"  : "position of the center of mass of molecule 2",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "n_xyz_moves",
+                   "label"    : "number of x,y,z moves",
+                   "type"     : "text",
+                   "default"  : "5,5,5",
+                   "help"  : "number of moves for each direction",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "xyz_step_size",
+                   "label"    : "dx,dy,dz step sizes (angstroms)",
+                   "type"     : "text",
+                   "default"  : "20,20,20",
+                   "help"  : "distance between each subsequent movement of the COM of molecule 2",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "n_ang_moves",
+                   "label"    : "number of angular moves",
+                   "type"     : "text",
+                   "default"  : "4,4,4",
+                   "help"  : "number of rotational moves for each angle",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "theta_step_size",
+                   "label"    : "dtheta (x,y,z) step sizes (degrees)",
+                   "type"     : "text",
+                   "default"  : "45,45,45",
+                   "help"  : "angular distance between each subsequent rotation about the COM of molecule 2",
+                   "required" : "true"
+                   },
+#
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "basis",
+                   "label"    : "overlap basis",
+                   "type"     : "text",
+                   "default"  : "CA",
+                   "required" : "true",
+                   "help"  : "select the atom name used to check for overlap",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "cutoff",
+                   "label"    : "overlap cutoff",
+                   "type"     : "text",
+                   "default"  : "3.0",
+                   "required" : "true",
+                   "help"  : "enter distance for overlap check",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowrg",
+                   "label"    : "low Rg cutoff",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "help" : "discard all accepted structures with a Rg less than this value",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highrg",
+                   "label"    : "high Rg cutoff",
+                   "type"     : "text",
+                   "default"  : "400.0",
+                   "required" : "true",
+                   "help" : "discard all accepted structures with a Rg greater than this value",
+                   "repeat"  : "advanced_input"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "zflag_list_box",
+                   "name"    : "zflag_list_box",
+                   "label"    : "Z coordinate filter", 
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "help" : "choose yes to discard all accepted structures with any atomic coordinates (in the z-axis) less than this value",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zcutoff",
+                   "label"    : "Z cutoff (angstroms)",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "help" : "discard all accepted structures with any atomic coordinates (in the z-axis) less than this value",
+                   "repeat"  : "advanced_input"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "cflag_list_box",
+                   "name"    : "cflag_list_box",
+                   "label"    : "check box to use atomic constraints",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeat"  : "advanced_input",
+                   "help"  : "check this box if you wish to enable atomic constraints",
+		   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "confile",
+                   "label"    : "constraint file name",
+                   "type"     : "lrfile",
+                   "required" : "false",
+                   "help"     : "PDB file containing initial coordinates",
+		   "help"  : "enter name of constaint file",
+                   "repeat"  : "cflag_list_box",
+                   "norow"    : "false"
+                   },
+#
+                   {
+                   "role"       : "input",
+                   "id"       : "excluded_residue_header",
+                   "label"    : "Excluded Residue Section",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "excluded_input",
+                   "label"    : "Check Box to Exclude Residues from Overlap Check",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "select this if you wish to NOT include specifc atoms in the check for atomic overlap",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "n1_excluded",
+                   "label"    : "number of segments with excluded residues (mol 1)",
+                   "type"     : "text",
+                   "default"  : "3",
+                   "required" : "true",
+                   "help" : "enter number of segments with residues to omit from overlap check (mol 1)",
+                   "repeat"  : "excluded_input"
+		  },
+                  {
+                   "role"     : "input",
+                   "id"       : "name1_excluded",
+                   "label"    : "name of segments with excluded residues (mol 1)",
+                   "type"     : "text",
+                   "default"  : "INT1,INT2,LED1",
+                   "required" : "true",
+                   "help" : "enter name(s) of segments with residues to omit from overlap check (mol 1)",
+                   "repeat"  : "excluded_input"
+		  },
+                  {
+                   "role"     : "input",
+                   "id"       : "first1_excluded",
+                   "label"    : "first amino acid per segment (mol1)",
+                   "type"     : "text",
+                   "default"  : "271,271,94",
+                   "required" : "true",
+                   "help"  : "enter the number of the first residue in each of the excluded segments (mol 1)",
+                  
+                   "repeat"  : "excluded_input"
+		  },
+                  {
+                   "role"     : "input",
+                   "id"       : "ncont1_excluded",
+                   "label"    : "number of contiguous amino acids per segment (mol 1)",
+                   "type"     : "text",
+                   "default"  : "18,18,31",
+                   "required" : "true",
+                   "help"  : "enter the number of the contiguous residue(s) in each of the excluded segments (mol 1)",
+                   "repeat"  : "excluded_input"
+		  },
+                  {
+                   "role"     : "input",
+                   "id"       : "n2_excluded",
+                   "label"    : "number of segments with excluded residues (mol 2)",
+                   "type"     : "text",
+                   "default"  : "3",
+                   "required" : "true",
+                   "help" : "enter number of segments with residues to omit from overlap check (mol 2)",
+                   "repeat"  : "excluded_input"
+		  },
+                  {
+                   "role"     : "input",
+                   "id"       : "name2_excluded",
+                   "label"    : "name of segments with excluded residues (mol 2)",
+                   "type"     : "text",
+                   "default"  : "INT3,INT4,LED2",
+                   "required" : "true",
+                   "help" : "enter name(s) of segments with residues to omit from overlap check (mol 2)",
+                   "repeat"  : "excluded_input"
+		  },
+                  {
+                   "role"     : "input",
+                   "id"       : "first2_excluded",
+                   "label"    : "first amino acid per segment (mol2)",
+                   "type"     : "text",
+                   "default"  : "271,271,94",
+                   "required" : "true",
+                   "help"  : "enter the number of the first residue in each of the excluded segments (mol 2)",
+                   "repeat"  : "excluded_input"
+		  },
+                  {
+                   "role"     : "input",
+                   "id"       : "ncont2_excluded",
+                   "label"    : "number of contiguous amino acids per segment (mol 2)",
+                   "type"     : "text",
+                   "default"  : "18,18,31",
+                   "required" : "true",
+                   "help"  : "enter the number of the contiguous residue(s) in each of the excluded segments (mol 2)",
+                   "repeat"  : "excluded_input"
+		  },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+    "executable" : "two_body_grid"
+}

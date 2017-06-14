@@ -1,0 +1,62 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "pdbrx",
+    "label"    : "PDB Rx",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "PDB Rx",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "message",
+                   "label"    : "Module under development: due Summer 2015",
+                   "type"     : "label",
+                   "default"  : "header3",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called pdbrx/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "refpdb",
+                   "label"   : "pdb file input",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "norow"    : "false"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputpdb",
+                   "label" : "viewer (right click for options)",
+                   "type"  : "atomicstructure",
+                   "height" : "500",
+                   "width" : "500"
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : " ",
+                    "type"    : "textarea",
+                    "rows"    : 20,
+                    "cols"    : 80
+                   } 
+                 ],
+# the executable will take inputs in order and produce output
+    "executable" : "pdbrx"
+}

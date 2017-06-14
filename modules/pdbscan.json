@@ -1,0 +1,74 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "pdbscan",
+    "label"    : "PDB Scan",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "PDB Scan",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "message",
+                   "label"    : "Only PDB files of proteins are supported",
+                   "type"     : "label",
+                   "default"  : "header3",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called pdbscan/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "refpdb",
+                   "label"   : "pdb file input",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PDB file you wish to scan",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+                    {
+                    "role"    : "output",
+                    "id"    : "outputpdb",
+                    "label" : "viewer (right click for options)", 
+                    "type"  : "atomicstructure",
+                    "height" : "500",
+                    "width" : "500"
+                    },
+                   {
+                     "role"    : "output",
+                     "id"      : "report_html",
+                     "name"    : "report_html",
+                     "label"   : "report : ",
+                     "type"    : "html"
+                    }
+                 ],
+# the executable will take inputs in order and produce output
+    "executable" : "pdbscan"
+}

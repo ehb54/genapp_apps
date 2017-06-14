@@ -1,0 +1,344 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,ast,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.calculate.sld_mol as sld_mol
+import sassie.interface.input_filter as input_filter
+import sassie.interface.sld_mol_filter as sld_mol_filter
+
+class Sld_Drv():
+
+   module = 'sld_mol'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(round(100*value,2))
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+   def read_file(self,flot_data,filename,this_pass):
+
+        try:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+
+                        if(lin[0] != '#'):
+                                this_x = lin[0]
+                                this_y = lin[1]
+                                data.append([this_x,this_y])
+
+                if(this_pass==1):
+
+                        flot_dict = {
+                                        'lines' : { "show": "false" },
+                                        'points' : { "show" : "true", "radius" : "2" },
+                                        'color' : 'red',
+                                        'label' : 'experimental data',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+                else:
+                        flot_dict = {
+                                        'lines' : { "show": "true", "lineWidth" : "3.0" },
+                                        'points' : { "show" : "true", "radius" : "2" },
+                                        'color' : 'green',
+                                        'label' : 'fitted data',
+                                        'data': data
+                                }
+                        flot_data.append(flot_dict)
+
+#                data_file.close()
+
+        except:
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+                flot_data = "error reading file and making plot"
+
+        return
+
+   def get_data_from_disk(self,file1,file2):
+
+        flot_data = []
+        self.read_file(flot_data,file1,1)
+        self.read_file(flot_data,file2,2)
+
+        return flot_data
+
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname = 'run_0'
+
+        	pdbfile = 'nef_nohis.pdb'
+        	dcdfile = 'a5.dcd'
+        	expdatafile = 'SNS_dDPPG_myrdNef_nSLD.txt'
+        	outputfile = 'tmp_smoothdist.txt'
+        	runtype = '0' 
+
+        	bulksld = '-0.51E-6'
+        	xon = '0'
+
+        	numdregions = '1'
+        	lowres = '1'
+        	highres = '200'
+
+        	dbin = '0.2'
+        	width = '2.5'
+
+        	fit = '0'
+        	sldoffset = '0.0'
+
+        	z0 = '25.0'
+        	zmin = '20.0'
+        	zmax = '30.0'
+        	zevalmin = '28.0'
+        	zevalmax = '145.0'
+        	A0 = '0.2'
+        	Amin = '0.3'
+        	Amax = '0.4'
+
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+
+		base_directory = json_variables['_base_directory']
+
+        	path = base_directory.replace('\/','/') + "/"
+
+		os.chdir(path)
+
+        	pdbfile = json_variables['pdbfile'][0]
+		#head, pdbfile = os.path.split(temp_pdbfile[0])
+
+        	dcdfile = json_variables['dcdfile'][0]
+		#head, dcdfile = os.path.split(temp_dcdfile[0])
+		
+        	expdatafile = json_variables['expdatafile'][0]
+		#head, expdatafile = os.path.split(temp_expdatafile[0])
+ 
+		path = ''
+
+                runtype_list_box = json_variables['runtype_list_box']
+                if(runtype_list_box == 'c1'):
+                        runtype = '0' # average structural sld
+                elif(runtype_list_box == 'c2'):
+                        runtype = '1' # individual sld
+
+                source_list_box = json_variables['source_list_box']
+                if(source_list_box == 'c1'):
+                        xon = '0' # neutron
+                elif(source_list_box == 'c2'):
+                        xon = '1' # xray
+
+                fit_list_box = json_variables['fit_list_box']
+                if(fit_list_box == 'c1'):
+                        fit = '0' # NO
+                elif(fit_list_box == 'c2'):
+                        fit = '1' # YES
+
+		outputfile = json_variables['outputfile']
+		bulksld = json_variables['bulksld']
+		numdregions = json_variables['numdregions']
+		lowres = json_variables['lowres']
+		highres = json_variables['highres']
+		dbin = json_variables['dbin']
+		width = json_variables['width']
+		sldoffset = json_variables['sldoffset']
+		z0 = json_variables['z0']
+		zmin = json_variables['zmin']
+		zmax = json_variables['zmax']
+		zevalmin = json_variables['zevalmin']
+		zevalmax = json_variables['zevalmax']
+		A0 = json_variables['A0']
+		Amin = json_variables['Amin']
+		Amax = json_variables['Amax']
+
+	svariables={} 
+      
+	svariables['runname']		= (str(runname),'string')
+	svariables['path']		= (str(path),'string')
+	svariables['pdbfile']		= (str(pdbfile),'string')
+	svariables['dcdfile']		= (str(dcdfile),'string')
+	svariables['expdatafile']	= (str(expdatafile),'string')
+	svariables['outputfile']	= (str(outputfile),'string')
+	svariables['runtype']		= (str(runtype),'int')
+	
+	svariables['bulk_sld']		= (str(bulksld),'float')
+	svariables['xon']		= (str(xon),'int')
+	
+	svariables['num_deut_regions']	= (str(numdregions),'int')
+	svariables['deut_low_res']	= (str(lowres),'int_array')
+	svariables['deut_high_res']	= (str(highres),'int_array')
+	
+	svariables['dbin']		= (str(dbin),'float')
+	svariables['width']		= (str(width),'float')
+	
+	svariables['sldfit']		= (str(fit),'int')
+	svariables['sldoffset']		= (str(sldoffset),'float')
+	
+	svariables['zfit0']		= (str(z0),'float')
+	svariables['zfitmin']		= (str(zmin),'float')
+	svariables['zfitmax']		= (str(zmax),'float')
+	svariables['zevalmin']		= (str(zevalmin),'float')
+	svariables['zevalmax']		= (str(zevalmax),'float')
+	svariables['A0']		= (str(A0),'float')
+	svariables['Amin']		= (str(Amin),'float')
+	svariables['Amax']		= (str(Amax),'float')
+		
+	svariables['plotflag']		= ('0','int') # 0 == NO PLOT, 1 == matplotlib, 2 == Gnuplot
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=sld_mol_filter.check_sld_mol(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in sld_mol variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+		process=multiprocessing.Process(target=sld_mol.sld_mol_main,args=(self.variables,txtQueue))
+		process.start()
+
+		total_string = self.background_job(process,txtQueue,json_variables)
+
+#		output_dict['sasoutput2'] = total_string
+
+                average_sld_file = runname+'/sld_mol/sldfile_00001.txt'
+
+                flot_data = self.get_data_from_disk(expdatafile,average_sld_file)
+
+        #       output_dict['test_ofile'] = data_path+ofile
+
+                if(isinstance(flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_error'] = flot_data
+                else:
+                        output_dict['plotout1'] = flot_data
+#plot [:] [-1E-6:4.5E-6] 'asns.txt' w lp, 'run_0/sld/sldfile_00001.txt' w lp
+
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"sld_mol called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+			#json_variables = ast.literal_eval(argv_io_string)
+		a=Sld_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

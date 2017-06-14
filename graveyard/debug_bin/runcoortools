@@ -1,0 +1,1 @@
+../../bin/coordinate_tools '{"runname":"run_0","option":"single_frame","local_value":"6","output_filename":"output.dcd","pdb_filename":["/home/curtisj/sassie2/graveyard/debug_bin/c2.pdb"],"filename":["/home/curtisj/sassie2/graveyard/debug_bin/c7.dcd"]}'

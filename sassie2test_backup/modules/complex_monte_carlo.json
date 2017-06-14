@@ -1,0 +1,331 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "complex_monte_carlo",
+    "label"    : "Complex Monte Carlo",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Complex Monte Carlo",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "help"     : "results will be placed in a folder called generate/ in the directory name you enter here",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dcdfile",
+                   "label"    : "output file name (dcd)",
+                   "type"     : "text",
+		   "help"     : "enter name of file that will contain coordinates for accepted structures",
+                   "default"  : "run_0.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "trials",
+                   "label"    : "number of trial attempts",
+                   "type"     : "text",
+                   "default"  : "20",
+		   "help"     : "enter number of Monte Carlo move attempts",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "goback",
+                   "label"    : "return to previous structure",
+                   "type"     : "text",
+                   "default"  : "20",
+                   "help"     : "after this number of failed Monte Carlo steps, the program will reset the current coordinates to a previously accepted structure",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "temp",
+                   "label"    : "temperature (K)",
+                   "type"     : "text",
+                   "default"  : "300.0",
+                   "help"  : "enter run temperature in Kelvin",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "complex_specific_input_header",
+                   "label"    : "Complex Specific Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nsegments",
+                   "label"    : "Enter TOTAL number of segements:",
+                   "type"     : "text",
+                   "default"  : "2",
+                   "help"  : "enter the sum of flexible and rigid segments",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "segbasis",
+                   "label"    : "segment overlap basis",
+                   "type"     : "text",
+                   "default"  : "CA,CA",
+                   "help"  : "enter the atom name used to check for overlap for each segment",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "npsegments",
+                   "label"    : "number of flexible segments:",
+                   "type"     : "integer",
+                   "default"  : 2,
+                   "required" : "true",
+                   "help" : "enter the number of segments that have regions you wish to sample",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "flpsegname",
+                   "label"    : "segment name(s) of flexible segments",
+                   "type"     : "text",
+                   "default"  : "ENDA,ENDB",
+                   "help"  : "enter the name of each segment that have regions you wish to sample",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "seglow",
+                   "label"    : "structure alignment: low residue",
+                   "type"     : "text",
+                   "default"  : "95,95",
+                   "help"  : "select the low residue used for structural alignment, this should be in a rigid/non-flexible region for each segment",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "seghigh",
+                   "label"    : "structure alignment: high residue",
+                   "type"     : "text",
+                   "default"  : "110,110",
+                   "help"  : "select the high residue used for structural alignment, this should be in a rigid/non-flexible region for each segment",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numranges",
+                   "label"    : "number of flexible regions to vary",
+                   "type"     : "text",
+                   "default"  : "2",
+                   "required" : "false",
+                   "repeat"   : "npsegments",
+		   "help"  : "enter the number of regions that have residues to sample",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sith",
+                   "label"    : "enter maximum angle sampled in a single Monte Carlo step for each region",
+                   "type"     : "text",
+                   "default"  : "30.0,30.0",
+                   "required" : "false",
+                   "repeat"   : "npsegments",
+                   "help"  : "enter the maximum angle that each torsion in each of the flexible regions can sample in a single move",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "srlow",
+                   "label"    : "first residue per region",
+                   "type"     : "text",
+                   "default"  : "123,277",
+                   "required" : "false",
+                   "repeat"   : "npsegments",
+                   "help"  : "enter the number of the first residue in each of the flexible regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "srnum",
+                   "label"    : "number contiguous residues per region",
+                   "type"     : "text",
+                   "default"  : "21,5",
+                   "required" : "false",
+                   "repeat"   : "npsegments",
+                   "help"  : "enter the number residues in each of the flexible regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "moltype",
+                   "label"    : "molecule type (protein or rna)",
+                   "type"     : "listbox",
+                   "values"   : "dna~c1~rna~c2~protein~c3",
+                   "default"  : "c3",
+                   "help"  : "choose a molecule type for this segment",
+                   "required" : "false",
+                   "repeat"   : "npsegments",
+                   "norow"    : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "basis",
+                   "label"    : "flexible segment overlap basis",
+                   "type"     : "text",
+                   "default"  : "CA",
+                   "required" : "true",
+                   "help"  : "select the atom name used to check for overlap",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "cutoff",
+                   "label"    : "overlap cutoff",
+                   "type"     : "text",
+                   "default"  : "3.0",
+                   "required" : "true",
+                   "help"  : "enter distance for overlap check",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowrg",
+                   "label"    : "low Rg cutoff",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "help" : "discard all accepted structures with a Rg less than this value",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highrg",
+                   "label"    : "high Rg cutoff",
+                   "type"     : "text",
+                   "default"  : "300.0",
+                   "required" : "true",
+                   "help" : "discard all accepted structures with a Rg greater than this value",
+                   "repeat"  : "advanced_input"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "zflag_list_box",
+                   "name"    : "zflag_list_box",
+                   "label"    : "Z coordinate filter", 
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "help" : "choose YES to discard all accepted structures with any atomic coordinates (in the z-axis) less than the Z cutoff value below",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zcutoff",
+                   "label"    : "Z cutoff (angstroms)",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "help" : "discard all accepted structures with any atomic coordinates (in the z-axis) less than this value",
+                   "repeat"  : "advanced_input"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "cflag_list_box",
+                   "name"    : "cflag_list_box",
+                   "label"    : "check box to use atomic constraints",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+		   "help"  : "check this box if you wish to enable atomic constraints",
+                   "repeat"  : "advanced_input",
+		   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "confile",
+                   "label"    : "constraint file name",
+                   "type"     : "lrfile",
+                   "required" : "false",
+		   "help"  : "enter file name with constraint definitions",
+                   "repeat"  : "cflag_list_box",
+                   "norow"    : "false"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "plotflag_list_box",
+                   "name"    : "plotflag_list_box",
+                   "label"    : "plot Rg during run",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "help" : "not implemented: future -> choose to display Rg values during Monte Carlo run",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout4",
+                   "label"   : "all rg and accepted rg data",
+                   "type"    : "plot2d"
+                   },
+ 		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : " ",
+                    "type"    : "textarea",
+		    "rows"    : 20,
+		    "cols"    : 80
+		   }
+                  ],
+    "executable" : "complex_monte_carlo"
+}

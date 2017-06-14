@@ -1,0 +1,220 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,time,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.tools.merge_utilities as merge_utilities
+import sassie.interface.input_filter as input_filter
+import sassie.interface.merge_utilities_filter as merge_utilities_filter
+
+class Merge_utilities_Drv():
+
+   module = 'merge'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+	first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	pdb_file='min3.pdb'
+		merge_option = '0'
+		run_paths = 'run_m1,run_m2'
+		dcd_names = 'generate/run_m1.dcd,generate/run_m2.dcd'
+        	sas_type ='1'
+		sas_paths = 'xtal2sas'
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+                path = ''
+
+		pdb_file = json_variables['pdb_file'][0]
+                #head, pdb_file = os.path.split(temp_pdb_file[0])
+		
+		run_paths = json_variables['run_paths']
+
+		dcd_names = '' ; run_paths = ''
+		for i in xrange(int(json_variables['number_of_runs'])):
+			this_name = json_variables['dcd_names'][i]
+			this_path = json_variables['run_paths'][i]
+
+			temp_dcd_names =  this_name[0]
+			temp_run_paths =  this_path[0]
+	                head, this_dcd = os.path.split(temp_dcd_names)
+
+			dcd_names += temp_dcd_names + ','
+			run_paths += temp_run_paths + ','
+
+		dcd_names = dcd_names[:-1]
+		run_paths = run_paths[:-1]
+
+		sas_paths = json_variables['sas_paths']
+
+		merge_option_list_box = json_variables['merge_option_list_box']
+                if(merge_option_list_box == 'c1'):
+                        merge_option = '0'
+                elif(merge_option_list_box == 'c2'):
+                        merge_option = '1'
+                 
+		sas_type_list_box = json_variables['sas_type_list_box']
+                if(sas_type_list_box == 'c1'):
+                        sas_type = '1'
+                elif(sas_type_list_box == 'c2'):
+                        sas_type = '2'
+                elif(sas_type_list_box == 'c3'):
+                        sas_type = '3'
+
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+	svariables['pdb_file']  = (str(pdb_file),'string')
+	svariables['merge_option']  = (str(merge_option),'int')
+	svariables['run_paths']   = (str(run_paths),'string')
+	svariables['dcd_names']   = (str(dcd_names),'string')
+	svariables['sas_type']   = (str(sas_type),'int')
+	svariables['sas_paths']   = (str(sas_paths),'string')
+	svariables['path']    = (path,'string')
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+		#error=merge_utilities_filter.check_files(self.variables)
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in merge variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+
+                process=multiprocessing.Process(target=merge_utilities.merge_runs,args=(self.variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue,json_variables)
+
+		#output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+        print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Merge_utilities_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

@@ -1,0 +1,254 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "complex_monte_carlo",
+    "label"    : "Complex Monte Carlo",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Complex Monte Carlo",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called generate/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"    : "input file name (pdb)",
+                   "type"     : "file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dcdfile",
+                   "label"    : "output file name (dcd)",
+                   "type"     : "text",
+                   "default"  : "run_0.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "trials",
+                   "label"    : "number of trial attempts",
+                   "type"     : "integer",
+                   "default"  : 100,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "goback",
+                   "label"    : "return to previous structure",
+                   "type"     : "integer",
+                   "default"  : 20,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "temp",
+                   "label"    : "temperature (K)",
+                   "type"     : "float",
+                   "default"  : 300.0,
+                   "required" : "true"
+                   },
+
+
+                  {
+                   "role"     : "input",
+                   "id"       : "complex_specific_input_header",
+                   "label"    : "Complex Specific Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "n_seg",
+                   "label"    : "Enter TOTAL number of segements:",
+                   "type"     : "integer",
+                   "default"  : 2,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "seg_overlap_basis",
+                   "label"    : "segment overlap basis",
+                   "type"     : "text",
+                   "default"  : "CA",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "n_flexible_seg",
+                   "label"    : "number of flexible segments:",
+                   "type"     : "integer",
+                   "default"  : 2,
+                   "required" : "true",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "flexible_seg_names",
+                   "label"    : "segment name(s) of flexible segments",
+                   "type"     : "text",
+                   "default"  : "ENDA, ENDB",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowres1",
+                   "label"    : "structure alignment: low residue",
+                   "type"     : "integer",
+                   "default"  : 284,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highres1",
+                   "label"    : "structure alignment: high residue",
+                   "type"     : "integer",
+                   "default"  : 350,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numranges",
+                   "label"    : "number of flexible regions to vary",
+                   "type"     : "integer",
+                   "default"  : 5,
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dtheta",
+                   "label"    : "enter MAX [dtheta] for each region",
+                   "type"     : "text",
+                   "default"  : "30.0, 30.0, 30.0, 30.0, 30.0",
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "reslow",
+                   "label"    : "first residue per region",
+                   "type"     : "text",
+                   "default"  : "123,277,354,378,408",
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "numcont",
+                   "label"    : "number contiguous residues per region",
+                   "type"     : "text",
+                   "default"  : "21,5,20,11,4",
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "moltype",
+                   "label"    : "molecule type (protein or rna)",
+                   "type"     : "listbox",
+                   "values"   : "dna~c1~rna~c2~protein~c3",
+                   "default"  : "c3",
+                   "required" : "false",
+                   "repeat"   : "n_flexible_seg",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "optional_input_header",
+                   "label"    : "Non-Standard / Specialized Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "basis",
+                   "label"    : "overlap basis",
+                   "type"     : "text",
+                   "default"  : "CA",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "cutoff",
+                   "label"    : "overlap cutoff",
+                   "type"     : "float",
+                   "default"  : 3.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowrg",
+                   "label"    : "low Rg cutoff",
+                   "type"     : "float",
+                   "default"  : 0.0,
+                   "min"      : 0.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highrg",
+                   "label"    : "high Rg cutoff",
+                   "type"     : "float",
+                   "default"  : 300.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zflag",
+                   "label"    : "Z coordinate filter (0==no, 1==yes)",
+                   "type"     : "integer",
+                   "default"  : 0,
+	           "min"      : 0,
+		   "max"      : 1,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zcutoff",
+                   "label"    : "Z cutoff (angstroms)",
+                   "type"     : "float",
+                   "default"  : 0.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "cflag",
+                   "label"    : "atomic constraints (0==no, 1==yes)",
+                   "type"     : "integer",
+                   "default"  : 0,
+	           "min"      : 0,
+		   "max"      : 1,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "confile",
+                   "label"    : "constraint file name",
+                   "type"     : "file",
+                   "default"  : "constraints.txt",
+                   "required" : "true"
+                   }
+                  ],
+    "executable" : "complex_monte_carlo"
+}

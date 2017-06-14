@@ -1,0 +1,428 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "torsion_angle_monte_carlo",
+    "label"    : "Torsion Angle Monte Carlo",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Torsion Angle Monte Carlo",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called torsion_angle_monte_carlo/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "psffile",
+                   "label"   : "PSF filename",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PSF file containing system topology",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dcdfile",
+                   "label"    : "output file name (dcd)",
+                   "type"     : "text",
+                   "default"  : "run_0.dcd",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "trial_steps",
+                   "label"    : "number of trial attempts",
+                   "type"     : "text",
+                   "default"  : "100",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "goback",
+                   "label"    : "return to previous structure",
+                   "type"     : "text",
+                   "default"  : "20",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "temperature",
+                   "label"    : "temperature (K)",
+                   "type"     : "text",
+                   "default"  : "300.0",
+                   "required" : "true"
+                   },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "flexible_file_input",
+                  # "label"    : "select option to input flexible region definitions",
+                  # "type"     : "listbox",
+                  # "values"  : "manual input~c1~(NOT IMPLEMENTED YET) upload input file~c2",
+                  # "default" : "c1",
+                  # "repeater" : "true"
+                  # },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_flexible_regions",
+                   "label"    : "number of flexible regions to vary",
+                   "type"     : "integer",
+                   "default"  : 2,
+	           "size"     : 4,
+	           "min"     : 1,
+                  # "repeat"   : "flexible_file_input:c1",
+                   "repeater" : "true",
+                   "required" : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"       : "manual_entry_flexible_header",
+                   "label"    : "Region",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true",
+                   "repeat"   : "number_of_flexible_regions",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rotation_type_array",
+                   "label"    : "move type",
+                   "type"     : "listbox",
+#                   "values"  : "ds_dna~c1~ss_na~c2~protein_backbone_dihedral~c3",
+                   "values"  : "protein backbone torsion~c1~single-stranded nucleic acid backbone torsion~c2~double-stranded nucleic acid worm-like chain torsion~c3~isopeptide bond torsion~c4",
+                   "default"  : "c1",
+                   "required" : "true",
+                   "repeat"   : "number_of_flexible_regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rotation_direction_array",
+                   "label"    : "move direction",
+                   "type"     : "listbox",
+                   "values"  : "forward~c1~reverse~c2",
+                   #"values"  : "reverse~c1~forward~c2",
+                   "default"  : "c1",
+                   "required" : "true",
+                   "repeat"   : "number_of_flexible_regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "basis_string_array",
+                   "label"    : "flexible region",
+                   "type"     : "text",
+                   "default"  : "segname HC1 and (resid > 220 and resid < 226)",
+	           "size"     : 40,
+                   "required" : "true",
+                   "repeat"   : "number_of_flexible_regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "post_basis_string_array",
+                   "label"    : "post region(s)",
+                   "type"     : "text",
+                   "default"  : "(segname HC1 and resid < 221) or (segname LC1)",
+	           "size"     : 45,
+                   "required" : "false",
+                   "repeat"   : "number_of_flexible_regions",
+                   "norow"    : "true"
+                   }, 
+                  {
+                   "role"     : "input",
+                   "id"       : "delta_theta_array",
+                   "label"    : "max theta",
+                   "type"     : "text",
+                   "default"  : "30.0",
+	           "size"     : 4,
+                   "required" : "true",
+                   "repeat"   : "number_of_flexible_regions",
+                   "norow"    : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "overlap_list_box",
+                   "name"    : "overlap_list_box",
+                   "label"    : "overlap basis",
+                   "type"    : "listbox",
+                   "values"  : "heavy atoms~c1~all~c2~backbone~c3",
+                   "default" : "c1",
+                   #"repeat"   : "number_of_flexible_regions",
+                   #"repeater" : "yes",
+                   "help" : "choose the type of overlap check you wish to use"
+                   },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "flexfile",
+                  # "label"   : " NOT IMPLEMENTED YET ",
+                  # "type"     : "lrfile",
+                  # "required" : "false",
+                  # "help"     : "text file containing definition of flexible regions",
+                  # "repeat"   : "flexible_file_input:c2",
+                  # "norow" : "true"
+                  # },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "dna_specific_input_header",
+                   "label"    : "NOT IMPLEMENTED: DNA Specific Input : NEEDS REFACTORING",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "bp_per_bead",
+                   "label"    : "number of base pairs per bead",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "soft_rotation",
+                   "label"    : "soft rotation averaged over N beads",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "n_dcd_write",
+                   "label"    : "DCD save frequency",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "seed",
+                   "label"    : "random seed",
+                   "type"     : "text",
+                   "default"  : "0",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "debug",
+                   "label"    : "print debugging information",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "write_flex",
+                   "label"    : "save file labeling information",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "keep_cg_files",
+                   "label"    : "keep coarse-grain DNA and protein pdb and dcd files",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "keep_unique",
+                   "label"    : "keep duplicate structure when move fails",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c2",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rm_pkl",
+                   "label"    : "remove binary pkl cg file",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "complex_specific_input_header",
+                   "label"    : "NOT IMPLEMENTED: Advanced Input : NEEDS REFACTORING",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowrg",
+                   "label"    : "low Rg cutoff : NOT USED",
+                   "type"     : "float",
+                   "default"  : 0.0,
+                   "min"      : 0.0,
+                   "step"     : 0.01,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highrg",
+                   "label"    : "high Rg cutoff : NOT USED",
+                   "type"     : "float",
+                   "default"  : 300.0,
+                   "step"     : 0.01,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "zflag_list_box",
+                   "name"    : "zflag_list_box",
+                   "label"    : "Z coordinate filter : NOT USED",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "zcutoff",
+                   "label"    : "Z cutoff (angstroms) : NOT USED",
+                   "type"     : "text",
+                   "default"  : "0.0",
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "plotflag_list_box",
+                   "name"    : "plotflag_list_box",
+                   "label"    : "plot Rg during run : NOT USED",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "directedmc",
+                   "label"    : "directed Monte Carlo (0==no or Rg value) : NOT USED",
+                   "type"     : "text",
+                   "default"  : "0",
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "cflag_check_box",
+                   "name"    : "cflag_check_box",
+                   "label"    : "check box to use atomic constraints : NOT USED",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeat"  : "advanced_input",
+		   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "confile",
+                   "label"    : "constraint file name",
+                   "type"     : "file",
+                   "required" : "false",
+		   "default"  : "contraints.txt",
+                   "repeat"  : "cflag_check_box"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "nonbondflag_check_box",
+                   "name"    : "nonbondflag_check_box",
+                   "label"    : "check box to use non-bonding energies : NOT USED",
+                   "type"    : "checkbox",
+		   "required" : "true",
+                   "checked" : "false",
+                   "repeat"  : "advanced_input",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nonbondscale",
+                   "label"    : "non-bonding scale factor : NOT USED",
+                   "type"     : "text",
+                   "default"  : "1.0",
+                   "required" : "true",
+                   "repeat"  : "nonbondflag_check_box"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "psffilename",
+                   "label"    : "psf file name : NOT USED",
+                   "type"     : "file",
+                   "required" : "false",
+                   "default"  : "refgag.psf",
+                   "repeat"  : "nonbondflag_check_box"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"      : "plotout4",
+                   "label"   : "all rg and accepted rg data",
+                   "type"    : "plot2d"
+                   }
+                  ],
+    "executable" : "torsion_angle_monte_carlo"
+}

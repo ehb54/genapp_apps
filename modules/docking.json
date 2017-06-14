@@ -1,0 +1,195 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "docking",
+    "label"    : "Docking",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Docking",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "help"     : "results will be placed in a folder called docking/ in the directory name you enter here",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mol_1_label",
+                   "label"    : "Fixed molecule",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "refpdbfile",
+                   "label"   : "input pdb file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "mol_2_label",
+                   "label"    : "Molecule to Sample Docking Orientations",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "movepdbfile",
+                   "label"   : "input pdb file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file to be moved",
+                   "norow"    : "false"
+                   },
+#
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "r",
+                   "label"    : "atomic radius for docking map construction",
+                   "help"     : "defined as r in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 1.8,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "d",
+                   "label"    : "thickness of the surface layer",
+                   "help"     : "defined as d in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 2.5,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rou",
+                   "label"    : "grid value inside the fixed molecule",
+                   "help"     : "defined as rou in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : -15.0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "delta",
+                   "label"    : "grid value inside the moving molecule",
+                   "help"     : "defined as delta in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 1.0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "eta",
+                   "label"    : "grid distance for coarse scanning",
+                   "help"     : "defined as eta in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 1.0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "N",
+                   "label"    : "number of grid points along one dimension for coarse scanning",
+                   "help"     : "defined as N in paper -- PNAS 89: 2195-2199",
+                   "type"     : "integer",
+                   "default"  : 90,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "eta_fine",
+                   "label"    : "grid distance for fine scanning ",
+                   "help"     : "defined as eta in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 0.7,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "N_fine",
+                   "label"    : "number of grid points along one dimension for fine scanning",
+                   "help"     : "defined as N in paper -- PNAS 89: 2195-2199",
+                   "type"     : "integer",
+                   "default"  : 128,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "angle_step",
+                   "label"    : "Euler angular step size (degree)",
+                   "help"     : "defined as capital delta in paper -- PNAS 89: 2195-2199",
+                   "type"     : "float",
+                   "default"  : 50.0,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nMax",
+                   "label"    : "number of best docking configurations to be generated",
+                   "type"     : "integer",
+                   "default"  : 10,
+                   "required" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+#
+                  {   
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0 
+                   },  
+                  {   
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+    "executable" : "docking"
+}

@@ -1,0 +1,359 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.calculate.em_to_sans as em_to_sans
+import sassie.interface.input_filter as input_filter
+import sassie.interface.em_to_sans_filter as em_to_sans_filter
+
+class Em_to_sans_Drv():
+
+   module = 'em_to_sans'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(round(100*value,2))
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def find_min_max(self,data_file):
+        nl = len(data_file)
+
+        minx = 1E10 ; maxx = -1E10
+        miny = 1E10 ; maxy = -1E10
+        for i in xrange(nl):
+                lin = string.split(data_file[i])
+                try:
+                        this_x = locale.atof(lin[0])
+                        this_y = locale.atof(lin[1])
+                        if(this_x < minx) : minx = this_x
+                        if(this_y < miny) : miny = this_y
+                        if(this_x > maxx) : maxx = this_x
+                        if(this_y > maxy) : maxy = this_y
+                except:
+                        pass
+
+        return minx,miny,maxx,maxy
+
+   def read_file(self,filename,this_pass):
+
+	if this_pass == 1:
+		self.flot_data = {
+			"options": {
+                		"title"  : "Pair Distribution Function",
+                        	"xlabel"  : "r (angstrom)",
+                        	"ylabel"  : "P(r)",
+
+
+                                "legend": {
+# "position" can be "ne" or "nw" or "se" or "sw"
+                                                        "position"           : "ne"
+# add a margin by number of pixels
+                                                        ,"margin"            : 5
+# "backgroundOpacity" is a number between 0 and 1
+                                                        ,"backgroundOpacity" : 0.7
+# "container" puts the legend to the right of the plot
+                                                        ,"container"         : "false"
+# "sorted" orders the legend entries can be "ascending" or "descending"
+                                                        ,"sorted"            : "ascending"
+                                }
+
+                        	},
+			"data" : []
+			}
+
+	if this_pass == 2:
+
+                minx,miny,maxx,maxy = self.find_min_max(filename)
+
+                minx = 0.85 * minx ; maxx = 1.15 * maxx
+                miny = 0.85 * miny ; maxy = 1.15 * maxy
+                
+		if miny < 0.0: miny = 1E-6
+                if minx < 0.0: minx = 1E-6
+
+		self.flot_data = {
+			"options": {
+                		"title"  : "Scattering Profile",
+                        	"xlabel"  : "q (1/angstrom)",
+                        	"ylabel"  : "I(q)",
+                        	#"xscale"  : "log",
+                        	#"yscale"  : "log",
+                        	#"xmin"    : minx,
+                        	#"xmax"    : maxx,
+                        	#"ymin"    : miny,
+                        	#"ymax"    : maxy,
+                                "legend": {
+# "position" can be "ne" or "nw" or "se" or "sw"
+                                                        "position"           : "ne"
+# add a margin by number of pixels
+                                                        ,"margin"            : 5
+# "backgroundOpacity" is a number between 0 and 1
+                                                        ,"backgroundOpacity" : 0.7
+# "container" puts the legend to the right of the plot
+                                                        ,"container"         : "false"
+# "sorted" orders the legend entries can be "ascending" or "descending"
+                                                        ,"sorted"            : "ascending"
+                                }
+
+                        	},
+                        "data" : []
+    #                            {
+    #                            	"lines" : { "show": "true", "lineWidth" : "1.0"},
+    #                                    "points" : { "show" : "true", "radius" : "1" },
+    #                                    "color" : "red",
+     #                                   "label" : "original data",
+    #                                    "data": data
+    #                             }
+                     #           ]
+			}
+        #try:
+        if True:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+			if(lin[0] != '#'):
+                        	this_x = lin[0]
+                        	this_y = lin[1]
+                        	data.append([this_x,this_y])
+
+                self.flot_data["data"].append(data)
+
+        #except:
+        else:
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                self.flot_data = "error reading file and making plot"
+
+        return
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+		emfiletype = '1'
+		emdensityfile = 'p20a.mrc'
+		angpix = '20.0, 20.0, 20.0'
+		pdbfile = 'p20a.pdb'
+		threshold = '0.1'
+		sansfile = 'p20a.sub'
+		npoints = '100'
+		qmax = '0.3'
+
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                emdensityfile = json_variables['emdensityfile'][0]
+                #head, emdensityfile = os.path.split(temp_emdensityfile[0])
+		print 'emdensityfile = ',emdensityfile
+
+		angpix = json_variables['angpix']
+		pdbfile = json_variables['pdbfile']
+		threshold = json_variables['threshold']
+		sansfile = json_variables['sansfile']
+		npoints = json_variables['npoints']
+		qmax = json_variables['qmax']
+
+		data_path = path 
+
+		print 'data_path = ',data_path
+
+		emfiletype_list_box = json_variables['emfiletype_list_box']
+		if(emfiletype_list_box == 'c1'):
+			emfiletype = '1' # mrc
+		elif(emfiletype_list_box == 'c2'):
+			emfiletype = '0' # gaussian cube 
+
+		path = ''
+
+	inputpath = './' 
+	plotflag = '0'
+	
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+
+	svariables['emfiletype']	= (str(emfiletype),'int')
+	svariables['inputpath'] 	= (str(inputpath),'string')
+	svariables['emdensityfile'] 	= (str(emdensityfile),'string')
+	svariables['angpix'] 		= (str(angpix),'float_array')
+	svariables['pdbfile'] 		= (str(pdbfile),'string')
+	svariables['threshold'] 	= (str(threshold),'float')
+	svariables['sansfile'] 		= (str(sansfile),'string')
+	svariables['npoints'] 		= (str(npoints),'int')
+	svariables['qmax'] 		= (str(qmax),'float')
+	svariables['plotflag'] 		= (str(plotflag),'int')
+
+	svariables['path']    = (str(path),'string')
+
+	error = []
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=em_to_sans_filter.check_em_to_sans(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in em2sans variables'
+                        output_dict['error'] = error
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+
+                process=multiprocessing.Process(target=em_to_sans.em,args=(self.variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue,json_variables)
+
+#		output_dict['sasoutput2'] = total_string
+
+		prefix = string.split(sansfile,'.')	
+		pr_file = data_path+runname+'/em_to_sans/'+prefix[0]+'.pr'
+		iq_file = data_path+runname+'/em_to_sans/'+sansfile
+
+                self.read_file(pr_file,1)
+
+                if(isinstance(self.flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_pr_error'] = self.flot_data
+                else:
+                        output_dict['pr_plot'] = self.flot_data
+
+                self.read_file(iq_file,2)
+
+                if(isinstance(self.flot_data, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_iq_error'] = self.flot_data
+                else:
+                        output_dict['iq_plot'] = self.flot_data
+
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
+	
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"em_to_sans called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Em_to_sans_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

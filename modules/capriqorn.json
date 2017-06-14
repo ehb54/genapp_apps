@@ -1,0 +1,182 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "capriqorn",
+    "label"    : "Capriqorn",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Capriqorn",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  # {
+                  # "role"       : "input",
+                  # "id"       : "message",
+                  # "label"    : "Module under development (ALPHA)",
+                  # "type"     : "label",
+                  # "default"  : "header4",
+                  # "prehline"  : "true",
+                  # "posthline"  : "true"
+                  # },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called capriqorn/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "dcdfile",
+                   "label"   : "trajectory file filename (dcd):",
+                   "type"     : "lrfile",
+		   "required" : "true",
+                   "help"     : "name of DCD or CRDBOX file with coordinates you wish to calculate SAS",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "xstfile",
+                   "label"   : "boxsize trajectory file filename:",
+                   "type"     : "lrfile",
+		   "required" : "false",
+                   "help"     : "name of file with boxsize data",
+                   "norow"    : "false"
+                   },
+		  #{
+                  # "role"     : "input",
+                  # "id"       : "source_list_box",
+                  # "label"    : "neutrons or X-ray?",
+                  # "type"     : "listbox",
+                  # "values"   : "neutrons~c1~X_ray~c2",
+                  # "default"  : "c1",
+                  # "help"  : "choose a scattering type",
+                  # "required" : "true"
+                  # },
+                  {
+                   "role"    : "input",
+                   "id"      : "number_q_values",
+                   "label"   : "number of q values:",
+                   "type"    : "text",
+                   "default" : "21",
+#                   "help" : "delta q = maximum q-value / (number q-values - 1)",
+                   "help" : "enter the number ; note that to filter predicted data the number of q-values and range must be consistent with interpolated data",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "q_max",
+                   "label"   : "maximum q value: ",
+                   "type"    : "text",
+                   "default" : "0.2",
+                   "help" : "(1/angstrom)",
+                   "required" : "true"
+                   },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "I0_array",
+                  # "label"   : "I(0):",
+                  # "type"    : "text",
+                  # "default" : "1.0",
+                  # "help" : "experimentally determined value of I(0): usually determined by Guinier analysis",
+                  # "required" : "true"
+                  # },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "number_r_values",
+                  # "label"   : "number of r values:",
+                  # "type"    : "text",
+                  # "default" : "50",
+                  # "help" : "enter the number",
+                  # "required" : "true"
+                  # },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "num_cpu",
+                   "label"    : "Number of CPU threads",
+                   "type"     : "text",
+                   "default"  : "2",
+                   "required" : "true",
+                   "help" : "choose number of CPUs to allocate to job",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "num_gpu",
+                   "label"    : "Number of GPU threads",
+                   "type"     : "text",
+                   "default"  : "4",
+                   "required" : "true",
+                   "help" : "choose number of GPUs to allocate to job",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "alias_checkbox",
+                   "label"    : "check box to upload alias.dat file",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for to use your own alias.dat file",
+                   "repeater" : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "aliasfile",
+                   "label"   : "alias.dat file name:",
+                   "type"     : "lrfile",
+		   "required" : "false",
+                   "help"     : "atomic type dictionary required by capriqorn",
+                   #"norow"    : "false"
+                   "repeat"  : "alias_checkbox"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "capriqorn"
+}

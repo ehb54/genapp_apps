@@ -1,0 +1,561 @@
+#!/share/apps/local/anaconda/bin/python
+
+'''
+    #!/share/apps/local/anaconda/bin/python
+    #!/share/apps/local/bin/python/bin/python
+'''
+
+import json,sys,os,shutil,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.simulate.monte_carlo.monte_carlo as monte_carlo
+import sassie.interface.input_filter as input_filter
+
+#import sassie.interface.torsion_angle_monte_carlo_filter as torsion_angle_monte_carlo_filter
+
+class CTAMC():
+
+    module = 'torsion_angle_monte_carlo'
+
+    def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                             socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+    def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                             socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+            try:
+                if(first):
+                    socket_dict['progress_html'] = '<center>starting job</center>'
+                    socket_dict['_progress'] = 0.01
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    first = False
+                this_text = txtQueue.get(True, timeout=0.01)
+                text_split=string.split(this_text)
+                if(text_split[0]=='STATUS'):
+                    value = locale.atof(text_split[1])
+                    svalue = str(100*value)
+                    socket_dict['progress_output'] = value
+                    socket_dict['_progress'] = value
+                    socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+
+                    if "_textarea" in socket_dict:
+                        del socket_dict["_textarea"]
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                else:
+                    socket_dict["_textarea"] = this_text
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    total_string += this_text
+            except:
+                if not process.is_alive():
+
+                    return total_string
+
+            time.sleep(0.01)
+        else:
+            return total_string
+
+        return total_string
+
+    def read_file(self,filename,dvar,this_pass):
+
+        #try:
+        if True:
+            data = [] ; error = []
+            data_file = open(filename,'r').readlines()
+            nl = len(data_file)
+
+            this_line = 0
+            for i in xrange(nl):
+                lin = string.split(data_file[i])
+
+                if(lin[0] != '#'):
+                    if this_line > 0 and this_pass == 2:
+                        this_x = lin[dvar[0]]
+                        this_y = lin[dvar[1]]
+                        data.append([this_x,this_y])
+                    elif this_pass == 1:
+                        this_x = lin[dvar[0]]
+                        this_y = lin[dvar[1]]
+                        data.append([this_x,this_y])
+                    this_line += 1
+
+            if(this_pass == 1):
+
+                this_data = {
+                    'lines' : { "show": "false" },
+                    'points' : { "show" : "true", "radius" : "4" },
+                    'color' : 'red',
+                    'label' : 'all structures',
+                    'data': data
+                }
+                self.flot_data["data"].append(this_data)
+
+            else:
+                this_data = {
+                    'lines' : { "show": "true", "lineWidth" : "3.0" },
+                    'points' : { "show" : "true", "radius" : "2" },
+                    'color' : 'green',
+                    'label' : 'accepted structures',
+                    'data': data
+                }
+                self.flot_data["data"].append(this_data)
+
+
+
+        else:
+        #except:
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+        #        print 'ERROR READING PLOT DATA FILE'
+            self.flot_data = "error reading file and making plot"
+
+        return
+
+    def get_data_from_disk(self,file1,file2):
+
+        self.flot_data = {
+            "options": {
+                "title"  : "Rg Results",
+                "xlabel"  : "Structure Number",
+                "ylabel"  : "Rg (Angstrom^2)",
+
+                "legend": {
+                    # "position" can be "ne" or "nw" or "se" or "sw"
+                    "position"           : "ne"
+                    # add a margin by number of pixels
+                    ,"margin"            : 5
+                    # "backgroundOpacity" is a number between 0 and 1
+                    ,"backgroundOpacity" : 0.7
+                    # "container" puts the legend to the right of the plot
+                    ,"container"         : "false"
+                    # "sorted" orders the legend entries can be "ascending" or "descending"
+                    ,"sorted"            : "ascending"
+                }
+
+            },
+
+            "data": []
+        }
+
+        dvar=[0,1]
+        self.read_file(file1,dvar,1)
+        dvar=[2,1]
+        self.read_file(file2,dvar,2)
+
+        return
+
+    def convert_residue_ranges(self,original_reslow,**kwargs):
+
+        r = string.split(original_reslow,',')
+        number_of_pairs = 0
+        align_flag = False
+        if 'seg' in kwargs:
+            align_flag = True
+
+        lowres = ''; numcont = ''
+        for pair in r:
+            this_pair = string.split(pair,'-')
+            if not align_flag:
+                lowres += this_pair[0]+','
+                numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+            elif align_flag:
+                lowres += str(this_pair[0])+','
+                numcont += str(this_pair[1])+','
+            number_of_pairs += 1
+
+        lowres = lowres[:-1]
+        numcont = numcont[:-1]
+
+        print 'lowres (convert_residue) = ',lowres
+        print 'numcont (convert_residue) = ',numcont
+
+        return lowres, numcont
+
+    def run_me(self,json_flag,json_variables,input_string):
+
+        output_dict = {}
+
+        if not json_flag:
+
+            #### BEGIN USER EDIT
+            #### BEGIN USER EDIT
+            #### BEGIN USER EDIT
+
+            runname = 'run_0'
+            dcdfile = 'run_0.dcd'
+            pdbfile = 'full_nist_mab.pdb'
+            psffile = 'full_nist_mab.psf'
+            psf_flag = True
+
+            max_steps = '1000'
+            energy_convergence = '1.0'
+            step_size = '0.002'
+
+            number_of_flexible_regions = '2'
+
+            basis_string_array = []
+            basis_string_array.append('segname HC1 and (resid > 220 and resid < 226)')
+            basis_string_array.append('segname HC2 and (resid > 220 and resid < 226)')
+            delta_theta_array = '30.0, 30.0'
+            rotation_type_array = ['protein_backbone_torsion', 'protein_backbone_torsion']
+            rotation_direction_array = ['backward', 'backward']
+            overlap_basis = 'heavy'
+            cutoff = '0.8'
+
+            post_basis_string_array = []
+            post_basis_string_array.append('(segname HC1 and resid <= 220) or segname LC1')
+            post_basis_string_array.append('(segname HC2 and resid <= 220) or segname LC2')
+
+            temperature = '300.0'
+            trial_steps = '100'
+            goback = '10'
+
+            low_rg_cutoff = '0'
+            high_rg_cutoff = '400.0'
+
+            z_flag = False
+            z_cutoff = '0.0'
+
+            constraint_flag = False
+            constraint_file = 'constraints.txt'
+
+            directed_mc = '0'
+
+            nonbondflag = '0'
+            seed = '0, 123'  # set this to '1,123' if you want to set the seed or '0,123' if not
+
+            #### END USER EDIT
+            #### END USER EDIT
+            #### END USER EDIT
+        else:
+            runname = json_variables['runname']
+
+            base_directory = json_variables['_base_directory']
+
+            path = base_directory.replace('\/','/') + "/"
+
+            os.chdir(path)
+            data_path = path
+
+            pdbfile = json_variables['pdbfile'][0]
+            try:
+                psffile = json_variables['psffile'][0]
+                psf_flag = True
+            except:
+                psffile = 'None'
+                psf_flag = True
+
+            dcdfile = str(json_variables['dcdfile'])
+            print 'dcdfile = ',dcdfile
+            print 'type(dcdfile) = ',type(dcdfile)
+
+            try:
+                max_steps = json_variables['max_steps']
+                energy_convergence = json_variables['energy_convergence']
+                step_size = json_variables['step_size']
+            except:
+                max_steps = '1000'
+                energy_convergence = '1.0'
+                step_size = '0.002'
+
+            number_of_flexible_regions = json_variables['number_of_flexible_regions']
+            goback = json_variables['goback']
+            temperature = json_variables['temperature']
+
+            temperature = json_variables['temperature']
+            trial_steps = json_variables['trial_steps']
+            goback = json_variables['goback']
+
+            temp_basis_string_array = json_variables['basis_string_array']
+            print 'basis_string_array = ',temp_basis_string_array
+            print 'type(basis_string_array) = ',type(temp_basis_string_array)
+
+            basis_string_array = []
+            for bs in temp_basis_string_array:
+                basis_string_array.append(str(bs))
+
+            print 'basis_string_array = ',basis_string_array
+            print 'type(basis_string_array) = ',type(basis_string_array)
+
+            temp_post_basis_string_array = json_variables['post_basis_string_array']
+            post_basis_string_array = []
+            for bs in temp_post_basis_string_array:
+                post_basis_string_array.append(str(bs))
+
+            temp_delta_theta_array = json_variables['delta_theta_array']
+            delta_theta_array = ''
+            for delta in temp_delta_theta_array:
+                delta_theta_array += delta+ ','
+            delta_theta_array = delta_theta_array[:-1]
+
+            print 'delta_theta_array = ',delta_theta_array
+            print 'type(delta_theta_array) = ',type(delta_theta_array)
+            #delta_theta_array = '30.0, 30.0'
+            choice_rotation_type_array = json_variables['rotation_type_array']
+            print 'choice_rotation_type_array = ',choice_rotation_type_array
+            print 'type(choice_rotation_type_array) = ',type(choice_rotation_type_array)
+            rotation_type_array = []
+            for choice in choice_rotation_type_array:
+                if choice == 'c1':
+                    rotation_type_array.append('protein_backbone_torsion')
+                elif choice == 'c2':
+                    rotation_type_array.append('single_stranded_nucleic_backbone_torsion')
+                elif choice == 'c3':
+                    rotation_type_array.append('double_stranded_nucleic_torsion')
+                elif choice == 'c4':
+                    rotation_type_array.append('isopeptide_bond_torsion')
+            choice_rotation_direction_array = json_variables['rotation_direction_array']
+
+            rotation_direction_array = []
+            for choice in choice_rotation_direction_array:
+                if choice == 'c1':
+                    rotation_direction_array.append('forward')
+                elif choice == 'c2':
+                    rotation_direction_array.append('reverse')
+
+#		sys.stdout.flush()
+#		sys.exit()
+
+            ### here
+
+            low_rg_cutoff = '0'
+            high_rg_cutoff = '400.0'
+
+            z_flag = False
+            z_cutoff = '0.0'
+
+            constraint_flag = False
+            constraint_file = 'constraints.txt'
+
+            directed_mc = '0'
+
+            nonbondflag = '0'
+            seed = '0, 123'  # set this to '1,123' if you want to set the seed or '0,123' if not
+
+            overlap_list_box = json_variables['overlap_list_box']
+
+            if(overlap_list_box == "c1"):
+                overlap_basis = 'heavy'
+                cutoff = '0.8'
+            elif(overlap_list_box == "c2"):
+                overlap_basis = 'all'
+                cutoff = '0.8'
+            elif(overlap_list_box == "c3"):
+                overlap_basis = 'backbone'
+                cutoff = '1.0'
+            else:
+                overlap_basis = 'heavy'
+                cutoff = '0.8'
+
+            '''
+		try:
+			advanced_input = json_variables['advanced_input']
+		except:
+			advanced_input = 'off'
+
+		if(advanced_input == "on"):
+
+ 			#basis = json_variables['basis']
+ 			#cutoff = json_variables['cutoff']
+			lowrg = json_variables['lowrg']
+ 			highrg = json_variables['highrg']
+
+                        try:
+                                zflag_check_box = json_variables['zflag_check_box']
+                        except:
+                                zflag_check_box = "off"
+
+			try:
+				cflag_list_box = json_variables['cflag_list_box']
+			except:
+				cflag_list_box = 'off'
+ 			#plotflag_list_box = json_variables['plotflag_list_box']
+ 			plotflag_list_box = "c1"
+
+ 			directedmc = json_variables['directedmc']
+
+		else:
+ 			#basis = 'CA'
+ 			#cutoff = '3.0'
+			lowrg = "20.0"
+			highrg = "185.0"
+			zcutoff = "0.0"
+			zflag_check_box = "off"
+			cflag_list_box = "off"
+ 			plotflag_list_box = "c1"
+ 			directedmc = "0"
+
+
+                if(zflag_check_box == 'off'):
+                        zflag = '0' # NO
+                        zcutoff = '0'
+                elif(zflag_check_box == 'on'):
+                        zflag = '1' # YES
+                        zcutoff = json_variables['zcutoff']
+
+                if(cflag_list_box == 'off'):
+                        cflag = '0' # NO
+			confile = 'constraints.txt'
+                elif(cflag_list_box == 'on'):
+                        cflag = '1' # YES
+			confile = json_variables['confile'][0]
+			#head, confile = os.path.split(temp_confile[0])
+                if(plotflag_list_box == 'c1'):
+                        plotflag = '0' # NO
+                elif(plotflag_list_box == 'c2'):
+                        plotflag = '1' # YES
+
+        	'''
+        plotflag = '0'
+
+        svariables={}
+
+        svariables['runname'] = (str(runname), 'string')
+        svariables['dcdfile'] = (str(dcdfile), 'string')
+        svariables['pdbfile'] = (str(pdbfile), 'string')
+        svariables['psffile'] = (str(psffile), 'string')
+        svariables['psf_flag'] = (str(psf_flag), 'boolean')
+
+        svariables['max_steps'] = (max_steps, 'int')
+        svariables['energy_convergence'] = (energy_convergence, 'float')
+        svariables['step_size'] = (step_size, 'float')
+
+        svariables['number_of_flexible_regions'] = (number_of_flexible_regions, 'int')
+        svariables['basis_string_array'] = (basis_string_array, 'string')
+        svariables['overlap_basis'] = (overlap_basis, 'string')
+        svariables['delta_theta_array'] = (delta_theta_array, 'float_array')
+        svariables['rotation_type_array'] = (rotation_type_array, 'string')
+        svariables['rotation_direction_array'] = (rotation_direction_array, 'string')
+        svariables['post_basis_string_array'] = (post_basis_string_array, 'string')
+        svariables['temperature'] = (temperature, 'float')
+        svariables['trial_steps'] = (trial_steps, 'int')
+        svariables['goback'] = (goback, 'int')
+        svariables['directed_mc'] = (directed_mc, 'float')
+        svariables['cutoff'] = (cutoff, 'float')
+
+
+        svariables['low_rg_cutoff'] = (low_rg_cutoff, 'float')
+        svariables['high_rg_cutoff'] = (high_rg_cutoff, 'float')
+
+        svariables['z_flag'] = (z_flag, 'boolean')
+        svariables['z_cutoff'] = (z_cutoff, 'float')
+
+        svariables['constraint_flag'] = (constraint_flag, 'boolean')
+        svariables['constraint_file'] = (constraint_file, 'string')
+
+        svariables['nonbondflag'] = (nonbondflag, 'int')
+        svariables['seed'] = (seed, 'int_array')
+
+        error = []
+
+        error,self.variables=input_filter.type_check_and_convert(svariables)
+
+        if(len(error)>0):
+
+            self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+            output_dict['error'] = 'Error in input variables'
+            output_dict['sasoutput2'] = error
+            print json.dumps( output_dict )
+            return
+        else:
+#		error=torsion_angle_monte_carlo_filter.check_torsion_angle_monte_carlo(self.variables,no_file_check="true")
+
+            if(len(error) != 0):
+                self.message_box(error,'warning.png')
+                output_dict['error'] = 'Error in torsion angle monte carlo variables'
+                output_dict['sasoutput2'] = error
+                print json.dumps( output_dict )
+                return
+
+            else:
+                runname=self.variables['runname'][0]
+
+                if os.path.exists(runname+'/'+self.module):
+                    shutil.rmtree(runname+'/'+self.module)
+
+                #with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                #	json.dump("\nsself.variables\n",outfile)
+                #	json.dump(svariables,outfile)
+                #	json.dump("\npsegvariables\n",outfile)
+                #	json.dump(psegvariables,outfile)
+#
+
+		txtQueue=multiprocessing.JoinableQueue()
+               	simulation = monte_carlo.simulation()
+               	process=multiprocessing.Process(target=simulation.main,args=(self.variables,txtQueue))
+               	process.start()
+	
+               	total_string = self.background_job(process,txtQueue,json_variables)
+
+#			accepted_rg_file = data_path+runname+'/complex_monte_carlo/'+dcdfile+'.accepted_rg_results_data.txt'
+#			all_rg_file = data_path+runname+'/complex_monte_carlo/'+dcdfile+'.all_rg_results_data.txt'
+
+#			self.get_data_from_disk(all_rg_file,accepted_rg_file)
+
+#			if(isinstance(self.flot_data, basestring)):
+#				print 'error reading data'
+#				output_dict['plot_error'] = self.flot_data
+#			else:
+#				output_dict['plotout4'] = self.flot_data
+
+	#if output_dict:
+	if total_string:
+		output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
+	else:
+		error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+		output_dict['error'] = error_string
+            	print json.dumps( output_dict )
+
+if __name__=='__main__':
+
+    json_flag = True
+    #json_flag = False
+
+    if (len(sys.argv) < 1):
+        print "\{\"error\":\"torsion angle monte carlo called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+    elif len(sys.argv) > 1:
+        json_variables = " "
+        if(json_flag):
+            argv_io_string = StringIO(sys.argv[1])
+            json_variables = json.load(argv_io_string)
+        a=CTAMC()
+        a.run_me(json_flag,json_variables,sys.argv[1])

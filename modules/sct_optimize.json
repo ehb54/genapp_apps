@@ -1,0 +1,69 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "sct_optimize",
+    "label"    : "SCT Optimize",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"         : "module_header",
+                   "label"      : "SCT Optimize",
+                   "type"       : "label",
+                   "default"    : "header4",
+                   "prehline"   : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"       : "results will be placed in a folder called sascalc/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"        : "psffile",
+                   "label"     : "psf topology file name:",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PSF file with molecular topology", 
+                   "norow"     : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"         : "paramfile",
+                   "label"      : "SCT parameter file (YAML):",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"       : "name of SCT parameter file",
+                   "norow"    : "false"
+		   },
+  		   {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "name"    : "progress",
+                   "label"   : "progress:",
+                   "type"    : "progress",
+		   "max"     : 1.0
+                   },
+  		   {
+                   "role"    : "output",
+                   "id"      : "progress_html",
+                   "name"    : "progress_html",
+                   "label"   : "percent done:",
+                   "type"    : "html"
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "sct_optimize"
+}

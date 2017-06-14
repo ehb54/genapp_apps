@@ -1,0 +1,272 @@
+# this is a project menu file
+{
+ "header" : "Sassie 2",
+ "menu" : [
+           { 
+            "id"      : "tools",
+            "label"   : "Tools",
+            "icon"    : "pngs/tools.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "contrast_calculator",
+                          "label" : "Contrast Calculator",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "align",
+                          "label" : "Align",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "data_interpolation",
+                          "label" : "Data Interpolation",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "extract_utilities",
+                          "label" : "Extract Utilities",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "merge_utilities",
+                          "label" : "Merge Utilities",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "build",
+            "label"   : "Build",
+            "icon"    : "pngs/build.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "pdbscan",
+                          "label" : "PDB Scan",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+#                        },
+#                         { 
+#                          "id"    : "pdbrx",
+#                          "label" : "PDB Rx",
+#                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+#                         }
+                        ]
+            },
+           { 
+            "id"      : "interact",
+            "label"   : "Interact",
+            "icon"    : "pngs/interact.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "molecular_viewer",
+                          "label" : "Molecular Viewer",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "simulate",
+            "label"   : "Simulate",
+            "icon"    : "pngs/simulate.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "monomer_monte_carlo",
+                          "label" : "Monomer Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "complex_monte_carlo",
+                          "label" : "Complex Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "energy_minimization",
+                          "label" : "Energy Minimization ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         {
+                          "id"    : "torsion_angle_md",
+                          "label" : "Torsion Angle MD ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "two_body_grid",
+                          "label" : "Two-Body Grid ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "calculate",
+            "label"   : "Calculate",
+            "icon"    : "pngs/calculate.png",
+            "modules" : [ 
+                         #{ 
+                          #"id"    : "sascalc_pbc",
+                          #"label" : "SasCalc-PBC",
+                          #"views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         #},
+                         { 
+                          "id"    : "crysol",
+                          "label" : "Crysol",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sct_calculate",
+                          "label" : "SCT Calculate",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sct_optimize",
+                          "label" : "SCT Optimize",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sld_mol",
+                          "label" : "SLD MOL",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "em_to_sans",
+                          "label" : "EM to SANS",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            },
+           { 
+            "id"      : "analyze",
+            "label"   : "Analyze",
+            "icon"    : "pngs/analyze.png",
+            "modules" : [ 
+                         { 
+                          "id"    : "chi_square_filter",
+                          "label" : "Chi-Square Filter",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sct_analyze",
+                          "label" : "SCT Analyze",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "density_plot",
+                          "label" : "Density Plot",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "apbs",
+                          "label" : "APBS",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            }
+           ,{
+            "id"      : "beta",
+            "group"   : "beta",
+            "label"   : "Beta",
+            "icon"    : "pngs/beta.png",
+            "modules" : [
+                         { 
+                          "id"    : "build_utilities",
+                          "label" : "Build Utilities",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "prody",
+                          "label" : "Prody ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sascalc",
+                          "label" : "SasCalc",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }, 
+                         {
+                          "id"    : "torsion_angle_monte_carlo",
+                          "label" : "Torsion Angle Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+#,
+                        ]
+            }
+           ,{
+            "id"         : "alpha",
+            "restricted"   : "alpha",
+            "label"   : "Alpha",
+            "icon"    : "pngs/alpha.png",
+            "modules" : [
+                         { 
+                          "id"    : "capriqorn",
+                          "label" : "Capriqorn",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         {
+                          "id"    : "sascalc_pbc",
+                          "label" : "SasCalc-PBC"
+                         },
+                         { 
+                          "id"    : "docking",
+                          "label" : "Docking ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            }
+           ,{
+            "id"      : "graveyard",
+            "group"   : "graveyard",
+            "label"   : "Retired",
+            "icon"    : "pngs/graveyard.png",
+            "modules" : [
+                         {
+                          "id"    : "xtal2sas",
+                          "label" : "Xtal2sas",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "cryson",
+                          "label" : "Cryson",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }
+                        ]
+            }
+           ,{ 
+            "id"      : "admin",
+            "restricted"   : "admin",
+            "label"   : "Admin",
+            "icon"    : "pngs/admin.png",
+            "modules" : [ 
+                         {
+                          "id"    : "jobmonitor",
+                          "label" : "Job monitor"
+                         }
+                         ,{
+                          "id"    : "sysuserslist",
+                          "label" : "Users"
+                         }
+                         ,{
+                          "id"    : "jobshistory_1",
+                          "label" : "Job history"
+                         }
+                        ]
+            }
+           ,{ 
+            "id"      : "license",
+            "modules" : [ 
+                         { 
+                          "id"    : "CHARMM",
+                          "label" : "CHARMM license"
+                         }
+            ]
+           }
+           ,{ 
+            "id"      : "etc",
+            "modules" : [ 
+                         { 
+                          "id"    : "sys_file_manager",
+                          "label" : "File Manager"
+                         }
+            ]
+           }
+
+          ]
+}

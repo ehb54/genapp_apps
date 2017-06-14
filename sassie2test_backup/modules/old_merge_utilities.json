@@ -1,0 +1,115 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "merge_utilities",
+    "label"    : "Merge Utilities",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Merge Utilities",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called merge/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdb_file",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "merge_option_list_box",
+                   "label"   : "select option",
+                   "type"    : "listbox",
+                   "help"    : "user can merge both trajectory data (dcd) and sas data, or only sas data",
+                   "values"  : "merge dcd and sas~c1~merge sas only~c2",
+                   "default" : "c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_runs",
+                   "label"    : "enter number of runs to merge",
+                   "type"     : "integer",
+                   "default"  : 2,
+                   "required" : "true",
+                   "help" : "enter the number of independent runs to merge together",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "run_paths",
+                   "label"    : "run name paths",
+                   "type"     : "rpath",
+		   "help"  : "enter directories that contain data you wish to merge",
+		   "repeat"   : "number_of_runs",
+                   "required" : "true"
+	           },
+                  {
+                   "role"     : "input",
+                   "id"       : "dcd_names",
+                   "label"    : "dcd filenames",
+                   "type"     : "lrfile",
+		   "default"  : "generate/run_m1.dcd,generate/run_m2.dcd",
+		   "help"  : "enter paths, within the run name paths, where trajectory (dcd) data are located",
+		   "repeat"   : "number_of_runs",
+                   "required" : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "sas_type_list_box",
+                   "name"    : "sas_type_list_box",
+                   "label"   : "select SAS type",
+                   "type"    : "listbox",
+                   "help"    : "pick the SAS calculator that generated data you wish to merge",
+                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
+                   "default" : "c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sas_paths",
+                   "label"    : "sas path",
+                   "type"     : "text",
+                   "default"  : "xtal2sas",
+                   "help"  : "this can be anything, but the default values are xtal2sas, cryson, or crysol",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   },
+		  {
+                    "role"    : "output",
+                    "id"      : "sasoutput2",
+                    "name"    : "sasoutput2",
+                    "label"   : " ",
+                    "type"    : "textarea",
+		    "rows"    : 20,
+		    "cols"    : 80
+		   }
+                  ],
+    "executable" : "merge_utilities"
+}

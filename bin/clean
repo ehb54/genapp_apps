@@ -1,0 +1,3 @@
+#!/bin/bash 
+rm -f *_log *_json *.pyc 
+rm -rf run_0

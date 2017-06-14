@@ -1,0 +1,241 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "extract_utilities",
+    "label"    : "Extract Utilities",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Extract Utilities",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called extract_utilities/ in the directory name you enter here"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "separator_1",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "false",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "trajectory_checkbox",
+                   "label"   : "extract trajectory",
+                   "type"    : "checkbox",
+                   "help"    : "click to extract trajectory data (pdb or dcd)",
+		   "repeater": "true",
+		   "checked" : "false"
+                   },
+###
+### IF STRUCTURES
+###
+                   {
+                   "role"       : "input",
+                   "id"       : "structure_header",
+                   "label"    : "Trajectory Input",
+                   "type"     : "label",
+                   "default"  : "header4",
+		   "repeat"   : "trajectory_checkbox",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdb_filename",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "trajectory_checkbox",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "trajectory_filename",
+                   "label"    : "trajectory file name",
+                   "type"     : "lrfile",
+                   "help"  : "select pdb or dcd trajectory file",
+		   "repeat"   : "trajectory_checkbox",
+                   "required" : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "output_filename",
+                   "label"   : "output file name (pdb or dcd)",
+                   "type"     : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB or DCD file with extracted frame(s): use .pdb suffix for PDB output or .dcd suffix for DCD output",
+		   "repeat"   : "trajectory_checkbox",
+                   "norow"    : "false"
+                   },
+###
+### END IF STRUCTURES 
+###
+
+###
+### IF SAS
+###
+                   {
+                   "role"       : "input",
+                   "id"       : "separator_2",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "false",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "sas_checkbox",
+                   "label"   : "extract SAS",
+                   "type"    : "checkbox",
+                   "help"    : "click to extract sas data",
+		   "repeater": "true",
+                   "checked" : "false"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "sas_header",
+                   "label"    : "SAS Input:",
+                   "type"     : "label",
+                   "default"  : "header4",
+		   "repeat"   : "sas_checkbox",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+		  {
+		   "role"    : "input",
+                   "id"      : "sas_type_list_box",
+                   "name"    : "sas_type_list_box",
+                   "label"   : "SAS type",
+                   "type"    : "listbox",
+                   "help"    : "pick the SAS calculator that generated data you wish to extract",
+                   "values"  : "sascalc~c1~xtal2sas~c2~cryson~c3~crysol~c4",
+		           "repeat"   : "sas_checkbox"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_sas_paths",
+                   "label"    : "number of SAS data path(s)",
+                   "type"     : "integer",
+                   "default"     : "1",
+                   "min"     : "1",
+                   "help"  : "enter number of directories that contain data you wish to extract from",
+                   "required" : "true",
+		           "repeater": "true",
+		           "repeat"   : "sas_checkbox"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sas_paths",
+                   "label"    : "SAS data path",
+                   "type"     : "rpath",
+                   "help"  : "enter directory that contain data you wish to extract from",
+                   "required" : "true",
+		           "repeat"   : "number_of_sas_paths"
+                   },
+
+###
+### END IF SAS
+###
+                   {
+                   "role"       : "input",
+                   "id"       : "separator_3",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "false",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "option_list_box",
+                   "name"    : "option_list_box",
+                   "label"   : "select option",
+                   "type"    : "listbox",
+                   "values"  : "single frame~c1~range~c2~text file~c3~weight file~c4~periodic~c5~all~c6",
+                   "default" : "c1",
+                   "help"    : "select either a frame to extract, a range of frames to extract, name of a text file with frame numbers, a weight file (either 1 or 0 to extract (1) or ignore (2)), a sampling frequency value (i.e. 2 --> keep each 2nd frame/data), or all to keep all frames/data (useful for PDB/DCD conversion)",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c1",
+                   "label"    : "input a frame number",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "help"     : "supply appropriate value",
+                   "repeat"   : "option_list_box:c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c2",
+                   "label"    : "input a range of frames",
+                   "type"     : "text",
+                   "default"  : "3-22",
+                   "help"     : "supply appropriate value",
+                   "repeat"   : "option_list_box:c2"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c3",
+                   "label"    : "input name of text file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+                   "help"     : "supply appropriate value: file lists desired frames",
+                   "repeat" : "option_list_box:c3",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "local_value_c4",
+                   "label"    : "input name of weight file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+                   "help"     : "supply appropriate value: file is list of weights",
+                   "repeat" : "option_list_box:c4",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sampling_frequency",
+                   "label"    : "input sampling frequency",
+                   "type"     : "text",
+                   "default"  : "2",
+                   "help"     : "supply appropriate value: must be less than the number of frames and/or data sets: 2 --> sample every 2nd frame/data, 3 --> sample every 3rd frame/data, etc.",
+                   "repeat"   : "option_list_box:c5",
+                   "norow"    : "false"
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+#                   },
+#		  {
+#                    "role"    : "output",
+#                    "id"      : "sasoutput2",
+#                    "name"    : "sasoutput2",
+#                    "label"   : " ",
+#                    "type"    : "textarea",
+#		    "rows"    : 20,
+#		    "cols"    : 80
+#		   }
+                  ],
+    "executable" : "extract_utilities"
+}

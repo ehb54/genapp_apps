@@ -1,0 +1,35 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "molecular_viewer",
+    "label"    : "Molecular Viewer",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Molecular Viewer",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "refpdb",
+                   "label"   : "pdb file input",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"    : "outputpdb",
+                   "label" : "viewer (right click for options)", 
+                   "type"  : "atomicstructure",
+                   "height" : "600",
+                   "width" : "600"
+                   }
+                  ],
+# the executable will take inputs in order and produce output
+    "executable" : "molecular_viewer"
+}

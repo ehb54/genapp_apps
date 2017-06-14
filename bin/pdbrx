@@ -1,0 +1,147 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,ast,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+#import sassie.tools.center as center
+import sassie.interface.input_filter as input_filter
+
+class PDBRx_Drv():
+
+   module = 'pdbrx'
+
+   def background_job(self,process,txtQueue,sock,UDP_IP,UDP_PORT):
+	total_string = ''
+
+	sock_dict = {}
+	sock_dict['_uuid'] = json_variables['_uuid']
+
+	while process.is_alive():
+		try:
+			this_text = txtQueue.get(True, timeout=0.1)
+			text_split=string.split(this_text)
+			if(text_split[0]=='STATUS'):
+				sock_dict['percent done'] = locale_atof(text_split[1])
+ 				MESSAGE = json.dumps(sock_dict).encode()
+ 				sock.sendto(MESSAGE,(UDP_IP,UDP_PORT))
+				print json.dumps( sock_dict )
+				time.sleep(0.1)
+				#pass ; #progressBar.set(locale.atof(text_split[1]))
+			else:
+				total_string += this_text
+		except:
+			if not process.is_alive():
+				return total_string
+		time.sleep(0.01)
+	else:
+		return total_string
+
+	return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	refpdb ='min3.pdb'
+        	path='./'
+
+		UDP_IP = '127.0.0.1'
+		UDP_PORT = 5005
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+
+		base_directory = json_variables['_base_directory']
+
+        	path = base_directory.replace('\/','/') + "/"
+
+		os.chdir(path)
+		pdb_path = path
+
+        	refpdb = json_variables['refpdb'][0]
+		#head, refpdb = os.path.split(temp_refpdb[0])
+
+		path = ''
+
+		UDP_IP = json_variables['_udphost']
+		UDP_PORT = json_variables['_udpport']
+
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+	svariables['refpdb']  = (str(refpdb),'string')
+	svariables['path']    = (path,'string')
+
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+#        save_stdout = sys.stdout
+#        sys.stdout = sys.stderr
+#end emre
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+	else:
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+#		txtQueue=multiprocessing.JoinableQueue()
+
+#		process=multiprocessing.Process(target=center.center,args=(self.variables,txtQueue))
+#		process.start()
+
+#		sock = socket.socket(socket.AF_INET, # Internet
+#                     socket.SOCK_DGRAM) # UDP
+
+#		total_string = self.background_job(process,txtQueue,sock,UDP_IP,UDP_PORT)
+
+		#output_dict['io_string'] = input_string
+		#output_dict['sasoutput2'] = total_string
+
+		output_dict['outputpdb'] = pdb_path+refpdb
+		
+
+	#except
+		#	print 'failed to send to socket'
+		#	sock_dict = {}
+		#	sock_dict['_uuid'] = json_variables['_uuid']
+		#	json.dumps(sock_dict)
+		#	print json.dumps( sock_dict )
+
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+			#json_variables = ast.literal_eval(argv_io_string)
+		a=PDBRx_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+

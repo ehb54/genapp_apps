@@ -1,0 +1,226 @@
+#!/share/apps/local/bin/python/bin/python
+import json
+import sys
+import os
+import shutil
+import locale
+from StringIO import StringIO
+import multiprocessing
+import time
+import string
+import socket
+
+import sassie.interface.input_filter as input_filter
+import sassie.interface.sct_calc_filter as sct_calc_filter
+import sassie.calculate.gsct_calc as gsct_calc
+
+class SCTCalc_Drv():
+
+    module = 'sctcalc'
+
+    def message_box(self, text, icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
+
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+
+        return
+
+    def background_job(self, process, txtQueue, json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
+
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+            try:
+                if(first):
+                    socket_dict['progress_html'] = 0.01
+                    socket_dict['_progress'] = 0.01
+                    socket_dict[
+                        'progress_html'] = '<center>starting job</center>'
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    first = False
+
+                if not txtQueue.empty():
+                #this_text = txtQueue.get(True, timeout=0.1)
+                    this_text = txtQueue.get()             
+                    text_split = string.split(this_text)
+                    if(text_split[0] == 'STATUS'):
+                        value = locale.atof(text_split[1])
+                        svalue = str(round(100 * value,2))
+                        socket_dict['progress_output'] = value
+                        socket_dict['_progress'] = value
+                        socket_dict['progress_html'] = '<center>' + \
+                            svalue + '</center>'
+                        if "_textarea" in socket_dict:
+                                del socket_dict["_textarea"]
+                        if socket_dict:
+                            doc_string = json.dumps(socket_dict)
+                            sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    else:
+                        socket_dict["_textarea"] = this_text
+                        if socket_dict:
+                            doc_string = json.dumps(socket_dict)
+                            sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+                        total_string += this_text
+            except:
+                if not process.is_alive():
+
+                    #doc_string = json.dumps(socket_dict)
+                    # sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                    return total_string
+
+            time.sleep(0.01)
+        else:
+            return total_string
+
+        return total_string
+
+    def run_me(self, json_flag, json_variables, input_string):
+
+        output_dict = {}
+
+        if not json_flag:
+
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+
+            runname = 'run_0'
+            dcdfile = './run_0/generate/run_0.dcd'
+            pdbfile = './run_0/generate/c2.pdb'
+            psffile = './run_0/generate/c2.psf'
+            paramfile = './run_0/params.yml'
+            model_type ='neutron'
+            
+            path = './'
+
+            # END USER EDIT
+            # END USER EDIT
+            # END USER EDIT
+
+        else:
+            runname = json_variables['runname']
+
+            base_directory = json_variables['_base_directory']
+
+            path = base_directory.replace('\/', '/') + "/"
+
+            os.chdir(path)
+
+            pdbfile = json_variables['pdbfile'][0]
+            #head, pdbfile = os.path.split(temp_pdbfile[0])
+
+            psffile = json_variables['psffile'][0]
+            #head, psffile = os.path.split(temp_psffile[0])
+
+            paramfile = json_variables['paramfile'][0]
+            #head, paramfile = os.path.split(temp_paramfile[0])
+
+            dcdfile = json_variables['dcdfile'][0]
+            #head, dcdfile = os.path.split(temp_dcdfile[0])
+
+            source_list_box = json_variables['source_list_box']
+            if(source_list_box == 'c1'):
+                model_type = 'neutron'  # neutron
+            elif(source_list_box == 'c2'):
+                model_type = 'xray'     # X-ray
+            elif(source_list_box == 'c3'):
+                model_type = 'both'     # both
+
+            path = ''
+
+        svariables = {}
+        svariables['runname'] = (str(runname), 'string')
+        svariables['dcdfile'] = (str(dcdfile), 'string')
+        svariables['psffile'] = (str(psffile), 'string')
+        svariables['pdbfile'] = (str(pdbfile), 'string')
+        svariables['paramfile'] = (str(paramfile), 'string')
+        svariables['model_type'] = (str(model_type), 'string')
+        
+        error,self.variables = input_filter.type_check_and_convert(svariables)
+
+        if error:
+
+            self.message_box(error, 'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+            output_dict['error'] = 'Error in input variables'
+            output_dict['sasoutput2'] = 'run failed'
+            print json.dumps(output_dict)
+            return
+        else:
+            error = sct_calc_filter.check_sct_calc(self.variables)
+
+            if error:
+                self.message_box(error, 'warning.png')
+                output_dict['error'] = 'Error in sctcalc variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps(output_dict)
+                return
+
+            runname = self.variables['runname'][0]
+                
+            if os.path.exists(runname + '/' + self.module):
+                shutil.rmtree(runname + '/' + self.module)
+
+            txtQueue = multiprocessing.JoinableQueue()
+            
+            process=multiprocessing.Process(
+                target=gsct_calc.gsct_calc,
+                args=(self.variables,txtQueue))
+                
+            process.start()
+            
+            total_string = self.background_job(
+                process,
+                txtQueue,
+                json_variables)
+
+        if total_string:
+                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+#                output_dict['_empty_return'] = 1
+                print json.dumps( output_dict )
+
+if __name__ == '__main__':
+
+    json_flag = True
+#	json_flag = False
+
+    if (len(sys.argv) < 1):
+        print "\{\"error\":\"sct_calculate called with no arguments\"\}\n"
+# 		print 'exiting now'
+
+    elif len(sys.argv) > 1:
+        json_variables = " "
+        if(json_flag):
+            argv_io_string = StringIO(sys.argv[1])
+            json_variables = json.load(argv_io_string)
+        a = SCTCalc_Drv()
+        a.run_me(json_flag, json_variables, sys.argv[1])

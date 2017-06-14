@@ -1,0 +1,174 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "density_plot",
+    "label"    : "Density Plot",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Density Plot",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called density/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "infile",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to create density plots",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "ofile",
+                   "label"    : "output file name prefix",
+                   "type"     : "text",
+		   "default"  : "test",
+		   "help"  : "output Gaussian cube files will have this prefix in the file name: useful for multiple runs in same project folder",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "box_lengths",
+                   "label"    : "x, y, z-lengths(s) (angstroms)",
+                   "type"     : "text",
+                   "default"  : "100,100,100",
+                   "help"  : "desired molecular dimensions along the x, y, and z-axes",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "gridsp",
+                   "label"    : "grid spacing (angstroms)",
+                   "type"     : "text",
+                   "default"  : "5.0",
+                   "help"  : "size of voxels: typically 4 to 10 is adequate",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "save_occupancy_list_box",
+                   "name"    : "save_occupancy_list_box",
+                   "label"   : "save occupancy information",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "default" : "c1",
+                   "help" : "useful to keep this information for debugging or futher analysis"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nsegments",
+                   "label"    : "number of segments",
+                   "type"     : "integer",
+                   "default"  : 1,
+                   "min"      : 1,
+                   "help"  : "enter an integer AND press TAB to refresh: for systems with multiple segments one can create families of density plots, each saved in a separate file",
+                   "required" : "true",
+		   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sname",
+                   "label"    : "segment name",
+                   "type"     : "text",
+                   "default"  : "GAG",
+                   "help"  : "name of this segment or chain from PDB file",
+                   "required" : "true",
+                   "size"     : 6,
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "nregions",
+                   "label"    : "number of ranges",
+                   "type"     : "text",
+                   "default"  : "5",
+                   "help"  : "choose the number of ranges for this segment",
+                   "required" : "true",
+                   "size"     : 4,
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "residue_regions",
+                   "label"    : "residue region(s)",
+                   "type"     : "text",
+                   "default"  : "1-123,124-142,143-354,355-379,380-420",
+                   "size"     : 30,
+                   "help"  : "select the low residue used for this density plot",
+                   "required" : "true",
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sbasis",
+                   "label"    : "segment basis",
+                   "type"     : "text",
+                   "default"  : "CA",
+                   "help"  : "enter an atom name to determine occupancy in each voxel",
+                   "required" : "true",
+                   "size"     : 8,
+		   "norow"    : "true",
+                   "repeat"  : "nsegments"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "weight_flag_check_box",
+                   "label"    : "check box to use a weight file",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeater" : "true",
+                   "help" : "options are useful to create specific density plots",
+		   "norow"   : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "weightsfile",
+                   "label"    : "weights file name",
+                   "type"     : "lrfile",
+                   "required" : "false",
+                   "help"     : "name of file containing weighting information for each structure in trajectory",
+                   "repeat"    : "weight_flag_check_box",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+    "executable" : "density_plot"
+}

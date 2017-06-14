@@ -1,0 +1,166 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "prody",
+    "label"    : "Prody",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Prody",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called prody/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_modes",
+                   "label"    : "number of normal modes",
+                   "type"     : "text",
+                   "default"  : "15",
+                   "help"     : "enter number of normal modes to compute",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_conformations_samp",
+                   "label"    : "number of conformations per normal mode",
+                   "type"     : "text",
+                   "default"  : "50",
+		   "help"     :  "number of conformations to generate by random sampling of modes",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_steps_traverse",
+                   "label"    : "number of frames to traverse for each mode",
+                   "type"     : "text",
+                   "default"  : "10",
+		   "help"     : "number of steps to tranverse each mode in both diretcions",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rmsd_conformations_samp",
+                   "label"    : "average sampled RMSD",
+                   "type"     : "text",
+                   "default"  : "1.0",
+		   "help"     : "average RMSD of randomly sampled conformations with respect to initial conformation",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "rmsd_traverse",
+                   "label"    : "average sampled RMSD for normal mode trajectory",
+                   "type"     : "text",
+                   "default"  : "1.5",
+		   "help"     :  "maximum RMSD of conformations for trajectory from traversed mode with respect to initial conformation",
+                   "required" : "true"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_usage_cmd",
+                   "label"    : "enter manual ProDy command",
+                   "type"     : "text",
+                   "default"  : "",
+		   "help"     :  "enter ProDy command to override input above",
+                   "required" : "false",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "lowrg",
+                   "label"    : "low Rg cutoff",
+                   "type"     : "float",
+                   "default"  : 0.0,
+                   "min"      : 0.0,
+	           "step"     : 0.01,
+                   "required" : "true",
+                   "help" : "discard all accepted structures with a Rg less than this value",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "highrg",
+                   "label"    : "high Rg cutoff",
+                   "type"     : "float",
+                   "default"  : 300.0,
+	           "step"     : 0.01,
+                   "required" : "true",
+                   "help" : "discard all accepted structures with a Rg greater than this value",
+                   "repeat"  : "advanced_input"
+                   },
+		  {
+                   "role"    : "input",
+                   "id"      : "cflag_check_box",
+                   "name"    : "cflag_check_box",
+                   "label"    : "check box to use atomic constraints",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "repeat"  : "advanced_input",
+                   "help"  : "check this box if you wish to enable atomic constraints",
+		   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "confile",
+                   "label"    : "constraint file name",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "help"  : "enter name of constaint file",
+                   "repeat"  : "cflag_check_box",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+    "executable" : "prody"
+}

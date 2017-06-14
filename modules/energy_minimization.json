@@ -1,0 +1,289 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "energy_minimization",
+    "label"    : "Energy Minimization",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Energy Minimization",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"       : "input",
+                   "id"         : "runname",
+                   "label"      : "run name",
+                   "type"       : "text",
+                   "default"    : "run_0",
+                   "required"   : "true",
+                   "help"     : "results will be placed in a folder called minimization/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdbfile",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "infile",
+                   "label"   : "input filename (dcd or pdb)",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of DCD or PDB file with coordinates you wish to energy minimize",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "psffile",
+                   "label"   : "PSF file name",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PSF file with molecular topology",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "outfile",
+                   "label"   : "output file name (dcd)",
+                   "type"    : "text",
+                   "default" : "min_run_0.dcd",
+                   "help"     : "enter name of file that will contain coordinates for minimized structures",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "ncpu",
+                   "label"   : "number of processors",
+                   "type"    : "integer",
+                   "default" : 2,
+		   "min"     : 1,
+		   "max"     : 4,
+                   "help" : "choose between 1 and 4",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "keepout_list_box",
+                   "name"    : "keepout_list_box",
+                   "label"    : "keep run output files",
+                   "type"    : "listbox",
+                   "values"  : "no~c1~yes~c2",
+                   "help"  : "useful to debug troublesome runs",
+                   "default" : "c1"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "md_list_box",
+                   "name"    : "md_list_box",
+                   "label"   : "run type",
+                   "type"    : "listbox",
+                   "values"  : "minimization~c1~minimization / md~c2~minimization / md / minimization~c3~supply input file~c4",
+                   "help" : "one can choose a combination of minimization and MD runs",
+		   "repeater" : "true",
+                   "default" : "c1"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "nsteps_1",
+                   "label"   : "number of minimization steps",
+                   "type"    : "text",
+                   "default" : "100",
+		   "repeat" : "md_list_box:c1",
+                   "help" : "usually between 100 to 5000 should be sufficient",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "mdsteps_1",
+                   "label"   : "number md timesteps (1 step = 2 fs)",
+                   "type"    : "text",
+                   "default" : "10000",
+		   "repeat" : "md_list_box:c2",
+                   "help" : "if one chooses a MD option then the number of steps entered here is used",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dielect_1",
+                   "label"   : "solvent dielectric",
+                   "type"    : "text",
+                   "default" : "80.0",
+		   "repeat" : "md_list_box:c2",
+                   "help" : "required by MD option, not for energy minimization",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "temperature_1",
+                   "label"   : "temperature (K)",
+                   "type"    : "text",
+                   "default" : "300.0",
+		   "repeat" : "md_list_box:c2",
+                   "help" : "required by MD option, not for energy minimization",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "nsteps_2",
+                   "label"   : "number of minimization steps",
+                   "type"    : "text",
+                   "default" : "100",
+		   "repeat" : "md_list_box:c2",
+                   "help" : "usually between 100 to 5000 should be sufficient",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "mdsteps_2",
+                   "label"   : "number md timesteps (1 step = 2 fs)",
+                   "type"    : "text",
+                   "default" : "10000",
+		   "repeat" : "md_list_box:c3",
+                   "help" : "if one chooses a MD option then the number of steps entered here is used",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dielect_2",
+                   "label"   : "solvent dielectric",
+                   "type"    : "text",
+                   "default" : "80.0",
+		   "repeat" : "md_list_box:c3",
+                   "help" : "required by MD option, not for energy minimization",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "temperature_2",
+                   "label"   : "temperature (K)",
+                   "type"    : "text",
+                   "default" : "300.0",
+		   "repeat" : "md_list_box:c3",
+                   "help" : "required by MD option, not for energy minimization",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "nsteps_3",
+                   "label"   : "number of minimization steps",
+                   "type"    : "text",
+                   "default" : "100",
+		   "repeat" : "md_list_box:c3",
+                   "help" : "usually between 100 to 5000 should be sufficient",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "external_input_file",
+                   "label"   : "namd input file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+		   "repeat" : "md_list_box:c4",
+                   "help"     : "input file to run simulation: experimental"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "additional_files",
+                   "label"   : "check box to enter restart files",  
+                   "type"     : "checkbox",
+                   "required" : "false",
+		   "repeat" : "md_list_box:c4",
+		   "repeater" : "true",
+                   "help"  : "click this box for extra options for the run"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "velocity_restart_file",
+                   "label"   : "velocity restart file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+		   "repeat" : "additional_files",
+                   "help"     : "input file to run simulation: experimental"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "extended_system_restart_file",
+                   "label"   : "extended system restart file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+		   "repeat" : "additional_files",
+                   "help"     : "input file to run simulation: experimental"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_parameter_files",
+                   "label"    : "number of parameter files:",
+                   "type"     : "integer",
+                   "default"  : 0,
+                   "min"      : 0,
+                   "size"     : 4,
+                   "required" : "true",
+                   "help" : "enter the number of force-field paramater files to upload",
+                   "repeat" : "advanced_input",
+                   "repeater" : "true"
+
+                  },
+                  {
+                   "role"     : "input",
+                   "id"      : "parmfile",
+                   "label"   : "charmm parameter file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+	  	           "repeat" : "advanced_input",
+                   "help"     : "name of PSF file with molecular topology",
+                   "norow"    : "false",
+                   "repeat"    : "number_of_parameter_files"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "dcdfreq",
+                   "label"   : "DCD write frequency",
+                   "type"    : "text",
+                   "default" : "20",
+	  	   "repeat" : "advanced_input",
+                   "help" : "how often to save preliminary minimized structures: should be a factor of the number of energy minimization steps",
+                   "required" : "false"
+                   },
+                  {
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0
+                   },
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+# the executable will take inputs in json and produce output in json
+    "executable" : "energy_minimization"
+}

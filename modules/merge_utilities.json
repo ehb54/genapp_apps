@@ -1,0 +1,255 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "merge_utilities",
+    "label"    : "Merge Utilities",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "Merge Utilities",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "run name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "required" : "true",
+                   "help"     : "results will be placed in a folder called merge_utilities/ in the directory name you enter here"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_runs_to_merge",
+                   "label"    : "number of runs to merge",
+                   "type"     : "integer",
+                   "min"     : 1,
+                   "default"  : 2,
+                   "required" : "true",
+                   "help" : "enter the number of independent runs to merge together",
+		   "sync"   : "a"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "separator_1",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "false",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "trajectory_checkbox",
+                   "label"   : "merge trajectories",
+                   "type"    : "checkbox",
+                   "help"    : "click to merge trajectory data (pdb or dcd)",
+		   "repeater": "true",
+                   "checked" : "false"
+                   },
+###
+### IF STRUCTURES
+###
+                   {
+                   "role"       : "input",
+                   "id"       : "structure_header",
+                   "label"    : "Trajectory Input",
+                   "type"     : "label",
+                   "default"  : "header4",
+		   "repeat"   : "trajectory_checkbox",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "pdb_file",
+                   "label"   : "reference pdb",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "name of PDB file for atom naming purposes",
+		   "repeat"   : "trajectory_checkbox",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_trajectories",
+                   "label"    : "number of runs to merge",
+                   "type"     : "integer",
+                   "min"     : 1,
+                   "default"  : 2,
+                   "hidden"  : "true",
+                   "required" : "true",
+                   "help" : "enter the number of independent runs to merge together",
+		   "repeat"   : "trajectory_checkbox",
+		   "repeater"   : "true",
+		   "sync"   : "a"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "trajectory_names",
+                   "label"    : "trajectory file name",
+                   "type"     : "lrfile",
+                   "help"  : "select pdb or dcd trajectory file",
+		   "repeat"   : "number_of_trajectories",
+                   "required" : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "output_filename",
+                   "label"   : "output file name (pdb or dcd)",
+                   "type"     : "text",
+                   "required" : "true",
+                   "help"     : "name of PDB or DCD file with merged frames: use .pdb suffix for PDB output or .dcd suffix for DCD output",
+		   "repeat"   : "trajectory_checkbox",
+                   "norow"    : "false"
+                   },
+###
+### END IF STRUCTURES 
+###
+
+###
+### IF SAS
+###
+                   {
+                   "role"       : "input",
+                   "id"       : "separator_2",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "false",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "sas_checkbox",
+                   "label"   : "merge SAS",
+                   "type"    : "checkbox",
+                   "help"    : "click to merge sas data",
+		   "repeater": "true",
+                   "checked" : "false"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "sas_header",
+                   "label"    : "SAS Input",
+                   "type"     : "label",
+                   "default"  : "header4",
+		   "repeat"   : "sas_checkbox",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+		  {
+		   "role"    : "input",
+                   "id"      : "sas_type_list_box",
+                   "name"    : "sas_type_list_box",
+                   "label"   : "SAS type",
+                   "type"    : "listbox",
+                   "help"    : "pick the SAS calculator that generated data you wish to merge",
+                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
+		   "default"   : "c1",
+		   "repeat"   : "sas_checkbox"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_sas",
+                   "label"    : "number of runs to merge",
+                   "type"     : "integer",
+                   "min"     : 1,
+                   "default"  : 2,
+                   "hidden"  : "true",
+                   "required" : "true",
+                   "help" : "enter the number of independent runs to merge together",
+                   "repeater" : "true",
+		   "repeat"   : "sas_checkbox",
+		   "sync"   : "a"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sas_paths",
+                   "label"    : "SAS data path",
+                   "type"     : "rpath",
+                   "help"  : "enter directory that contain data you wish to merge",
+                   "repeat"   : "number_of_sas",
+                   "required" : "true"
+                   },
+
+
+###
+### END IF SAS
+###
+                   {
+                   "role"       : "input",
+                   "id"       : "separator_3",
+                   "label"    : "",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "false",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "merge_option_list_box",
+                   "label"   : "select merge option",
+                   "type"    : "listbox",
+                   "help"    : "merge all data, merge data based on input weight file (one per run), or merge a subset based on the input frequency",
+                   "values"  : "merge all data~c1~merge using weight files~c2~merge periodic~c3",
+		   "repeater": "true",
+                   "default" : "c1"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "number_of_merge_type_counter",
+                   "label"    : "",
+                   "type"     : "integer",
+                   "min"     : 1,
+                   "default"  : 2,
+                   "hidden"  : "true",
+                   "required" : "true",
+                   "repeater" : "true",
+		   "repeat"   : "merge_option_list_box:c2",
+		   "sync"   : "a"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "weight_files",
+                   "label"    : "name of weight file",
+                   "type"     : "lrfile",
+                   "required" : "false",
+                   "help"     : "supply weight file for each run: file is list of weights usually generated by chi-square filter",
+                   "repeat" : "number_of_merge_type_counter",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "sampling_frequency",
+                   "label"    : "input sampling frequency",
+                   "type"     : "text",
+                   "default"  : "1",
+                   "help"     : "supply appropriate value: must be less than the number of frames and/or data sets: 2 --> sample every 2nd frame/data, 3 --> sample every 3rd frame/data, etc.",
+                   "repeat"   : "merge_option_list_box:c3",
+                   "norow"    : "false"
+                   },
+
+                  {
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+#                  },
+#	  {
+#                   "role"    : "output",
+#                   "id"      : "sasoutput2",
+#                   "name"    : "sasoutput2",
+#                   "label"   : " ",
+#                   "type"    : "textarea",
+#	    "rows"    : 20,
+#	    "cols"    : 80
+#	   }
+                  ],
+    "executable" : "merge_utilities"
+}

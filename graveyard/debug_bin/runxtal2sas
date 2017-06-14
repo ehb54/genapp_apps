@@ -1,0 +1,2 @@
+../../bin/xtal2sas '{"runname":"run_0","delcaipfiles_list_box":"c1","numiq":"50","qmax":"0.5","iomax":"1.0","numhits":"1000","numiter":"1","pd2O":"100.0","fhdexchange":"0.9","proteinhord_list_box":"c1","pdbfile":["/home/curtisj/sassie2/graveyard/debug_bin/c2.pdb"],"dcdfile":["/home/curtisj/sassie2/graveyard/debug_bin/c2.dcd"]}'
+

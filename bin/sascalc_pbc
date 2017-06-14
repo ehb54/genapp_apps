@@ -1,0 +1,240 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.interface.input_filter as input_filter
+import sassie.interface.sascalc_filter as sascalc_filter
+#import sassie.calculate.sascalc_pbc as sascalc_pbc
+
+class Sascald_pbc_Driver():
+
+   module = 'sascalc_pbc'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+	first = True
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(round(100*value),2)
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                if "_textarea" in socket_dict:
+                                        del socket_dict["_textarea"]
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                socket_dict["_textarea"] = this_text
+                                if socket_dict:
+                                        doc_string = json.dumps(socket_dict)
+                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+        	dcdpath='./'
+		dcdfile='ubq.dcd'
+		pdbpath='./'
+		pdbfile='ubq.pdb'
+		xon = '0'
+		maxqmag='2.0'
+		nq='10'
+		i0='1.0'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+
+		base_directory = json_variables['_base_directory']
+
+        	path = base_directory.replace('\/','/') + "/"
+
+		os.chdir(path)
+		pdbpath = path
+		dcdpath = path
+		
+        	pdbfile = json_variables['pdbfile'][0]
+		#head, pdbfile = os.path.split(temp_pdbfile[0])
+
+        	dcdfile = json_variables['dcdfile'][0]
+		#head, dcdfile = os.path.split(temp_dcdfile[0])
+
+                source_list_box = json_variables['source_list_box']
+                if(source_list_box == 'c1'):
+                        xon = '0' # neutron
+                elif(source_list_box == 'c2'):
+                        xon = '1' # xray
+
+		
+		maxqmag = json_variables['max_q']
+		nq = json_variables['n_q']
+		i0 = json_variables['I0']
+ 
+		try:
+			pRDF = json_variables['pRDF']
+		except:
+			pRDF = 'off'
+
+#		if(pRDF == "on"):
+# 			surfr = json_variables['r']
+# 			surfd = json_variables['d']
+# 			surfrou = json_variables['rou']
+# 			surfeta = json_variables['eta']
+# 			surfn = json_variables['grid_number']
+# 			surfcoverage = json_variables['coverage']
+#			#
+# 			prdffile = json_variables['prdffile'][0]
+#			head, temp_prdffile = os.path.split(prdffile)
+#			prdfpath = head.replace('\/','/') + "/"
+# 			prdfcubelength = json_variables['prdfcubelength']
+# 			prdfcubecutoff = json_variables['prdfcubecutoff']
+# 
+		path = ''
+
+		UDP_IP = json_variables['_udphost']
+			
+
+	variables={}
+
+	variables['runname'] = (str(runname),'string')
+
+ 	variables['dcdpath']		= (str(dcdpath),'string')
+ 	variables['dcdfile']		= (str(dcdfile),'string')
+ 	variables['pdbpath']		= (str(pdbpath),'string')
+ 	variables['pdbfile']		= (str(pdbfile),'string')
+	variables['xon']		= (str(xon),'int')
+ 	variables['max_q_mag']		= (str(maxqmag),'float')
+ 	variables['N_q']		= (str(nq),'int')
+ 	variables['I0']		= (str(i0),'float')
+	#
+	error = []
+
+ 	error,variables=input_filter.type_check_and_convert(variables)
+
+	if(len(error)>0):
+		output_dict['error'] = 'Error in input variables'	
+		output_dict['sasoutput1'] = 'run failed'
+		return
+	else:
+#		error=contrast_filter.check_align(self.variables)
+               	if(len(error) > 0):
+			output_dict['error'] = 'Error in sascalc filter'
+			output_dict['sasoutput1'] = 'run failed'
+			return
+		else:
+			runname=variables['runname'][0]
+
+			if os.path.exists(runname+'/'+self.module):
+				shutil.rmtree(runname+'/'+self.module)
+
+			with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+				json.dump("\nvariables\n",outfile)
+				json.dump(variables,outfile)
+		
+			total_string = "MODULE UNDER CURRENT DEVELOPMENT: NOT RUNNING YET (PRE-ALPHA)"
+#			txtQueue=multiprocessing.JoinableQueue()
+#			process=multiprocessing.Process(target=sascalc.sascalc,args=(variables,txtQueue))
+#			process.start()
+
+#                        total_string = self.background_job(process,txtQueue,json_variables)
+
+	#		output_dict['sasoutput2'] = total_string
+
+			'''
+			flot_data = self.get_data_from_disk(runname+"/sascalc_pbc/"+outfile+".txt",5)
+
+			if(isinstance(flot_data, basestring)):
+				print 'error reading data'
+				output_dict['plot_error'] = flot_data
+			else:
+				output_dict['plot1'] = flot_data
+			'''
+
+        if output_dict:
+                print json.dumps( output_dict )
+        else:
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"sascalc_pbc called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+                json_variables = " "
+                if(json_flag):
+                        argv_io_string = StringIO(sys.argv[1])
+                        json_variables = json.load(argv_io_string)
+		a=Sascald_pbc_Driver()
+                a.run_me(json_flag,json_variables,sys.argv[1])
+
+

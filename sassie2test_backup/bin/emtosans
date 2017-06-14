@@ -1,0 +1,283 @@
+#!/share/apps/local/bin/python/bin/python
+import json,sys,os,shutil,locale
+from StringIO import StringIO
+import multiprocessing,time,string,socket
+
+import sassie.calculate.volumetobeads as volumetobeads
+import sassie.interface.input_filter as input_filter
+import sassie.interface.em_to_sans_filter as em_to_sans_filter
+
+class Em_to_sans_Drv():
+
+   module = 'emtosans'
+
+   def message_box(self,text,icon):
+
+        _message = {}
+        _message['icon'] = icon
+        _message['text'] = text
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        socket_dict['_message'] = _message
+
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+
+        return
+
+   def background_job(self,process,txtQueue,json_variables):
+
+        total_string = ''
+
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET, # Internet
+                socket.SOCK_DGRAM) # UDP
+
+        socket_dict={}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+
+        while process.is_alive():
+                try:
+                        if(first):
+                                socket_dict['progress_html'] = 0.01
+                                socket_dict['_progress'] = 0.01
+                                socket_dict['progress_html'] = '<center>starting job</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                first = False
+                        this_text = txtQueue.get(True, timeout=0.1)
+                        text_split=string.split(this_text)
+                        if(text_split[0]=='STATUS'):
+                                value = locale.atof(text_split[1])
+                                svalue = str(100*value)
+                                socket_dict['progress_output'] = value
+                                socket_dict['_progress'] = value
+                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                doc_string = json.dumps(socket_dict)
+                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                        else:
+                                total_string += this_text
+                except:
+                        if not process.is_alive():
+
+                                #doc_string = json.dumps(socket_dict)
+                                #sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                return total_string
+
+                time.sleep(0.01)
+        else:
+                return total_string
+
+        return total_string
+
+   def read_file(self,flot_data,filename):
+
+        try:
+                data = [] ; error = []
+                data_file = open(filename,'r').readlines()
+                nl = len(data_file)
+
+                for i in xrange(nl):
+                        lin = string.split(data_file[i])
+			if(lin[0] != '#'):
+                        	this_x = lin[0]
+                        	this_y = lin[1]
+                        	data.append([this_x,this_y])
+
+                flot_data.append(data)
+#                data_file.close()
+
+        except:
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                print 'ERROR READING INTERPOLATED DATA FILE'
+                flot_data = "error reading file and making plot"
+
+        return
+
+   def get_data_from_disk(self,filename):
+
+        flot_data = []
+
+        self.read_file(flot_data,filename)
+
+        return flot_data
+
+   def run_me(self,json_flag,json_variables,input_string):
+
+	output_dict = {}
+
+	if not json_flag:
+
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+        	#### BEGIN USER EDIT
+
+        	runname='run_0'
+		emfiletype = '1'
+		emdensityfile = 'p20a.mrc'
+		angpix = '20.0, 20.0, 20.0'
+		pdbfile = 'p20a.pdb'
+		threshold = '0.1'
+		sansfile = 'p20a.sub'
+		npoints = '100'
+		qmax = '0.3'
+
+        	path='./'
+
+        	#### END USER EDIT
+        	#### END USER EDIT
+        	#### END USER EDIT
+       	else:
+		runname = json_variables['runname']
+		
+                base_directory = json_variables['_base_directory']
+
+                path = base_directory.replace('\/','/') + "/"
+
+                os.chdir(path)
+
+                emdensityfile = json_variables['emdensityfile'][0]
+                #head, emdensityfile = os.path.split(temp_emdensityfile[0])
+
+		angpix = json_variables['angpix']
+		pdbfile = json_variables['pdbfile']
+		threshold = json_variables['threshold']
+		sansfile = json_variables['sansfile']
+		npoints = json_variables['npoints']
+		qmax = json_variables['qmax']
+
+		data_path = path 
+
+		print 'data_path = ',data_path
+
+		emfiletype_list_box = json_variables['emfiletype_list_box']
+		if(emfiletype_list_box == 'c1'):
+			emfiletype = '1' # mrc
+		elif(emfiletype_list_box == 'c2'):
+			emfiletype = '0' # gaussian cube 
+
+		path = ''
+
+	inputpath = './' 
+	plotflag = '0'
+	
+	svariables={}
+
+	svariables['runname'] = (str(runname),'string')
+
+	svariables['emfiletype']	= (str(emfiletype),'int')
+	svariables['inputpath'] 	= (str(inputpath),'string')
+	svariables['emdensityfile'] 	= (str(emdensityfile),'string')
+	svariables['angpix'] 		= (str(angpix),'float_array')
+	svariables['pdbfile'] 		= (str(pdbfile),'string')
+	svariables['threshold'] 	= (str(threshold),'float')
+	svariables['sansfile'] 		= (str(sansfile),'string')
+	svariables['npoints'] 		= (str(npoints),'int')
+	svariables['qmax'] 		= (str(qmax),'float')
+	svariables['plotflag'] 		= (str(plotflag),'int')
+
+	svariables['path']    = (str(path),'string')
+
+	error = []
+	error,self.variables=input_filter.type_check_and_convert(svariables)
+
+#emre
+        save_stdout = sys.stdout
+        sys.stdout = sys.stderr
+#end emre
+        if(len(error)>0):
+
+                self.message_box(error,'skull.png')
+#               warning.png, information.png, skull.png, toast.png
+
+                output_dict['error'] = 'Error in input variables'
+                output_dict['sasoutput2'] = 'run failed'
+                print json.dumps( output_dict )
+                return
+        else:
+                error=em_to_sans_filter.check_em_to_sans(self.variables,no_file_check="true")
+
+                if(len(error) != 0):
+                        self.message_box(error,'warning.png')
+                        output_dict['error'] = 'Error in em2sans variables'
+                        output_dict['sasoutput2'] = 'run failed'
+                        print json.dumps( output_dict )
+                        return
+
+		runname=self.variables['runname'][0]
+
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+
+		txtQueue=multiprocessing.JoinableQueue()
+
+                process=multiprocessing.Process(target=volumetobeads.em,args=(self.variables,txtQueue))
+                process.start()
+
+                total_string = self.background_job(process,txtQueue,json_variables)
+
+		#output_dict['io_string'] = input_string
+		output_dict['sasoutput2'] = total_string
+
+#here
+		prefix = string.split(sansfile,'.')	
+		pr_file = data_path+runname+'/emtosans/'+prefix[0]+'.pr'
+		iq_file = data_path+runname+'/emtosans/'+sansfile
+
+                flot_data1 = self.get_data_from_disk(pr_file)
+                flot_data2 = self.get_data_from_disk(iq_file)
+
+        #       output_dict['test_ofile'] = data_path+ofile
+
+                #flot_data = [[[0.0,0.0],[1.0,2.0],[2.0,4.0],[3.0,9.0]]]
+                if(isinstance(flot_data1, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_pr_error'] = flot_data1
+                else:
+                        output_dict['pr_plot'] = flot_data1
+
+                if(isinstance(flot_data2, basestring)):
+                        print 'error reading data'
+                        output_dict['plot_iq_error'] = flot_data2
+                else:
+                        output_dict['iq_plot'] = flot_data2
+
+	
+#emre
+        sys.stdout = save_stdout;
+#end emre
+
+        try:
+                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                        json.dump(output_dict,outfile)
+        except:
+                output_dict['error_string'] = "error writing log file"
+
+        print json.dumps( output_dict )
+		
+if __name__=='__main__':
+
+	json_flag = True
+	#json_flag = False
+
+	if (len(sys.argv) < 1):
+		print "\{\"error\":\"center called with no arguments\"\}\n";
+# 		print 'exiting now'
+
+	elif len(sys.argv) > 1:
+		json_variables = " "
+		if(json_flag):
+			argv_io_string = StringIO(sys.argv[1])
+			json_variables = json.load(argv_io_string)
+		a=Em_to_sans_Drv()
+		a.run_me(json_flag,json_variables,sys.argv[1])
+
