@@ -40,6 +40,11 @@
             "icon"    : "pngs/build.png",
             "modules" : [ 
                          { 
+                          "id"    : "build_utilities",
+                          "label" : "Build Utilities",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
                           "id"    : "pdbscan",
                           "label" : "PDB Scan",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
@@ -89,6 +94,16 @@
                           "label" : "Torsion Angle MD ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
+                         {
+                          "id"    : "torsion_angle_monte_carlo",
+                          "label" : "Torsion Angle Monte Carlo",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "prody",
+                          "label" : "Prody ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
                          { 
                           "id"    : "two_body_grid",
                           "label" : "Two-Body Grid ",
@@ -107,20 +122,10 @@
                           #"views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          #},
                          { 
-                          "id"    : "crysol",
-                          "label" : "Crysol",
+                          "id"    : "sascalc",
+                          "label" : "SasCalc",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "sct_calculate",
-                          "label" : "SCT Calculate",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "sct_optimize",
-                          "label" : "SCT Optimize",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
+                         }, 
                          { 
                           "id"    : "sld_mol",
                           "label" : "SLD MOL",
@@ -144,87 +149,8 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "sct_analyze",
-                          "label" : "SCT Analyze",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
                           "id"    : "density_plot",
                           "label" : "Density Plot",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "apbs",
-                          "label" : "APBS",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         }
-                        ]
-            }
-           ,{
-            "id"      : "beta",
-            "group"   : "beta",
-            "label"   : "Beta",
-            "icon"    : "pngs/beta.png",
-            "modules" : [
-                         { 
-                          "id"    : "build_utilities",
-                          "label" : "Build Utilities",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "prody",
-                          "label" : "Prody ",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "sascalc",
-                          "label" : "SasCalc",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         }, 
-                         {
-                          "id"    : "torsion_angle_monte_carlo",
-                          "label" : "Torsion Angle Monte Carlo",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         }
-#,
-                        ]
-            }
-           ,{
-            "id"         : "alpha",
-            "restricted"   : "alpha",
-            "label"   : "Alpha",
-            "icon"    : "pngs/alpha.png",
-            "modules" : [
-                         { 
-                          "id"    : "capriqorn",
-                          "label" : "Capriqorn",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         {
-                          "id"    : "sascalc_pbc",
-                          "label" : "SasCalc-PBC"
-                         },
-                         { 
-                          "id"    : "docking",
-                          "label" : "Docking ",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         }
-                        ]
-            }
-           ,{
-            "id"      : "graveyard",
-            "group"   : "graveyard",
-            "label"   : "Retired",
-            "icon"    : "pngs/graveyard.png",
-            "modules" : [
-                         {
-                          "id"    : "xtal2sas",
-                          "label" : "Xtal2sas",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "cryson",
-                          "label" : "Cryson",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
