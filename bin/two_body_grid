@@ -151,10 +151,10 @@ class TwoBodyGrid_Drv():
 		except:
 			advanced_input = 'off'
 
+		basis = 'CA'
+		cutoff = '3.0'
 		if(advanced_input == "on"):
 		
-			basis = json_variables['basis']
-			cutoff = json_variables['cutoff']
 			lowrg = json_variables['lowrg']
 			highrg = json_variables['highrg']
  			zcutoff = json_variables['zcutoff']
@@ -163,8 +163,6 @@ class TwoBodyGrid_Drv():
  			cflag_list_box = json_variables['cflag_list_box']
 
 		else:
-			basis = 'CA'
-			cutoff = '3.0'
 			lowrg = "0.0"
 			highrg = "400.0"
 			zcutoff = "0.0"
@@ -238,12 +236,21 @@ class TwoBodyGrid_Drv():
 
  	svariables['nexsegments1']	= (str(nexsegments1),'int')
  	svariables['nsegments1']		= (str(nsegments1),'string')
- 	svariables['reslow1']		= (str(reslow1),'int_array')
- 	svariables['numcont1']		= (str(numcont1),'int_array')
+	if(nexsegments1 == '0'):
+ 		svariables['reslow1']		= (str(reslow1),'string')
+ 		svariables['numcont1']		= (str(numcont1),'string')
+	else:
+ 		svariables['reslow1']		= (str(reslow1),'int_array')
+ 		svariables['numcont1']		= (str(numcont1),'int_array')
+
  	svariables['nexsegments2']	= (str(nexsegments2),'int')
  	svariables['nsegments2']		= (str(nsegments2),'string')
- 	svariables['reslow2']		= (str(reslow2),'int_array')
- 	svariables['numcont2']		= (str(numcont2),'int_array')
+	if(nexsegments2 == '0'):
+ 		svariables['reslow2']		= (str(reslow2),'string')
+ 		svariables['numcont2']		= (str(numcont2),'string')
+	else:
+ 		svariables['reslow2']		= (str(reslow2),'int_array')
+ 		svariables['numcont2']		= (str(numcont2),'int_array')
 
  	error,self.variables=input_filter.type_check_and_convert(svariables)
 

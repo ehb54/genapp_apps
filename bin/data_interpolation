@@ -103,11 +103,18 @@ class Interpolate_Drv():
 	return minx,miny,maxx,maxy
 
    def read_file(self,filename,this_pass):
-	if True:
-	#try:
+	#if True:
+	try:
 		data = [] ; error = []
 		data_file = open(filename,'r').readlines()
 		nl = len(data_file)
+
+		### following line replaces control M (\r) with \n
+
+    		data_file=[x.replace("\r","\n") for x in data_file]
+    		data_file=[x.replace(",","\t") for x in data_file]
+    #		data_file=[x.replace(","," ") for x in data_file]
+
 		minx,miny,maxx,maxy = self.find_min_max(data_file)
 
 		print 'minx = ',minx
@@ -187,8 +194,8 @@ class Interpolate_Drv():
 
 		#data_file.close()
 
-	#except:
-	else:
+	except:
+	#else:
 		print 'ERROR READING INTERPOLATED DATA FILE'
 		print 'ERROR READING INTERPOLATED DATA FILE'
 		print 'ERROR READING INTERPOLATED DATA FILE'

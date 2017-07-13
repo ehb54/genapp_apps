@@ -1,0 +1,208 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "sas_dock",
+    "label"    : "SAS_Dock",
+    "fields"   : [
+                   {
+                   "role"       : "input",
+                   "id"       : "module_header",
+                   "label"    : "SAS Dock",
+                   "type"     : "label",
+                   "default"  : "header4",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "runname",
+                   "label"    : "project name",
+                   "type"     : "text",
+                   "default"  : "run_0",
+                   "help"     : "results will be placed in a folder called sas_dock/ in the directory name you enter here",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "pdbfile",
+                   "label"   : "input pdb file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "PDB file containing initial coordinates",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "docking_section_label",
+                   "label"    : "Docking Section",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "spatial_voxel_convergence_tolerance",
+                   "label"   : "spatial voxel convergence tolerance",
+                   "type"    : "text",
+                   "default" : "100.0",
+                   "help"     : "enter tolerance",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "maximum_dock_cycles",
+                   "label"   : "maximum number of dock cycles",
+                   "type"    : "text",
+                   "default" : "1",
+                   "help" : "usually between 1 to 16 should be sufficient",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "number_processors",
+                   "label"   : "number of processors",
+                   "type"    : "integer",
+                   "default" : 2,
+                   "min"     : 1,
+                   "max"     : 16,
+                   "help" : "choose between 1 and 16",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "partner1_partner2",
+                   "label"   : "docking partner type",
+                   "type"    : "text",
+                   "default" : "AB_C",
+                   "help"     : "enter docking partner type",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "scattering_label",
+                   "label"    : "Scattering Data Section",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "sas_option",
+                   "label"   : "scattering type",
+                   "type"    : "listbox",
+                   "values"  : "neutron~c1~x-ray~c2",
+                   "default" : "c1",
+                   "help"     : "choose either neutron or x-ray",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "interpolated_data_file",
+                   "label"   : "interpolated data file",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help"     : "text file containing interpolated data",
+                   "norow"    : "false"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "number_of_q_values",
+                   "label"   : "number of q-values",
+                   "type"    : "text",
+                   "default" : "13",
+                   "help"     : "enter number of q-values in interpolate data file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "maximum_q_value",
+                   "label"   : "maximum q-value",
+                   "type"    : "text",
+                   "default" : "0.12",
+                   "help"     : "enter maximum number of q-value in interpolate data file",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "i0",
+                   "label"    : "intensity at I(0)",
+                   "type"     : "text",
+                   "default"  : "1.0",
+                   "help" : "experimentally determined value of I(0): usually determined by Guinier analysis",
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "phase_2_label",
+                   "label"    : "Phase 2 Section",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline" : "true",
+                   "posthline": "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "docking_score_cutoff",
+                   "label"    : "docking score cutoff",
+                   "help"     : "value below which will be retained",
+                   "type"     : "text",
+                   "default"  : 0.0,
+                   "required" : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "chi_square_score_cutoff",
+                   "label"    : "chi-square score cutoff",
+                   "help"     : "value below which will be retained",
+                   "type"     : "text",
+                   "default"  : 2.0,
+                   "required" : "true"
+                   },
+#
+                   #{
+                   #"role"       : "input",
+                   #"id"       : "advanced_input_header",
+                   #"label"    : "Advanced Input",
+                   #"type"     : "label",
+                   #"default"  : " ",
+                   #"prehline"  : "true",
+                   #"posthline"  : "true"
+                   #},
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "advanced_input",
+                  # "label"    : "Check Box for Advanced Input",
+                  # "type"     : "checkbox",
+                  # "checked"  : "false",
+                  # "help"  : "click this box for extra options for the run",
+                  # "repeater" : "true"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "r",
+                  # "label"    : "atomic radius for docking map construction",
+                  # "help"     : "defined as r in paper -- PNAS 89: 2195-2199",
+                  # "type"     : "float",
+                  # "default"  : 1.8,
+                  # "required" : "true",
+                  # "repeat"  : "advanced_input"
+                  # },
+#
+                  {   
+                   "role"    : "output",
+                   "id"      : "progress_output",
+                   "label"   : "progress: ",
+                   "type"    : "progress",
+                   "max"     : 1.0 
+                   },  
+                  {   
+                    "role"    : "output",
+                    "id"      : "progress_html",
+                    "name"    : "progress_html",
+                    "label"   : "percent done: ",
+                    "type"    : "html"
+                   }
+                  ],
+    "executable" : "sas_dock"
+}

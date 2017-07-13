@@ -75,15 +75,15 @@
                    "help" : "run temperature",
                    "required" : "true"
                    },
-                  {
-                   "role"    : "input",
-                   "id"      : "keepout_checkbox",
-                   "label"   : "check box to keep output files",
-                   "type"    : "checkbox",
-                   "checked" : "true",
-                   "help"  : "useful to debug troublesome runs",
-                   "required" : "true"
-                   },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "keepout_checkbox",
+                  # "label"   : "check box to keep output files",
+                  # "type"    : "checkbox",
+                  # "checked" : "true",
+                  # "help"  : "useful to debug troublesome runs",
+                  # "required" : "true"
+                  # },
                   #{
                   # "role"    : "input",
                   # "id"      : "dcdfreq",
@@ -188,26 +188,26 @@
                    "help"  : "enter the number of the first residue in each of the flexible regions",
                    "norow"    : "true"
                    },
-                  {
-                   "role"    : "input",
-                   "id"      : "dna_checkbox",
-                   "label"   : "check box if system has ds DNA",
-                   "type"    : "checkbox",
-                   "checked" : "false",
-                   "help"  : "special input requirement for ds DNA",
-                   "repeater"  : "true",
-                   "required" : "true"
-                   },
-                  {
-                   "role"    : "input",
-                   "id"      : "dna_segnames",
-                   "label"   : "dna segment names",
-                   "type"    : "text",
-                   "default" : "DNA1, DNA2",
-                   "help" : "input is only required for systems with DNA: enter name of each DNA containing segment / chain",
-                   "repeat" : "dna_checkbox",
-                   "required" : "true"
-                   },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "dna_checkbox",
+                  # "label"   : "check box if system has ds DNA",
+                  # "type"    : "checkbox",
+                  # "checked" : "false",
+                  # "help"  : "special input requirement for ds DNA",
+                  # "repeater"  : "true",
+                  # "required" : "true"
+                  # },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "dna_segnames",
+                  # "label"   : "dna segment names",
+                  # "type"    : "text",
+                  # "default" : "DNA1, DNA2",
+                  # "help" : "input is only required for systems with DNA: enter name of each DNA containing segment / chain",
+                  # "repeat" : "dna_checkbox",
+                  # "required" : "true"
+                  # },
 
                    {
                    "role"       : "input",

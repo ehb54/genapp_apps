@@ -1,0 +1,5 @@
+#!/bin/sh
+LD_LIBRARY_PATH = $LD_LIBRARY_PATH:/share/apps/local/bin/ROSETTA_3.4/rosetta_bin_linux_2015.19.57819_bundle/main/source/build/external/release/linux/2.6/64/x86/gcc/4.4/default ; export LD_LIBRARY_PATH
+exec sas_dock.py
+
+

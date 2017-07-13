@@ -205,8 +205,8 @@
                           "label" : "SasCalc-PBC"
                          },
                          { 
-                          "id"    : "docking",
-                          "label" : "Docking ",
+                          "id"    : "sas_dock",
+                          "label" : "SAS Dock ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]

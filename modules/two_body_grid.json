@@ -158,26 +158,26 @@
                    "help"  : "click this box for extra options for the run",
                    "repeater" : "true"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "basis",
-                   "label"    : "overlap basis",
-                   "type"     : "text",
-                   "default"  : "CA",
-                   "required" : "true",
-                   "help"  : "select the atom name used to check for overlap",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "cutoff",
-                   "label"    : "overlap cutoff",
-                   "type"     : "text",
-                   "default"  : "3.0",
-                   "required" : "true",
-                   "help"  : "enter distance for overlap check",
-                   "repeat"  : "advanced_input"
-                   },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "basis",
+                  # "label"    : "overlap basis",
+                  # "type"     : "text",
+                  # "default"  : "CA",
+                  # "required" : "true",
+                  # "help"  : "select the atom name used to check for overlap",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "cutoff",
+                  # "label"    : "overlap cutoff",
+                  # "type"     : "text",
+                  # "default"  : "3.0",
+                  # "required" : "true",
+                  # "help"  : "enter distance for overlap check",
+                  # "repeat"  : "advanced_input"
+                  # },
                   {
                    "role"     : "input",
                    "id"       : "lowrg",

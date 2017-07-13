@@ -179,22 +179,24 @@ class Tamd_Drv():
                 parmfile        = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
 		charmmexe	= '/share/apps/local/bin/charmm.exe'
 
-		if(json_variables['keepout_checkbox'] == "on"):
-			keepout = "1"
-		else:
-			keepout = "0"
+		#if(json_variables['keepout_checkbox'] == "on"):
+		#	keepout = "1"
+		#else:
+		#	keepout = "0"
 
-		try:
-			if(json_variables['dna_checkbox'] == "on"):
-				dna_segnames = json_variables['dna_segnames']
- 		except:
-			dna_segnames = ''
+		#try:
+		#	if(json_variables['dna_checkbox'] == "on"):
+		#		dna_segnames = json_variables['dna_segnames']
+ 		#except:
+		#	dna_segnames = ''
 
                 all_flexible_segnames=	json_variables['all_flexible_segnames']
                 all_flexible_segnames=	json_variables['all_flexible_segnames']
                 all_snumranges=	json_variables['all_snumranges']
 
                 all_moltype=	json_variables['all_moltype']
+		
+		dna_segnames = ''
 
                 psegvariables = []
                 for i in xrange(locale.atoi(json_variables['number_flexible_segments'])):
@@ -202,6 +204,7 @@ class Tamd_Drv():
                                 mtype = "protein"
                         elif(all_moltype[i] == "c2"):
                                 mtype = "dna"
+				dna_segnames += all_flexible_segnames[i] + ','
                         elif(all_moltype[i] == "c3"):
                                 mtype = "rna"
 
@@ -222,12 +225,25 @@ class Tamd_Drv():
 
                        	psegvariables.append([all_flexible_segnames[i],all_snumranges[i],srlow,srnum,mtype])
 
+		if dna_segnames and dna_segnames[-1] == ',':
+			dna_segnames = dna_segnames[:-1]
+
+		print 'dna_segnames = ', dna_segnames
+		print 'dna_segnames = ', dna_segnames
+		print 'dna_segnames = ', dna_segnames
+		print 'dna_segnames = ', dna_segnames
+		print 'dna_segnames = ', dna_segnames
+		print 'dna_segnames = ', dna_segnames
+		print 'dna_segnames = ', dna_segnames
+		print 'dna_segnames = ', dna_segnames
+		print 'dna_segnames = ', dna_segnames
 
                 try:
                         advanced_input = json_variables['advanced_input']
                 except:
                         advanced_input = 'off'
 
+		keepout = '0'
                 if(advanced_input == "on"):
                 	try:
                 		trajectory_check_box = json_variables['trajectory_check_box']
@@ -235,7 +251,7 @@ class Tamd_Drv():
                         	trajectory_check_box = 'off'
 
                 	if(trajectory_check_box == "on"):
-
+				keepout = '1'
 				dcdfreq = json_variables['dcdfreq']
 			else:
 				dcdfreq = nsteps 
