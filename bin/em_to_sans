@@ -212,7 +212,7 @@ class Em_to_sans_Drv():
         	runname='run_0'
 		emfiletype = '1'
 		emdensityfile = 'p20a.mrc'
-		angpix = '20.0, 20.0, 20.0'
+		#angpix = '20.0, 20.0, 20.0'
 		pdbfile = 'p20a.pdb'
 		threshold = '0.1'
 		sansfile = 'p20a.sub'
@@ -237,7 +237,7 @@ class Em_to_sans_Drv():
                 #head, emdensityfile = os.path.split(temp_emdensityfile[0])
 		print 'emdensityfile = ',emdensityfile
 
-		angpix = json_variables['angpix']
+		#angpix = json_variables['angpix']
 		pdbfile = json_variables['pdbfile']
 		threshold = json_variables['threshold']
 		sansfile = json_variables['sansfile']
@@ -266,7 +266,7 @@ class Em_to_sans_Drv():
 	svariables['emfiletype']	= (str(emfiletype),'int')
 	svariables['inputpath'] 	= (str(inputpath),'string')
 	svariables['emdensityfile'] 	= (str(emdensityfile),'string')
-	svariables['angpix'] 		= (str(angpix),'float_array')
+	#svariables['angpix'] 		= (str(angpix),'float_array')
 	svariables['pdbfile'] 		= (str(pdbfile),'string')
 	svariables['threshold'] 	= (str(threshold),'float')
 	svariables['sansfile'] 		= (str(sansfile),'string')

@@ -49,15 +49,15 @@
                    "help"     : "name of file with EM density data",
                    "norow"    : "false"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "angpix",
-                   "label"    : "mrc angstroms/pixel resolution (x,y,z)",
-                   "type"     : "text",
-		   "default"  : "20.0,20.0,20.0",
-		   "help"  : "values only required for MRC input maps",
-                   "required" : "true"
-                   },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "angpix",
+                  # "label"    : "mrc angstroms/pixel resolution (x,y,z)",
+                  # "type"     : "text",
+		  # "default"  : "20.0,20.0,20.0",
+		  # "help"  : "values only required for MRC input maps",
+                  # "required" : "true"
+                  # },
                   {
                    "role"     : "input",
                    "id"       : "pdbfile",
