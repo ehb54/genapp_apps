@@ -1,0 +1,22 @@
+db.jobs.aggregate(
+...     {
+...         $match: {
+...             module: 'contrast_calculator'
+...         }
+...     }, {
+...         $group: {
+...             _id: '',
+...             duration: { $sum: '$duration' },
+...             avgDuration: { $avg: '$duration' },
+...             count:    { $sum: 1 }
+...         }
+...     }, {
+...         $project: {
+...             _id: 0,
+...             duration: '$duration',
+...             count: 1,
+...             avgDuration: 1
+... 
+...        }
+...     }
+... )

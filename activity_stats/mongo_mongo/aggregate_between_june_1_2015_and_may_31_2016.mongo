@@ -1,0 +1,23 @@
+db.jobs.aggregate(
+...     {
+...         $match: {
+...             module: 'chi_square_filter',
+...             start: {$gte : new ISODate("2015-06-01"), $lt : new ISODate("2016-05-31")}
+...         }
+...     }, {
+...         $group: {
+...             _id: '',
+...             duration: { $sum: '$duration' },
+...             avgDuration: { $avg: '$duration' },
+...             count:    { $sum: 1 }
+...         }
+...     }, {
+...         $project: {
+...             _id: 0,
+...             duration: '$duration',
+...             count: 1,
+...             avgDuration: 1
+... 
+...        }
+...     }
+... )

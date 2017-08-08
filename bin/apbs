@@ -97,7 +97,6 @@ class Apbs_Drv():
 
 		pdbfile = 'min3.pdb'
 		infile = 'c2.dcd'
-		outfile = 'test_apbs.txt'
 		temp = '300.0'
 		ph = '5.2'
 		ion_charge = '1.0'
@@ -106,6 +105,18 @@ class Apbs_Drv():
 		manualflag = '0'
 		manualfile = 'dum.txt'	
         	path='./'
+
+		runname = 'run_0'
+ 		pdbfile = 'ten_mer.pdb'
+ 		infile = 'ten_mer.pdb'
+		ph = '5.5'
+ 		temperature = '300.0'
+		ion_conc = '0.15'
+ 		ion_charge = '1.0'
+ 		ion_radius = '1.62'
+ 		manual_flag = '0'
+ 		manual_file = 'test_input_file.txt'
+ 		#testflag = False
 
         	#### END USER EDIT
         	#### END USER EDIT
@@ -126,7 +137,6 @@ class Apbs_Drv():
         	infile = json_variables['infile'][0]
 		#head, infile = os.path.split(temp_infile[0])
 
-		outfile = json_variables['outfile']
 		temp = json_variables['temp']
 		ph = json_variables['ph']
 		ion_charge = json_variables['ion_charge']
@@ -149,7 +159,6 @@ class Apbs_Drv():
 	svariables['runname']		= (str(runname),'string')
 	svariables['infile']		= (str(infile),'string')
 	svariables['pdbfile']		= (str(pdbfile),'string')
-	svariables['outfile']		= (str(outfile),'string')
 	svariables['temperature']	= (str(temp),'float')
 	svariables['ph']		= (str(ph),'float')
 	svariables['ion_charge']	= (str(ion_charge),'float')
@@ -178,8 +187,6 @@ class Apbs_Drv():
                         output_dict['sasoutput2'] = 'run failed'
                         print json.dumps( output_dict )
                         return
-
-                        runn
 
 		runname=self.variables['runname'][0]
 

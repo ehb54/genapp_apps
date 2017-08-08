@@ -39,15 +39,15 @@
                    "help"     : "name of DCD or PDB file with coordinates you wish to calculate solvation energies",
                    "norow"    : "false"
                    },
-                  {
-                   "role"    : "input",
-                   "id"      : "outfile",
-                   "label"   : "output file name",
-                   "type"    : "text",
-                   "default" : "apbs.dat",
-                   "help" : "name of file containing data from run",
-                   "required" : "true"
-                   },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "outfile",
+                  # "label"   : "output file name",
+                  # "type"    : "text",
+                  # "default" : "apbs.dat",
+                  # "help" : "name of file containing data from run",
+                  # "required" : "true"
+                  # },
                   {
                    "role"    : "input",
                    "id"      : "ph",
@@ -93,25 +93,25 @@
                    "help" : "enter ion radius (angstrom)",
                    "required" : "true"
                    },
-                  {
-                   "role"    : "input",
-                   "id"      : "user_list_box",
-                   "label"    : "user input file",
-                   "type"    : "checkbox",
-                   "checked" : "false",
-                   "help" : "not yet implemented: future -> check this box to upload an input file for your run: this will override local inputs",
-                   "repeater" : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "manualfile",
-                   "label"    : "user apbs input file name",
-                   "type"     : "lrfile",
-                   "required" : "false",
-                   "help"     : "apbs input file",
-	           "repeat"  : "user_list_box",
-                   "norow"    : "false"
-                   },
+                  #{
+                  # "role"    : "input",
+                  # "id"      : "user_list_box",
+                  # "label"    : "user input file",
+                  # "type"    : "checkbox",
+                  # "checked" : "false",
+                  # "help" : "not yet implemented: future -> check this box to upload an input file for your run: this will override local inputs",
+                  # "repeater" : "true"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "manualfile",
+                  # "label"    : "user apbs input file name",
+                  # "type"     : "lrfile",
+                  # "required" : "false",
+                  # "help"     : "apbs input file",
+	          # "repeat"  : "user_list_box",
+                  # "norow"    : "false"
+                  # },
                   {
                    "role"    : "output",
                    "id"      : "progress_output",

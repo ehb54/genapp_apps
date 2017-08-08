@@ -90,6 +90,11 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
+                          "id"    : "prody",
+                          "label" : "Prody ",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
                           "id"    : "two_body_grid",
                           "label" : "Two-Body Grid ",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
@@ -101,6 +106,11 @@
             "label"   : "Calculate",
             "icon"    : "pngs/calculate.png",
             "modules" : [ 
+                         { 
+                          "id"    : "sascalc",
+                          "label" : "SasCalc",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         }, 
                          #{ 
                           #"id"    : "sascalc_pbc",
                           #"label" : "SasCalc-PBC",
@@ -109,16 +119,6 @@
                          { 
                           "id"    : "crysol",
                           "label" : "Crysol",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "sct_calculate",
-                          "label" : "SCT Calculate",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "sct_optimize",
-                          "label" : "SCT Optimize",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
@@ -144,11 +144,6 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
-                          "id"    : "sct_analyze",
-                          "label" : "SCT Analyze",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
                           "id"    : "density_plot",
                           "label" : "Density Plot",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
@@ -171,16 +166,6 @@
                           "label" : "Build Utilities",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
-                         { 
-                          "id"    : "prody",
-                          "label" : "Prody ",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         { 
-                          "id"    : "sascalc",
-                          "label" : "SasCalc",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         }, 
                          {
                           "id"    : "torsion_angle_monte_carlo",
                           "label" : "Torsion Angle Monte Carlo",
@@ -220,6 +205,21 @@
                          {
                           "id"    : "xtal2sas",
                           "label" : "Xtal2sas",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sct_calculate",
+                          "label" : "SCT Calculate",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sct_optimize",
+                          "label" : "SCT Optimize",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "sct_analyze",
+                          "label" : "SCT Analyze",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
