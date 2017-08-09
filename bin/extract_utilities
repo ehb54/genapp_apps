@@ -157,6 +157,10 @@ class Extract_Utilities_Driver():
 				sas_type = '3'
                         number_of_sas_paths = json_variables['number_of_sas_paths'][0]
                         sas_paths = ''
+
+                        print 'number of sas paths = ', number_of_sas_paths
+                        print 'int(number of sas paths) = ', int(number_of_sas_paths)
+
                         for i in xrange(int(number_of_sas_paths)):
 			    this_sas_path = json_variables['sas_paths'][i]
                             sas_paths += str(this_sas_path[0]) + ','
