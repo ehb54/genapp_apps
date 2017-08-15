@@ -233,10 +233,10 @@ class Extract_Utilities_Driver():
 	
 		runname=variables['runname'][0]
 
-		#if os.path.exists(runname+'/'+self.module):
-		#	shutil.rmtree(runname+'/'+self.module)
-		if not os.path.exists(runname+'/'+self.module):
-			os.makedirs(runname+'/'+self.module)
+		if os.path.exists(runname+'/'+self.module):
+			shutil.rmtree(runname+'/'+self.module)
+		#if not os.path.exists(runname+'/'+self.module):
+		#	os.makedirs(runname+'/'+self.module)
 
 		txtQueue=multiprocessing.JoinableQueue()
 	
