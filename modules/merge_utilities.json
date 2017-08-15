@@ -148,7 +148,7 @@
                    "label"   : "SAS type",
                    "type"    : "listbox",
                    "help"    : "pick the SAS calculator that generated data you wish to merge",
-                   "values"  : "xtal2sas~c1~cryson~c2~crysol~c3",
+                   "values"  : "sascalc~c1~xtal2sas~c2~cryson~c3~crysol~c4",
 		   "default"   : "c1",
 		   "repeat"   : "sas_checkbox"
                    },

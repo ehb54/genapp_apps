@@ -23,7 +23,7 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "sasintfile",
+                   "id"       : "sasintfiles",
                    "label"   : "interpolated data file",
                    "type"     : "lrfile",
                    "required" : "true",
@@ -51,7 +51,7 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "saspath",
+                   "id"       : "saspaths",
                    "label"    : "SAS data path",
                    "type"     : "rpath",
                    "help"  : "enter directory that contain SAS profiles you wish to compare to experimental data",

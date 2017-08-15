@@ -99,7 +99,7 @@ class Merge_utilities_Drv():
     		number_of_runs = '2'
     		trajectory_names = 'run_m1/generate/run_m1.dcd,run_m2/generate/run_m2.dcd'
     		#trajectory_names = 'generate/run_m1.pdb,generate/run_m2.pdb'
-    		sas_type = '1'      # 1 -> xtal2sas, 2 -> cryson, 3 -> cyrsol
+    		sas_type = '0'      # 0 -> sascalc, 1 -> xtal2sas, 2 -> cryson, 3 -> cyrsol
     		sas_paths = 'run_m1/xtal2sas,run_m1/xtal2sas'
     		merge_type_option = '0'   # 0 -> all, 1->weight files, 2-> periodic
 
@@ -174,10 +174,12 @@ class Merge_utilities_Drv():
                  
 			sas_type_list_box = json_variables['sas_type_list_box']
                 	if(sas_type_list_box == 'c1'):
-                        	sas_type = '1'
+                	        sas_type = '0'
                 	elif(sas_type_list_box == 'c2'):
-                	        sas_type = '2'
+                	        sas_type = '1'
                 	elif(sas_type_list_box == 'c3'):
+                	        sas_type = '2'                	        
+                	elif(sas_type_list_box == 'c4'):
                 	        sas_type = '3'
 
 		merge_option_list_box = json_variables['merge_option_list_box']
