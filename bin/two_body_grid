@@ -265,8 +265,7 @@ class TwoBodyGrid_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                #error=align2_filter.check_align(self.variables,no_file_check="true")
-                #error=align2_filter.check_align(self.variables,no_file_check="true")
+                error=two_body_grid_filter.check_input_values(self.variables)
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
