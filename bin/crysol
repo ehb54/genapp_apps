@@ -248,8 +248,8 @@ class Crysol_Drv():
                         	print json.dumps( output_dict )
                         	return
 	
-                if not os.path.exists(runname+'/sassie_log'):
-                        os.system('mkdir -p '+runname+'/sassie_log')
+                #if not os.path.exists(runname+'/sassie_log'):
+                #        os.system('mkdir -p '+runname+'/sassie_log')
 
 
 		txtQueue=multiprocessing.JoinableQueue()

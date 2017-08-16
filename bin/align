@@ -211,8 +211,8 @@ class Align_Drv():
 		if os.path.exists(runname+'/'+self.module):
 			shutil.rmtree(runname+'/'+self.module)
 
-		if not os.path.exists(runname+'/sassie_log'):
-			os.system('mkdir -p '+runname+'/sassie_log')
+		#if not os.path.exists(runname+'/sassie_log'):
+		#	os.system('mkdir -p '+runname+'/sassie_log')
 
 		txtQueue=multiprocessing.JoinableQueue()
 		process=multiprocessing.Process(target=align.align,args=(self.variables,txtQueue))
