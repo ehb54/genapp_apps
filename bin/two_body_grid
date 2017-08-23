@@ -5,6 +5,7 @@ import multiprocessing,time,string,socket
 
 import sassie.simulate.rigid_body.two_body_grid.two_body_grid as two_body_grid
 import sassie.interface.input_filter as input_filter
+import sassie.interface.two_body_grid_filter as two_body_grid_filter
 
 class TwoBodyGrid_Drv():
 
@@ -265,7 +266,7 @@ class TwoBodyGrid_Drv():
                 print json.dumps( output_dict )
                 return
         else:
-                error=two_body_grid_filter.check_input_values(self.variables)
+                #error=two_body_grid_filter.check_input_values(self.variables)
 
                 if(len(error) != 0):
                         self.message_box(error,'warning.png')
