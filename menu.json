@@ -251,6 +251,10 @@
                           "id"    : "jobshistory_1",
                           "label" : "Job history"
                          }
+                         ,{
+                             "id"    : "jobintegritycheck",
+                             "label" : "Integrity check"
+                         }
                         ]
             }
            ,{ 

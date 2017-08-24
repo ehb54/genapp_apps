@@ -255,7 +255,7 @@
                    "type"     : "lrfile",
                    "required" : "true",
 	  	           "repeat" : "advanced_input",
-                   "help"     : "name of PSF file with molecular topology",
+                   "help"     : "name of file(s) with required CHARMM parameters",
                    "norow"    : "false",
                    "repeat"    : "number_of_parameter_files"
                    },
