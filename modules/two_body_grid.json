@@ -108,7 +108,7 @@
                    "id"       : "n_xyz_moves",
                    "label"    : "number of x,y,z moves",
                    "type"     : "text",
-                   "default"  : "5,5,5",
+                   "default"  : "2,2,2",
                    "help"  : "number of moves for each direction",
                    "required" : "true"
                    },
@@ -126,7 +126,7 @@
                    "id"       : "n_ang_moves",
                    "label"    : "number of angular moves",
                    "type"     : "text",
-                   "default"  : "4,4,4",
+                   "default"  : "2,2,2",
                    "help"  : "number of rotational moves for each angle",
                    "required" : "true"
                    },
@@ -265,7 +265,7 @@
                    "id"       : "n1_excluded",
                    "label"    : "number of segments with excluded residues (mol 1)",
                    "type"     : "text",
-                   "default"  : "3",
+                   "default"  : "0",
                    "required" : "true",
                    "help" : "enter number of segments with residues to omit from overlap check (mol 1)",
                    "repeat"  : "excluded_input"
@@ -275,7 +275,7 @@
                    "id"       : "name1_excluded",
                    "label"    : "name of segments with excluded residues (mol 1)",
                    "type"     : "text",
-                   "default"  : "INT1,INT2,LED1",
+                   "default"  : " ",
                    "required" : "true",
                    "help" : "enter name(s) of segments with residues to omit from overlap check (mol 1)",
                    "repeat"  : "excluded_input"
@@ -285,7 +285,7 @@
                    "id"       : "first1_excluded",
                    "label"    : "first amino acid per segment (mol1)",
                    "type"     : "text",
-                   "default"  : "271,271,94",
+                   "default"  : " ",
                    "required" : "true",
                    "help"  : "enter the number of the first residue in each of the excluded segments (mol 1)",
                   
@@ -296,7 +296,7 @@
                    "id"       : "ncont1_excluded",
                    "label"    : "number of contiguous amino acids per segment (mol 1)",
                    "type"     : "text",
-                   "default"  : "18,18,31",
+                   "default"  : " ",
                    "required" : "true",
                    "help"  : "enter the number of the contiguous residue(s) in each of the excluded segments (mol 1)",
                    "repeat"  : "excluded_input"
@@ -306,7 +306,7 @@
                    "id"       : "n2_excluded",
                    "label"    : "number of segments with excluded residues (mol 2)",
                    "type"     : "text",
-                   "default"  : "3",
+                   "default"  : "0",
                    "required" : "true",
                    "help" : "enter number of segments with residues to omit from overlap check (mol 2)",
                    "repeat"  : "excluded_input"
@@ -316,7 +316,7 @@
                    "id"       : "name2_excluded",
                    "label"    : "name of segments with excluded residues (mol 2)",
                    "type"     : "text",
-                   "default"  : "INT3,INT4,LED2",
+                   "default"  : " ",
                    "required" : "true",
                    "help" : "enter name(s) of segments with residues to omit from overlap check (mol 2)",
                    "repeat"  : "excluded_input"
@@ -326,7 +326,7 @@
                    "id"       : "first2_excluded",
                    "label"    : "first amino acid per segment (mol2)",
                    "type"     : "text",
-                   "default"  : "271,271,94",
+                   "default"  : " ",
                    "required" : "true",
                    "help"  : "enter the number of the first residue in each of the excluded segments (mol 2)",
                    "repeat"  : "excluded_input"
@@ -336,7 +336,7 @@
                    "id"       : "ncont2_excluded",
                    "label"    : "number of contiguous amino acids per segment (mol 2)",
                    "type"     : "text",
-                   "default"  : "18,18,31",
+                   "default"  : " ",
                    "required" : "true",
                    "help"  : "enter the number of the contiguous residue(s) in each of the excluded segments (mol 2)",
                    "repeat"  : "excluded_input"
