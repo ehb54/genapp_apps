@@ -1,25 +1,25 @@
 # this is a project directives file
 {
   "title"                     : "SASSIE-web",
-  "application"               : "sassie2",
+  "application"               : "sassie_1_5",
   "version"                   : "",
 #  "languages"                 : [ "html5", "qt3", "qt4" ],
   "languages"                 : [ "html5"],
   "executable_path"           :
                                 {
-                                 "html5" : "__app_parent_directory__/sassie2/bin",
-                                 "qt3"   : "__app_parent_directory__/sassie2/bin",
-                                 "qt4"   : "__app_parent_directory__/sassie2/bin",
-                                 "qt5"   : "__app_parent_directory__/sassie2/bin",
-                                 "java"  : "__app_parent_directory__/sassie2/bin"
+                                 "html5" : "__app_parent_directory__/sassie_1_5/bin",
+                                 "qt3"   : "__app_parent_directory__/sassie_1_5/bin",
+                                 "qt4"   : "__app_parent_directory__/sassie_1_5/bin",
+                                 "qt5"   : "__app_parent_directory__/sassie_1_5/bin",
+                                 "java"  : "__app_parent_directory__/sassie_1_5/bin"
                                 }, 
   "docroot"                   :
                                 {
                                  "html5" : "__webroot__",
-                                 "qt3"   : "__app_parent_directory__/sassie2/tmp",
-                                 "qt4"   : "__app_parent_directory__/sassie2/tmp",
-                                 "qt5"   : "__app_parent_directory__/sassie2/tmp",
-                                 "java"  : "__app_parent_directory__/sassie2/tmp"
+                                 "qt3"   : "__app_parent_directory__/sassie_1_5/tmp",
+                                 "qt4"   : "__app_parent_directory__/sassie_1_5/tmp",
+                                 "qt5"   : "__app_parent_directory__/sassie_1_5/tmp",
+                                 "java"  : "__app_parent_directory__/sassie_1_5/tmp"
                                 },
   "plot2d"                   : {
                                  "precision" : 5
@@ -86,7 +86,7 @@
   ,"usesplash"                 : "true"
   ,"splashdocs"                : "true"
   ,"usewss"                    : "true"
-  ,"appconfig"                 : "__app_parent_directory__/sassie2/appconfig.json"
+  ,"appconfig"                 : "__app_parent_directory__/sassie_1_5/appconfig.json"
 # if you have a 32 bit mongo system "html5", comment this
   ,"mongojournal"               : "true"
   ,"logdirectory"              : "_logs"
