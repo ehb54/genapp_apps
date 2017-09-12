@@ -1,18 +1,26 @@
 #!/share/apps/local/anaconda2/bin/python
-import json,sys,os,shutil,locale
+import json
+import sys
+import os
+import shutil
+import locale
 from StringIO import StringIO
-import multiprocessing,time,string,socket
+import multiprocessing
+import time
+import string
+import socket
 
-import sassie.simulate.monte_carlo.monomer.dihedral_monte_carlo as dihedral_monte_carlo
+import sassie.simulate.monomer_monte_carlo.dihedral_monte_carlo as dihedral_monte_carlo
 import sassie.interface.input_filter as input_filter
 import sassie.interface.generate_filter as generate_filter
-import sassie.sasconfig as sasconfig
+import sassie.util.sasconfig as sasconfig
+
 
 class Generate_Drv():
 
    module = 'monomer_monte_carlo'
 
-   def message_box(self,text,icon):
+   def message_box(self, text, icon):
 
         _message = {}
         _message['icon'] = icon
@@ -20,28 +28,28 @@ class Generate_Drv():
 
         UDP_IP = json_variables['_udphost']
         UDP_PORT = json_variables['_udpport']
-        sock = socket.socket(socket.AF_INET, # Internet
-                socket.SOCK_DGRAM) # UDP
+        sock = socket.socket(socket.AF_INET,  # Internet
+                socket.SOCK_DGRAM)  # UDP
 
-        socket_dict={}
+        socket_dict = {}
         socket_dict['_uuid'] = json_variables['_uuid']
         socket_dict['_message'] = _message
 
         doc_string = json.dumps(socket_dict)
-        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
 
         return
 
-   def background_job(self,process,txtQueue,json_variables):
+   def background_job(self, process, txtQueue, json_variables):
 
         total_string = ''
 
         UDP_IP = json_variables['_udphost']
         UDP_PORT = json_variables['_udpport']
-        sock = socket.socket(socket.AF_INET, # Internet
-             socket.SOCK_DGRAM) # UDP
+        sock = socket.socket(socket.AF_INET,  # Internet
+             socket.SOCK_DGRAM)  # UDP
 
-        socket_dict={}
+        socket_dict = {}
         socket_dict['_uuid'] = json_variables['_uuid']
 	first = True
 
@@ -51,26 +59,29 @@ class Generate_Drv():
                                 socket_dict['progress_html'] = '<center>starting job</center>'
                                 socket_dict['_progress'] = 0.01
                                 doc_string = json.dumps(socket_dict)
-                                sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                sock.sendto(doc_string, (UDP_IP, UDP_PORT))
                                 first = False
                         this_text = txtQueue.get(True, timeout=0.01)
-                        text_split=string.split(this_text)
-                        if(text_split[0]=='STATUS'):
+                        text_split = string.split(this_text)
+                        if(text_split[0] == 'STATUS'):
                                 value = locale.atof(text_split[1])
-                                svalue = str(round(100*value,2))
+                                svalue = str(round(100 * value, 2))
                                 socket_dict['progress_output'] = value
                                 socket_dict['_progress'] = value
-                                socket_dict['progress_html'] = '<center>'+svalue+'</center>'
+                                socket_dict['progress_html'] = '<center>' + \
+                                    svalue + '</center>'
                                 if "_textarea" in socket_dict:
                                         del socket_dict["_textarea"]
                                 if socket_dict:
                                         doc_string = json.dumps(socket_dict)
-                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                        sock.sendto(
+                                            doc_string, (UDP_IP, UDP_PORT))
                         else:
                                 socket_dict["_textarea"] = this_text
                                 if socket_dict:
                                         doc_string = json.dumps(socket_dict)
-                                        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
+                                        sock.sendto(
+                                            doc_string, (UDP_IP, UDP_PORT))
                                 total_string += this_text
                 except:
                         if not process.is_alive():
@@ -83,45 +94,45 @@ class Generate_Drv():
 
         return total_string
 
-   def read_file(self,filename,dvar):
+   def read_file(self, filename, dvar):
 
         try:
-                data = [] ; error = []
-                data_file = open(filename,'r').readlines()
+                data = []; error = []
+                data_file = open(filename, 'r').readlines()
                 nl = len(data_file)
 
                 for i in xrange(nl):
                         lin = string.split(data_file[i])
-        
+
                         if(lin[0] != '#'):
                                 this_x = lin[dvar[0]]
                                 this_y = lin[dvar[1]]
                         #       this_z = lin[2]
-                                data.append([this_x,this_y])
-                        #       error.append([this_x,this_z])   
+                                data.append([this_x, this_y])
+                        #       error.append([this_x,this_z])
 
                 if(dvar[0] == 0):
 
                         this_data = {
-                                        'lines' : { "show": "false" },
-                                        'points' : { "show" : "true", "radius" : "4" },
-                                        'color' : 'red',
-                                        'label' : 'all structures',
+                                        'lines': {"show": "false"},
+                                        'points': {"show": "true", "radius": "4"},
+                                        'color': 'red',
+                                        'label': 'all structures',
                                         'data': data
                                 }
                         self.flot_data["data"].append(this_data)
 
                 else:
                         this_data = {
-                                        'lines' : { "show": "true", "lineWidth" : "3.0" },
-                                        'points' : { "show" : "true", "radius" : "2" },
-                                        'color' : 'green',
-                                        'label' : 'accepted structures',
+                                        'lines': {"show": "true", "lineWidth": "3.0"},
+                                        'points': {"show": "true", "radius": "2"},
+                                        'color': 'green',
+                                        'label': 'accepted structures',
                                         'data': data
                                 }
                         self.flot_data["data"].append(this_data)
 
-        
+
 #                data_file.close()
 
         except:
@@ -132,116 +143,110 @@ class Generate_Drv():
 
         return
 
-   def get_data_from_disk(self,file1,file2):
+   def get_data_from_disk(self, file1, file2):
 
 	self.flot_data = {
                                         "options": {
-                                                "title"  : "Rg Results",
-                                                "xlabel"  : "Structure Number",
-                                                "ylabel"  : "Rg (Angstrom)",
+                                                "title": "Rg Results",
+                                                "xlabel": "Structure Number",
+                                                "ylabel": "Rg (Angstrom)",
 
 
                                                 "legend": {
 # "position" can be "ne" or "nw" or "se" or "sw"
-                                                        "position"           : "ne"
-# add a margin by number of pixels
-                                                        ,"margin"            : 5
-# "backgroundOpacity" is a number between 0 and 1
-                                                        ,"backgroundOpacity" : 0.7
-# "container" puts the legend to the right of the plot
-                                                        ,"container"         : "false"
-# "sorted" orders the legend entries can be "ascending" or "descending"
-                                                        ,"sorted"            : "ascending"
+                                                        "position": "ne"  # add a margin by number of pixels
+                                                        , "margin": 5  # "backgroundOpacity" is a number between 0 and 1
+                                                        , "backgroundOpacity": 0.7  # "container" puts the legend to the right of the plot
+                                                        # "sorted" orders the legend entries can be "ascending" or "descending"
+                                                        , "container": "false", "sorted": "ascending"
                                                 }
 
                                         },
- 
+
 					"data": []
-			}       
-        dvar=[0,1]
-        self.read_file(file1,dvar)
-        dvar=[2,1]
-        self.read_file(file2,dvar)
+			}
+        dvar = [0, 1]
+        self.read_file(file1, dvar)
+        dvar = [2, 1]
+        self.read_file(file2, dvar)
 
-        return 
+        return
 
+   def convert_residue_ranges(self, original_reslow):
 
-   def convert_residue_ranges(self,original_reslow):
-
-	r = string.split(original_reslow,',')
+	r = string.split(original_reslow, ',')
 	number_of_pairs = 0
 
 	lowres = ''; numcont = ''
 	for pair in r:
-		this_pair = string.split(pair,'-')
-		lowres += this_pair[0]+','
-		numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0])))+','
+		this_pair = string.split(pair, '-')
+		lowres += this_pair[0] + ','
+		numcont += (str(locale.atoi(this_pair[1]) - locale.atoi(this_pair[0]))) + ','
 		number_of_pairs += 1
 
 	lowres = lowres[:-1]
 	numcont = numcont[:-1]
 
-	print 'lowres = ',lowres
-	print 'numcont = ',numcont
-	
+	print 'lowres = ', lowres
+	print 'numcont = ', numcont
+
 	return lowres, numcont
 
-   def run_me(self,json_flag,json_variables,input_string):
+   def run_me(self, json_flag, json_variables, input_string):
 
          output_dict = {}
 
          if not json_flag:
 
-                #### BEGIN USER EDIT
-                #### BEGIN USER EDIT
-                #### BEGIN USER EDIT
+                # BEGIN USER EDIT
+                # BEGIN USER EDIT
+                # BEGIN USER EDIT
 
-                runname='run_0'
-                dcdfile='run_0.dcd'
-                path=''
-                pdbfile='c2.pdb'
-                trials='50'
-                goback='10'
-                temp='300.0'
+                runname = 'run_0'
+                dcdfile = 'run_0.dcd'
+                path = ''
+                pdbfile = 'c2.pdb'
+                trials = '50'
+                goback = '10'
+                temp = '300.0'
                 moltype = 'protein'
-                numranges='5'
-                dtheta='30.0,30.0,30.0,30.0,30.0'
-                original_reslow='123-144,278-283,354-378,378-389,408-412'
-                #numcont='21,5,24,11,4'
-                lowres1='284'
-                highres1='350'
-                residue_alignment='284-350'
-                basis='CA'
-                cutoff='3.0'
-                lowrg='0.0'
-                highrg='400.0'
-                zflag='0'
-                zcutoff='0.0'
-                cflag='0'
+                numranges = '5'
+                dtheta = '30.0,30.0,30.0,30.0,30.0'
+                original_reslow = '123-144,278-283,354-378,378-389,408-412'
+                # numcont='21,5,24,11,4'
+                lowres1 = '284'
+                highres1 = '350'
+                residue_alignment = '284-350'
+                basis = 'CA'
+                cutoff = '3.0'
+                lowrg = '0.0'
+                highrg = '400.0'
+                zflag = '0'
+                zcutoff = '0.0'
+                cflag = '0'
                 confile = 'constraints.txt'
-                nonbondflag='0'                
-                nonbondscale='1.0'
-                psffilepath='./'
-                psffilename='refgag.psf'
-	 	parmfilepath = sasconfig._bin_path+'toppar/'
-                parmfilename='par_all27_prot_na.inp'
+                nonbondflag = '0'
+                nonbondscale = '1.0'
+                psffilepath = './'
+                psffilename = 'refgag.psf'
+	 	parmfilepath=sasconfig.__bin_path__+'/toppar/'
+                parmfilename = 'par_all27_prot_na.inp'
                 plotflag = '0'
                 directedmc = '0'
-                seed = '0,123'        
+                seed = '0,123'
 
-        
-                path='./'
+                path = './'
 
-                #### END USER EDIT
-                #### END USER EDIT
-                #### END USER EDIT
+                # END USER EDIT
+                # END USER EDIT
+                # END USER EDIT
          else:
 
                 runname = json_variables['runname']
-        
+
                 base_directory = json_variables['_base_directory']
 
-                path = base_directory.replace('\/','/') + "/"
+                path = base_directory.replace('\/', '/') + "/"
 
                 os.chdir(path)
                 data_path = path
@@ -257,9 +262,9 @@ class Generate_Drv():
                 dtheta = json_variables['dtheta']
                 original_reslow = json_variables['reslow']
                 residue_alignment = json_variables['residue_alignment']
-                #numcont = json_variables['numcont']
-                #lowres1 = json_variables['lowres1']
-                #highres1 = json_variables['highres1']
+                # numcont = json_variables['numcont']
+                # lowres1 = json_variables['lowres1']
+                # highres1 = json_variables['highres1']
 
 		overlap_list_box = json_variables['overlap_list_box']
 
@@ -275,7 +280,7 @@ class Generate_Drv():
 		elif(overlap_list_box == "c4"):
 	                basis = json_variables['basis']
 	                cutoff = json_variables['cutoff']
- 
+
                 try:
                         advanced_input = json_variables['advanced_input']
                 except:
@@ -284,7 +289,7 @@ class Generate_Drv():
                 nonbondscale = "1.0"
                 cflag = "0"
                 if(advanced_input == "on"):
-                
+
                         lowrg = json_variables['lowrg']
                         highrg = json_variables['highrg']
                         try:
@@ -292,11 +297,11 @@ class Generate_Drv():
                         except:
                                 nonbondflag_check_box = "off"
 
-                        if(nonbondflag_check_box == "on"):        
+                        if(nonbondflag_check_box == "on"):
                                  nonbondscale = json_variables['nonbondscale']
 
                         directedmc = json_variables['directedmc']
-                        
+
                         try:
                         	zflag_check_box = json_variables['zflag_check_box']
                         except:
@@ -307,7 +312,7 @@ class Generate_Drv():
                         except:
                                 cflag_check_box = "off"
 
-                        #plotflag_list_box = json_variables['plotflag_list_box']
+                        # plotflag_list_box = json_variables['plotflag_list_box']
 
                 else:
                         lowrg = "0.0"
@@ -319,40 +324,41 @@ class Generate_Drv():
                         cflag_check_box = "off"
                         cflag = "0"
                         nonbondflag_check_box = "off"
-                        #plotflag_list_box = "c1"
+                        # plotflag_list_box = "c1"
 
                 moltype_list_box = json_variables['moltype_list_box']
                 if(moltype_list_box == 'c1'):
-                        moltype = 'protein' 
+                        moltype = 'protein'
                 elif(moltype_list_box == 'c2'):
-                        moltype = 'rna' 
-                 
+                        moltype = 'rna'
+
                 if(zflag_check_box == 'off'):
-                        zflag = '0' # NO
+                        zflag = '0'  # NO
                         zcutoff = '0'
                 elif(zflag_check_box == 'on'):
-                        zflag = '1' # YES
+                        zflag = '1'  # YES
                         zcutoff = json_variables['zcutoff']
 
                 if(cflag_check_box == 'off'):
-                        cflag = '0' # NO
+                        cflag = '0'  # NO
                         confile = 'constraints.txt'
                 elif(cflag_check_box == 'on'):
-                        cflag = '1' # YES
+                        cflag = '1'  # YES
                         confile = json_variables['confile'][0]
 
                 if(nonbondflag_check_box == 'off'):
-                        nonbondflag = '0' # NO
-                        psffilepath='./'
-                        psffilename='refgag.psf'
+                        nonbondflag = '0'  # NO
+                        psffilepath = './'
+                        psffilename = 'refgag.psf'
                 elif(nonbondflag_check_box == 'on'):
-                        nonbondflag = '1' # YES
+                        nonbondflag = '1'  # YES
                         temp_psffilename = json_variables['psffilename'][0]
-                        psffilepath, psffilename = os.path.split(temp_psffilename[0])
+                        psffilepath, psffilename = os.path.split(
+                            temp_psffilename[0])
 
-                #if(plotflag_list_box == 'c1'):
+                # if(plotflag_list_box == 'c1'):
                 #        plotflag = '0' # NO
-                #elif(plotflag_list_box == 'c2'):
+                # elif(plotflag_list_box == 'c2'):
                 #        plotflag = '1' # YES
 		plotflag = '0'
 
@@ -364,32 +370,33 @@ class Generate_Drv():
 		error = 'unable to parse residue range for flexible regions: check your input values\n'
 		error += 'it should consist of a pair of hyphenated integers separated by commas\n'
 		error += 'the number of pairs should equal the number of flexible regions'
- 		self.message_box(error,'warning.png')
+ 		self.message_box(error, 'warning.png')
 		output_dict['error'] = error
         	output_dict['sasoutput2'] = 'run failed'
-        	print json.dumps( output_dict )
+        	print json.dumps(output_dict)
         	return
 
-	 #if True:
+	 # if True:
 	 try:
-		residue_alignment = string.split(residue_alignment,'-')
+		residue_alignment = string.split(residue_alignment, '-')
 	 	lowres1 = residue_alignment[0]
 	 	highres1 = residue_alignment[1]
-	 	print 'lowres1 = ',lowres1
-	 	print 'highres1 = ',highres1
+	 	print 'lowres1 = ', lowres1
+	 	print 'highres1 = ', highres1
 	 except:
-	 #else:
+	 # else:
 		error = 'unable to parse residue range for alignment : check your input values\n'
 		error += 'it should consist of a pair of hyphenated integers separated by commas\n'
 		error += 'the number of pairs should equal the number of flexible regions'
- 		self.message_box(error,'warning.png')
+ 		self.message_box(error, 'warning.png')
 		output_dict['error'] = error
         	output_dict['sasoutput2'] = 'run failed'
-        	print json.dumps( output_dict )
+        	print json.dumps(output_dict)
         	return
 
-#residue_alignment
-	 parmfilepath = sasconfig._bin_path+'toppar/'
+# residue_alignment
+ 
+         parmfilepath=sasconfig.__bin_path__+'/toppar/'
          parmfilename = 'par_all27_prot_na.inp'
 
          svariables={}
@@ -489,7 +496,7 @@ class Generate_Drv():
 if __name__=='__main__':
 
         json_flag = True
-        #json_flag = False
+        # json_flag = False
 
         if (len(sys.argv) < 1):
                 print "\{\"error\":\"monomer monte carlo called with no arguments\"\}\n";
