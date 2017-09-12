@@ -1,4 +1,4 @@
-#!/share/apps/local/bin/python/bin/python
+#!/share/apps/local/anaconda2/bin/python
 import json
 import sys
 import os
@@ -11,7 +11,7 @@ import string
 import socket
 
 import sassie.interface.input_filter as input_filter
-import sassie.tools.contrast_calculator as contrast_calculator
+import sassie.tools.contrast_calculator.contrast_calculator as contrast_calculator
 import sassie.interface.contrast_calculator_filter as contrast_calculator_filter
 
 

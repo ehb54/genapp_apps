@@ -1,4 +1,4 @@
-#!/share/apps/local/bin/python/bin/python
+#!/share/apps/local/anaconda2/bin/python
 import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket

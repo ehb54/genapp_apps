@@ -1,3 +1,3 @@
-#!/bin/bash 
+#!/share/apps/local/anaconda2/bin/python
 rm -f *_log *_json *.pyc 
 rm -rf run_0
