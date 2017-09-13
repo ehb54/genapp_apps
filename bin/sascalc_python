@@ -5,7 +5,7 @@ import multiprocessing,time,string,socket
 
 import sassie.interface.input_filter as input_filter
 import sassie.interface.sascalc_filter as sascalc_filter
-import sassie.calculate.sascalc as sascalc
+import sassie.calculate.sascalc.sascalc as sascalc
 
 class SasCalc_Driver():
 
@@ -376,7 +376,7 @@ class SasCalc_Driver():
                 if os.path.exists(runname+'/'+self.module):
                     shutil.rmtree(runname+'/'+self.module)
 
-                with open("/share/apps/genapp/sassie2/results/log","w") as outfile:
+                with open("log","w") as outfile:
                     json.dump("\nvariables\n",outfile)
                     json.dump(variables,outfile)
 

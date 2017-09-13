@@ -6,12 +6,15 @@ python = sys.executable
 
 for name in glob.glob('bin/*'):
     if os.path.isfile(name):
-        with open(name) as input_file:
-            lines = input_file.readlines()
 
-        lines[0] = '#!'+python+'\n'
+        if name != 'sascalc':
 
-        with open(name, 'w') as output_file:
-            for line in lines:
-                output_file.write(line)
+            with open(name) as input_file:
+                lines = input_file.readlines()
+
+            lines[0] = '#!'+python+'\n'
+
+            with open(name, 'w') as output_file:
+                for line in lines:
+                    output_file.write(line)
 

@@ -3,7 +3,7 @@ import json,sys,os,shutil,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
-import sassie.calculate.em_to_sans as em_to_sans
+import sassie.calculate.em_to_sans.em_to_sans as em_to_sans
 import sassie.interface.input_filter as input_filter
 import sassie.interface.em_to_sans_filter as em_to_sans_filter
 
