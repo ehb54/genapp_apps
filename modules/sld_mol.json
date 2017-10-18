@@ -53,7 +53,7 @@
                    "id"       : "outputfile",
                    "label"    : "output file name:",
                    "type"     : "text",
-                   "default"  : "tmp_smoothdist.txt",
+                   "default"  : "results.txt",
                    "help"  : "name of output SLD data file calculated by module",
                    "required" : "true"
                    },
@@ -82,7 +82,7 @@
                    "id"       : "bulksld",
                    "label"    : "scattering length density of bulk:",
                    "type"     : "text",
-                   "default"  : "-0.51E-6",
+                   "default"  : "-0.567E-6",
                    "help"  : "bulk SLD of solvent",
                    "required" : "true"
                    },
@@ -101,7 +101,7 @@
                    "id"       : "numdregions",
                    "label"    : "number of deuterated regions:",
                    "type"     : "text",
-                   "default"  : "1",
+                   "default"  : "0",
                    "help"  : "enter the number or regions that you wish to model as fully deuterated",
                    "required" : "true"
                    },
@@ -128,7 +128,7 @@
                    "id"       : "dbin",
                    "label"    : "bin width to decompose protein (angstroms):",
                    "type"     : "text",
-                   "default"  : "0.2",
+                   "default"  : "0.5",
                    "help"  : "user defined resolution of the SLD calculation",
                    "required" : "true"
                    },
@@ -173,7 +173,7 @@
                    "id"       : "z0",
                    "label"    : "Initial Estimate",
                    "type"     : "text",
-                   "default"  : "25.0",
+                   "default"  : "-6.0",
                    "help"  : "angstroms",
                    "norow"    : "true"
                    },
@@ -182,7 +182,7 @@
                    "id"       : "zmin",
                    "label"    : "Fit minimum",
                    "type"     : "text",
-                   "default"  : "20.0",
+                   "default"  : "-10.0",
                    "help"  : "angstroms",
                    "norow"    : "true"
                    },
@@ -191,7 +191,7 @@
                    "id"       : "zmax",
                    "label"    : "Fit maximum",
                    "type"     : "text",
-                   "default"  : "30.0",
+                   "default"  : "0.0",
                    "help"  : "angstroms",
                    "norow"    : "true"
                    },
@@ -222,7 +222,7 @@
                    "id"       : "zevalmin",
                    "label"    : "Fit minimum",
                    "type"     : "text",
-                   "default"  : "28.0",
+                   "default"  : "7.5",
                    "help"  : "angstroms",
                    "norow"    : "true"
                    },
@@ -231,7 +231,7 @@
                    "id"       : "zevalmax",
                    "label"    : "Fit maximum",
                    "type"     : "text",
-                   "default"  : "145.0",
+                   "default"  : "179.0",
                    "help"  : "angstroms"
                    },
                    {
@@ -246,7 +246,7 @@
                    "id"       : "A0",
                    "label"    : "Initial Estimate",
                    "type"     : "text",
-                   "default"  : "0.3",
+                   "default"  : "0.28",
                    "help"  : "fractional surface coverage",
                    "norow"    : "true"
                    },
@@ -264,7 +264,7 @@
                    "id"       : "Amax",
                    "label"    : "Fit maximum",
                    "type"     : "text",
-                   "default"  : "0.4",
+                   "default"  : "0.3",
                    "help"  : "maximal fractional surface coverage",
                    "norow"    : "true"
                    },
@@ -285,8 +285,12 @@
                    {
                    "role"    : "output",
                    "id"      : "plotout1",
-                   "label"   : "experimental data and average structural sld",
-                   "type"    : "plot2d"
+                   "label"   : "experimental and calculated slds",
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"    : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"                   
                    }
                   ],
     "executable" : "sld_mol"
