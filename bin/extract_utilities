@@ -143,12 +143,15 @@ class Extract_Utilities_Driver():
         		trajectory_filename = ''
 			output_filename = ''
 
+		touch_file = False
+
 		if sas_checkbox == "on":	
 			extract_sas = True 
 
 			sas_option_list_box = json_variables['sas_type_list_box']
 			if(sas_option_list_box == 'c1'):
 				sas_type = '0'
+				touch_file = True	
 			elif(sas_option_list_box == 'c2'):
 				sas_type = '1'
 			elif(sas_option_list_box == 'c3'):
@@ -238,12 +241,21 @@ class Extract_Utilities_Driver():
 		#if not os.path.exists(runname+'/'+self.module):
 		#	os.makedirs(runname+'/'+self.module)
 
+
+
 		txtQueue=multiprocessing.JoinableQueue()
 	
                 process=multiprocessing.Process(target=extract_utilities.extract_data,args=(variables,txtQueue))	
 		process.start()
 	
 		total_string = self.background_job(process,txtQueue,json_variables)
+
+		### the following lines are to create an empty file so that the current GenApp file system can
+		###  open a directory within the created sascalc directory: JEC 1/10/2018
+
+		if touch_file:
+			dum_string = 'touch '+runname+'/'+self.module+'/sascalc/extract.log'
+			os.system(dum_string)
 
 	#	output_dict['sasoutput2'] = total_string
 
