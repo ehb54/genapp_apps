@@ -262,126 +262,106 @@ class CTAMC():
             #### END USER EDIT
             #### END USER EDIT
         else:
-            runname = json_variables['runname']
+		
+        	runname = json_variables['runname']
 
-            base_directory = json_variables['_base_directory']
+            	base_directory = json_variables['_base_directory']
 
-            path = base_directory.replace('\/','/') + "/"
+            	path = base_directory.replace('\/','/') + "/"
 
-            os.chdir(path)
-            data_path = path
+            	os.chdir(path)
+            	data_path = path
 
-            pdbfile = json_variables['pdbfile'][0]
-            try:
-                psffile = json_variables['psffile'][0]
-                psf_flag = True
-            except:
-                psffile = 'None'
-                psf_flag = True
+            	pdbfile = json_variables['pdbfile'][0]
+            	try:
+                	psffile = json_variables['psffile'][0]
+                	psf_flag = True
+            	except:
+               		psffile = 'None'
+                	psf_flag = True
 
-            dcdfile = str(json_variables['dcdfile'])
-            print 'dcdfile = ',dcdfile
-            print 'type(dcdfile) = ',type(dcdfile)
+            	dcdfile = str(json_variables['dcdfile'])
+            	print 'dcdfile = ',dcdfile
+            	print 'type(dcdfile) = ',type(dcdfile)
 
-            try:
-                max_steps = json_variables['max_steps']
-                energy_convergence = json_variables['energy_convergence']
-                step_size = json_variables['step_size']
-            except:
-                max_steps = '1000'
-                energy_convergence = '1.0'
-                step_size = '0.002'
+            	try:
+                	max_steps = json_variables['max_steps']
+                	energy_convergence = json_variables['energy_convergence']
+                	step_size = json_variables['step_size']
+            	except:
+                	max_steps = '1000'
+                	energy_convergence = '1.0'
+                	step_size = '0.002'
 
-            number_of_flexible_regions = json_variables['number_of_flexible_regions']
-            goback = json_variables['goback']
-            temperature = json_variables['temperature']
+            	number_of_flexible_regions = json_variables['number_of_flexible_regions']
+            	goback = json_variables['goback']
+            	temperature = json_variables['temperature']
 
-            temperature = json_variables['temperature']
-            trial_steps = json_variables['trial_steps']
-            goback = json_variables['goback']
+		trial_steps = json_variables['trial_steps']
+            	goback = json_variables['goback']
 
-            temp_basis_string_array = json_variables['basis_string_array']
-            print 'basis_string_array = ',temp_basis_string_array
-            print 'type(basis_string_array) = ',type(temp_basis_string_array)
+            	temp_basis_string_array = json_variables['basis_string_array']
+            	print 'basis_string_array = ',temp_basis_string_array
+            	print 'type(basis_string_array) = ',type(temp_basis_string_array)
 
-            basis_string_array = []
-            for bs in temp_basis_string_array:
-                basis_string_array.append(str(bs))
+            	basis_string_array = []
+            	for bs in temp_basis_string_array:
+                	basis_string_array.append(str(bs))
 
-            print 'basis_string_array = ',basis_string_array
-            print 'type(basis_string_array) = ',type(basis_string_array)
+            	print 'basis_string_array = ',basis_string_array
+            	print 'type(basis_string_array) = ',type(basis_string_array)
 
-            temp_post_basis_string_array = json_variables['post_basis_string_array']
-            post_basis_string_array = []
-            for bs in temp_post_basis_string_array:
-                post_basis_string_array.append(str(bs))
+            	temp_post_basis_string_array = json_variables['post_basis_string_array']
+            	post_basis_string_array = []
+            	for bs in temp_post_basis_string_array:
+             		post_basis_string_array.append(str(bs))
 
-            temp_delta_theta_array = json_variables['delta_theta_array']
-            delta_theta_array = ''
-            for delta in temp_delta_theta_array:
-                delta_theta_array += delta+ ','
-            delta_theta_array = delta_theta_array[:-1]
+            	temp_delta_theta_array = json_variables['delta_theta_array']
+            	delta_theta_array = ''
+            	for delta in temp_delta_theta_array:
+                	delta_theta_array += delta+ ','
+		delta_theta_array = delta_theta_array[:-1]
 
-            print 'delta_theta_array = ',delta_theta_array
-            print 'type(delta_theta_array) = ',type(delta_theta_array)
-            #delta_theta_array = '30.0, 30.0'
-            choice_rotation_type_array = json_variables['rotation_type_array']
-            print 'choice_rotation_type_array = ',choice_rotation_type_array
-            print 'type(choice_rotation_type_array) = ',type(choice_rotation_type_array)
-            rotation_type_array = []
-            for choice in choice_rotation_type_array:
-                if choice == 'c1':
-                    rotation_type_array.append('protein_backbone_torsion')
-                elif choice == 'c2':
-                    rotation_type_array.append('single_stranded_nucleic_backbone_torsion')
-                elif choice == 'c3':
-                    rotation_type_array.append('double_stranded_nucleic_torsion')
-                elif choice == 'c4':
-                    rotation_type_array.append('isopeptide_bond_torsion')
-            choice_rotation_direction_array = json_variables['rotation_direction_array']
+        	print 'delta_theta_array = ',delta_theta_array
+        	print 'type(delta_theta_array) = ',type(delta_theta_array)
 
-            rotation_direction_array = []
-            for choice in choice_rotation_direction_array:
-                if choice == 'c1':
-                    rotation_direction_array.append('forward')
-                elif choice == 'c2':
-                    rotation_direction_array.append('reverse')
+		choice_rotation_type_array = json_variables['rotation_type_array']
+            	print 'choice_rotation_type_array = ',choice_rotation_type_array
+            	print 'type(choice_rotation_type_array) = ',type(choice_rotation_type_array)
+            	rotation_type_array = []
+            	for choice in choice_rotation_type_array:
+            		if choice == 'c1':
+         			rotation_type_array.append('protein_backbone_torsion')
+                	elif choice == 'c2':
+                    		rotation_type_array.append('single_stranded_nucleic_backbone_torsion')
+                	elif choice == 'c3':
+                    		rotation_type_array.append('double_stranded_nucleic_torsion')
+                	elif choice == 'c4':
+                    		rotation_type_array.append('isopeptide_bond_torsion')
+            	choice_rotation_direction_array = json_variables['rotation_direction_array']
 
-#		sys.stdout.flush()
-#		sys.exit()
+            	rotation_direction_array = []
+            	for choice in choice_rotation_direction_array:
+                	if choice == 'c1':
+                    		rotation_direction_array.append('forward')
+                	elif choice == 'c2':
+                    		rotation_direction_array.append('reverse')
 
-            ### here
+            	overlap_list_box = json_variables['overlap_list_box']
 
-            low_rg_cutoff = '0'
-            high_rg_cutoff = '400.0'
+            	if(overlap_list_box == "c1"):
+                	overlap_basis = 'heavy'
+                	cutoff = '0.8'
+            	elif(overlap_list_box == "c2"):
+                	overlap_basis = 'all'
+                	cutoff = '0.8'
+            	elif(overlap_list_box == "c3"):
+                	overlap_basis = 'backbone'
+                	cutoff = '1.0'
+            	else:
+                	overlap_basis = 'heavy'
+                	cutoff = '0.8'
 
-            z_flag = False
-            z_cutoff = '0.0'
-
-            constraint_flag = False
-            constraint_file = 'constraints.txt'
-
-            directed_mc = '0'
-
-            nonbondflag = '0'
-            seed = '0, 123'  # set this to '1,123' if you want to set the seed or '0,123' if not
-
-            overlap_list_box = json_variables['overlap_list_box']
-
-            if(overlap_list_box == "c1"):
-                overlap_basis = 'heavy'
-                cutoff = '0.8'
-            elif(overlap_list_box == "c2"):
-                overlap_basis = 'all'
-                cutoff = '0.8'
-            elif(overlap_list_box == "c3"):
-                overlap_basis = 'backbone'
-                cutoff = '1.0'
-            else:
-                overlap_basis = 'heavy'
-                cutoff = '0.8'
-
-            '''
 		try:
 			advanced_input = json_variables['advanced_input']
 		except:
@@ -389,10 +369,8 @@ class CTAMC():
 
 		if(advanced_input == "on"):
 
- 			#basis = json_variables['basis']
- 			#cutoff = json_variables['cutoff']
-			lowrg = json_variables['lowrg']
- 			highrg = json_variables['highrg']
+			low_rg_cutoff = json_variables['lowrg']
+ 			high_rg_cutoff = json_variables['highrg']
 
                         try:
                                 zflag_check_box = json_variables['zflag_check_box']
@@ -403,43 +381,41 @@ class CTAMC():
 				cflag_list_box = json_variables['cflag_list_box']
 			except:
 				cflag_list_box = 'off'
- 			#plotflag_list_box = json_variables['plotflag_list_box']
+
  			plotflag_list_box = "c1"
 
- 			directedmc = json_variables['directedmc']
+ 			directed_mc = "0"
 
 		else:
- 			#basis = 'CA'
- 			#cutoff = '3.0'
-			lowrg = "20.0"
-			highrg = "185.0"
-			zcutoff = "0.0"
+			low_rg_cutoff = "0.0"
+			high_rg_cutoff = "400.0"
 			zflag_check_box = "off"
 			cflag_list_box = "off"
  			plotflag_list_box = "c1"
- 			directedmc = "0"
-
+ 			directed_mc = "0"
 
                 if(zflag_check_box == 'off'):
-                        zflag = '0' # NO
-                        zcutoff = '0'
+                        z_flag = False
+                        z_cutoff = '0.0'
                 elif(zflag_check_box == 'on'):
-                        zflag = '1' # YES
-                        zcutoff = json_variables['zcutoff']
+                        z_flag = True
+                        z_cutoff = json_variables['zcutoff']
 
                 if(cflag_list_box == 'off'):
-                        cflag = '0' # NO
-			confile = 'constraints.txt'
+                        constraint_flag = False
+			constraint_file = 'constraints.txt'
                 elif(cflag_list_box == 'on'):
-                        cflag = '1' # YES
-			confile = json_variables['confile'][0]
-			#head, confile = os.path.split(temp_confile[0])
+                        constraint_flag = True
+			constraint_file = json_variables['confile'][0]
+
                 if(plotflag_list_box == 'c1'):
                         plotflag = '0' # NO
-                elif(plotflag_list_box == 'c2'):
-                        plotflag = '1' # YES
+        	elif(plotflag_list_box == 'c2'):
+			plotflag = '1' # YES
+            
+		nonbondflag = '0'
+            	seed = '0, 123'  # set this to '1,123' if you want to set the seed or '0,123' if not
 
-        	'''
         plotflag = '0'
 
         svariables={}
@@ -466,7 +442,6 @@ class CTAMC():
         svariables['goback'] = (goback, 'int')
         svariables['directed_mc'] = (directed_mc, 'float')
         svariables['cutoff'] = (cutoff, 'float')
-
 
         svariables['low_rg_cutoff'] = (low_rg_cutoff, 'float')
         svariables['high_rg_cutoff'] = (high_rg_cutoff, 'float')
