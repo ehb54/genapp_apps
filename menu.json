@@ -180,6 +180,11 @@
             "label"   : "Alpha",
             "icon"    : "pngs/alpha.png",
             "modules" : [
+                         {
+                          "id"    : "altens",
+                          "label" : "Altens",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
                          { 
                           "id"    : "capriqorn",
                           "label" : "Capriqorn",
@@ -187,7 +192,8 @@
                          },
                          {
                           "id"    : "sascalc_pbc",
-                          "label" : "SasCalc-PBC"
+                          "label" : "SasCalc-PBC",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 
                           "id"    : "sas_dock",

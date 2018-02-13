@@ -1,9 +1,9 @@
-#!/share/apps/local/bin/python/bin/python
+#!/share/apps/local/anaconda/bin/python
 import json,sys,os,shutil,ast,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
-import sassie.analyze.altens as altens
+import sassie.analyze.altens.altens as altens
 import sassie.interface.input_filter as input_filter
 
 class Altens_Drv():
@@ -67,13 +67,6 @@ class Altens_Drv():
                                 if socket_dict:
                                         doc_string = json.dumps(socket_dict)
                                         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
-                        elif(text_split[0]=='REPORT'):
-				#socket_dict['_textarea'] = text_split[1]	
-				total_string = text_split[1]
-				#print 'total_string (bj) = ',total_string
-                                #if socket_dict:
-                                #        doc_string = json.dumps(socket_dict)
-                                #        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                         else:
                                 socket_dict["_textarea"] = this_text
                                 if socket_dict:
@@ -81,7 +74,6 @@ class Altens_Drv():
                                         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                 except:
                         if not process.is_alive():
-
                                 return total_string
 
                 time.sleep(0.01)
@@ -100,9 +92,15 @@ class Altens_Drv():
         	#### BEGIN USER EDIT
         	#### BEGIN USER EDIT
 
-        	runname='run_0'
-        	refpdb ='min3.pdb'
-        	path='./'
+		test_file_path = '/share/apps/local/svn_utk/svn/sassie_2.0/trunk/sassie/analyze/altens/'
+
+        	runname = 'run_0'
+		rdc_input_file = test_file_path + "RDC_D_K63.txt"
+		pdbfile=test_file_path + '1D3Z_mod1_new.pdb'
+		residue_list_file = test_file_path + "reslist.txt"
+		use_monte_carlo_flag = True
+		number_of_monte_carlo_steps = '500' 
+		seed = '1,123'	
 
 		UDP_IP = '127.0.0.1'
 		UDP_PORT = 5005
@@ -120,28 +118,45 @@ class Altens_Drv():
 		os.chdir(path)
 		pdb_path = path
 
-        	refpdb = json_variables['refpdb'][0]
-		head,pdbfilename= os.path.split(refpdb)
-		print 'refpdb = ',refpdb
+        	pdbfile = json_variables['pdbfile'][0]
+		head,pdbfilename= os.path.split(pdbfile)
 
 		path = ''
 
 		UDP_IP = json_variables['_udphost']
 		UDP_PORT = json_variables['_udpport']
 
+		rdc_input_file = json_variables['rdc_input_file'][0]
+		residue_list_file = json_variables['residue_list_file'][0]
+
+		use_monte_carlo_flag = False
+		number_of_monte_carlo_steps = '0'
+		seed = '1,123'	
+ 
+                try:
+                	use_monte_carlo_flag_checkbox =json_variables['use_monte_carlo_flag_checkbox']
+
+                	if(use_monte_carlo_flag_checkbox == 'on'):
+                		use_monte_carlo_flag = True
+                       		number_of_monte_carlo_steps = json_variables['number_of_monte_carlo_steps']
+                except:
+                	pass
+
 	svariables={}
 
-	svariables['runname'] = (str(runname),'string')
-	svariables['pdbfile']  = (str(refpdb),'string')
-	svariables['path']    = (path,'string')
-	svariables['outputfile']    = ('pdbscan_output.txt','string')
+	svariables['runname'] = (runname,'string')
+	svariables['rdc_input_file'] = (rdc_input_file,'string')
+	svariables['pdbfile'] = (pdbfile,'string')
+	svariables['residue_list_file'] = (residue_list_file,'string')
+	svariables['use_monte_carlo_flag'] =(use_monte_carlo_flag,'boolean')
+	svariables['number_of_monte_carlo_steps'] = (number_of_monte_carlo_steps,'int')
+	svariables['seed'] = (seed, 'int_array')
 
 	error,self.variables=input_filter.type_check_and_convert(svariables)
 
         if(len(error)>0):
 
                 self.message_box(error,'skull.png')
-#               warning.png, information.png, skull.png, toast.png
 
                 output_dict['error'] = 'Error in input variables'
                 output_dict['sasoutput2'] = 'run failed'
@@ -156,44 +171,23 @@ class Altens_Drv():
 
 		txtQueue=multiprocessing.JoinableQueue()
 
-		#process=multiprocessing.Process(target=pdbscan.scan_pdb,args=(self.variables,txtQueue))
-		process=multiprocessing.Process(target=pdbscan.pdbscan,args=(self.variables,txtQueue))
+		altens_object = altens.altens()
+
+		process=multiprocessing.Process(target=altens_object.main,args=(self.variables,txtQueue))
 		process.start()
 
-		report_info = ''
-		total_string = self.background_job(process,txtQueue,json_variables)
+		total_string = self.background_job(process, txtQueue, json_variables)
 
-		#output_dict['sasoutput2'] = total_string
-	
- 		output_dict['outputpdb'] = refpdb
-	
-#	try:
-#		report_flag = str(total_string)
-#		if report_flag == "header":
-#			html_base_name = pdbfilename+'_header_pdbscan_output.html'
-#		elif report_flag == "non_header":
-#			html_base_name = pdbfilename+'_no_header_pdbscan_output.html'
-#	except:
-#		html_base_name = pdbfilename+'_header_pdbscan_output.html'
- 		
-	#html_base_name = pdbfilename+'header_pdbscan_output.html'
-
-	html_base_name = os.path.splitext(pdbfilename)[0] + '_pdbscan.html'
-
-	html_file = os.path.join(runname,self.module,html_base_name)
-
-	try:
-		output_dict['report_html'] = open(html_file).readlines()
-	except:
-		html_error = 'unable to read HTML report from '+html_file
-		output_dict['report_html'] = html_error
-
-        if output_dict:
+        if total_string:
+            	output_dict['_empty_return'] = 1
                 print json.dumps( output_dict )
         else:
+            	output_dict['_empty_return'] = 1
+		### NEED STATUS RETURNED FROM ALTENS.PY TO AVOID THIS ERROR MESSAGE
                 error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
-                output_dict['error'] = error_string
+                #output_dict['error'] = error_string
                 print json.dumps( output_dict )
+
 		
 if __name__=='__main__':
 
