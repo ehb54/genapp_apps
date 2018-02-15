@@ -21,6 +21,7 @@
             ,"type"       : "float"
             ,"default"    : 299792458
             ,"required"   : "true"
+            ,"readonly"   : "true"
             ,"help"       : "Enter the speed of light in meters/second"
         }
         ,{
