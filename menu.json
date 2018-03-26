@@ -185,6 +185,11 @@
                           "label" : "Altens",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
+                         {
+                          "id"    : "bayesian_ensemble_fit",
+                          "label" : "Bayesian Ensemble Fit",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
                          { 
                           "id"    : "capriqorn",
                           "label" : "Capriqorn",
@@ -197,7 +202,7 @@
                          },
                          { 
                           "id"    : "sas_dock",
-                          "label" : "SAS Dock ",
+                          "label" : "SAS Dock",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          }
                         ]
