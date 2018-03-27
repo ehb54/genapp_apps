@@ -1,0 +1,196 @@
+{
+    "moduleid" : "pepsisaxs"
+    ,"label"    : "BayesApp"
+    ,"executable"   : "pepsisaxs"
+    ,"submitpolicy" : "all"
+#    ,"uniquedir" : "true"
+#    ,"center" : "true"
+    ,"centeroutput" : "true"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "label_0"
+            ,"type"      : "label"
+            ,"colspan"   : 4
+            ,"default"   : "header3"
+            ,"label"     : "Pepsi-SAXS [<a href=https://team.inria.fr/nano-d/software/pepsi-saxs>1</a>,<a href=https://hal.inria.fr/hal-01516719>2</a>] *For Academic Use Only*"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "pdb"
+            ,"label"      : "Input PDB"
+# need to force copy over
+#            ,"type"       : "lrfile"
+            ,"type"       : "file"
+            ,"required"   : "true"
+            ,"help"       : "PDB input file for the complex (required)."
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "experimental_curve"
+            ,"label"      : "Experimental curve"
+# need to force copy over
+#            ,"type"       : "lrfile"
+            ,"type"       : "file"
+            ,"help"       : "Experimental curve"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "setexpansion_order"
+            ,"label"      : "Set expansion order"
+            ,"type"       : "checkbox"
+            ,"repeater"   : "true"
+            ,"help"       : "If unchecked, the value will be chosen adaptively"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "expansion_order"
+            ,"label"      : "Expansion order"
+            ,"type"       : "integer"
+            ,"min"        : 1
+            ,"default"    : 15
+            ,"help"       : "Number of coefficients in the expansion order of spherical harmonics"
+            ,"repeat"     : "setexpansion_order"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "au"
+            ,"label"      : "Angular units"
+            ,"type"       : "listbox"
+            ,"help"       : "Default is chosen automatically"
+            ,"values"     : "Default~0~1/A, q = 4pi sin(theta)/lambda~1~1/nm, q = 4pi sin(theta)/lambda~2~1/A, s = 2sin(theta)/lambda~3~1/nm, s = 2sin(theta)/lambda~4"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "ns"
+            ,"label"      : "Number of points"
+            ,"type"       : "integer"
+            ,"max"        : 5000
+            ,"default"    : 101
+            ,"min"        : 10
+            ,"help"       : "Number of points in the scattering curve (only applicable if experimental data is not provided), default 101, max 5000"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "ms"
+            ,"label"      : "Maximum scattering vector [A^-1]"
+            ,"type"       : "float"
+            ,"max"        : 1.0
+            ,"default"    : 0.5
+            ,"min"        : 0.01
+            ,"help"       : "In inverse Angstroms (max = 1.0 [A^-1]) (only applicable if experimental data is not provided.)"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "cst"
+            ,"label"      : "Subtract a constant factor"
+            ,"type"       : "checkbox"
+            ,"help"       : "Substract a constant factor if experimental data contains a systematic error"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "neg"
+            ,"label"      : "Allowing negative contrast of the hydration shell upon fitting"
+            ,"type"       : "checkbox"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "hyd"
+            ,"label"      : "Use explicit hydrogens"
+            ,"type"       : "checkbox"
+            ,"help"       : "Not recommended for standard residues"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "fast"
+            ,"label"      : "Fast"
+            ,"type"       : "checkbox"
+            ,"help"       : "A coarser representation of the hydration shell"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "noSmearing"
+            ,"label"      : "Disable data smearing"
+            ,"type"       : "checkbox"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "manualdro"
+            ,"label"      : "Set hydration shell contrast"
+            ,"type"       : "checkbox"
+            ,"repeater"   : "true"
+            ,"help"       : "If not selected and experimental data is provided, the contrast will be adjusted automatically during fitting. If no experimental data is provided, it will be set to 5% of the bulk value"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "dro"
+            ,"label"      : "Hydration shell contrast in % of bulk value"
+            ,"type"       : "float"
+            ,"default"    : 5
+            ,"help"       : "Hydration shell contrast (in % of the bulk value), default is 5%."
+            ,"repeat"     : "manualdro"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "fluc"
+            ,"label"      : "Enable fluctuations"
+            ,"type"       : "checkbox"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "manualmodes"
+            ,"label"      : "Set number of low frequency modes"
+            ,"type"       : "checkbox"
+            ,"repeater"   : "true"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "modes"
+            ,"label"      : "Number of low frequency modes"
+            ,"type"       : "integer"
+            ,"min"        : 5
+            ,"default"    : 5
+            ,"max"        : 75
+            ,"repeat"     : "manualmodes"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "manualcovScaling"
+            ,"label"      : "Set scaling of covalent interactions"
+            ,"type"       : "checkbox"
+            ,"repeater"   : "true"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "covScaling"
+            ,"label"      : "Scaling of covalent interactions"
+            ,"type"       : "integer"
+            ,"default"    : 1
+            ,"repeat"     : "manualcovScaling"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "manualc"
+            ,"label"      : "Set interactions cutoff distance"
+            ,"type"       : "checkbox"
+            ,"repeater"   : "true"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "c"
+            ,"label"      : "Interaction cutoff distance [A]"
+            ,"type"       : "integer"
+            ,"default"    : 1
+            ,"repeat"     : "manualc"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile"
+            ,"label"      : ""
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+    ]
+}
