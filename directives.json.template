@@ -63,8 +63,8 @@
 #      ,"verticalalign"  : "top"
       "cols"           : "110"
 # define rows to stop autosize
-      ,"rows"           : "10"
-      ,"help"           : "general textarea help"
+      ,"rows"           : "80"
+      ,"help"           : "This is the output of the program"
   },
 
 #"usercolors" : "true",
