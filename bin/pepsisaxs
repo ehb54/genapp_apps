@@ -151,6 +151,18 @@ $$res{ "_textarea" } = $cmdresults;
 @output = grep /Output file name/, @cmdresults;
 $$res{'outfile'} = $output[0] if @output;
 $$res{'outfile'} =~ s/^.[^:]*: //;
+
+# logfile
+
+$logfile = $$res{'outfile'};
+$logfile =~ s/\.[^\.]*$/.log/;
+open OUT, ">$logfile";
+print OUT $cmdresults;
+close OUT;
+
+# add basedir
+
+$$res{'logfile'} = "$$ref{'_base_directory'}/$logfile";
 $$res{'outfile'} = "$$ref{'_base_directory'}/$$res{'outfile'}";
 
 open IN, "stderr.txt";

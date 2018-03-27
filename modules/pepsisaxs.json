@@ -187,8 +187,15 @@
         }
         ,{
             "role"       : "output"
+            ,"id"         : "logfile"
+            ,"label"      : "Log file : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
             ,"id"         : "outfile"
-            ,"label"      : ""
+            ,"label"      : "Output file : "
             ,"type"       : "file"
             ,"help"       : "Right click to download"
         }
