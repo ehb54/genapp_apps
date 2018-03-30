@@ -145,6 +145,17 @@ class Tamd_Drv():
                 for i in xrange(locale.atoi(number_flexible_segments)):
                         psegvariables.append([all_flexible_segnames[i],all_snumranges[i],all_srlow[i],all_srnum[i],all_moltype[i]])
 
+ 		load_topfile = "False"
+  		topfiles = "/share/apps/local/bin/toppar/top_all27_prot_na.inp"
+  
+ 		load_paramfile = "False"
+  		paramfiles = "/share/apps/local/bin/toppar/par_all27_prot_na.inp"
+
+
+		### NOT IMPLEMENTED; DO NOT ASSIGN AS "TRUE"
+		load_psffile = 'False'  ### NOT IMPLEMENTED; DO NOT ASSIGN AS "TRUE"
+		user_psffile_name = 'dum.psf'
+
 	
         	#### END USER EDIT
         	#### END USER EDIT
@@ -178,6 +189,16 @@ class Tamd_Drv():
 		topfile         = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
                 parmfile        = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
 		charmmexe	= '/share/apps/local/bin/charmm.exe'
+
+ 		load_topfile = "False"
+  		topfiles = "/share/apps/local/bin/toppar/top_all27_prot_na.inp"
+  
+ 		load_paramfile = "False"
+  		paramfiles = "/share/apps/local/bin/toppar/par_all27_prot_na.inp"
+
+		### NEXT TWO LINE NOT IMPLEMENTED; DO NOT ASSIGN AS "TRUE"
+		load_psffile = 'False'  ### NOT IMPLEMENTED; DO NOT ASSIGN AS "TRUE"
+		user_psffile_name = 'dum.psf'
 
 		#if(json_variables['keepout_checkbox'] == "on"):
 		#	keepout = "1"
@@ -256,9 +277,44 @@ class Tamd_Drv():
 			else:
 				dcdfreq = nsteps 
 
+			try:
+                		topology_check_box = json_variables['topology_check_box']
+			except:
+				topology_check_box = 'off'
+
+			try:
+                		parameters_check_box = json_variables['parameters_check_box']
+			except:
+				parameters_check_box = 'off'
+
+			if(topology_check_box == 'on'):
+				load_topfile = "True"
+				number_of_topology_files = int(json_variables['number_of_topology_files'])
+				for i in xrange(number_of_topology_files):
+					this_topology_file = json_variables['topfiles'][i]
+					if i == 0:
+						topology_file_string = this_topology_file
+					else:
+						topology_file_string += ', ' + this_topology_file
+
+				if number_of_topology_files > 1:
+					topfiles = topology_file_string[:-1]
+
+			if(parameters_check_box == 'on'):
+				load_paramfile = "True"
+				number_of_parameter_files = int(json_variables['number_of_parameter_files'])
+				for i in xrange(number_of_parameter_files):
+					this_parameter_file = json_variables['paramfiles'][i]
+					if i == 0:
+						parameter_file_string = this_parameter_file
+					else:
+						parameter_file_string += ', ' + this_parameter_file
+
+				if number_of_parameter_files > 1:
+					paramfiles = parameter_file_string[:-1]
+
                 else:
 			dcdfreq = nsteps 
-
 
 	path = ''
 	svariables={}
@@ -284,6 +340,16 @@ class Tamd_Drv():
 	svariables['poll_frequency']	= (str(poll_frequency),'float')
 	
 	svariables['path']    = (str(path),'string')
+
+	svariables['load_topfile'] = (load_topfile, 'boolean')
+	svariables['topfiles'] = (topfiles, 'string')
+	svariables['load_paramfile'] = (load_paramfile, 'boolean')
+	svariables['paramfiles'] = (paramfiles, 'string')
+
+	### NEXT TWO LINE NOT IMPLEMENTED; DO NOT ASSIGN AS "TRUE"
+ 	svariables['load_psffile'] = (load_psffile, 'boolean')
+ 	svariables['user_psffile_name'] = (user_psffile_name, 'string')
+
 	
 	error = []
 	error,self.variables=input_filter.type_check_and_convert(svariables)

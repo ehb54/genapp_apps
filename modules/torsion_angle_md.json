@@ -227,7 +227,6 @@
                    "help"  : "click this box for extra options for the run",
                    "repeater" : "true"
                    },
-
                   {
                    "role"    : "input",
                    "id"      : "trajectory_check_box",
@@ -248,6 +247,69 @@
                    "required" : "true",
                    "help" : "how often to save structures: should be a factor of the number of total number of TAMD steps",
                    "repeat"  : "trajectory_check_box"
+                   },
+
+                  {
+                   "role"    : "input",
+                   "id"      : "topology_check_box",
+                   "label"    : "check box to upload topology file(s)",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help" : "check box to open input fields for user supplied CHARMM topology files", 
+                   "repeater"  : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "number_of_topology_files",
+                   "label"   : "enter number of topology files to upload",
+                   "type"     : "integer",
+                   "default" : 1,
+                   "min" : 1,
+                   "required" : "true",
+                   "help" : "enter the number of topology files you wish to use",
+                   "repeat"  : "topology_check_box",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "topfiles",
+                   "label"   : "select topology file to upload",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help" : "choose topology file you wish to use",
+                   "repeat"  : "number_of_topology_files"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "parameters_check_box",
+                   "label"    : "check box to upload parameter file(s)",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help" : "check box to open input fields for user supplied CHARMM parameter files", 
+                   "repeater"  : "true",
+                   "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "number_of_parameter_files",
+                   "label"   : "enter number of parameter files to upload",
+                   "type"     : "integer",
+                   "default" : 1,
+                   "min" : 1,
+                   "required" : "true",
+                   "help" : "enter the number of parameter files you wish to use",
+                   "repeat"  : "parameters_check_box",
+                   "repeater"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"      : "paramfiles",
+                   "label"   : "select parameter file to upload",
+                   "type"     : "lrfile",
+                   "required" : "true",
+                   "help" : "choose parameter file you wish to use",
+                   "repeat"  : "number_of_parameter_files"
                    },
 
                   {
