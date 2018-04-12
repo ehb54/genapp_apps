@@ -12,15 +12,6 @@
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
-                   {
-                   "role"       : "input",
-                   "id"       : "message",
-                   "label"    : "Module under development: due Summer 2015",
-                   "type"     : "label",
-                   "default"  : "header3",
-                   "prehline"  : "true",
-                   "posthline"  : "true"
-                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",
@@ -32,16 +23,53 @@
                    },
                   {
                    "role"     : "input",
-                   "id"       : "refpdb",
+                   "id"       : "pdbfile",
                    "label"   : "pdb file input",
-                   "type"     : "lrfile",
+                   #"type"     : "lrfile",
+                   "type"     : "file",
                    "required" : "true",
-                   "help"     : "name of PDB file for atom naming purposes",
+                   "help"     : "name of input PDB file",
                    "norow"    : "false"
+                   },
+                   {
+                   "role"       : "input",
+                   "id"       : "advanced_input_header",
+                   "label"    : "Advanced Input",
+                   "type"     : "label",
+                   "default"  : " ",
+                   "prehline"  : "true",
+                   "posthline"  : "true"
+                   },
+                  {
+                   "role"     : "input",
+                   "id"       : "advanced_input",
+                   "label"    : "Check Box for Advanced Input",
+                   "type"     : "checkbox",
+                   "checked"  : "false",
+                   "help"  : "click this box for extra options for the run",
+                   "repeater" : "true"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "header_editor_box",
+                   "label"    : "check box to implement options to edit PDB header information",
+                   "type"    : "checkbox",
+                   "checked" : "false",
+                   "help" : "check box to activate options to edit segment, sequence and biomt information",
+                   "repeater"  : "true",
+                   "repeat"  : "advanced_input"
                    },
                    {
                    "role"    : "output",
                    "id"    : "outputpdb",
+                   "label" : "viewer (right click for options)",
+                   "type"  : "atomicstructure",
+                   "height" : "500",
+                   "width" : "500"
+                   },
+                   {
+                   "role"    : "output",
+                   "id"    : "outputpdb_final",
                    "label" : "viewer (right click for options)",
                    "type"  : "atomicstructure",
                    "height" : "500",

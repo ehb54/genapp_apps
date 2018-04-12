@@ -12,15 +12,6 @@
                    "prehline"  : "true",
                    "posthline"  : "true"
                    },
-                   {
-                   "role"       : "input",
-                   "id"       : "message",
-                   "label"    : "Only PDB files of proteins are supported",
-                   "type"     : "label",
-                   "default"  : "header3",
-                   "prehline"  : "true",
-                   "posthline"  : "true"
-                   },
                   {
                    "role"     : "input",
                    "id"       : "runname",
@@ -34,7 +25,8 @@
                    "role"     : "input",
                    "id"       : "refpdb",
                    "label"   : "pdb file input",
-                   "type"     : "lrfile",
+                   #"type"     : "lrfile",
+                   "type"     : "file",
                    "required" : "true",
                    "help"     : "name of PDB file you wish to scan",
                    "norow"    : "false"

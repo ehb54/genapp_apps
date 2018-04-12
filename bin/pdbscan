@@ -1,9 +1,10 @@
+#!/share/apps/local/anacondaz/bin/python
 #!/share/apps/local/bin/python/bin/python
 import json,sys,os,shutil,ast,locale
 from StringIO import StringIO
 import multiprocessing,time,string,socket
 
-import sassie.build.pdbscan as pdbscan
+import sassie.build.pdbscan.pdb_scan as pdb_scan
 import sassie.interface.input_filter as input_filter
 
 class PDBScan_Drv():
@@ -44,6 +45,7 @@ class PDBScan_Drv():
 	first = True
 
         while process.is_alive():
+                #if True:
                 try:
                         if(first):
                                 socket_dict['progress_html'] = 0.01
@@ -80,6 +82,7 @@ class PDBScan_Drv():
                                         doc_string = json.dumps(socket_dict)
                                         sock.sendto(doc_string,(UDP_IP,UDP_PORT))
                 except:
+                #else:
                         if not process.is_alive():
 
                                 return total_string
@@ -156,12 +159,14 @@ class PDBScan_Drv():
 
 		txtQueue=multiprocessing.JoinableQueue()
 
-		#process=multiprocessing.Process(target=pdbscan.scan_pdb,args=(self.variables,txtQueue))
-		process=multiprocessing.Process(target=pdbscan.pdbscan,args=(self.variables,txtQueue))
-		process.start()
+		scan = pdb_scan.PDBScan()
+	#	scan.main(variables,txtQueue)
 
-		report_info = ''
+		#process=multiprocessing.Process(target=pdbscan.scan_pdb,args=(self.variables,txtQueue))
+		process=multiprocessing.Process(target=scan.main,args=(self.variables,txtQueue))
+		process.start()
 		total_string = self.background_job(process,txtQueue,json_variables)
+		report_info = ''
 
 		#output_dict['sasoutput2'] = total_string
 	
@@ -178,7 +183,8 @@ class PDBScan_Drv():
  		
 	#html_base_name = pdbfilename+'header_pdbscan_output.html'
 
-	html_base_name = os.path.splitext(pdbfilename)[0] + '_pdbscan.html'
+	#html_base_name = os.path.splitext(pdbfilename)[0] + '_pdbscan.html'
+	html_base_name = os.path.splitext(pdbfilename)[0] + '.html'
 
 	html_file = os.path.join(runname,self.module,html_base_name)
 
