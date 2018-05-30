@@ -60,11 +60,20 @@
       "label"           : "Report:"
       ,"default"        : "header3"
       ,"verticalalign"  : "top"
-      ,"cols"           : "60"
+      ,"cols"           : "110"
 # define rows to stop autosize
 #      ,"rows"           : "10"
       ,"help"           : "general textarea help"
   },
+
+#"usercolors" : "true",
+
+"style" : {
+        "sidebarwidth"        : "280px"
+        ,"sidebartextalign"   : "left"
+        ,"sidebarleftpadding" : "10px"
+        #,"backgroundimage"    : "Univ_Copenhagen11.jpg"
+    },
 
 # "blue" colors
   "text_color_rgb"            : "220,210,210",
