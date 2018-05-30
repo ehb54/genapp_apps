@@ -11,7 +11,7 @@
 
   "version"                   : "0.1",
 # choose your target languages to generate currently from [ "html5", "qt3", "qt4", "qt5", "java" ]
-  "languages"                 : [ "html5", "qt4" ],
+  "languages"                 : [ "html5"  ],
 
   "executable_path"           :
                                 {
