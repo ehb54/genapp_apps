@@ -1,6 +1,6 @@
 {
     "moduleid" : "pepsisaxs"
-    ,"label"    : "BayesApp"
+    ,"label"    : "pepsisaxs"
     ,"executable"   : "pepsisaxs"
     ,"submitpolicy" : "all"
 #    ,"uniquedir" : "true"
