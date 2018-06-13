@@ -1,7 +1,7 @@
 # this is a project directives file
 # comments are ok but must start the line in this JSON
 {
-  "title"                     : "ROTDIF",
+  "title"                     : "ROTDIF_tmplate",
 
 # the application name should not contain any special characters
   "application"               : "rotdif",
