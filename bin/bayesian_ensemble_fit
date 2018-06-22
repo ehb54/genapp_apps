@@ -15,7 +15,7 @@ import socket
 
 # import sassie.analyze.chi_square_filter as chi_square_filter
 import sassie.interface.input_filter as input_filter
-import sassie.analyze.bayesian_ensemble_fit.ensemble_fit as ensemble_fit
+import sassie.analyze.bayesian_ensemble_fit.bayesian_ensemble_fit as bayesian_ensemble_fit
 
 from mpi4py import MPI
 
@@ -278,7 +278,7 @@ class Bayesian_Ensemble_Fit_Drv():
 
             txtQueue = multiprocessing.JoinableQueue()
 
-            reweighting = ensemble_fit.ensemble_routine()
+            reweighting = bayesian_ensemble_fit.ensemble_routine()
 
             process = multiprocessing.Process(
                 target=reweighting.main, args=(self.variables, txtQueue))

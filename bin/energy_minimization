@@ -188,11 +188,6 @@ class Structure_minimization_Drv():
 		else:
 			ncpu = json_variables['ncpu']
 		
-		try:	
-			dcdfreq = json_variables['dcdfreq']
-		except:
-			dcdfreq = nsteps
-
 		#head, psffile = os.path.split(temp_psffile[0])
 
 		keepout_list_box = json_variables['keepout_list_box']
@@ -269,9 +264,13 @@ class Structure_minimization_Drv():
                             for i in xrange(locale.atoi(number_of_parameter_files)):   
                                 parmfile += ',' + (str(json_variables['parmfile'][i][0]))
                             parmfile = parmfile[1:]
+			
+			dcdfreq = json_variables['dcdfreq']
+
 		else:
 			#topfile = '/share/apps/local/bin/toppar/top_all27_prot_na.inp'
 			parmfile = '/share/apps/local/bin/toppar/par_all27_prot_na.inp'
+			dcdfreq = nsteps
 
 		path = ''
 
