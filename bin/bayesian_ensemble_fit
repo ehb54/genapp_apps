@@ -13,7 +13,6 @@ import time
 import string
 import socket
 
-# import sassie.analyze.chi_square_filter as chi_square_filter
 import sassie.interface.input_filter as input_filter
 import sassie.analyze.bayesian_ensemble_fit.bayesian_ensemble_fit as bayesian_ensemble_fit
 
@@ -100,124 +99,133 @@ class Bayesian_Ensemble_Fit_Drv():
 
     def run_me(self, json_flag, json_variables, input_string):
 
-	output_dict = {}
+        output_dict = {}
 
-	folder_flag = True
+        folder_flag = True
 
-	if not json_flag:
+        if not json_flag:
 
-		# BEGIN USER EDIT
-		# BEGIN USER EDIT
-		# BEGIN USER EDIT
+                # BEGIN USER EDIT
+                # BEGIN USER EDIT
+                # BEGIN USER EDIT
 
-		runname = 'run_0'
-		sas_data = 'input_and_testing_files/saxs.dat'
-		theoretical_profiles_zip = 'input_and_testing_files/TheoryFiles.zip'
-		# Larger values = looser selection.  I.e., very large     = random
-            	# walk, very small = gradient minimization
-		acceptance_tuner = '0.1'
-		# Number of iterations per walker to remove from beginning
-		# (lose initial conformation information
-		posterior_burn = '0'
-		max_iterations = '10'  # Maximum number of MC steps per walker
-		number_of_MCs = '3'
-		nproc = '7'  # Number of processors to run on
-		d_max = '88.89'  # If d_max is non-zero, do Shannon sampling, otherwise do full     space chi2
-		# Advanced Input
-		# Do the entire set, do not conduct iterative search     for
-		# AIC-identified subset
-		use_all_members = 'False'
-		calc_relative_likelihoods = 'True'
-		second_dimension_data = ''
-		use_bic = 'False'
-		ic_tolerance = '0.0'
+            runname = 'run_0'
+            sas_data = 'input_and_testing_files/saxs.dat'
+            d_max = '83.6'
+            theoretical_profiles_zip = 'input_and_testing_files/TheoryFiles.zip'
+            max_iterations = '10'
+            posterior_burn = '0'
+            number_of_MCs = '3'
+            nproc = 4
 
-		path = './'
+            # Advanced Input
+            auxiliary_data = ''
+            use_all = 'False'
+            every = 'False'
+            use_bic = 'True'
+            walk_one = 'False'
+            sigma = '0.10'
+            zeroing_threshold = '0.00'
 
-		data_path = path
-		# END USER EDIT
-		# END USER EDIT
-		# END USER EDIT
-	else:
-		runname = json_variables['runname']
+            path = './'
 
-		base_directory = json_variables['_base_directory']
+            data_path = path
+            # END USER EDIT
+            # END USER EDIT
+            # END USER EDIT
+        else:
+            runname = json_variables['runname']
 
-		path = base_directory.replace('\/', '/') + "/"
+            base_directory = json_variables['_base_directory']
 
-		os.chdir(path)
+            path = base_directory.replace('\/', '/') + "/"
 
-		sas_data = json_variables['sas_data'][0]
-		theoretical_profiles_zip = json_variables[
-                	'theoretical_profiles_zip'][0]
+            os.chdir(path)
 
-		acceptance_tuner = json_variables['acceptance_tuner']
-            	# Number of iterations per walker to remove from beginning
-            	# (lose initial conformation information
-		posterior_burn = json_variables['posterior_burn']
-		max_iterations = json_variables['max_iterations']
-		number_of_MCs = json_variables['number_of_MCs']
-		nproc = json_variables['nproc']
-		d_max = json_variables['d_max']
+            sas_data = json_variables['sas_data'][0]
+            theoretical_profiles_zip = json_variables[
+                'theoretical_profiles_zip'][0]
 
-		advanced_input = 'off'
-		use_all_members = 'False'
-		calc_relative_likelihoods = 'True'
-		use_second_dimension_data_check_box = "off"
-		second_dimension_data = ''
-		use_bic = 'False'
-           	ic_tolerance = '0.0'
+            posterior_burn = json_variables['posterior_burn']
+            max_iterations = json_variables['max_iterations']
+            number_of_MCs = json_variables['number_of_MCs']
+            nproc = json_variables['nproc']
+            d_max = json_variables['d_max']
 
-		use_all_members_check_box = "off"
-		calc_relative_likelihoods_check_box = "off"
-		use_bic_check_box = "off"
+            advanced_input = 'off'
+            use_all = 'False'
+            every = 'False'
+            use_bic = 'False'
+            walk_one = 'False'
+            sigma = '0.10'
+            auxiliary_data = ''
+            zeroing_threshold = '0.00'
+            use_auxiliary_data_checkbox = "off"
+            use_bic_checkbox = 'off'
+            every_checkbox = 'off'
+            use_all_checkbox = 'off'
+            walk_one_checkbox = 'off'
 
-            	try:
-            		advanced_input = json_variables['advanced_input']
-            	except:
-			pass
+            try:
+                advanced_input = json_variables['advanced_input']
+            except:
+                pass
 
-            	if(advanced_input == "on"):
+            if(advanced_input == "on"):
 
-			try:
-                		use_all_members_check_box = json_variables['use_all_members_check_box']
-			except:
-				use_all_members_check_box = "off"
+                try:
+                    use_auxiliary_data_checkbox = json_variables[
+                        'use_auxiliary_data_checkbox']
+                    auxiliary_data = json_variables['auxiliary_data']
+                except:
+                    use_auxiliary_data_checkbox = "off"
+                    auxiliary_data = ''
 
-			try:
-	                	calc_relative_likelihoods_check_box = json_variables['calc_relative_likelihoods_check_box']
-			except:
-				calc_relative_likelihoods_check_box = "off"
+                try:
+                    use_bic_checkbox = json_variables['use_bic_checkbox']
+                except:
+                    use_bic_checkbox = "off"
 
-			try:
-	                 	use_second_dimension_data = json_variables['use_second_dimension_data']
-	                 	second_dimension_data = json_variables['second_dimension_data'][0]
-			except:
-				second_dimension_data = ''
+                try:
+                    every_checkbox = json_variables['every_checkbox']
+                except:
+                    every_checkbox = 'off'
 
-			try:
-	                	use_bic_check_box = json_variables['use_bic_check_box']
-			except:
-				use_bic_check_box = "off"
-			try:
-	                	ic_tolerance = json_variables['ic_tolerance']
-			except:
-				ic_tolerance = "0.0"
+                try:
+                    use_all_checkbox = json_variables['use_all_checkbox']
+                except:
+                    use_all_checkbox = 'off'
 
-		if use_all_members_check_box == "on":
-			use_all_members = 'True'
-		if calc_relative_likelihoods_check_box == "on":
-			calc_relative_likelihoods = 'True'
-		if use_bic_check_box == "on":
-			use_bic = 'True'
+                try:
+                    walk_one_checkbox = json_variables['walk_one_checkbox']
+                except:
+                    walk_one_checkbox = 'off'
 
-	path = ''
+                try:
+                    sigma = json_variables['sigma']
+                except:
+                    sigma = '0.10'
 
+                try:
+                    zeroing_threshold = json_variables['zeroing_threshold']
+                except:
+                    zeroing_threshold = '0.00'
 
-	# io = json_variables['io']
-	io = "1.0" # hardwired for now
+            if use_all_checkbox == "on":
+                use_all = 'True'
+            if use_bic_checkbox == "on":
+                use_bic = 'True'
+            if every_checkbox == "on":
+                every = 'True'
+            if walk_one_checkbox == 'on':
+                walk_one = 'True'
 
-	path = ''
+        path = ''
+
+        # io = json_variables['io']
+        io = "1.0"  # hardwired for now
+
+        path = ''
 
         svariables = {}
 
@@ -228,18 +236,19 @@ class Bayesian_Ensemble_Fit_Drv():
         svariables['sas_data'] = (sas_data, 'string')
         svariables['theoretical_profiles_zip'] = (
             theoretical_profiles_zip, 'string')
-        svariables['acceptance_tuner'] = (acceptance_tuner, 'float')
         svariables['posterior_burn'] = (posterior_burn, 'int')
         svariables['max_iterations'] = (max_iterations, 'int')
         svariables['number_of_MCs'] = (number_of_MCs, 'int')
-        svariables['nproc'] = (nproc, 'int')
+        svariables['nproc'] = (str(nproc), 'int')
         svariables['d_max'] = (d_max, 'float')
-        svariables['second_dimension_data'] = (second_dimension_data, 'string')
-        svariables['use_all_members'] = (use_all_members, 'boolean')
-        svariables['calc_relative_likelihoods'] = (
-            calc_relative_likelihoods, 'boolean')
-        svariables['ic_tolerance'] = (ic_tolerance, 'float')
+
+        svariables['auxiliary_data'] = (auxiliary_data, 'string')
+        svariables['use_all'] = (use_all, 'boolean')
         svariables['use_bic'] = (use_bic, 'boolean')
+        svariables['every'] = (every, 'boolean')
+        svariables['walk_one'] = (walk_one, 'boolean')
+        svariables['sigma'] = (sigma, 'float')
+        svariables['zeroing_threshold'] = (zeroing_threshold, 'float')
 
 #        print 'svariables: ',svariables
         error, self.variables = input_filter.type_check_and_convert(svariables)
@@ -301,13 +310,45 @@ class Bayesian_Ensemble_Fit_Drv():
             if not json_flag:
                 time.sleep(1.0)
 
-        if output_dict:
-            print json.dumps(output_dict)
+        #if output_dict:
+        #    print json.dumps(output_dict)
+        #else:
+        #    error_string = 'Exception encountered executing ' + self.module + \
+        #        ' program: please submit feedback and attach run log'
+        #    output_dict['error'] = error_string
+        #    print json.dumps(output_dict)
+
+
+
+        if total_string:
+                output_dict['_empty_return'] = 1
+                print json.dumps( total_string )
         else:
-            error_string = 'Exception encountered executing ' + self.module + \
-                ' program: please submit feedback and attach run log'
-            output_dict['error'] = error_string
-            print json.dumps(output_dict)
+                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+                output_dict['error'] = error_string
+                print json.dumps( output_dict )
+
+
+        #if total_string:
+        #        output_dict['_empty_return'] = 1
+        #        print json.dumps( output_dict )
+        #        #print json.dumps( total_string )
+        #else:
+        #        error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
+        #        output_dict['error'] = error_string
+        #        print json.dumps( output_dict )
+
+	#"./{run_name}/bayesian_ensemble_fit/{run_name}_plots.html
+
+        html_base_name = runname + '_plots.html'
+
+        html_file = os.path.join(runname,self.module,html_base_name)
+
+        try:
+                output_dict['report_html'] = open(html_file).readlines()
+        except:
+                html_error = 'unable to read HTML report from '+html_file
+                output_dict['report_html'] = html_error
 
 
 if __name__ == '__main__':
