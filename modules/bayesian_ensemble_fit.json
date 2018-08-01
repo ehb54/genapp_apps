@@ -201,14 +201,14 @@
                     "name"      :   "progress_html",
                     "label"     :   "percent done: ",
                     "type"      :   "html"
-                },
-                   {
-                     "role"    : "output",
-                     "id"      : "report_html",
-                     "name"    : "report_html",
-                     "label"   : "report : ",
-                     "type"    : "html"
-                    }
+                }
+		#},
+                 #  {
+                 #    "role"    : "output",
+                 #    "id"      : "bokeh_plots",
+                 #    "label"    : " ",
+                 #    "type"    : "bokeh"
+                 #   }
                 ],
     "executable"    :   "bayesian_ensemble_fit"
 }

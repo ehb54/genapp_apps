@@ -45,57 +45,69 @@ class Bayesian_Ensemble_Fit_Drv():
 
     def background_job(self, process, txtQueue, json_variables):
 
-        total_string = ''
+	total_string = ''
 
-        UDP_IP = json_variables['_udphost']
-        UDP_PORT = json_variables['_udpport']
-        sock = socket.socket(socket.AF_INET,  # Internet
+	UDP_IP = json_variables['_udphost']
+	UDP_PORT = json_variables['_udpport']
+	sock = socket.socket(socket.AF_INET,  # Internet
                              socket.SOCK_DGRAM)  # UDP
 
-        socket_dict = {}
-        socket_dict['_uuid'] = json_variables['_uuid']
-        first = True
+	socket_dict = {}
+	socket_dict['_uuid'] = json_variables['_uuid']
+	first = True
+	file_status = False
+	runname = json_variables['runname']
 
-        while process.is_alive():
-            try:
-                if(first):
-                    socket_dict['progress_html'] = 0.01
-                    socket_dict['_progress'] = 0.01
-                    socket_dict[
-                        'progress_html'] = '<center>starting job</center>'
-                    doc_string = json.dumps(socket_dict)
-                    sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-                    first = False
-                this_text = txtQueue.get(True, timeout=0.1)
-                text_split = string.split(this_text)
-                if(text_split[0] == 'STATUS'):
-                    value = locale.atof(text_split[1])
-                    svalue = str(round(100 * value, 2))
-                    socket_dict['progress_output'] = value
-                    socket_dict['_progress'] = value
-                    socket_dict[
-                        'progress_html'] = '<center>' + svalue + '</center>'
-                    if "_textarea" in socket_dict:
-                        del socket_dict["_textarea"]
-                    if socket_dict:
-                        doc_string = json.dumps(socket_dict)
-                        sock.sendto(
-                            doc_string, (UDP_IP, UDP_PORT))
-                else:
-                    socket_dict["_textarea"] = this_text
-                    if socket_dict:
-                        doc_string = json.dumps(socket_dict)
-                        sock.sendto(
-                            doc_string, (UDP_IP, UDP_PORT))
-                    total_string += this_text
-            except:
-                if not process.is_alive():
+	status_data_file_name = os.join(self.runname, self.module, '_status.txt')
 
-                    return total_string
+	while process.is_alive():
+		try:
+			if(first):
+				socket_dict['progress_html'] = 0.01
+				socket_dict['_progress'] = 0.01
+				socket_dict['progress_html'] = '<center>starting job</center>'
+				doc_string = json.dumps(socket_dict)
+				sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+				first = False
+	
+			try:
+				status_data_file = open(status_data_file_name).readlines()
+				if status_data_file:
+					text_split = string.split(this_text)
+					file_status = True
+			except:
+				file_status = False
 
-            time.sleep(0.01)
-        else:
-            return total_string
+			if not file_status:
+	                	this_text = txtQueue.get(True, timeout=0.1)
+       	        		text_split = string.split(this_text)
+
+			if(text_split[0] == 'STATUS'):
+				value = locale.atof(text_split[1])
+				svalue = str(round(100 * value, 2))
+				socket_dict['progress_output'] = value
+				socket_dict['_progress'] = value
+				socket_dict['progress_html'] = '<center>' + svalue + '</center>'
+
+				if "_textarea" in socket_dict:
+					del socket_dict["_textarea"]
+
+				if socket_dict:
+					doc_string = json.dumps(socket_dict)
+					sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+				else:
+					socket_dict["_textarea"] = this_text
+					if socket_dict:
+						doc_string = json.dumps(socket_dict)
+					sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+					total_string += this_text
+		except:
+			if not process.is_alive():
+
+				return total_string
+				time.sleep(0.01)
+			else:
+				return total_string
 
     def run_me(self, json_flag, json_variables, input_string):
 
