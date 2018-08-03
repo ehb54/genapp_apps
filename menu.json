@@ -186,8 +186,8 @@
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          {
-                          "id"    : "bayesian_ensemble_fit",
-                          "label" : "Bayesian Ensemble Fit",
+                          "id"    : "bayesian_ensemble_estimator",
+                          "label" : "Bayesian Ensemble Estimator",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          { 

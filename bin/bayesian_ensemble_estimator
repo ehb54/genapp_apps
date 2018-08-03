@@ -14,14 +14,14 @@ import string
 import socket
 
 import sassie.interface.input_filter as input_filter
-import sassie.analyze.bayesian_ensemble_fit.bayesian_ensemble_fit as bayesian_ensemble_fit
+import sassie.analyze.bayesian_ensemble_estimator.bayesian_ensemble_estimator as bayesian_ensemble_estimator
 
 from mpi4py import MPI
 
 
 class Bayesian_Ensemble_Fit_Drv():
 
-    module = 'bayesian_ensemble_fit'
+    module = 'bayesian_ensemble_estimator'
 
     def message_box(self, text, icon):
 
@@ -45,69 +45,85 @@ class Bayesian_Ensemble_Fit_Drv():
 
     def background_job(self, process, txtQueue, json_variables):
 
-	total_string = ''
+        total_string = ''
 
-	UDP_IP = json_variables['_udphost']
-	UDP_PORT = json_variables['_udpport']
-	sock = socket.socket(socket.AF_INET,  # Internet
+        UDP_IP = json_variables['_udphost']
+        UDP_PORT = json_variables['_udpport']
+        sock = socket.socket(socket.AF_INET,  # Internet
                              socket.SOCK_DGRAM)  # UDP
 
-	socket_dict = {}
-	socket_dict['_uuid'] = json_variables['_uuid']
-	first = True
-	file_status = False
-	runname = json_variables['runname']
+        socket_dict = {}
+        socket_dict['_uuid'] = json_variables['_uuid']
+        first = True
+        file_status = False
+        runname = json_variables['runname']
+	base_directory = json_variables['_base_directory']
+        status_data_file_name = os.path.join(
+            base_directory, runname, self.module, '._status.txt')
 
-	status_data_file_name = os.join(self.runname, self.module, '_status.txt')
+        while process.is_alive():
+            file_status = False
+            #try:
+            text_split = [False]
+            if True:
+                if(first):
+                    socket_dict['progress_html'] = 0.01
+                    socket_dict['_progress'] = 0.01
+                    socket_dict['progress_html'] = '<center>starting job</center>'
+                    doc_string = json.dumps(socket_dict)
+                    sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    first = False
 
-	while process.is_alive():
+                try:
+                    status_data_file = open(status_data_file_name,'r').readlines()
+                    if status_data_file:
+                        text_split = string.split(status_data_file[0])
+                        file_status = True
+                    else: 
+                        text_split = [False]
+                        file_status = False
+                except:
+		    #print 'tried to open ' + status_data_file_name
+                    text_split = [False]
+                    file_status = False
+
 		try:
-			if(first):
-				socket_dict['progress_html'] = 0.01
-				socket_dict['_progress'] = 0.01
-				socket_dict['progress_html'] = '<center>starting job</center>'
-				doc_string = json.dumps(socket_dict)
-				sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-				first = False
-	
-			try:
-				status_data_file = open(status_data_file_name).readlines()
-				if status_data_file:
-					text_split = string.split(this_text)
-					file_status = True
-			except:
-				file_status = False
-
-			if not file_status:
-	                	this_text = txtQueue.get(True, timeout=0.1)
-       	        		text_split = string.split(this_text)
-
-			if(text_split[0] == 'STATUS'):
-				value = locale.atof(text_split[1])
-				svalue = str(round(100 * value, 2))
-				socket_dict['progress_output'] = value
-				socket_dict['_progress'] = value
-				socket_dict['progress_html'] = '<center>' + svalue + '</center>'
-
-				if "_textarea" in socket_dict:
-					del socket_dict["_textarea"]
-
-				if socket_dict:
-					doc_string = json.dumps(socket_dict)
-					sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-				else:
-					socket_dict["_textarea"] = this_text
-					if socket_dict:
-						doc_string = json.dumps(socket_dict)
-					sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-					total_string += this_text
+                    if not file_status:
+                    	this_text = txtQueue.get(True, timeout=0.1)
+                    	text_split = string.split(this_text)
 		except:
-			if not process.is_alive():
+                    text_split = [False]
+		  
+		#print 'text_split = ', text_split	
 
-				return total_string
-				time.sleep(0.01)
-			else:
-				return total_string
+                if(text_split and text_split[0] == 'STATUS'):
+                    value = locale.atof(text_split[1])
+                    svalue = str(round(100 * value, 2))
+                    socket_dict['progress_output'] = value
+                    socket_dict['_progress'] = value
+                    socket_dict['progress_html'] = '<center>' + \
+                        svalue + '</center>'
+
+                    if "_textarea" in socket_dict:
+                        del socket_dict["_textarea"]
+
+                    if socket_dict:
+                        doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                    else:
+                        socket_dict["_textarea"] = this_text
+                        if socket_dict:
+                            doc_string = json.dumps(socket_dict)
+                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                        total_string += this_text
+            #except:
+            else:
+                if not process.is_alive():
+
+                    return total_string
+                    time.sleep(0.01)
+                else:
+                    return total_string
 
     def run_me(self, json_flag, json_variables, input_string):
 
@@ -117,9 +133,9 @@ class Bayesian_Ensemble_Fit_Drv():
 
         if not json_flag:
 
-                # BEGIN USER EDIT
-                # BEGIN USER EDIT
-                # BEGIN USER EDIT
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
+            # BEGIN USER EDIT
 
             runname = 'run_0'
             sas_data = 'input_and_testing_files/saxs.dat'
@@ -134,6 +150,7 @@ class Bayesian_Ensemble_Fit_Drv():
             auxiliary_data = ''
             use_all = 'False'
             every = 'False'
+            shansamp = 'True'
             use_bic = 'True'
             walk_one = 'False'
             sigma = '0.10'
@@ -167,13 +184,15 @@ class Bayesian_Ensemble_Fit_Drv():
             advanced_input = 'off'
             use_all = 'False'
             every = 'False'
-            use_bic = 'False'
+            shansamp = 'True'
+            use_bic = 'True'
             walk_one = 'False'
             sigma = '0.10'
             auxiliary_data = ''
             zeroing_threshold = '0.00'
             use_auxiliary_data_checkbox = "off"
-            use_bic_checkbox = 'off'
+            use_shansamp_checkbox = 'on'
+            use_bic_checkbox = 'on'
             every_checkbox = 'off'
             use_all_checkbox = 'off'
             walk_one_checkbox = 'off'
@@ -192,6 +211,12 @@ class Bayesian_Ensemble_Fit_Drv():
                 except:
                     use_auxiliary_data_checkbox = "off"
                     auxiliary_data = ''
+
+                try:
+                    use_shansamp_checkbox = json_variables[
+                        'use_shansamp_checkbox']
+                except:
+                    use_shansamp_checkbox = "off"
 
                 try:
                     use_bic_checkbox = json_variables['use_bic_checkbox']
@@ -225,12 +250,14 @@ class Bayesian_Ensemble_Fit_Drv():
 
             if use_all_checkbox == "on":
                 use_all = 'True'
-            if use_bic_checkbox == "on":
-                use_bic = 'True'
+            if use_bic_checkbox == "off":
+                use_bic = 'False'
             if every_checkbox == "on":
                 every = 'True'
-            if walk_one_checkbox == 'on':
+            if walk_one_checkbox == "on":
                 walk_one = 'True'
+            if use_shansamp_checkbox == "off":
+                shansamp = 'False'
 
         path = ''
 
@@ -258,6 +285,7 @@ class Bayesian_Ensemble_Fit_Drv():
         svariables['use_all'] = (use_all, 'boolean')
         svariables['use_bic'] = (use_bic, 'boolean')
         svariables['every'] = (every, 'boolean')
+        svariables['shansamp'] = (shansamp, 'boolean')
         svariables['walk_one'] = (walk_one, 'boolean')
         svariables['sigma'] = (sigma, 'float')
         svariables['zeroing_threshold'] = (zeroing_threshold, 'float')
@@ -298,11 +326,13 @@ class Bayesian_Ensemble_Fit_Drv():
                 shutil.rmtree(runname + '/' + self.module)
 
             txtQueue = multiprocessing.JoinableQueue()
+            plotQueue = multiprocessing.JoinableQueue()
 
-            reweighting = bayesian_ensemble_fit.ensemble_routine()
+            reweighting = bayesian_ensemble_estimator.ensemble_routine()
 
             process = multiprocessing.Process(
-                target=reweighting.main, args=(self.variables, txtQueue))
+                target=reweighting.main, args=(self.variables, txtQueue,
+                                               plotQueue))
             process.start()
 
             if json_flag:
@@ -322,45 +352,43 @@ class Bayesian_Ensemble_Fit_Drv():
             if not json_flag:
                 time.sleep(1.0)
 
-        #if output_dict:
+        # if output_dict:
         #    print json.dumps(output_dict)
-        #else:
+        # else:
         #    error_string = 'Exception encountered executing ' + self.module + \
         #        ' program: please submit feedback and attach run log'
         #    output_dict['error'] = error_string
         #    print json.dumps(output_dict)
 
-
-
         if total_string:
-                output_dict['_empty_return'] = 1
-                print json.dumps( total_string )
+            output_dict['_empty_return'] = 1
+            print json.dumps(total_string)
         else:
-                error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
-                output_dict['error'] = error_string
-                print json.dumps( output_dict )
+            error_string = 'Exception encountered executing '+self.module + \
+                ' program: please submit feedback and attach run log'
+            output_dict['error'] = error_string
+            print json.dumps(output_dict)
 
-
-        #if total_string:
+        # if total_string:
         #        output_dict['_empty_return'] = 1
         #        print json.dumps( output_dict )
         #        #print json.dumps( total_string )
-        #else:
+        # else:
         #        error_string = 'Exception encountered executing '+self.module+' program: please submit feedback and attach run log'
         #        output_dict['error'] = error_string
         #        print json.dumps( output_dict )
 
-	#"./{run_name}/bayesian_ensemble_fit/{run_name}_plots.html
+        #"./{run_name}/bayesian_ensemble_estimator/{run_name}_plots.html
 
         html_base_name = runname + '_plots.html'
 
-        html_file = os.path.join(runname,self.module,html_base_name)
+        html_file = os.path.join(runname, self.module, html_base_name)
 
         try:
-                output_dict['report_html'] = open(html_file).readlines()
+            output_dict['report_html'] = open(html_file).readlines()
         except:
-                html_error = 'unable to read HTML report from '+html_file
-                output_dict['report_html'] = html_error
+            html_error = 'unable to read HTML report from '+html_file
+            output_dict['report_html'] = html_error
 
 
 if __name__ == '__main__':
