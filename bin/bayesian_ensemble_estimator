@@ -45,85 +45,73 @@ class Bayesian_Ensemble_Fit_Drv():
 
     def background_job(self, process, txtQueue, json_variables):
 
-        total_string = ''
+	total_string = ''
 
-        UDP_IP = json_variables['_udphost']
-        UDP_PORT = json_variables['_udpport']
-        sock = socket.socket(socket.AF_INET,  # Internet
-                             socket.SOCK_DGRAM)  # UDP
+	UDP_IP = json_variables['_udphost']
+	UDP_PORT = json_variables['_udpport']
+	sock = socket.socket(socket.AF_INET,  # Internet
+			socket.SOCK_DGRAM)  # UDP
 
-        socket_dict = {}
-        socket_dict['_uuid'] = json_variables['_uuid']
-        first = True
-        file_status = False
-        runname = json_variables['runname']
+	socket_dict = {}
+	socket_dict['_uuid'] = json_variables['_uuid']
+	first = True
+
+	runname = json_variables['runname']
 	base_directory = json_variables['_base_directory']
-        status_data_file_name = os.path.join(
-            base_directory, runname, self.module, '._status.txt')
+	status_data_file_name = os.path.join(
+		base_directory, runname, self.module, '._status.txt')
 
-        while process.is_alive():
-            file_status = False
-            #try:
-            text_split = [False]
-            if True:
-                if(first):
-                    socket_dict['progress_html'] = 0.01
-                    socket_dict['_progress'] = 0.01
-                    socket_dict['progress_html'] = '<center>starting job</center>'
-                    doc_string = json.dumps(socket_dict)
-                    sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-                    first = False
-
-                try:
-                    status_data_file = open(status_data_file_name,'r').readlines()
-                    if status_data_file:
-                        text_split = string.split(status_data_file[0])
-                        file_status = True
-                    else: 
-                        text_split = [False]
-                        file_status = False
-                except:
-		    #print 'tried to open ' + status_data_file_name
-                    text_split = [False]
-                    file_status = False
-
+	while process.is_alive():
 		try:
-                    if not file_status:
-                    	this_text = txtQueue.get(True, timeout=0.1)
-                    	text_split = string.split(this_text)
+        
+			if(first):
+                    		socket_dict['progress_html'] = 0.01
+				socket_dict['_progress'] = 0.01
+				socket_dict['progress_html'] = '<center>starting job</center>'
+				doc_string = json.dumps(socket_dict)
+				sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+				first = False
+
+			try:
+				status_data_file = open(status_data_file_name,'r').readlines()
+				if status_data_file:
+					text_split = string.split(status_data_file[0])
+				else: 
+                        		text_split = [False]
+					his_text = ''
+			except:
+				this_text = txtQueue.get(True, timeout=0.1)
+				text_split = string.split(this_text)
+
+			if(text_split and text_split[0] == 'STATUS'):
+		    		#print '### STATUS = ' + text_split[1]
+                    		value = locale.atof(text_split[1])
+                    		svalue = str(round(100 * value, 2))
+                    		socket_dict['progress_output'] = value
+                    		socket_dict['_progress'] = value
+                    		socket_dict['progress_html'] = '<center>' + \
+                        		svalue + '</center>'
+
+				if "_textarea" in socket_dict:
+	                        	del socket_dict["_textarea"]
+
+				if socket_dict:
+					doc_string = json.dumps(socket_dict)
+                        		sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+			else:
+				socket_dict["_textarea"] = this_text
+				if socket_dict:
+					doc_string = json.dumps(socket_dict)
+					sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                        	total_string += this_text
 		except:
-                    text_split = [False]
-		  
-		#print 'text_split = ', text_split	
+			if not process.is_alive():
+				time.sleep(0.01)
+				return total_string
+			else:
+				return total_string
 
-                if(text_split and text_split[0] == 'STATUS'):
-                    value = locale.atof(text_split[1])
-                    svalue = str(round(100 * value, 2))
-                    socket_dict['progress_output'] = value
-                    socket_dict['_progress'] = value
-                    socket_dict['progress_html'] = '<center>' + \
-                        svalue + '</center>'
-
-                    if "_textarea" in socket_dict:
-                        del socket_dict["_textarea"]
-
-                    if socket_dict:
-                        doc_string = json.dumps(socket_dict)
-                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-                    else:
-                        socket_dict["_textarea"] = this_text
-                        if socket_dict:
-                            doc_string = json.dumps(socket_dict)
-                        sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-                        total_string += this_text
-            #except:
-            else:
-                if not process.is_alive():
-
-                    return total_string
-                    time.sleep(0.01)
-                else:
-                    return total_string
+	return total_string
 
     def run_me(self, json_flag, json_variables, input_string):
 
