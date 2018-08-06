@@ -61,10 +61,14 @@ class Bayesian_Ensemble_Fit_Drv():
 	status_data_file_name = os.path.join(
 		base_directory, runname, self.module, '._status.txt')
 
+	alive = True
 	while process.is_alive():
 		#try:
-		if True:
+		if alive:
         
+			if not process.is_alive():
+				alive = False
+
 			if(first):
                     		socket_dict['progress_html'] = 0.01
 				socket_dict['_progress'] = 0.01
@@ -73,39 +77,48 @@ class Bayesian_Ensemble_Fit_Drv():
 				sock.sendto(doc_string, (UDP_IP, UDP_PORT))
 				first = False
 
+
 			try:
-				status_data_file = open(status_data_file_name,'r').readlines()
-				if status_data_file:
-					text_split = string.split(status_data_file[0])
-				else: 
-                        		text_split = [False]
-	#				this_text = ''
+			#if True:
+
+#				try:
+#					status_data_file = open(status_data_file_name,'r').readlines()
+#					if status_data_file:
+#						text_split = string.split(status_data_file[0])
+
+#				except:
+				try:
+					this_text = txtQueue.get(True, timeout=0.1)
+					text_split = string.split(this_text)
+				except:
+					this_text = ''
+
+				if(text_split[0] == 'STATUS'):
+		    			#print '### STATUS = ' + text_split[1]
+                    			value = locale.atof(text_split[1])
+                    			svalue = str(round(100 * value, 2))
+                    			socket_dict['progress_output'] = value
+                    			socket_dict['_progress'] = value
+                    			socket_dict['progress_html'] = '<center>' + \
+                        			svalue + '</center>'
+	
+					if "_textarea" in socket_dict:
+	                        		del socket_dict["_textarea"]
+	
+					if socket_dict:
+						doc_string = json.dumps(socket_dict)
+                        			sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+				else:
+					socket_dict["_textarea"] = this_text
+					if socket_dict:
+						doc_string = json.dumps(socket_dict)
+						sock.sendto(doc_string, (UDP_IP, UDP_PORT))
+                        		total_string += this_text
 			except:
-				this_text = txtQueue.get(True, timeout=0.1)
-				text_split = string.split(this_text)
-
-			if(text_split and text_split[0] == 'STATUS'):
-		    		#print '### STATUS = ' + text_split[1]
-                    		value = locale.atof(text_split[1])
-                    		svalue = str(round(100 * value, 2))
-                    		socket_dict['progress_output'] = value
-                    		socket_dict['_progress'] = value
-                    		socket_dict['progress_html'] = '<center>' + \
-                        		svalue + '</center>'
-
-				if "_textarea" in socket_dict:
-	                        	del socket_dict["_textarea"]
-
-				if socket_dict:
-					doc_string = json.dumps(socket_dict)
-                        		sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-			else:
-				socket_dict["_textarea"] = this_text
-				if socket_dict:
-					doc_string = json.dumps(socket_dict)
-					sock.sendto(doc_string, (UDP_IP, UDP_PORT))
-                        	total_string += this_text
+			#else:
 		#except:
+				time.sleep(0.01)
+
 		else:
 			if not process.is_alive():
 				time.sleep(0.01)
@@ -338,24 +351,27 @@ class Bayesian_Ensemble_Fit_Drv():
                     process, txtQueue, json_variables)
 
 
-        if total_string:
+        #if total_string:
+        if True:
             output_dict['_empty_return'] = 1
             print json.dumps(total_string)
+            print json.dumps(output_dict)
+	
         else:
             error_string = 'Exception encountered executing '+self.module + \
                 ' program: please submit feedback and attach run log'
             output_dict['error'] = error_string
             print json.dumps(output_dict)
 
-        html_base_name = runname + '_plots.html'
+        #html_base_name = runname + '_plots.html'
 
-        html_file = os.path.join(runname, self.module, html_base_name)
+        #html_file = os.path.join(runname, self.module, html_base_name)
 
-        try:
-            output_dict['report_html'] = open(html_file).readlines()
-        except:
-            html_error = 'unable to read HTML report from '+html_file
-            output_dict['report_html'] = html_error
+        #try:
+        #    output_dict['report_html'] = open(html_file).readlines()
+        #except:
+        #    html_error = 'unable to read HTML report from '+html_file
+        #    output_dict['report_html'] = html_error
 
 
 if __name__ == '__main__':
