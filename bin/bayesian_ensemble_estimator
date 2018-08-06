@@ -81,12 +81,14 @@ class Bayesian_Ensemble_Fit_Drv():
 			try:
 			#if True:
 
-#				try:
-#					status_data_file = open(status_data_file_name,'r').readlines()
-#					if status_data_file:
-#						text_split = string.split(status_data_file[0])
+				try:
+					status_data_file = open(status_data_file_name,'r').readlines()
+					if status_data_file:
+						text_split = string.split(status_data_file[0])
 
-#				except:
+				except:
+					status_data_file = False
+
 				try:
 					this_text = txtQueue.get(True, timeout=0.1)
 					text_split = string.split(this_text)
