@@ -1,7 +1,7 @@
 {
     "moduleid"     : "somoapi_mpi"
     ,"label"        : "somo api module"
-    ,"executable"   : "us_somo"
+    ,"executable"   : "us_somo_mpi"
     ,"submitpolicy" : "all"
     ,"fields"   : [
         {
