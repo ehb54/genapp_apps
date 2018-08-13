@@ -1,0 +1,17 @@
+# this is a project menu file
+{
+# "header" : "US-SOMO",
+    "menu" : [
+        { 
+            "id"      : "somoapi_functions",
+            "label"   : "somoapi functions ",
+            "icon"    : "pngs/noicon.png",
+            "modules" : [ 
+                { 
+                    "id"    : "somoapi_mpi",
+                    "label" : "somoapi_mpi"
+                }
+            ]
+        }
+    ]
+}

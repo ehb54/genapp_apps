@@ -1,0 +1,16 @@
+{
+    "moduleid"     : "somoapi_mpi"
+    ,"label"        : "somo api module"
+    ,"executable"   : "us_somo"
+    ,"submitpolicy" : "all"
+    ,"fields"   : [
+        {
+            "role"     : "input"
+            ,"id"       : "file"
+            ,"label"    : "Input control file"
+            ,"type"     : "file"
+            ,"required" : "true"
+	    ,"help"     : "control file for somo runs"
+        }
+    ]
+}
