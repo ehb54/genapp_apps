@@ -6,7 +6,7 @@
     ,"fields"   : [
         {
             "role"     : "input"
-            ,"id"       : "file"
+            ,"id"       : "cfile"
             ,"label"    : "Input control file"
             ,"type"     : "file"
             ,"required" : "true"
