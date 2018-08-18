@@ -60,22 +60,30 @@
         }
 
         ,{ 
-            "id"      : "rotdif",
+            "id"      : "rotdif_menu",
             "label"   : "Run ROTDIF",
             "icon"    : "pngs/simulate.png",
             #"help"    : "help text",
-	    "autorun" : "rotdif_local",
+	    #"autorun" : "rotdif_all",
             "modules" : [ 
                          { 
-                          "id"    : "rotdif_local",
-                          "label" : "Param_m",
-			  "nobutton" : "true"
-                         }
+                          "id"    : "rotdif_all",
+                          "label" : "ROTDIF & Dynamics Analysis",
+			  "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                          {
+                          "id"    : "elm",
+                          "label" : "Diffusion Tensor Prediction",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          },
+                         {   
+                          "id"    : "elmdock",
+                          "label" : "Diffusion Tensor-Guided Docking",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                          }                          
                         ]
             }
-
-
-           ,{ 
+        ,{ 
             "id"         : "admin",
             "restricted" : "admin",
             "label"      : "Admin",
@@ -114,6 +122,5 @@
 			    }
                           ]
 	  }
-     
-    ]
+]
 }
