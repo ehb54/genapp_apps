@@ -129,6 +129,7 @@ my $binbase = dirname(__FILE__);
 
 $cmd = 
     "rm -f $$req{'_log_directory'}/_jstdout_$$req{'_uuid'} $$req{'_log_directory'}/_jstderr_$$req{'_uuid'} 2>/dev/null;"
+    . "export ULTRASCAN=$binbase/..;"
     . "mpirun"
     . " -mca btl ^openib"
     . " -np $$req{'numproc'}"
