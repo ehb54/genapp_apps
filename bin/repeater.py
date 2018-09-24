@@ -6,13 +6,25 @@ if __name__=='__main__':
 	argv_io_string = StringIO.StringIO(sys.argv[1])
 	json_variables = json.load(argv_io_string)
 
-	mass = float(json_variables['m'])
- 	speed_of_light = float(json_variables['c'])
-
-	import mass_energy
-	
 	output = {} 
-	output['e'] = mass_energy.einstein(mass,speed_of_light)
+
+        if isinstance( json_variables, dict ) and \
+           'm' in json_variables and \
+           'c' in json_variables and \
+           ( isinstance( json_variables[ 'm' ], int ) or \
+             isinstance( json_variables[ 'm' ], float ) or \
+             isinstance( json_variables[ 'm' ], str ) ) and \
+           ( isinstance( json_variables[ 'c' ], int ) or \
+             isinstance( json_variables[ 'c' ], float ) or \
+             isinstance( json_variables[ 'c' ], str ) ) :
+	        mass = float(json_variables['m'])
+ 	        speed_of_light = float(json_variables['c'])
+
+	        import mass_energy
+	
+	        output['e'] = mass_energy.einstein(mass,speed_of_light)
+        else:
+                output['notice'] = "Expected JSON input variables 'm' and/or 'c' not found or incorrect type"
 
         output['_textarea'] = "JSON output from executable:\n" + json.dumps( output, indent=4 ) + "\n\n";
         output['_textarea'] += "JSON input to executable:\n" + json.dumps( json_variables, indent=4 ) + "\n";
