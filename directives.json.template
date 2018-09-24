@@ -4,7 +4,7 @@
   "title"                     : "SOME TITLE",
 
 # the application name should not contain any special characters
-  "application"               : "demo",
+  "application"               : "tutorial2",
 
   "footer"                    : "Test footer",
   "footersize"                : "50px",
@@ -15,20 +15,20 @@
 
   "executable_path"           :
                                 {
-                                 "html5" : "__app_parent_directory__/demo/bin",
-                                 "qt3"   : "__app_parent_directory__/demo/bin",
-                                 "qt4"   : "__app_parent_directory__/demo/bin",
-                                 "qt5"   : "__app_parent_directory__/demo/bin",
-                                 "java"  : "__app_parent_directory__/demo/bin"
+                                 "html5" : "__app_parent_directory__/tutorial2/bin",
+                                 "qt3"   : "__app_parent_directory__/tutorial2/bin",
+                                 "qt4"   : "__app_parent_directory__/tutorial2/bin",
+                                 "qt5"   : "__app_parent_directory__/tutorial2/bin",
+                                 "java"  : "__app_parent_directory__/tutorial2/bin"
                                 },
 
   "docroot"                   :
                                 {
                                  "html5" : "__webroot__",
-                                 "qt3"   : "__app_parent_directory__/demo/tmp",
-                                 "qt4"   : "__app_parent_directory__/demo/tmp",
-                                 "qt5"   : "__app_parent_directory__/demo/tmp",
-                                 "java"  : "__app_parent_directory__/demo/tmp"
+                                 "qt3"   : "__app_parent_directory__/tutorial2/tmp",
+                                 "qt4"   : "__app_parent_directory__/tutorial2/tmp",
+                                 "qt5"   : "__app_parent_directory__/tutorial2/tmp",
+                                 "java"  : "__app_parent_directory__/tutorial2/tmp"
                                 },
 # these are helper editor and pdb viewer applications and can be changed
   "helper"                    : {
@@ -157,7 +157,7 @@
 #  ,"usewss"                  : "true"
 
 # the following are currently only meaningful for "html5" language
-  ,"appconfig"                 : "__app_parent_directory__/demo/appconfig.json"
+  ,"appconfig"                 : "__app_parent_directory__/tutorial2/appconfig.json"
 
 # if you have a 32 bit mongo system "html5", comment this
   ,"mongojournal"               : "true"
