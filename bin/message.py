@@ -7,7 +7,7 @@ def message_box(text,icon):
         _message['text'] = text
         
         UDP_IP = json_variables['_udphost']
-        UDP_PORT = json_variables['_udpport']
+        UDP_PORT = int( json_variables['_udpport'] )
         sock = socket.socket(socket.AF_INET, # Internet
         socket.SOCK_DGRAM) # UDP
         socket_dict = {}
