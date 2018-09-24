@@ -1,0 +1,41 @@
+{
+    "moduleid"    : "calculate"
+    ,"label"      : "Calculated Fields Exercise"
+    ,"executable" : "calculate.py"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "module_header"
+            ,"label"     : "Calculated Fields Exercise"
+            ,"type"      : "label"
+            ,"default"   : "header4"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+        }
+        ,{
+            "role"        : "input"
+            ,"id"         : "m"
+            ,"label"      : "mass [kg]"
+            ,"type"       : "float"
+            ,"required"   : "true"
+            ,"help"       : "Enter the mass in kilograms"
+        }
+        ,{
+            "role"        : "input"
+            ,"id"         : "c"
+            ,"label"      : "Speed of light [m/s]"
+            ,"type"       : "float"
+            ,"default"    : 299792458
+            ,"required"   : "true"
+            ,"help"       : "Enter the speed of light in meters/second"
+        }
+        ,{
+            "role"        : "input"
+            ,"readonly"   : "true"
+            ,"id"         : "e"
+            ,"label"      : "Energy [J]"
+            ,"type"       : "text"
+            ,"calc"       : "m*c^2"
+        }
+    ]
+}
