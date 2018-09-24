@@ -39,5 +39,5 @@
                  }
   ,"resourcedefault" : "local"
 # submitpolicy "login" requres users to login by default
-  ,"submitpolicy"    : "login"
+  ,"submitpolicy"    : "all"
 }
