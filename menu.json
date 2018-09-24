@@ -1,0 +1,32 @@
+# this is a project menu file
+{
+    "menu" : [
+        { 
+            "id"      : "examples",
+            "label"   : "Examples",
+            "icon"    : "pngs/simulate.png",
+            "modules" : [ 
+                { 
+                    "id"    : "energy",
+                    "label" : "Energy"
+                }
+                ,{ 
+                    "id"    : "repeater",
+                    "label" : "Repeaters Exercise"
+                }
+                ,{ 
+                    "id"    : "calculate",
+                    "label" : "Calculated Fields Exercise"
+                }
+                ,{ 
+                    "id"    : "plotly",
+                    "label" : "Plot Exercise"
+                }
+                ,{ 
+                    "id"    : "message",
+                    "label" : "Messaging Exercise"
+                }
+            ]
+        }
+    ]
+}

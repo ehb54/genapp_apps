@@ -1,0 +1,29 @@
+{
+    "moduleid"    : "plotly"
+    ,"label"      : "Plotly"
+    ,"help"       : "help for Plotly"
+    ,"executable" : "plotly.py"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "module_header"
+            ,"label"     : "Plot Exercise"
+            ,"type"      : "label"
+            ,"default"   : "header4"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"        : "plotbar"
+            ,"type"      : "plotly"
+            ,"label"     : "Barchart plot"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"        : "plotline"
+            ,"type"      : "plotly"
+            ,"label"     : "Line plot"
+        }
+    ]
+}

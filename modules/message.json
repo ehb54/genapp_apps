@@ -1,0 +1,23 @@
+{
+    "moduleid"    : "message"
+    ,"label"      : "Message"
+    ,"help"       : "help for Message"
+    ,"executable" : "message.py"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "module_header"
+            ,"label"     : "Messaging Exercise"
+            ,"type"      : "label"
+            ,"default"   : "header4"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+        }
+        ,{
+            "role"        : "output"
+            ,"id"         : "result"
+            ,"label"      : "Result"
+            ,"type"       : "text"
+        }
+    ]
+}
