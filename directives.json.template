@@ -10,17 +10,17 @@
 #  "footer"                    : "Test footer",
 #  "footersize"                : "50px",
 
-  "version"                   : " - 0.8",
+  "version"                   : " - 0.1",
 # choose your target languages to generate currently from [ "html5", "qt3", "qt4", "qt5" ]
   "languages"                 : [ "html5" ],
 
   "executable_path"           :
                                 {
-                                 "html5" : "__app_parent_directory__/multisaxhub/bin",
-                                 "qt3"   : "__app_parent_directory__/multisaxhub/bin",
-                                 "qt4"   : "__app_parent_directory__/multisaxhub/bin",
-                                 "qt5"   : "__app_parent_directory__/multisaxhub/bin",
-                                 "java"  : "__app_parent_directory__/multisaxhub/bin"
+                                 "html5" : "__app_parent_directory__/multisaxshub/bin",
+                                 "qt3"   : "__app_parent_directory__/multisaxshub/bin",
+                                 "qt4"   : "__app_parent_directory__/multisaxshub/bin",
+                                 "qt5"   : "__app_parent_directory__/multisaxshub/bin",
+                                 "java"  : "__app_parent_directory__/multisaxshub/bin"
                                 },
 
   "docroot"                   :
@@ -171,7 +171,7 @@
 #  ,"usewss"                  : "true"
 
 # the following are currently only meaningful for "html5" language
-  ,"appconfig"                 : "__app_parent_directory__/multisaxhub/appconfig.json"
+  ,"appconfig"                 : "__app_parent_directory__/multisaxshub/appconfig.json"
 
 # if you have a 32 bit mongo system "html5", comment this
   ,"mongojournal"               : "true"
