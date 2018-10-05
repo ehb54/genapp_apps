@@ -1,0 +1,477 @@
+{
+    "moduleid" : "SaxsCalc_Hub"
+    ,"label"    : "SaxsCalc_Hub"
+    ,"executable"   : "saxscalchub"
+    ,"submitpolicy" : "all"
+#    ,"uniquedir" : "true"
+#    ,"center" : "true"
+    ,"centeroutput" : "true"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "label_0"
+            ,"type"      : "label"
+            ,"colspan"   : 4
+            ,"default"   : "header3"
+            ,"label"     : "Multi SAXS Tool *For Academic Use Only*"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "pdb"
+            ,"label"      : "Input PDB"
+# need to force copy over
+#            ,"type"       : "lrfile"
+            ,"type"       : "file"
+            ,"required"   : "true"
+            ,"help"       : "PDB input file for the complex (required)."
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "set_experimental_curve"
+            ,"label"      : "Experimental curve"
+# need to force copy over
+#            ,"type"       : "lrfile"
+            ,"repeater"   : "true"
+            ,"type"       : "checkbox"
+            ,"help"       : "Experimental curve (required only for mode 2 and 3)"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "experimental_curve"
+            ,"label"      : "Input Experimental curve"
+# need to force copy over
+#            ,"type"       : "lrfile"
+            ,"repeat"     : "set_experimental_curve"
+            ,"repeater"   : "true"
+            ,"type"       : "file"
+            ,"help"       : "Experimental curve (required only for mode 2 and 3)"
+        }
+#        ,{
+#            "role"       : "input"
+#            ,"id"         : "angular_unit"
+#            ,"label"      : "Angular units"
+#            ,"type"       : "listbox"
+#            ,"help"       : "Default is chosen automatically"
+#            ,"values"     : "1/A, q = 4pi sin(theta)/lambda~1~1/nm, q = 4pi sin(theta)/lambda~2~1/A, s = 2sin(theta)/lambda~3~1/nm, s = 2sin(theta)/lambda~4"
+#            ,"default"    : 1
+#        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "qmax"
+            ,"label"      : "qmax"
+            ,"type"       : "float"
+            ,"default"    : 0.5
+            ,"info"       : "Maximum scattering vector in inverse angstroms"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "number_of_points"
+            ,"label"      : "number of q points"
+            ,"type"       : "integer"
+            ,"default"    : 500
+            ,"info"       : "Number of points in the theoretical curve, need to be determined later"
+        }
+# Excluded constant substraction from common input list due to implementation differnece between programs
+#        ,{
+#            "role"       : "input"
+#            ,"id"         : "constant_substraction"
+#            ,"label"      : "Subtract a constant factor"
+#            ,"type"       : "checkbox"
+#            ,"help"       : "Substract a constant factor if experimental data contains a systematic error"
+#        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "explicit_hydrogen"
+            ,"label"      : "Use explicit hydrogens"
+            ,"type"       : "checkbox"
+            ,"help"       : "Not recommended for standard residues"
+        }
+         
+        ,{   "role"       : "input"
+            ,"id"        : "select_all"
+            ,"label"     : "Select All Programs"
+            ,"type"      : "checkbox"
+            ,"checked"   : "true"
+            ,"repeater"  : "true"
+            ,"colspan"   : 4 
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "CRYSOL"
+            ,"label"      : "CRYSOL"
+            ,"type"       : "checkbox"
+            ,"checked"    : "true"
+            ,"repeat"     : "select_all"
+            ,"repeater"   : "true"
+            ,"help"       : "If unchecked, CRYSOL will be excluded"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "FOXS"
+            ,"label"      : "FOXS"
+            ,"type"       : "checkbox"
+            ,"checked"    : "true"
+            ,"repeater"   : "true"
+            ,"repeat"     : "select_all"
+            ,"help"       : "If unchecked, FOXS will be excluded"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "Pepsi_SAXS"
+            ,"label"      : "Pepsi_SAXS"
+            ,"type"       : "checkbox"
+            ,"checked"    : "true"
+            ,"repeater"   : "true"
+            ,"repeat"     : "select_all"
+            ,"help"       : "If unchecked, Pepsi_SAXS will be excluded"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "sascalc_hub"
+            ,"label"      : "Sascalc in Sassie-web"
+            ,"type"       : "checkbox"
+            ,"checked"    : "false"
+            ,"repeater"   : "true"
+            ,"repeat"     : "select_all"
+            ,"help"       : "Not supported yet"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "WAXSIS"
+            ,"label"      : "WAXSIS"
+            ,"type"       : "checkbox"
+            ,"checked"    : "false"
+            ,"repeater"   : "true"
+            ,"repeat"     : "select_all"
+            ,"help"       : "Not supported yet"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "SoftWAXS"
+            ,"label"      : "SoftWAXS"
+            ,"type"       : "checkbox"
+            ,"checked"    : "false"
+            ,"repeater"   : "true"
+            ,"repeat"     : "select_all"
+            ,"help"       : "Not supported yet"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"         : "AXES"
+            ,"label"      : "AXES"
+            ,"type"       : "checkbox"
+            ,"checked"    : "false"
+            ,"repeater"   : "true"
+            ,"repeat"     : "select_all"
+            ,"help"       : "Not supported yet"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"       : "advanced_input"
+            ,"type"     : "checkbox"
+            ,"label"    : "Advanced Input"
+            ,"default"  : "false"
+            ,"prehline"  : "true"
+            ,"posthline"  : "true"
+            ,"repeater" : "true"
+            ,"help"       : "check to setup advanced options of selected program(s)"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "debug_msg"
+            ,"label"    : "debugging mode"
+            ,"type"     : "checkbox"
+            ,"checked"    : "false"
+            ,"help"       : "Check to activate debugging messages"
+            ,"repeat"     : "advanced_input"
+          }
+#        ,{
+#            "role"       : "input"
+#            ,"id"       : "specific_inputs_box"
+#            ,"label"    : "Check box to implement program specific inputs"
+#            ,"type"     : "checkbox"
+#            ,"checked"  : "false"
+#            ,"repeater" : "true"
+#            ,"repeat"   : "advanced_inputs"
+#            ,"help"       : "Check box to set up advanced input parameters of selected program(s)"
+#          }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_zip"
+            ,"label"      : "All output files (zip) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL"
+            ,"label"      : "<br>CRYSOL output files "
+            ,"default"   : "header6"
+            ,"type"       : "label"
+            ,"prehline"  : "false"
+            ,"posthline"  : "false"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_stderr"
+            ,"label"      : "stderr :  "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_stdout"
+            ,"label"      : "stdout : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_log"
+            ,"label"      : "log :  "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }        
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_fit"
+            ,"label"      : "fit I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_sav"
+            ,"label"      : "sav file (optional) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_flm"
+            ,"label"      : "flm file (optional) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_alm"
+            ,"label"      : "alm file (optional) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_int"
+            ,"label"      : "int file (optional) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_FOXS"
+            ,"label"      : "<br>FOXS output files "
+            ,"default"   : "header6"
+            ,"type"       : "label"
+            ,"prehline"  : "false"
+            ,"posthline"  : "false"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_FOXS_stderr"
+            ,"label"      : "stderr :  "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_FOXS_stdout"
+            ,"label"      : "stdout : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_FOXS_dat1"
+            ,"label"      : "predicted I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_FOXS_dat2"
+            ,"label"      : "data I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_FOXS_fit"
+            ,"label"      : "fit I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_Pepsi_SAXS"
+            ,"label"      : "<br>Pepsi_SAXS output files "
+            ,"default"   : "header6"
+            ,"type"       : "label"
+            ,"prehline"  : "false"
+            ,"posthline"  : "false"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_Pepsi_SAXS_stderr"
+            ,"label"      : "stderr :  "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_Pepsi_SAXS_stdout"
+            ,"label"      : "stdout : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_Pepsi_SAXS_out"
+            ,"label"      : "predicted I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_Pepsi_SAXS_fit"
+            ,"label"      : "fit I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_sascalc_hub"
+            ,"label"      : "<br>SasCalc output files "
+            ,"default"   : "header6"
+            ,"type"       : "label"
+            ,"prehline"  : "false"
+            ,"posthline"  : "false"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_sascalc_hub_stderr"
+            ,"label"      : "stderr :  "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_sascalc_hub_stdout"
+            ,"label"      : "stdout : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_sascalc_hub_dat"
+            ,"label"      : "I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }        
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_WAXSIS"
+            ,"label"      : "<br>WAXSIS output files "
+            ,"default"   : "header6"
+            ,"type"       : "label"
+            ,"prehline"  : "false"
+            ,"posthline"  : "false"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_WAXSIS_stderr"
+            ,"label"      : "stderr :  "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_WAXSIS_stdout"
+            ,"label"      : "stdout : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_WAXSIS_dat"
+            ,"label"      : "I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_SoftWAXS"
+            ,"label"      : "<br>SoftWAXS output files "
+            ,"default"   : "header6"
+            ,"type"       : "label"
+            ,"prehline"  : "false"
+            ,"posthline"  : "false"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_SoftWAXS_stderr"
+            ,"label"      : "stderr :  "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_SoftWAXS_stdout"
+            ,"label"      : "stdout : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_SoftWAXS_dat"
+            ,"label"      : "I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_AXES"
+            ,"label"      : "<br>AXES output files "
+            ,"default"   : "header6"
+            ,"type"       : "label"
+            ,"prehline"  : "false"
+            ,"posthline"  : "false"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_AXES_stderr"
+            ,"label"      : "stderr :  "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{  
+            "role"       : "output"
+            ,"id"         : "outfile_AXES_stdout"
+            ,"label"      : "stdout : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_AXES_dat"
+            ,"label"      : "I(q) : "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+
+    ]
+}

@@ -1,0 +1,862 @@
+#!/usr/bin/node
+
+//  usage 
+//  ./build_command_line_executable_from_json.js [input_from_ui]
+//  data_file = data_table.json
+
+var fs = require( 'fs' );
+
+const util = require('util');
+const exec = util.promisify( require( 'child_process' ).exec );
+const exec2 = require( 'child_process' ).exec;
+
+const { PerformanceObserver, performance } = require('perf_hooks');
+
+var input_from_ui = process.argv[ 2 ];
+
+var req = JSON.parse( input_from_ui );
+
+//var table = JSON.parse( fs.readFileSync( './data_table.json' ) );
+
+var x, key, opt, pref, argm, pdb, pdbshort, expdata, expdatashort;
+
+var table = {
+    "CRYSOL" :
+    {
+             "executable" : "crysol"
+             ,"input" : { 
+                     "pdb" : { 
+                         "type" : "file"
+                         ,"number_of_files" : 1
+                         ,"required" : "true"
+                         }
+                     ,"experimental_curve" : {
+                         "type" : "file"
+                         ,"number_of_files" : 1000000 
+                         ,"required" : "optional"
+                         }
+                  }
+
+              ,"output": 
+                  {
+                      "stderr" : {   
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_stderr"
+                          ,"type" : "file"
+                          ,"label" : "CRYSOL stderr file"
+                          }
+                      ,"stdout" : {   
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_stdout"
+                          ,"type" : "file"
+                          ,"label" : "CRYSOL stdout file."                
+                          }
+                      ,"sav" : {
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_sav"
+                          ,"label" : "CRYSOL output containing the amplitudes among other necessary information to evaluate the intensities curves"
+                          ,"type" : "file"
+                          }
+                      ,"log" : {
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_log"
+                          ,"type" : "file"
+                          ,"label" : "CRYSOL output containing the screen output and the detailed warning messages."
+                          }
+                      ,"flm" : {
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_flm"
+                          ,"type" : "file"
+                          ,"label" : "CRYSOL output Containing the multipole coefficients Flm which describe the particle envelope."
+                          }
+                      ,"int" : {
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_int"
+                          ,"type" : "file"
+                          ,"label" : "CRYSOL output with Scattering profiles"
+                          }
+                      ,"fit" : {
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_fit"
+                          ,"type" : "file"
+                          ,"label" : "Contains the fit to the experimental data in inverse angstroms."
+                          }
+
+                      ,"alm" : {
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_alm"
+                          ,"type" : "file"
+                          ,"label" : "Sum of the scattering amplitudes for atoms, excluded volume and border for rigid body modelling later "
+                          }
+                  } 
+
+              ,"options" : 
+                  {
+                      "qmax" : {
+                          "prefix_full" : "-sm"
+                          ,"prefix_short" : "-sm"
+                          ,"type" : "float"
+                          ,"info" : "Maximum scattering vector in inverse angstroms (max = 1.0 A^-1)"
+                          }
+                      ,"number_of_points" : {
+                          "prefix_full" : "-ns"
+                          ,"prefix_short" : "-ns"
+                          ,"type" : "integer"
+                          ,"info" : "Number of points in the theoretical curve (max = 5000)"
+                          }
+                      ,"angular_unit" : {
+                          "prefix_full" : "-un"
+                          ,"prefix_short" : "-un"
+                          ,"type" : "integer"
+                          ,"min" : 1
+                          ,"max" : 4
+                          ,"default" : 1
+                          ,"info" : "Rewrite here "
+                          }
+                      ,"constant_substraction" : {
+                          "prefix_full" : "-cst"
+                          ,"prefix_short" : "-cst"
+                          ,"type" : "checkbox"
+                          ,"info" : "Constant subtraction. No value is required"
+                          }
+                      ,"explicit_hydrogen" : {
+                          "prefix_full" : "-eh"
+                          ,"prefix_short" : "-eh"
+                          ,"type" : "checkbox"
+                          ,"info" : "Account for explicit hydrogens. No value is required."
+                          }
+                      ,"contrast_hydration" : {
+                          "prefix_full" : "-dro"
+                          ,"prefix_short" : "-dro"
+                          ,"type" : "float"
+                          ,"info" : "Contrast of hydration shell (e/A^3)"
+                          }
+                      ,"maxharmonics" : {
+                          "prefix_full" : "-lm"
+                          ,"prefix_short" : "-lm"
+                          ,"type" : "integer"
+                          ,"min" : 1
+                          ,"default" : 15
+                          ,"max" : 50 
+                          ,"info" : "Maximum number of harmonics "
+                          }
+                      ,"fibonacci_grid" : {
+                          "prefix_full" : "-fb"
+                          ,"prefix_short" : "-fb"
+                          ,"type" : "integer"
+                          ,"min" : 10
+                          ,"default" : 17
+                          ,"max" : 18
+                          ,"info" : "Order of Fibonacci grid "
+                          }
+                      ,"solvation_density" : {
+                          "prefix_full" : "-dns"
+                          ,"prefix_short" : "-dns"
+                          ,"type" : "float"
+                          ,"info" : "Solvent density (e/A^3). Default value is the electron density of pure water."
+                          }
+                      ,"create_output" : {
+                          "prefix_full" : "-kp"
+                          ,"prefix_short" : "-kp"
+                          ,"type" : "checkbox"
+                          ,"info" : "Creates optional output files. No value is required"
+                          }
+                      ,"write_error" : {
+                          "prefix_full" : "-err"
+                          ,"prefix_short" : "-err"
+                          ,"type" : "character"
+                          ,"info" : "Write experimental errors to the .fit file (Y or N)."
+                          }
+                      ,"read_old_atom" : {
+                          "prefix_full" : "-old"
+                          ,"prefix_short" : "-old"
+                          ,"type" : "checkbox"
+                          ,"info" : "Read a PDB file with an old atom naming (pre 2008). No value is required."
+                          }
+                      ,"nmr_conformer" : {
+                          "prefix_full" : "-nmr"
+                          ,"prefix_short" : "-nmr"
+                          ,"type" : "integer"
+                          ,"info" : "Sequential number of a model or an NMR conformer to process."
+                          }
+                      ,"define_chain_id" : {
+                          "prefix_full" : "-cid"
+                          ,"prefix_short" : "-cid"
+                          ,"type" : "character"
+                          ,"info" : "Compute theoretical scattering only for certain chain identifier(s)."
+                          }
+                  }
+    }
+
+    ,"FOXS" : 
+       { 
+           "executable" : "foxs"
+           ,"input" : 
+               {
+                     "pdb"  : { 
+                         "type" : "file"
+                         ,"number_of_files" : "unlimited"
+                         ,"required" : "true"
+                         }
+                     ,"experimental_curve" : {
+                         "type" : "file"
+                         ,"number_of_files" : "unlimited"
+                         ,"required" : "true"
+                         }
+               }
+           ,"output" :
+               {
+                      "stderr" : {
+                          "role"   : "output"
+                          ,"id"    : "output_FOXS_stderr"
+                          ,"type" : "file"
+                          ,"label" : "FOXS stderr file"
+                          }
+                      ,"stdout" : {
+                          "role"   : "output"
+                          ,"id"    : "output_FOXS_stdout"
+                          ,"type" : "file"
+                          ,"label" : "FOXS stdout file."                                                
+                          }
+                     ,"fit" : {
+                          "role"   : "output"
+                          ,"id"    : "output_FOXS_fit"
+                          ,"type" : "file"
+                          ,"label" : "Contains the fit to the experimental data in inverse angstroms."
+                          }
+                     ,"dat1" : {
+                          "role"   : "output"
+                          ,"id"    : "output_FOXS_dat1"
+                          ,"type" : "file"
+                          ,"label" : "Contains the prediction from input pdb "
+                          }
+                     ,"dat2" : {
+                          "role"   : "output"
+                          ,"id"    : "output_FOXS_dat2"
+                          ,"type" : "file"
+                          ,"label" : "Contains the intensities"
+                          }
+               }
+           ,"options" :
+               {
+                     "qmax"  : {
+                         "prefix_full" : "--max_q"
+                         ,"prefix_short" : "-q"
+                         ,"type" : "float"
+                         ,"default" : 0.5
+                         ,"info" : "In inverse Angstroms"
+                         }
+                     ,"number_of_points"  : {
+                         "prefix_full" : "--profile_size"
+                         ,"prefix_short" : "-s"
+                         ,"type" : "integer"
+                         ,"default" : 500 
+                         ,"info" : "Number of points in the scattering curve (only applicable if experimental data is not provided)"
+                         }
+                     ,"angular_unit"  : {
+                         "prefix_full" : "--units"
+                         ,"prefix_short" : "-u"
+                         ,"type" : "integer"
+                         ,"default" : 1
+                         ,"info" : "1 - unknown --> determine automatically (default), 2 - q values are in 1/A, 3 - q values are in 1/nm"
+                         }
+                      ,"constant_substraction" : {
+                          "prefix_full" : "--background_q"
+                          ,"prefix_short" : "-b"
+                          ,"type" : "float"
+                          ,"default" : 0
+                          ,"info" : "background adjustment, not used by default. if enabled, recommended q value is 0.2"
+                          }
+                     ,"explicit_hydrogen"  : {
+                         "prefix_full" : "--hydrogens"
+                         ,"prefix_short" : "-h"
+                         ,"type" : "checkbox"
+                         ,"info" : "explicitly consider hydrogens in PDB files"
+                         }
+                     ,"min_c1"  : {
+                         "prefix_full" : "--min_c1"
+                         ,"prefix_short" : "--min_c1"
+                         ,"type" : "float"
+                         ,"default" : 0.99 
+                         ,"info" : "min c1 value"
+                         }
+                     ,"max_c1"  : {
+                         "prefix_full" : "--max_c1"
+                         ,"prefix_short" : "--max_c1"
+                         ,"type" : "float"
+                         ,"default" : 1.05    
+                         ,"info" : "max c1 value"
+                         }
+                     ,"min_c2"  : {
+                         "prefix_full" : "--min_c2"
+                         ,"prefix_short" : "--min_c2"
+                         ,"type" : "float"
+                         ,"default" : -2.00    
+                         ,"info" : "min c2 value"
+                         }
+                     ,"max_c2"  : {
+                         "prefix_full" : "--max_c2"
+                         ,"prefix_short" : "--max_c2"
+                         ,"type" : "float"
+                         ,"default" : 4.00    
+                         ,"info" : "max c2 value"
+                         }
+                     ,"fast_ca"  : {
+                         "prefix_full" : "--residues"
+                         ,"prefix_short" : "-r"
+                         ,"type" : "checkbox"
+                         ,"info" : "fast coarse grained calculation using CA atoms only"
+                         }
+                     ,"offset"  : {
+                         "prefix_full" : "--offset"
+                         ,"prefix_short" : "--offset"
+                         ,"type" : "checkbox"
+                         ,"info" : "use offset in fitting"
+                         }
+                     ,"write_partial_profile"  : {
+                         "prefix_full" : "--write-partial-profile"
+                         ,"prefix_short" : "-p"
+                         ,"type" : "checkbox"
+                         ,"info" : "write partial profile file"
+                         }
+                     ,"multi_model_pdb"  : {
+                         "prefix_full" : "--multi-model-pdb"
+                         ,"prefix_short" : "-m"
+                         ,"type" : "integer"
+                         ,"default" : 1
+                         ,"info" : "1 - read the first MODEL only (default), 2 - read each MODEL into a separate, structure, 3 - read all models into a single structure"
+                         }
+                     ,"volatility_ratio"  : {
+                         "prefix_full" : "--volatility_ratio"
+                         ,"prefix_short" : "-v"
+                         ,"type" : "checkbox"
+                         ,"info" : "calculate volatility ratio score"
+                         }
+
+                     ,"score_log"  : {
+                         "prefix_full" : "--score_log"
+                         ,"prefix_short" : "-l"
+                         ,"type" : "checkbox"
+                         ,"info" : "use log(intensity) in fitting and scoring"
+                         }
+
+                     ,"gnuplot_script"  : {
+                         "prefix_full" : "--gnuplot_script"
+                         ,"prefix_short" : "-g"
+                         ,"type" : "checkbox"
+                         ,"info" : "print gnuplot script for gnuplot viewing"
+                         }
+
+                     ,"version"  : {
+                         "prefix_full" : "--version"
+                         ,"prefix_short" : "--version"
+                         ,"type" : "checkbox"
+                         ,"info" : "Version info"
+                         }
+               }
+    }
+
+    ,"Pepsi_SAXS" :
+       {
+           "executable" : "pepsisaxs"
+           ,"input" :
+               {
+                     "pdb"  : {
+                         "type" : "file"
+                         ,"number_of_files" : 1
+                         ,"required" : "true"
+                         }
+                     ,"experimental_curve" : {
+                         "type" : "file"
+                         ,"number_of_files" : 1 
+                         ,"required" : "true"
+                         }
+               }
+           ,"output" :
+               {
+                      "stderr" : {
+                          "role"   : "output"
+                          ,"id"    : "output_Pepsi_SAXS_stderr"
+                          ,"type" : "file"
+                          ,"label" : "FOXS stderr file"
+                          }
+                      ,"stdout" : {
+                          "role"   : "output"
+                          ,"id"    : "output_Pepsi_SAXS_stdout"
+                          ,"type" : "file"
+                          ,"label" : "FOXS stdout file."  
+                          }
+                      ,"log" : {
+                          "role"   : "output"
+                          ,"id"    : "output_Pepsi_SAXS_log"
+                          ,"type" : "file"
+                          ,"label" : "Pepsi-Saxs output Containing the screen output and the detailed warning messages."
+                          }
+                      ,"fit" : {
+                          "role"   : "output"
+                          ,"id"    : "output_Pepsi_SAXS_fit"
+                          ,"type" : "file"
+                          ,"label" : "Pepsi-Saxs output Containing the fit to the experimental data in inverse angstroms."
+                          }
+                      ,"out" : {
+                          "role"   : "output"
+                          ,"id"    : "output_Pepsi_SAXS_out"
+                          ,"type" : "file"
+                          ,"label" : "Pepsi-Saxs output Containing the predicted model."
+                          }
+               }
+           ,"options" :
+               {
+                     "qmax"  : {
+                         "prefix_full" : "--maximum_scattering_vector"
+                         ,"prefix_short" : "-ms"
+                         ,"type" : "float"
+                         ,"max" : 1.0
+                         ,"default" : 0.5
+                         ,"min" : 0.01
+                         ,"info" : "In inverse Angstroms (max = 1.0 {A^-1}) (only applicable if experimental data is not provided.)"
+                         }
+                     ,"number_of_points"  : {
+                         "prefix_full" : "--number_of_points"
+                         ,"prefix_short" : "-ns"
+                         ,"type" : "integer"
+                         ,"max" : 5000
+                         ,"default" : 101
+                         ,"min" : 10
+                         ,"info" : "Number of points in the scattering curve (only applicable if experimental data is not provided), default 101, max 5000"
+                         }
+                     ,"angular_unit"  : {
+                         "prefix_full" : "--angular_units"
+                         ,"prefix_short" : "-au"
+                         ,"type" : "integer"
+                         ,"info" : "Same with crysol. Default is chosen automatically."
+                         }
+                      ,"constant_substraction" : {
+                          "prefix_full" : "--cst"
+                          ,"prefix_short" : "-cst"
+                          ,"type" : "checkbox"
+                          ,"info" : "Substract a constant factor if experimental data contains a systematic error"
+                          }
+                     ,"explicit_hydrogen"  : {
+                         "prefix_full" : "--hyd"
+                         ,"prefix_short" : "-hyd"
+                         ,"type" : "checkbox"
+                         ,"info" : "Using explicit hydrogens, not recommended for standard residues"
+                         }
+                     ,"output_path"  : {
+                         "prefix_full" : "--output"
+                         ,"prefix_short" : "-o"
+                         ,"type" : "character"
+                         ,"info" : "Output scattering curve path"
+                         }
+                     ,"expansion_order"  : {
+                         "prefix_full" : "--nCoeff"
+                         ,"prefix_short" : "-n"
+                         ,"type" : "integer"
+                         ,"info" : "Number of coefficients in the expansion order of spherical harmonics"
+                         }
+                     ,"log_json"  : {
+                         "prefix_full" : "--json"
+                         ,"prefix_short" : "-json"
+                         ,"type" : "checkbox"
+                         ,"info" : "Output the log file in the JSON format"
+                         }
+                     ,"negative_contrast"  : {
+                         "prefix_full" : "--neg"
+                         ,"prefix_short" : "-neg"
+                         ,"type" : "checkbox"
+                         ,"info" : "Allowing negative contrast of the hydration shell upon fitting"
+                         }
+                     ,"fast"  : {
+                         "prefix_full" : "--fast"
+                         ,"prefix_short" : "-fast"
+                         ,"type" : "checkbox"
+                         ,"info" : "A coarser representation of the hydration shell"
+                         }
+                     ,"no_smearing"  : {
+                         "prefix_full" : "--noSmearing"
+                         ,"prefix_short" : "--noSmearing"
+                         ,"type" : "checkbox"
+                         ,"info" : "Disables the data smearing"
+                         }
+                     ,"dro"  : {
+                         "prefix_full" : "--dro"
+                         ,"prefix_short" : "--dro"
+                         ,"type" : "float"
+                         ,"default" : 5
+                         ,"info" : "Hydration shell contrast (in % of the bulk value), default is 5%."
+                         }
+                     ,"fluc"  : {
+                         "prefix_full" : "--fluc"
+                         ,"prefix_short" : "--fluc"
+                         ,"type" : "checkbox"
+                         ,"info" : "Enable fluctuations"
+                         }
+                     ,"modes"  : {
+                         "prefix_full" : "--modes"
+                         ,"prefix_short" : "--modes"
+                         ,"type" : "integer"
+                         ,"min"        : 5
+                         ,"default"    : 5
+                         ,"max"        : 75
+                         ,"info" : "Number of low frequency modes"
+                         }
+                     ,"cov_scaling"  : {
+                         "prefix_full" : "--covScaling"
+                         ,"prefix_short" : "--covScaling"
+                         ,"type" : "float"
+                         ,"default" : 1
+                         ,"info" : "Scaling of covalent interactions"
+                         }
+                     ,"cutoff"  : {
+                         "prefix_full" : "--cutoff"
+                         ,"prefix_short" : "-c"
+                         ,"type" : "float"
+                         ,"default" : 5
+                         ,"info" : "Interactions cutoff distance in angstroms, 5 by default"
+                         }
+                     ,"display_log"  : {
+                         "prefix_full" : "--changelog"
+                         ,"prefix_short" : "-log"
+                         ,"type" : "none"
+                         ,"info" : "Displays ChangeLog information and exits."
+                         }
+                     ,"version"  : {
+                         "prefix_full" : "--version"
+                         ,"prefix_short" : "--version"
+                         ,"type" : "none"
+                         ,"info" : "Displays version information and exits"
+                         }
+               }
+    }
+ 
+    ,"sascalc_hub" :
+       {
+           "executable" : "sascalc_hub"
+           ,"input" :
+               {
+
+               }
+           ,"output" :
+               {
+                      "stderr" : {
+                          "role"   : "output"
+                          ,"id"    : "output_sascalc_stderr"
+                          ,"type" : "file"
+                          ,"label" : "SasCalc stderr file"
+                          }
+                      ,"stdout" : {
+                          "role"   : "output"
+                          ,"id"    : "output_sascalc_stdout"
+                          ,"type" : "file"
+                          ,"label" : "SasCalc stdout file."  
+                          }
+               }
+           ,"options" :
+               {
+
+               }
+    }
+ 
+    ,"WAXSIS" :
+       {
+           "executable" : "waxsis"
+           ,"input" :
+               {
+
+               }
+           ,"output" :
+               {
+                      "stderr" : {
+                          "role"   : "output"
+                          ,"id"    : "output_WAXSIS_stderr"
+                          ,"type" : "file"
+                          ,"label" : "WAXSIS stderr file"
+                          }
+                      ,"stdout" : {
+                          "role"   : "output"
+                          ,"id"    : "output_WAXSIS_stdout"
+                          ,"type" : "file"
+                          ,"label" : "WAXSIS stdout file."  
+                          }
+               }
+           ,"options" :
+               {
+
+               }
+    }
+ 
+    ,"SoftWAXS" :
+       {
+           "executable" : "softwaxs"
+           ,"input" :
+               {
+
+               }
+           ,"output" :
+               {
+                      "stderr" : {
+                          "role"   : "output"
+                          ,"id"    : "output_SoftWAXS_stderr"
+                          ,"type" : "file"
+                          ,"label" : "SoftWAXS stderr file"
+                          }
+                      ,"stdout" : {
+                          "role"   : "output"
+                          ,"id"    : "output_SoftWAXS_stdout"
+                          ,"type" : "file"
+                          ,"label" : "SoftWAXS stdout file."  
+                          }
+               }
+           ,"options" :
+               {
+
+               }
+    }
+ 
+    ,"AXES" :
+       {
+           "executable" : "axes"
+           ,"input" :
+               {
+
+               }
+           ,"output" :
+               {
+                      "stderr" : {
+                          "role"   : "output"
+                          ,"id"    : "output_AXES_stderr"
+                          ,"type" : "file"
+                          ,"label" : "AXES stderr file"
+                          }
+                      ,"stdout" : {
+                          "role"   : "output"
+                          ,"id"    : "output_AXES_stdout"
+                          ,"type" : "file"
+                          ,"label" : "AXES stdout file."  
+                          }
+               }
+           ,"options" :
+               {
+
+               }
+    }
+
+};             
+
+var cmds = {};
+
+var res = {};
+//Get executables for each commands
+
+//Get executables for each commands
+
+const cmdpath ='/home/cheol/work/SaxsCalc_Hub/bin/';
+
+for ( x in req ) {
+    var new_x = x.replace(/select_all-/g,'')
+    if (new_x in table) {
+           if (new_x == 'CRYSOL') {
+               cmds[ new_x ] = "export LD_LIBRARY_PATH='/home/cheol/atsas/ATSAS-2.8.4-1/lib/x86_64-linux-gnu/atsas/' && ";
+           }
+           else {
+               cmds[ new_x ] = '';
+           }; 
+           cmds[ new_x ] += cmdpath+table[ new_x ].executable;
+        };
+};
+
+// Add input files to command-line commands
+
+//const string_expdata = "set_experimental_curve-experimental_curve";
+
+const string_expdata = "experimental_curve";
+const string_pdb = "pdb"; 
+
+// required pdb allowing multiple pdbs
+
+pdb = req[ string_pdb ].join( " " );
+
+var pdbshort = pdb.split('/').slice(-1).pop();
+
+// optional experimental data allowing multiple exp data files
+
+expdata = "";
+expdatashort = "";
+if ( string_expdata in req ) {
+       expdata += req[ string_expdata ].join( " " );
+       var expdatashort = expdata.split('/').slice(-1).pop();
+    };
+
+console.log(expdata,expdatashort);
+
+for ( x in cmds ) {
+
+    if ( x == "CRYSOL" ) {
+        cmds[ x ] += " " + pdbshort
+        cmds[ x ] += " " + expdatashort 
+    };
+    if ( x == "FOXS" ) {
+        cmds[ x ] += " " + pdbshort
+        cmds[ x ] += " " + expdatashort
+    };
+    if ( x == "Pepsi_SAXS" ) {
+        cmds[ x ] += " " + pdbshort
+        cmds[ x ] += " " + expdatashort
+    };
+    if ( x == "sascalc_hub" ) {
+
+    };
+    if ( x == "WAXISIS" ) {
+
+    };
+    if ( x == "SoftWAXS" ) {
+
+    };
+    if ( x == "AXES" ) {
+
+    }; 
+};
+
+// Adding options with arguments
+for ( x in cmds ) { 
+   
+    for ( opt in table[ x ]["options"] ) {
+
+        if ( opt in req ) {
+            cmds[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
+
+            argm = "" 
+            if ( table[ x ][ "options" ] [ opt ] [ "type" ] != "checkbox" ) {
+                argm += req[ opt ] 
+            };
+        cmds[ x ] += " " + argm
+    };
+  };
+};
+
+var runcmds = {};
+for ( x in cmds ) {
+     runcmds[ x ] = "mkdir " + x +" && cd " + x + "  && cp ../" + pdbshort + " . && " ;
+//     runcmds[ x ] = "cd " + x + "  && cp ../" + pdbshort + " . && " ;
+     if (string_expdata in req) {
+         runcmds[ x ] += "cp ../" + expdatashort + " . && " 
+     };
+     runcmds[ x ] +=  cmds[ x ]  + " > " + x + ".stdout  2> " + x + ".stderr"
+};
+
+//console.log(runcmds);
+
+var res = {};
+
+res._textarea = "Run Command Setup:\n ";
+res._textarea += JSON.stringify( runcmds, null, 2 ) + "\n";
+
+res._textarea += "Command Lines:\n "
+res._textarea += JSON.stringify(cmds, null, 2) + "\n";
+
+res._textarea += "\n JSON input parameters:\n "
+res._textarea += JSON.stringify(req, null, 2) +  "\n";
+
+async function parallel() {
+    var tasks = {};
+    for ( x in runcmds ) {
+	tasks[ x ] = exec( runcmds[ x ] );   
+        }
+    var results = {};
+    var errors = {};
+
+    try {    
+        for ( x in runcmds ) {
+           results[ x ] = await tasks[ x ];
+        } 
+     } catch(error) {
+           results[ x ] = 'Error in '+  x  + ' : ' + error.message;
+     }
+    return results;
+//    return results,errors;
+}
+
+res._textarea += "\n LOG of executables:\n ";
+
+async function taskRunner(fn, label) {
+  const startTime = performance.now();
+    try {
+        let result = await fn();
+        res._textarea += `Task ${label} finished in ${ Number.parseInt(performance.now() - startTime) } miliseconds with` + JSON.stringify( result, null, 2 ) + "\n";
+
+        var files = {};
+        var zipdir = '';
+        var stderr_file = '';
+        var stdout_file = '';
+        for ( x in cmds ) {
+            files.x = fs.readdirSync(  x + '/' );
+            zipdir += x + " ";
+            if ( x != 'FOXS' ) {
+            files.x.forEach ( function ( file ) {
+                var suffix = file.split('.').pop();
+                if ( suffix in table[ x ][ "output" ]) {
+                     var text = fs.readFileSync( x + "/" + file)
+                     var lines = text.toString().split('\n').length - 1;
+                     if ( lines != 0 ) {
+                         res[ 'outfile_' + x + '_' + suffix ] = req._base_directory + '/' + x  + '/' + file;
+                     };
+                     };
+            });
+            } else {
+                files.x.forEach ( function ( file ) {
+                var suffix = file.split('.').pop();
+                var suffix_dat = suffix;
+                if ( suffix == 'dat') {
+                     if ( pdbshort + '.dat' == file) {
+                         suffix_dat = 'dat1';
+                     } else if  ( file == expdatashort ) {
+                         suffix_dat = ' ';
+                     } else {
+                         suffix_dat = 'dat2';
+                     }
+                };
+                if ( suffix_dat in table[ x ][ "output" ]) {
+                     var text = fs.readFileSync( x + "/" + file)
+                     var lines = text.toString().split('\n').length - 1;
+                     if ( lines != 0 ) {
+                         res[ 'outfile_' + x + '_' + suffix_dat ] = req._base_directory + '/' + x  + '/' + file;
+                     };
+                };
+            });
+            };
+           var rm_cmd = "rm -rf " + './' + x + '/' + pdbshort; 
+           if (expdatashort.length != 0) {
+              rm_cmd += " && rm -rf " + './' + x + '/' + expdatashort;
+           };
+           exec2( rm_cmd );
+           
+        };
+        
+        var zipname = req._base_directory;
+        zipname = req._base_directory + "/" + zipname.split('/').pop() + ".zip";
+        const zipcmd = "zip -r " + zipname + " " + zipdir; 
+//        res._textarea += "Zip command = " + zipcmd + "\n";
+        exec2(zipcmd,(err,stdout,stderr) => {
+             if (err) {
+                 res._textarea += "Error in zipping output file :" + err.message + "\n";
+             }
+        }); 
+        res.outfile_zip = zipname;
+        if ( ! ( "debug_msg" in req ) ) { 
+	    delete res._textarea;
+        }
+        console.log(JSON.stringify(res));
+    } 
+    catch (err) {
+       res._textarea += "Error : " + err.message + "\n";
+       console.log(err.message);
+    }
+  //   console.log(`Task ${label} finished in ${ Number.parseInt(performance.now() - startTime) } miliseconds with,`, result);
+// populate file output in res
+//  console.log(JSON.stringify(res));
+}
+
+// void taskRunner(parallel, 'parallel');
+taskRunner(parallel, 'parallel', {} );
+

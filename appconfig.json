@@ -1,0 +1,20 @@
+{
+   "resourcedefault" : "local",
+   "lockdir" : "/src/genapp/etc",
+   "hostname" : "js-129-114-17-49.jetstream-cloud.org",
+   "submitpolicy" : "login",
+   "messaging" : {
+      "tcphostip" : "127.0.0.1",
+      "wsport" : 30777,
+      "tcpport" : 30780,
+      "zmqhostip" : "127.0.0.1",
+      "wssport" : 80,
+      "udphostip" : "127.0.0.1",
+      "udpport" : 30779,
+      "zmqport" : 30778
+   },
+   "hostip" : "129.114.17.49",
+   "resources" : {
+      "local" : ""
+   }
+}
