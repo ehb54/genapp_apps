@@ -1521,7 +1521,7 @@ async function do_exec( x ) {
     Iq_udp = getIqJSON(x,samplelayout,trace_line,tst);
 //    send_udpmsg( { _textarea : "Sending UPD for " + x + " \n" + JSON.stringify(Iq_udp) + " \n" }); 
     send_udpmsg( Iq_udp );
-    send_udpmsg( { _textarea : "Sent UPD for " + x + " \n" });
+//    send_udpmsg( { _textarea : "Sent UPD for " + x + " \n" });
     return result;
 }
 
@@ -1557,7 +1557,7 @@ async function taskRunner(fn, label) {
         getIqJSON_all();
         var output = write_zip();
         send_udpmsg( output );
-        send_udpmsg( { _textarea : "Try to send UPD for Iq_ALL : \n" });
+//        send_udpmsg( { _textarea : "Try to send UPD for Iq_ALL : \n" });
 //        send_udpmsg( { _textarea : "IQ ALL : \n" + JSON.stringify(Iq_ALL) + " \n" });
 //        send_udpmsg( Iq_ALL );
         if ( ! ( "debug_msg" in req ) ) { 
