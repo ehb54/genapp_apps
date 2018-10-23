@@ -5,10 +5,12 @@
 //  data_file = data_table.json
 
 var fs = require( 'fs' );
+var dgram = require('dgram');
 
 const util = require('util');
-const exec = util.promisify( require( 'child_process' ).exec );
-const exec2 = require( 'child_process' ).exec;
+promisify = util.promisify;
+const p_exec = promisify( require( 'child_process' ).exec ) ;
+const exec = require( 'child_process' ).exec;
 
 const { PerformanceObserver, performance } = require('perf_hooks');
 
@@ -19,6 +21,337 @@ var req = JSON.parse( input_from_ui );
 //var table = JSON.parse( fs.readFileSync( './data_table.json' ) );
 
 var x, key, opt, pref, argm, pdb, pdbshort, expdata, expdatashort;
+
+var runmode = "calc"; // if only pdb is given, "fit" if expdata is given optionally.
+
+var upd_ip = req._udphost;
+var udp_port = req._udpport;
+
+//msg._uuid = req._uuid;
+
+if ( "multi_model_pdb" in req ) {
+   if  (!( "choose_all_models" in req )) {
+       req.choose_first_model = "on"; 
+   };
+};
+
+// Data structure of iq object for each method
+// obj = { "data" : [plot_calc, plot_exp], "layout": {"title": , "xaxis": , "yaxis": } }
+// plot_calc = { "x": [array], "y": [array], "error_y"(optional):[array]           } 
+// change of x; iq_template.data[0].x = new array
+// change of y; iq_template.data[0].y = new array
+
+
+//Define Iq file suffix w/o and w/t experimental data
+/*
+  CRYSOL: Not sure of the contents in fit file... need to investigate
+         "int" file = A line header(string) + q[1/A], Iq_calc in solution, Iq_calc in vacuo, Iq_solvent, Iq of border layer
+         "fit" file = A line header(string) + q, Iq_exp, Some delta, Iq_calc
+  FoXS  :
+         "dat" file = Two line header(#) + q, Iq, error 
+         "fit" file = Three line header(#) + q(from expdata), Iq_exp, error, Iq_calc
+  Pepsi-SAXS: 
+         "out" file =  A line header(#) + q, Iq_calc, Iat, Iev, Ihs
+         "fit" file = A line header(#) + q(expdata), I_exp, dI_exp, Iq_fit
+  SASTBX: It requires to read both files if expdata file used.
+         "iq" file = A line header(#) + q, Iq_totoal, I_A, I_C, I_B
+         "fit" file = A line header(#) + q(expdata), Iq_fit
+*/
+
+var iqfiles = {
+   "EXPR" : {
+              "calc":{
+                    "filename": "expdatashort"
+                    ,"header"  : 1    // number of header lines
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2 // Second column for Iq
+                             ,"Iq_error": 3
+                     }
+               }
+              ,"fit":{
+                    "filename": "expdatashort"
+                    ,"header"  : 1    // number of header lines
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2 // Second column for Iq
+                             ,"Iq_error": 3
+                     }
+               }
+             }
+   ,"CRYSOL" : {
+              "calc":{ 
+                    "filename": "outfile_CRYSOL_int"
+                    ,"header"  : 1    // number of header lines
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2 // Second column for Iq 
+                     }
+               }
+              ,"fit":{
+                    "filename":  "outfile_CRYSOL_fit"
+                    ,"header" : 1
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 4  
+//                             ,"Iq_error": 3 
+                     }
+               }
+             }
+   ,"FoXS" : {
+              "calc":{
+                    "filename": "outfile_FoXS_dat1"
+                    ,"header"  : 2
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2 
+//                             ,"Iq_error": 3
+                      }
+                     }
+              ,"fit":{
+                    "filename":  "outfile_FoXS_fit"
+                    ,"header" : 3
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 4
+//                             ,"Iq_error": 3
+                     }
+                    }
+              }
+   ,"Pepsi_SAXS" : {
+              "calc":{
+                    "filename": "outfile_Pepsi_SAXS_out"
+                    ,"header"  : 1
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2
+//                             ,"Iq_error": 3
+                      }
+                     }
+              ,"fit":{
+                    "filename":  "outfile_Pepsi_SAXS_fit"
+                    ,"header" : 1
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 4
+                     }
+                    } 
+              }
+   ,"SASTBX" : {
+              "calc":{
+                    "filename": "outfile_SASTBX_iq"
+                    ,"header"  : 1
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2
+                      } 
+                     }
+              ,"fit":{
+                    "filename":  "outfile_SASTBX_fit"
+                    ,"header" : 1 
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2
+                     }
+                    } 
+              }
+   ,"SasCalc" : {
+              }
+   ,"WAXSiS" : {
+              }
+   ,"SoftWAXS" : {
+              }
+   ,"AXES" : {
+              }
+
+};
+
+var iq_obj = {
+    "EXPR"   : {}
+    ,"CRYSOL": {}
+    ,"FoXS" : {}
+    ,"Pepsi_SAXS" : {}
+    ,"SASTBX" : {}
+    ,"SasCalc" : {}
+    ,"WAXSiS" : {}
+    ,"SoftWAXS" : {}
+    ,"AXES"     : {}
+}  
+
+var trace_marker =    {
+                "x":
+                []
+                ,"y":
+                []
+                ,"error_y": {
+                "array": []
+                ,"visible":"false"
+                }
+                ,"name" : "Marker"
+                ,"mode" : "markers"
+                ,"marker" : {
+                    "color" : "rgb(128, 0, 128)"
+                    ,"size": 4
+                }
+};
+
+var trace_linemarker = {
+                "x":
+                ["0.0001", "1", "10", "100"]
+                ,"y":
+                [1, 0.1, 0.01, 0.001]
+                ,"error_y": {
+                "array": [0, 0.07, 0.007, 0.0007]
+                ,"visible":"false"
+                }
+                ,"name": "Line + Markers"
+                ,"mode" : "lines+markers"
+                ,"marker" : {
+                    "color" : "rgb(128, 0, 128)"
+                    ,"size": 8
+                }
+                ,"line" : {
+                        "color" : "rgb(128, 0, 128)"
+                        ,"width" : 1
+                }
+};
+
+var trace_line =  {
+                "x":
+                []
+                ,"y":
+                []
+                ,"error_y": {
+                "array": []
+                ,"visible":"false"
+                }
+                ,"name" : "Lines"
+                ,"mode" : "lines"
+                ,"line" : {
+//                        "color" : "rgb(128, 0, 128)"
+                        "width" : 2
+                }
+};
+
+var sub_tracebar =  { 
+                "x":
+                []
+                ,"y":
+                []
+                ,"text": []
+                ,"textfont": {
+                           "color": "#ffffff"    
+                } 
+                ,"textposition": "auto"
+                
+                ,"error_y": {
+                          "array": []
+                          ,"visible":"false"
+                }
+                ,"xaxis": "x2"
+                ,"yaxis": "y2"
+                ,"type" : "bar"
+                ,"bargap" : 1.5
+};
+
+var samplelayout = {
+        "data" :[]
+        ,"layout" : {
+            "title" : "Place holder for Plotly, not real data!!!! "
+            ,"xaxis" : {
+//                  "type": "log"
+                  "title": "Q"
+                  ,"autorange": "true"
+            }
+            ,"yaxis" : {
+                  "type": "log"
+                  ,"title": "I(Q)"
+//                  ,"range": [-3.9,0.5]
+                  ,"autorange": "true"
+            }
+        }
+    };
+
+var sub_layout = {
+        "data" :[]
+        ,"layout" : {
+            "title" : "Place holder for Plotly, not real data!!!! "
+            ,"legend": {
+                    "x": 0.3
+                   ,"y": 1.1
+             }
+            ,"xaxis" : {
+//                  "type": "log"
+                  "title": "Q"
+                  ,"autorange": "true"
+                  ,"domain": [0, 0.45]
+            }
+            ,"yaxis" : {
+                  "type": "log"
+                  ,"title": "I(Q)"
+//                  ,"range": [-3.9,0.5]
+                  ,"autorange": "true"
+            }
+            ,"yaxis2" : {
+                  "anchor": "x2"
+                  ,"title": "Reduced chi-square"
+            }
+            ,"xaxis2" : {
+                  "domain": [0.55, 1]
+            }
+        }
+    };
+ 
+var iq_template =  { 
+       "data" : [
+                {
+                "x": 
+                ["0.0001", "1", "10", "100"]
+                ,"y": 
+                [1, 0.1, 0.01, 0.001]
+                ,"error_y": {
+                "array": [0, 0.07, 0.007, 0.0007]
+                ,"visible":"true"
+                }
+                ,"mode" : "lines+markers"
+                ,"marker" : {
+                    "color" : "rgb(128, 0, 128)"
+                    ,"size": 8
+                }
+                ,"line" : {
+                        "color" : "rgb(128, 0, 128)"
+                        ,"width" : 1
+                }
+            }
+        ],
+        "layout" : {
+            "title" : "Place holder for Plotly, not real data!!!! "
+            ,"xaxis" : {
+                  "type": "log"
+                  ,"title": "Q"
+            }
+            ,"yaxis" : {
+                  "type": "log"
+                  ,"title": "I(Q)"
+                  ,"range": [-3.9,0.5]
+                  ,"autorange": "false"
+            }
+        }
+    };
+
+
+var angular_units = {
+    "CRYSOL" : { "0" : "0", "1" : "1", "2" : "2", "3" : "3", "4" : "4" } 
+    ,"FoXS"  : { "0" : "1", "1" : "2", "2" : "3", "3" : "2", "4" : "3" } 
+    ,"Pepsi_SAXS" : { "0" : "0", "1" : "1", "2" : "2", "3" : "3", "4" : "4" }
+/* Place holder for future 
+    ,"SASTBX"  : [0,1,2,3,4]
+    ,"SasCalc" : [0,1,2,3,4]
+    ,"WAXSiS"  : [0,1,2,3,4]
+    ,"SoftWAXS" : [0,1,2,3,4]
+    ,"AXES"  : [0,1,2,3,4]
+*/
+};
 
 var table = {
     "CRYSOL" :
@@ -92,7 +425,19 @@ var table = {
 
               ,"options" : 
                   {
-                      "qmax" : {
+//                     "choose_all_models" : {
+//                          "prefix_full" : {} 
+//                          ,"prefix_short" : {}
+//                          ,"type" : "integer"
+//                          ,"info" : "Choose all MODELS if multi-frame PDB given"
+//                          }
+                      "choose_first_model" : {
+                          "prefix_full" : " -nmr 1"
+                          ,"prefix_short" : " -nmr 1"
+                          ,"type" : "checkbox"
+                          ,"info" : "Choose first model only"
+                          }
+                      ,"qmax" : {
                           "prefix_full" : "-sm"
                           ,"prefix_short" : "-sm"
                           ,"type" : "float"
@@ -101,19 +446,19 @@ var table = {
                       ,"number_of_points" : {
                           "prefix_full" : "-ns"
                           ,"prefix_short" : "-ns"
-                          ,"type" : "integer"
+                      ,"type" : "integer"
                           ,"info" : "Number of points in the theoretical curve (max = 5000)"
                           }
-                      ,"angular_unit" : {
+                      ,"angular_units" : {
                           "prefix_full" : "-un"
                           ,"prefix_short" : "-un"
-                          ,"type" : "integer"
+                          ,"type" : "listbox"
                           ,"min" : 1
                           ,"max" : 4
                           ,"default" : 1
                           ,"info" : "Rewrite here "
                           }
-                      ,"constant_substraction" : {
+                      ,"constant_subtractions" : {
                           "prefix_full" : "-cst"
                           ,"prefix_short" : "-cst"
                           ,"type" : "checkbox"
@@ -155,7 +500,7 @@ var table = {
                           ,"type" : "float"
                           ,"info" : "Solvent density (e/A^3). Default value is the electron density of pure water."
                           }
-                      ,"create_output" : {
+                      ,"optional_outputs" : {
                           "prefix_full" : "-kp"
                           ,"prefix_short" : "-kp"
                           ,"type" : "checkbox"
@@ -164,22 +509,22 @@ var table = {
                       ,"write_error" : {
                           "prefix_full" : "-err"
                           ,"prefix_short" : "-err"
-                          ,"type" : "character"
+                          ,"type" : "checkbox"
                           ,"info" : "Write experimental errors to the .fit file (Y or N)."
                           }
-                      ,"read_old_atom" : {
+                      ,"read_old_pdb" : {
                           "prefix_full" : "-old"
                           ,"prefix_short" : "-old"
                           ,"type" : "checkbox"
                           ,"info" : "Read a PDB file with an old atom naming (pre 2008). No value is required."
                           }
-                      ,"nmr_conformer" : {
-                          "prefix_full" : "-nmr"
-                          ,"prefix_short" : "-nmr"
-                          ,"type" : "integer"
-                          ,"info" : "Sequential number of a model or an NMR conformer to process."
-                          }
-                      ,"define_chain_id" : {
+//                      ,"select_conformers" : {
+//                          "prefix_full" : "-nmr"
+//                          ,"prefix_short" : "-nmr"
+//                          ,"type" : "integer"
+//                          ,"info" : "Sequential number of a model or an NMR conformer to process."
+//                          }
+                      ,"chain_id" : {
                           "prefix_full" : "-cid"
                           ,"prefix_short" : "-cid"
                           ,"type" : "character"
@@ -188,7 +533,7 @@ var table = {
                   }
     }
 
-    ,"FOXS" : 
+    ,"FoXS" : 
        { 
            "executable" : "foxs"
            ,"input" : 
@@ -208,38 +553,50 @@ var table = {
                {
                       "stderr" : {
                           "role"   : "output"
-                          ,"id"    : "output_FOXS_stderr"
+                          ,"id"    : "output_FoXS_stderr"
                           ,"type" : "file"
-                          ,"label" : "FOXS stderr file"
+                          ,"label" : "FoXS stderr file"
                           }
                       ,"stdout" : {
                           "role"   : "output"
-                          ,"id"    : "output_FOXS_stdout"
+                          ,"id"    : "output_FoXS_stdout"
                           ,"type" : "file"
-                          ,"label" : "FOXS stdout file."                                                
+                          ,"label" : "FoXS stdout file."                                                
                           }
                      ,"fit" : {
                           "role"   : "output"
-                          ,"id"    : "output_FOXS_fit"
+                          ,"id"    : "output_FoXS_fit"
                           ,"type" : "file"
                           ,"label" : "Contains the fit to the experimental data in inverse angstroms."
                           }
                      ,"dat1" : {
                           "role"   : "output"
-                          ,"id"    : "output_FOXS_dat1"
+                          ,"id"    : "output_FoXS_dat1"
                           ,"type" : "file"
                           ,"label" : "Contains the prediction from input pdb "
                           }
                      ,"dat2" : {
                           "role"   : "output"
-                          ,"id"    : "output_FOXS_dat2"
+                          ,"id"    : "output_FoXS_dat2"
                           ,"type" : "file"
                           ,"label" : "Contains the intensities"
                           }
                }
            ,"options" :
                {
-                     "qmax"  : {
+                     "choose_all_models" : {
+                          "prefix_full" : "-m 3"
+                          ,"prefix_short" : "-m 3"
+                          ,"type" : "checkbox"
+                          ,"info" : "Choose all MODELS if multi-frame PDB given"
+                          }
+                     ,"choose_first_model" : {
+                          "prefix_full" : "-m 1 "
+                          ,"prefix_short" : "-m 1 "
+                          ,"type" : "checkbox"
+                          ,"info" : "Choose first model only"
+                          }
+                     ,"qmax"  : {
                          "prefix_full" : "--max_q"
                          ,"prefix_short" : "-q"
                          ,"type" : "float"
@@ -253,14 +610,14 @@ var table = {
                          ,"default" : 500 
                          ,"info" : "Number of points in the scattering curve (only applicable if experimental data is not provided)"
                          }
-                     ,"angular_unit"  : {
+                     ,"angular_units"  : {
                          "prefix_full" : "--units"
                          ,"prefix_short" : "-u"
-                         ,"type" : "integer"
+                         ,"type" : "listbox"
                          ,"default" : 1
                          ,"info" : "1 - unknown --> determine automatically (default), 2 - q values are in 1/A, 3 - q values are in 1/nm"
                          }
-                      ,"constant_substraction" : {
+                      ,"constant_subtractions_FoXS" : {
                           "prefix_full" : "--background_q"
                           ,"prefix_short" : "-b"
                           ,"type" : "float"
@@ -307,19 +664,19 @@ var table = {
                          ,"type" : "checkbox"
                          ,"info" : "fast coarse grained calculation using CA atoms only"
                          }
-                     ,"offset"  : {
+                     ,"offset_FoXS"  : {
                          "prefix_full" : "--offset"
                          ,"prefix_short" : "--offset"
                          ,"type" : "checkbox"
                          ,"info" : "use offset in fitting"
                          }
-                     ,"write_partial_profile"  : {
+                     ,"partial_profile"  : {
                          "prefix_full" : "--write-partial-profile"
                          ,"prefix_short" : "-p"
                          ,"type" : "checkbox"
                          ,"info" : "write partial profile file"
                          }
-                     ,"multi_model_pdb"  : {
+                     ,"multi_model_pdb_FoXS"  : {
                          "prefix_full" : "--multi-model-pdb"
                          ,"prefix_short" : "-m"
                          ,"type" : "integer"
@@ -378,13 +735,13 @@ var table = {
                           "role"   : "output"
                           ,"id"    : "output_Pepsi_SAXS_stderr"
                           ,"type" : "file"
-                          ,"label" : "FOXS stderr file"
+                          ,"label" : "FoXS stderr file"
                           }
                       ,"stdout" : {
                           "role"   : "output"
                           ,"id"    : "output_Pepsi_SAXS_stdout"
                           ,"type" : "file"
-                          ,"label" : "FOXS stdout file."  
+                          ,"label" : "FoXS stdout file."  
                           }
                       ,"log" : {
                           "role"   : "output"
@@ -425,13 +782,13 @@ var table = {
                          ,"min" : 10
                          ,"info" : "Number of points in the scattering curve (only applicable if experimental data is not provided), default 101, max 5000"
                          }
-                     ,"angular_unit"  : {
+                     ,"angular_units"  : {
                          "prefix_full" : "--angular_units"
                          ,"prefix_short" : "-au"
-                         ,"type" : "integer"
+                         ,"type" : "listbox"
                          ,"info" : "Same with crysol. Default is chosen automatically."
                          }
-                      ,"constant_substraction" : {
+                      ,"constant_subtractions" : {
                           "prefix_full" : "--cst"
                           ,"prefix_short" : "-cst"
                           ,"type" : "checkbox"
@@ -467,7 +824,7 @@ var table = {
                          ,"type" : "checkbox"
                          ,"info" : "Allowing negative contrast of the hydration shell upon fitting"
                          }
-                     ,"fast"  : {
+                     ,"fast_hydration"  : {
                          "prefix_full" : "--fast"
                          ,"prefix_short" : "-fast"
                          ,"type" : "checkbox"
@@ -529,7 +886,86 @@ var table = {
                          }
                }
     }
- 
+    ,"SASTBX" :
+       {
+           "executable" : "sastbx"
+           ,"input" :
+               {
+                     "pdb" : {
+                         "type" : "file"
+                         ,"number_of_files" : 1
+                         ,"required" : "true"
+                         }
+                     ,"experimental_curve" : {
+                         "type" : "file"
+                         ,"number_of_files" : 1000000
+                         ,"required" : "false"
+                         }
+                     ,"pdblist" : {
+                         "type" : "file"
+                         ,"number_of_files" : 1
+                         ,"required" : "false"
+                         }
+               }
+           ,"output" :
+               {
+                      "stderr" : {
+                          "role"   : "output"
+                          ,"id"    : "output_SASTBX_stderr"
+                          ,"type" : "file"
+                          ,"label" : "SASTBX stderr file"
+                          }
+                      ,"stdout" : {
+                          "role"   : "output"
+                          ,"id"    : "output_SASTBX_stdout"
+                          ,"type" : "file"
+                          ,"label" : "SASTBX stdout file."
+                          }
+                      ,"iq" : {
+                          "role"   : "output"
+                          ,"id"    : "output_SASTBX_iq"
+                          ,"type" : "file"
+                          ,"label" : "SASTBX output I(q) file from input pdb by Debye model."
+                          }
+                      ,"json" : {
+                          "role"   : "output"
+                          ,"id"    : "output_SASTBX_json"
+                          ,"type" : "file"
+                          ,"label" : "SASTBX output I(q) file (JSON format)."
+                          }
+                      ,"fit" : {
+                          "role"   : "output"
+                          ,"id"    : "output_SASTBX_fit"
+                          ,"type" : "file"
+                          ,"label" : "SASTBX output I(q) file containing the fit to the experimental data"
+                          }
+               }
+           ,"options" :
+               {
+                     "qmax"  : {
+                         "prefix_full" : "q_stop="
+                         ,"prefix_short" : "q_stop="
+                         ,"type" : "float"
+                         ,"default" : 0.5 
+                         ,"info" : "Maximum q"
+                         }
+                     ,"qmin"  : {
+                         "prefix_full" : "q_start="
+                         ,"prefix_short" : "q_start="
+                         ,"type" : "float"
+                         ,"default" : 0.0
+                         ,"info" : "minimum q"
+                         }
+                      ,"number_of_points" : {
+                          "prefix_full" : "n_step="
+                          ,"prefix_short" : "n_step="
+                          ,"type" : "integer"
+                          ,"default" : 51
+                          ,"info" : "Number of points in the theoretical curve"
+                          }
+
+               }
+    } 
     ,"sascalc_hub" :
        {
            "executable" : "sascalc_hub"
@@ -541,13 +977,13 @@ var table = {
                {
                       "stderr" : {
                           "role"   : "output"
-                          ,"id"    : "output_sascalc_stderr"
+                          ,"id"    : "output_sascalc_hub_stderr"
                           ,"type" : "file"
                           ,"label" : "SasCalc stderr file"
                           }
                       ,"stdout" : {
                           "role"   : "output"
-                          ,"id"    : "output_sascalc_stdout"
+                          ,"id"    : "output_sascalc_hub_stdout"
                           ,"type" : "file"
                           ,"label" : "SasCalc stdout file."  
                           }
@@ -558,7 +994,7 @@ var table = {
                }
     }
  
-    ,"WAXSIS" :
+    ,"WAXSiS" :
        {
            "executable" : "waxsis"
            ,"input" :
@@ -569,15 +1005,15 @@ var table = {
                {
                       "stderr" : {
                           "role"   : "output"
-                          ,"id"    : "output_WAXSIS_stderr"
+                          ,"id"    : "output_WAXSiS_stderr"
                           ,"type" : "file"
-                          ,"label" : "WAXSIS stderr file"
+                          ,"label" : "WAXSiS stderr file"
                           }
                       ,"stdout" : {
                           "role"   : "output"
-                          ,"id"    : "output_WAXSIS_stdout"
+                          ,"id"    : "output_WAXSiS_stdout"
                           ,"type" : "file"
-                          ,"label" : "WAXSIS stdout file."  
+                          ,"label" : "WAXSiS stdout file."  
                           }
                }
            ,"options" :
@@ -644,25 +1080,32 @@ var table = {
 
 };             
 
-var cmds = {};
+var cmds = {};   // exec <options, flags>  for each method
+var runcmds = {}; // full sequence of command-line commands including files & directory preparation 
+var res = {}; // standard output objects to be written in _textarea 
+var files = {}; // output file name objects from each method
 
-var res = {};
 //Get executables for each commands
 
-//Get executables for each commands
-
-const cmdpath ='/home/cheol/work/SaxsCalc_Hub/bin/';
+const cmdpath ='/home/cheol/work/alphamultisaxshub/bin/';
+const sastbx_path = cmdpath + 'sastbx_ubuntu_commandline/build/'
+//const sastbx_bin = sastbx_path + "bin/"
 
 for ( x in req ) {
     var new_x = x.replace(/select_all-/g,'')
     if (new_x in table) {
+           cmds[ new_x ] = '';
            if (new_x == 'CRYSOL') {
-               cmds[ new_x ] = "export LD_LIBRARY_PATH='/home/cheol/atsas/ATSAS-2.8.4-1/lib/x86_64-linux-gnu/atsas/' && ";
-           }
-           else {
-               cmds[ new_x ] = '';
-           }; 
+               cmds[ new_x ] = "export LD_LIBRARY_PATH='$LD_LIBRARY_PATH:/home/cheol/atsas/ATSAS-2.8.4-1/lib/x86_64-linux-gnu/atsas/' && ";
+           };
+           if (new_x == 'SASTBX') {
+                cmds[ new_x ] += ". " + sastbx_path + "setpaths_all.sh && ";
+//                cmds[ new_x ] += cmdpath + table[ new_x ].executable ;
+//                cmds[ new_x ] += ". /home/cheol/work/alphamultisaxshub/bin/sastbx_ubuntu_commandline/build/setpaths_all.sh && ";
+//                cmds[ new_x ] += "/home/cheol/work/alphamultisaxshub/bin/sastbx_ubuntu_commandline/build/bin/" + table[ new_x ].executable + ".she";
+           }  
            cmds[ new_x ] += cmdpath+table[ new_x ].executable;
+           
         };
 };
 
@@ -683,40 +1126,29 @@ var pdbshort = pdb.split('/').slice(-1).pop();
 
 expdata = "";
 expdatashort = "";
+var expdata_sastbx_short = "";
 if ( string_expdata in req ) {
        expdata += req[ string_expdata ].join( " " );
-       var expdatashort = expdata.split('/').slice(-1).pop();
+       expdatashort = expdata.split('/').slice(-1).pop();
+       expdata_sastbx_short = expdatashort.split('.').slice(0,-1) + ".qis";    
+       runmode = "fit";
     };
 
-console.log(expdata,expdatashort);
+//console.log(expdata,expdatashort);
 
 for ( x in cmds ) {
 
-    if ( x == "CRYSOL" ) {
-        cmds[ x ] += " " + pdbshort
-        cmds[ x ] += " " + expdatashort 
-    };
-    if ( x == "FOXS" ) {
-        cmds[ x ] += " " + pdbshort
-        cmds[ x ] += " " + expdatashort
-    };
-    if ( x == "Pepsi_SAXS" ) {
+    if ( x == "SASTBX" ) {
+       cmds[ x ] += " structure=" + pdbshort;
+       if ( string_expdata in req ) {
+           cmds[ x ] += " experimental_data=" + expdata_sastbx_short;
+       };
+    } else {
         cmds[ x ] += " " + pdbshort
         cmds[ x ] += " " + expdatashort
-    };
-    if ( x == "sascalc_hub" ) {
-
-    };
-    if ( x == "WAXISIS" ) {
-
-    };
-    if ( x == "SoftWAXS" ) {
-
-    };
-    if ( x == "AXES" ) {
-
-    }; 
+    }
 };
+
 
 // Adding options with arguments
 for ( x in cmds ) { 
@@ -724,30 +1156,51 @@ for ( x in cmds ) {
     for ( opt in table[ x ]["options"] ) {
 
         if ( opt in req ) {
-            cmds[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
-
-            argm = "" 
-            if ( table[ x ][ "options" ] [ opt ] [ "type" ] != "checkbox" ) {
-                argm += req[ opt ] 
+            if ( table[ x ][ "options" ] [ opt ] [ "type" ] != "listbox" ) {
+                cmds[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
+                argm = "" 
+                if ( table[ x ][ "options" ] [ opt ] [ "type" ] != "checkbox" ) {
+                    argm += req[ opt ] 
+                };
+                if ( x == "SASTBX" ) {
+                    cmds[ x ] += argm
+                } else {
+                    cmds[ x ] += " " + argm
+                };
+            } else {
+              if ( req[ opt ] != 0) {
+                 cmds[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
+                 argm = ""
+                 if ( opt == "angular_units" ) {
+                     argm += angular_units[ x ][ req[ opt ] ]; 
+                 } else {
+                 argm += req[ opt ];
+                 };
+                 if ( x == "SASTBX" ) {
+                    cmds[ x ] += argm
+                 } else {
+                    cmds[ x ] += " " + argm
+                 };
+              }; 
             };
-        cmds[ x ] += " " + argm
-    };
-  };
+        }; 
+   };
 };
 
-var runcmds = {};
+// Write command-line commands for each cmds
 for ( x in cmds ) {
      runcmds[ x ] = "mkdir " + x +" && cd " + x + "  && cp ../" + pdbshort + " . && " ;
 //     runcmds[ x ] = "cd " + x + "  && cp ../" + pdbshort + " . && " ;
      if (string_expdata in req) {
-         runcmds[ x ] += "cp ../" + expdatashort + " . && " 
+         runcmds[ x ] += "cp ../" + expdatashort + " . && " ;
+         if ( x == "SASTBX" ) {
+             runcmds[ x ] += "sed '1d' " + expdatashort + " > " + expdata_sastbx_short + " && " ;
+         }
      };
      runcmds[ x ] +=  cmds[ x ]  + " > " + x + ".stdout  2> " + x + ".stderr"
 };
 
-//console.log(runcmds);
-
-var res = {};
+// Prepare log at _textarea
 
 res._textarea = "Run Command Setup:\n ";
 res._textarea += JSON.stringify( runcmds, null, 2 ) + "\n";
@@ -758,105 +1211,368 @@ res._textarea += JSON.stringify(cmds, null, 2) + "\n";
 res._textarea += "\n JSON input parameters:\n "
 res._textarea += JSON.stringify(req, null, 2) +  "\n";
 
+// function to find output files from each method with number of lines > 0
+
+function udp_outfile( x ) {
+    var output = {}; // use for UDP messaging
+    files.x = fs.readdirSync(  x + '/' );
+    try {
+    if ( x != 'FoXS' ) {
+    files.x.forEach ( function ( file ) {
+        var suffix = file.split('.').pop();
+        if ( suffix in table[ x ][ "output" ]) {
+             var text = fs.readFileSync( x + "/" + file);
+             var lines = text.toString().split('\n').length - 1;
+             if ( lines != 0 ) {
+                 var xkey = 'outfile_' + x + '_' + suffix;
+                 var xvalue = req._base_directory + '/' + x  + '/' + file;
+                 res[ 'outfile_' + x + '_' + suffix ] = req._base_directory + '/' + x  + '/' + file;
+                 output[ 'outfile_' + x + '_' + suffix ] = req._base_directory + '/' + x  + '/' + file;
+                 res._textarea += 'outfile_' + x + '_' + suffix + "\n";
+             };
+        };
+    });
+    } else {
+        files.x.forEach ( function ( file ) {
+        var suffix = file.split('.').pop();
+        var suffix_dat = suffix;
+        if ( suffix == 'dat') {
+             if ( pdbshort + '.dat' == file) {           // FoXS theoretical Iq files has nameing convention; pdbname + '.dat'
+                 suffix_dat = 'dat1';
+             } else if  ( file == expdatashort ) {
+                 suffix_dat = ' ';
+             } else {
+                 suffix_dat = 'dat2';
+             }
+        };
+        if ( suffix_dat in table[ x ][ "output" ]) {
+             var text = fs.readFileSync( x + "/" + file)
+             var lines = text.toString().split('\n').length - 1;
+             if ( lines != 0 ) {
+                 var xkey = 'outfile_' + x + '_' + suffix_dat;
+                 var xvalue = req._base_directory + '/' + x  + '/' + file;
+                 res[ 'outfile_' + x + '_' + suffix_dat ] = req._base_directory + '/' + x  + '/' + file;
+                 output[ 'outfile_' + x + '_' + suffix_dat ] = req._base_directory + '/' + x  + '/' + file;
+                 res._textarea += 'outfile_' + x + '_' + suffix_dat + "\n";
+             };
+        };
+        });
+    }; 
+     
+    } catch(err) {
+           results[ x ] = 'Error during writing output files of '+  x  + ' : ' + err.message;
+    }
+    return output;
+}
+
+// Generate a zip file of rea._base_directory excluding input files in each method directory
+function write_zip(err) {
+    var zipdir = '';
+    var output = {};
+    for ( x in cmds ) {
+        zipdir += x + " ";
+        var rm_cmd = "rm -rf " + './' + x + '/' + pdbshort;
+        if (expdatashort.length != 0) {
+            rm_cmd += " && rm -rf " + './' + x + '/' + expdatashort;
+        };
+        exec( rm_cmd );
+    };
+
+    var zipname = req._base_directory;
+    zipname = req._base_directory + "/" + zipname.split('/').pop() + ".zip";
+    const zipcmd = "zip -r " + zipname + " " + zipdir;
+    exec(zipcmd,(err,stdout,stderr) => {
+        if (err) {
+            res._textarea += "Error in zipping output file :" + err.message + "\n";
+        }
+    });
+    res.outfile_zip = zipname;
+    output.outfile_zip = zipname;
+    return output;
+}
+
+// UDP messaging
+function send_udpmsg( obj ) {
+    obj._uuid = req._uuid;
+    const udp_client = dgram.createSocket('udp4');
+    const txt = JSON.stringify( obj );
+    udp_client.send( txt,0, txt.length, req._udpport, req._udphost, ( err ) => {
+        if (err) throw err;
+        udp_client.close();
+    });
+}
+
+function readfile(x,output) {
+    var file_id = iqfiles[ x ][ runmode ][ "filename" ];
+    const f = output[ file_id ];
+    try {
+        var data = fs.readFileSync(f);
+        var result = data.toString().split('\n');
+    } catch(error){result = "Error in reading " + f}; 
+    return result;
+}
+
+function readfile_exp() {
+    try {
+        var data = fs.readFileSync(expdatashort);
+        var result = data.toString().split('\n');
+    } catch(error){
+        res._textarea = "Error in reading " + expdatashort;
+        throw err;
+    } return result;
+}
+
+var Iq_ALL = {};
+var Iq_ref_data = {};
+var chi_square = [];
+var chi_square_reduced = [];
+var chi_square_pierson = [];
+
+async function prepIqJSON_all( ) {
+// Initialize Iq_ALL and Iq_exp_data
+   
+   if ( runmode == "calc" ) {
+       var Iq_mock = JSON.parse(JSON.stringify( samplelayout ));
+       Iq_mock[ "layout" ][ "title" ] = "Theoretical I(Q) profiles with " + pdbshort;
+   };
+   if ( runmode == "fit" ) {
+       var Iq_mock = JSON.parse(JSON.stringify( sub_layout ));
+       Iq_mock[ "layout" ][ "title" ] = "Fitted I(Q) profiles with " + pdbshort + " & " + expdatashort ;
+       // Initialize experimental data for Iq plot
+       var data_exp = await readfile_exp();
+       iq_obj[ "EXPR" ] = JSON.parse( JSON.stringify( trace_marker ) );
+       await getIqJSON_exp(data_exp); 
+   };    
+   Iq_ALL[ "iq_ALL" ] = Iq_mock;
+}
+
+async function getIqJSON_all( ) {
+    if ( runmode == "fit" ) {
+       Iq_ALL[ "iq_ALL" ][ "data" ].push( iq_obj[ "EXPR" ] );
+       var data_chi_temp = JSON.parse( JSON.stringify( sub_tracebar ) );
+       var chi2_reduced_obj = calc_reduced_chi2();
+    };
+//    var mock_chi = 20; // mock chi2 data for each x
+    for ( x in cmds ) {
+       Iq_ALL[ "iq_ALL" ][ "data" ].push( iq_obj[ x ] );
+       if ( runmode == "fit" ) {
+//           mock_chi += 10; // use chi_square[] array
+           data_chi_temp[ "x" ].push( x );
+           data_chi_temp[ "y" ].push( chi2_reduced_obj[ x ] );
+           data_chi_temp[ "text" ].push( chi2_reduced_obj[ x ].toFixed(6) );
+           data_chi_temp[ "name" ] = "chi^2";
+           res._textarea += data_chi_temp + "\n";
+           res._textarea += chi2_reduced_obj[x] + "\n";
+           
+       };
+    };
+
+    if ( runmode == "fit" ) {
+       Iq_ALL[ "iq_ALL" ][ "data" ].push( data_chi_temp );
+    };
+
+//   res._textarea += JSON.stringify(data_chi_temp);
+//   res._textarea += JSON.stringify(Iq_ALL);  
+}
+
+function calc_reduced_chi2() {
+
+    var chi2 = {};
+    var data_len = iq_obj[ "EXPR" ][ "y" ].length;
+    
+    try { 
+        for (x in runcmds ) {
+            var sum_chi2 = 0.0;
+            for ( i = 0; i < data_len; i++ ) {
+                sum_chi2 += ( iq_obj[ "EXPR" ][ "y" ][ i ] - iq_obj[ x ][ "y" ][ i ] )**2 / ( iq_obj[ "EXPR" ][ "error_y" ][ "array" ][ i ])**2 ;
+            };
+            chi2[ x ] =  sum_chi2 / Number( data_len); //.toFixed(5);
+        };
+        return chi2;
+        res._textarea += "CHI-SQUARE \n";
+        res._textarea += JSON.stringify( chi2 );
+    } catch (error) {
+        res._textarea += "Error while calculating chi-squares" ;
+    }
+
+}
+
+async function getIqJSON_exp( txt ) {
+
+    try {
+        const startline = iqfiles[ "EXPR" ][ runmode ][ "header" ];
+        const id_q = iqfiles[ "EXPR" ][ runmode ][ "contents" ][ "q" ];
+        const id_iq = iqfiles[ "EXPR" ][ runmode ][ "contents" ][ "Iq" ];
+        if ("Iq_error" in iqfiles[ "EXPR" ][ runmode ][ "contents" ]) {
+            var id_sd = iqfiles[ "EXPR" ][ runmode ][ "contents" ][ "Iq_error" ];
+        };
+
+        var q = [];
+        var Iq = [];
+        var Iq_error = [];
+        for( i = startline; i < txt.length  ; i++ ) {
+            var txtstring = txt[i].toString().replace( /^\s*/,"" );
+            var patt = /\D{1,3}/g;
+            var txttrim = txtstring.replace(/\s+/g,'').replace(/\h+/g,'');
+            if ( txtstring !== null && txtstring !== '' && patt.exec(txttrim) !== null ){
+                var txtline = txt[i].toString().replace( /^\s*/,"" ).split( /\s+/ );
+                q.push( txtline[ id_q - 1 ] );
+                Iq.push( txtline[ id_iq - 1 ] );
+                if ("Iq_error" in iqfiles[ "EXPR" ][ runmode ][ "contents" ] ) {
+                    Iq_error.push( txtline[ id_sd - 1 ] );
+                };
+            };
+        };
+        iq_obj[ "EXPR" ][ "x" ] = q;
+        iq_obj[ "EXPR" ][ "y" ] = Iq;
+        iq_obj[ "EXPR" ][ "name" ] = expdatashort;
+        iq_obj[ "EXPR" ][ "error_y" ][ "array" ] = Iq_error;
+        iq_obj[ "EXPR" ][ "error_y" ][ "visible" ] = "true";
+      } catch (error) { 
+            res._textarea += "Error in making PLOTLY JSON of experimental data \n"
+      };
+}
+ 
+function getIqJSON(x,layout,tempdata,txt) {
+    try {
+        const startline = iqfiles[ x ][ runmode ][ "header" ];
+        const id_q = iqfiles[ x ][ runmode ][ "contents" ][ "q" ];
+        const id_iq = iqfiles[ x ][ runmode ][ "contents" ][ "Iq" ];
+        if ("Iq_error" in iqfiles[ x ][ runmode ][ "contents" ]) {
+            var id_sd = iqfiles[ x ][ runmode ][ "contents" ][ "Iq_error" ];
+        };
+
+        var q = [];
+        var Iq = [];
+        var Iq_error = [];
+//        for(i = startline; i < 5; i++) {
+        for( i = startline; i < txt.length  ; i++ ) {
+            var txtstring = txt[i].toString().replace( /^\s*/,"" );
+            if ( txtstring !== null && txtstring !== '' ) {
+                var txtline = txt[i].toString().replace( /^\s*/,"" ).split( /\s+/ );
+                // throw q less than min q in experimental data
+                if ( runmode == "fit" ) {
+                    if ( !( Number( txtline[ id_q - 1 ] ).toFixed(5) < Number( iq_obj[ "EXPR" ][ "x" ][ 0 ] ).toFixed(5) ) ) {
+                        q.push( txtline[ id_q - 1 ] );
+                        Iq.push( txtline[ id_iq - 1 ] );
+                        if ("Iq_error" in iqfiles[ x ][ runmode ][ "contents" ]) {
+                            Iq_error.push( txtline[ id_sd - 1 ] );
+                        };
+                    };
+                } else {
+                    q.push( txtline[ id_q - 1 ] );
+                    Iq.push( txtline[ id_iq - 1 ] );
+                    if ("Iq_error" in iqfiles[ x ][ runmode ][ "contents" ]) {
+                        Iq_error.push( txtline[ id_sd - 1 ] );
+                    };
+                };
+             };
+        };
+
+       var Iq_layout = {};
+       Iq_layout = JSON.parse( JSON.stringify( layout ) );
+       iq_obj[ x ] = JSON.parse( JSON.stringify( tempdata ) );
+       iq_obj[ x ][ "x" ] = q;
+       iq_obj[ x ][ "y" ] = Iq;
+       iq_obj[ x ][ "name" ] = x; 
+
+       if ("Iq_error" in iqfiles[ x ][ runmode ][ "contents" ]) {
+           iq_obj[ x ][ "error_y" ][ "array" ] = Iq_error; 
+           iq_obj[ x ][ "error_y" ][ "visible" ] = "true";
+       } else {
+           delete iq_obj[ "error_y" ];
+       };
+
+       Iq_layout[ "data" ] = [ iq_obj[ x ] ];
+
+       if ( runmode == "calc" ) {
+          Iq_layout[ "layout" ][ "title" ] = "Theoretical Iq from " + x + " with " + pdbshort;
+        };
+
+       if ( runmode == "fit" ) {
+          Iq_layout[ "layout" ][ "title" ] = "Fit Iq from " + x + " with " + expdatashort ; 
+          Iq_layout[ "data" ].push( iq_obj[ "EXPR" ] );
+        };
+
+//       iq_obj[ x ] = Iq_data ;
+       var result = {};
+       result[ "iq_" + x ] = Iq_layout;
+//       res._textarea += JSON.stringify(result);
+
+    } catch (error) { result = "Error in making PLOTLY JSON for " + x  +"\n"};
+
+    return result;
+};
+
+// Define a chain of promise for each method before parallelizaton
+async function do_exec( x ) {
+    var x_startTime = performance.now();
+    send_udpmsg( { _textarea : "Starting " + x + " job\n" } );
+
+    result = await p_exec( runcmds[ x ] );
+    var x_exeTime = (Number.parseInt(performance.now() - x_startTime))/1000;
+    send_udpmsg( { _textarea : "Completed " + x + " job: " + x_exeTime + " seconds.\n" } );
+
+    var output = udp_outfile( x );
+    send_udpmsg( { _textarea : "Writing output files for " + x + " done\n" } );
+    send_udpmsg( output );
+
+    var tst = readfile(x,output);
+    Iq_udp = getIqJSON(x,samplelayout,trace_line,tst);
+//    send_udpmsg( { _textarea : "Sending UPD for " + x + " \n" + JSON.stringify(Iq_udp) + " \n" }); 
+    send_udpmsg( Iq_udp );
+    send_udpmsg( { _textarea : "Sent UPD for " + x + " \n" });
+    return result;
+}
+
+// Define parallel job of methods
 async function parallel() {
     var tasks = {};
+    var udptasks = {};
     for ( x in runcmds ) {
-	tasks[ x ] = exec( runcmds[ x ] );   
-        }
+        tasks[ x ] = do_exec( x );
+    }
+
     var results = {};
-    var errors = {};
+//    var errors = {};
 
     try {    
         for ( x in runcmds ) {
            results[ x ] = await tasks[ x ];
-        } 
-     } catch(error) {
-           results[ x ] = 'Error in '+  x  + ' : ' + error.message;
+        }
+     } catch(err) {
+           results[ x ] = 'Error in '+  x  + ' : ' + err.message;
      }
     return results;
-//    return results,errors;
 }
 
 res._textarea += "\n LOG of executables:\n ";
 
+// Main function to submit parallel job
 async function taskRunner(fn, label) {
   const startTime = performance.now();
     try {
-        let result = await fn();
-        res._textarea += `Task ${label} finished in ${ Number.parseInt(performance.now() - startTime) } miliseconds with` + JSON.stringify( result, null, 2 ) + "\n";
-
-        var files = {};
-        var zipdir = '';
-        var stderr_file = '';
-        var stdout_file = '';
-        for ( x in cmds ) {
-            files.x = fs.readdirSync(  x + '/' );
-            zipdir += x + " ";
-            if ( x != 'FOXS' ) {
-            files.x.forEach ( function ( file ) {
-                var suffix = file.split('.').pop();
-                if ( suffix in table[ x ][ "output" ]) {
-                     var text = fs.readFileSync( x + "/" + file)
-                     var lines = text.toString().split('\n').length - 1;
-                     if ( lines != 0 ) {
-                         res[ 'outfile_' + x + '_' + suffix ] = req._base_directory + '/' + x  + '/' + file;
-                     };
-                     };
-            });
-            } else {
-                files.x.forEach ( function ( file ) {
-                var suffix = file.split('.').pop();
-                var suffix_dat = suffix;
-                if ( suffix == 'dat') {
-                     if ( pdbshort + '.dat' == file) {
-                         suffix_dat = 'dat1';
-                     } else if  ( file == expdatashort ) {
-                         suffix_dat = ' ';
-                     } else {
-                         suffix_dat = 'dat2';
-                     }
-                };
-                if ( suffix_dat in table[ x ][ "output" ]) {
-                     var text = fs.readFileSync( x + "/" + file)
-                     var lines = text.toString().split('\n').length - 1;
-                     if ( lines != 0 ) {
-                         res[ 'outfile_' + x + '_' + suffix_dat ] = req._base_directory + '/' + x  + '/' + file;
-                     };
-                };
-            });
-            };
-           var rm_cmd = "rm -rf " + './' + x + '/' + pdbshort; 
-           if (expdatashort.length != 0) {
-              rm_cmd += " && rm -rf " + './' + x + '/' + expdatashort;
-           };
-           exec2( rm_cmd );
-           
-        };
-        
-        var zipname = req._base_directory;
-        zipname = req._base_directory + "/" + zipname.split('/').pop() + ".zip";
-        const zipcmd = "zip -r " + zipname + " " + zipdir; 
-//        res._textarea += "Zip command = " + zipcmd + "\n";
-        exec2(zipcmd,(err,stdout,stderr) => {
-             if (err) {
-                 res._textarea += "Error in zipping output file :" + err.message + "\n";
-             }
-        }); 
-        res.outfile_zip = zipname;
+        prepIqJSON_all();
+        var result = await fn();
+        getIqJSON_all();
+        var output = write_zip();
+        send_udpmsg( output );
+        send_udpmsg( { _textarea : "Try to send UPD for Iq_ALL : \n" });
+//        send_udpmsg( { _textarea : "IQ ALL : \n" + JSON.stringify(Iq_ALL) + " \n" });
+//        send_udpmsg( Iq_ALL );
         if ( ! ( "debug_msg" in req ) ) { 
 	    delete res._textarea;
-        }
+            res[ "iq_ALL" ] = Iq_ALL[ "iq_ALL" ] ; 
+        };
+
         console.log(JSON.stringify(res));
+        send_udpmsg( { _textarea : "Finished Multi SAXS job!" } );
     } 
     catch (err) {
        res._textarea += "Error : " + err.message + "\n";
        console.log(err.message);
     }
-  //   console.log(`Task ${label} finished in ${ Number.parseInt(performance.now() - startTime) } miliseconds with,`, result);
-// populate file output in res
-//  console.log(JSON.stringify(res));
 }
 
 // void taskRunner(parallel, 'parallel');
 taskRunner(parallel, 'parallel', {} );
-
