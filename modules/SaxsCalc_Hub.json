@@ -223,11 +223,11 @@
         ,{
             "role"       : "input"
             ,"id"         : "constant_subtractions"
-            ,"label"      : "Background subtractions [only CRYSOL, Pepsi-SAXS]"
+            ,"label"      : "Automatic background subtractions [only CRYSOL, Pepsi-SAXS]"
             ,"type"       : "checkbox"
             ,"checked"    : "false"
             ,"repeat"     : "advanced_options"
-            ,"help"       : "Substract a constant factor if experimental data contains a systematic error"
+            ,"help"       : "Automatically substract a constant factor if experimental data contains a systematic error. <br>For FoXS, put q value using backgrond_q after clicking background subtrations at FoXS specific option"
         }
 
 ##################################################################################
@@ -279,6 +279,8 @@
             ,"label"    : "maximum number of harmonics"
             ,"type"     : "integer"
             ,"default"    : 15
+            ,"min"        : 1
+            ,"max"        : 50
             ,"help"       : "Choose integer between 1 and 50"
             ,"repeat"     : "advanced_options"
           }
@@ -288,7 +290,9 @@
             ,"label"    : "fibonacci grid"
             ,"type"     : "integer"
             ,"default"    : 17
-            ,"help"       : "Choose integer between 10 and 17"
+            ,"min"        : 10
+            ,"max"        : 18
+            ,"help"       : "Choose integer between 10 and 18"
             ,"repeat"     : "advanced_options"
           }
         ,{
@@ -297,8 +301,10 @@
             ,"label"    : "solvent density"
             ,"type"     : "float"
             ,"default"    : 0.334
+            ,"step"       : 0.001
             ,"help"       : "Solvent density (e/A^3). Default value is the electron density of pure water." 
             ,"repeat"     : "advanced_options"
+            ,"required"   : "true"
           }
         ,{
             "role"       : "input"
@@ -306,6 +312,7 @@
             ,"label"    : "contrast of hydration shell"
             ,"type"     : "float"
             ,"default"    : 0.03
+            ,"step"       : 0.001
             ,"help"       : "in unit of (e/&#8491;^3)"
             ,"repeat"     : "advanced_options"
           }
@@ -392,10 +399,13 @@
         ,{
             "role"       : "input"
             ,"id"       : "constant_subtractions_FoXS"
-            ,"label"    : "background subtractions"
+            ,"label"    : "background_q"
             ,"type"     : "float"
-            ,"default"    : 0.0
-            ,"help"       : "if enabled, recommended value is I(q) for q =  0.2 1//&#8491;"
+            ,"default"    : 0.2
+            ,"min"        : 0.0
+            ,"max"        : 10.0
+            ,"step"       : 0.01
+            ,"help"       : "if enabled, recommended value q =  0.2 1//&#8491;"
             ,"repeat"     : "set_constant_subtractions_FoXS"
           }
         ,{
@@ -404,6 +414,7 @@
             ,"label"    : "min c1"
             ,"type"     : "float"
             ,"default"    : 0.99
+            ,"step"       : 0.01
             ,"help"       : "minimum c1 value"
             ,"repeat"     : "advanced_options"
           }
@@ -413,6 +424,7 @@
             ,"label"    : "max c1"
             ,"type"     : "float"
             ,"default"    : 1.05
+            ,"step"       : 0.01
             ,"help"       : "maximum c1 value"
             ,"repeat"     : "advanced_options"
           }
@@ -420,8 +432,9 @@
             "role"       : "input"
             ,"id"       : "min_c2"
             ,"label"    : "min c2"
-            ,"type"     : "text"
-            ,"default"    : "-2.00"
+            ,"type"     : "float"
+            ,"default"    : -2.00
+            ,"step"       : 0.01
             ,"help"       : "minimum c2 value"
             ,"repeat"     : "advanced_options"
           }
@@ -431,6 +444,7 @@
             ,"label"    : "max c2"
             ,"type"     : "float"
             ,"default"    : 4.00
+            ,"step"        : 0.01
             ,"help"       : "maximum c2 value"
             ,"repeat"     : "advanced_options"
           }
@@ -509,6 +523,8 @@
             ,"label"    : "expansion order"
             ,"type"     : "integer"
             ,"default"    : 15
+            ,"min"        : 1
+            ,"step"       : 1
             ,"help"       : "Number of coefficients in the expansion"
             ,"repeat"     : "set_expansion_order"
           }
@@ -528,6 +544,7 @@
             ,"label"    : "hydration shell contrast"
             ,"type"     : "float"
             ,"default"    : 5.0
+            ,"step"       : 0.1
             ,"help"       : "Hydration shell contrast (in % of the bulk value), default is 5%"
             ,"repeat"     : "set_dro"
           }
@@ -547,6 +564,9 @@
             ,"label"    : "number of modes"
             ,"type"     : "integer"
             ,"default"    : 5
+            ,"min"        : 1
+            ,"max"        : 10000 
+            ,"step"       : 1
             ,"help"       : "Integer between 5 and 75"
             ,"repeat"     : "set_modes"
           }
@@ -556,6 +576,7 @@
             ,"label"    : "scaling of covalent interactions"
             ,"type"     : "float"
             ,"default"    : 1.0
+            ,"step"       : 0.1
             ,"repeat"     : "advanced_options"
           }
         ,{
@@ -564,6 +585,7 @@
             ,"label"    : "Interactions cutoff distance"
             ,"type"     : "float"
            ,"default"    : 5.0
+            ,"step"      : 0.1
             ,"repeat"     : "advanced_options"
           }
 
@@ -589,6 +611,8 @@
             ,"label"    : "minimum q"
             ,"type"     : "float"
             ,"default"    : 0.0
+            ,"min"        : 0.0
+            ,"step" : 0.01
             ,"repeat"     : "advanced_options"
           }
 ##################################################################################
@@ -657,6 +681,20 @@
 ##################################################################################
         ,{
             "role"       : "output"
+            ,"id"         : "log_multisaxshub"
+            ,"label"      : "log of multisaxshub run: "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "log_multisaxshub_2"
+            ,"label"      : "log of multisaxshub run (detail): "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+        ,{
+            "role"       : "output"
             ,"id"        : "iq_ALL"
             ,"type"      : "plotly"
             ,"label"     : "Iq from ALL Seletions"
@@ -719,6 +757,20 @@
             ,"type"       : "file"
             ,"help"       : "Right click to download"
         }
+#        ,{
+#            "role"       : "output"
+#            ,"id"         : "log_multisaxshub"
+#            ,"label"      : "log of multisaxshub run: "
+#            ,"type"       : "file"
+#            ,"help"       : "Right click to download"
+#        }
+#        ,{
+#            "role"       : "output"
+#            ,"id"         : "log_multisaxshub_2"
+#            ,"label"      : "log of multisaxshub run (detail): "
+#            ,"type"       : "file"
+#            ,"help"       : "Right click to download"
+#        }
         ,{
             "role"       : "output"
             ,"id"         : "outfile_CRYSOL"
@@ -1029,6 +1081,5 @@
             ,"type"       : "file"
             ,"help"       : "Right click to download"
         }
-
     ]
 }
