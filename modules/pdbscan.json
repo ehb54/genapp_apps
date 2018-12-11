@@ -25,8 +25,8 @@
                    "role"     : "input",
                    "id"       : "refpdb",
                    "label"   : "pdb file input",
-                   #"type"     : "lrfile",
-                   "type"     : "file",
+                   "type"     : "lrfile",
+                   #"type"     : "file",
                    "required" : "true",
                    "help"     : "name of PDB file you wish to scan",
                    "norow"    : "false"
