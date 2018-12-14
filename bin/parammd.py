@@ -23,7 +23,9 @@ from itertools import groupby
 
 
 from StringIO import StringIO
+
 #from math import exp, expm1, log10, log, log1p
+
 from subprocess import Popen, PIPE, STDOUT
 
 if (len(sys.argv) < 1):
@@ -214,6 +216,13 @@ if 'add_waterbox' in json_variables:
     molsize_x = json_variables['size_x']
     molsize_y = json_variables['size_y']
     molsize_z = json_variables['size_z']
+
+    info_str = "PDB Extents [A] X:%.2f Y:%.2f Z:%.2f" % ( Diff_x, Diff_y, Diff_z );
+    message_box(info_str,'information.png')
+    socket_dict["_textarea"] = info_str + "\n";
+    if socket_dict:
+        doc_string = json.dumps(socket_dict)
+        sock.sendto(doc_string,(UDP_IP,UDP_PORT))
 
     if float(molsize_x) < Diff_x:
         #error_str = "Error: X_component of the periodic box is less than moleclular size! Size of the molecule is: {X, Y, Z} => {"+str(Diff_x)+", "+str(Diff_y)+", "+str(Diff_z)+"}..."
