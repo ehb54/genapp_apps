@@ -1,0 +1,31 @@
+{
+    "moduleid"    : "pdbviewer"
+    ,"label"      : "Pdbviewer"
+    ,"help"       : "help for Pdbviewer"
+    ,"executable" : "pdbviewer.pl"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "module_header"
+            ,"label"     : "Pdbviewer Example"
+            ,"type"      : "label"
+            ,"default"   : "header4"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+        }
+        ,{
+            "role"        : "input"
+            ,"id"         : "inputpdb"
+            ,"label"      : "Select a pdb"
+            ,"type"       : "file"
+            ,"required"   : "true"
+            ,"help"       : "Select the file to view"
+        }
+        ,{
+            "role"        : "output"
+            ,"id"         : "outputpdb"
+            ,"label"      : "Molecule"
+            ,"type"       : "atomicstructure"
+        }
+    ]
+}

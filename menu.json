@@ -26,6 +26,10 @@
                     "id"    : "message",
                     "label" : "Messaging Exercise"
                 }
+                ,{ 
+                    "id"    : "pdbviewer",
+                    "label" : "PDB viewer Exercise"
+                }
             ]
         }
     ]
