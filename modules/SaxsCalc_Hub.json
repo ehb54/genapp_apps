@@ -6,6 +6,7 @@
 #    ,"uniquedir" : "true"
 #    ,"center" : "true"
     ,"centeroutput" : "true"
+    ,"notify" : "email"
     ,"fields"   : [
         {
             "role"       : "input"
@@ -55,17 +56,17 @@
 #            ,"type"       : "lrfile"
             ,"repeater"   : "true"
             ,"type"       : "checkbox"
-            ,"help"       : "Experimental curve (required only for mode 2 and 3)"
+            ,"help"       : "Experimental curve (Reference data from experiment or high level theory, required for Fit and Scan mode)"
         }
         ,{
             "role"       : "input"
             ,"id"         : "experimental_curve"
-            ,"label"      : "Input Experimental curve"
+            ,"label"      : "Input experimental curve"
 #            ,"type"       : "lrfile"
             ,"repeat"     : "set_experimental_curve"
             ,"repeater"   : "true"
             ,"type"       : "file"
-            ,"help"       : "Experimental curve (required only for mode 2 and 3)"
+            ,"help"       : "Experimental curve with q, Iq, and error of Iq"
         }
         ,{
             "role"       : "input"
@@ -77,11 +78,25 @@
           }
         ,{
             "role"       : "input"
+            ,"id"         : "qmin"
+            ,"label"      : "Qmin"
+            ,"type"       : "float"
+            ,"default"    : 0.001
+            ,"min"        : 0.0
+            ,"max"        : 1.0
+            ,"step"       : 0.001
+            ,"help"       : "Minimum scattering vector in inverse angstroms, used for Fit and Scan modes"
+        }
+        ,{
+            "role"       : "input"
             ,"id"         : "qmax"
             ,"label"      : "Qmax"
             ,"type"       : "float"
             ,"default"    : 0.5
-            ,"help"       : "Maximum scattering vector in inverse angstroms"
+            ,"min"        : 0.0
+            ,"max"        : 1.0
+            ,"step"       : 0.001
+            ,"help"       : "Maximum scattering vector in inverse angstroms (maximum = 1.0 1/A)"
         }
         ,{
             "role"       : "input"
@@ -89,7 +104,10 @@
             ,"label"      : "Number of q points"
             ,"type"       : "integer"
             ,"default"    : 500
-            ,"info"       : "Number of points in the theoretical curve, need to be determined later"
+            ,"min"        : 1
+            ,"max"        : 5000
+            ,"step"       : 1
+            ,"help"       : "Number of points in the theoretical curve (max = 5000), automatically modified if experimental curve provided"
         }
         ,{   "role"       : "input"
             ,"id"        : "select_all"
@@ -136,7 +154,7 @@
             ,"id"         : "SASTBX"
             ,"label"      : "SASTBX[<a href=https://sastbx-document.readthedocs.io/en/latest target=_blank>1</a>]"
             ,"type"       : "checkbox"
-            ,"checked"    : "true"
+            ,"checked"    : "false"
             ,"repeater"   : "true"
             ,"repeat"     : "select_all"
             ,"help"       : "If unchecked, SASTBX will be excluded"
@@ -186,7 +204,7 @@
             "role"       : "input"
             ,"id"       : "advanced_options"
             ,"type"     : "checkbox"
-            ,"label"    : "Advanced Options"
+            ,"label"    : "Advanced options"
             ,"checked"  : "false"
             ,"prehline"  : "true"
             ,"posthline"  : "true"
@@ -200,8 +218,10 @@
             ,"type"     : "checkbox"
             ,"checked"    : "false"
             ,"help"       : "Check to activate debugging messages"
-#            ,"repeat"     : "advanced_options"
           }
+##################################################################################
+####     Common options for fit mode
+##################################################################################
         ,{
             "role"       : "input"
             ,"id"         : "explicit_water"
@@ -243,78 +263,7 @@
             ,"repeat"     : "advanced_options"
             ,"prehline"  : "true"
             ,"posthline"  : "true"
-#            ,"repeater"   : "true"
-          }
-        ,{
-            "role"       : "input"
-            ,"id"       : "optional_outputs"
-            ,"label"    : "optional outputs"
-            ,"type"     : "checkbox"
-            ,"default"    : "false"
-            ,"help"       : "(i) in prediction mode: *.sav and *.flm (ii) in fitting mode: *.int, *.alm, *.sav and *.flm."
-            ,"repeat"     : "advanced_options"
-          }
-        ,{
-            "role"       : "input"
-            ,"id"       : "write_error"
-            ,"label"    : "write error"
-            ,"type"     : "checkbox"
-            ,"default"    : "false"
-            ,"help"       : "Write experimental errors to the .fit file (Y or N)."
-            ,"repeat"     : "advanced_options"
-          }
-        ,{  
-            "role"       : "input"
-            ,"id"       : "read_old_pdb"
-            ,"label"    : "pdb with old atom naming"
-            ,"type"     : "checkbox"
-            ,"default"    : "false" 
-            ,"help"       : "Read a PDB file with an old atom naming (pre 2008)."
-            ,"repeat"     : "advanced_options"
-          }
-
-       ,{
-            "role"       : "input"
-            ,"id"       : "maxharmonics"
-            ,"label"    : "maximum number of harmonics"
-            ,"type"     : "integer"
-            ,"default"    : 15
-            ,"min"        : 1
-            ,"max"        : 50
-            ,"help"       : "Choose integer between 1 and 50"
-            ,"repeat"     : "advanced_options"
-          }
-        ,{
-            "role"       : "input"
-            ,"id"       : "fibonacci_grid"
-            ,"label"    : "fibonacci grid"
-            ,"type"     : "integer"
-            ,"default"    : 17
-            ,"min"        : 10
-            ,"max"        : 18
-            ,"help"       : "Choose integer between 10 and 18"
-            ,"repeat"     : "advanced_options"
-          }
-        ,{
-            "role"       : "input"
-            ,"id"       : "solvent_density"
-            ,"label"    : "solvent density"
-            ,"type"     : "float"
-            ,"default"    : 0.334
-            ,"step"       : 0.001
-            ,"help"       : "Solvent density (e/A^3). Default value is the electron density of pure water." 
-            ,"repeat"     : "advanced_options"
-            ,"required"   : "true"
-          }
-        ,{
-            "role"       : "input"
-            ,"id"       : "contrast_hydration"
-            ,"label"    : "contrast of hydration shell"
-            ,"type"     : "float"
-            ,"default"    : 0.03
-            ,"step"       : 0.001
-            ,"help"       : "in unit of (e/&#8491;^3)"
-            ,"repeat"     : "advanced_options"
+            ,"repeater"   : "true"
           }
         ,{
             "role"       : "input"
@@ -335,6 +284,330 @@
             ,"help"       : "By default, all chains are processed. If there is _ before chain identifier, all chains except for specified will be processed."
             ,"repeat"     : "set_chain_id"
           }
+       ,{
+            "role"       : "input"
+            ,"id"       : "maxharmonics"
+            ,"label"    : "maximum number of harmonics"
+            ,"type"     : "integer"
+            ,"default"    : 15
+            ,"min"        : 1
+            ,"max"        : 50
+            ,"step"       : 1
+            ,"help"       : "Choose integer between 1 and 50"
+            ,"repeat"     : "advanced_options"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "fibonacci_grid"
+            ,"label"    : "fibonacci grid"
+            ,"type"     : "integer"
+            ,"default"    : 17
+            ,"min"        : 10
+            ,"max"        : 18
+            ,"step"       : 1
+            ,"help"       : "Choose integer between 10 and 18"
+            ,"repeat"     : "advanced_options"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "solvent_density"
+            ,"label"    : "solvent density"
+            ,"type"     : "float"
+            ,"default"    : 0.334
+            ,"step"       : 0.001
+            ,"min"        : 0.0
+            ,"max"        : 100.0
+            ,"help"       : "Solvent density (e/A^3). Default value is the electron density of pure water." 
+            ,"repeat"     : "advanced_options"
+            ,"required"   : "true"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "contrast_hydration_mode"
+            ,"label"    : "contrast of hydration shell (Dr0)"
+            ,"type"     : "listbox"
+            ,"values"     : "Crysol Default ~1~Fix value~2~Edit Range~3~&Chi;&sup2; Scan~4"
+            ,"help"       : "Crysol Default: Use values defined by CRYSOL to run Calc and Fit modes <br>Fix Value: Fix to user defined value to run Calc, Fit and Scan modes <br>Edit Range: Assign low and high value to run Fit and Scan modes <br>&Chi;&sup2; Scan: Define parameters to perform grid-searching of &Chi;&sup2; (slow)"
+            ,"repeat"     : "advanced_options"
+            ,"repeater"   : "true"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "fix_contrast_hydration"
+            ,"label"    : "value"
+            ,"type"     : "float"
+            ,"default"    : 0.03
+            ,"help"       : "Fix contrast of hydration in unit of (e/&#8491;^3)"
+            ,"repeat"     : "contrast_hydration_mode:2"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "fit_contrast_hydration_low"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 0.00
+            ,"step"       : 0.001
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Minimum of contrast of hydration to fit"
+            ,"repeat"     : "contrast_hydration_mode:3"
+          }
+        ,{  
+            "role"       : "input"
+            ,"id"       : "fit_contrast_hydration_high"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 0.075
+            ,"step"       : 0.001
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Maximum of contrast of hydration to fit"
+            ,"repeat"     : "contrast_hydration_mode:3"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_contrast_hydration_low"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 0.00
+            ,"step"       : 0.001
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Minimum of contrast of hydration to scan"
+            ,"repeat"     : "contrast_hydration_mode:4"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_contrast_hydration_high"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 0.075
+            ,"step"       : 0.001
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Maximum of contrast of hydration to scan"
+            ,"repeat"     : "contrast_hydration_mode:4"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_contrast_hydration_points"
+            ,"label"    : "points"
+            ,"type"     : "integer"
+            ,"default"    : 2
+            ,"step"        : 1
+            ,"min"        : 2
+            ,"max"        : 10000
+            ,"help"       : "Number of points to scan greater than 2"
+            ,"repeat"     : "contrast_hydration_mode:4"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_contrast_hydration_interval"
+            ,"label"    : "interval"
+            ,"readonly" : "true"
+            ,"type"     : "float"
+            ,"default"    : 0.001
+            ,"step"        : 0.001
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"calc"       : "(scan_contrast_hydration_high-scan_contrast_hydration_low)/(scan_contrast_hydration_points-1)"
+            ,"help"       : "interval"
+            ,"repeat"     : "contrast_hydration_mode:4"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "atomic_radius_mode"
+            ,"label"    : "atomic radius (Ra)"
+            ,"type"     : "listbox"
+            ,"values"     : "Crysol Default~1~Fix Value~2~Edit Range~3~&Chi;&sup2; Scan~4"
+            ,"help"       : "Crysol Default: Use values defined by CRYSOL to run Calc and Fit modes <br>Fix Value: Fix to user defined value to run Calc, Fit and Scan modes <br>Edit range: Assign low and high value to run Fit and Scan modes <br>&Chi;&sup2; Scan: Define parameters to perform grid-searching of &Chi;&sup2; (slow)"
+            ,"repeat"     : "advanced_options"
+            ,"repeat"     : "advanced_options"
+            ,"repeater"   : "true"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "fix_atomic_radius"
+            ,"label"    : "value"
+            ,"type"     : "float"
+            ,"default"    : 1.4
+            ,"step"       : 0.001
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Fix atomic radius in unit of (&#8491;)"
+            ,"repeat"     : "atomic_radius_mode:2"
+          }
+        ,{  
+            "role"       : "input"
+            ,"id"       : "fit_atomic_radius_low"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 1.40
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Minimum of atomic radius to fit" 
+            ,"repeat"     : "atomic_radius_mode:3"
+          } 
+        ,{  
+            "role"       : "input"
+            ,"id"       : "fit_atomic_radius_high"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 1.80
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Maximum of atomic radius to fit" 
+            ,"repeat"     : "atomic_radius_mode:3"
+          } 
+        ,{  
+            "role"       : "input"
+            ,"id"       : "scan_atomic_radius_low"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 1.40
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Minimum of atomic radius to scan"
+            ,"repeat"     : "atomic_radius_mode:4"
+          } 
+        ,{  
+            "role"       : "input"
+            ,"id"       : "scan_atomic_radius_high"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 1.80
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Maximum of atomic radius to scan"
+            ,"repeat"     : "atomic_radius_mode:4"
+          } 
+        ,{  
+            "role"       : "input"
+            ,"id"       : "scan_atomic_radius_points"
+            ,"label"    : "points"
+            ,"type"     : "integer"
+            ,"default"    : 2
+            ,"step"        : 1
+            ,"min"        : 2
+            ,"max"        : 10000
+            ,"help"       : "Number of points to scan greater than 2"
+            ,"repeat"     : "atomic_radius_mode:4"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_atomic_radius_interval"
+            ,"label"    : "interval"
+            ,"readonly" : "true"
+            ,"type"     : "float"
+            ,"default"    : 0.4
+            ,"step"        : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"calc"       : "(scan_atomic_radius_high-scan_atomic_radius_low)/(scan_atomic_radius_points-1)"
+            ,"help"       : "interval"
+            ,"repeat"     : "atomic_radius_mode:4"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "excluded_volume_mode"
+            ,"label"    : "excluded volume (Vol)"
+            ,"type"     : "listbox"
+            ,"values"     : "Crysol Default~1~Fix Value~2~Edit Range~3~&Chi;&sup2; Scan~4"
+            ,"help"       : "Crysol Default: Use values defined by CRYSOL to run Calc and Fit modes <br>Fix Value: Fix to user defined value to run Calc, Fit and Scan modes <br>Edit Range: Assign low and high value to run Fit and Scan modes <br>&Chi;&sup2; Scan: Define parameters to perform grid-searching of &Chi;&sup2; (slow)"
+            ,"repeat"     : "advanced_options"
+            ,"repeater"   : "true"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "fix_excluded_volume"
+            ,"label"    : "value"
+            ,"type"     : "float"
+            ,"default"    : 100000.0 
+            ,"step"       : 0.001
+            ,"min"        : 0.00
+            ,"max"        : 10000000.0
+            ,"help"       : "Fix excluded volume in unit of (&#8491;^3)"
+            ,"repeat"     : "excluded_volume_mode:2"
+          }
+        ,{  
+            "role"       : "input"
+            ,"id"       : "fit_excluded_volume_low"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 100000.0
+            ,"step"       : 1.0
+            ,"min"        : 0.00
+            ,"max"        : 10000000.0
+            ,"help"       : "Minimum of excluded volume to fit"
+            ,"repeat"     : "excluded_volume_mode:3"
+          } 
+        ,{  
+            "role"       : "input"
+            ,"id"       : "fit_excluded_volume_high"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 200000.0
+            ,"step"       : 1.0
+            ,"min"        : 0.00
+            ,"max"        : 10000000.0
+            ,"help"       : "Maximum of excluded volume to fit"
+            ,"repeat"     : "excluded_volume_mode:3"
+          } 
+        ,{  
+            "role"       : "input"
+            ,"id"       : "scan_excluded_volume_low"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 100000.0
+            ,"step"       : 1.0
+            ,"min"        : 0.00
+            ,"max"        : 10000000.0
+            ,"help"       : "Minimum of excluded volume to scan"
+            ,"repeat"     : "excluded_volume_mode:4"
+          } 
+        ,{  
+            "role"       : "input"
+            ,"id"       : "scan_excluded_volume_high"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 200000.0
+            ,"step"       : 1.0
+            ,"min"        : 0.00
+            ,"max"        : 10000000.0
+            ,"help"       : "Maximum of excluded volume to scan"
+            ,"repeat"     : "excluded_volume_mode:4"
+          } 
+        ,{  
+            "role"       : "input"
+            ,"id"       : "scan_excluded_volume_points"
+            ,"label"    : "points"
+            ,"type"     : "integer"
+            ,"default"    : 2
+            ,"step"        : 1
+            ,"min"        : 2
+            ,"max"        : 10000
+            ,"help"       : "Number of points to scan greater than 2"
+            ,"repeat"     : "excluded_volume_mode:4"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_excluded_volume_interval"
+            ,"label"    : "interval"
+            ,"readonly" : "true"
+            ,"type"     : "float"
+            ,"default"    : 100000.0
+            ,"step"        : 1.0
+            ,"min"        : 0.00
+            ,"max"        : 1000000.0
+            ,"calc"       : "(scan_excluded_volume_high-scan_excluded_volume_low)/(scan_excluded_volume_points-1)"
+            ,"help"       : "interval"
+            ,"repeat"     : "excluded_volume_mode:4"
+          }
+
 ##################################################################################
 ####     Full Options for FoXS
 ##################################################################################
@@ -392,13 +665,13 @@
             ,"label"    : "background subtractions"
             ,"type"     : "checkbox"
             ,"default"    : "false"
-            ,"help"       : "background adjustment, not used by default."
+            ,"help"       : "background adjustment of experimental data, not used by default."
             ,"repeat"     : "advanced_options"
             ,"repeater"  : "true"
           }
         ,{
             "role"       : "input"
-            ,"id"       : "constant_subtractions_FoXS"
+            ,"id"       : "constant_subtractions_FoXS"    
             ,"label"    : "background_q"
             ,"type"     : "float"
             ,"default"    : 0.2
@@ -524,6 +797,7 @@
             ,"type"     : "integer"
             ,"default"    : 15
             ,"min"        : 1
+            ,"max"        : 100
             ,"step"       : 1
             ,"help"       : "Number of coefficients in the expansion"
             ,"repeat"     : "set_expansion_order"
@@ -545,6 +819,8 @@
             ,"type"     : "float"
             ,"default"    : 5.0
             ,"step"       : 0.1
+            ,"min"        : 0.0
+            ,"max"        : 1000.0
             ,"help"       : "Hydration shell contrast (in % of the bulk value), default is 5%"
             ,"repeat"     : "set_dro"
           }
@@ -584,8 +860,10 @@
             ,"id"       : "cutoff"
             ,"label"    : "Interactions cutoff distance"
             ,"type"     : "float"
-           ,"default"    : 5.0
+            ,"default"    : 5.0
             ,"step"      : 0.1
+            ,"min"        : 0.1
+            ,"max"        : 100.0
             ,"repeat"     : "advanced_options"
           }
 
@@ -605,16 +883,16 @@
             ,"prehline"  : "true"
             ,"posthline"  : "true"
           }
-        ,{
-            "role"       : "input"
-            ,"id"       : "qmin"
-            ,"label"    : "minimum q"
-            ,"type"     : "float"
-            ,"default"    : 0.0
-            ,"min"        : 0.0
-            ,"step" : 0.01
-            ,"repeat"     : "advanced_options"
-          }
+#        ,{
+#            "role"       : "input"
+#            ,"id"       : "qmin"
+#            ,"label"    : "minimum q"
+#            ,"type"     : "float"
+#            ,"default"    : 0.0
+#            ,"min"        : 0.0
+#            ,"step" : 0.01
+#            ,"repeat"     : "advanced_options"
+#          }
 ##################################################################################
 ####     Full Options for SasCalc
 ##################################################################################
@@ -704,6 +982,18 @@
             ,"id"        : "iq_CRYSOL"
             ,"type"      : "plotly"
             ,"label"     : "Iq from CRYSOL"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"        : "chi2_2D_CRYSOL"
+            ,"type"      : "plot3d"
+            ,"label"     : "2-D &Chi; map(s) from CRYSOL scanning mode"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"        : "chi2_1D_CRYSOL"
+            ,"type"      : "plotly"
+            ,"label"     : "1-D &Chi; scan from CRYSOL scanning mode"
         }
         ,{
             "role"       : "output"
@@ -836,6 +1126,20 @@
             ,"type"       : "file"
             ,"help"       : "Right click to download"
         }
+        ,{
+            "role"       : "output"
+            ,"id"         : "outfile_CRYSOL_scan"
+            ,"label"      : "&Chi;&sup2 scan file (optional): "
+            ,"type"       : "file"
+            ,"help"       : "Right click to download"
+        }
+#        ,{
+#            "role"       : "output"
+#            ,"id"         : "outfile_CRYSOL_zip"
+#            ,"label"      : "chi^2 data file"
+#            ,"type"       : "file"
+#            ,"help"       : "Right click to download"
+#        }
         ,{
             "role"       : "output"
             ,"id"         : "outfile_FoXS"

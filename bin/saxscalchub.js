@@ -1,5 +1,5 @@
-#!/usr/bin/node
-
+#! /usr/local/bin/node 
+//#!/home/cheol/.nvm/versions/node/v10.15.0/bin/node
 //  usage 
 //  ./build_command_line_executable_from_json.js [input_from_ui]
 //  data_file = data_table.json
@@ -25,7 +25,7 @@ var runlogfile_2 = req._base_directory + "/" + modulename + "_" + req._base_dire
 
 //var table = JSON.parse( fs.readFileSync( './data_table.json' ) );
 
-var x, key, opt, pref, argm, pdb, pdbshort, expdata, expdatashort;
+var x, key, opt, pref, argm, pdb, pdbshort, raw_expdata, raw_expdatashort, expdata, expdatashort;
 
 var runmode = "calc"; // if only pdb is given, "fit" if expdata is given optionally.
 
@@ -63,7 +63,7 @@ if ( "multi_model_pdb" in req ) {
          "fit" file = A line header(#) + q(expdata), Iq_fit
 */
 
-var iqfiles = {
+var plotfiles = {
    "EXPR" : {
               "calc":{
                     "filename": "expdatashort"
@@ -76,6 +76,26 @@ var iqfiles = {
                }
               ,"fit":{
                     "filename": "expdatashort"
+                    ,"header"  : 1    // number of header lines
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2 // Second column for Iq
+                             ,"Iq_error": 3
+                     }
+               }
+             }
+   ,"RAW_EXPR" : {
+              "calc":{
+                    "filename": "raw_expdatashort"
+                    ,"header"  : 1    // number of header lines
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2 // Second column for Iq
+                             ,"Iq_error": 3
+                     }
+               }
+              ,"fit":{
+                    "filename": "raw_expdatashort"
                     ,"header"  : 1    // number of header lines
                     ,"contents" : {
                               "q" : 1
@@ -100,6 +120,12 @@ var iqfiles = {
                               "q" : 1
                              ,"Iq": 4  
 //                             ,"Iq_error": 3 
+                     }
+               }
+              ,"scan":{
+                    "filename":  "outfile_CRYSOL_txt"
+                    ,"header" : 1
+                    ,"contents" : {
                      }
                }
              }
@@ -171,35 +197,48 @@ var iqfiles = {
 
 };
 
-var iq_obj = {
-    "EXPR"   : {}
-    ,"CRYSOL": {}
-    ,"FoXS" : {}
+var chi2_3d = {
+    "CRYSOL"      : {}
+    ,"FoXS"       : {}
     ,"Pepsi_SAXS" : {}
-    ,"SASTBX" : {}
-    ,"SasCalc" : {}
-    ,"WAXSiS" : {}
-    ,"SoftWAXS" : {}
-    ,"AXES"     : {}
-}  
+    ,"SASTBX"     : {}
+    ,"SasCalc"    : {}
+    ,"WAXSiS"     : {}
+    ,"SoftWAXS"   : {}
+    ,"AXES"       : {}
+};
+
+var iq_obj = {
+    "EXPR"        : {}
+    ,"RAW_EXPR"   : {}
+    ,"CRYSOL"     : {}
+    ,"FoXS"       : {}
+    ,"Pepsi_SAXS" : {}
+    ,"SASTBX"     : {}
+    ,"SasCalc"    : {}
+    ,"WAXSiS"     : {}
+    ,"SoftWAXS"   : {}
+    ,"AXES"       : {}
+};  
 
 var iq_obj_residual = { 
-    "CRYSOL": {}
-    ,"FoXS" : {}
+    "CRYSOL"      : {}
+    ,"FoXS"       : {}
     ,"Pepsi_SAXS" : {}
-    ,"SASTBX" : {}
-    ,"SasCalc" : {}
-    ,"WAXSiS" : {}
-    ,"SoftWAXS" : {}
-    ,"AXES"     : {}
+    ,"SASTBX"     : {}
+    ,"SasCalc"    : {}
+    ,"WAXSiS"     : {}
+    ,"SoftWAXS"   : {}
+    ,"AXES"       : {}
 }
 
 var color_table = {
-    "EXPR": "rgb(0,0,0)" 
+    "EXPR": "rgb(0,0,0)" //black 
+    ,"RAW_EXPR": "rgb(0,0,0)" //black
     ,"CRYSOL": "rgb(148,0,211)" //Violet
     ,"FoXS" : "rgb(255,0,0)" //red
     ,"Pepsi_SAXS" : "rgb(0,0,255)" //blue
-    ,"SASTBX" : "rgb(255,255,0)" // yellow
+    ,"SASTBX" : "rgb(0,255,255)" // cyan
     ,"SasCalc" : "rgb(0,255,0)" // green
     ,"WAXSiS" : "rgb(255,127,0)" // orange
     ,"SoftWAXS" : "rgb(75,0,130)" // indigo
@@ -222,18 +261,22 @@ var trace_marker =    {
                 ,"name" : "Marker"
                 ,"mode" : "markers"
                 ,"marker" : {
-                    "color" : "rgb(0, 0, 0)"
-                    ,"size": 4
+                    color: "rgb(17, 157, 255)"
+                   ,size:5 
+                   ,line: {
+                        color: "rgb(0, 0, 0)"
+                       ,width: 1
+                   }
                 }
 };
 
 var trace_linemarker = {
                 "x":
-                ["0.0001", "1", "10", "100"]
+                []
                 ,"y":
-                [1, 0.1, 0.01, 0.001]
+                []
                 ,"error_y": {
-                "array": [0, 0.07, 0.007, 0.0007]
+                "array": []
                 ,"visible":"false"
                 }
                 ,"name": "Line + Markers"
@@ -244,7 +287,7 @@ var trace_linemarker = {
                 }
                 ,"line" : {
                         "color" : "rgb(0, 0, 0)"
-                        ,"width" : 1
+                        ,"width" : 5
                 }
 };
 
@@ -264,7 +307,7 @@ var trace_line =  {
                 ,"mode" : "lines"
                 ,"line" : {
                         "color" : "rgb(0, 0, 0)"
-                        ,"width" : 2
+                        ,"width" : 5 
                 }
                 ,"showlegend": true 
 };
@@ -291,21 +334,37 @@ var sub_tracebar =  {
 };
 
 var samplelayout = {
-        "data" :[]
+        "data"    :[]
         ,"layout" : {
-            "title" : "Place holder for Plotly, not real data!!!! "
+            "title"  : "Place holder for Plotly, not real data!!!! "
             ,"xaxis" : {
 //                  "type": "log"
-                  "title": "q[1/Angstrom]"
+                "title"     : "q[1/Angstrom]"
 //                  "title": "&Mu;"
-                  ,"autorange": "true"
+               ,"autorange": "true"
             }
             ,"yaxis" : {
-                  "type": "log"
-                  ,"title": "Iq[A.U]"
+                "type"     : "log"
+               ,"title"    : "Iq[A.U]"
 //                  ,"range": [-3.9,0.5]
-                  ,"autorange": "true"
+               ,"autorange": "true"
             }
+            ,"shapes" : [ 
+               {
+                "type"     : "rect"
+               ,"xref"     : "x"
+               ,"yref"     : "paper"
+               ,"x0"       : 0
+               ,"x1"       : 0.5
+               ,"y0"       : 0
+               ,"y1"       : 1
+               ,"fillcolor": '#d3d3d3'
+               ,"opacity"  : 0.5
+               ,"line"     : {
+                    "width" : 0
+                    }  
+               }
+            ]
         }
     };
 
@@ -319,7 +378,7 @@ var sub_layout = {
 //                   ,"orientation": "h"
              }
             ,"xaxis" : {
-//                  "type": "log"
+//                  "type": "log",
                   "title": "q[1/Angstrom]"
 //                  "title": "q[1/Å]"
                   ,"autorange": "true"
@@ -346,12 +405,28 @@ var sub_layout = {
             }
             ,"yaxis3" : {
                   "anchor": "x3"
-                  ,"title": "(Icalc -Iexp)/Iexp[%]"
+                  ,"title": "(Icalc -Iexp)/Iexp_error"
                   ,"titlefont": {
                     "size": 12 
                    } 
                   ,"domain": [0.7, 1.2]
             }
+            ,"shapes" : [
+               {
+                "type"     : "rect"
+               ,"xref"     : "x"
+               ,"yref"     : "paper"
+               ,"x0"       : 0
+               ,"x1"       : 0.5
+               ,"y0"       : 0
+               ,"y1"       : 1
+               ,"fillcolor": '#d3d3d3'
+               ,"opacity"  : 0.5
+               ,"line"     : {
+                    "width" : 0
+                    }
+               }
+            ]
         }
     };
  
@@ -373,7 +448,7 @@ var iq_template =  {
                 }
                 ,"line" : {
                         "color" : "rgb(128, 0, 128)"
-                        ,"width" : 1
+                        ,"width": 5
                 }
             }
         ],
@@ -392,6 +467,21 @@ var iq_template =  {
         }
     };
 
+var plot3d_template = {
+    "data" : [
+//            {
+//             "z": [0]
+//            ,"x": [0]
+//            ,"y": [0]
+//            ,"type": "contour"
+//            ,"xaxis": "x1"
+//            ,"yaxis": "y1"
+//            }
+    ]
+    ,"layout": {
+        "title": "Chi scan from CRYSOL"
+         }
+};
 
 var angular_units = {
     "CRYSOL" : { "0" : "0", "1" : "1", "2" : "2", "3" : "3", "4" : "4" } 
@@ -409,7 +499,8 @@ var angular_units = {
 var table = {
     "CRYSOL" :
     {
-             "executable" : "crysol"
+             "executable" : "crysol_scanner"
+//             ,"scanner" : "crysol_scanner.js"
              ,"input" : { 
                      "pdb" : { 
                          "type" : "file"
@@ -474,6 +565,18 @@ var table = {
                           ,"type" : "file"
                           ,"label" : "Sum of the scattering amplitudes for atoms, excluded volume and border for rigid body modelling later "
                           }
+                      ,"zip" : {
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_zip"
+                          ,"type" : "file"
+                          ,"label" : "zip file containg csv files of chi^2 from Scan mode run"
+                          }
+                      ,"scan" : {
+                          "role"   : "output"
+                          ,"id"    : "output_crysol_scan"
+                          ,"type" : "file"
+                          ,"label" : "use only for chi^2 3d or contour plots"
+                          }
                   } 
 
               ,"options" : 
@@ -499,7 +602,7 @@ var table = {
                       ,"number_of_points" : {
                           "prefix_full" : "-ns"
                           ,"prefix_short" : "-ns"
-                      ,"type" : "integer"
+                          ,"type" : "integer"
                           ,"info" : "Number of points in the theoretical curve (max = 5000)"
                           }
                       ,"angular_units" : {
@@ -522,12 +625,6 @@ var table = {
                           ,"prefix_short" : "-eh"
                           ,"type" : "checkbox"
                           ,"info" : "Account for explicit hydrogens. No value is required."
-                          }
-                      ,"contrast_hydration" : {
-                          "prefix_full" : "-dro"
-                          ,"prefix_short" : "-dro"
-                          ,"type" : "float"
-                          ,"info" : "Contrast of hydration shell (e/A^3)"
                           }
                       ,"maxharmonics" : {
                           "prefix_full" : "-lm"
@@ -583,12 +680,133 @@ var table = {
                           ,"type" : "character"
                           ,"info" : "Compute theoretical scattering only for certain chain identifier(s)."
                           }
+                      ,"contrast_hydration" : {
+                          "prefix_full" : "-dro"
+                          ,"prefix_short" : "-dro"
+                          ,"type" : "float"
+                          ,"unit" : "[ e/Angstrom^3 ]"
+                          ,"info" : "Contrast of hydration shell (e/A^3)"
+                          }
+                      ,"scan_contrast_hydration_low" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "low value of Contrast of hydration shell (e/A^3)"
+                          }
+                      ,"contrast_hydration_high" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "high value of Contrast of hydration shell (e/A^3)"
+                          }
+                      ,"contrast_hydration_points" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "# of points to scan Contrast of hydration shell (e/A^3)"
+                          }
+                      ,"contrast_hydration_interval" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "interval to scan Contrast of hydration shell (e/A^3)"
+                          }
+                      ,"atomic_radius" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"unit" : "[ Angstrom ]"
+                          ,"info" : "atomic radius (A)"
+                          }
+                      ,"scan_atomic_radius_low" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "low value of atomic radius(A)"
+                          }
+                      ,"atomic_radius_high" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "high value of atomic radius"
+                          }
+                      ,"atomic_radius_points" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "# of points to scan atomic radius"
+                          }
+                      ,"atomic_radius_interval" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "interval to scan atomic radius"
+                          }
+                      ,"excluded_volume" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"unit" : "[ Angstrom^3 ]"
+                          ,"info" : "excluded_volume (A^3)"
+                          }
+                      ,"scan_excluded_volume_low" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "low value of excluded volume(A^3)"
+                          }
+                      ,"excluded_volume_high" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "high value of excluded volume(A^3)"
+                          }
+                      ,"excluded_volume_points" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "# of points to scan excluded volume"
+                          }
+                      ,"excluded_volume_interval" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"info" : "interval to scan excluded volume"
+                          }
                   }
+              ,"scan" :
+                  {
+                      "contrast_hydration_mode" : {
+                          "prefix_full" : "-dro"
+                          ,"prefix_short" : "-dro"
+                          ,"type" : "float"
+                          ,"unit" : "[ e/Angstrom^3 ]"
+                          ,"info" : "Contrast of hydration shell (e/A^3)"
+                          }
+                      ,"atomic_radius_mode" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"unit" : "[ Angstrom ]"
+                          ,"info" : "atomic radius (A)"
+                          }
+                      ,"excluded_volume_mode" : {
+                          "prefix_full" : ""
+                          ,"prefix_short" : ""
+                          ,"type" : "float"
+                          ,"unit" : "[ Angstrom^3 ]"
+                          ,"info" : "excluded_volume (A^3)"
+                          }
+
+                      ,"nscans" : 0
+ 
+                   }
     }
 
     ,"FoXS" : 
        { 
            "executable" : "foxs"
+//           ,"scanner" : "foxs_scanner"
            ,"input" : 
                {
                      "pdb"  : { 
@@ -764,11 +982,17 @@ var table = {
                          ,"info" : "Version info"
                          }
                }
+              ,"scan" :
+                  {
+                      "nscans" : 0
+
+                   }
     }
 
     ,"Pepsi_SAXS" :
        {
            "executable" : "pepsisaxs"
+//           ,"scanner" : "pepsisaxs_scanner"
            ,"input" :
                {
                      "pdb"  : {
@@ -938,6 +1162,11 @@ var table = {
                          ,"info" : "Displays version information and exits"
                          }
                }
+              ,"scan" :
+                  {       
+                      "nscans" : 0
+
+                   }
     }
     ,"SASTBX" :
        {
@@ -1018,6 +1247,11 @@ var table = {
                           }
 
                }
+           ,"scan" :
+               {       
+                      "nscans" : 0
+
+               }
     } 
     ,"sascalc_hub" :
        {
@@ -1043,6 +1277,11 @@ var table = {
                }
            ,"options" :
                {
+
+               }
+           ,"scan" :
+               {       
+                   "nscans" : 0
 
                }
     }
@@ -1073,6 +1312,11 @@ var table = {
                {
 
                }
+           ,"scan" :
+               {   
+                   "nscans" : 0
+
+               }
     }
  
     ,"SoftWAXS" :
@@ -1099,6 +1343,11 @@ var table = {
                }
            ,"options" :
                {
+
+               }
+           ,"scan" :
+               {   
+                   "nscans" : 0
 
                }
     }
@@ -1129,6 +1378,11 @@ var table = {
                {
 
                }
+           ,"scan" :
+               {   
+                   "nscans" : 0
+
+               }
     }
 
 };             
@@ -1148,21 +1402,18 @@ const sastbx_path = cmdpath + 'sastbx_ubuntu_commandline/build/'
 for ( x in req ) {
     var new_x = x.replace(/select_all-/g,'')
     if (new_x in table) {
-           cmds[ new_x ] = '';
-           cmds_users[ new_x ] = '';
-           if (new_x == 'CRYSOL') {
-               cmds[ new_x ] = "export LD_LIBRARY_PATH='$LD_LIBRARY_PATH:/home/cheol/atsas/ATSAS-2.8.4-1/lib/x86_64-linux-gnu/atsas/' && ";
-           };
-           if (new_x == 'SASTBX') {
-                cmds[ new_x ] += ". " + sastbx_path + "setpaths_all.sh && ";
-//                cmds[ new_x ] += cmdpath + table[ new_x ].executable ;
-//                cmds[ new_x ] += ". /home/cheol/work/alphamultisaxshub/bin/sastbx_ubuntu_commandline/build/setpaths_all.sh && ";
-//                cmds[ new_x ] += "/home/cheol/work/alphamultisaxshub/bin/sastbx_ubuntu_commandline/build/bin/" + table[ new_x ].executable + ".she";
-                  cmds_users[ new_x ] += cmds[ new_x ];
-           }  
-           cmds[ new_x ] += cmdpath+table[ new_x ].executable;
-           cmds_users[ new_x ] += table[ new_x ].executable;
+        cmds[ new_x ] = '';
+        cmds_users[ new_x ] = '';
+        if (new_x == 'CRYSOL') {
+//               cmds[ new_x ] = "export LD_LIBRARY_PATH='$LD_LIBRARY_PATH:/home/cheol/atsas/ATSAS-2.8.4-1/lib/x86_64-linux-gnu/atsas/' && ";
         };
+        if (new_x == 'SASTBX') {
+           cmds[ new_x ] += ". " + sastbx_path + "setpaths_all.sh && ";
+           cmds_users[ new_x ] += cmds[ new_x ];
+        };  
+        cmds[ new_x ] += cmdpath+table[ new_x ].executable;
+        cmds_users[ new_x ] += table[ new_x ].executable;
+    };
 };
 
 // Add input files to command-line commands
@@ -1180,84 +1431,109 @@ var pdbshort = pdb.split('/').slice(-1).pop();
 
 // optional experimental data allowing multiple exp data files
 
+var expdata_sastbx_short, raw_expdata_sastbx_short;
+
+var prefix_req = [];
+for ( x in req ) {
+    prefix_req.push( x.split('_').slice(0,1).toString() );
+};
+
 expdata = "";
 expdatashort = "";
-var expdata_sastbx_short = "";
+expdata_sastbx_short = "";
+raw_expdata = "";
+raw_expdatashort = "";
+raw_expdata_sastbx_short = ""; 
 if ( string_expdata in req ) {
-       expdata += req[ string_expdata ].join( " " );
-       expdatashort = expdata.split('/').slice(-1).pop();
-       expdata_sastbx_short = expdatashort.split('.').slice(0,-1) + ".qis";    
-       runmode = "fit";
+       raw_expdata += req[ string_expdata ].join( " " );
+       raw_expdatashort = raw_expdata.split('/').slice(-1).pop();
+       raw_expdata_sastbx_short = raw_expdatashort.split('.').slice(0,-1) + ".qis";   
+
+       expdatashort = "tmp_" + raw_expdatashort;
+       expdata_sastbx_short = "tmp_" + raw_expdata_sastbx_short;
+
+       if ( prefix_req.includes( "scan" ) ) {
+           runmode = "scan";
+       } else  { 
+           runmode = "fit";
+       };
     };
 
 //console.log(expdata,expdatashort);
 
 for ( x in cmds ) {
-
-    if ( x == "SASTBX" ) {
-       cmds[ x ] += " structure=" + pdbshort;
-       if ( string_expdata in req ) {
-           cmds[ x ] += " experimental_data=" + expdata_sastbx_short;
-           cmds_users[ x ] += " experimental_data=" + expdata_sastbx_short;
-       };
+    if ( x == "CRYSOL" ){
+        cmds[ x ] += " " +  "'" + JSON.stringify( req ) + "'";
+        cmds_users[ x ] += JSON.stringify( req );
     } else {
-        cmds[ x ] += " " + pdbshort;
-        cmds[ x ] += " " + expdatashort;
-        cmds_users[ x ] += " " + pdbshort;
-        cmds_users[ x ] += " " + expdatashort;
-    }
+        if ( x == "SASTBX" ) {
+            cmds[ x ] += " structure=" + pdbshort;
+        if ( string_expdata in req ) {
+            cmds[ x ] += " experimental_data=" + expdata_sastbx_short;
+            cmds_users[ x ] += " experimental_data=" + expdata_sastbx_short;
+        };
+        } else {
+            cmds[ x ] += " " + pdbshort;
+            cmds[ x ] += " " + expdatashort;
+            cmds_users[ x ] += " " + pdbshort;
+            cmds_users[ x ] += " " + expdatashort;
+       }
+    };
 };
-
 
 // Adding options with arguments
-for ( x in cmds ) { 
-   
-    for ( opt in table[ x ]["options"] ) {
 
-        if ( opt in req ) {
-            if ( table[ x ][ "options" ] [ opt ] [ "type" ] != "listbox" ) {
-                cmds[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
-                cmds_users[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
-                argm = "" 
-                if ( table[ x ][ "options" ] [ opt ] [ "type" ] != "checkbox" ) {
-                    argm += req[ opt ] 
-                };
-                if ( x == "SASTBX" ) {
-                    cmds[ x ] += argm;
-                    cmds_users[ x ] += argm;
+for ( x in cmds ) { 
+    if (  x != 'CRYSOL' ){
+        for ( opt in table[ x ]["options"] ) {
+
+            if ( opt in req ) {
+                if ( table[ x ][ "options" ] [ opt ] [ "type" ] != "listbox" ) {
+                    cmds[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
+                    cmds_users[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
+                    argm = "" 
+                    if ( table[ x ][ "options" ] [ opt ] [ "type" ] != "checkbox" ) {
+                        argm += req[ opt ] 
+                    };
+                    if ( x == "SASTBX" ) {
+                        cmds[ x ] += argm;
+                        cmds_users[ x ] += argm;
+                    } else {
+                        cmds[ x ] += " " + argm;
+                        cmds_users[ x ] += " " + argm;
+                    };
                 } else {
-                    cmds[ x ] += " " + argm;
-                    cmds_users[ x ] += " " + argm;
+                    if ( req[ opt ] != 0) {
+                        cmds[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
+                        cmds_users[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
+                        argm = ""
+                        if ( opt == "angular_units" ) {
+                            argm += angular_units[ x ][ req[ opt ] ]; 
+                        } else {
+                            argm += req[ opt ];
+                        };
+                        if ( x == "SASTBX" ) {
+                            cmds[ x ] += argm;
+                            cmds_users[ x ] += argm;
+                        } else {
+                            cmds[ x ] += " " + argm;
+                            cmds_users[ x ] += " " + argm;
+                        };
+                    }; 
                 };
-            } else {
-              if ( req[ opt ] != 0) {
-                 cmds[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
-                 cmds_users[ x ] += " " + table[ x ][ "options" ][ opt ][ "prefix_full" ];
-                 argm = ""
-                 if ( opt == "angular_units" ) {
-                     argm += angular_units[ x ][ req[ opt ] ]; 
-                 } else {
-                 argm += req[ opt ];
-                 };
-                 if ( x == "SASTBX" ) {
-                    cmds[ x ] += argm;
-                    cmds_users[ x ] += argm;
-                 } else {
-                    cmds[ x ] += " " + argm;
-                    cmds_users[ x ] += " " + argm;
-                 };
-              }; 
-            };
-        }; 
-   };
+            }; 
+        };
+    };
 };
+
 
 // Write command-line commands for each cmds
 for ( x in cmds ) {
-     runcmds[ x ] = "mkdir " + x +" && cd " + x + "  && cp ../" + pdbshort + " . && " ;
+     runcmds[ x ] = "rm -rf " + x + " && mkdir " + x +" && cd " + x + "  && cp ../" + pdbshort + " . && " ;
 //     runcmds[ x ] = "cd " + x + "  && cp ../" + pdbshort + " . && " ;
      if (string_expdata in req) {
          runcmds[ x ] += "cp ../" + expdatashort + " . && " ;
+         runcmds[ x ] += "cp ../" + raw_expdatashort + " . && " ;
          if ( x == "SASTBX" ) {
              runcmds[ x ] += "sed '1d' " + expdatashort + " > " + expdata_sastbx_short + " && " ;
          }
@@ -1338,7 +1614,7 @@ function write_zip(err) {
         zipdir += x + " ";
         var rm_cmd = "rm -rf " + './' + x + '/' + pdbshort;
         if (expdatashort.length != 0) {
-            rm_cmd += " && rm -rf " + './' + x + '/' + expdatashort;
+        //    rm_cmd += " && rm -rf " + './' + x + '/' + expdatashort + raw_expdatashort;
         };
         exec( rm_cmd );
     };
@@ -1467,24 +1743,299 @@ function send_udpmsg( obj ) {
 }
 
 function readfile(x,output) {
-    var file_id = iqfiles[ x ][ runmode ][ "filename" ];
-    const f = output[ file_id ];
-    try {
-        var data = fs.readFileSync(f);
-        var result = data.toString().split('\n');
-    } catch(error){result = "Error in reading " + f}; 
+
+    var tmprunmode = runmode;
+    if ( tmprunmode == "calc" || tmprunmode == "fit" ) {
+        var file_id = plotfiles[ x ][ tmprunmode ][ "filename" ];
+        const f = output[ file_id ];
+        try {
+            var data = fs.readFileSync(f);
+            var result = data.toString().split('\n');
+        } catch(error){ 
+            var result = "Error in reading " + f
+        };
+    } else {
+        result = '';
+    } 
     return result;
 }
 
-function readfile_exp() {
+function readfile_exp(input) {
     try {
-        var data = fs.readFileSync(expdatashort);
+        var data = fs.readFileSync(input);
         var result = data.toString().split('\n');
     } catch(error){
-        res._textarea = "Error in reading " + expdatashort;
-        throw err;
+        res._textarea += "Error in reading " + input + "\n";
+        throw error.message;
     } return result;
 }
+
+function generate_expdata_qmin(input) {
+    return new Promise ( ( resolve, reject ) => {
+    var result = "";
+    try {
+//        var stream = fs.createWriteStream ( expdatashort );
+        var f = fs.openSync( expdatashort, 'w' );
+
+        var end = input.length - 1;
+        var qmin = parseFloat( req[ "qmin" ] );
+        var qmax = parseFloat( req[ "qmax" ] );
+
+        for ( var i=0; i<end; i++ ) {
+            var txtstring = input[ i ].toString().replace( /^\s*/,"" );
+            var patt = /\D{1,3}/g;
+            var txttrim = txtstring.replace(/\s+/g,'').replace(/\h+/g,'').replace(/\./g,'').replace(/(e|E)(\-|\+)/g,'');
+            if ( patt.exec(txttrim) != null ) {
+//                stream.write( input[i]+"\n"  );
+                fs.writeSync(f, input[i] + "\n");
+            } else if ( txtstring !== null && txtstring !== '' ) {
+                var txtline = input[ i ].toString().replace( /^\s*/,"" ).split( /\s+/ );
+                var q = parseFloat( txtline[ 0 ] );
+                if ( q > qmin && q < qmax ) {
+                     fs.writeSync(f, input[i] + "\n");
+//                    stream.write( input[i]+"\n" );
+                };
+            };           
+        }; resolve ( result );
+    } catch(error){
+        res._textarea += "Error in writing " + expdatashort + "\n";
+        reject( error.message );
+    };
+    }); 
+}
+
+function readfile_scan( x, output ){
+    return new Promise ( (resolve, reject) => {
+        const f = output[  'outfile_' + x + '_' + "scan" ];
+//        const f = output[  'outfile_' + x + '_' + "log" ];
+        try {
+            var data = fs.readFileSync(f);
+            var result = data.toString().split("\n");
+            resolve( result );
+//            return result;
+        } catch(error) { 
+            reject( "Error in reading scan file" ) 
+//            result += error.message;
+        };
+    });
+}
+function getJSON_scan( x, chi2_data ){
+    return new Promise ( (resolve, reject) => {
+        var result = "";
+        var total_maps = 3;
+        try {
+            var count_xy = 0;
+            var count_line = 0;
+            res._textarea += "CHI2 file length: " + chi2_data.length + "\n";
+            var patt = /\D{1,3}/g;
+            
+            var ncolumn = 0;
+            var scansets = 0;
+
+            for( var i = 0; i < chi2_data.length  ; i++ ) {
+                var txtstring = chi2_data[i].toString().replace( /^\s*/,"" );
+                if ( txtstring.length > 0 ) {
+                    count_line += 1;
+                    if ( count_line == 1 ) {
+                        var ncolumn = chi2_data[i].split(',').length;
+                    };
+                };
+                var txtline = chi2_data[i].split( "," );
+                if ( patt.exec( txtline[0].replace(/\./g,'') ) != null )  {
+                    res._textarea += "#### Header ? :" + txtline + "\n";
+                    scansets += 1;
+                };
+            };
+            res._textarea += "CHI2 file length: " + count_line + " & " + ncolumn + "\n";
+
+            var scan_dim = 1;
+            if ( ncolumn > 2 ) {
+                scan_dim = 2;
+            };
+
+            if ( scan_dim == 1 ) {
+                res._textarea += "#### THis is 1D profile: " +  "\n";
+                result += get_1d_scandata(x, count_line, chi2_data);
+            } else if ( scan_dim == 2 ) {
+                res._textarea += "#### THis is 2D profile: \n"
+                if ( scansets == 1 ) {
+                    var xdomain = [ [0, 1] ];
+                } else if ( scansets == 3 ) {
+                    var xdomain = [ [ 0, 0.28 ], [ 0.37, 0.65 ], [ 0.72, 1.0 ] ];
+                }; 
+                res._textarea += "#### # of scan sets : " + scansets + "\n";
+                result += get_2d_scandata(x, count_line, xdomain, chi2_data);
+                res._textarea += "#### # of After get_2d_scan \n";
+            };
+ 
+            resolve( result );
+         }  catch ( error ) {  
+            reject (error.message);
+         };
+    });
+}
+
+function get_1d_scandata( x, count_line, chi2_data ) {
+   var result = '';
+   try {
+       count_xy = 0;
+            for( var i = 0; i < count_line  ; i++ ) {
+                var txtstring = chi2_data[i].toString().replace( /^\s*/,"" );
+                var patt = /\D{1,3}/g;
+                var txtline = chi2_data[i].split( "," );
+
+                if ( patt.exec( txtline[0].replace(/\./g,'') ) != null ) {
+                    count_xy += 1;
+                    if ( count_xy > 1 ) {
+                        chi2_3d[ x ][ "data" ].push( new_data );
+                    };
+                    var new_data = {};
+                    new_data= JSON.parse(JSON.stringify( trace_marker ));
+
+                    var xtitle = txtline[0].toString();
+                     
+                    xtitle += " " + table[ x ][ "options" ][ xtitle ][ "unit" ];
+                    ytitle = "Chi";
+                    chi2_3d[ x ][ "layout" ][ "title" ] = "Chi scan from " + x;
+                    chi2_3d[ x ][ "layout" ][ "xaxis" ][ "title" ] = xtitle;
+                    chi2_3d[ x ][ "layout" ][ "yaxis" ][ "title" ] = ytitle;
+                    delete chi2_3d[ x ][ "layout" ][ "yaxis" ][ "type" ]; 
+                    res._textarea += "LINE " + i + " is header\n";
+                } else { //if ( txtstring !== null && txtstring !== '' && patt.exec(txttrim) == null ){
+//                       res._textarea += txtline[ 0 ] + " " + txtline[ 1 ]   + "\n";
+                    var xnew = parseFloat(txtline[ 0 ] );
+                    new_data[ "x" ].push( xnew );
+                    var ynew ;
+                    if ( txtline[ 1 ] == "NaN" ) {
+                        ynew = Math.sqrt(1000.0) ;
+                    } else {
+                        ynew =  Math.sqrt( parseFloat( txtline[ 1 ] ) ) ;   // fill y 
+                    }
+                    new_data[ "y" ].push ( ynew );
+                    res._textarea += "\n" + i  + xnew + " " + ynew + "\n";
+                    if ( i == count_line - 1) {
+                        delete new_data[ "error_y" ];
+                        new_data["marker"][ "size" ]  = 15;              
+                        chi2_3d[ x ][ "data" ].push( new_data );
+                        var ymax = 0;
+                        for ( var k = 0; k < new_data[ "y" ].length; k++ ) {
+                            if ( ymax < new_data[ "y" ][ k ] ) {
+                                 ymax = new_data[ "y" ][ k ] ;
+                            };
+                        };
+                        if ( ymax > 999.0 ) {
+                             chi2_3d[ x ][ "layout" ][ "yaxis" ][ "autorange" ] = "false";
+                             chi2_3d[ x ][ "layout" ][ "yaxis" ][ "range" ] = [ 0, 900 ];
+                        };
+                    };
+                };
+            };
+
+   } catch (error ) {
+      result += "Error in get_1d_scandata" ; 
+   };
+}
+
+function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
+
+    var result = "";
+//    var chi2_mock = JSON.parse(JSON.stringify( plot3d_template ));
+    //chi2_3d[ x ] = chi2_mock;
+    try {
+            count_xy = 0;
+            for( var i = 0; i < count_line  ; i++ ) {
+                var txtstring = chi2_data[i].toString().replace( /^\s*/,"" );
+                var patt = /\D{1,3}/g;
+                var txtline = chi2_data[i].split( "," );
+
+                if ( patt.exec( txtline[0].replace(/\./g,'') ) != null ) {
+                    res._textarea += "LINE " + i + " is header\n";
+                    count_xy += 1;
+                    if ( count_xy > 1 ) {
+                        chi2_3d[ x ][ "data" ].push( new_data );
+                    };
+                    var new_data= {}; 
+                    new_data[ "xaxis" ] = "x" + count_xy;
+                    new_data[ "yaxis" ] = "y" + count_xy;
+                    new_data[ "type" ] = "contour";
+                    new_data[ "x" ] = [];
+                    new_data[ "y" ] = [];
+                    new_data[ "z" ] = [];
+                    var xaxis = "xaxis" + count_xy;
+                    var yaxis = "yaxis" + count_xy;
+                    var xtitle = txtline[0].split('-').slice(0,1).toString();
+                    var ytitle = txtline[0].split('-').slice(-1).toString();
+
+                    xtitle += " " + table[ x ][ "options" ][ xtitle ][ "unit" ];
+                    ytitle += " " + table[ x ][ "options" ][ ytitle ][ "unit" ];
+
+                    chi2_3d[ x ][ "layout" ][ xaxis ] = {};
+                    chi2_3d[ x ][ "layout" ][ xaxis ][ "title" ] = xtitle; 
+                    chi2_3d[ x ][ "layout" ][ xaxis ][ "anchor" ] = "y" + count_xy;
+                    chi2_3d[ x ][ "layout" ][ xaxis ][ "domain" ] = xdomain[ count_xy - 1 ];
+
+                    chi2_3d[ x ][ "layout" ][ yaxis ] = {};
+                    chi2_3d[ x ][ "layout" ][ yaxis ][ "title" ] = ytitle; 
+                    chi2_3d[ x ][ "layout" ][ yaxis ][ "anchor" ] = "x" + count_xy;
+
+                    for ( var j = 1; j < txtline.length; j++ ) {   //skip first column
+                        new_data[ "y" ].push( parseFloat(txtline[ j ]) );   // fill y 
+                    };
+                    
+                    new_data[ "contours" ] = {};
+                    new_data[ "contours" ][ "coloring" ] = "heatmap";
+                    new_data[ "contours" ][ "showlabels" ] = true;
+                    new_data[ "showscale" ] = false;
+//                    new_data[ "colorscale" ] = [[0.0, 'rgb(165,0,38)'], [0.1111111111111111, 'rgb(215,48,39)'], [0.2222222222222222, 'rgb(244,109,67)'], [0.3333333333333333, 'rgb(253,174,97)'], [0.4444444444444444, 'rgb(254,224,144)'], [0.5555555555555556, 'rgb(224,243,248)'], [0.6666666666666666, 'rgb(171,217,233)'], [0.7777777777777778, 'rgb(116,173,209)'], [0.8888888888888888, 'rgb(69,117,180)'], [1.0, 'rgb(49,54,149)']];
+                    new_data[ "colorscale" ] = "Jet";
+                    new_data[ "contours" ][ "start" ] = 0;
+                    new_data[ "contours" ][ "end" ] = 10;  
+                    new_data[ "contours" ][ "size" ] = 1;
+                } else { //if ( txtstring !== null && txtstring !== '' && patt.exec(txttrim) == null ){
+                    res._textarea += "LINE " + i + " : " + txtline + "\n";
+                    new_data[ "x" ].push( parseFloat(txtline[ 0 ] ) );
+                    var new_z = [];
+                    for ( var j = 1; j < txtline.length; j++ ) {   //skip first column
+                         if ( txtline[ j ] == "NaN" ) {
+                             new_z.push( Math.sqrt(1000.0) );
+                         } else {
+                             new_z.push( Math.sqrt( parseFloat(txtline[ j ]) ) );   // fill y 
+                         }
+                    };
+                    new_data[ "z" ].push ( new_z );
+                    if ( i == count_line - 1) {
+                        new_data[ "showscale" ] = true;
+                        new_data[ "colorbar" ] = {};
+                        new_data[ "colorbar" ]["title"] = "Chi";
+                        new_data[ "colorbar" ]["titleside"] = "top";
+                        chi2_3d[ x ][ "data" ].push( new_data );
+                    };
+                };
+            };
+           
+            res._textarea += "\n SCAN PLOT DATA";
+//            res._textarea += "\n" + JSON.stringify(chi2_3d[x], null, 2)  + "\n"; 
+      } catch(error) {
+            result += "Error in get_2d_scandata" ;
+      };
+      return result;
+}
+
+async function plot_scan(x, output) {
+//    return new Promise ( (resolve, reject) => {
+        var result = "";
+        try {
+            var lines = await readfile_scan( x, output );
+            result += await getJSON_scan( x, lines );
+//            res._textarea += "#### After getJSON_scan \n" + JSON.stringify( profile_2d ) + "\n";
+//            res[ "chi2_" + x ] = profile_2d;
+//            res._textarea += "#### 2D profile \n" + JSON.stringify( res[ "chi2_" + x ] ) + "\n";
+        } catch (error) {
+            result += "Error in making contour plot of " + x + " Scan mode";
+        };
+//        return result;
+//    });
+} 
 
 var Iq_ALL = {};
 var Iq_ref_data = {};
@@ -1492,33 +2043,84 @@ var chi_square = [];
 var chi_square_reduced = [];
 var chi_square_pierson = [];
 
-async function prepIqJSON_all( ) {
+/*
+function prep_plot_runner () {
+    return new Promise ( (resolve, reject) => { 
+    var result = "";
+    try {
+        prep_plot_JSON_all();
+        resolve( result );
+    } catch (error) {
+        reject( error.message );
+    };
+    });
+}
+*/
+
+async function prep_plot_JSON_all( ) {
 // Initialize Iq_ALL and Iq_exp_data
    
    if ( runmode == "calc" ) {
        var Iq_mock = JSON.parse(JSON.stringify( samplelayout ));
-       Iq_mock[ "layout" ][ "title" ] = "Theoretical Iq profiles with " + pdbshort;
+       Iq_mock[ "layout" ][ "title" ] = "Theoretical Iq profiles with " + pdbshort + " for q < " + req.qmax + " [1/Angstrom]";
+       Iq_ALL[ "iq_ALL" ] = Iq_mock;
+       delete Iq_ALL[ "iq_ALL" ][ "layout" ][ "shapes" ];
    };
-   if ( runmode == "fit" ) {
+   if ( runmode == "fit"  ) {
        var Iq_mock = JSON.parse(JSON.stringify( sub_layout ));
-       Iq_mock[ "layout" ][ "title" ] = "Fitted Iq profiles with " + pdbshort + " & " + expdatashort + " for q < " + req.qmax + " [1/Angstrom]" ;
+       Iq_mock[ "layout" ][ "title" ] = "Fitted Iq profiles with " + pdbshort + " & " + raw_expdatashort + " for " + req.qmin + " < q < " + req.qmax + " [1/Angstrom]" ;
        // Initialize experimental data for Iq plot
-       var data_exp = await readfile_exp();
+       var raw_exp_input = raw_expdatashort;
+       var raw_data_exp = await readfile_exp(raw_exp_input);
+
+       iq_obj[ "RAW_EXPR" ] = JSON.parse( JSON.stringify( trace_marker ) );
+       await getIqJSON_exp("RAW_EXPR", raw_data_exp);
+//       await generate_expdata_qmin( raw_data_exp );
+       var exp_input = expdatashort;
+       var data_exp = await readfile_exp(exp_input);
        iq_obj[ "EXPR" ] = JSON.parse( JSON.stringify( trace_marker ) );
-       await getIqJSON_exp(data_exp); 
-   };    
-   Iq_ALL[ "iq_ALL" ] = Iq_mock;
+       await getIqJSON_exp("EXPR", data_exp);
+       Iq_ALL[ "iq_ALL" ] = Iq_mock;
+       Iq_ALL[ "iq_ALL" ][ "layout" ][ "shapes" ][ 0 ][ "x0" ] = req.qmin;
+       Iq_ALL[ "iq_ALL" ][ "layout" ][ "shapes" ][ 0 ][ "x1" ] = req.qmax; 
+   }; 
+
+
+   if ( runmode == "scan" ) {
+      for ( x in cmds ) {
+          var xnscan = 0;
+              for ( var ss in table[ x ][ "scan" ] ) {
+                  if ( req[ ss ] == 4 ) {
+                      xnscan += 1;
+                  };
+              };
+          if ( xnscan == 1 ) {
+              var chi2_mock = JSON.parse(JSON.stringify( samplelayout ));
+              delete chi2_mock[ "layout" ][ "shapes" ];
+              chi2_3d[ x ] = chi2_mock;
+              
+          } else if ( xnscan > 1) {
+              var chi2_mock = JSON.parse(JSON.stringify( plot3d_template ));
+              chi2_3d[ x ] = chi2_mock;
+          };
+          table[ x ][ "scan" ][ "nscans" ] = xnscan;
+      };
+   };   
+
 }
 
-async function getIqJSON_all( ) {
+function getIqJSON_all( ) {
     if ( runmode == "fit" ) {
-       Iq_ALL[ "iq_ALL" ][ "data" ].push( iq_obj[ "EXPR" ] );
+       Iq_ALL[ "iq_ALL" ][ "data" ].push( iq_obj[ "RAW_EXPR" ] );
        var data_chi_temp = JSON.parse( JSON.stringify( sub_tracebar ) );
        var chi2_reduced_obj = calc_reduced_chi2();
     };
 //    var mock_chi = 20; // mock chi2 data for each x
     for ( x in cmds ) {
-       Iq_ALL[ "iq_ALL" ][ "data" ].push( iq_obj[ x ] );
+       var iq_obj_mock = {};
+       iq_obj_mock = JSON.parse( JSON.stringify( iq_obj[ x ] ) );
+       iq_obj_mock[ "line" ][ "width" ] = 5;
+       Iq_ALL[ "iq_ALL" ][ "data" ].push( iq_obj_mock );
        if ( runmode == "fit" ) {
 //           mock_chi += 10; // use chi_square[] array
            data_chi_temp[ "x" ].push( x );
@@ -1570,7 +2172,8 @@ function calc_reduced_chi2() {
                 delta_iq = iq_obj[ x ][ "y" ][ i ] - iq_obj[ "EXPR" ][ "y" ][ i ]; 
                 error_corrected = iq_obj[ "EXPR" ][ "error_y" ][ "array" ][ i ];
 // Residual
-                residual_q = delta_iq/iq_obj[ "EXPR" ][ "y" ][ i ] * 100.0;
+//                residual_q = delta_iq/iq_obj[ "EXPR" ][ "y" ][ i ] * 100.0;
+                residual_q = delta_iq/error_corrected;
                 qx = iq_obj[ "EXPR" ][ "x" ][ i ];
                 q.push( qx );
                 Iq_residual.push( residual_q );
@@ -1598,14 +2201,15 @@ function calc_reduced_chi2() {
 
 }
 
-async function getIqJSON_exp( txt ) {
+async function getIqJSON_exp( label, txt ) {
 
+    var tmprunmode = runmode;
     try {
-        const startline = iqfiles[ "EXPR" ][ runmode ][ "header" ];
-        const id_q = iqfiles[ "EXPR" ][ runmode ][ "contents" ][ "q" ];
-        const id_iq = iqfiles[ "EXPR" ][ runmode ][ "contents" ][ "Iq" ];
-        if ("Iq_error" in iqfiles[ "EXPR" ][ runmode ][ "contents" ]) {
-            var id_sd = iqfiles[ "EXPR" ][ runmode ][ "contents" ][ "Iq_error" ];
+        const startline = plotfiles[ label ][ tmprunmode ][ "header" ];
+        const id_q = plotfiles[ label ][ tmprunmode ][ "contents" ][ "q" ];
+        const id_iq = plotfiles[ label ][ tmprunmode ][ "contents" ][ "Iq" ];
+        if ("Iq_error" in plotfiles[ label ][ tmprunmode ][ "contents" ]) {
+            var id_sd = plotfiles[ label ][ tmprunmode ][ "contents" ][ "Iq_error" ];
         };
 
         var q = [];
@@ -1623,28 +2227,31 @@ async function getIqJSON_exp( txt ) {
                 var txtline = txt[i].toString().replace( /^\s*/,"" ).split( /\s+/ );
                 q.push( txtline[ id_q - 1 ] );
                 Iq.push( txtline[ id_iq - 1 ] );
-                if ("Iq_error" in iqfiles[ "EXPR" ][ runmode ][ "contents" ] ) {
+                if ("Iq_error" in plotfiles[ label ][ tmprunmode ][ "contents" ] ) {
                     Iq_error.push( txtline[ id_sd - 1 ] );
                 };
             };
         };
-        iq_obj[ "EXPR" ][ "x" ] = q;
-        iq_obj[ "EXPR" ][ "y" ] = Iq;
-        iq_obj[ "EXPR" ][ "name" ] = expdatashort;
-        iq_obj[ "EXPR" ][ "error_y" ][ "array" ] = Iq_error;
-        iq_obj[ "EXPR" ][ "error_y" ][ "visible" ] = "true";
+        iq_obj[ label ][ "x" ] = q;
+        iq_obj[ label ][ "y" ] = Iq;
+        iq_obj[ label ][ "name" ] = raw_expdatashort;
+        iq_obj[ label ][ "error_y" ][ "array" ] = Iq_error;
+        iq_obj[ label ][ "error_y" ][ "visible" ] = "true";
       } catch (error) { 
-            res._textarea += "Error in making PLOTLY JSON of experimental data \n"
+            res._textarea += "Error in making PLOTLY JSON of experimental data " + label + " \n"
       };
 }
  
 function getIqJSON(x,layout,tempdata,txt) {
+    var tmprunmode = runmode;
+
     try {
-        const startline = iqfiles[ x ][ runmode ][ "header" ];
-        const id_q = iqfiles[ x ][ runmode ][ "contents" ][ "q" ];
-        const id_iq = iqfiles[ x ][ runmode ][ "contents" ][ "Iq" ];
-        if ("Iq_error" in iqfiles[ x ][ runmode ][ "contents" ]) {
-            var id_sd = iqfiles[ x ][ runmode ][ "contents" ][ "Iq_error" ];
+        const startline = plotfiles[ x ][ tmprunmode ][ "header" ];
+        const id_q = plotfiles[ x ][ tmprunmode ][ "contents" ][ "q" ];
+        const id_iq = plotfiles[ x ][ tmprunmode ][ "contents" ][ "Iq" ];
+
+        if ("Iq_error" in plotfiles[ x ][ tmprunmode ][ "contents" ]) {
+            var id_sd = plotfiles[ x ][ tmprunmode ][ "contents" ][ "Iq_error" ];
         };
 
         var q = [];
@@ -1660,15 +2267,17 @@ function getIqJSON(x,layout,tempdata,txt) {
                     if ( !( Number( txtline[ id_q - 1 ] ).toFixed(5) < Number( iq_obj[ "EXPR" ][ "x" ][ 0 ] ).toFixed(5) ) ) {
                         q.push( txtline[ id_q - 1 ] );
                         Iq.push( txtline[ id_iq - 1 ] );
-                        if ("Iq_error" in iqfiles[ x ][ runmode ][ "contents" ]) {
+                        if ("Iq_error" in plotfiles[ x ][ tmprunmode ][ "contents" ]) {
                             Iq_error.push( txtline[ id_sd - 1 ] );
                         };
                     };
                 } else {
+                    if ( q > req.qmin || q < req.qmax ) {
                     q.push( txtline[ id_q - 1 ] );
                     Iq.push( txtline[ id_iq - 1 ] );
-                    if ("Iq_error" in iqfiles[ x ][ runmode ][ "contents" ]) {
+                    if ("Iq_error" in plotfiles[ x ][ tmprunmode ][ "contents" ]) {
                         Iq_error.push( txtline[ id_sd - 1 ] );
+                    };
                     };
                 };
              };
@@ -1682,7 +2291,8 @@ function getIqJSON(x,layout,tempdata,txt) {
        iq_obj[ x ][ "name" ] = x; 
 //       iq_obj[ x ][ "legendgroup" ] = x
        iq_obj[ x ][ "line" ][ "color" ] = color_table[ x ];
-       if ("Iq_error" in iqfiles[ x ][ runmode ][ "contents" ]) {
+       iq_obj[ x ][ "line" ][ "width" ] = 10;
+       if ("Iq_error" in plotfiles[ x ][ tmprunmode ][ "contents" ]) {
            iq_obj[ x ][ "error_y" ][ "array" ] = Iq_error; 
            iq_obj[ x ][ "error_y" ][ "visible" ] = "true";
        } else {
@@ -1690,14 +2300,16 @@ function getIqJSON(x,layout,tempdata,txt) {
        };
 
        Iq_layout[ "data" ] = [ iq_obj[ x ] ];
-
        if ( runmode == "calc" ) {
-          Iq_layout[ "layout" ][ "title" ] = "Theoretical Iq profile from " + x + " with " + pdbshort;
+          Iq_layout[ "layout" ][ "title" ] = "Theoretical Iq profile from " + x + " with " + pdbshort + " for q < " + req.qmax + " [1/Angstrom]";
+          delete Iq_layout[ "layout" ][ "shapes" ];
         };
 
        if ( runmode == "fit" ) {
-          Iq_layout[ "layout" ][ "title" ] = "Fitted Iq profile from " + x + " with " + expdatashort ; 
-          Iq_layout[ "data" ].push( iq_obj[ "EXPR" ] );
+          Iq_layout[ "layout" ][ "title" ] = "Fitted Iq profile from " + x + " with " + raw_expdatashort + " for " + req.qmin + " < q < " + req.qmax + " [1/Angstrom]"; 
+          Iq_layout[ "data" ].push( iq_obj[ "RAW_EXPR" ] );
+          Iq_layout[ "layout" ][ "shapes" ][ 0 ][ "x0" ] = req.qmin;
+          Iq_layout[ "layout" ][ "shapes" ][ 0 ][ "x1" ] = req.qmax;
         };
 
 //       iq_obj[ x ] = Iq_data ;
@@ -1710,12 +2322,14 @@ function getIqJSON(x,layout,tempdata,txt) {
     return result;
 };
 
+
 // Define a chain of promise for each method before parallelizaton
 async function do_exec( x ) {
     var x_startTime = performance.now();
+    send_udpmsg( { _textarea : "Starting " + runmode + " mode jobs\n" });
     send_udpmsg( { _textarea : "Starting " + x + " job\n" } );
 
-    result = await p_exec( runcmds[ x ] );
+    var result = await p_exec( runcmds[ x ] );
     var x_exeTime = (Number.parseInt(performance.now() - x_startTime))/1000;
     send_udpmsg( { _textarea : "Completed " + x + " job: " + x_exeTime + " seconds.\n" } );
 
@@ -1723,11 +2337,24 @@ async function do_exec( x ) {
     send_udpmsg( { _textarea : "Writing output files for " + x + " done\n" } );
     send_udpmsg( output );
 
-    var tst = readfile(x,output);
-    Iq_udp = getIqJSON(x,samplelayout,trace_line,tst);
+    if ( runmode == "calc" || runmode == "fit" ){
+        var tst = readfile(x,output);
+        Iq_udp = getIqJSON(x,samplelayout,trace_line,tst);
 //    send_udpmsg( { _textarea : "Sending UPD for " + x + " \n" + JSON.stringify(Iq_udp) + " \n" }); 
 //    send_udpmsg( Iq_udp );
-    res[ "iq_" + x ] = Iq_udp[ "iq_" + x ] 
+        res[ "iq_" + x ] = Iq_udp[ "iq_" + x ];
+    };
+    if ( runmode == "scan" ) {
+        plot_scan( x, output );
+        if ( table[ x ][ "scan" ][ "nscans" ] == 1 ) {
+            res[ "chi2_1D_" + x ] = chi2_3d[ x ] ;
+            res._textarea += JSON.stringify(res["chi2_1D" + x ], null, 2) + "\n";
+        } else if ( table[ x ][ "scan" ][ "nscans" ] > 1 ) {
+            res[ "chi2_2D_" + x ] = chi2_3d[ x ] ;
+            res._textarea += JSON.stringify(res["chi2_2D" + x ], null, 2) + "\n";
+        };
+    };
+ 
 //    send_udpmsg( { _textarea : "Sent UPD for " + x + " \n" });
     return result;
 }
@@ -1755,36 +2382,125 @@ async function parallel() {
 
 res._textarea += "\n LOG of executables:\n ";
 
+function input_filter ( ) {
+    var result = '';
+    var pdbnamecopy = "";
+    pdbnamecopy += pdbshort.toString();
+    var pdbsuffix = "";
+    pdbsuffix += pdbnamecopy.split('.').pop();
+    if ( req.qmin == req.qmax || req.qmin > req.qmax ) {
+        result += "Qmax must be greater than Qmin.";
+        return result;
+    };
+    if ( req.set_experimental_curve == "on" ) {
+        if ( !( string_expdata in req )) {
+            result += "Input Experimental curve is missing.";
+            return result; 
+        };
+    };
+    if ( pdbsuffix != "pdb" ) {
+        result += "Stop running as " + pdbshort + " may not be a correct pdb file.\n"
+        return result;
+    };
+    if ( runmode == "calc" ) {
+        if ( prefix_req.includes( "scan" ) ) {
+            result += "Stop running due to missing experimental curve to scan Chi^2.\nChoose 'Fix' to obtain theoretical curve with no experimental curve, or choose 'Chi^2 Scan' together with experimental curve.";
+                return result;
+        };
+        if ( prefix_req.includes( "fit" )) {
+            result += "Stop running due to missing experimental curve while trying to adjust range of parameter(s).\nChoose 'Fix' to obtain theoretical curve with no experimental curve, or choose 'Edit range' together with experimental curve.";
+                return result;
+        };
+    };
+
+    if ( runmode == "scan" ) {
+//  Need to expand to the other program
+        if ( !( "CRYSOL" in cmds ) ) {
+            result += "Chi^2 Scan was requested but it  is currently available only by CRYSOL. Choose CRYSOL to scan Chi^2.";
+            return result;
+        } else {
+            var count = 0;
+            for ( k in cmds ) {
+                count += 1;
+            }; 
+            if ( count > 1 ) {
+                result += "Chi^2 scan is currently available only by CRYSOL.";
+                return result;
+            };
+            var nscan = 0;
+            for ( var k=0; k <  prefix_req.length; k++ ) {
+                if ( prefix_req[ k ]== "scan" ) {
+                nscan += 1;
+                };
+            };
+//            if ( nscan == 4 ) {
+//                result += "Only one parameter is chosen to scan Chi^2. Current Scan mode run requires at least two parameters to scan.";
+//                return result;
+//            }; 
+        };
+        if ( "FoXS" in cmds || "Pepsi-SAXS" in cmds || "SASTBX" in cmds || 
+            "SasCalc" in cmds || "WAXSiS" in cmds || "SoftWAXS" in cmds || "AXES" in cmds ) {
+            result += " Only CRYSOL runs in scan mode";
+            return result;
+       };
+
+    };
+    return result;
+}
+
 // Main function to submit parallel job
 async function taskRunner(fn, label) {
   const startTime = performance.now();
     try {
-        prepIqJSON_all();
-        var result = await fn();
+        await prep_plot_JSON_all();
+        var result = "";
+        var msg = input_filter( );
+        send_udpmsg( { _textarea : msg  + "\n" } );
+        if ( msg.length > 0 ) {
+            process.on( 'exit', function(code) { return console.log ( "Program stopped due to input error." )});
+        } else {
+//        result += await prep_plot_runner();
+        result += await fn();
         var output = save_logfile();
         send_udpmsg( output );
         var output = save_logfile_2();
         send_udpmsg( output );
-        getIqJSON_all();
+
+        if ( runmode == "calc" || runmode == "fit" ) {
+            getIqJSON_all();
+        };
+
         var output = write_zip();
         send_udpmsg( output );
-//        send_udpmsg( { _textarea : "Try to send UPD for Iq_ALL : \n" });
-//        send_udpmsg( { _textarea : "IQ ALL : \n" + JSON.stringify(Iq_ALL) + " \n" });
-//        send_udpmsg( Iq_ALL );
         if ( ! ( "debug_msg" in req ) ) { 
 	    delete res._textarea;
         }
-        res[ "iq_ALL" ] = Iq_ALL[ "iq_ALL" ] ;
-//        res._textarea += "SUCCESS in Generating IQ_ALL \n";
-
+        if ( runmode == "calc" || runmode == "fit" ) {
+            res[ "iq_ALL" ] = Iq_ALL[ "iq_ALL" ] ;
+        };
         console.log(JSON.stringify(res));
         send_udpmsg( { _textarea : "Finished Multi SAXS job!" } );
-    } 
+       ;}
+   } 
     catch (err) {
        res._textarea += "Error : " + err.message + "\n";
        console.log(err.message);
     }
 }
 
+async function multisaxshubRunner ( fn ) {
+   var result = "";
+
+   if ( string_expdata in req ) {
+       var raw_exp_input = raw_expdatashort;
+       var raw_data_exp = await readfile_exp(raw_exp_input);
+       await generate_expdata_qmin( raw_data_exp );
+   };
+//   result += await prep_plot_runner();
+   fn(parallel, 'parallel', {} );
+};
+
+multisaxshubRunner ( taskRunner );
+
 // void taskRunner(parallel, 'parallel');
-taskRunner(parallel, 'parallel', {} );
+//taskRunner(parallel, 'parallel', {} );

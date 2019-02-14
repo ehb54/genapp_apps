@@ -3,7 +3,8 @@
 # "header" : "WillItFit",
  "menu" : [
         { 
-            "id"      : "bayesapp_menu",
+#            "id"      : "bayesapp_menu",
+            "id"      : "Calculations",
             "label"   : "Calculations",
             "icon"    : "pngs/simulate.png",
 	    "autorun" : "SaxsCalc_Hub",
