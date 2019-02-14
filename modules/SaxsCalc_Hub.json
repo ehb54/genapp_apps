@@ -517,7 +517,7 @@
             ,"label"    : "excluded volume (Vol)"
             ,"type"     : "listbox"
             ,"values"     : "Crysol Default~1~Fix Value~2~Edit Range~3~&Chi;&sup2; Scan~4"
-            ,"help"       : "Crysol Default: Use values defined by CRYSOL to run Calc and Fit modes <br>Fix Value: Fix to user defined value to run Calc, Fit and Scan modes <br>Edit Range: Assign low and high value to run Fit and Scan modes <br>&Chi;&sup2; Scan: Define parameters to perform grid-searching of &Chi;&sup2; (slow)"
+            ,"help"       : "Crysol Default: Use values defined by CRYSOL to run Calc and Fit modes <br>Fix Value: Fix to user defined value to run Calc, Fit and Scan modes <br>Edit Range: Assign low and high value to run Fit and Scan modes <br>&Chi;&sup2; Scan: Define parameters to perform grid-searching of &Chi;&sup2; (slow) <br><br>Excluded volume varies significantly with the molecular weight.<br>Before trying a Scan mode run, it is recommanded to <br> 1) run in Fit mode using Crysol Default and <br> 2) review the CRYSOL log file <br> to obtain reasonable low and high values for the excluded volume to scan."
             ,"repeat"     : "advanced_options"
             ,"repeater"   : "true"
           }

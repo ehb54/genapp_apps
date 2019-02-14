@@ -1941,6 +1941,8 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
     var result = "";
 //    var chi2_mock = JSON.parse(JSON.stringify( plot3d_template ));
     //chi2_3d[ x ] = chi2_mock;
+    var chi_max = 0.0;
+    var chi_min = 0.0
     try {
             count_xy = 0;
             for( var i = 0; i < count_line  ; i++ ) {
@@ -1990,7 +1992,7 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
                     new_data[ "colorscale" ] = "Jet";
                     new_data[ "contours" ][ "start" ] = 0;
                     new_data[ "contours" ][ "end" ] = 10;  
-                    new_data[ "contours" ][ "size" ] = 1;
+                    //new_data[ "contours" ][ "size" ] = 1;
                 } else { //if ( txtstring !== null && txtstring !== '' && patt.exec(txttrim) == null ){
                     res._textarea += "LINE " + i + " : " + txtline + "\n";
                     new_data[ "x" ].push( parseFloat(txtline[ 0 ] ) );
@@ -1998,9 +2000,16 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
                     for ( var j = 1; j < txtline.length; j++ ) {   //skip first column
                          if ( txtline[ j ] == "NaN" ) {
                              new_z.push( Math.sqrt(1000.0) );
+                             chi_max = Math.sqrt(1000.0);
                          } else {
-                             new_z.push( Math.sqrt( parseFloat(txtline[ j ]) ) );   // fill y 
-                         }
+                             var zval = Math.sqrt( parseFloat(txtline[ j ]) );
+                             new_z.push( zval ) ;   // fill y 
+                             if ( chi_max < zval ) {
+                                 chi_max = zval;
+                             } else {
+                                 chi_min = zval;
+                             };
+                         };
                     };
                     new_data[ "z" ].push ( new_z );
                     if ( i == count_line - 1) {
@@ -2012,7 +2021,14 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
                     };
                 };
             };
-           
+         
+        for ( var i = 0; i < xdomain.length; i++ ) {
+            chi2_3d[ x ][ "data" ][ i ][ "contours" ][ "start" ] = chi_min*1.0;
+            chi2_3d[ x ][ "data" ][ i ][ "contours" ][ "end" ] = chi_max*1.0;
+            chi2_3d[ x ][ "data" ][ i ][ "contours" ][ "size" ] = (chi_max - chi_min)/10; 
+            chi2_3d[ x ][ "data" ][ i ][ "contours" ][ "labelfont" ] = {};
+            chi2_3d[ x ][ "data" ][ i ][ "contours" ][ "labelfont" ][ "color" ] = "white";
+        }; 
             res._textarea += "\n SCAN PLOT DATA";
 //            res._textarea += "\n" + JSON.stringify(chi2_3d[x], null, 2)  + "\n"; 
       } catch(error) {
@@ -2448,6 +2464,17 @@ function input_filter ( ) {
     return result;
 }
 
+function message_box(msg) {
+    var _message = {};
+    _message[ "icon" ] = "toast.png";
+    _message[ "text" ] = msg;
+
+    res[ "_message" ] = _message;
+    delete res._textarea;
+    
+    console.log( JSON.stringify( res ) );
+}
+
 // Main function to submit parallel job
 async function taskRunner(fn, label) {
   const startTime = performance.now();
@@ -2455,9 +2482,10 @@ async function taskRunner(fn, label) {
         await prep_plot_JSON_all();
         var result = "";
         var msg = input_filter( );
-        send_udpmsg( { _textarea : msg  + "\n" } );
+//        send_udpmsg( { _textarea : msg  + "\n" } );
         if ( msg.length > 0 ) {
-            process.on( 'exit', function(code) { return console.log ( "Program stopped due to input error." )});
+//            process.on( 'exit', function(code) { return console.log ( "Program stopped due to input error." )});
+            message_box( msg );
         } else {
 //        result += await prep_plot_runner();
         result += await fn();
