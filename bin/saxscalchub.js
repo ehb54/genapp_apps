@@ -2429,6 +2429,20 @@ function input_filter ( ) {
         };
     };
 
+    if ( runmode == "fit" ) {
+        var nq = iq_obj[ "RAW_EXPR" ][ "x" ].length;
+        var expqmin = parseFloat( iq_obj[ "RAW_EXPR" ][ "x" ][ 0 ] );
+        var expqmax = parseFloat( iq_obj[ "RAW_EXPR" ][ "x" ][ nq-1 ] );
+        if ( req.qmin < expqmin ) {
+            result += "Input Qmin = " + req.qmin + " is out of range of experimental curve ( " + expqmin.toFixed(4) + " < q <  " + expqmax.toFixed(4) + " )";
+            return result;
+        };
+        if (req.qmax > expqmax ) {
+            result += "Input Qmax = " + req.qmax + " is out of range of experimental curve ( " + expqmin.toFixed(4) + " < q <  " + expqmax.toFixed(4) + " )";
+            return result;
+        };
+
+    };
     if ( runmode == "scan" ) {
 //  Need to expand to the other program
         if ( !( "CRYSOL" in cmds ) ) {
