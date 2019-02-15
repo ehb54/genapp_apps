@@ -1,20 +1,22 @@
 {
-   "resourcedefault" : "local",
-   "lockdir" : "/src/genapp/etc",
-   "hostname" : "js-129-114-17-49.jetstream-cloud.org",
-   "submitpolicy" : "login",
+   "hostip" : "129.114.16.174",
+   "hostname" : "cheol.genapp.rocks",
    "messaging" : {
-      "tcphostip" : "127.0.0.1",
-      "wsport" : 30777,
-      "tcpport" : 30780,
+      "udpport" : "30779",
       "zmqhostip" : "127.0.0.1",
-      "wssport" : 80,
+      "tcphostip" : "127.0.0.1",
+      "tcprport" : "30781",
       "udphostip" : "127.0.0.1",
-      "udpport" : 30779,
-      "zmqport" : 30778
+      "wsport" : "30777",
+      "zmqport" : "30778",
+      "tcpport" : "30780",
+      "tcptimeout" : "60",
+      "wssport" : "80"
    },
-   "hostip" : "129.114.17.49",
+   "resourcedefault" : "local",
    "resources" : {
       "local" : ""
-   }
+   },
+   "submitpolicy" : "login",
+   "lockdir" : "/src/genapp/etc"
 }
