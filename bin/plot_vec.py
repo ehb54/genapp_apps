@@ -1,5 +1,5 @@
 #!/usr/bin/python
-def vec_plot():
+def vec_plot(resid):
     bond_vec = []
     with open('bond_vector') as in_f:
         for line in in_f: 
@@ -21,6 +21,16 @@ def vec_plot():
         bond_z.append(break_vec[0])
         bond_z.append(break_vec[1])
 
+    label = []
+    break_1 = ""
+    for ii in range(len(resid)):
+        mylab = "residue " + str(int(resid[ii]))
+        label.append(mylab)
+	label.append(break_1)
+        label.append(break_1)
+
+    #assert(len(label) == len(bond_x))
+
     vec_plotly = {
     "data":[
   {    
@@ -29,6 +39,7 @@ def vec_plot():
     "x": bond_x,
     "y": bond_y,
     "z": bond_z,
+    "text": label,
     "line": {
         "width": 6,
         "colorscale": "Viridis"},

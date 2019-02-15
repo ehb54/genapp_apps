@@ -23,12 +23,11 @@
                },  
                {
 	            "role"       : "input"
-	            ,"id"         : "projectname"
-	            ,"label"      : "Project name"
+	            ,"id"         : "run_name"
+	            ,"label"      : "run name"
 	            ,"type"       : "text"
 	            ,"required"   : "true"
-	            ,"help"       : "Enter a project name"
-	            ,"specifiedproject" : "Run_"
+	            ,"help"       : "Enter a name for this task"
 	        },
 ################################################################
 	       { 
@@ -119,10 +118,18 @@
                    {   
                    "role"  : "output",
                    "id"    : "elm_out",
-                   "label" : "Download ELM prediction",
+                   "label" : "Download ELM prediction &nbsp",
                    "type"  : "file",
                    "multiple": "true"
+                  },
+                  {
+                   "role":"output",
+                   "id":"elm_params",
+                   "label":"Download ELM parameters &nbsp",
+                   "type":"file",
+                   "multiple":"true"
                   }
+                  
             ],
 
 # the executable will take inputs in order and produce output

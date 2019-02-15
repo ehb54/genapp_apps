@@ -116,7 +116,7 @@ def rotdif(in_dock):
     rotdif_log = open('elmdock_log.out','w')
     path_to_live_log = str(base_dir) + "/" + 'elmdock_log.out'
     error_string_md = ''
-    timeout = 4 # seconds
+    timeout = 30 # seconds
 
     while True:
         ready, _, _ = select.select([master_rotdif], [], [], timeout)

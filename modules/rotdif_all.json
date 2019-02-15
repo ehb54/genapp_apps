@@ -24,12 +24,11 @@
 
                {
 	            "role"       : "input"
-	            ,"id"         : "projectname"
-	            ,"label"      : "Project name"
+	            ,"id"         : "run_name"
+	            ,"label"      : "run name"
 	            ,"type"       : "text"
 	            ,"required"   : "true"
-	            ,"help"       : "Enter a project name"
-	            ,"specifiedproject" : "Run_"
+	            ,"help"       : "Enter a name to run this task"
 	        },
 ################################################################
 	       { 
@@ -152,14 +151,14 @@
                    {
                    "role"  : "output",
                    "id"    : "axi_out",
-                   "label" : "Save PyMol Axes: axially symmetric",
+                   "label" : "Saved PyMol Axes: axially symmetric model",
                    "type"  : "file",
                    "multiple": "true"
                   },
                    {
                    "role"  : "output",
                    "id"    : "ani_out",
-                   "label" : "Save PyMol Axes: full anisotropic",
+                   "label" : "Saved PyMol Axes: fully anisotropic model",
                    "type"  : "file",
                    "multiple": "true"
                   },                        
@@ -173,7 +172,7 @@
                   {
                    "role" : "output",
                    "id" : "vec_plot",
-                   "label" : "Bond Vectors Plot",
+                   "label" : "Bond Orientations Plot",
                    "showcollapse":"False",
                    "height": "450px",
                    "width" : "700px",
@@ -217,37 +216,37 @@
                 {  
                    "role"  : "output",
                    "id"    : "iso_plot",
-                   "label" : "Isotropic Model:",
+                   "label" : "Isotropic Model Fit:",
                    "showcollapse": "False",
                    "type"  : "plotly"
                 },
                 {  "role"  : "output",
                    "id"    : "axi_plot",
-                   "label" : "Axially Symmetric Model:",
+                   "label" : "Axially Symmetric Model Fit:",
                    "showcollapse": "False",
                    "type"  : "plotly"
                 },
                 {  "role"  : "output",
                    "id"    : "ani_plot",
-                   "label" : "Fully Anisotropic Model:",
+                   "label" : "Fully Anisotropic Model Fit:",
                    "showcollapse": "False",
                    "type"  : "plotly"
                 },
                 {  "role"  : "output",
                    "id"    : "diso_plot",
-                   "label" : "Dynamics: Isotropic Model:",
+                   "label" : "Dynamics: Isotropic Model Fit:",
                    "showcollapse" : "False",
                    "type"  : "plotly"
                 },
                 {  "role"  : "output",
                    "id"    : "daxi_plot",
-                   "label" : "Dynamics: Axially Symmetric Model:",
+                   "label" : "Dynamics: Axially Symmetric Model Fit:",
                    "showcollapse" : "False",
                    "type"  : "plotly"
                 },
                 {  "role"  : "output",
                    "id"    : "dani_plot",
-                   "label" : "Dynamics: Fully Anisotropic Model:",
+                   "label" : "Dynamics: Fully Anisotropic Model Fit:",
                    "showcollapse" : "False",
                    "type"  : "plotly"
                 }    

@@ -6,13 +6,14 @@ import os
 #import our functions
 from preprocess_split import split_data
 
-def exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag):
+def exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag, relax_loc):
     iso_output = split_data(dyna_flag, elm_flag, elmdock_flag)[0]
-    for root, dirs, files in os.walk('./'):
-        for name in files:
-            filename = os.path.join(root, name)
-            if '.txt' in filename:
-                exp_file = filename
+    exp_file = relax_loc
+#    for root, dirs, files in os.walk('./'):
+#        for name in files:
+#            filename = os.path.join(root, name)
+#            if '.txt' in filename:
+#                exp_file = filename
     ##preprocess exp_file in multi-frequencies
     with open(exp_file) as in_f:
         tmp_lists = in_f.read().splitlines()
@@ -23,12 +24,18 @@ def exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag):
     exp_pd = pd.DataFrame(data = exp_list[1:],\
 columns = ["residue","chain","atom 1","atom 2","magnet","T1","T1 error","T2","T2 error","NOE","NOE error"])
     resi = list(exp_pd["residue"])
-    digi_resi = []
+    exp_resi = []
+    dyna_resi = []
     #eliminate * in residue number
     for list_elem in resi:
-        digi_resi.extend(re.findall("\d+", list_elem)) 
-    digi_resi = [int(elem) for elem in digi_resi]
-    exp_pd["residue"] = digi_resi 
+        if("%" not in list_elem):
+            dyna_resi.extend(re.findall("\d+", list_elem)) 
+            if("*" not in list_elem):
+                exp_resi.append(list_elem)
+    #digi_resi = [int(elem) for elem in digi_resi]
+    exp_pd = exp_pd[[x in dyna_resi for x in exp_pd["residue"]]]
+    tmp_resi = [int(items) for items in list(exp_pd["residue"])]
+    exp_pd['residue'] = tmp_resi
     sort_exp = exp_pd.sort_values(['magnet', 'residue'], ascending=[True, True])
     freq_set = set(list(exp_pd["magnet"]))
     chain_set = set(list(exp_pd["chain"]))
@@ -330,4 +337,4 @@ columns = ["residue","chain","atom 1","atom 2","magnet","T1","T1 error","T2","T2
     else:
         sys.stderr.write("More than 2 chains are not supported")
 
-    return exp_plotly,exp_keys
+    return exp_plotly,exp_keys,exp_resi,dyna_resi

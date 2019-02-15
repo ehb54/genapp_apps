@@ -3,13 +3,14 @@ import os,sys
 import pandas as pd
 import re
 
-def dock():
-    for root, dirs, files in os.walk('./'):
-        for name in files:
-            filename = os.path.join(root, name)
-            if '.txt' in filename:
-                exp_file = filename
-    ##preprocess exp_file in multi-frequencies
+def dock(relax_loc):
+    #for root, dirs, files in os.walk('./'):
+    #    for name in files:
+    #        filename = os.path.join(root, name)
+    #        if '.txt' in filename:   
+    #            exp_file = filename
+    exp_file = relax_loc 
+     ##preprocess exp_file in multi-frequencies
     with open(exp_file) as in_f:
         tmp_lists = in_f.read().splitlines()
         exp_list = []

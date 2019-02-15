@@ -3,16 +3,18 @@ import re
 import pandas as pd
 import numpy
 import os
+import sys
 #import our functions
 from elmdock_split import split_data
 
-def exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag):
+def exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag, relax_loc):
     iso_output = split_data(dyna_flag, elm_flag, elmdock_flag)[0]
-    for root, dirs, files in os.walk('./'):
-        for name in files:
-            filename = os.path.join(root, name)
-            if '.txt' in filename:
-                exp_file = filename
+    #for root, dirs, files in os.walk('./'):
+    #    for name in files:
+    #        filename = os.path.join(root, name)
+    #        if '.txt' in filename:
+    #            exp_file = filename
+    exp_file = relax_loc
     ##preprocess exp_file in multi-frequencies
     with open(exp_file) as in_f:
         tmp_lists = in_f.read().splitlines()

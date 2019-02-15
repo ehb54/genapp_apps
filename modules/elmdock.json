@@ -1,4 +1,4 @@
-# this is a module file, any module specific info belongs here
+	# this is a module file, any module specific info belongs here
 {
     "moduleid" : "elmdock",
     "label"    : "Calculate",
@@ -23,12 +23,11 @@
                },  
                {
 	            "role"       : "input"
-	            ,"id"         : "projectname"
-	            ,"label"      : "Project name"
+	            ,"id"         : "run_name"
+	            ,"label"      : "run name"
 	            ,"type"       : "text"
 	            ,"required"   : "true"
-	            ,"help"       : "Enter a project name"
-	            ,"specifiedproject" : "Run_"
+	            ,"help"       : "Enter a name to run this task"
 	        },
 ################################################################
 	       { 
@@ -144,14 +143,7 @@
 		   "type"    : "textarea",
                    #"append"  : "on",
                    "cols"    : 40
-                  },
-
-                {
-		   "role"    : "output",
-                   "id"      : "live_log",
-                   "label"   : "Live Log File:  ",
-		   "type"    : "html"
-                }, 
+                  }, 
 	           {
                    "role"  : "output",
                    "id"    : "outputrotdif",
@@ -162,24 +154,32 @@
                   # {   
                   # "role"  : "output",
                   # "id"    : "elm_out",
-                  # "label" : "Download ELM prediction",
+                  # "label" : "Download ELM prediction ",
                   # "type"  : "file",
                   # "multiple": "true"
                   #},  
                    {   
                    "role"  : "output",
                    "id"    : "elmdock_out",
-                   "label" : "ELMDOCK results",
+                   "label" : "ELMDOCK results &nbsp;&nbsp;",
                    "type"  : "file",
                    "multiple": "true"
                   },
                    {   
                    "role"  : "output",
                    "id"    : "pdb",
-                   "label" : "ELMDOCK PDB file",
+                   "label" : "ELMDOCK PDB file ",
                    "type"  : "file",
                    "multiple": "true"
-                  }
+                  },
+                   {
+                   "role": "output",
+                   "id" :"outputpdb",
+                   "label":"Docking View",
+                   "type"  : "atomicstructure",
+                   "height" : "850",
+                   "width" : "850"
+                   }   
             ],
 
 # the executable will take inputs in order and produce output

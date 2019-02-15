@@ -18,20 +18,32 @@
 		    "nobutton" : "true"
                 }
             ]
-        }
-	,{
-            "id"      : "demo_menu", 
-            "label"   : "How to Use",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "demo",
-            "modules" : [
-                {
-                    "id"    : "demo", 
-                    "label" : "About ROTDIF",
-		    "nobutton" : "true"
-                }
-            ]
-        }
+        },
+#	{
+#            "id"      : "demo_menu", 
+#            "label"   : "How to Use",
+#            "icon"    : "pngs/noicon.png",
+#            "autorun" : "demo",
+#            "modules" : [
+#                {
+#                    "id"    : "demo", 
+#                    "label" : "About ROTDIF",
+#		    "nobutton" : "true"
+#                }]
+#          },
+          {
+             "id"    : "tutorial_menu",
+             "label" : "ROTDIF tutorial",
+             "icon": "pngs/noicon.png",
+             "autorun":"tutorial",
+             "modules"   :[
+                 {
+	          "id"       : "tutorial",
+	          "label"    : "ROTDIF tutorial",
+	          "nobutton" : "true"
+	         }
+	    ]
+         }
         ,{ 
             "id"      : "Acknowledgements_menu",
             "label"   : "Acknowledgements",

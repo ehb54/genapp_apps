@@ -24,6 +24,7 @@ from matplotlib import cm, colors
 from StringIO import StringIO
 from math import exp, expm1, log10, log, log1p
 from subprocess import Popen, PIPE, STDOUT
+from os.path import join
 
 def message_box(text,icon):
     
@@ -159,6 +160,15 @@ if __name__ == "__main__":
     output_res,base_dir = rotdif()    
     #save elm
     elm_out = [str(base_dir) + "/" + 'ELM_prediction']    
+    #save params
+    with open(join(str(base_dir),"ELM_prediction")) as in_f:
+        tmp = in_f.readlines()
+    tmp[0]="Parameters\n"
+    with open(join(str(base_dir),"ELM_params"),'w') as out_f:
+        for items in tmp[:17]:
+            out_f.write(items)
+    elm_params = [str(base_dir)+"/"+"ELM_params"]
     output_res[ 'elm_out' ] = elm_out
+    output_res['elm_params'] = elm_params
     print(json.dumps(output_res))
 

@@ -39,19 +39,22 @@ from plot_chi2 import chi2_plot
 from save_elm import save_elm
 from save_dock_elmdock import save_dock
 from indicator_chain import dock
+from StringIO import StringIO
 
 if __name__ == "__main__":
     color_list=[ '#1f77b4','#ff7f0e','#2ca02c','#d62728', '#9467bd',\
 '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22','#17becf']
-    to_dock = dock()
+    json_variables = " " 
+    InitialDirectoryStr = os.path.abspath(os.path.dirname(sys.argv[0]))
+    argv_io_string = StringIO(sys.argv[1])
+    json_variables = json.load(argv_io_string)
+    relax_location = json_variables['relax_location']
+    relax_loc = relax_location[0]
+    to_dock = dock(relax_loc)
     output_res, base_dir, dyna_flag, elm_flag, elmdock_flag = rotdif(to_dock)
-    exp_keys = exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag)[1]
+    exp_keys = exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag,relax_loc)[1]
     outputmd_arr_files = []
     log_out = [str(base_dir) + "/" + 'elmdock_log.out']
-    
-    #ani_out = [str(base_dir) + "/"+ 'out_ani.py']
-    #axi_out = [str(base_dir) + "/" + 'out_axial.py']
-
     if dyna_flag == True:
         output_res[ 'diso_plot' ] = diso_plot(color_list, exp_keys, to_dock, dyna_flag, elm_flag, elmdock_flag)
         output_res[ 'daxi_plot' ] = daxi_plot(color_list, exp_keys, to_dock, dyna_flag, elm_flag, elmdock_flag)
@@ -68,16 +71,9 @@ if __name__ == "__main__":
         output_res[ 'elmdock_out' ] = dock_out
         dock_pdb = [str(base_dir) + "/" + 'out_dock.pdb']
         output_res[ 'pdb'] = dock_pdb
-
+        view_pdb = str(base_dir) + "/" + 'out_dock.pdb'
+        output_res['outputpdb'] = { "file" : view_pdb, "script" : "ribbon" }
+        
+        #user_pdb = [str(base_dir)+"/"+'diUb_AB.pdb']
     output_res[ 'outputrotdif' ] = log_out
-    #output_res[ 'ani_out' ] = ani_out
-    #output_res[ 'axi_out' ] = axi_out
-    #output_res[ 'exp_plot' ] = exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag)[0]
-    #output_res[ 'vec_plot' ] = vec_plot()
-    #output_res[ 'chi2_plot' ] = chi2_plot()
-    #output_res[ 'plot_2d' ] = plot_2d_3d(color_list, exp_keys)[0]
-    #output_res[ 'plot_3d' ]  = plot_2d_3d(color_list, exp_keys)[1]
-    #output_res[ 'iso_plot' ] = iso_plot(color_list,exp_keys, dyna_flag, elm_flag, elmdock_flag)
-    #output_res[ 'axi_plot' ] = axi_plot(color_list,exp_keys, dyna_flag, elm_flag, elmdock_flag)
-    #output_res[ 'ani_plot' ] = ani_plot(color_list,exp_keys, dyna_flag, elm_flag, elmdock_flag)
     print (json.dumps(output_res))
