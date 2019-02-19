@@ -25,6 +25,7 @@ from StringIO import StringIO
 from math import exp, expm1, log10, log, log1p
 from subprocess import Popen, PIPE, STDOUT
 from os.path import join
+import shutil
 
 def message_box(text,icon):
     
@@ -46,15 +47,15 @@ def message_box(text,icon):
     
     return
 
-def rotdif():
+def rotdif(Pdbfilename,sub_dir):
     output_res = {}
     json_variables = " "
     InitialDirectoryStr = os.path.abspath(os.path.dirname(sys.argv[0]))
     argv_io_string = StringIO(sys.argv[1])
     json_variables = json.load(argv_io_string)
-    pdb_location   = json_variables['pdb_location']
-    PdbStr = pdb_location[0]
-    Pdbfilename = os.path.basename(PdbStr)
+    #pdb_location   = json_variables['pdb_location']
+    #PdbStr = pdb_location[0]
+    #Pdbfilename = os.path.basename(PdbStr)
 ## UDP messaging ##################################################
     UDP_IP = json_variables['_udphost']
     UDP_PORT = json_variables['_udpport']
@@ -97,7 +98,7 @@ def rotdif():
     ProcessRotdif = subprocess.Popen( ProcessToCallRotdif,stdout=slave_rotdif,stdin=PIPE,bufsize=0,close_fds=True)    
     stdout_rotdif = os.fdopen(master_rotdif, 'r', 0)
     rotdif_log = open('ELM_prediction','w')
-    path_to_live_log = str(base_dir) + "/" + 'ELM_prediction'
+    path_to_live_log = join(str(base_dir),join(str(sub_dir),'ELM_prediction'))
     error_string_md = ''
     timeout = 4 # seconds
 
@@ -157,17 +158,37 @@ def clean_up():
             os.remove(CleanUp)
 
 if __name__ == "__main__":
-    output_res,base_dir = rotdif()    
+    output_res = {}
+    json_variables = " " 
+    InitialDirectoryStr = os.path.abspath(os.path.dirname(sys.argv[0]))
+    argv_io_string = StringIO(sys.argv[1])
+    json_variables = json.load(argv_io_string)
+    pdb_location   = json_variables['pdb_location']
+    PdbStr = pdb_location[0]
+    Pdbfilename = os.path.basename(PdbStr)
+    run_name = json_variables['run_name']
+    sub_dir = "ELM_"+run_name
+    #output_res,base_dir = rotdif(sub_dir)
+    if os.path.isdir(sub_dir):
+        sys.stderr.write("Run name already existed!")
+    else:    
+        os.mkdir(sub_dir)
+    new_pdb = join(sub_dir,Pdbfilename)
+    shutil.move(Pdbfilename,new_pdb)
+    os.chdir(sub_dir)
+    output_res,base_dir = rotdif(Pdbfilename, sub_dir)
     #save elm
-    elm_out = [str(base_dir) + "/" + 'ELM_prediction']    
+    elm_out = [join(str(base_dir),join(sub_dir,'ELM_prediction'))]
+    with open('test.txt','w') as wf:
+        wf.write(str(elm_out)+'\n'+str(base_dir))        
     #save params
-    with open(join(str(base_dir),"ELM_prediction")) as in_f:
+    with open(join(str(base_dir),join(sub_dir,"ELM_prediction"))) as in_f:
         tmp = in_f.readlines()
     tmp[0]="Parameters\n"
-    with open(join(str(base_dir),"ELM_params"),'w') as out_f:
+    with open(join(str(base_dir),join(sub_dir,"ELM_params")),'w') as out_f:
         for items in tmp[:17]:
             out_f.write(items)
-    elm_params = [str(base_dir)+"/"+"ELM_params"]
+    elm_params = [join(str(base_dir),join(sub_dir,"ELM_params"))]
     output_res[ 'elm_out' ] = elm_out
     output_res['elm_params'] = elm_params
     print(json.dumps(output_res))
