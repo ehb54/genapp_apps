@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import os
+import os,sys
 import glob
 import re
 import shutil
@@ -23,7 +23,7 @@ from itertools import groupby
 from matplotlib import cm, colors
 from StringIO import StringIO
 from subprocess import Popen, PIPE, STDOUT
-
+from os.path import join
 #import our functions
 from run_rotdif_elmdock import rotdif
 from plot_2d_3d import plot_2d_3d
@@ -40,6 +40,7 @@ from save_elm import save_elm
 from save_dock_elmdock import save_dock
 from indicator_chain import dock
 from StringIO import StringIO
+import shutil
 
 if __name__ == "__main__":
     color_list=[ '#1f77b4','#ff7f0e','#2ca02c','#d62728', '#9467bd',\
@@ -48,13 +49,25 @@ if __name__ == "__main__":
     InitialDirectoryStr = os.path.abspath(os.path.dirname(sys.argv[0]))
     argv_io_string = StringIO(sys.argv[1])
     json_variables = json.load(argv_io_string)
-    relax_location = json_variables['relax_location']
-    relax_loc = relax_location[0]
-    to_dock = dock(relax_loc)
-    output_res, base_dir, dyna_flag, elm_flag, elmdock_flag = rotdif(to_dock)
+    run_name = json_variables['run_name']
+    #create subfolders
+    sub_dir = "ELMDOCK_"+run_name
+    if os.path.isdir(sub_dir):
+        sys.stderr.write("run name already used\n")
+    else:
+        os.mkdir(sub_dir)
+    old_relax = os.path.basename(json_variables['relax_location'][0])
+    old_pdb = os.path.basename(json_variables['pdb_location'][0])
+    to_dock = dock(old_relax)
+    new_pdb = join(sub_dir, old_pdb)
+    new_relax = join(sub_dir, old_relax)
+    shutil.move(old_pdb,new_pdb)
+    shutil.move(old_relax,new_relax)
+    os.chdir(sub_dir)
+    output_res, base_dir, dyna_flag, elm_flag, elmdock_flag,relax_loc = rotdif(to_dock,new_relax, new_pdb,sub_dir)
     exp_keys = exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag,relax_loc)[1]
     outputmd_arr_files = []
-    log_out = [str(base_dir) + "/" + 'elmdock_log.out']
+
     if dyna_flag == True:
         output_res[ 'diso_plot' ] = diso_plot(color_list, exp_keys, to_dock, dyna_flag, elm_flag, elmdock_flag)
         output_res[ 'daxi_plot' ] = daxi_plot(color_list, exp_keys, to_dock, dyna_flag, elm_flag, elmdock_flag)
@@ -62,18 +75,17 @@ if __name__ == "__main__":
  
     if elm_flag == True:
         save_elm(dyna_flag, elm_flag, elmdock_flag)
-        elm_out = [str(base_dir) + "/" + 'ELM_prediction']
+        elm_out = ['ELM_prediction']
         output_res[ 'elm_out' ] = elm_out    
 
     if elmdock_flag == True:
-        save_dock(dyna_flag, elm_flag, elmdock_flag)
-        dock_out = [str(base_dir) + "/" + 'ELMDOCK']     
-        output_res[ 'elmdock_out' ] = dock_out
-        dock_pdb = [str(base_dir) + "/" + 'out_dock.pdb']
-        output_res[ 'pdb'] = dock_pdb
-        view_pdb = str(base_dir) + "/" + 'out_dock.pdb'
+        save_dock(dyna_flag, elm_flag, elmdock_flag)     
+        with open('test.txt','w') as in_f:
+            in_f.write(join(str(base_dir),join(sub_dir,'ELMDOCK')))       
+        output_res[ 'elmdock_out' ] = [join(str(base_dir),join(sub_dir,'ELMDOCK'))]
+        output_res[ 'pdb'] = [join(str(base_dir), join(sub_dir,'out_dock.pdb'))]
+        view_pdb = join(str(base_dir), join(sub_dir,'out_dock.pdb'))
         output_res['outputpdb'] = { "file" : view_pdb, "script" : "ribbon" }
         
-        #user_pdb = [str(base_dir)+"/"+'diUb_AB.pdb']
-    output_res[ 'outputrotdif' ] = log_out
+    output_res[ 'outputrotdif' ] = [join(str(base_dir), join(sub_dir,'elmdock_log.out'))]
     print (json.dumps(output_res))

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import os
+from os.path import join
 import glob
 import re
 import shutil
@@ -24,6 +25,7 @@ from matplotlib import cm, colors
 from StringIO import StringIO
 from math import exp, expm1, log10, log, log1p
 from subprocess import Popen, PIPE, STDOUT
+import shutil
 
 def message_box(text,icon):
     
@@ -45,18 +47,22 @@ def message_box(text,icon):
     
     return
 
-def rotdif(in_dock):
+def rotdif(in_dock,new_relax,new_pdb,sub_dir):
     output_res = {}
     json_variables = " "
     InitialDirectoryStr = os.path.abspath(os.path.dirname(sys.argv[0]))
     argv_io_string = StringIO(sys.argv[1])
     json_variables = json.load(argv_io_string)
-    relax_location = json_variables['relax_location']
-    RelaxStr = relax_location[0]
-    Relaxfilename = os.path.basename(RelaxStr)
-    pdb_location   = json_variables['pdb_location']
-    PdbStr = pdb_location[0]
-    Pdbfilename = os.path.basename(PdbStr)
+    #relax_location = json_variables['relax_location']
+    #shutil.move(new_relax,join(sub_dir,new_relax))
+    #RelaxStr = join(sub_dir,new_relax)
+    Relaxfilename = os.path.basename(new_relax)
+
+    #pdb_location   = json_variables['pdb_location']
+    #shutil.move(new_pdb,join(sub_dir,new_pdb))
+    #PdbStr = join(sub_dir,new_pdb)
+    Pdbfilename = os.path.basename(new_pdb)
+    #os.chdir(sub_dir)
 ## UDP messaging ##################################################
     UDP_IP = json_variables['_udphost']
     UDP_PORT = json_variables['_udpport']
@@ -154,7 +160,7 @@ def rotdif(in_dock):
                                                     
     output_res[ 'progress_output' ] = str(1.0)
     output_res[ 'progress_text' ] =  'ELMDOCK calculation progress: ' + '100%' 
-    return output_res, base_dir, dyna_flag, elm_flag, elmdock_flag
+    return output_res, base_dir, dyna_flag, elm_flag, elmdock_flag,Relaxfilename
 
 def clean_up():
     for CleanUp in glob.glob('./2d_*'):                            
