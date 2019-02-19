@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from os.path import join
 import os
 import glob
 import re
@@ -45,18 +46,18 @@ def message_box(text,icon):
     
     return
 
-def rotdif(in_dock,sub_dir):
+def rotdif(in_dock,Pdbfilename,Relaxfilename,sub_dir):
     output_res = {}
     json_variables = " "
     InitialDirectoryStr = os.path.abspath(os.path.dirname(sys.argv[0]))
     argv_io_string = StringIO(sys.argv[1])
     json_variables = json.load(argv_io_string)
-    relax_location = json_variables['relax_location']
-    RelaxStr = relax_location[0]
-    Relaxfilename = os.path.basename(RelaxStr)
-    pdb_location   = json_variables['pdb_location']
-    PdbStr = pdb_location[0]
-    Pdbfilename = os.path.basename(PdbStr)
+    #relax_location = json_variables['relax_location']
+    #RelaxStr = relax_location[0]
+    #Relaxfilename = os.path.basename(RelaxStr)
+    #pdb_location   = json_variables['pdb_location']
+    #PdbStr = pdb_location[0]
+    #Pdbfilename = os.path.basename(PdbStr)
 ## UDP messaging ##################################################
     UDP_IP = json_variables['_udphost']
     UDP_PORT = json_variables['_udpport']
@@ -115,7 +116,7 @@ def rotdif(in_dock,sub_dir):
     ProcessRotdif = subprocess.Popen( ProcessToCallRotdif,stdout=slave_rotdif,stdin=PIPE,bufsize=0,close_fds=True)    
     stdout_rotdif = os.fdopen(master_rotdif, 'r', 0)
     rotdif_log = open('rotdif_log.out','w')
-    path_to_live_log = str(base_dir) + "/" + 'rotdif_log.out'
+    path_to_live_log = join(str(base_dir),join(sub_dir,'rotdif_log.out'))
     error_string_md = ''
     timeout = 4 # seconds
 

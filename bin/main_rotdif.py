@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from os.path import join
 import os
 import glob
 import re
@@ -40,6 +41,7 @@ from save_elm import save_elm
 from save_dock import save_dock
 from indicator_chain import dock
 from StringIO import StringIO
+import shutil
 
 if __name__ == "__main__":
     color_list=[ '#1f77b4','#ff7f0e','#2ca02c','#d62728', '#9467bd',\
@@ -49,14 +51,29 @@ if __name__ == "__main__":
     argv_io_string = StringIO(sys.argv[1])
     json_variables = json.load(argv_io_string)
     relax_location = json_variables['relax_location']
-    relax_loc = relax_location[0]
-    to_dock = dock(relax_loc)
-    output_res, base_dir, dyna_flag, elm_flag, elmdock_flag = rotdif(to_dock)
-    exp_graph,exp_keys,exp_resi,dyna_resi = exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag,relax_loc)
+    old_relax = os.path.basename(relax_location[0])
+    to_dock = dock(old_relax)
+    pdb_location = json_variables['pdb_location']
+    old_pdb = os.path.basename(pdb_location[0])
+
+    run_name = json_variables['run_name']
+    sub_dir = "ROTDIF_" + run_name
+    if os.path.isdir(sub_dir):
+        pass
+    else:
+        os.mkdir(sub_dir)
+
+    new_relax = join(sub_dir,old_relax)
+    new_pdb = join(sub_dir,old_pdb)
+    shutil.move(old_relax,new_relax)
+    shutil.move(old_pdb, new_pdb)
+    os.chdir(sub_dir)
+    output_res, base_dir, dyna_flag, elm_flag, elmdock_flag = rotdif(to_dock,old_pdb,old_relax,sub_dir)
+    exp_graph,exp_keys,exp_resi,dyna_resi = exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag,old_relax)
     outputmd_arr_files = []
-    log_out = [str(base_dir) + "/" + 'rotdif_log.out']
-    ani_out = [str(base_dir) + "/"+ 'out_ani.py']
-    axi_out = [str(base_dir) + "/" + 'out_axial.py']
+    log_out = [join(str(base_dir),join(sub_dir,'rotdif_log.out'))]
+    ani_out = [join(str(base_dir),join(sub_dir, 'out_ani.py'))]
+    axi_out = [join(str(base_dir),join(sub_dir, 'out_axial.py'))]
 
     if dyna_flag == True:
         output_res[ 'diso_plot' ] = diso_plot(color_list, exp_keys, to_dock, dyna_flag, elm_flag, elmdock_flag)
@@ -65,14 +82,14 @@ if __name__ == "__main__":
  
     if elm_flag == True:
         save_elm(dyna_flag, elm_flag, elmdock_flag)
-        elm_out = [str(base_dir) + "/" + 'ELM_prediction']
+        elm_out = [join(str(base_dir),join(sub_dir,'ELM_prediction'))]
         output_res[ 'elm_out' ] = elm_out    
 
     if elmdock_flag == True:
         save_dock(dyna_flag, elm_flag, elmdock_flag)
-        dock_out = [str(base_dir) + "/" + 'ELMDOCK']     
+        dock_out = [join(str(base_dir),join(sub_dir, 'ELMDOCK'))]     
         output_res[ 'elmdock' ] = dock_out
-        dock_pdb = [str(base_dir) + "/" + 'out_dock.pdb']
+        dock_pdb = [join(str(base_dir),join(sub_dir, 'out_dock.pdb'))]
         output_res[ 'pdb'] = dock_pdb
         output_res['outputpdb'] = dock_pdb
 
