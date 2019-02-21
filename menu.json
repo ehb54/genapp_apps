@@ -161,6 +161,11 @@
             "label"   : "Beta",
             "icon"    : "pngs/beta.png",
             "modules" : [
+                         {
+                          "id"    : "altens",
+                          "label" : "Altens",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
                          { 
                           "id"    : "build_utilities",
                           "label" : "Build Utilities",
@@ -181,11 +186,6 @@
             "icon"    : "pngs/alpha.png",
             "modules" : [
                          {
-                          "id"    : "altens",
-                          "label" : "Altens",
-                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
-                         },
-                         {
                           "id"    : "bayesian_ensemble_estimator",
                           "label" : "Bayesian Ensemble Estimator",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
@@ -193,6 +193,11 @@
                          { 
                           "id"    : "capriqorn",
                           "label" : "Capriqorn",
+                          "views" : [ "Input", "Output", "Plots", "OpenGL" ]
+                         },
+                         { 
+                          "id"    : "eros",
+                          "label" : "Eros",
                           "views" : [ "Input", "Output", "Plots", "OpenGL" ]
                          },
                          {

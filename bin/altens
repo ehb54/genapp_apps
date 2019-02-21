@@ -14,6 +14,7 @@ import socket
 
 import sassie.analyze.altens.altens as altens
 import sassie.interface.input_filter as input_filter
+import sassie.interface.altens_filter as altens_filter
 
 
 class Altens_Drv():
@@ -212,29 +213,40 @@ class Altens_Drv():
             return
 
         else:
-            runname = self.variables['runname'][0]
+        	error=altens_filter.check_altens(self.variables)
 
-            if os.path.exists(runname+'/'+self.module):
-                shutil.rmtree(runname+'/'+self.module)
+       		if(len(error) != 0):
+                	self.message_box(error,'warning.png')
+                	output_dict['error'] = 'Error in altens filter variables'
+                	output_dict['sasoutput2'] = 'run failed'
+                	output_dict['sasoutput2'] = error
+                	print json.dumps( output_dict )
+                	return
 
-            txtQueue = multiprocessing.JoinableQueue()
+        	else:
+            		runname = self.variables['runname'][0]
 
-            plotQueues = dict()
+            		if os.path.exists(runname+'/'+self.module):
+                		shutil.rmtree(runname+'/'+self.module)
 
-            plotQueues['bokeh_plot_1'] = multiprocessing.JoinableQueue()
-            plotQueues['bokeh_plot_2'] = multiprocessing.JoinableQueue()
-            plotQueues['bokeh_plot_3'] = multiprocessing.JoinableQueue()
-            plotQueues['bokeh_plot_4'] = multiprocessing.JoinableQueue()
-            plotQueues['bokeh_plot_5'] = multiprocessing.JoinableQueue()
+            		txtQueue = multiprocessing.JoinableQueue()
 
-            altens_object = altens.altens()
+            		plotQueues = dict()
 
-            process = multiprocessing.Process(
-                target=altens_object.main, args=(self.variables, txtQueue, plotQueues))
-            process.start()
-
-            total_string = self.background_job(
-                process, txtQueue, json_variables)
+            		plotQueues['bokeh_plot_1'] = multiprocessing.JoinableQueue()
+            		plotQueues['bokeh_plot_2'] = multiprocessing.JoinableQueue()
+            		plotQueues['bokeh_plot_3'] = multiprocessing.JoinableQueue()
+            		plotQueues['bokeh_plot_4'] = multiprocessing.JoinableQueue()
+            		plotQueues['bokeh_plot_5'] = multiprocessing.JoinableQueue()
+		
+            		altens_object = altens.altens()
+		
+            		process = multiprocessing.Process(
+                		target=altens_object.main, args=(self.variables, txtQueue, plotQueues))
+            		process.start()
+		
+            		total_string = self.background_job(
+                		process, txtQueue, json_variables)
 
         #output_dict['bokeh_plot_1'] = plotQueues['bokeh_plot_1'].get()
         try:
@@ -267,7 +279,6 @@ class Altens_Drv():
         except:
             pass
 
-        print "WOW! CJEONG REMAINS A BEAST"
         sys.stdout.flush()
 
         if total_string:
