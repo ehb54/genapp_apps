@@ -221,14 +221,23 @@
                    "repeat"  : "advanced_input"
                    },
                   {
-                   "role"    : "input",
-                   "id"      : "zflag_list_box",
-                   "name"    : "zflag_list_box",
-                   "label"    : "Z coordinate filter :",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
+                   "role"     : "input",
+                   "id"       : "directedmc",
+                   "label"    : "directed Monte Carlo (0==no or Rg value) :",
+                   "type"     : "text",
+                   "default"  : "0",
+                   "required" : "true",
                    "repeat"  : "advanced_input"
+                   },
+                  {
+                   "role"    : "input",
+                   "id"      : "zflag_check_box",
+                   "name"    : "zflag_check_box",
+                   "label"    : "Z coordinate filter :",
+                   "type"    : "checkbox",
+		   "checked" : "false",
+                   "repeat"  : "advanced_input",
+		   "repeater" : "true"
                    },
                   {
                    "role"     : "input",
@@ -237,42 +246,23 @@
                    "type"     : "text",
                    "default"  : "0.0",
                    "required" : "true",
-                   "repeat"  : "advanced_input"
+                   "repeat"  : "zflag_check_box"
                    },
-                  {
-                   "role"     : "input",
-                   "id"       : "complex_specific_input_header",
-                   "label"    : "NOT IMPLEMENTED: Advanced Input : NEEDS REFACTORING",
-                   "type"     : "label",
-                   "default"  : " ",
-                   "prehline" : "true",
-                   "posthline": "true",
-                   "repeat"  : "advanced_input"
-                   },
-		  {
-                   "role"    : "input",
-                   "id"      : "plotflag_list_box",
-                   "name"    : "plotflag_list_box",
-                   "label"    : "plot Rg during run : NOT USED",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "directedmc",
-                   "label"    : "directed Monte Carlo (0==no or Rg value) : NOT USED",
-                   "type"     : "text",
-                   "default"  : "0",
-                   "required" : "true",
-                   "repeat"  : "advanced_input"
-                   },
+		  #{
+                  # "role"    : "input",
+                  # "id"      : "plotflag_list_box",
+                  # "name"    : "plotflag_list_box",
+                  # "label"    : "plot Rg during run : NOT USED",
+                  # "type"    : "listbox",
+                  # "values"  : "no~c1~yes~c2",
+                  # "default" : "c1",
+                  # "repeat"  : "advanced_input"
+                  # },
 		  {
                    "role"    : "input",
                    "id"      : "cflag_check_box",
                    "name"    : "cflag_check_box",
-                   "label"    : "check box to use atomic constraints : NOT USED",
+                   "label"    : "check box to use atomic constraints :",
                    "type"    : "checkbox",
                    "checked" : "false",
                    "repeat"  : "advanced_input",
@@ -287,122 +277,122 @@
 		   "default"  : "contraints.txt",
                    "repeat"  : "cflag_check_box"
                    },
-		  {
-                   "role"    : "input",
-                   "id"      : "nonbondflag_check_box",
-                   "name"    : "nonbondflag_check_box",
-                   "label"    : "check box to use non-bonding energies : NOT USED",
-                   "type"    : "checkbox",
-		   "required" : "true",
-                   "checked" : "false",
-                   "repeat"  : "advanced_input",
-                   "repeater"  : "true"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "nonbondscale",
-                   "label"    : "non-bonding scale factor : NOT USED",
-                   "type"     : "text",
-                   "default"  : "1.0",
-                   "required" : "true",
-                   "repeat"  : "nonbondflag_check_box"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "psffilename",
-                   "label"    : "psf file name : NOT USED",
-                   "type"     : "file",
-                   "required" : "false",
-                   "default"  : "refgag.psf",
-                   "repeat"  : "nonbondflag_check_box"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "dna_specific_input_header",
-                   "label"    : "NOT IMPLEMENTED: DNA Specific Input : NEEDS REFACTORING",
-                   "type"     : "label",
-                   "default"  : " ",
-                   "prehline" : "true",
-                   "posthline": "true",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "bp_per_bead",
-                   "label"    : "number of base pairs per bead",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "soft_rotation",
-                   "label"    : "soft rotation averaged over N beads",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "n_dcd_write",
-                   "label"    : "DCD save frequency",
-                   "type"     : "text",
-                   "default"  : "1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "seed",
-                   "label"    : "random seed",
-                   "type"     : "text",
-                   "default"  : "0",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "debug",
-                   "label"    : "print debugging information",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "write_flex",
-                   "label"    : "save file labeling information",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "keep_cg_files",
-                   "label"    : "keep coarse-grain DNA and protein pdb and dcd files",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "keep_unique",
-                   "label"    : "keep duplicate structure when move fails",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c2",
-                   "repeat"  : "advanced_input"
-                   },
-                  {
-                   "role"     : "input",
-                   "id"       : "rm_pkl",
-                   "label"    : "remove binary pkl cg file",
-                   "type"    : "listbox",
-                   "values"  : "no~c1~yes~c2",
-                   "default" : "c1",
-                   "repeat"  : "advanced_input"
-                   },
+#		  {
+#                   "role"    : "input",
+#                   "id"      : "nonbondflag_check_box",
+#                   "name"    : "nonbondflag_check_box",
+#                   "label"    : "check box to use non-bonding energies : NOT USED",
+#                   "type"    : "checkbox",
+#		   "required" : "true",
+#                   "checked" : "false",
+#                   "repeat"  : "advanced_input",
+#                   "repeater"  : "true"
+#                   },
+#                  {
+#                   "role"     : "input",
+#                   "id"       : "nonbondscale",
+#                   "label"    : "non-bonding scale factor : NOT USED",
+#                   "type"     : "text",
+#                   "default"  : "1.0",
+#                   "required" : "true",
+#                   "repeat"  : "nonbondflag_check_box"
+#                   },
+#                  {
+#                   "role"     : "input",
+#                   "id"       : "psffilename",
+#                   "label"    : "psf file name : NOT USED",
+#                   "type"     : "file",
+#                   "required" : "false",
+#                   "default"  : "refgag.psf",
+#                   "repeat"  : "nonbondflag_check_box"
+#                   },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "dna_specific_input_header",
+                  # "label"    : "NOT IMPLEMENTED: DNA Specific Input : NEEDS REFACTORING",
+                  # "type"     : "label",
+                  # "default"  : " ",
+                  # "prehline" : "true",
+                  # "posthline": "true",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "bp_per_bead",
+                  # "label"    : "number of base pairs per bead",
+                  # "type"     : "text",
+                  # "default"  : "1",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "soft_rotation",
+                  # "label"    : "soft rotation averaged over N beads",
+                  # "type"     : "text",
+                  # "default"  : "1",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "n_dcd_write",
+                  # "label"    : "DCD save frequency",
+                  # "type"     : "text",
+                  # "default"  : "1",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "seed",
+                  # "label"    : "random seed",
+                  # "type"     : "text",
+                  # "default"  : "0",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "debug",
+                  # "label"    : "print debugging information",
+                  # "type"    : "listbox",
+                  # "values"  : "no~c1~yes~c2",
+                  # "default" : "c1",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "write_flex",
+                  # "label"    : "save file labeling information",
+                  # "type"    : "listbox",
+                  # "values"  : "no~c1~yes~c2",
+                  # "default" : "c1",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "keep_cg_files",
+                  # "label"    : "keep coarse-grain DNA and protein pdb and dcd files",
+                  # "type"    : "listbox",
+                  # "values"  : "no~c1~yes~c2",
+                  # "default" : "c1",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "keep_unique",
+                  # "label"    : "keep duplicate structure when move fails",
+                  # "type"    : "listbox",
+                  # "values"  : "no~c1~yes~c2",
+                  # "default" : "c2",
+                  # "repeat"  : "advanced_input"
+                  # },
+                  #{
+                  # "role"     : "input",
+                  # "id"       : "rm_pkl",
+                  # "label"    : "remove binary pkl cg file",
+                  # "type"    : "listbox",
+                  # "values"  : "no~c1~yes~c2",
+                  # "default" : "c1",
+                  # "repeat"  : "advanced_input"
+                  # },
                   {
                    "role"    : "output",
                    "id"      : "progress_output",
@@ -419,9 +409,13 @@
                    },
                    {
                    "role"    : "output",
-                   "id"      : "plotout4",
+                   "id"      : "rg_plot",
                    "label"   : "all rg and accepted rg data",
-                   "type"    : "plot2d"
+                   "type"    : "plot2d",
+                   "pan"     : "true",
+                   "zoom"    : "true",
+                   "hover"   : "true",
+                   "help"    : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box"
                    }
                   ],
     "executable" : "torsion_angle_monte_carlo"

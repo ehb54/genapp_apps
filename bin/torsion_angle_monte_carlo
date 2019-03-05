@@ -151,7 +151,7 @@ class CTAMC():
             "options": {
                 "title"  : "Rg Results",
                 "xlabel"  : "Structure Number",
-                "ylabel"  : "Rg (Angstrom^2)",
+                "ylabel"  : "Rg (Angstrom)",
 
                 "legend": {
                     # "position" can be "ne" or "nw" or "se" or "sw"
@@ -378,19 +378,23 @@ class CTAMC():
                                 zflag_check_box = "off"
 
 			try:
-				cflag_list_box = json_variables['cflag_list_box']
+				cflag_check_box = json_variables['cflag_check_box']
 			except:
-				cflag_list_box = 'off'
+				cflag_check_box = 'off'
+
+
+			try:
+				directed_mc = json_variables['directed_mc']
+			except:
+	 			directed_mc = "0"
 
  			plotflag_list_box = "c1"
-
- 			directed_mc = "0"
 
 		else:
 			low_rg_cutoff = "0.0"
 			high_rg_cutoff = "400.0"
 			zflag_check_box = "off"
-			cflag_list_box = "off"
+			cflag_check_box = "off"
  			plotflag_list_box = "c1"
  			directed_mc = "0"
 
@@ -401,10 +405,10 @@ class CTAMC():
                         z_flag = True
                         z_cutoff = json_variables['zcutoff']
 
-                if(cflag_list_box == 'off'):
+                if(cflag_check_box == 'off'):
                         constraint_flag = False
 			constraint_file = 'constraints.txt'
-                elif(cflag_list_box == 'on'):
+                elif(cflag_check_box == 'on'):
                         constraint_flag = True
 			constraint_file = json_variables['confile'][0]
 
@@ -498,16 +502,16 @@ class CTAMC():
 	
                	total_string = self.background_job(process,txtQueue,json_variables)
 
-#			accepted_rg_file = data_path+runname+'/complex_monte_carlo/'+dcdfile+'.accepted_rg_results_data.txt'
-#			all_rg_file = data_path+runname+'/complex_monte_carlo/'+dcdfile+'.all_rg_results_data.txt'
+		accepted_rg_file = data_path+runname+'/monte_carlo/'+dcdfile+'.accepted_rg_results_data.txt'
+		all_rg_file = data_path+runname+'/monte_carlo/'+dcdfile+'.all_rg_results_data.txt'
 
-#			self.get_data_from_disk(all_rg_file,accepted_rg_file)
+		self.get_data_from_disk(all_rg_file,accepted_rg_file)
 
-#			if(isinstance(self.flot_data, basestring)):
-#				print 'error reading data'
-#				output_dict['plot_error'] = self.flot_data
-#			else:
-#				output_dict['plotout4'] = self.flot_data
+		if(isinstance(self.flot_data, basestring)):
+			print 'error reading data'
+			output_dict['plot_error'] = self.flot_data
+		else:
+			output_dict['rg_plot'] = self.flot_data
 
 	#if output_dict:
 	if total_string:
