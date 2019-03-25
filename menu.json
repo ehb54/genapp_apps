@@ -1,9 +1,10 @@
 {
     "menu" : [
         { 
-            "id"      : "demo"
+            "id"       : "demo"
             ,"label"   : "Demo"
             ,"icon"    : "pngs/demo.png"
+            ,"help"    : "Press to access the demonstration modules"
             ,"startup" : "true"
             ,"modules" : [ 
                 { 
@@ -33,9 +34,10 @@
             ]
         }
         ,{ 
-            "id"       : "sourcemenu"
+            "id"        : "sourcemenu"
             ,"label"    : "Source"
             ,"icon"     : "pngs/code.png"
+            ,"help"     : "Press to access the source code"
             ,"autorun"  : "source"
             ,"modules"  : [ 
                 { 
