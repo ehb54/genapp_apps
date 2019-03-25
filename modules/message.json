@@ -1,0 +1,25 @@
+{
+    "moduleid"        : "message"
+    ,"label"          : "Messaging"
+    ,"help"           : "Messaging running on localhost"
+    ,"executable"     : "message.pl"
+    ,"noreset"        : "true"
+    ,"submitpolicy"   : "all"
+    ,"fields"   : [
+        {
+            "role"        : "input"
+            ,"id"         : "module_header"
+            ,"label"      : "Messaging<br>Running on localhost"
+            ,"type"       : "label"
+            ,"default"    : "header4"
+            ,"prehline"   : "true"
+            ,"posthline"  : "true"
+        }
+        ,{
+            "role"        : "output"
+            ,"id"         : "result"
+            ,"label"      : "Result"
+            ,"type"       : "text"
+        }
+    ]
+}

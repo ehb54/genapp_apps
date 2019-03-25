@@ -1,0 +1,49 @@
+{
+    "menu" : [
+        { 
+            "id"      : "demo"
+            ,"label"   : "Demo"
+            ,"icon"    : "pngs/demo.png"
+            ,"startup" : "true"
+            ,"modules" : [ 
+                { 
+                    "id"    : "energy"
+                    ,"label" : "Energy"
+                }
+                ,{ 
+                    "id"    : "message"
+                    ,"label" : "Messaging"
+                }
+                ,{ 
+                    "id"    : "denergy"
+                    ,"label" : "Docker Energy"
+                }
+                ,{ 
+                    "id"    : "dmessage"
+                    ,"label" : "Messaging from Docker"
+                }
+                ,{ 
+                    "id"    : "aenergy"
+                    ,"label" : "Abaco Energy"
+                }
+                ,{ 
+                    "id"    : "amessage"
+                    ,"label" : "Messaging from Abaco"
+                }
+            ]
+        }
+        ,{ 
+            "id"       : "sourcemenu"
+            ,"label"    : "Source"
+            ,"icon"     : "pngs/code.png"
+            ,"autorun"  : "source"
+            ,"modules"  : [ 
+                { 
+                    "id"        : "source"
+                    ,"label"    : "Source code"
+                    ,"nobutton" : "true"
+                }
+            ]
+        }
+    ]
+}

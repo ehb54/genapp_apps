@@ -1,0 +1,18 @@
+{
+    "moduleid"        : "source"
+    ,"label"          : "Source code"
+    ,"noreset"        : "true"
+    ,"nosubmit"       : "true"
+    ,"nooutputhr"     : "true"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "label1"
+            ,"label"     : "You can browse the source code <a href=https://genapp.rocks/wiki/browser/pearc19 target=_blank>here</a>."
+            ,"type"      : "label"
+            ,"default"   : "header4"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+        }
+    ]
+}

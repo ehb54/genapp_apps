@@ -1,0 +1,30 @@
+{
+    "moduleid"        : "dmessage"
+    ,"label"          : "Messaging"
+    ,"help"           : "Messaging running in container"
+    ,"executable"     : "message.pl"
+    ,"resource"       : "docker-local"
+    ,"submitpolicy"   : "all"
+    ,"noreset"        : "true"
+    ,"dependencies" : [ 
+        { "base" : "perl" }
+        ,{ "cpan" : "JSON" }
+    ]
+    ,"fields"   : [
+        {
+            "role"        : "input"
+            ,"id"         : "module_header"
+            ,"label"      : "Messaging<br>Running in container"
+            ,"type"       : "label"
+            ,"default"    : "header4"
+            ,"prehline"   : "true"
+            ,"posthline"  : "true"
+        }
+        ,{
+            "role"        : "output"
+            ,"id"         : "result"
+            ,"label"      : "Result"
+            ,"type"       : "text"
+        }
+    ]
+}

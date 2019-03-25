@@ -1,0 +1,27 @@
+#!/usr/bin/perl
+
+# user defines
+
+use JSON;
+
+if ( !@ARGV )
+{
+    print "\{\"error\":\"energy called with no arguments\"\}\n";
+    exit;
+}
+
+$ref = decode_json( shift );
+
+$res = {};
+
+# assemble output
+
+$$res{ "e" } = sprintf( "%.6g", $$ref{ "m" } * $$ref{ "c" }**2 );
+
+# uncomment to see json input & output in output textarea
+# my $json = JSON->new;
+# $$res{ "_textarea" } = "JSON output from executable:\n" . $json->pretty->encode( $res ) . "\n";
+# $$res{ "_textarea" } .= "JSON input to executable:\n" . $json->pretty->encode( $req ) . "\n";
+
+print encode_json( $res ) . "\n";
+

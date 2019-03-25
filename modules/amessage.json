@@ -1,0 +1,30 @@
+{
+    "moduleid"      : "amessage"
+    ,"label"        : "Messaging"
+    ,"help"         : "Messaging running via Abaco"
+    ,"executable"   : "message.pl"
+    ,"resource"     : "abaco"
+    ,"submitpolicy" : "all"
+    ,"noreset"      : "true"
+    ,"dependencies" : [ 
+        { "base" : "perl" }
+        ,{ "cpan" : "JSON" }
+    ]
+    ,"fields"   : [
+        {
+            "role"        : "input"
+            ,"id"         : "module_header"
+            ,"label"      : "Messaging<br>Running via Abaco"
+            ,"type"       : "label"
+            ,"default"    : "header4"
+            ,"prehline"   : "true"
+            ,"posthline"  : "true"
+        }
+        ,{
+            "role"        : "output"
+            ,"id"         : "result"
+            ,"label"      : "Result"
+            ,"type"       : "text"
+        }
+    ]
+}

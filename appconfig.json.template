@@ -1,0 +1,24 @@
+{
+   "messaging" : {
+      "wssport"     : "80"
+      ,"tcpport"     : "30780"
+      ,"tcptimeout"  : "300"
+      ,"tcprport"    : "30781"
+      ,"udpport"     : "30779"
+      ,"tcphostip"   : "127.0.0.1"
+      ,"wsport"      : "30777"
+      ,"zmqport"     : "30778"
+      ,"zmqhostip"   : "127.0.0.1"
+      ,"udphostip"   : "replace with host ip address"
+   }
+   ,"hostname" : "replace with hostname"
+   ,"hostip"   : "replace with host ip address"
+   ,"resourcedefault" : "local"
+   ,"resources" : {
+      "docker-local" : "docker run -v __rundir__:/genapp/run --network host --user www-data ehb1/genapp___application__:__menu:id__-__menu:modules:id__ /genapp/bin/__menu:modules:id__"
+       ,"local" : ""
+       ,"abaco" : "abaco/abacorun"
+   }
+   ,"submitpolicy" : "all"
+   ,"lockdir" : "/src/genapp/etc"
+}
