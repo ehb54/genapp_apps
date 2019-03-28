@@ -20,6 +20,15 @@
         }
         ,{
             "role"       : "input"
+            ,"id"         : "runname"
+            ,"label"      : "Run name "
+            ,"type"       : "text"
+            ,"default"    : "run_0"
+            ,"required"   : "true"
+            ,"help"       : "results will be placed in a folder named here"
+        }
+        ,{
+            "role"       : "input"
             ,"id"         : "pdb"
             ,"label"      : "Input PDB"
 # need to force copy over
@@ -85,7 +94,7 @@
             ,"min"        : 0.0
             ,"max"        : 1.0
             ,"step"       : 0.001
-            ,"help"       : "Minimum scattering vector in inverse angstroms, used for Fit and Scan modes"
+            ,"help"       : "Minimum scattering vector in inverse angstroms. If Qmin is less than the experimental minimum q, Qmin value will be overwritten by the experimental value."
         }
         ,{
             "role"       : "input"
@@ -96,7 +105,7 @@
             ,"min"        : 0.0
             ,"max"        : 1.0
             ,"step"       : 0.001
-            ,"help"       : "Maximum scattering vector in inverse angstroms (maximum = 1.0 1/A)"
+            ,"help"       : "Maximum scattering vector in inverse angstroms (maximum = 1.0 1/A). If Qmax is greater than the experimental maximum q, Qmax value will be overwitten by the experimental value."
         }
         ,{
             "role"       : "input"
@@ -324,10 +333,10 @@
         ,{
             "role"       : "input"
             ,"id"       : "contrast_hydration_mode"
-            ,"label"    : "contrast of hydration shell (Dr0)"
+            ,"label"    : "contrast of hydration shell (Dro)"
             ,"type"     : "listbox"
-            ,"values"     : "Crysol Default ~1~Fix value~2~Edit Range~3~&Chi;&sup2; Scan~4"
-            ,"help"       : "Crysol Default: Use values defined by CRYSOL to run Calc and Fit modes <br>Fix Value: Fix to user defined value to run Calc, Fit and Scan modes <br>Edit Range: Assign low and high value to run Fit and Scan modes <br>&Chi;&sup2; Scan: Define parameters to perform grid-searching of &Chi;&sup2; (slow)"
+            ,"values"     : "Crysol Default~1~Fix Value~2~Edit Range~3~Scan(abs.)~4~Scan(ratio)~5"
+            ,"help"       : "Crysol Default: Use values defined by CRYSOL (Calc, Fit, and Scan modes) <br>Fix Value: Fix to user defined value (Calc, Fit, and Scan modes) <br>Edit Range: Assign low and high value (Fit and Scan modes Only) <br>Scan(abs.): Define range of absolute values to perform grid-searching of &Chi;&sup2; (slow) <br>Scan(ratio): Define a range of values relative to theoretical prediction (slow)"
             ,"repeat"     : "advanced_options"
             ,"repeater"   : "true"
           }
@@ -336,8 +345,8 @@
             ,"id"       : "fix_contrast_hydration"
             ,"label"    : "value"
             ,"type"     : "float"
-            ,"default"    : 0.03
-            ,"help"       : "Fix contrast of hydration in unit of (e/&#8491;^3)"
+            ,"default"    : 0.003
+            ,"help"       : "Fix contrast of hydration shell in unit of (e/&#8491;^3)"
             ,"repeat"     : "contrast_hydration_mode:2"
           }
         ,{
@@ -349,7 +358,7 @@
             ,"step"       : 0.001
             ,"min"        : 0.00
             ,"max"        : 100.0
-            ,"help"       : "Minimum of contrast of hydration to fit"
+            ,"help"       : "Minimum of contrast of hydration shell to fit"
             ,"repeat"     : "contrast_hydration_mode:3"
           }
         ,{  
@@ -361,7 +370,7 @@
             ,"step"       : 0.001
             ,"min"        : 0.00
             ,"max"        : 100.0
-            ,"help"       : "Maximum of contrast of hydration to fit"
+            ,"help"       : "Maximum of contrast of hydration shell to fit"
             ,"repeat"     : "contrast_hydration_mode:3"
           }
         ,{
@@ -373,7 +382,7 @@
             ,"step"       : 0.001
             ,"min"        : 0.00
             ,"max"        : 100.0
-            ,"help"       : "Minimum of contrast of hydration to scan"
+            ,"help"       : "Minimum of contrast of hydration shell to scan"
             ,"repeat"     : "contrast_hydration_mode:4"
           }
         ,{
@@ -385,7 +394,7 @@
             ,"step"       : 0.001
             ,"min"        : 0.00
             ,"max"        : 100.0
-            ,"help"       : "Maximum of contrast of hydration to scan"
+            ,"help"       : "Maximum of contrast of hydration shell to scan"
             ,"repeat"     : "contrast_hydration_mode:4"
           }
         ,{
@@ -416,12 +425,61 @@
           }
         ,{
             "role"       : "input"
+            ,"id"       : "scan_contrast_hydration_low_ratio"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 0.0
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Minimum ratio of contrast of hydration shell compared to theoretical prediction"
+            ,"repeat"     : "contrast_hydration_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_contrast_hydration_high_ratio"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 8.0
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Maximum ratio of contrast of hydration shell compared to theoretical prediction"
+            ,"repeat"     : "contrast_hydration_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_contrast_hydration_points_ratio"
+            ,"label"    : "points"
+            ,"type"     : "integer"
+            ,"default"    : 2
+            ,"step"        : 1
+            ,"min"        : 2
+            ,"max"        : 10000
+            ,"help"       : "Number of points to scan greater than 2"
+            ,"repeat"     : "contrast_hydration_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_contrast_hydration_interval_ratio"
+            ,"label"    : "interval"
+            ,"readonly" : "true"
+            ,"type"     : "float"
+            ,"default"    : 8.0
+            ,"step"        : 0.001
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"calc"       : "(scan_contrast_hydration_high_ratio-scan_contrast_hydration_low_ratio)/(scan_contrast_hydration_points_ratio-1)"
+            ,"help"       : "interval"
+            ,"repeat"     : "contrast_hydration_mode:5"
+          }
+        ,{
+            "role"       : "input"
             ,"id"       : "atomic_radius_mode"
             ,"label"    : "atomic radius (Ra)"
             ,"type"     : "listbox"
-            ,"values"     : "Crysol Default~1~Fix Value~2~Edit Range~3~&Chi;&sup2; Scan~4"
-            ,"help"       : "Crysol Default: Use values defined by CRYSOL to run Calc and Fit modes <br>Fix Value: Fix to user defined value to run Calc, Fit and Scan modes <br>Edit range: Assign low and high value to run Fit and Scan modes <br>&Chi;&sup2; Scan: Define parameters to perform grid-searching of &Chi;&sup2; (slow)"
-            ,"repeat"     : "advanced_options"
+            ,"values"     : "Crysol Default~1~Fix Value~2~Edit Range~3~Scan(abs.)~4~Scan(ratio)~5"
+            ,"help"       : "Crysol Default: Use values defined by CRYSOL (Calc, Fit, and Scan modes) <br>Fix Value: Fix to user defined value (Calc, Fit, and Scan modes) <br>Edit Range: Assign low and high value (Fit and Scan modes Only) <br>Scan(abs.): Define range of absolute values to perform grid-searching of &Chi;&sup2; (slow) <br>Scan(ratio): Define a range of values relative to theoretical prediction (slow)" 
             ,"repeat"     : "advanced_options"
             ,"repeater"   : "true"
           }
@@ -430,7 +488,7 @@
             ,"id"       : "fix_atomic_radius"
             ,"label"    : "value"
             ,"type"     : "float"
-            ,"default"    : 1.4
+            ,"default"    : 1.3
             ,"step"       : 0.001
             ,"min"        : 0.00
             ,"max"        : 100.0
@@ -442,7 +500,7 @@
             ,"id"       : "fit_atomic_radius_low"
             ,"label"    : "min"
             ,"type"     : "float"
-            ,"default"    : 1.40
+            ,"default"    : 1.20
             ,"step"       : 0.01
             ,"min"        : 0.00
             ,"max"        : 100.0
@@ -466,7 +524,7 @@
             ,"id"       : "scan_atomic_radius_low"
             ,"label"    : "min"
             ,"type"     : "float"
-            ,"default"    : 1.40
+            ,"default"    : 1.20
             ,"step"       : 0.01
             ,"min"        : 0.00
             ,"max"        : 100.0
@@ -503,7 +561,7 @@
             ,"label"    : "interval"
             ,"readonly" : "true"
             ,"type"     : "float"
-            ,"default"    : 0.4
+            ,"default"    : 0.6
             ,"step"        : 0.01
             ,"min"        : 0.00
             ,"max"        : 100.0
@@ -513,11 +571,61 @@
           }
         ,{
             "role"       : "input"
+            ,"id"       : "scan_atomic_radius_low_ratio"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 0.8
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Minimum of atomic radius to scan"
+            ,"repeat"     : "atomic_radius_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_atomic_radius_high_ratio"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 1.2
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Maximum ratio of atomic radius compared to theoretical prediction"
+            ,"repeat"     : "atomic_radius_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_atomic_radius_points_ratio"
+            ,"label"    : "points"
+            ,"type"     : "integer"
+            ,"default"    : 2
+            ,"step"        : 1
+            ,"min"        : 2
+            ,"max"        : 10000
+            ,"help"       : "Number of points to scan greater than 2"
+            ,"repeat"     : "atomic_radius_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_atomic_radius_interval_ratio"
+            ,"label"    : "interval"
+            ,"readonly" : "true"
+            ,"type"     : "float"
+            ,"default"    : 0.4
+            ,"step"        : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"calc"       : "(scan_atomic_radius_high_ratio-scan_atomic_radius_low_ratio)/(scan_atomic_radius_points_ratio-1)"
+            ,"help"       : "interval"
+            ,"repeat"     : "atomic_radius_mode:5"
+          }
+        ,{
+            "role"       : "input"
             ,"id"       : "excluded_volume_mode"
             ,"label"    : "excluded volume (Vol)"
             ,"type"     : "listbox"
-            ,"values"     : "Crysol Default~1~Fix Value~2~Edit Range~3~&Chi;&sup2; Scan~4"
-            ,"help"       : "Crysol Default: Use values defined by CRYSOL to run Calc and Fit modes <br>Fix Value: Fix to user defined value to run Calc, Fit and Scan modes <br>Edit Range: Assign low and high value to run Fit and Scan modes <br>&Chi;&sup2; Scan: Define parameters to perform grid-searching of &Chi;&sup2; (slow) <br><br>Excluded volume varies significantly with the molecular weight.<br>Before trying a Scan mode run, it is recommanded to <br> 1) run in Fit mode using Crysol Default and <br> 2) review the CRYSOL log file <br> to obtain reasonable low and high values for the excluded volume to scan."
+            ,"values"     : "Crysol Default~1~Fix Value~2~Edit Range~3~Scan(abs.)~4~Scan(ratio)~5"
+            ,"help"       : "Crysol Default: Use values defined by CRYSOL (Calc, Fit, and Scan modes) <br>Fix Value: Fix to user defined value (Calc, Fit, and Scan modes) <br>Edit Range: Assign low and high value (Fit and Scan modes Only) <br>Scan(abs.): Define range of absolute values to perform grid-searching of &Chi;&sup2; (slow) <br>Scan(ratio): Define a range of values relative to theoretical prediction (slow)"
             ,"repeat"     : "advanced_options"
             ,"repeater"   : "true"
           }
@@ -607,7 +715,56 @@
             ,"help"       : "interval"
             ,"repeat"     : "excluded_volume_mode:4"
           }
-
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_excluded_volume_low_ratio"
+            ,"label"    : "min"
+            ,"type"     : "float"
+            ,"default"    : 0.8 
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Minimum ratio of excluded volume to scan compared to theoretical prediction"
+            ,"repeat"     : "excluded_volume_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_excluded_volume_high_ratio"
+            ,"label"    : "max"
+            ,"type"     : "float"
+            ,"default"    : 1.2
+            ,"step"       : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"help"       : "Maximum ratio of excluded volume to scan compared to theroretical prediction"
+            ,"repeat"     : "excluded_volume_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_excluded_volume_points_ratio"
+            ,"label"    : "points"
+            ,"type"     : "integer"
+            ,"default"    : 2
+            ,"step"        : 1
+            ,"min"        : 2
+            ,"max"        : 10000
+            ,"help"       : "Number of points to scan greater than 2"
+            ,"repeat"     : "excluded_volume_mode:5"
+          }
+        ,{
+            "role"       : "input"
+            ,"id"       : "scan_excluded_volume_interval_ratio"
+            ,"label"    : "interval"
+            ,"readonly" : "true"
+            ,"type"     : "float"
+            ,"default"    : 0.4
+            ,"step"        : 0.01
+            ,"min"        : 0.00
+            ,"max"        : 100.0
+            ,"calc"       : "(scan_excluded_volume_high_ratio-scan_excluded_volume_low_ratio)/(scan_excluded_volume_points_ratio-1)"
+            ,"help"       : "interval"
+            ,"repeat"     : "excluded_volume_mode:5"
+          }
 ##################################################################################
 ####     Full Options for FoXS
 ##################################################################################

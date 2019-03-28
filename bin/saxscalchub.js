@@ -19,13 +19,15 @@ var input_from_ui = process.argv[ 2 ];
 
 var req = JSON.parse( input_from_ui );
 
-const modulename = "alphamultisaxshub";
-var runlogfile = req._base_directory + "/" + modulename + "_" + req._base_directory.split('/').pop() + ".txt";
-var runlogfile_2 = req._base_directory + "/" + modulename + "_" + req._base_directory.split('/').pop() + "_2.txt";
-
+const modulename = req._application;
+const runname = req.runname;
 //var table = JSON.parse( fs.readFileSync( './data_table.json' ) );
 
 var x, key, opt, pref, argm, pdb, pdbshort, raw_expdata, raw_expdatashort, expdata, expdatashort;
+
+var raw_data_exp;
+ 
+var qmin_calc, qmax_calc;
 
 var runmode = "calc"; // if only pdb is given, "fit" if expdata is given optionally.
 
@@ -33,6 +35,9 @@ var upd_ip = req._udphost;
 var udp_port = req._udpport;
 
 //msg._uuid = req._uuid;
+
+var runlogfile = req._base_directory + "/" + runname + '/' + modulename + "_" + runname + "_" + req._base_directory.split('/').pop() + ".txt";
+var runlogfile_2 = req._base_directory + "/" + runname + '/' + modulename + "_" + runname  +  "_" + req._base_directory.split('/').pop() + "_2.txt";
 
 if ( "multi_model_pdb" in req ) {
    if  (!( "choose_all_models" in req )) {
@@ -83,6 +88,15 @@ var plotfiles = {
                              ,"Iq_error": 3
                      }
                }
+              ,"scan":{
+                    "filename": "expdatashort"
+                    ,"header"  : 1    // number of header lines
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2 // Second column for Iq
+                             ,"Iq_error": 3
+                     }
+               }
              }
    ,"RAW_EXPR" : {
               "calc":{
@@ -95,6 +109,15 @@ var plotfiles = {
                      }
                }
               ,"fit":{
+                    "filename": "raw_expdatashort"
+                    ,"header"  : 1    // number of header lines
+                    ,"contents" : {
+                              "q" : 1
+                             ,"Iq": 2 // Second column for Iq
+                             ,"Iq_error": 3
+                     }
+               }
+              ,"scan":{
                     "filename": "raw_expdatashort"
                     ,"header"  : 1    // number of header lines
                     ,"contents" : {
@@ -501,8 +524,12 @@ var table = {
     {
              "executable" : "crysol_scanner"
 //             ,"scanner" : "crysol_scanner.js"
-             ,"input" : { 
-                     "pdb" : { 
+             ,"input" : {
+                     "runname" : {
+                         "type" : "text"
+                         ,"required" : "true"
+                         } 
+                     ,"pdb" :    { 
                          "type" : "file"
                          ,"number_of_files" : 1
                          ,"required" : "true"
@@ -1529,11 +1556,11 @@ for ( x in cmds ) {
 
 // Write command-line commands for each cmds
 for ( x in cmds ) {
-     runcmds[ x ] = "rm -rf " + x + " && mkdir " + x +" && cd " + x + "  && cp ../" + pdbshort + " . && " ;
+     runcmds[ x ] = "cd " + runname + " && rm -rf " + x + " && mkdir " + x +" && cd " + x + "  && cp ../../" + pdbshort + " . && " ;
 //     runcmds[ x ] = "cd " + x + "  && cp ../" + pdbshort + " . && " ;
      if (string_expdata in req) {
-         runcmds[ x ] += "cp ../" + expdatashort + " . && " ;
-         runcmds[ x ] += "cp ../" + raw_expdatashort + " . && " ;
+         runcmds[ x ] += "cp ../../" + expdatashort + " . && " ;
+         runcmds[ x ] += "cp ../../" + raw_expdatashort + " . && " ;
          if ( x == "SASTBX" ) {
              runcmds[ x ] += "sed '1d' " + expdatashort + " > " + expdata_sastbx_short + " && " ;
          }
@@ -1556,19 +1583,19 @@ res._textarea += JSON.stringify(req, null, 2) +  "\n";
 
 function udp_outfile( x ) {
     var output = {}; // use for UDP messaging
-    files.x = fs.readdirSync(  x + '/' );
+    files.x = fs.readdirSync(  runname + '/' + x + '/' );
     try {
     if ( x != 'FoXS' ) {
     files.x.forEach ( function ( file ) {
         var suffix = file.split('.').pop();
         if ( suffix in table[ x ][ "output" ]) {
-             var text = fs.readFileSync( x + "/" + file);
+             var text = fs.readFileSync( runname + '/' + x + "/" + file);
              var lines = text.toString().split('\n').length - 1;
              if ( lines != 0 ) {
                  //var xkey = 'outfile_' + x + '_' + suffix;
                  //var xvalue = req._base_directory + '/' + x  + '/' + file;
-                 res[ 'outfile_' + x + '_' + suffix ] = req._base_directory + '/' + x  + '/' + file;
-                 output[ 'outfile_' + x + '_' + suffix ] = req._base_directory + '/' + x  + '/' + file;
+                 res[ 'outfile_' + x + '_' + suffix ] = req._base_directory + '/' + runname + '/' + x  + '/' + file;
+                 output[ 'outfile_' + x + '_' + suffix ] = req._base_directory + '/' + runname + '/' + x  + '/' + file;
                  res._textarea += 'outfile_' + x + '_' + suffix + "\n";
              };
         };
@@ -1587,13 +1614,13 @@ function udp_outfile( x ) {
              }
         };
         if ( suffix_dat in table[ x ][ "output" ]) {
-             var text = fs.readFileSync( x + "/" + file)
+             var text = fs.readFileSync( runname + '/' + x + "/" + file)
              var lines = text.toString().split('\n').length - 1;
              if ( lines != 0 ) {
                  //var xkey = 'outfile_' + x + '_' + suffix_dat;
                  //var xvalue = req._base_directory + '/' + x  + '/' + file;
-                 res[ 'outfile_' + x + '_' + suffix_dat ] = req._base_directory + '/' + x  + '/' + file;
-                 output[ 'outfile_' + x + '_' + suffix_dat ] = req._base_directory + '/' + x  + '/' + file;
+                 res[ 'outfile_' + x + '_' + suffix_dat ] = req._base_directory + '/' + runname + '/' + x  + '/' + file;
+                 output[ 'outfile_' + x + '_' + suffix_dat ] = req._base_directory + '/' + runname + '/' + x  + '/' + file;
                  res._textarea += 'outfile_' + x + '_' + suffix_dat + "\n";
              };
         };
@@ -1607,28 +1634,35 @@ function udp_outfile( x ) {
 }
 
 // Generate a zip file of rea._base_directory excluding input files in each method directory
-function write_zip(err) {
+async function write_zip(err) {
     var zipdir = '';
     var output = {};
     for ( x in cmds ) {
-        zipdir += x + " ";
-        var rm_cmd = "rm -rf " + './' + x + '/' + pdbshort;
+        zipdir += runname + '/' + x + " ";
+        var rm_cmd = "rm -rf " + './' + runname + '/' + x + '/' + pdbshort;
+        var rm_pdb = './' + runname + '/' + x + '/' + pdbshort;
         if (expdatashort.length != 0) {
         //    rm_cmd += " && rm -rf " + './' + x + '/' + expdatashort + raw_expdatashort;
         };
-        exec( rm_cmd );
+        //exec( rm_cmd );
+        fs.unlink( rm_pdb, function(err) {
+            if (err) throw err;
+        });
     };
 
     var zipname = req._base_directory;
-    zipname = req._base_directory + "/" + zipname.split('/').pop() + ".zip";
+    zipname = req._base_directory + "/" + runname + '/' + zipname.split('/').pop() + "_" + runname + ".zip";
     const zipcmd = "zip -r " + zipname + " " + zipdir + " " +  runlogfile.split('/').pop() ;
 //    res._textarea += zipcmd + "\n";
 
-    exec(zipcmd,(err,stdout,stderr) => {
-        if (err) {
-            res._textarea += "Error in zipping output file :" + err.message + "\n";
-        }
-    });
+//    exec(zipcmd,(err,stdout,stderr) => {
+//        if (err) {
+//            res._textarea += "Error in zipping output file :" + err.message + "\n";
+//        }
+//    });
+
+    await p_exec( zipcmd );
+
     res.outfile_zip = zipname;
     output.outfile_zip = zipname;
     return output;
@@ -1638,7 +1672,7 @@ function write_zip(err) {
 function save_logfile(){
     var logtext = {};
     var patt = /^_/;
-    logtext[ "Title" ] = "Job logs of " + modulename + " run";
+    logtext[ "Title" ] = "Job logs of " + modulename + " of run name " + runname;
     logtext[ "Activated Programs" ] = [];
     for ( x in runcmds ) {
         logtext[ "Activated Programs" ].push(x) ;
@@ -1676,7 +1710,7 @@ function save_logfile(){
 function save_logfile_2(){
     var logtext = {};
     var patt = /^_/;
-    logtext[ "Title" ] = "Job logs of " + modulename + " run";
+    logtext[ "Title" ] = "Job logs of " + modulename + " of run name " + runname;
     logtext[ "Activated Programs" ] = [];
 
     for ( x in runcmds ) {
@@ -1846,7 +1880,7 @@ function getJSON_scan( x, chi2_data ){
                     scansets += 1;
                 };
             };
-            res._textarea += "CHI2 file length: " + count_line + " & " + ncolumn + "\n";
+//            res._textarea += "CHI2 file length: " + count_line + " & " + ncolumn + "\n";
 
             var scan_dim = 1;
             if ( ncolumn > 2 ) {
@@ -1854,18 +1888,18 @@ function getJSON_scan( x, chi2_data ){
             };
 
             if ( scan_dim == 1 ) {
-                res._textarea += "#### THis is 1D profile: " +  "\n";
+//                res._textarea += "#### THis is 1D profile: " +  "\n";
                 result += get_1d_scandata(x, count_line, chi2_data);
             } else if ( scan_dim == 2 ) {
-                res._textarea += "#### THis is 2D profile: \n"
+//                res._textarea += "#### THis is 2D profile: \n"
                 if ( scansets == 1 ) {
                     var xdomain = [ [0, 1] ];
                 } else if ( scansets == 3 ) {
                     var xdomain = [ [ 0, 0.28 ], [ 0.37, 0.65 ], [ 0.72, 1.0 ] ];
                 }; 
-                res._textarea += "#### # of scan sets : " + scansets + "\n";
+//                res._textarea += "#### # of scan sets : " + scansets + "\n";
                 result += get_2d_scandata(x, count_line, xdomain, chi2_data);
-                res._textarea += "#### # of After get_2d_scan \n";
+//                res._textarea += "#### # of After get_2d_scan \n";
             };
  
             resolve( result );
@@ -1900,7 +1934,7 @@ function get_1d_scandata( x, count_line, chi2_data ) {
                     chi2_3d[ x ][ "layout" ][ "xaxis" ][ "title" ] = xtitle;
                     chi2_3d[ x ][ "layout" ][ "yaxis" ][ "title" ] = ytitle;
                     delete chi2_3d[ x ][ "layout" ][ "yaxis" ][ "type" ]; 
-                    res._textarea += "LINE " + i + " is header\n";
+//                    res._textarea += "LINE " + i + " is header\n";
                 } else { //if ( txtstring !== null && txtstring !== '' && patt.exec(txttrim) == null ){
 //                       res._textarea += txtline[ 0 ] + " " + txtline[ 1 ]   + "\n";
                     var xnew = parseFloat(txtline[ 0 ] );
@@ -1912,7 +1946,7 @@ function get_1d_scandata( x, count_line, chi2_data ) {
                         ynew =  Math.sqrt( parseFloat( txtline[ 1 ] ) ) ;   // fill y 
                     }
                     new_data[ "y" ].push ( ynew );
-                    res._textarea += "\n" + i  + xnew + " " + ynew + "\n";
+//                    res._textarea += "\n" + i  + xnew + " " + ynew + "\n";
                     if ( i == count_line - 1) {
                         delete new_data[ "error_y" ];
                         new_data["marker"][ "size" ]  = 15;              
@@ -1942,7 +1976,7 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
 //    var chi2_mock = JSON.parse(JSON.stringify( plot3d_template ));
     //chi2_3d[ x ] = chi2_mock;
     var chi_max = 0.0;
-    var chi_min = 0.0
+    var chi_min = 0.0;
     try {
             count_xy = 0;
             for( var i = 0; i < count_line  ; i++ ) {
@@ -1951,7 +1985,7 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
                 var txtline = chi2_data[i].split( "," );
 
                 if ( patt.exec( txtline[0].replace(/\./g,'') ) != null ) {
-                    res._textarea += "LINE " + i + " is header\n";
+//                    res._textarea += "LINE " + i + " is header\n";
                     count_xy += 1;
                     if ( count_xy > 1 ) {
                         chi2_3d[ x ][ "data" ].push( new_data );
@@ -1994,7 +2028,7 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
                     new_data[ "contours" ][ "end" ] = 10;  
                     //new_data[ "contours" ][ "size" ] = 1;
                 } else { //if ( txtstring !== null && txtstring !== '' && patt.exec(txttrim) == null ){
-                    res._textarea += "LINE " + i + " : " + txtline + "\n";
+//                    res._textarea += "LINE " + i + " : " + txtline + "\n";
                     new_data[ "x" ].push( parseFloat(txtline[ 0 ] ) );
                     var new_z = [];
                     for ( var j = 1; j < txtline.length; j++ ) {   //skip first column
@@ -2006,7 +2040,8 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
                              new_z.push( zval ) ;   // fill y 
                              if ( chi_max < zval ) {
                                  chi_max = zval;
-                             } else {
+                             };
+                             if ( chi_min > zval ) { 
                                  chi_min = zval;
                              };
                          };
@@ -2029,7 +2064,7 @@ function get_2d_scandata( x, count_line, xdomain, chi2_data ) {
             chi2_3d[ x ][ "data" ][ i ][ "contours" ][ "labelfont" ] = {};
             chi2_3d[ x ][ "data" ][ i ][ "contours" ][ "labelfont" ][ "color" ] = "white";
         }; 
-            res._textarea += "\n SCAN PLOT DATA";
+//            res._textarea += "\n SCAN PLOT DATA";
 //            res._textarea += "\n" + JSON.stringify(chi2_3d[x], null, 2)  + "\n"; 
       } catch(error) {
             result += "Error in get_2d_scandata" ;
@@ -2059,19 +2094,6 @@ var chi_square = [];
 var chi_square_reduced = [];
 var chi_square_pierson = [];
 
-/*
-function prep_plot_runner () {
-    return new Promise ( (resolve, reject) => { 
-    var result = "";
-    try {
-        prep_plot_JSON_all();
-        resolve( result );
-    } catch (error) {
-        reject( error.message );
-    };
-    });
-}
-*/
 
 async function prep_plot_JSON_all( ) {
 // Initialize Iq_ALL and Iq_exp_data
@@ -2082,12 +2104,12 @@ async function prep_plot_JSON_all( ) {
        Iq_ALL[ "iq_ALL" ] = Iq_mock;
        delete Iq_ALL[ "iq_ALL" ][ "layout" ][ "shapes" ];
    };
-   if ( runmode == "fit"  ) {
+   if ( runmode == "fit" ) {
        var Iq_mock = JSON.parse(JSON.stringify( sub_layout ));
        Iq_mock[ "layout" ][ "title" ] = "Fitted Iq profiles with " + pdbshort + " & " + raw_expdatashort + " for " + req.qmin + " < q < " + req.qmax + " [1/Angstrom]" ;
        // Initialize experimental data for Iq plot
-       var raw_exp_input = raw_expdatashort;
-       var raw_data_exp = await readfile_exp(raw_exp_input);
+//       var raw_exp_input = raw_expdatashort;
+//       var raw_data_exp = await readfile_exp(raw_exp_input);
 
        iq_obj[ "RAW_EXPR" ] = JSON.parse( JSON.stringify( trace_marker ) );
        await getIqJSON_exp("RAW_EXPR", raw_data_exp);
@@ -2103,10 +2125,16 @@ async function prep_plot_JSON_all( ) {
 
 
    if ( runmode == "scan" ) {
-      for ( x in cmds ) {
+//       var raw_exp_input = raw_expdatashort;
+//       var raw_data_exp = await readfile_exp(raw_exp_input);
+
+       iq_obj[ "RAW_EXPR" ] = JSON.parse( JSON.stringify( trace_marker ) );
+       await getIqJSON_exp("RAW_EXPR", raw_data_exp);
+
+       for ( x in cmds ) {
           var xnscan = 0;
               for ( var ss in table[ x ][ "scan" ] ) {
-                  if ( req[ ss ] == 4 ) {
+                  if ( req[ ss ] == 4 || req[ ss ] == 5 ) {
                       xnscan += 1;
                   };
               };
@@ -2125,11 +2153,13 @@ async function prep_plot_JSON_all( ) {
 
 }
 
+
+var chi2_reduced_obj = {};
 function getIqJSON_all( ) {
     if ( runmode == "fit" ) {
        Iq_ALL[ "iq_ALL" ][ "data" ].push( iq_obj[ "RAW_EXPR" ] );
        var data_chi_temp = JSON.parse( JSON.stringify( sub_tracebar ) );
-       var chi2_reduced_obj = calc_reduced_chi2();
+       calc_reduced_chi2();
     };
 //    var mock_chi = 20; // mock chi2 data for each x
     for ( x in cmds ) {
@@ -2153,19 +2183,28 @@ function getIqJSON_all( ) {
     };
 
     if ( runmode == "fit" ) {
+       Iq_ALL[ "iq_ALL" ][ "layout" ][ "title" ] = "Fitted Iq profiles with " + pdbshort + " & " + raw_expdatashort + " for " + parseFloat(qmin_calc).toFixed(4) + " < q < " + parseFloat(qmax_calc).toFixed(4) + " [1/Angstrom]" ;
        Iq_ALL[ "iq_ALL" ][ "data" ].push( data_chi_temp );
+       Iq_ALL[ "iq_ALL" ][ "layout" ][ "shapes" ][ 0 ][ "x0" ] = qmin_calc;
+       Iq_ALL[ "iq_ALL" ][ "layout" ][ "shapes" ][ 0 ][ "x1" ] = qmax_calc;
        for ( x in cmds ) {
            Iq_ALL[ "iq_ALL" ][ "data" ].push(iq_obj_residual[ x ]);
        };
+       res[ "iq_ALL" ] = Iq_ALL[ "iq_ALL" ] ;
     };
     
+    if ( runmode == "calc" ) {
+        Iq_ALL[ "iq_ALL" ][ "layout" ][ "title" ] = "Theoretical Iq profiles with " + pdbshort + " for " + parseFloat(qmin_calc).toFixed(4) + " < q < " + parseFloat(qmax_calc).toFixed(4) + " [1/Angstrom]";
+        res[ "iq_ALL" ] = Iq_ALL[ "iq_ALL" ] ;
+    };
 //   res._textarea += JSON.stringify(data_chi_temp);
-//   res._textarea += JSON.stringify(Iq_ALL);  
+//     res._textarea += JSON.stringify(Iq_ALL);  
 }
 
 function calc_reduced_chi2() {
-
-    var chi2 = {};
+//    return new Promise((resolve, reject) => {
+//    var chi2 = {};
+    var results = "";
     var expdata_len = iq_obj[ "EXPR" ][ "y" ].length;
 
     var delta_iq = 0.0;
@@ -2174,7 +2213,7 @@ function calc_reduced_chi2() {
     var residual_q = 0.0;
 
     try { 
-        for (x in runcmds ) {
+        for ( x in runcmds ) {
             iq_obj_residual[ x ] = JSON.parse( JSON.stringify( trace_line ) );
             var calcdata_len = iq_obj[ x ][ "y" ].length;
             var sum_chi2 = 0.0;
@@ -2206,14 +2245,17 @@ function calc_reduced_chi2() {
             iq_obj_residual[ x ][ "showlegend" ] = true;
             iq_obj_residual[ x ][ "line" ][ "color" ] = color_table[ x ];
             iq_obj_residual[ x ][ "line" ][ "dash" ] = "dot";
-            chi2[ x ] =  sum_chi2 / Number( calcdata_len); //.toFixed(5);
+//            chi2[ x ] =  sum_chi2 / Number( calcdata_len); //.toFixed(5);
+            chi2_reduced_obj[ x ] = sum_chi2/ Number( calcdata_len );
         };
-        return chi2;
-        res._textarea += "CHI-SQUARE \n";
-        res._textarea += JSON.stringify( chi2 ) + "\n";
+        return results;
+//        res._textarea += "CHI-SQUARE \n";
+//        res._textarea += JSON.stringify( chi2 ) + "\n";
     } catch (error) {
-        res._textarea += "Error while calculating chi-squares" ;
-    }
+        throw ( error.message )
+//        res._textarea += "Error while calculating chi-squares" ;
+    };
+//    })
 
 }
 
@@ -2288,7 +2330,7 @@ function getIqJSON(x,layout,tempdata,txt) {
                         };
                     };
                 } else {
-                    if ( q > req.qmin || q < req.qmax ) {
+                    if ( Number( txtline[ id_q - 1 ] ) > qmin_calc && Number( txtline[ id_q - 1 ] ) < qmax_calc ) {
                     q.push( txtline[ id_q - 1 ] );
                     Iq.push( txtline[ id_iq - 1 ] );
                     if ("Iq_error" in plotfiles[ x ][ tmprunmode ][ "contents" ]) {
@@ -2317,15 +2359,15 @@ function getIqJSON(x,layout,tempdata,txt) {
 
        Iq_layout[ "data" ] = [ iq_obj[ x ] ];
        if ( runmode == "calc" ) {
-          Iq_layout[ "layout" ][ "title" ] = "Theoretical Iq profile from " + x + " with " + pdbshort + " for q < " + req.qmax + " [1/Angstrom]";
+          Iq_layout[ "layout" ][ "title" ] = "Theoretical Iq profile from " + x + " with " + pdbshort + " for " + parseFloat(qmin_calc).toFixed(4) + " < q < " + parseFloat(qmax_calc).toFixed(4) + " [1/Angstrom]";
           delete Iq_layout[ "layout" ][ "shapes" ];
         };
 
        if ( runmode == "fit" ) {
-          Iq_layout[ "layout" ][ "title" ] = "Fitted Iq profile from " + x + " with " + raw_expdatashort + " for " + req.qmin + " < q < " + req.qmax + " [1/Angstrom]"; 
+          Iq_layout[ "layout" ][ "title" ] = "Fitted Iq profile from " + x + " with " + raw_expdatashort + " for " + parseFloat(qmin_calc).toFixed(4) + " < q < " + parseFloat(qmax_calc).toFixed(4) + " [1/Angstrom]";
           Iq_layout[ "data" ].push( iq_obj[ "RAW_EXPR" ] );
-          Iq_layout[ "layout" ][ "shapes" ][ 0 ][ "x0" ] = req.qmin;
-          Iq_layout[ "layout" ][ "shapes" ][ 0 ][ "x1" ] = req.qmax;
+          Iq_layout[ "layout" ][ "shapes" ][ 0 ][ "x0" ] = qmin_calc;
+          Iq_layout[ "layout" ][ "shapes" ][ 0 ][ "x1" ] = qmax_calc;
         };
 
 //       iq_obj[ x ] = Iq_data ;
@@ -2341,8 +2383,12 @@ function getIqJSON(x,layout,tempdata,txt) {
 
 // Define a chain of promise for each method before parallelizaton
 async function do_exec( x ) {
+//    send_udpmsg( { _textarea : "Starting " + runmode + " mode jobs\n" });
+
+    if ( x == "check_scan" ) {
+       check_scan();
+    } else {
     var x_startTime = performance.now();
-    send_udpmsg( { _textarea : "Starting " + runmode + " mode jobs\n" });
     send_udpmsg( { _textarea : "Starting " + x + " job\n" } );
 
     var result = await p_exec( runcmds[ x ] );
@@ -2351,8 +2397,9 @@ async function do_exec( x ) {
 
     var output = udp_outfile( x );
     send_udpmsg( { _textarea : "Writing output files for " + x + " done\n" } );
-    send_udpmsg( output );
+//    send_udpmsg( output );
 
+//    await sleep(1000);
     if ( runmode == "calc" || runmode == "fit" ){
         var tst = readfile(x,output);
         Iq_udp = getIqJSON(x,samplelayout,trace_line,tst);
@@ -2362,34 +2409,165 @@ async function do_exec( x ) {
     };
     if ( runmode == "scan" ) {
         plot_scan( x, output );
+        sleep(1000);
         if ( table[ x ][ "scan" ][ "nscans" ] == 1 ) {
             res[ "chi2_1D_" + x ] = chi2_3d[ x ] ;
-            res._textarea += JSON.stringify(res["chi2_1D" + x ], null, 2) + "\n";
+//            res._textarea += JSON.stringify(res["chi2_1D" + x ], null, 2) + "\n";
         } else if ( table[ x ][ "scan" ][ "nscans" ] > 1 ) {
             res[ "chi2_2D_" + x ] = chi2_3d[ x ] ;
-            res._textarea += JSON.stringify(res["chi2_2D" + x ], null, 2) + "\n";
+//            res._textarea += JSON.stringify(res["chi2_2D" + x ], null, 2) + "\n";
         };
     };
- 
+
+    };
 //    send_udpmsg( { _textarea : "Sent UPD for " + x + " \n" });
     return result;
+}
+
+function getFile(path, delay) {
+    return new Promise((resolve, reject) => {
+        try {
+            var timeout = setInterval( function() {
+                const file = path;
+                const fileExists = fs.existsSync(file);
+
+                if (fileExists) {
+                    resolve( fileExists );
+                    clearInterval(timeout);
+                };
+            }, delay );
+        } catch( error ){
+            reject( error.message );
+        }; 
+    });
+}
+
+var adjusted_scan_parameter = {"stdout":"","stderr":""};
+var check_scan_step = {"stdout":"","stderr":""};
+
+async function grep_text( grep_cmd, timeout ) {
+    adjusted_scan_parameter = await p_exec( grep_cmd );
+    var newtime = timeout + 1;
+}
+
+async function grep_scan_step( grep_cmd, timeout ) {
+    check_scan_step = await p_exec( grep_cmd );
+    var newtime = timeout + 1;
+}
+
+function get_adjusted_scan_parameter(grep_cmd, delay) {
+    return new Promise((resolve, reject) => {
+        try {
+            var timeout = setInterval( function() {
+                var result = grep_text(grep_cmd, 0) ;
+                if ( adjusted_scan_parameter[ "stdout" ].length ) {
+                    //for ( x in checkscanstep[ "stdout" ].split('\n') ) {
+                        send_udpmsg( { _textarea : adjusted_scan_parameter[ "stdout" ] + "\n" } );
+                    //};
+                    resolve( result );
+                    clearInterval(timeout);
+                };
+            }, delay );
+        } catch( error ){
+            reject( error.message );
+        };
+    });
+}
+
+function get_expectation_scantime(grep_cmd, delay) {
+    return new Promise((resolve, reject) => {
+        try {
+            var timeout = setInterval( function() {
+                var result = grep_scan_step(grep_cmd, 0) ;
+                if ( check_scan_step[ "stdout" ].length ) {
+                    //for ( x in checkscanstep[ "stdout" ].split('\n') ) {
+                        send_udpmsg( { _textarea : check_scan_step[ "stdout" ] } );
+                    check_scan_step[ "stdout" ] = "";
+                    //};
+                    resolve( result );
+                    clearInterval(timeout);
+                };
+            }, delay );
+        } catch( error ){
+            reject( error.message );
+        };
+    });
+}
+
+async function check_scan() {
+
+    var result_status = [];
+    var scan_status = [];
+    var result_var = [];
+    var scan_var_set = [];
+
+    var filename = req._base_directory + "/" + runname + "/CRYSOL/CRYSOL.stdout";
+    var grep_cmd = "grep " + "\"Expected to finish in \" " + filename + " | tail -1" ;
+    var grep_scan_var = "grep " + "\"## \" " + filename; // + " | tail -12 "; 
+
+    await getFile( filename, 100);
+    send_udpmsg( { _textarea : "\n" + "=".repeat(28) + " Scan Setup " + "=".repeat(28) + "\n\n" } );
+    await get_adjusted_scan_parameter( grep_scan_var, 100 ); 
+
+    send_udpmsg( { _textarea : "=".repeat(28) + " Run status " + "=".repeat(28) + "\n" } );
+    await get_expectation_scantime( grep_cmd, 100 ); 
+
+    var index_time = parseFloat( check_scan_step[ "stdout" ].split( ' ' ).slice(-2, -1)[0]);
+    var remain_step = parseInt( check_scan_step[ "stdout" ].split( ' ' ).slice(3, 4)[0]);
+    if ( index_time > 10.0 && index_time < 60.0 ) {
+        await sleep(parseInt( index_time/remain_step * 3000 ) );
+        var nextstep = await p_exec( grep_cmd );
+        send_udpmsg( { _textarea : nextstep[ "stdout" ] + "\n" } );
+        index_time = parseFloat( nextstep[ "stdout" ].split( ' ' ).slice(-2, -1)[0]);
+        send_udpmsg( { _textarea : "Expected to finish in "  +  ( index_time).toFixed(0) + " secs\n\n" } );
+
+    } else if ( index_time >= 60.0 ) {
+        await sleep(parseInt( index_time/remain_step * 3000 ) );
+        var nextstep = await p_exec( grep_cmd );
+        index_time = parseFloat( nextstep[ "stdout" ].split( ' ' ).slice(-2, -1)[0]);
+        send_udpmsg( { _textarea : "Expected to finish in "  +  ( index_time/60 ).toFixed(1) + " mins\n\n" } );
+    };
+
 }
 
 // Define parallel job of methods
 async function parallel() {
     var tasks = {};
     var udptasks = {};
-    for ( x in runcmds ) {
-        tasks[ x ] = do_exec( x );
-    }
+    var runcmds_scan = {};
+
+    if ( runmode == "scan" ) {
+//        do_exec[ "check_scan" ] = check_scan();
+        runcmds_scan = JSON.parse( JSON.stringify( runcmds ) );
+        runcmds_scan[ "check_scan" ] = "";
+    
+        for ( x in runcmds_scan ) {
+            tasks[ x ] = do_exec( x );
+        };
+    } else {
+        for ( x in runcmds ) {
+            tasks[ x ] = do_exec( x );
+        };
+
+    };
 
     var results = {};
 //    var errors = {};
-
-    try {    
-        for ( x in runcmds ) {
-           results[ x ] = await tasks[ x ];
+    try {
+        if ( runmode == "scan" ) {    
+            for ( x in runcmds_scan ) {
+                results[ x ] = await tasks[ x ];
+            };
+        } else {
+            for ( x in runcmds ) {
+                results[ x ] = await tasks[ x ];
+            };
         }
+/*
+        if ( runmode == "scan" ) {
+            results[ "scan_crysol" ] = await tasks[ "scan_crysol" ];
+        }
+*/
      } catch(err) {
            results[ x ] = 'Error in '+  x  + ' : ' + err.message;
      }
@@ -2404,14 +2582,20 @@ function input_filter ( ) {
     pdbnamecopy += pdbshort.toString();
     var pdbsuffix = "";
     pdbsuffix += pdbnamecopy.split('.').pop();
-    if ( req.qmin == req.qmax || req.qmin > req.qmax ) {
+    if ( req.qmin >= req.qmax ) {
         result += "Qmax must be greater than Qmin.";
         return result;
     };
+
+    if ( Object.keys( cmds ).length == 0 ){
+        result += "No program selected!";
+        return result;
+    };
+
     if ( req.set_experimental_curve == "on" ) {
         if ( !( string_expdata in req )) {
             result += "Input Experimental curve is missing.";
-            return result; 
+            return result;
         };
     };
     if ( pdbsuffix != "pdb" ) {
@@ -2420,27 +2604,42 @@ function input_filter ( ) {
     };
     if ( runmode == "calc" ) {
         if ( prefix_req.includes( "scan" ) ) {
-            result += "Stop running due to missing experimental curve to scan Chi^2.\nChoose 'Fix' to obtain theoretical curve with no experimental curve, or choose 'Chi^2 Scan' together with experimental curve.";
+            result += "Missing experimental curve to scan Chi^2.\nChoose 'Fix' to obtain theoretical curve with no experimental curve, or choose 'Chi^2 Scan' together with experimental curve.";
                 return result;
         };
         if ( prefix_req.includes( "fit" )) {
-            result += "Stop running due to missing experimental curve while trying to adjust range of parameter(s).\nChoose 'Fix' to obtain theoretical curve with no experimental curve, or choose 'Edit range' together with experimental curve.";
+            result += "Missing experimental curve while trying to adjust range of parameter(s).\nChoose 'Fix' to obtain theoretical curve with no experimental curve, or choose 'Edit range' together with experimental curve.";
                 return result;
         };
     };
 
-    if ( runmode == "fit" ) {
+    if ( runmode == "fit" || runmode == "scan" ) {
         var nq = iq_obj[ "RAW_EXPR" ][ "x" ].length;
         var expqmin = parseFloat( iq_obj[ "RAW_EXPR" ][ "x" ][ 0 ] );
         var expqmax = parseFloat( iq_obj[ "RAW_EXPR" ][ "x" ][ nq-1 ] );
+        if ( req.qmin < expqmin || req.qmax > expqmax || req.number_of_points < 50  ) {
+            send_udpmsg( { _textarea : "=".repeat(27) + " Input WARNING " + "=".repeat(27) + "\n"} );
+        };
         if ( req.qmin < expqmin ) {
-            result += "Input Qmin = " + req.qmin + " is out of range of experimental curve ( " + expqmin.toFixed(4) + " < q <  " + expqmax.toFixed(4) + " )";
-            return result;
+            send_udpmsg( { _textarea : "## Input Qmin = " + req.qmin + " is less than " + expqmin.toFixed(4) + " in experimental minimum q. Used " + expqmin.toFixed(4) + " for Qmin. \n" } );
+            qmin_calc = expqmin;
+        } else {
+            qmin_calc = req.qmin;
         };
         if (req.qmax > expqmax ) {
-            result += "Input Qmax = " + req.qmax + " is out of range of experimental curve ( " + expqmin.toFixed(4) + " < q <  " + expqmax.toFixed(4) + " )";
-            return result;
+            send_udpmsg( { _textarea : "## Input Qmax = " + req.qmax + " is greater than " + expqmax.toFixed(4) + " in experimental maximum q. Used " + expqmax.toFixed(4) + " for Qmax. \n" } );
+            qmax_calc = expqmax;
+        } else {
+            qmax_calc = req.qmax;
         };
+
+        if ( req.number_of_points < 50 ) {
+            send_udpmsg( { _textarea : "## Number of q points = " + req.number_of_points + " is too small.\n     It may significanly affect fitting & scanning results depending on programs selected.\n" } );
+        };
+        send_udpmsg( { _textarea : "=".repeat(66) + "\n"} );
+    } else {
+        qmin_calc = req.qmin;
+        qmax_calc = req.qmax
 
     };
     if ( runmode == "scan" ) {
@@ -2452,7 +2651,7 @@ function input_filter ( ) {
             var count = 0;
             for ( k in cmds ) {
                 count += 1;
-            }; 
+            };
             if ( count > 1 ) {
                 result += "Chi^2 scan is currently available only by CRYSOL.";
                 return result;
@@ -2468,7 +2667,7 @@ function input_filter ( ) {
 //                return result;
 //            }; 
         };
-        if ( "FoXS" in cmds || "Pepsi-SAXS" in cmds || "SASTBX" in cmds || 
+        if ( "FoXS" in cmds || "Pepsi-SAXS" in cmds || "SASTBX" in cmds ||
             "SasCalc" in cmds || "WAXSiS" in cmds || "SoftWAXS" in cmds || "AXES" in cmds ) {
             result += " Only CRYSOL runs in scan mode";
             return result;
@@ -2489,44 +2688,60 @@ function message_box(msg) {
     console.log( JSON.stringify( res ) );
 }
 
+function sleep(ms){
+    return new Promise(resolve=>{
+        setTimeout(resolve,ms)
+    })
+}
+
 // Main function to submit parallel job
 async function taskRunner(fn, label) {
   const startTime = performance.now();
+  var result = "";
     try {
+
+//        await sleep(1000);
+//      make a directory "runname"
+        if ( fs.existsSync( runname ) ) {
+            await p_exec( "rm -rf " + runname + '/*' );
+        } else {
+            await p_exec( "mkdir " + runname );
+        }; 
         await prep_plot_JSON_all();
-        var result = "";
         var msg = input_filter( );
-//        send_udpmsg( { _textarea : msg  + "\n" } );
         if ( msg.length > 0 ) {
 //            process.on( 'exit', function(code) { return console.log ( "Program stopped due to input error." )});
             message_box( msg );
         } else {
-//        result += await prep_plot_runner();
+        send_udpmsg( { _textarea : "\nStarting " + runmode + " mode jobs\n" });
+
+        await sleep(1000);
+//      Run programs here
         result += await fn();
+//
         var output = save_logfile();
-        send_udpmsg( output );
+//        send_udpmsg( output );
         var output = save_logfile_2();
-        send_udpmsg( output );
+//        send_udpmsg( output );
 
         if ( runmode == "calc" || runmode == "fit" ) {
             getIqJSON_all();
         };
 
-        var output = write_zip();
-        send_udpmsg( output );
+        await write_zip();
+        await sleep(5000);
+//        send_udpmsg( output );
         if ( ! ( "debug_msg" in req ) ) { 
 	    delete res._textarea;
         }
-        if ( runmode == "calc" || runmode == "fit" ) {
-            res[ "iq_ALL" ] = Iq_ALL[ "iq_ALL" ] ;
-        };
+        send_udpmsg( { _textarea : "Finished Multi SAXS job!\n" + "=".repeat(66) } );
+//        await sleep(1000);
         console.log(JSON.stringify(res));
-        send_udpmsg( { _textarea : "Finished Multi SAXS job!" } );
        ;}
    } 
     catch (err) {
        res._textarea += "Error : " + err.message + "\n";
-       console.log(err.message);
+       console.log(res);
     }
 }
 
@@ -2534,15 +2749,11 @@ async function multisaxshubRunner ( fn ) {
    var result = "";
 
    if ( string_expdata in req ) {
-       var raw_exp_input = raw_expdatashort;
-       var raw_data_exp = await readfile_exp(raw_exp_input);
+       raw_data_exp = await readfile_exp(raw_expdatashort);
        await generate_expdata_qmin( raw_data_exp );
    };
-//   result += await prep_plot_runner();
    fn(parallel, 'parallel', {} );
 };
 
 multisaxshubRunner ( taskRunner );
 
-// void taskRunner(parallel, 'parallel');
-//taskRunner(parallel, 'parallel', {} );

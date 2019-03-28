@@ -9,6 +9,8 @@ const exec = require('child_process').exec;
 //const exec =  require('child_process').fork;
 const p_exec = promisify( require( 'child_process' ).exec ) ;
 
+const { PerformanceObserver, performance } = require('perf_hooks');
+
 var input_from_ui = process.argv[ 2 ];
 var req_original = JSON.parse( input_from_ui );
 
@@ -29,6 +31,7 @@ var expdatashort = "";
 // Decide run mode and update run mode specific options in app_texts
 
 var runmode = "calc";
+var startTime = 0.0;
 
 // extract value from the array in the original req
 var req = {};
@@ -126,11 +129,21 @@ function initialize() {
                 } else if ( opt == "angular_units"){
                      app_texts_scan[ opt ][ "response" ] = angular_units[ "CRYSOL" ][ req[ opt ] ];
                 } else if ( app_texts_scan[ opt ][ "type" ] == "checkbox" ) {
-                     app_texts_scan[ opt ][ "response" ] = "Y";
+                     if ( opt == "constant_subtractions" ) { 
+                         app_texts_scan[ opt ][ "response" ] = "N";
+                     } else {
+                         app_texts_scan[ opt ][ "response" ] = "Y";
+                     };
                 } else {
                      app_texts_scan[ opt ][ "response" ] = req[ opt ];
                 };
             };
+// Check if scan variable options == 5: Mode 5 is definded as ratio
+            var opt_mode5 = opt + "_ratio";
+            if ( opt_mode5 in req ) {
+                app_texts_scan[ opt ][ "response" ] = req[ opt_mode5 ];
+            };
+
             if ( "id" in app_texts_scan[ opt ] && opt in req ) {
                 //console.log ( app_texts_scan[ opt ] );
                 var temp_id = app_texts_scan[ opt ][ "id" ];
@@ -193,6 +206,139 @@ function get_response_fit_runner(response_update, source, res, maxscansteps ) {
      return response;
 }
 
+function scan_parameter_report( res  ) {
+
+//    console.log ("## Scan parameters = " + JSON.stringify( scan_variables) ); 
+
+    if ( req[ "excluded_volume_mode" ] == "5" ){
+        var scale_ev_volume = parseFloat( res.substring(res.indexOf("V" ) + 4, res.indexOf("V" ) + 10 ) );
+        app_texts_scan[ "scan_excluded_volume_low" ][ "response" ] *= scale_ev_volume;
+        app_texts_scan[ "scan_excluded_volume_high" ][ "response" ] *= scale_ev_volume;
+        app_texts_scan[ "scan_excluded_volume_interval" ][ "response" ] *= scale_ev_volume;
+        console.log ("## Excluded volume(Vol) is scan parameter" );
+        console.log ("## Vol_predicted  = " + scale_ev_volume + " A^3");
+        console.log ("## Vol_min        = " + ( temp_response[ "scan_excluded_volume_low" ][ "response" ] * scale_ev_volume ).toFixed(1) + " A^3");
+        console.log ("## Vol_max        = " + ( temp_response[ "scan_excluded_volume_high" ][ "response" ] * scale_ev_volume ).toFixed(1) + " A^3");
+        console.log ("## Vol_interval   = " + ( temp_response[ "scan_excluded_volume_interval" ][ "response" ] * scale_ev_volume ).toFixed(1) + " A^3");
+        console.log ("## Vol_points     = " + temp_response[ "scan_excluded_volume_points" ][ "response" ] + "\n" ) ;
+        console.log ("## ");
+    } else if ( req[ "excluded_volume_mode" ] == "4" ) {
+        var scale_ev_volume = parseFloat( res.substring(res.indexOf("V" ) + 4, res.indexOf("V" ) + 10 ) );
+        console.log ("## Excluded volume(Vol) is scan parameter" );
+        console.log ("## Vol_predicted  = " + scale_ev_volume + " A^3");
+        console.log ("## Vol_min        = " + ( temp_response[ "scan_excluded_volume_low" ][ "response" ] * 1.0 ).toFixed(1) + " A^3");
+        console.log ("## Vol_max        = " + ( temp_response[ "scan_excluded_volume_high" ][ "response" ] * 1.0 ).toFixed(1)+ " A^3" );
+        console.log ("## Vol_interval   = " + ( temp_response[ "scan_excluded_volume_interval" ][ "response" ] * 1.0 ).toFixed(1)+ " A^3" );
+        console.log ("## Vol_points     = " + temp_response[ "scan_excluded_volume_points" ][ "response" ] + "\n" ) ;
+        console.log ("## ");
+    } else if ( req[ "excluded_volume_mode" ] == "3" ) {
+        var scale_ev_volume = parseFloat( res.substring(res.indexOf("V" ) + 4, res.indexOf("V" ) + 10 ) );
+        console.log ("## Excluded volume(Vol) will be optimized during scan" );
+        console.log ("## Vol_predicted  = " + scale_ev_volume + " A^3");
+        console.log ("## Vol_min        = " + ( temp_response[ "scan_excluded_volume_low" ][ "response" ] * 1.0 ).toFixed(1) + " A^3" );
+        console.log ("## Vol_max        = " + ( temp_response[ "scan_excluded_volume_high" ][ "response" ] * 1.0 ).toFixed(1)+ " A^3" + "\n" );
+        console.log ("## ");
+    } else if ( req[ "excluded_volume_mode" ] == "2" ) {
+        var scale_ev_volume = parseFloat( res.substring(res.indexOf("V" ) + 4, res.indexOf("V" ) + 10 ) );
+        console.log ("## Excluded volume(Vol) will be fixed during scan" );
+        console.log ("## Vol_predicted  = " + scale_ev_volume + " A^3");
+        console.log ("## Vol_fixed      = " + ( temp_response[ "scan_excluded_volume_low" ][ "response" ] * 1.0 ).toFixed(1) + " A^3" + "\n" );
+        console.log ("## ");
+    } else if ( req[ "excluded_volume_mode" ] == "1" ) {
+        var scale_ev_volume = parseFloat( res.substring(res.indexOf("V" ) + 4, res.indexOf("V" ) + 10 ) );
+        console.log ("## Excluded volume(Vol) will be optimized during scan" );
+        console.log ("## Vol_predicted  = " + scale_ev_volume + " A^3");
+        console.log ("## Vol_min        = " + ( temp_response[ "scan_excluded_volume_low" ][ "response" ] * 1.0 ).toFixed(1) + " A^3" );
+        console.log ("## Vol_max        = " + ( temp_response[ "scan_excluded_volume_high" ][ "response" ] * 1.0 ).toFixed(1)+ " A^3" + "\n" );
+        console.log ("## ");
+    };
+    if ( req[ "atomic_radius_mode" ] == "5" ){
+        var scale_ra = parseFloat( res.substring(res.indexOf("R" ) + 3, res.indexOf("R" ) + 9 ) );
+        app_texts_scan[ "scan_atomic_radius_low" ][ "response" ] *= scale_ra;
+        app_texts_scan[ "scan_atomic_radius_high" ][ "response" ] *= scale_ra;
+        app_texts_scan[ "scan_atomic_radius_interval" ][ "response" ] *= scale_ra;
+        console.log ("## Atomic radius(Ra) is scan parameter" );
+        console.log ("## Ra_predicted   = " + scale_ra + " A" );
+        console.log ("## Ra_min         = " + ( temp_response[ "scan_atomic_radius_low" ][ "response" ] * scale_ra ).toFixed(3) + " A" );
+        console.log ("## Ra_max         = " + ( temp_response[ "scan_atomic_radius_high" ][ "response" ] * scale_ra ).toFixed(3) + " A" );
+        console.log ("## Ra_interval    = " + ( temp_response[ "scan_atomic_radius_interval" ][ "response" ] * scale_ra ).toFixed(3) + " A" + "\n" );
+        console.log ("## Ra_points     = " + temp_response[ "scan_atomic_radius_points" ][ "response" ] + "\n" ) ;
+        console.log ("## ");
+    } else if ( req[ "atomic_radius_mode" ] == "4" ) {
+        var scale_ra = parseFloat( res.substring(res.indexOf("R" ) + 3, res.indexOf("R" ) + 9 ) );
+        console.log ("## Atomic radius(Ra) is scan parameter" );
+        console.log ("## Ra_predicted   = " + scale_ra + " A" );
+        console.log ("## Ra_min         = " + ( temp_response[ "scan_atomic_radius_low" ][ "response" ] * 1.0 ).toFixed(3) + " A" );
+        console.log ("## Ra_max         = " + ( temp_response[ "scan_atomic_radius_high" ][ "response" ] * 1.0 ).toFixed(3) + " A" );
+        console.log ("## Ra_interval    = " + ( temp_response[ "scan_atomic_radius_interval" ][ "response" ] * 1.0 ).toFixed(3) + " A" + "\n" );
+        console.log ("## Ra_points     = " + temp_response[ "scan_atomic_radius_points" ][ "response" ] + "\n" ) ;
+        console.log ("## ");
+    } else if ( req[ "atomic_radius_mode" ] == "3" ) {
+        var scale_ra = parseFloat( res.substring(res.indexOf("R" ) + 3, res.indexOf("R" ) + 9 ) );
+        console.log ("## Atomic radius(Ra) will be optimized during scan" );
+        console.log ("## Ra_predicted   = " + scale_ra + " A" );
+        console.log ("## Ra_min         = " + ( temp_response[ "scan_atomic_radius_low" ][ "response" ] * 1.0 ).toFixed(3) + " A" );
+        console.log ("## Ra_max         = " + ( temp_response[ "scan_atomic_radius_high" ][ "response" ] * 1.0 ).toFixed(3) + " A" + "\n" );
+        console.log ("## ");
+    } else if ( req[ "atomic_radius_mode" ] == "2" ) {
+        var scale_ra = parseFloat( res.substring(res.indexOf("R" ) + 3, res.indexOf("R" ) + 9 ) );
+        console.log ("## Atomic radius(Ra) will be fixed during scan" );
+        console.log ("## Ra_predicted   = " + scale_ra + " A" );
+        console.log ("## Ra_fixed         = " + ( temp_response[ "scan_atomic_radius_low" ][ "response" ] * 1.0 ).toFixed(3) + " A" + "\n" );
+        console.log ("## ");
+    } else if ( req[ "atomic_radius_mode" ] == "1" ) {
+        var scale_ra = parseFloat( res.substring(res.indexOf("R" ) + 3, res.indexOf("R" ) + 9 ) );
+        console.log ("## Atomic radius(Ra) will be optimized during scan" );
+        console.log ("## Ra_predicted   = " + scale_ra + " A" );
+        console.log ("## Ra_min         = " + ( temp_response[ "scan_atomic_radius_low" ][ "response" ] * 1.0 ).toFixed(3) + " A" );
+        console.log ("## Ra_max         = " + ( temp_response[ "scan_atomic_radius_high" ][ "response" ] * 1.0 ).toFixed(3) + " A" + "\n" );
+        console.log ("## ");
+    };
+    if ( req[ "contrast_hydration_mode" ] == "5" ){
+        var scale_dro = parseFloat( res.substring(res.indexOf("Dro" ) + 4, res.indexOf("Dro" ) + 10 ) );
+        app_texts_scan[ "scan_contrast_hydration_low" ][ "response" ] *= scale_dro;
+        app_texts_scan[ "scan_contrast_hydration_high" ][ "response" ] *= scale_dro;
+        app_texts_scan[ "scan_contrast_hydration_interval" ][ "response" ] *= scale_dro;
+        console.log ("## Contrast of hydration shell(Dro) is scan parameter" );
+        console.log ("## Dro_predicted  = " + scale_dro + " e/A^3" );
+        console.log ("## Dro_min        = " + ( temp_response[ "scan_contrast_hydration_low" ][ "response" ] * scale_dro ).toFixed(4) + " e/A^3" );
+        console.log ("## Dro_max        = " + ( temp_response[ "scan_contrast_hydration_high" ][ "response" ] * scale_dro ).toFixed(4) + " e/A^3" );
+        console.log ("## Dro_interval   = " + ( temp_response[ "scan_contrast_hydration_interval" ][ "response" ] * scale_dro ).toFixed(4) + " e/A^3" + "\n" );
+        console.log ("## Dro_points     = " + temp_response[ "scan_contrast_hydration_points" ][ "response" ] + "\n" ) ;
+        console.log ("## ");
+    } else if ( req[ "contrast_hydration_mode" ] == "4" ) {
+        var scale_dro = parseFloat( res.substring(res.indexOf("Dro" ) + 4, res.indexOf("Dro" ) + 10 ) );
+        console.log ("## Contrast of hydration shell(Dro) is scan parameter" );
+        console.log ("## Dro_predicted  = " + scale_dro + " e/A" );
+        console.log ("## Dro_min      = " + ( temp_response[ "scan_contrast_hydration_low" ][ "response" ] * 1.0 ).toFixed(4) + " e/A^3" );
+        console.log ("## Dro_max      = " + ( temp_response[ "scan_contrast_hydration_high" ][ "response" ] * 1.0 ).toFixed(4) + " e/A^3" );
+        console.log ("## Dro_interval = " + ( temp_response[ "scan_contrast_hydration_interval" ][ "response" ] * 1.0 ).toFixed(4) + " e/A^3" + "\n" );
+        console.log ("## Dro_points     = " + temp_response[ "scan_contrast_hydration_points" ][ "response" ] + "\n" ) ;
+        console.log ("## ");
+    } else if ( req[ "contrast_hydration_mode" ] == "3" ) {
+        var scale_dro = parseFloat( res.substring(res.indexOf("Dro" ) + 4, res.indexOf("Dro" ) + 10 ) );
+        console.log ("## Contrast of hydration shell(Dro) will be optimized during scan" );
+        console.log ("## Dro_predicted  = " + scale_dro + " e/A" );
+        console.log ("## Dro_min      = " + ( temp_response[ "scan_contrast_hydration_low" ][ "response" ] * 1.0 ).toFixed(4) + " e/A^3" );
+        console.log ("## Dro_max      = " + ( temp_response[ "scan_contrast_hydration_high" ][ "response" ] * 1.0 ).toFixed(4) + " e/A^3" + "\n" );
+        console.log ("## ");
+    } else if ( req[ "contrast_hydration_mode" ] == "2" ) {
+        var scale_dro = parseFloat( res.substring(res.indexOf("Dro" ) + 4, res.indexOf("Dro" ) + 10 ) );
+        console.log ("## Contrast of hydration shell(Dro) will be fixed during scan" );
+        console.log ("## Dro_predicted  = " + scale_dro + " e/A" );
+        console.log ("## Dro_fixed      = " + ( temp_response[ "scan_contrast_hydration_low" ][ "response" ] * 1.0 ).toFixed(4) + " e/A^3" + "\n" );
+        console.log ("## ");
+    } else if ( req[ "contrast_hydration_mode" ] == "1" ) {
+        var scale_dro = parseFloat( res.substring(res.indexOf("Dro" ) + 4, res.indexOf("Dro" ) + 10 ) );
+        console.log ("## Contrast of hydration shell(Dro) will be optimized during scan" );
+        console.log ("## Dro_predicted  = " + scale_dro + " e/A" );
+        console.log ("## Dro_min      = " + ( temp_response[ "scan_contrast_hydration_low" ][ "response" ] * 1.0 ).toFixed(4) + " e/A^3" );
+        console.log ("## Dro_max      = " + ( temp_response[ "scan_contrast_hydration_high" ][ "response" ] * 1.0 ).toFixed(4) + " e/A^3" + "\n" );
+        console.log ("## ");
+    };
+
+}
+
 async function get_response_scan_runner(source, res, ndx_scan, maxscansteps ) {
     var response = '';
     var resstring = res.replace(/\s+/g,'').replace(/\h+/g,'').replace(/\-+/g,'');
@@ -215,11 +361,24 @@ async function get_response_scan_runner(source, res, ndx_scan, maxscansteps ) {
             };
             if ( opt == "plot_fit" ) {
                 var chi2 = res.toString().replace(/\n/g," ").split(" ");
-                chi2_scan.push( chi2[ chi2.indexOf('Chi\^2:') + 1] )
-            };
+                chi2_scan.push( chi2[ chi2.indexOf('Chi\^2:') + 1] );
+                if ( temp_response[ "set_parameters" ][ "min" ] == 0 ) {
+                    if ( "constant_subtractions" in req ) { 
+                        app_texts_scan[ "constant_subtractions" ][ "response" ] = "Y";
+                        temp_response[ "constant_subtractions" ][ "response" ] = "Y"; 
+                    };
+                    startTime = performance.now();
+                    scan_parameter_report( res ); 
+                } else {
+                    var exeTime = (Number.parseInt(performance.now() - startTime))/1000;
+                       console.log ( "Time per step = " + exeTime + " secs" );
+                       console.log ( "Remaining steps = " + ( maxscansteps - temp_response[ "set_parameters" ][ "min" ] ) + " : Expected to finish in " + ( exeTime * ( maxscansteps - temp_response[ "set_parameters" ][ "min" ] ) ).toFixed(2)+ " secs" ); 
+                       startTime = performance.now();
+               };
+           };
 //            console.log ("UPDATE response: " + response + "\n" );
             source.stdin.write(response + "\n");
-            console.log ( res + response + "\n");
+            console.log ( "#" + res + "#" + response + "\n");
         };
         
      };
@@ -442,7 +601,7 @@ function spawn_calc_runner(response_update, maxscansteps) {
 
     source.on('close', (code) => {
         //console.log(`Crysol scanner exited with code ${code}`);
-        resolve (code);
+        //resolve (code);
     });
 
     });
@@ -477,7 +636,7 @@ function spawn_fit_runner(response_update, maxscansteps) {
     });
 }
 
-function spawn_scan_runner( ndx_scan, maxscansteps ) {
+function spawn_scan_runner( ndx_scan, maxscansteps) {
     return new Promise ( (resolve, reject) => {
     const source = spawn(cmd, []);
 
@@ -551,8 +710,9 @@ async function scan_runner() {
     var nscans = await setup_scan();
 
     var ndx_scan = generate_scan_array( 3, nscans );
-    console.log ( "##### nscan after gen = " + nscans + " : " + ndx_scan);
+//    console.log ( "Scannina parameters = " + nscans + " : " + ndx_scan + "\n");
     var maxscansteps = ndx_scan.length;
+//    console.log ( "##### Total scanning parameters = " + maxscansteps + "\n" );
 
     result += await spawn_scan_runner( ndx_scan, maxscansteps );
     scanstep += 1;
@@ -1063,31 +1223,39 @@ var app_texts_scan = {
 
 var temp_response = {};
 var scan_table = {
-     "contrast_hydration" :  { 
-                              "low"    : "scan_contrast_hydration_low"
+     "contrast_hydration" :  {
+                              "mode" : "contrast_hydration_mode"
+                              ,"low"    : "scan_contrast_hydration_low"
                               ,"high"    : "scan_contrast_hydration_high"
                               ,"interval"    : "scan_contrast_hydration_interval"
                               ,"points"    : "scan_contrast_hydration_points"
+                              ,"scale"     : 1.0
                              }
-    ,"atomic_radius"      :  { 
-                              "low"    : "scan_atomic_radius_low"
+    ,"atomic_radius"      :  {
+                              "mode" : "atomic_radius_mode" 
+                              ,"low"    : "scan_atomic_radius_low"
                               ,"high"    : "scan_atomic_radius_high"
                               ,"interval"    : "scan_atomic_radius_interval"
                               ,"points"    : "scan_atomic_radius_points"
+                              ,"scale"     : 1.0
                              }
-    ,"excluded_volume"    : { 
-                              "low"    : "scan_excluded_volume_low"
+    ,"excluded_volume"    : {
+                              "mode" : "excluded_volume_mode"
+                              ,"low"    : "scan_excluded_volume_low"
                               ,"high"    : "scan_excluded_volume_high"
                               ,"interval"    : "scan_excluded_volume_interval"
                               ,"points"    : "scan_excluded_volume_points"
+                              ,"scale"     : 1.0
                              }
 }
+
 
 var scan_variables = [];
 var scan_variables_low = [];
 var scan_variables_high = [];
 var scan_variables_interval = [];
 var scan_variables_points = [];
+var scan_variables_scale = [];
 
 var nonscan_variables = [];
 var scan_outfiles = [];
@@ -1096,18 +1264,23 @@ function setup_scan() {
     return new Promise ( (resolve, reject) => { 
 
     try {
+
     for ( opt in scan_table ) {
-        if ( scan_table[ opt ][ "low" ] in req ) {
-            scan_variables.push( opt );
-            scan_variables_low.push( scan_table[ opt ][ "low" ] );
-            scan_variables_high.push( scan_table[ opt ][ "high" ] );
-            scan_variables_interval.push( scan_table[ opt ][ "interval" ] );
-            scan_variables_points.push( scan_table[ opt ][ "points" ] );
+        if ( scan_table[ opt ][ "mode" ] in req ) {
+            if ( req [scan_table[ opt ][ "mode" ]] == "4" || req [scan_table[ opt ][ "mode" ]] == "5" ) {
+                scan_variables.push( opt );
+                scan_variables_low.push( scan_table[ opt ][ "low" ] );
+                scan_variables_high.push( scan_table[ opt ][ "high" ] );
+                scan_variables_interval.push( scan_table[ opt ][ "interval" ] );
+                scan_variables_points.push( scan_table[ opt ][ "points" ] );
+                scan_variables_scale.push( scan_table[ opt ][ "scale" ] );
+            };
         } else {
             nonscan_variables.push( opt );
-        }
+        };
+       
+//        };
     };
-
     var num_scan = scan_variables.length;
 
     for ( var i=0; i < nonscan_variables.length; i++ ) {
@@ -1116,6 +1289,7 @@ function setup_scan() {
         scan_variables_high.push( scan_table[ nonscan_variables[ i ] ][ "high" ] );
         scan_variables_interval.push( scan_table[ nonscan_variables[ i ] ][ "interval" ] );
         scan_variables_points.push( scan_table[ nonscan_variables[ i ] ][ "points" ] );
+        scan_variables_scale.push( scan_table[ nonscan_variables[ i ] ][ "scale" ] );
     };
 
     if ( num_scan == 1 ) {
@@ -1130,6 +1304,11 @@ function setup_scan() {
         };
     };
 
+    console.log ( "Scanning parameters\n");
+    console.log ( JSON.stringify( scan_variables) + "\n");
+    console.log ( JSON.stringify( scan_variables_low ) + "\n");
+    console.log ( JSON.stringify( scan_variables_high ) + "\n");
+    console.log ( JSON.stringify( scan_variables_points ) + "\n");
     resolve( num_scan );
     } catch ( error ) {
        reject( error.message ); 
