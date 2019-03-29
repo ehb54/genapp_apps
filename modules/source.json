@@ -7,12 +7,36 @@
     ,"fields"   : [
         {
             "role"       : "input"
-            ,"id"        : "label1"
-            ,"label"     : "You can browse the application&apos;s source code <a href=https://genapp.rocks/wiki/browser/pearc19 target=_blank>here</a>."
+            ,"id"        : "label0"
+            ,"label"     : "You can browse the source as described below"
             ,"type"      : "label"
             ,"default"   : "header4"
             ,"prehline"  : "true"
             ,"posthline" : "true"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"        : "label1"
+            ,"label"     : "Pearc19 demo application&apos;s <a href=https://genapp.rocks/wiki/browser/pearc19 target=_blank>source code</a>."
+            ,"type"      : "label"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"        : "label2"
+            ,"label"     : "The GenApp framework&apos;s <a href=https://genapp.rocks/wiki/browser/genappalpha/dockerfiles/genappalpha/Dockerfile target=_blank>containerized dockerfile</a>."
+            ,"type"      : "label"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"        : "label3"
+            ,"label"     : "The GenApp framework&apos;s <a href=https://genapp.rocks/wiki/browser/genappalpha/languages/docker target=_blank>docker target language source</a> and <a href=https://genapp.rocks/wiki/browser/genappalpha/languages/docker.json target=_blank>docker target language assembly json.</a>"
+            ,"type"      : "label"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"        : "label4"
+            ,"label"     : "The GenApp framework&apos;s <a href=https://genapp.rocks/wiki/browser/genappalpha/languages/html5/abaco target=_blank>Abaco source</a>."
+            ,"type"      : "label"
         }
     ]
 }
