@@ -57,7 +57,7 @@ if __name__ == "__main__":
     old_pdb = os.path.basename(pdb_location[0])
 
     run_name = json_variables['run_name']
-    sub_dir = "ROTDIF_" + run_name
+    sub_dir = run_name + "_ROTDIF"
     if os.path.isdir(sub_dir):
         pass
     else:

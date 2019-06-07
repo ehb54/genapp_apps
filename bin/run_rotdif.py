@@ -64,7 +64,7 @@ def rotdif(in_dock,Pdbfilename,Relaxfilename,sub_dir):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     socket_dict={}
     socket_dict['_uuid'] = json_variables['_uuid']
-    json_variables['_base_directory'] = sub_dir
+    #json_variables['_base_directory'] = sub_dir
     base_dir = json_variables[ '_base_directory' ]
     optimization_method_list = json_variables[ 'optimization_method' ]
     ExecutableFileLocationRotdif = '/opt/genapp/rotdif/bin/rotdif-1.1.jar'

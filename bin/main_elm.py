@@ -97,8 +97,8 @@ def rotdif(Pdbfilename,sub_dir):
     master_rotdif, slave_rotdif = pty.openpty()
     ProcessRotdif = subprocess.Popen( ProcessToCallRotdif,stdout=slave_rotdif,stdin=PIPE,bufsize=0,close_fds=True)    
     stdout_rotdif = os.fdopen(master_rotdif, 'r', 0)
-    rotdif_log = open('ELM_prediction','w')
-    path_to_live_log = join(str(base_dir),join(str(sub_dir),'ELM_prediction'))
+    rotdif_log = open('all_prediction','w')
+    path_to_live_log = join(str(base_dir),join(str(sub_dir),'all_prediction'))
     error_string_md = ''
     timeout = 4 # seconds
 
@@ -167,7 +167,7 @@ if __name__ == "__main__":
     PdbStr = pdb_location[0]
     Pdbfilename = os.path.basename(PdbStr)
     run_name = json_variables['run_name']
-    sub_dir = "ELM_"+run_name
+    sub_dir = run_name + "_ELM"
     #output_res,base_dir = rotdif(sub_dir)
     if os.path.isdir(sub_dir):
         sys.stderr.write("Run name already existed!")
@@ -178,16 +178,18 @@ if __name__ == "__main__":
     os.chdir(sub_dir)
     output_res,base_dir = rotdif(Pdbfilename, sub_dir)
     #save elm
-    elm_out = [join(str(base_dir),join(sub_dir,'ELM_prediction'))]
-    with open('test.txt','w') as wf:
-        wf.write(str(elm_out)+'\n'+str(base_dir))        
+    #elm_out = [join(str(base_dir),join(sub_dir,'ELM_prediction'))]       
     #save params
-    with open(join(str(base_dir),join(sub_dir,"ELM_prediction"))) as in_f:
+    with open(join(str(base_dir),join(sub_dir,"all_prediction"))) as in_f:
         tmp = in_f.readlines()
     tmp[0]="Parameters\n"
     with open(join(str(base_dir),join(sub_dir,"ELM_params")),'w') as out_f:
         for items in tmp[:17]:
             out_f.write(items)
+    with open(join(str(base_dir),join(sub_dir,"ELM_prediction")),'w') as out_f2:
+        for item in tmp[17:]:
+            out_f2.write(item)
+    elm_out = [join(str(base_dir),join(sub_dir,'ELM_prediction'))]
     elm_params = [join(str(base_dir),join(sub_dir,"ELM_params"))]
     output_res[ 'elm_out' ] = elm_out
     output_res['elm_params'] = elm_params
