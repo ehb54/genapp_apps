@@ -26,6 +26,7 @@ from math import exp, expm1, log10, log, log1p
 from subprocess import Popen, PIPE, STDOUT
 from os.path import join
 import shutil
+from get_elm_tensor import elm_tensor
 
 def message_box(text,icon):
     
@@ -193,5 +194,7 @@ if __name__ == "__main__":
     elm_params = [join(str(base_dir),join(sub_dir,"ELM_params"))]
     output_res[ 'elm_out' ] = elm_out
     output_res['elm_params'] = elm_params
+    pdb = join(str(base_dir),join(sub_dir,Pdbfilename))
+    elm_tensor(pdb)
+    output_res['elm_tensor'] = [join(str(base_dir), join(sub_dir,'ELM_tensor.py'))]
     print(json.dumps(output_res))
-

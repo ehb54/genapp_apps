@@ -82,12 +82,12 @@ if __name__ == "__main__":
 
         if elmdock_flag == True:
             save_dock(dyna_flag, elm_flag, elmdock_flag)      
-            output_res[ 'elmdock_out' ] = [join(str(base_dir),join(sub_dir,'ELMDOCK'))]
+            output_res[ 'elmdock_out' ] = [join(str(base_dir),join(sub_dir,'elmdock_transformations.out'))]
             output_res[ 'pdb'] = [join(str(base_dir), join(sub_dir,'out_dock.pdb'))]
-            view_pdb = join(str(base_dir), join(sub_dir,'out_dock.pdb'))
+            view_pdb = join(str(base_dir), join(sub_dir,'elmdock_structures.pdb'))
             output_res['outputpdb'] = { "file" : view_pdb, "script" : "ribbon ONLY" }
         
-        output_res[ 'outputrotdif' ] = [join(str(base_dir), join(sub_dir,'elmdock_log.out'))]
+        output_res[ 'outputrotdif' ] = [join(str(base_dir), join(sub_dir,'elmdock_results.out'))]
         print (json.dumps(output_res))
     else:
         sys.stderr.write("Only accept 2-domain proteins!")
