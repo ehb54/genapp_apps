@@ -44,7 +44,7 @@
                {
                    "role"     : "input",
                    "id"       : "relax_location",
-                   "label"    : "Relaxation File",
+                   "label"    : "Relaxation Data File",
                    "type"     : "lrfile",
                    "required" : "False",
 		   "accept"   : ".txt",
@@ -54,7 +54,7 @@
                   {
                    "role"     : "input",
                    "id"       : "pdb_location",
-                   "label"    : "PDB File",
+                   "label"    : "PDB Coordinates File",
                    "type"     : "lrfile",
                    "required" : "true",
 		   "accept"   : ".pdb",
@@ -91,7 +91,7 @@
             {   
                 "role"    : "input",
                 "id"      : "axeslength",
-                "label"   : "axes length(Angstrom)",
+                "label"   : "Axes length(Angstrom)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "5"
@@ -151,14 +151,14 @@
                    {
                    "role"  : "output",
                    "id"    : "axi_out",
-                   "label" : "Saved PyMol Axes: axially symmetric model",
+                   "label" : "Tensor Axes PyMol File, axially symmetric model: ",
                    "type"  : "file",
                    "multiple": "true"
                   },
                    {
                    "role"  : "output",
                    "id"    : "ani_out",
-                   "label" : "Saved PyMol Axes: fully anisotropic model",
+                   "label" : "Tensor Axes PyMol File, fully anisotropic model: ",
                    "type"  : "file",
                    "multiple": "true"
                   },                        

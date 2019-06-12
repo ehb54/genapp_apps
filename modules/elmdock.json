@@ -33,7 +33,7 @@
 	       { 
 		   "role"     : "input",  
 		   "id"       : "data_label",
-		   "label"    : "DATA (ONLY available for 2-domain proteins)",
+		   "label"    : "DATA (ONLY available for two-domain complexes)",
 		   "type"     : "label",
 		   "prehline" : "true",
 		   "posthline": "true",
@@ -43,7 +43,7 @@
                {
                    "role"     : "input",
                    "id"       : "relax_location",
-                   "label"    : "Relaxation File",
+                   "label"    : "Relaxation Data File",
                    "type"     : "lrfile",
                    "required" : "False",
 		   "accept"   : ".txt",
@@ -53,7 +53,7 @@
                   {
                    "role"     : "input",
                    "id"       : "pdb_location",
-                   "label"    : "PDB File",
+                   "label"    : "PDB Coordinates File",
                    "type"     : "lrfile",
                    "required" : "true",
 		   "accept"   : ".pdb",
@@ -97,7 +97,7 @@
             {
                 "role"    : "input",
                 "id"      : "temperature",
-                "label"   : "temperature(K)",
+                "label"   : "Temperature(K)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "298"
@@ -113,7 +113,7 @@
             {   
                 "role"    : "input",
                 "id"      : "hydro",
-                "label"   : "hydration layer thickness(Angstrom)",
+                "label"   : "Hydration layer thickness(Angstrom)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "2.2",
@@ -122,7 +122,7 @@
             {   
                 "role"    : "input",
                 "id"      : "water",
-                "label"   : "water radius(Angstrom)",
+                "label"   : "Water radius(Angstrom)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "1.4",
@@ -161,14 +161,14 @@
                    {   
                    "role"  : "output",
                    "id"    : "elmdock_out",
-                   "label" : "ELMDOCK results &nbsp;&nbsp;",
+                   "label" : "ELMDOCK Transformations File: ",
                    "type"  : "file",
                    "multiple": "true"
                   },
                    {   
                    "role"  : "output",
                    "id"    : "pdb",
-                   "label" : "ELMDOCK PDB file ",
+                   "label" : "ELMDOCK-generated Structures File: ",
                    "type"  : "file",
                    "multiple": "true"
                   },

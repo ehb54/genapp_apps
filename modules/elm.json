@@ -42,7 +42,7 @@
                   {
                    "role"     : "input",
                    "id"       : "pdb_location",
-                   "label"    : "PDB File",
+                   "label"    : "PDB Coordinates File",
                    "type"     : "lrfile",
                    "required" : "true",
 		   "accept"   : ".pdb",
@@ -68,7 +68,7 @@
             {
                 "role"    : "input",
                 "id"      : "temperature",
-                "label"   : "temperature(K)",
+                "label"   : "Temperature(K)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "298"
@@ -84,7 +84,7 @@
             {   
                 "role"    : "input",
                 "id"      : "hydro",
-                "label"   : "hydration layer thickness(Angstrom)",
+                "label"   : "Hydration layer thickness(Angstrom)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "2.2",
@@ -93,7 +93,7 @@
             {   
                 "role"    : "input",
                 "id"      : "water",
-                "label"   : "water radius(Angstrom)",
+                "label"   : "Water radius(Angstrom)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "1.4",
@@ -118,18 +118,24 @@
                    {   
                    "role"  : "output",
                    "id"    : "elm_out",
-                   "label" : "Download ELM prediction &nbsp",
+                   "label" : "ELM Prediction Results File: ",
                    "type"  : "file",
                    "multiple": "true"
                   },
                   {
                    "role":"output",
                    "id":"elm_params",
-                   "label":"Download ELM parameters &nbsp",
+                   "label":"ELM Prediction Settings File: ",
                    "type":"file",
                    "multiple":"true"
-                  }
-                  
+                  },
+                  {
+                  "role":"output",
+                  "id"  :"elm_tensor",
+                  "label":"ELM Tensor Axes PyMol File: ",
+                  "type":"file",
+                  "multiple":"true"
+                  }                  
             ],
 
 # the executable will take inputs in order and produce output
