@@ -71,9 +71,9 @@ if __name__ == "__main__":
     output_res, base_dir, dyna_flag, elm_flag, elmdock_flag = rotdif(to_dock,old_pdb,old_relax,sub_dir)
     exp_graph,exp_keys,exp_resi,dyna_resi = exp_plot(color_list, dyna_flag, elm_flag, elmdock_flag,old_relax)
     outputmd_arr_files = []
-    log_out = [join(str(base_dir),join(sub_dir,'rotdif_results.out'))]
-    ani_out = [join(str(base_dir),join(sub_dir, 'tensor_axes_full.py'))]
-    axi_out = [join(str(base_dir),join(sub_dir, 'tensor_axes_axial.py'))]
+    log_out = [join(str(base_dir),join(sub_dir,'rotdif_log.out'))]
+    ani_out = [join(str(base_dir),join(sub_dir, 'out_ani.py'))]
+    axi_out = [join(str(base_dir),join(sub_dir, 'out_axial.py'))]
 
     if dyna_flag == True:
         output_res[ 'diso_plot' ] = diso_plot(color_list, exp_keys, to_dock, dyna_flag, elm_flag, elmdock_flag)

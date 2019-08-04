@@ -27,6 +27,7 @@ from subprocess import Popen, PIPE, STDOUT
 from os.path import join
 import shutil
 from get_elm_tensor import elm_tensor
+from get_ellipsoid import run_elli
 
 def message_box(text,icon):
     
@@ -35,7 +36,7 @@ def message_box(text,icon):
     _message['text'] = text
     
     UDP_IP = json_variables['_udphost']
-    UDP_PORT = json_variables['_udpport']
+    UDP_PORT = int(json_variables['_udpport'])
     sock = socket.socket(socket.AF_INET, # Internet
                          socket.SOCK_DGRAM) # UDP
     
@@ -59,7 +60,7 @@ def rotdif(Pdbfilename,sub_dir):
     #Pdbfilename = os.path.basename(PdbStr)
 ## UDP messaging ##################################################
     UDP_IP = json_variables['_udphost']
-    UDP_PORT = json_variables['_udpport']
+    UDP_PORT = int(json_variables['_udpport'])
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     socket_dict={}
     socket_dict['_uuid'] = json_variables['_uuid']
@@ -181,6 +182,8 @@ if __name__ == "__main__":
     #save elm
     #elm_out = [join(str(base_dir),join(sub_dir,'ELM_prediction'))]       
     #save params
+    #copy template
+    shutil.copy("/opt/genapp/rotdif/bin/ELM_ellipsoid.py",join(str(base_dir),join(sub_dir,"ELM_ellipsoid.py")))
     with open(join(str(base_dir),join(sub_dir,"all_prediction"))) as in_f:
         tmp = in_f.readlines()
     tmp[0]="Parameters\n"
@@ -196,5 +199,7 @@ if __name__ == "__main__":
     output_res['elm_params'] = elm_params
     pdb = join(str(base_dir),join(sub_dir,Pdbfilename))
     elm_tensor(pdb)
-    output_res['elm_tensor'] = [join(str(base_dir), join(sub_dir,'ELM_tensor.py'))]
+    output_res['elm_tensor'] = [join(str(base_dir), join(sub_dir,'ELM_tensor_axes.py'))]
+    run_elli(join(str(base_dir), sub_dir))
+    output_res['elm_ellipsoid'] = [join(str(base_dir), join(sub_dir,'ELM_ellipsoid.py'))]
     print(json.dumps(output_res))

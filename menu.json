@@ -2,23 +2,6 @@
 {
 # "header" : "ROTDIF",
  "menu" : [
-
-         { 
-            "id"      : "welcome_menu",
-            "label"   : "Welcome!",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "welcome",
-            "startup" : "true",
-            "nohidemenu" : "true",
-            "help" : "test welcome help",
-            "modules" : [ 
-                { 
-                    "id"    : "welcome",
-                    "label" : "Welcome",
-		    "nobutton" : "true"
-                }
-            ]
-        },
 #	{
 #            "id"      : "demo_menu", 
 #            "label"   : "How to Use",
@@ -43,35 +26,8 @@
 	          "nobutton" : "true"
 	         }
 	    ]
-         }
-        ,{ 
-            "id"      : "Acknowledgements_menu",
-            "label"   : "Acknowledgements",
-            "icon"    : "pngs/noicon.png",
-            "autorun" : "acknowledgements",
-            "modules" : [ 
-                {
-                    "id"    : "acknowledgements",
-                    "label" : "Acknowledgements",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-	,{
-            "id"      : "disclaimer_menu",
-            "label"   : "Official Disclaimer",
-	    "icon"    : "pngs/gnu_disclaimer.png",
-            "autorun" : "disclaimer",
-            "modules" : [
-                {
-                    "id"    : "disclaimer",
-                    "label" : "Official Disclaimer",
-		    "nobutton" : "true"
-                }
-            ]
-        }
-
-        ,{ 
+         },
+       { 
             "id"      : "rotdif_menu",
             "label"   : "Run ROTDIF",
             "icon"    : "pngs/simulate.png",
@@ -95,37 +51,64 @@
                           }                          
                         ]
             }
-        ,{ 
+        ,
+       {
+            "id"      : "Acknowledgements_menu",
+            "label"   : "Acknowledgements",
+            "icon"    : "pngs/noicon.png",
+            "autorun" : "acknowledgements",
+            "modules" : [
+                {
+                    "id"    : "acknowledgements",
+                    "label" : "Acknowledgements",
+                    "nobutton" : "true"
+                }   
+            ]   
+        }   
+        ,{  
+            "id"      : "disclaimer_menu",
+            "label"   : "Official Disclaimer",
+            "icon"    : "pngs/gnu_disclaimer.png",
+            "autorun" : "disclaimer",
+            "modules" : [ 
+                {   
+                    "id"    : "disclaimer",
+                    "label" : "Official Disclaimer",
+                    "nobutton" : "true"
+                }   
+            ]   
+        },
+        {  
             "id"         : "admin",
             "restricted" : "admin",
             "label"      : "Admin",
             "icon"       : "pngs/admin.png",
             "modules" : [ 
-                         { 
+                         {   
                           "id"    : "jobmonitor",
                           "label" : "Job monitor"
-                         }
-                         ,{ 
+                         }   
+                         ,{  
                           "id"    : "jobintegritycheck",
                           "label" : "Integrity check"
-                         }
-                         ,{ 
+                         }   
+                         ,{  
                           "id"    : "sysuserslist",
                           "label" : "Users"
-                         }
-                         ,{ 
+                         }   
+                         ,{  
                           "id"    : "sys_manage_users",
                           "label" : "User management"
-                         }
-		         ,{ 
+                         }   
+                         ,{  
                           "id"    : "jobshistory_1",
                           "label" : "Job history"
-                         }
-		       		
-                        ]
-            }
+                         }   
+    
+                        ]   
+            },  
 
-          ,{
+          {
               "id"      : "etc",
               "modules" : [
                            {

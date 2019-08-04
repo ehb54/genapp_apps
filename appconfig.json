@@ -1,22 +1,22 @@
 {
+   "hostip" : "129.114.17.103",
    "resourcedefault" : "local",
-   "lockdir" : "/src/genapp/etc",
-   "resources" : {
-      "local" : ""
-   },
    "messaging" : {
-      "udpport" : 30779,
-      "tcphostip" : "127.0.0.1",
-      "tcptimeout" : "30",
-      "udphostip" : "127.0.0.1",
       "wsport" : "30777",
       "wssport" : "80",
+      "udphostip" : "127.0.0.1",
+      "udpport" : 30779,
+      "tcpport" : "30780",
       "zmqhostip" : "127.0.0.1",
       "zmqport" : "30778",
-      "tcpport" : "30780",
-      "tcprport" : "30781"
+      "tcphostip" : "127.0.0.1",
+      "tcprport" : "30781",
+      "tcptimeout" : "30"
    },
-   "hostip" : "129.114.16.180",
+   "lockdir" : "/src/genapp/etc",
    "submitpolicy" : "login",
-   "hostname" : "rotdif.genapp.rocks"
+   "hostname" : "rotdif.genapp.rocks",
+   "resources" : {
+      "local" : ""
+   }
 }

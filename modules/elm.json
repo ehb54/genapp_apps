@@ -24,7 +24,7 @@
                {
 	            "role"       : "input"
 	            ,"id"         : "run_name"
-	            ,"label"      : "run name"
+	            ,"label"      : "Run Name"
 	            ,"type"       : "text"
 	            ,"required"   : "true"
 	            ,"help"       : "Enter a name for this task"
@@ -33,7 +33,7 @@
 	       { 
 		   "role"     : "input",  
 		   "id"       : "data_label",
-		   "label"    : "DATA",
+		   "label"    : "Data",
 		   "type"     : "label",
 		   "prehline" : "true",
 		   "posthline": "true",
@@ -51,7 +51,7 @@
                {   
                    "role"    : "input",
                    "id"      : "model",
-                   "label"   : "PDB File model",
+                   "label"   : "PDB File Model",
                    "type"    : "text",
                    "required" : "True",
                    "default" : "1"
@@ -59,7 +59,7 @@
 	       { 
 		   "role"     : "input",  
 		   "id"       : "runmenu_label",
-		   "label"    : "RUN MENU",
+		   "label"    : "Run Menu",
 		   "type"     : "label",
 		   "prehline" : "true",
 		   "posthline": "true",
@@ -76,7 +76,7 @@
             {
 	        "role"     : "input",
 	        "id"       : "adv_option",
-	        "label"    : "check box to enable advanced model",
+	        "label"    : "Check Box to Enable Advanced Model",
 	        "type"     : "checkbox",
 	        "checked"  : "false",
 	        "repeater" : "true"
@@ -84,7 +84,7 @@
             {   
                 "role"    : "input",
                 "id"      : "hydro",
-                "label"   : "Hydration layer thickness(Angstrom)",
+                "label"   : "Hydration Layer Thickness(Angstrom)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "2.2",
@@ -93,7 +93,7 @@
             {   
                 "role"    : "input",
                 "id"      : "water",
-                "label"   : "Water radius(Angstrom)",
+                "label"   : "Water Radius(Angstrom)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "1.4",
@@ -135,7 +135,14 @@
                   "label":"ELM Tensor Axes PyMol File: ",
                   "type":"file",
                   "multiple":"true"
-                  }                  
+                  },                
+                  {
+                  "role":"output",
+                  "id" :"elm_ellipsoid",
+                  "label":"ELM Ellipsoid PyMol File: ",
+                  "type":"file",
+                  "multiple":"true"
+}                 
             ],
 
 # the executable will take inputs in order and produce output

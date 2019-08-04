@@ -33,7 +33,7 @@ def message_box(text,icon):
     _message['text'] = text
     
     UDP_IP = json_variables['_udphost']
-    UDP_PORT = json_variables['_udpport']
+    UDP_PORT = int(json_variables['_udpport'])
     sock = socket.socket(socket.AF_INET, # Internet
                          socket.SOCK_DGRAM) # UDP
     
@@ -60,7 +60,7 @@ def rotdif(in_dock,Pdbfilename,Relaxfilename,sub_dir):
     #Pdbfilename = os.path.basename(PdbStr)
 ## UDP messaging ##################################################
     UDP_IP = json_variables['_udphost']
-    UDP_PORT = json_variables['_udpport']
+    UDP_PORT = int(json_variables['_udpport'])
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     socket_dict={}
     socket_dict['_uuid'] = json_variables['_uuid']
@@ -116,7 +116,7 @@ def rotdif(in_dock,Pdbfilename,Relaxfilename,sub_dir):
     ProcessRotdif = subprocess.Popen( ProcessToCallRotdif,stdout=slave_rotdif,stdin=PIPE,bufsize=0,close_fds=True)    
     stdout_rotdif = os.fdopen(master_rotdif, 'r', 0)
     rotdif_log = open('rotdif_log.out','w')
-    path_to_live_log = join(str(base_dir),join(sub_dir,'rotdif_log.out'))
+    path_to_live_log = join(str(base_dir),'rotdif_log.out')
     error_string_md = ''
     timeout = 4 # seconds
 

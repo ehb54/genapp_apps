@@ -25,7 +25,7 @@
                {
 	            "role"       : "input"
 	            ,"id"         : "run_name"
-	            ,"label"      : "run name"
+	            ,"label"      : "Run Name"
 	            ,"type"       : "text"
 	            ,"required"   : "true"
 	            ,"help"       : "Enter a name to run this task"
@@ -34,7 +34,7 @@
 	       { 
 		   "role"     : "input",  
 		   "id"       : "data_label",
-		   "label"    : "DATA",
+		   "label"    : "Data",
 		   "type"     : "label",
 		   "prehline" : "true",
 		   "posthline": "true",
@@ -63,7 +63,7 @@
                {   
                    "role"    : "input",
                    "id"      : "model",
-                   "label"   : "PDB File model",
+                   "label"   : "PDB File Model",
                    "type"    : "text",
                    "required" : "True",
                    "default" : "1"
@@ -71,7 +71,7 @@
 	       { 
 		   "role"     : "input",  
 		   "id"       : "runmenu_label",
-		   "label"    : "RUN MENU",
+		   "label"    : "Run Menu",
 		   "type"     : "label",
 		   "prehline" : "true",
 		   "posthline": "true",
@@ -91,7 +91,7 @@
             {   
                 "role"    : "input",
                 "id"      : "axeslength",
-                "label"   : "Axes length(Angstrom)",
+                "label"   : "Axes Length(Angstrom)",
                 "type"    : "text",
                 "required" : "True",
                 "default" : "5"
@@ -107,7 +107,7 @@
             {   
                 "role"    : "input", 
                 "id"      : "run_dyna", 
-                "label"   : "Run dynamics ", 
+                "label"   : "Run Dynamics ", 
                 "type"    : "checkbox", 
                 "checked" : "false" 
             }, 
@@ -151,14 +151,14 @@
                    {
                    "role"  : "output",
                    "id"    : "axi_out",
-                   "label" : "Tensor Axes PyMol File, axially symmetric model: ",
+                   "label" : "Tensor Axes PyMol File, Axially Symmetric Model: ",
                    "type"  : "file",
                    "multiple": "true"
                   },
                    {
                    "role"  : "output",
                    "id"    : "ani_out",
-                   "label" : "Tensor Axes PyMol File, fully anisotropic model: ",
+                   "label" : "Tensor Axes PyMol File, Fully Anisotropic Model: ",
                    "type"  : "file",
                    "multiple": "true"
                   },                        

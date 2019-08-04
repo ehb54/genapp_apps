@@ -34,7 +34,7 @@ def message_box(text,icon):
     _message['text'] = text
     
     UDP_IP = json_variables['_udphost']
-    UDP_PORT = json_variables['_udpport']
+    UDP_PORT = int(json_variables['_udpport'])
     sock = socket.socket(socket.AF_INET, # Internet
                          socket.SOCK_DGRAM) # UDP
     
@@ -65,7 +65,7 @@ def rotdif(in_dock,new_relax,new_pdb,sub_dir):
     #os.chdir(sub_dir)
 ## UDP messaging ##################################################
     UDP_IP = json_variables['_udphost']
-    UDP_PORT = json_variables['_udpport']
+    UDP_PORT = int(json_variables['_udpport'])
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     socket_dict={}
     socket_dict['_uuid'] = json_variables['_uuid']
@@ -119,8 +119,8 @@ def rotdif(in_dock,new_relax,new_pdb,sub_dir):
     master_rotdif, slave_rotdif = pty.openpty()
     ProcessRotdif = subprocess.Popen( ProcessToCallRotdif,stdout=slave_rotdif,stdin=PIPE,bufsize=0,close_fds=True)    
     stdout_rotdif = os.fdopen(master_rotdif, 'r', 0)
-    rotdif_log = open('elmdock_log.out','w')
-    path_to_live_log = str(base_dir) + "/" + 'elmdock_log.out'
+    rotdif_log = open('elmdock_results.out','w')
+    path_to_live_log = str(base_dir) + "/" + 'elmdock_results.out'
     error_string_md = ''
     timeout = 30 # seconds
 
