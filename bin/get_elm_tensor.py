@@ -1,17 +1,26 @@
 import re
 import operator
-
-def elm_tensor(pdb, scale=10):
+import numpy as np
+from os.path import join
+def elm_tensor(pdb):
     with open('ELM_prediction') as in_f:
         tmp = in_f.readlines()
     for i in range(len(tmp)):
         if tmp[i].startswith('====Diffusion Tensor Sorted Eigendecomposition===='):
-            row_dx = [float(it)*scale for it in re.findall(r"[-+]?\d*\.\d+|[-+]?\d+",tmp[i+1])[:3]]
-            row_dy = [float(it)*scale for it in re.findall(r"[-+]?\d*\.\d+|[-+]?\d+",tmp[i+2])[:3]]
-            row_dz = [float(it)*scale for it in re.findall(r"[-+]?\d*\.\d+|[-+]?\d+",tmp[i+3])[:3]]
+            row_dx = [float(it) for it in re.findall(r"[-+]?\d*\.\d+|[-+]?\d+",tmp[i+1])[:3]]
+            row_dy = [float(it) for it in re.findall(r"[-+]?\d*\.\d+|[-+]?\d+",tmp[i+2])[:3]]
+            row_dz = [float(it) for it in re.findall(r"[-+]?\d*\.\d+|[-+]?\d+",tmp[i+3])[:3]]
     dx = [row_dx[0],row_dy[0],row_dz[0]]
     dy = [row_dx[1],row_dy[1],row_dz[1]]
     dz = [row_dx[2],row_dy[2],row_dz[2]]
+    #normalize the length of dx, dy, dz by ellipsoid semi axes
+    with open("str_abc.txt") as in_f:
+        tmp_sa = in_f.readline()
+    semiaxe = [float(s) for s in tmp_sa.split(' ')]
+    dx = dx / np.linalg.norm(dx) * semiaxe[0]
+    dy = dy / np.linalg.norm(dy) * semiaxe[1]
+    dz = dz / np.linalg.norm(dz) * semiaxe[2]
+    
     with open(pdb) as in_f2:
         tmp2 = in_f2.readlines()
     ori_x = 0
@@ -53,4 +62,4 @@ from pymol.vfont import plain
 #create the axes object, draw axes with cylinders colored red (Dx), green (Dy), blue (Dz) \n""" +
 "obj = " + obj +
 """\n # then we load it into PyMOL \n
-cmd.load_cgo(obj,'out_ani')""")   
+cmd.load_cgo(obj,'diffusion_tensor')""")   
