@@ -11,8 +11,14 @@ if __name__=='__main__':
         if isinstance( json_variables, dict ) and \
            'm' in json_variables and \
            'c' in json_variables :
-	        mass = float(json_variables['m'])
- 	        speed_of_light = float(json_variables['c'])
+                try:
+	                mass = float(json_variables['m'])
+                except ValueError:
+                        output['notice'] = "Expected JSON input variables 'm' and/or 'c' not found or incorrect type"
+                try:
+ 	                speed_of_light = float(json_variables['c'])
+                except ValueError:
+                        output['notice'] = "Expected JSON input variables 'm' and/or 'c' not found or incorrect type"
 
 	        import mass_energy
 	
