@@ -13,12 +13,14 @@ if __name__=='__main__':
            'c' in json_variables :
                 try:
 	                mass = float(json_variables['m'])
-                except ValueError:
+                except TypeError:
                         output['notice'] = "Expected JSON input variables 'm' and/or 'c' not found or incorrect type"
+                        mass = 0
                 try:
  	                speed_of_light = float(json_variables['c'])
-                except ValueError:
+                except TypeError:
                         output['notice'] = "Expected JSON input variables 'm' and/or 'c' not found or incorrect type"
+                        speed_of_light = 0
 
 	        import mass_energy
 	
