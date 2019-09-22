@@ -3,6 +3,11 @@
     ,"label"      : "Pdbviewer"
     ,"help"       : "help for Pdbviewer"
     ,"executable" : "pdbviewer.pl"
+#    ,"resource"   : "docker-local"
+    ,"dependencies" : [ 
+        { "base" : "perl" }
+        ,{ "cpan" : "JSON" }
+    ]
     ,"fields"   : [
         {
             "role"       : "input"

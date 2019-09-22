@@ -10,13 +10,7 @@ if __name__=='__main__':
 
         if isinstance( json_variables, dict ) and \
            'm' in json_variables and \
-           'c' in json_variables and \
-           ( isinstance( json_variables[ 'm' ], int ) or \
-             isinstance( json_variables[ 'm' ], float ) or \
-             isinstance( json_variables[ 'm' ], str ) ) and \
-           ( isinstance( json_variables[ 'c' ], int ) or \
-             isinstance( json_variables[ 'c' ], float ) or \
-             isinstance( json_variables[ 'c' ], str ) ) :
+           'c' in json_variables :
 	        mass = float(json_variables['m'])
  	        speed_of_light = float(json_variables['c'])
 

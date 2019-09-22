@@ -3,6 +3,14 @@
     ,"label"      : "Energy"
     ,"help"       : "help for Energy"
     ,"executable" : "energy.py"
+#    ,"resource"   : "docker-local"
+    ,"dependencies" : [ 
+        { "base" : "python" }
+        ,{ "file" : "mass_energy.py" }
+# comment above 2 lines and uncomment 2 lines below for perl executable
+#        { "base" : "perl" }
+#        ,{ "cpan" : "JSON" }
+    ]
     ,"fields"   : [
         {
             "role"       : "input"

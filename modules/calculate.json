@@ -2,6 +2,14 @@
     "moduleid"    : "calculate"
     ,"label"      : "Calculated Fields Exercise"
     ,"executable" : "calculate.py"
+#    ,"resource"   : "docker-local"
+    ,"dependencies" : [ 
+        { "base" : "python" }
+        ,{ "file" : "mass_energy.py" }
+# comment above line and uncomment 2 lines below for perl executable
+#        { "base" : "perl" }
+#        ,{ "cpan" : "JSON" }
+    ]
     ,"fields"   : [
         {
             "role"       : "input"
