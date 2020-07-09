@@ -6,6 +6,9 @@
 #    ,"uniquedir" : "true"
 #    ,"center" : "true"
     ,"centeroutput" : "true"
+# dependencies:
+# apt-get install libgfortran3 libpng-dev libreadline-dev
+# install and compile gnuplot 4.2.6 with gif support    
     ,"fields"   : [
         {
             "role"       : "input"
@@ -275,13 +278,26 @@
         ,{
             "role"       : "output"
             ,"id"         : "I0"
-            ,"label"      : "I(0)"
+            ,"label"      : "I(0) estimated"
+            ,"type"       : "text"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "Ng"
+            ,"label"      : "Ng"
+            ,"type"       : "text"
+            ,"help"       : "Number of good parameters"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"         : "shannon"
+            ,"label"      : "Number of Shannon channels"
             ,"type"       : "text"
         }
         ,{
             "role"       : "output"
             ,"id"         : "evidence"
-            ,"label"      : "Evidence"
+            ,"label"      : "Evidence at maximum"
             ,"type"       : "text"
         }
         ,{

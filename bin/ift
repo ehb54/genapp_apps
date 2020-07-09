@@ -250,6 +250,29 @@ my $dmax;
         $f = $f[ 0 ];
         $f =~ s/^.*:\s*(\S+)\s*$/$1/;
         $$res{ "parameters" } = $$ref{ '_base_directory' } . '/' . $f;
+        if ( -e $f ) {
+            open my $fh, $f;
+            my @l = <$fh>;
+            close $fh;
+            my @t = (
+                'Number of good parameters'
+                ,'Number of Shannon channels'
+                );
+            my @k = (
+                'Ng'
+                ,'shannon'
+                );
+            for ( my $i = 0; $i < @t; ++$i ) {
+                my @ml = grep /$t[$i]/, @l;
+                if ( @ml ) {
+                    my $ml = $ml[0];
+                    my ( $v, $e ) = $ml =~ /^.*:\s*([0-9\.-]*)\s*(?:|\+-\s*([0-9\.-]*))\s*$/;
+                    print "v $v e $e\n";
+                    $$res{ $k[$i] } = $v;
+                    $$res{ $k[$i] } .= " ± " . $e if $e;
+                }
+            }
+        }
     }
 }
 
