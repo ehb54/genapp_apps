@@ -284,9 +284,9 @@
         ,{
             "role"       : "output"
             ,"id"         : "Ng"
-            ,"label"      : "Ng"
+            ,"label"      : "Ng (Number of good parameters)"
             ,"type"       : "text"
-            ,"help"       : "Number of good parameters"
+#            ,"help"       : "Number of good parameters"
         }
         ,{
             "role"       : "output"
