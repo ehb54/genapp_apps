@@ -60,6 +60,7 @@
             ,"id"         : "dmax"
             ,"label"      : "Maximum diameter [Angstrom]"
             ,"type"       : "float"
+            ,"step"       : 0.001
             ,"min"        : 0
             ,"help"       : "Optionally enter starting value for the maximum diameter of the scatterer in Angstroms."
             ,"norow"      : "true"
@@ -76,6 +77,7 @@
             ,"id"         : "alpha"
             ,"label"      : "Starting value for the Lagrange multiplier (Alpha)"
             ,"type"       : "float"
+            ,"step"       : 0.001
             ,"help"       : "<p>Optionally enter the starting value for the logarithm of the Lagrange multiplier (usually between -10 and 20).</p><p>Larger values will give smoother distributions or - for the MaxEnt constraint:</p><p>an estimate which is closer to the prior ellipsoid of revolution.</p>"
             ,"norow"      : "true"
         }
@@ -91,6 +93,7 @@
             ,"id"         : "smearing"
             ,"label"      : "Desmearing constant"
             ,"type"       : "float"
+            ,"step"       : 0.001
             ,"help"       : "<p>Optionally enter a correction for slit smearing. Default is no smearing.</p><p>Enter value for constant c as given by the expression</p><p>I_smear(q) = integrate P(t)*I(sqrt(q**2 + t**2)) dt with the</p><p>primary beam length profile: P(t) = c/sqrt(pi) * exp(-c**2*t**2).</p><p>The fit and the deconvolution are both given in the ouput file fit.d</p>"
         }
         ,{
@@ -140,6 +143,7 @@
             ,"id"         : "eta"
             ,"label"      : "Estimate value for volume fraction"
             ,"type"       : "float"
+            ,"step"       : 0.001
             ,"min"        : 0
             ,"repeat"     : "nondilute"
             ,"help"       : "<p>The exact value entered here may influence the result when the information content of the data is low.</p><p>Start with a small number e.g. 0.01 to avoid numerical instabilities and long cpu times.</p>"
@@ -158,6 +162,7 @@
             ,"id"         : "estimateratio"
             ,"label"      : "Estimate the axial ratio"
             ,"type"       : "float"
+            ,"step"       : 0.001
             ,"repeat"     : "nondilute"
             ,"help"       : "Optionally enter an estimate of the axial ratio"
             ,"norow"      : "true"
