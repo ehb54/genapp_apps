@@ -1,0 +1,68 @@
+{
+    "moduleid"    : "plotlyd"
+    ,"label"      : "Plotly"
+    ,"help"       : "This utility allows you to enter Plotly JSON and see the plotted output"
+    ,"executable" : "plotlyd.pl"
+    ,"fields"   : [
+        {
+            "role"       : "input"
+            ,"id"        : "module_header"
+            ,"label"     : "Test Plotly Output Utility"
+            ,"type"      : "label"
+            ,"default"   : "header4"
+            ,"prehline"  : "true"
+            ,"posthline" : "true"
+            ,"colspan"   : 4
+        }
+        ,{
+            "role"       : "input"
+            ,"id"        : "input_method"
+            ,"type"      : "listbox"
+            ,"label"     : "Input style"
+            ,"help"      : "Standard Plotly JSON typically separated data and layout, GenApp uses a combined style with a single JSON object containing data and layout values"
+            ,"values"    : "Separate data and layout inputs~separate~Combined data and layout input~combined"
+            ,"default"   : "combined"
+            ,"repeater"  : "true"
+        }
+
+        ,{
+            "role"       : "input"
+            ,"id"        : "combined_input"
+            ,"type"      : "textarea"
+            ,"label"     : "Combined JSON"
+            ,"help"      : "Paste your combined GenApp style Plotly JSON here"
+            ,"rows"      : 30
+            ,"cols"      : 80
+            ,"repeat"    : "input_method:combined"
+            ,"help"      : "enter the JSON with top level fields for data (required) and layout (optional)"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"        : "data_input"
+            ,"type"      : "textarea"
+            ,"label"     : "data JSON"
+            ,"help"      : "Paste your Plotly JSON data here"
+            ,"rows"      : 30
+            ,"cols"      : 80
+            ,"repeat"    : "input_method:separate"
+            ,"help"      : "enter the JSON for the data (required)"
+        }
+        ,{
+            "role"       : "input"
+            ,"id"        : "layout_input"
+            ,"type"      : "textarea"
+            ,"label"     : "layout JSON"
+            ,"help"      : "Paste your Plotly JSON layout here"
+            ,"rows"      : 30
+            ,"cols"      : 80
+            ,"repeat"    : "input_method:separate"
+            ,"help"      : "enter the JSON for the layout (optional)"
+        }
+        ,{
+            "role"       : "output"
+            ,"id"        : "plotout"
+            ,"type"      : "plotly"
+            ,"label"     : "Plotly Output"
+        }
+    ]
+}

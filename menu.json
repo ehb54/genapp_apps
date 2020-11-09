@@ -30,6 +30,10 @@
                     "id"    : "pdbviewer",
                     "label" : "PDB viewer Exercise"
                 }
+                ,{ 
+                    "id"    : "plotlyd",
+                    "label" : "Plotly test utility"
+                }
             ]
         }
     ]
