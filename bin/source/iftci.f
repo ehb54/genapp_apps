@@ -3,6 +3,7 @@ c             Download of source code iftci.f
 c************************************************************************************
 c
 c   1) Compilation (linux):  gfortran -m32 -O2 iftci.f -o iftci
+c                            gfortran -march=native -O3 source/iftci.f -o source/iftci
 c
 c   2) Run:                  iftci < inputfile.d                    
 c
@@ -78,6 +79,7 @@ C*******************************************************************************
       REAL A(NMAX,0:NMAX),B(0:NMAX,0:NMAX),Adec(NMAX,0:NMAX)
       real FT(NMAX,NMAX),SMEAR(NMAX,NMAX),xhmin(ndim)
       REAL X(NMAX),Y(NMAX),SD(NMAX),XF(0:NMAX),F(0:NMAX),u(nmax,nmax)
+      REAL xori(nmax),sdori(nmax)
       REAL M(0:NMAX),YSUM(0:NMAX),FM(NMAX),w(nmax),dd(1000)
       real ddx(1000),al(1000),etaa(1000),p(ndim),xi2(ndim,ndim)
       real sigma(0:nmax),sigf(0:nmax),ntott(ndist),I0(ndist),int(1000)
@@ -144,15 +146,18 @@ c********************************************************************
 
       if(aname.eq.'      ') aname='data.d'
 
-      bname='me'//ANAME
 
-      FNAME='trans_'//BNAME        
+c      bname='me'//ANAME
+      bname='pr.d'
+c      FNAME='trans_'//BNAME        
+      FNAME='fit.d'        
       GNAME='decon_'//BNAME        
       HNAME='PRIOR_'//BNAME   
       KNAME='out_'//BNAME   
       gsNAME='gs_'//BNAME   
       gxNAME='gx_'//BNAME   
-      hxname='in_'//bname
+c      hxname='in_'//bname
+      hxname='data.d'
       sname='st_'//bname
       plname='pl'//aname
       diamname='diam_'//bname
@@ -188,7 +193,7 @@ c********************************************************************
       ndata0=1
       WRITE(6,1329)
  1329 FORMAT(1X,'Rebinning points -> number of points used       => ',$)
-      nrebin=80
+      nrebin=5000
       OPEN(1,FILE=aname,STATUS='UNKNOWN')
 c************************************************************
 c skipping text lines in data file and writing data to dummy
@@ -323,6 +328,8 @@ c     nr2(+1): number of data points used (after rebinning)
       x1sum=x1sum+x1
       y1sum=y1sum+y1
       sd1sum=sd1sum+sd1**2
+      sdori(i)=sd1
+      xori(i)=x1
  1311 continue
       x1sum=x1sum/nrest
       y1sum=y1sum/nrest
@@ -366,6 +373,8 @@ c****************************************************************
         if((xi.ge.qmin).and.(xi.le.qmax)) then
         mtot=mtot+1
         x(mtot)=xi
+        xori(mtot)=xi
+        sdori(mtot)=sdi
 c****************************************************************
         Y(mtot)=yi-0.0
         sd(mtot)=sdi
@@ -1428,6 +1437,30 @@ c      if(answer5.eq.'D')
      -(f6.2,1x,F5.2,1X,e8.2,1x,f7.3,1x,
      -f8.3,1x,f6.3,1x,f6.2,1x,e8.3,1X,f9.2)
 c*********************************************
+c     Calculate p-value
+c*********************************************
+      DoF=mtotxx-sumng-1.
+      chi2=cav*mtotxx
+      pval1=gammp(DoF*.5,chi2*.5)
+      pval2=gammq(DoF*.5,chi2*.5)
+      if(pval1.le.pval2)then
+        pval=2.*pval1
+      else
+        pval=2.*pval2
+      endif
+c*********************************************
+c     Correct errors
+c*********************************************
+      chi2r=chi2/DoF
+      schi2r=scav*mtotxx/DoF
+      beta=sqrt(chi2r)
+      OPEN(21,FILE='rescale.d',STATUS='UNKNOWN')
+      write(21,*)'# q,I,sigma'
+      write(21,*)'# errors rescaled with factor: ', beta
+      do 111,i=1,mtotxx
+        write(21,*)xori(i),y(i),sdori(i)*beta
+111   continue
+c*********************************************
 c     Start OUTPUT for download for p(r) only
 c*********************************************
       open(unit=166,file='parameters.d',status='unknown')
@@ -1497,8 +1530,8 @@ c*********************************************
      -'  +- ',f8.2,' ')
       endif
 
-      write(166,961)cav,scav
-  961 format(1x,'Chi-square for solution    : ',f9.2,
+      write(166,961)chi2r,schi2r
+  961 format(1x,'Reduced Chi-square         : ',f9.2,
      -'  +- ',f8.2,' ')
       if(background.ne.0) then
       write(166,962)background
@@ -1525,6 +1558,20 @@ c*********************************************
       write(166,965)evimax,sevi
   965 format(1x,'Evidence at maximum        : ',f9.2,
      -'  +- ',f8.2,' ')
+      write(166,979)pval
+  979 format(1x,'Probability of chi-square  : ',e9.2)
+      if(pval.gt.0.003) then
+        write(166,980)'Correct'
+      else
+        if (chi2r.le.1) then
+          write(166,980)'Overestimated'
+        else
+          write(166,980)'Underestimated'
+        endif
+      endif
+  980 format(1x,'The exp errors are probably: ',a)
+      write(166,981)sqrt(chi2r)
+  981 format(1x,'Correction factor          : ',f9.2)
       write(166,*)
       call system_clock(clock)
       cpu=(clock-clockold)*0.001
@@ -1554,25 +1601,25 @@ c****************************************
       close(137)
      
       WRITE(6,900)BNAME
-  900 FORMAT(1X,'p_1(r) in             :       ',A)
+  900 FORMAT(1X,'p_1(r) in             :  ',A)
       if(etaest.ne.0)  WRITE(6,906)GsNAME
-  906 FORMAT(1X,'p_struct(r) in        :    ',A)
+  906 FORMAT(1X,'p_struct(r) in        :  ',A)
       if(etaest.ne.0)  WRITE(6,904)gxNAME
-  904 FORMAT(1X,'p_excl(r) in          :    ',A)
+  904 FORMAT(1X,'p_excl(r) in          :  ',A)
       WRITE(6,901)FNAME
-  901 FORMAT(1X,'Fit of data in        : ',A)
+  901 FORMAT(1X,'Fit of data in        :  ',A)
 
       WRITE(6,912)hxNAME
-  912 FORMAT(1X,'Data used in          :    ',A)
+  912 FORMAT(1X,'Data used in          :  ',A)
       if(etaest.ne.0) WRITE(6,910)sNAME
-  910 FORMAT(1X,'Structure factor in   :    ',A)
+  910 FORMAT(1X,'Structure factor in   :  ',A)
       WRITE(6,915)KNAME
-  915 FORMAT(1X,'Rg, I(0) and Dmax in  :   ',A)
+  915 FORMAT(1X,'Rg, I(0) and Dmax in  :  ',A)
       WRITE(6,919)'parameters.d'
-  919 FORMAT(1X,'Parameters in         :       ',A)
+  919 FORMAT(1X,'Parameters in         :  ',A)
       write(6,*)
       write(6,947)cpu
-  947 format(1x,'Cpu time used         : ',f4.1,
+  947 format(1x,'Cpu time used         :  ',f4.1,
      -' seconds')
       CLOSE(14)
       CLOSE(20) 
@@ -2132,7 +2179,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         FX=ALPHA/(2*B(I,I))
         fx=fx*xx(bb,ee)
         else
-      fx=(alpha*m(i)/sigma(i)+ysum(i)-fsumi)/(alpha/sigma(i)+b(i,i))
+      fx=(2*alpha*m(i)/sigma(i)+ysum(i)-fsumi)/(2*alpha/sigma(i)+b(i,i))
         endif
       F(I)=(1.-OMEGA)*F(I)+OMEGA*FX
       if(i.eq.0) f(0)=fx
@@ -3920,3 +3967,125 @@ C*************************************************************************
    90 RETURN
       END
 
+
+
+c **********************************************************************
+c    Function gammp og gammq - to calculate chi2 distribution
+c    chi-square is a special case of the gamma functions
+c    From numerical recipes for fortran 77, section 6.2
+c    plus some subroutines
+c **********************************************************************
+
+      FUNCTION gammp(a,x)
+      REAL a,gammp,x
+c     USES gcf,gser
+      REAL gammcf,gamser,gln
+      if(x.lt.0..or.a.le.0.)write(6,*)'bad arguments in gammp'
+      if(x.lt.a+1.)then
+        call gser(gamser,a,x,gln)
+        gammp=gamser
+      else
+        call gcf(gammcf,a,x,gln)
+        gammp=1.-gammcf
+      endif
+      return
+      END
+
+      FUNCTION gammq(a,x)
+      REAL a,gammq,x
+c     USES gcf,gser
+      REAL gammcf,gamser,gln
+      if(x.lt.0..or.a.le.0.)write(6,*) 'bad arguments in gammq'
+      if(x.lt.a+1.)then
+        call gser(gamser,a,x,gln)
+        gammq=1.-gamser
+      else
+        call gcf(gammcf,a,x,gln)
+        gammq=gammcf
+      endif
+      return
+      END
+      
+      SUBROUTINE gser(gamser,a,x,gln)
+      INTEGER ITMAX
+      REAL a,gamser,gln,x,EPS
+      PARAMETER (ITMAX=100,EPS=3.e-7)
+c     USES gammln
+      INTEGER n
+      REAL ap,del,sum,gammln
+      gln=gammln(a)
+      if(x.le.0.)then
+        if(x.lt.0.)write(6,*)'x < 0 in gser'
+        gamser=0.
+        return
+      endif
+      ap=a
+      sum=1./a
+      del=sum
+      do 11 n=1,ITMAX
+        ap=ap+1.
+        del=del*x/ap
+        sum=sum+del
+        if(abs(del).lt.abs(sum)*EPS)goto 666
+11    continue
+c      write(6,*)'a too large, ITMAX too small in gcf'
+      write(6,*)'very small probability for Chi2r'
+ 666  gamser=sum*exp(-x+a*log(x)-gln)
+      return
+      END
+
+      SUBROUTINE gcf(gammcf,a,x,gln)
+      INTEGER ITMAX
+      REAL a,gammcf,gln,x,EPS,FPMIN
+c     USES gammln
+      PARAMETER (ITMAX=100,EPS=3.e-7,FPMIN=1.e-30)
+c      PARAMETER (ITMAX=100000,EPS=30,FPMIN=1.e-30)
+      INTEGER i
+      REAL an,b,c,d,del,h,gammln
+      gln=gammln(a)
+      b=x+1.-a
+      c=1./FPMIN
+      d=1./b
+      h=d
+      do 11 i=1,ITMAX
+        an=-i*(i-a)
+        b=b+2.
+        d=an*d+b
+        if(abs(d).lt.FPMIN)then
+          d=FPMIN
+          c=b+an/c
+        endif
+        if(abs(c).lt.FPMIN)then
+          c=FPMIN
+          d=1./d
+          del=d*c
+          h=h*del
+          if(abs(del-1.).lt.EPS)goto 667
+        endif
+11    continue
+c      write(6,*)'a too large, ITMAX too small in gcf'
+      write(6,*)'very small probability for Chi2r'
+ 667  gammcf=exp(-x+a*log(x)-gln)*h
+      return
+      END
+
+      FUNCTION gammln(xx)
+      REAL gammln,xx
+      INTEGER j
+      DOUBLE PRECISION ser,stp,tmp,x,y,cof(6)
+      SAVE cof,stp
+      DATA cof,stp/76.18009172947146d0,-86.50532032941677d0,
+     - 24.01409824083091d0,-1.231739572450155d0,.1208650973866179d-2,
+     --.5395239384953d-5,2.5066282746310005d0/
+      x=xx
+      y=x
+      tmp=x+5.5d0
+      tmp=(x+0.5d0)*log(tmp)-tmp
+      ser=1.000000000190015d0
+      do 11 j=1,6
+        y=y+1.d0
+        ser=ser+cof(j)/y
+11    continue
+      gammln=tmp+log(stp*ser/x)
+      return
+      END

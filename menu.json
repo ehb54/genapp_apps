@@ -6,11 +6,11 @@
             "id"      : "bayesapp_menu",
             "label"   : "Calculations",
             "icon"    : "pngs/simulate.png",
-	    "autorun" : "ift",
+	    "autorun" : "bayesapp",
             "startup" : "true",
             "modules" : [ 
                          { 
-                          "id"    : "ift",
+                          "id"    : "bayesapp",
                           "label" : "BayesApp",
 			  "nobutton" : "true"
                          }
