@@ -97,7 +97,7 @@ if __name__=='__main__':
                 f.write(out_line)
     
     f = open('stdout.d','w')
-    execute(['/opt/genapp/bayesapp/bin/source/iftci','<','inputfile.d'],f)
+    execute([os.path.dirname(os.path.realpath(__file__)) + '/source/iftci','<','inputfile.d'],f)
     f.close()
 
     ## retrive output from parameter file
