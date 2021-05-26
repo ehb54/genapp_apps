@@ -31,7 +31,7 @@
                                  "qt4"      : "__app_parent_directory__/somoapi/tmp",
                                  "qt5"      : "__app_parent_directory__/somoapi/tmp",
                                  "java"     : "__app_parent_directory__/somoapi/tmp",
-                                 "nodepai"  : "__app_parent_directory__/somoapi/nodeapi"
+                                 "nodeapi"  : "__app_parent_directory__/somoapi/nodeapi"
                                 },
 # these are helper editor and pdb viewer applications and can be changed
   "helper"                    : {
