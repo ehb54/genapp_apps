@@ -136,12 +136,14 @@ $cmd =
     . " $binbase/us_somo_mpi_cap"
     . " $binbase/us_saxs_cmds_mpi"
     . " $$req{'param'}"
-    . " $$req{'file'}"
+    . " '" . encode_json( $req ) . "'" 
     . " $$req{'_log_directory'}/_jstdout_$$req{'_uuid'}"
     . " $$req{'_log_directory'}/_jstderr_$$req{'_uuid'}"
     . " >$$req{'_log_directory'}/_mpistdout_$$req{'_uuid'}"
     . " 2>$$req{'_log_directory'}/_mpistderr_$$req{'_uuid'}"
     ;
+
+print "$cmd\n";
 
 `$cmd`;
 `mv outputData/* . 2>/dev/null`;
