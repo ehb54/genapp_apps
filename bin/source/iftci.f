@@ -75,6 +75,10 @@ C*******************************************************************************
       PARAMETER (NDIST=1000)
       parameter (ndim=4)
 
+
+      PARAMETER (ngmax=100)
+      REAL sumsquare(ngmax),countn(ngmax),betan(ngmax)
+      
       external func
       REAL A(NMAX,0:NMAX),B(0:NMAX,0:NMAX),Adec(NMAX,0:NMAX)
       real FT(NMAX,NMAX),SMEAR(NMAX,NMAX),xhmin(ndim)
@@ -1243,7 +1247,8 @@ c     f(0) is changed from background to f(0) to be used with matrix
  8143     CONTINUE
 
 c        WRITE(11,*)X(I),fmdec(i),fm(i),fmi
-        WRITE(11,*)X(I),fmdec(i),fm(i)
+c        WRITE(11,*)X(I),fmdec(i),fm(i)
+        WRITE(11,*)X(I),fm(i)
         write(213,*)x(i),fm(i)/fmi,0
  8141   CONTINUE
       close(11)
@@ -1455,11 +1460,60 @@ c*********************************************
       schi2r=scav*mtotxx/DoF
       beta=sqrt(chi2r)
       OPEN(21,FILE='rescale.d',STATUS='UNKNOWN')
-      write(21,*)'# q,I,sigma'
-      write(21,*)'# errors rescaled with factor: ', beta
+      write(21,*)'# q,I,sigma,scaling factor'
+c      write(21,*)'# errors rescaled with factor: ', beta
+      write(21,*)'# errors rescaled with factor'
+      n=1
+      ns=1
+      sumsquare=0.0
+      countn=1.0
       do 111,i=1,mtotxx
-        write(21,*)xori(i),y(i),sdori(i)*beta
+c       qmax for ns'th shannon channel
+        qn=ns*pi/Dmax
+        res=(fm(20+i)-y(i))/sdori(i)
+c        write(21,*)n,sumsquare(n),res*res
+c        if(xori(i).gt.qn.and.countn(n).gt.9) then
+        if(xori(i).gt.qn) then
+          ns=ns+1
+          rest=mtotxx-i
+          if(countn(n).gt.10.and.rest.gt.10) then
+            n=n+1
+          endif
+        endif
+        sumsquare(n)=sumsquare(n)+res*res
+        countn(n)=countn(n)+1.0
+c        write(21,*)xori(i),y(i),fm(20+i),res,sdori(i),sdori(i)*beta
 111   continue
+      do 112,i=1,n
+        ngpartial=sumng/(1.0*mtotxx)*countn(i)
+        chi2rn=sumsquare(i)/(countn(i)-ngpartial)
+        betan(i)=sqrt(chi2rn)
+112   continue
+      n=1
+      ns=1
+      countn=1.0
+      do 113, i=1,mtotxx
+        qn=ns*pi/Dmax
+        if(xori(i).gt.qn) then
+           ns=ns+1
+           rest=mtotxx-i
+           if(countn(n).gt.10.and.rest.gt.10) then
+             n=n+1
+           endif
+        endif
+        countn(n)=countn(n)+1.0
+        sd0=sdori(i)
+        sd1=sdori(i)*beta
+        sd2=sdori(i)*betan(n)
+        chi=betan(n)*betan(n)
+c        write(21,*)xori(i),y(i),sd0,sd1,sd2,betan(n),chi,n
+c        write(21,*)xori(i),y(i),sd1
+        if(answer8.eq.'S') then
+            write(21,*)xori(i),y(i),sd2,betan(n)
+        else
+            write(21,*)xori(i),y(i),sd1,beta
+        endif        
+113   continue
 c*********************************************
 c     Start OUTPUT for download for p(r) only
 c*********************************************

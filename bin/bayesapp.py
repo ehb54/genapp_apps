@@ -50,15 +50,24 @@ if __name__=='__main__':
     try:
         dummy = json_variables['nondilute'] # non-dilute sample
         eta = json_variables['eta'] # eta
-        fitratio = json_variables['fitratio'] # fitratio
-        estimateratio = json_variables['estimateratio']
+        method = json_variables['method']
+        ratio = json_variables['ratio']
         try:
-            dummy = json_variables['estimateratiofixed']
-            estimateratio = 'f%s' % estimateratio
+            dummy = json_variables['ratiofixed']
+            ratio = 'f%s' % ratio
         except:
             pass
     except:
-        pass
+        eta = 'default'
+        method = 'default'
+        ratio = 'default'
+    try:
+        dummy = json_variables['nonconstantrescale']
+        rescale = 'N'
+        nbin = json_variables['binsize']
+    except:
+        rescale = 'C'
+        nbin = '10'
 
     ## make input file with Json input for running iftci
     f = open("inputfile.d",'w')
@@ -66,16 +75,30 @@ if __name__=='__main__':
     f.write('%s\n' % q_min)
     f.write('%s\n' % q_max)
     f.write('%s\n' % dmax)
-    f.write('\n')
+    if eta != 'default':
+        f.write('%s\n' % eta)
+    else:
+        f.write('\n')
     f.write('%s\n' % alpha)
     f.write('%s\n' % smear)
-    f.write('\n' ) # ratio
-    f.write('\n' ) #method
+    if ratio != 'default':
+        f.write('%s\n' % ratio)
+    else:
+        f.write('\n')
+    if method != 'default':
+        f.write('%s\n' % method )
+    else:
+        f.write('\n')
     f.write('%s\n' % prpoints)
     f.write('%s\n' % noextracalc)
     f.write('%s\n' % transformation)
     f.write('%s\n' % fitbackground)
-    f.write('\n') # screensize
+    f.write('%s\n' % rescale) # rescale method. N: non-constant, C: constant
+    if rescale == 'N':
+        f.write('%s\n' % nbin)
+    else:
+        f.write('\n')
+
     f.write('\n')
     f.close()
 
@@ -97,7 +120,7 @@ if __name__=='__main__':
                 f.write(out_line)
     
     f = open('stdout.d','w')
-    execute([os.path.dirname(os.path.realpath(__file__)) + '/source/iftci','<','inputfile.d'],f)
+    execute(['/opt/genapp/bayesapp/bin/source/iftci','<','inputfile.d'],f)
     f.close()
 
     ## retrive output from parameter file
@@ -158,22 +181,10 @@ if __name__=='__main__':
         line = f.readline()
     f.close()
 
-    ## import and plot data and fit
-    qdat,Idat,sigma = np.genfromtxt('data.d',skip_header=0,usecols=[0,1,2],unpack=True)
-    qfit,Ifit = np.genfromtxt('fit.d',skip_header=1,usecols=[0,1],unpack=True)
-    
+    ## general plotting settings
     markersize=4
     linewidth=1
-    plt.errorbar(qdat,Idat,yerr=sigma,linestyle='none',marker='.',markersize=markersize,color='red',label='data',zorder=0)
-    plt.plot(qfit,Ifit,color='black',linewidth=linewidth,label='fit') 
-    plt.ylabel(r'$I(q)$')
-    plt.yscale('log')
-    plt.xlabel(r'$q$')
-    plt.title('fit to data')
-    plt.legend()
-    plt.savefig('Iq.png',dpi=200)
-    plt.close()
-
+    
     ## import and plot p(r)
     r,pr,d_pr = np.genfromtxt('pr.d',skip_header=0,usecols=[0,1,2],unpack=True)
 
@@ -182,6 +193,39 @@ if __name__=='__main__':
     plt.ylabel(r'$p(r)$')
     plt.title('p(r)')
     plt.savefig('pr.png',dpi=200)
+    plt.close()
+
+    ## import data and fit
+    qdat,Idat,sigma = np.genfromtxt('data.d',skip_header=0,usecols=[0,1,2],unpack=True)
+    sigma_rs = np.genfromtxt('rescale.d',skip_header=3,usecols=[2],unpack=True)
+    qfit,Ifit = np.genfromtxt('fit.d',skip_header=1,usecols=[0,1],unpack=True)
+    
+    ## calculate residuals
+    Ifit_interp = np.interp(qdat,qfit,Ifit)
+    R = (Idat-Ifit_interp)/sigma
+    maxR = np.ceil(np.amax(abs(R)))
+    R_rs = (Idat-Ifit_interp)/sigma_rs
+    maxR_rs = np.ceil(np.amax(abs(R_rs)))
+
+    ## plot data, fit and residuals, not rescaled 
+    f,(p0,p1) = plt.subplots(2,1,gridspec_kw={'height_ratios': [4,1]})
+    p0.errorbar(qdat,Idat,yerr=sigma,linestyle='none',marker='.',markersize=markersize,color='red',zorder=0,label='data')
+    p0.plot(qfit,Ifit,color='black',linewidth=linewidth,zorder=1,label='fit') 
+    #p0.plot(qdat,Ifit_interp,color='green',linewidth=linewidth,label='fit_interp') 
+    p0.set_ylabel(r'$I(q)$')
+    p0.set_yscale('log')
+    p0.set_title('fit to data')
+    p0.legend(frameon=False)
+    
+    p1.plot(qdat,R,linestyle='none',marker='.',markersize=markersize,color='red',zorder=0)
+    p1.plot(qdat,qdat*0,color='black',zorder=1)
+    p1.set_xlabel(r'$q$')
+    p1.set_ylabel(r'$I(q)/\sigma$')
+    p1.set_ylim(-maxR,maxR)
+    p1.set_yticks([-maxR,0,maxR])
+
+    plt.savefig('Iq.png',dpi=200)
+    plt.tight_layout()
     plt.close()
 
     ## import and plot data with rescaled errors
@@ -193,40 +237,82 @@ if __name__=='__main__':
     plt.ylabel(r'$I(q)$')
     plt.yscale('log')
     plt.xlabel(r'$q$')
-    plt.title('input data and data with errors rescaled by a factor %1.2f' % beta)
-    plt.legend()
+    if rescale == 'N':
+        plt.title('input data and data with q-dependent rescaling of errors')
+    else:
+        plt.title('input data and data with errors rescaled by a factor %1.2f' % beta)
+    plt.legend(frameon=False)
     plt.savefig('rescale.png',dpi=200)
     plt.close()
 
-    ## compress files to zip file
-    os.system('zip results.zip pr.d data.d fit.d parameters.d rescale.d stdout.d *.png')
+    ## plot data, fit and residuals, rescaled
+    f,(p0,p1) = plt.subplots(2,1,gridspec_kw={'height_ratios': [4,1]})
+    p0.errorbar(qdat,Idat,yerr=sigma_rs,linestyle='none',marker='.',markersize=markersize,color='blue',zorder=0,label='data with rescaled errors')
+    p0.plot(qfit,Ifit,color='black',linewidth=linewidth,zorder=1,label='fit')
+    p0.set_ylabel(r'$I(q)$')
+    p0.set_yscale('log')
+    p0.set_title('fit to data with rescaled errors')
+    p0.legend(frameon=False)
+
+    p1.plot(qdat,R_rs,linestyle='none',marker='.',markersize=markersize,color='blue',zorder=0)
+    p1.plot(qdat,qdat*0,color='black',zorder=1)
+    p1.set_xlabel(r'$q$')
+    p1.set_ylabel(r'$I(q)/\sigma_\mathrm{rescale}$')
+    p1.set_ylim(-maxR_rs,maxR_rs)
+    p1.set_yticks([-maxR_rs,0,maxR_rs])
     
+    plt.savefig('Iq_rs.png',dpi=200)
+    plt.tight_layout()
+    plt.close()
+
+    ## copy source code to output folder (and rename)
+    os.system('cp /opt/genapp/bayesapp/bin/source/iftci_v10.f %s/bift.f' % folder)    
+
+    ## compress output files to zip file
+    os.system('zip results.zip pr.d data.d fit.d parameters.d rescale.d scale_factor.d stdout.d bift.f inputfile.d *.png')
+
     ## generate output
     output = {} # create an empty python dictionary
+    
+    # files
     output["pr"] = "%s/pr.d" % folder
     output["dataused"] = "%s/data.d" % folder
     output["rescaled"] = "%s/rescale.d" % folder
+    output["scale_factor"] = "%s/scale_factor.d" % folder
     output["fitofdata"] = "%s/fit.d" % folder
     output["parameters"] = "%s/parameters.d" % folder
     output["file_stdout"] = "%s/stdout.d" % folder
+    output["sourcecode"] = "%s/bift.f" % folder
+    output["inputfile"] = "%s/inputfile.d" % folder
     output["prfig"] = "%s/pr.png" % folder
     output["iqfig"] = "%s/Iq.png" % folder
     output["rescalefig"] = "%s/rescale.png" % folder
+    output["iqrsfig"] = "%s/Iq_rs.png" % folder
     output["zip"] = "%s/results.zip" % folder
-    output["chi2"] = "%1.2f" % chi2r
-    output["logalpha"] = "%1.2f" % alpha 
+
+    # values
     output["dmaxout"] = "%1.2f" % dmax
     output["Rg"] = "%1.2f" % Rg
+    
     output["I0"] = "%1.2e" % I0
+    output["background"] = "%2.5f" % background
+    
+    output["chi2"] = "%1.2f" % chi2r
+    output["prob"] = "%s" % Prob_str
+    output["assess"] = "%s" % assessment
+    if rescale == 'N':
+        output["beta"] = "see scale_factor.d"
+    elif rescale == 'C':
+        output["beta"] = "%1.2f" % beta 
+    
     output["Ng"] = "%1.2f" % Ng
     output["shannon"] = "%1.2f" % Ns
+    
+    output["logalpha"] = "%1.2f" % alpha 
     output["evidence"] = "%1.2f" % evidence
     output["axratio_pro"] = "%1.2f" % ax_pro
     output["axratio_obl"] = "%1.2f" % ax_obl
-    output["background"] = "%2.5f" % background
-    output["assess"] = "%s" % assessment
-    output["prob"] = "%s" % Prob_str
-    output["beta"] = "%1.2f" % beta 
+    
     #output['_textarea'] = "JSON output from executable:\n" + json.dumps( output, indent=4 ) + "\n\n";
     #output['_textarea'] += "JSON input to executable:\n" + json.dumps( json_variables, indent=4 ) + "\n";
     
