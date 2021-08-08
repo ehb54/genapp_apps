@@ -23,6 +23,10 @@
                 { 
                     "id"    : "data_interpolation",
                     "label" : "Data Interpolation"
+                },
+                { 
+                    "id"    : "tcptest",
+                    "label" : "TCP test with plots"
                 }
             ]
         },

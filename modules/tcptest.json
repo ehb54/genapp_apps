@@ -1,0 +1,48 @@
+# this is a module file, any module specific info belongs here
+{
+    "moduleid" : "tcptest",
+    "label"    : "Tcptest",
+    "help"     : "help for Tcptest",
+    "executable"   : "tcptest.py",
+    "submitpolicy"   : "all",
+    "fields"   : [
+        {
+            "role"     : "input",
+            "id"       : "input1",
+            "label"    : "Tcptest value 1",
+            "type"     : "float",
+            "default"  : 0.0,
+            "min"      : 0.0,
+            "max"      : 1e50,
+            "step"     : 0.01,
+            "required" : "true"
+        }
+        ,{
+            "role"    : "output",
+            "id"      : "output2",
+            "label"   : "Message text",
+            "type"    : "textarea",
+            "append"  : "on",
+            "cols"    : 60
+        }
+        ,{
+            "role"    : "output",
+            "id"      : "output3",
+            "label"   : "Progress",
+            "type"    : "progress",
+            "max"     : 1.0
+        }
+        ,{
+            "role"            : "output"
+            ,"id"              : "plotbar"
+            ,"label"           : "Example Barchart"
+            ,"type"            : "plotly"
+        }
+        ,{
+            "role"            : "output"
+            ,"id"              : "plotline"
+            ,"label"           : "Example lineplot"
+            ,"type"            : "plotly"
+        }
+    ]
+}
