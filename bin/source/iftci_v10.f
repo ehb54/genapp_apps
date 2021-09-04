@@ -563,7 +563,7 @@ c      if(nfit.eq.3.and.answerm.eq.'Q') rprec=0.0001
       stop
       endif
       if(etaest.eq.0.and.answerm.eq.'M') then
-      cpumax=999
+      cpumax=900
       answer='E'
 c ratio is fitted by evidence
       nfit=4
@@ -635,6 +635,17 @@ c********************************************************************
       write(6,*)'Number of data points in data file = ',ndata
       write(6,*)'Number of data points after rebin  = ',mtot
       write(6,*)'Number of points added (S(q)->1)   = ',nadd
+
+      if(ndata.lt.5) then
+        write(6,*)''
+        write(6,*)'!!Problem!'
+        write(6,*)' Number of points less than 5'
+        write(6,*)' - try extending the q range'
+        write(6,*)' - check file format: (q,I,sigma)'
+        write(6,*)' - check units: nm-1 or A-1'
+        write(6,*)''
+        STOP
+      endif
 
       mtot=mtot+nadd
       do 210 i=mtot,mtot-nadd+1,-1
@@ -1576,8 +1587,8 @@ c*********************************************
       call system_clock(clock)
       cpu=(clock-clockold)*0.001
       write(166,955)cpu,cpumax
-  955 format(1x,'Cpu time used: ',f4.1,
-     -' seconds of maximum ',f4.1,' seconds')
+  955 format(1x,'CPU time used: ',f6.1,
+     -' seconds of maximum ',f6.1,' seconds')
       else
       write(166,*)'This logfile is calculated when p(r) is estimated'
       endif
@@ -1623,7 +1634,7 @@ c  915 FORMAT(1X,'Rg, I(0) and Dmax in  :  ',A)
   919 FORMAT(1X,'Parameters in         :  ',A)
       write(6,*)
       write(6,947)cpu
-  947 format(1x,'Cpu time used         :  ',f4.1,
+  947 format(1x,'CPU time used         :  ',f6.1,
      -' seconds')
       CLOSE(14)
       CLOSE(20) 

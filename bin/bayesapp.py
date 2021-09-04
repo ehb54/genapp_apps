@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 import subprocess
+import time
 
 if __name__=='__main__':
 
@@ -105,22 +106,60 @@ if __name__=='__main__':
     ## messaging
     d = genapp(json_variables)
 
+    ## check q range
+    try:
+        qmax = float(q_max)
+    except:
+        qmax = 10.0
+    try:
+        qmin = float(q_min)
+    except:
+        qmin = 0.0
+    q_diff = qmax - qmin 
+
+    if q_diff < 0.0:
+        out_line = '\n\n!!!ERROR!!!\nqmin should be smaller than qmax.\n\n'
+        d.udpmessage({"_textarea": out_line})
+        sys.exit()
     ## run bayesfit
-    d.udpmessage({"_textarea":"run bayesapp\n"})
+    d.udpmessage({"_textarea":"running bayesapp...\n"})
 
     def execute(command,f):
+        start_time = time.time()
+        maximum_output_size = 1000000 # maximum output size in number of characters
+        maximum_time = 900
+        total_output_size = 0
         popen = subprocess.Popen(command, stdout=subprocess.PIPE,bufsize=1)
         lines_iterator = iter(popen.stdout.readline, b"")
         while popen.poll() is None:
             for line in lines_iterator:
                 nline = line.rstrip()
                 nline_latin = nline.decode('latin')
-                out_line = '%s\n' % nline_latin
-                d.udpmessage({"_textarea": out_line})
+                total_output_size += len(nline_latin)
+                total_time = time.time() - start_time
+                if total_output_size > maximum_output_size:
+                    popen.terminate()
+                    out_line = '\n\n!!!ERROR!!!\nProcess stopped - could not find solution. Is data input a SAXS/SANS dataset with format (q,I,dI)?\n\n'
+                    d.udpmessage({"_textarea": out_line})
+                    sys.exit()
+                elif total_time > maximum_time:
+                    popen.terminate()
+                    out_line = '\n\n!!!ERROR!!!\nProcess stopped - reached max time of 15 min (900 sec). Is data input a SAXS/SANS dataset with format (q,I,dI)?. If data is large (several thousand data points), consider rebinning and input the rebinned data instead.\n\n'
+                    d.udpmessage({"_textarea": out_line})
+                    sys.exit()
+                else:
+                    out_line = '%s\n' % nline_latin
+                    d.udpmessage({"_textarea": out_line})
+                    #Debugging below:
+                    #out_line_2 = 'output_size = %d, max_output_size = %d\n' % (total_output_size,maximum_output_size)
+                    #d.udpmessage({"_textarea": out_line_2})
+                    #out_line_3 = 'time = %1.1f, max_time = %1.1f\n' % (total_time,maximum_time)
+                    #d.udpmessage({"_textarea": out_line_3})
                 f.write(out_line)
     
     f = open('stdout.d','w')
-    execute(['/opt/genapp/bayesapp/bin/source/iftci','<','inputfile.d'],f)
+    #execute(['/opt/genapp/bayesapp/bin/source/iftci','<','inputfile.d'],f)
+    execute([os.path.dirname(os.path.realpath(__file__)) + '/source/iftci','<','inputfile.d'],f)
     f.close()
 
     ## retrive output from parameter file
