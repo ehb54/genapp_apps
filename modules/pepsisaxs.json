@@ -199,5 +199,51 @@
             ,"type"       : "file"
             ,"help"       : "Right click to download"
         }
+#
+#  This produces an empty plot for now. Need to figure out how to get the data file output
+#  to become data input for this plot
+       ,{
+            "role"            : "output",
+            "id"              : "plotid",
+            "label"           : "Scattering Plot",
+            "type"            : "plot2d",
+            "titlefontclass"  : "header3",
+            "height"          : "300px",
+            "width"           : "600px",
+            "pan"             : "true",
+            "zoom"            : "true",
+# enable box selection zoom [genappalpha rev 1105]
+# n.b. if "selzoom" is selected, "pan" and "zoom" should not be set or strange behavior might result
+#            "selzoom"         : "true",
+# set background color for plots  [genappalpha rev 1105]
+# colors can also be "rgb(255,255,255)" for "white" etc.
+            "backgroundcolor" : "white",
+# savetofile enables saving flot generated image to a .png file
+            "savetofile"      : "true",
+# it's possible to change scale of the Y-axis back and forth, from Log to Lin, by specifying 
+            "changescale"     : "true",
+# Text for Y-axis label can be set to be oriented vertically 
+            "rotatedylabel"   : "true",
+# enable hovering to show coordinates
+            "hover"           : "true",
+# user can enable custom tooltips by placing tooltips data into 'tooltips' field of the .json output (see 'json output' below...)
+#            "customtooltips": "true",
+            "help"            : "drag to pan, double click to zoom, to reset zoom and pan: click on title, axis labels or live coordinates box",
+# for reasons I don't understand the following does not seem to work even though taken directly from tutorial on line - PDB
+            "fieldname"       : {
+                                  "options" : {
+                                                "xmin"   : 0.001,
+                                                "xmax"   : 0.5,
+                                                "ymin"   : 1e-3,
+                                                "ymax"   : 1e7,
+                                                "xlabel" : "Q",
+                                                "ylabel" : "Intensity",
+                                                "xscale" : "log",
+                                                "yscale" : "log"
+                                              }
+                                },
+            "label"           : "Scattering with and without hydration"
+       }
+
     ]
 }

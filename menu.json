@@ -1,18 +1,23 @@
 # this is a project menu file
 {
-# "header" : "WillItFit",
+# "header" : "PepsiSuite",
  "menu" : [
-        { 
-            "id"      : "bayesapp_menu",
+        {
+            "id"      : "pepsisaxs_menu",
             "label"   : "Calculations",
             "icon"    : "pngs/simulate.png",
-	    "autorun" : "pepsisaxs",
+#	    "autorun" : "pepsisaxs",
             "startup" : "true",
-            "modules" : [ 
-                         { 
+            "modules" : [
+                         {
                           "id"    : "pepsisaxs",
-                          "label" : "Pepsi-SAXS",
-			  "nobutton" : "true"
+                          "label" : "SAXS"
+#			  "nobutton" : "true"
+                         },
+                         {
+                          "id"    : "pepsisans",
+                          "label" : "SANS"
+#                         "nobutton" : "true"
                          }
                         ]
             }
