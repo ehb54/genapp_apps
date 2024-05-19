@@ -19,8 +19,8 @@
             ,"id"        : "input_method"
             ,"type"      : "listbox"
             ,"label"     : "Input style"
-            ,"help"      : "Standard Plotly JSON typically separated data and layout, GenApp uses a combined style with a single JSON object containing data and layout values"
-            ,"values"    : "Separate data and layout inputs~separate~Combined data and layout input~combined"
+            ,"help"      : "Standard Plotly JSON typically separated data, layout and config, GenApp uses a combined style with a single JSON object containing data, layout and config values"
+            ,"values"    : "Separate data and layout inputs (no config supported)~separate~Combined data, layout and config input~combined"
             ,"default"   : "combined"
             ,"repeater"  : "true"
         }
